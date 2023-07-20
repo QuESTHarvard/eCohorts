@@ -30,10 +30,15 @@ global user "/Users/shs8688"
 	global et_data "$user/Dropbox (Harvard University)/SPH-Kruk Team/QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data/Ethiopia/01 raw data"
 	*global data "$user/Dropbox/SPH Kruk QuEST Network/Core Research/People's Voice Survey/PVS External/Data"
 	
-	*KENYA
+	*KENYA:
+	global ke_data "$user/Dropbox (Harvard University)/SPH-Kruk Team/QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data/Kenya/01 raw data"
 	
-
-
+	*SOUTH AFRICA:
+	
+	
+	*INDIA:
+	global in_data "$user/Dropbox (Harvard University)/SPH-Kruk Team/QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data/India/01 raw data"
+	
 * Path to multi-country data folder (includes input and output folders for data checks)
 global data_mc "$data/Multi-country"
 
@@ -41,18 +46,8 @@ global data_mc "$data/Multi-country"
 global in_out "$data_mc/03 input output"
 
 * Path to GitHub folder 
-global github "$user/Documents/GitHub/PVS-code"
+global github "$user/Documents/GitHub/eCohorts"
 
-
-* Installing packages and commands
-************************************************
-
-* IPA's Stata Package for high-frequency checks
-net install ipacheck, all replace from("https://raw.githubusercontent.com/PovertyAction/high-frequency-checks/master")
-ipacheck update
-
-ssc install elabel 
-ssc install extremes
 
 ************************************************
 
