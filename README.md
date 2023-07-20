@@ -1,7 +1,7 @@
 # eCohorts
 
 # People's Voice Survey (PVS) Data Processing Code
-Neena R Kapoor, Shalom Sabwa, Mia Yu
+Shalom Sabwa, Kate Wright, Catherine Arsenault
 
 **This repository contains the .do files used to process and analyze data from the People's Voice Survey.** 
 
