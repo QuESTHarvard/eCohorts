@@ -12,7 +12,6 @@ global user "/Users/shs8688/Dropbox (Harvard University)/"
 
 global data "$user/SPH-Kruk Team/QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/1 Ethiopia/Interim data/Data"
 
-
 clear all 
 set maxvar 15000 
 import delimited using "$data/ET_ECohort_06142023.csv", clear
