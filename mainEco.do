@@ -13,7 +13,8 @@
 
 * Setting up files and macros
 ********************************************************************************
-* user
+* global 
+
 
 clear all
 set more off
