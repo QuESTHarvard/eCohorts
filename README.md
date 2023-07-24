@@ -3,7 +3,7 @@
 # ECohorts(Eco) Data Processing Code
 Shalom Sabwa, Kate Wright, Catherine Arsenault
 
-**This repository contains the .do files used to process and analyze data from the People's Voice Survey.** 
+**This repository contains the .do files used to process and analyze data from the MNH: eCohorts.** 
 
 ## About the survey: 
 The ECohorts is
