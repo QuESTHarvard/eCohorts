@@ -6,19 +6,22 @@
 global user "/Users/catherine.arsenault/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts"
 
 * IMPORT DATA
-import delimited "$user/MNH Ecohorts QuEST-shared/Data collection/1 Ethiopia/Interim data/Data/MaternalAndNewbornHe_DATA_LABELS_2023-07-19_1654.csv", clear 
+import delimited "$user/MNH Ecohorts QuEST-shared/Data/Ethiopia/01 raw data/MaternalAndNewbornHe_DATA_LABELS_2023-07-19_1654.csv", clear 
 
-	* DROP THE TEST RECORDS
+	* DROP THE TEST RECORDS AND KEEP ELIGIBLE RECORDS 
 	drop in 1/71
-	
+	encode b7istherespondenteligibletoparti, gen(eli)
+	keep if eli==1
+
 	* KEEP REQUIRED VARS FOR CALL TRACKING
-	keep recordid eventname repeatinstrument repeatinstance ///	
-	a2dateofinterviewdmyየቃለመጠይቁቀንguy ///
+	keep recordid  eventname repeatinstrument repeatinstance ///	
+	b7istherespondenteligibletoparti a2dateofinterviewdmyየቃለመጠይቁቀንguy ///
 	a7interviewernameየጠያቂዋስምmaqaaafa dgestationalageinweeksbasedonlnm ///
 	howmanyweekspregnantdoyouthinkyo interviewercalculatesthegestatio ///
 	v415 agestationalageatthiscallbasedon bgestationalagebasedonmaternales ///
 	 dateofinterviewdmyየቃለመጠይቁቀንguyya aonwhatdatedidyougivebirthordidt
-	
+	 
+	 
 	* RENAME VARIABLES
 	rename (a2dateofinterviewdmyየቃለመጠይቁቀንguy-aonwhatdatedidyougivebirthordidt) ///
 	(m1_date m1_interviewer m1_GA_LNMP m1_GA_matrecall ///
