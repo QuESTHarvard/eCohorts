@@ -137,13 +137,15 @@ import delimited using "$data/25July2023.csv", clear
 	
 	rename (main_source_of_drink_water_1201 other_source_of_drink_1201 kind_of_toilet_facilities_1202 specify_other_toilet_1202 household_have_electricity_1203 household_have_radio_1204 household_have_tv_1205 household_have_telephone_1206 household_have_frige_1207 type_of_fuel_for_cook_1208 other_fuel_type_for_cook_1208) (m1_1201 m1_1201_other m1_1202 m1_1202_other m1_1203 m1_1204 m1_1205 m1_1206 m1_1207 m1_1208 m1_1208_other)
 	
-	rename (material_type_for_floor_1209 other_material_for_floor_1209 material_for_walls_1210 other_material_for_wall_1210 material_for_roof_1211 other_material_for_roof_1211 anyone_own_bicycle_1212 anyone_own_motor_cycle_1213 anyone_own_car_or_truck_1214 anyone_have_bank_account_1215 no_of_meals_per_day_1216 how_many_meals_per_1216_1) (q1209floor q1209other q1210walls q1210other q1211roof q1211other q1212bicycle q1213motocycle q1214car q1215bankacct q1216knowmeals q1216meals)
+	rename (material_type_for_floor_1209 other_material_for_floor_1209 material_for_walls_1210 other_material_for_wall_1210 material_for_roof_1211 other_material_for_roof_1211 anyone_own_bicycle_1212 anyone_own_motor_cycle_1213 anyone_own_car_or_truck_1214 anyone_have_bank_account_1215 no_of_meals_per_day_1216 how_many_meals_per_1216_1) (m1_1209 m1_1209_other m1_1210 m1_1210_other m1_1211 m1_1211_other m1_1212 m1_1213 m1_1214 m1_1215 m1_1216 m1_1216_1)
 	
-	rename (money_from_pocket_for_trans_1217 m1_1218a m1_1218a_1 m1_1218b m1_1218b_1 m1_1218c m1_1218c_1 m1_1218d m1_1218d_1 m1_1218e m1_1218e_1 m1_1218f m1_1218f_1 m1_1219) (q1217oop q1218reg q1218regamt q1218meds q1218medsamt q1218test q1218testamt q1218transport q1218transportamt q1218food q1218foodamt q1218other q1218otheramt q1219total)
+	rename money_from_pocket_for_trans_1217 m1_1217
 	
-	rename (m1_1221	m1_1222 other_health_insurance_type m1_1223) (q1221insurance q1221insurancetype q1221insuranceother q1223satisfaction) 
+	rename other_financial_source_1220 m1_1220_other
 	
-	rename (eth_1_13_muac_safartuu_naa m1_1306 m1_1307 m1_1308 hemoglobin_level_from_test m1_1401) (muac q1306hgbcard q1307hgbcard q1308hgbyn q1309hgbtest q1401timedaycall)
+	rename other_health_insurance_type m1_1222_other
+	
+	rename (eth_1_13_muac_safartuu_naa hemoglobin_level_from_test) (m1_eth_1_13 m1_1309)
 	
 	rename (interview_end_time total_duration_of_intervie module_1_baseline_face_to_face_e) (m1_end_time interview_length m1_complete)
 	
@@ -204,37 +206,35 @@ label define FacilityTypeLabel 1 "General Hospital" 2 "Primary Hospital" 3 "Heal
 label values facility_type FacilityTypeLabel 
 
 label define reason_anc 1 "Low cost" 2 "Short distance" 3 "Short waiting time" 4 "Good healthcare provider skills" 5 "Staff shows respect" 6 "Medicines and equipment are available" 7 "Cleaner facility" 8 "Only facility available" 9 "covered by CBHI" 10 "Were referred or told to use this provider" 11 "Covered by other insurance" 96 "Other, specify" 99 "NR/RF" 
-label values q405reason reason_anc
+label values m1_405 reason_anc
 
 
 * Demographic value labels 
 label define language 1 "Oromiffa" 2 "Amharegna" 3 "Somaligna" 4 "Tigrigna" 5 "Sidamigna" 6 "Wolaytigna" 7 "Gurage" 8 "Afar" 9 "Hadiyya" 10 "Gamogna" 11 "Gedeo" 12 "Kafa" 96 "Other, specify" 98 "DK" 99 "NR/RF" 
-label values q501language language
+label values m1_501 language
 
 label define education 1 "Some primary" 2 "Completed primary" 3 "Some secondary" 4 "Completed secondary" 5 "Higher education" 99 "NR/RF" 
-label values q503level education
+label values m1_503 education
 
 label define literacy 1 "Cannot read at all" ///
 	                  2 "Able to read only parts of sentence" 3 "Able to read whole sentence" 4 "Blind/visually impaired" ///
 					  99 "NR/RF" 
-label values q504literate literacy
+label values m1_504 literacy
 
 label define marriage 1 "Never married" 2 "Widowed" 3 "Divorced" 4 "Separated" 5 "Currently married" 6 "Living with partner as if married" 99 "NR/RF" 
-label values q505marriage marriage 
+label values m1_505 marriage 
 
 label define occupation 1 "Government employee" 2 "Private employee" 3 "Non-government employee" 4 "Merchant/Trader" 5 "Farmer/farmworker/pastoralist" 6 "Homemaker/housewife" 7 "Student" 8 "Laborer" 9 "Unemployed" 96 "Other, specify" 98 "DK" 99 "NR/RF"
-label values q506occupation occupation
+label values m1_506 occupation
  
 label define religion 1 "Orthodox" 2 "Catholic" 3 "Protestant" 4 "Muslim" 5 "Indigenous" 96 "Other, specify" 98 "DK" 99 "RF"
-label values q507religion religion
+label values m1_507 religion
 
 label define eligconsent 1 "Eligible and signed consent" 2 "Eligible but did not consent" 3 "Eligible but does not understand [language spoken by interviewer" 0 "Ineligible" 
 label values b7eligible eligconsent
 
-
 label define modcomplete 0 "Incomplete" 1 "Unverified" 2 "Complete" 
 label values m1_complete modcomplete
-
 
    ** Repeated Data Value Labels 
    * Label likert scales 
@@ -242,24 +242,23 @@ label values m1_complete modcomplete
 	 99 "Refused"
 	 
      * Label values for variables with Likert values 
-	   label values q201srhealth q301qualrate q601qoc likert 
-	   label values q605skills q605equip q605respect q605clarity q605involved q605time q605wait q605courtesy q605confidentiality q605privacy q605cost likert
-	   
-	 	 
+	   label values m1_201 m1_301 m1_601 likert 
+	   label values m1_605a m1_605b m1_605c m1_605d m1_605e m1_605f m1_605g m1_605h m1_605i m1_605j m1_605k likert
+	   	 
    * Label Yes/No 
 	 label define YN 1 "Yes" 0 "No" 3 "not applicable" 98 "DK" 99 "RF" 
 	 label define YN2 1 "Yes" 2 "No" 98 "DK" 99 "RF" 
-	 label values  q716nutrition q716exercise q716mental q716itn q716complication YN
-   	 label values q717depression q718diabetes q719hypertension q720cardiac q721mental q722hiv q723meds YN 
-	 label values q813neausea q813heartburn q813cramp q813backpain q813advice YN
-	 label values q904stopkhat q905alcohol q907stopalcohol YN
+	 label values m1_716a m1_716b m1_716c m1_716d m1_716e YN
+   	 label values m1_717 m1_718 m1_719 m1_720 m1_721 m1_722 m1_723 YN 
+	 label values m1_813a m1_813b m1_813c m1_813d m1_813e YN
+	 label values m1_904 m1_905 m1_907 YN
 
 	 	 
 	 * Label values for varaiables with Yes / No responses 
-	 label values q502school q509hiv q509hivtrans q510tb q510tbtrad YN 
-	 label values q204meds YN
-	 label values q203diagnosis YN2
-   	 label values q202diabetes q202hbp q202cardiac q202mental q202hiv q202hepb q202renal YN
+	 label values m1_502 m1_509a m1_509b m1_510a m1_510b YN 
+	 label values m1_204 YN
+	 label values m1_203 YN2
+   	 label values m1_202a m1_202b m1_202c m1_202d m1_202e m1_202f m1_202g YN
 	 label values q724return q724returnwhen q724gynecologist q724mentalhealth q724hospital YN
 	 label values q724urine q724blood q724hiv q724ultrasound YN
 	 label values q724return q724gynecologist q724mentalhealth q724hospital YN
