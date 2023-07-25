@@ -259,16 +259,14 @@ label values m1_complete modcomplete
 	 label values m1_204 YN
 	 label values m1_203 YN2
    	 label values m1_202a m1_202b m1_202c m1_202d m1_202e m1_202f m1_202g YN
-	 label values q724return q724returnwhen q724gynecologist q724mentalhealth q724hospital YN
-	 label values q724urine q724blood q724hiv q724ultrasound YN
-	 label values q724return q724gynecologist q724mentalhealth q724hospital YN
-	 label values q801edd q802lmpknown YN
-	 label values q814headache q814bleeding q814fever q814abpain q814breathing q814convulsions q814fainting q814babynotmoving q814blurvision YN
-	label values q1004stillbirth q1005preterm q1006bloodtrans q10et1congenital q1007cs q1008longlabor q1010onemodeath YN
-	label values q1011pregnancies q1011miscarriage q1011stillbirth q1011preterm q1011cs q1011onemonthdeath YN
-	label values q1101physabuse q1103verbabuse YN
-	label values q1217oop q1218reg q1218meds q1218test q1218transport q1218food q1218other YN
-	label values q1221insurance YN
+	 label values m1_724a m1_724c m1_724d m1_724e m1_724f m1_724g m1_724h m1_724i YN
+	 label values m1_801 m1_802b YN
+	 label values m1_814a m1_814b m1_814c m1_814d m1_814e m1_814f m1_814g m1_814h m1_814i YN
+	 label values m1_1004 m1_1005 m1_1006 m1_eth_1_10 m1_1007 m1_1008 m1_1010 YN
+	 label values m1_1011a m1_1011b m1_1011c m1_1011d m1_1011e m1_1011f YN
+	 label values m1_1101 m1_1103 YN
+	 label values m1_1217 m1_1218a m1_1218b m1_1218c m1_1218d m1_1218e m1_1218f YN
+	 label values m1_1221 YN
 	*label values current_income savings health_insurance sold_items family_members borrowed other YN
 
 	 
@@ -277,32 +275,29 @@ label values m1_complete modcomplete
 	 label define EQ5Dpain 1 "I have no pain" 2 "I have some pain" 3 "I have severe pain" 99 "NR/RF" 
 	 label define EQ5Danxiety 1 "I have no anxiety" 2 "I have some anxiety" 3 "I have severe anxiety" 99 "NR/RF" 
 	 
-	 label values q205mobility q205selfcare q205activities EQ5D
-	 label values q205pain EQ5Dpain
-	 label values q205anxiety EQ5Danxiety
+	 label values m1_205a m1_205b m1_205c EQ5D
+	 label values m1_205d EQ5Dpain
+	 label values m1_205e EQ5Danxiety
 	 
 * QoC labels 
-   label define recommend 1 "Very likely" 2 "Somewhat likely" 3 "Not too likely" 4 "Not at all likely" 99 "NR/RF" 
-   label values q602nps recommend
-   tab q602nps
+	label define recommend 1 "Very likely" 2 "Somewhat likely" 3 "Not too likely" 4 "Not at all likely" 99 "NR/RF" 
+	label values m1_602 recommend
    
-   label define satisfaction 1 "Very satisfied" 2 "Satisfied" 3 "Neither satisfied nor dissatisfied" 4 "Dissatisfied" 5 "Very dissatisfied" 98 "DK" 99 "NR/RF" 
-   label values q1223satisfaction satisfaction
-   tab q1223satisfaction
+	label define satisfaction 1 "Very satisfied" 2 "Satisfied" 3 "Neither satisfied nor dissatisfied" 4 "Dissatisfied" 5 "Very dissatisfied" 98 "DK" 99 "NR/RF" 
+	label values m1_1223 satisfaction
 
-   label define diarrhea  1 "Less than usual" 2 "More than usual" 3 "About the same" 4 "It doesnt matter" 98 "DK" 
-	label values q511diarrhea diarrhea 
+	label define diarrhea  1 "Less than usual" 2 "More than usual" 3 "About the same" 4 "It doesnt matter" 98 "DK" 
+	label values m1_511 diarrhea 
 
-	
 	label define smoke 1 "Good" 2 "Harmful" 3 "Doesnt matter" 98 "DK" 
-	label values q512woodburn smoke 
+	label values m1_512 smoke 
 
-		label define hsview 1 "system works pretty well, minor changes" ///
-	                    2 "some good things, but major changes are needed" ///
-						3 "system has so much wrong with it, completely rebuild it" ///
+	label define hsview 1 "System works pretty well, minor changes" ///
+	                    2 "Some good things, but major changes are needed" ///
+						3 "System has so much wrong with it, completely rebuild it" ///
 						98 "DK" ///
 						99 "RF" 
-	label values q302overallview hsview
+	label values m1_302 hsview
 	
 	label define confidence 1 "Very confident" ///
 	                        2 "Somewhat confident" ///
@@ -310,26 +305,23 @@ label values m1_complete modcomplete
 							4 "Not at all confident" ///
 							98 "DK" ///
 							99 "NR/RF"
-	label values q303confidentcare q304confidentafford q305confidentresp q305confidenttellprov confidence 
+	label values m1_303 m1_304 m1_305a m1_305b confidence 
 
 	label define travel_mode 1 "Walking" 2 "Bicycle" 3 "Motorcycle" 4 "Car (personal or borrowed)" 5 "Bus/train/other public transportation" 6 "Mule/horse/donkey" 7 "Bajaj" 96 "Other (specify)" 98 "DK" 99 "NR/RF" 
-	
-	label values q401travel travel_mode
+	label values m1_401 travel_mode
 
 	label define bypass 1 "Yes, its the nearest" 2 "No, theres another one closer" 98 "DK" 99 "NR/RF" 
-	label values q404nearest bypass 
-
+	label values m1_404 bypass 
 	
-	label values q700bp q701weight q702height q703muac q704babyrate q705urine q706blooddrop q706blooddraw YN
-	label values q712ultrasound YN
-	label values q708hiv q710syphilis q711bloodsugar q712ultrasound YN
+	label values m1_700 m1_701 m1_702 m1_703 m1_704 m1_705 m1_706 m1_707 YN
+	label values m1_712 YN
+	label values m1_708a m1_708c m1_708d m1_708e m1_708f m1_710a m1_711a m1_712 YN
 	
     label define yesnona 1 "Yes" 0 "No" 2 "Not applicable" 98 "DK" 99 "RF" 
 	
-	label values q704babyrate yesnona
+	label values m1_704 yesnona
 	
-	
-		label define test_result 1 "Positive" 2 "Negative" 98 "DK" 99 "RF" 
+	label define test_result 1 "Positive" 2 "Negative" 98 "DK" 99 "RF" 
 	label values q708hivresult test_result
 	label values q710syphilisresult test_result
 	label define bdsugartest 1 "Blood sugar was high/elevated" 2 "Blood sugar was normal" 98 "DK" 99 "NR/RF"
