@@ -45,15 +45,15 @@ import delimited using "$data/25July2023.csv", clear
 	rename is_the_place_kebele_you_eth_1_1 kebele_malaria
 	rename eth_2_1_is_the_place_or_ke kebele_intworm
 	
-	rename in_general_how_would_201m1 q201srhealth
-	rename did_you_have_diabetes_202a q202diabetes
+	rename in_general_how_would_201m1 m1_201
+	rename did_you_have_diabetes_202a m1_202a
 	rename (did_yo_have_hbp_202b did_you_had_cardiac_disease did_you_had_mental_disorder ///
 	        did_you_had_hiv before_you_got_pregnant_202f before_you_got_pregnant_202g) ///
-			(q202hbp q202cardiac q202mental q202hiv q202hepb q202renal)
+			(m1_202b m1_202c m1_202d m1_202e m1_202f m1_202g)
 	rename (before_pregnant_diagn_203 specify_the_diagnosed_203 currently_taking_medication ///
 	        which_best_describe_your_205a which_describes_your_205b which_describe_your_205c ///
 			which_describe_your_205d which_describe_your_205e) ///
-		   (q203diagnosis q202other q204meds q205mobility q205selfcare q205activities q205pain q205anxiety)	
+		   (m1_203 m1_203_other m1_204 m1_205a m1_205b m1_205c m1_205d m1_205e)	
 	rename m1_206a phq9a
 	rename m1_206b phq9b
 	rename m1_206c phq9c
@@ -63,16 +63,16 @@ import delimited using "$data/25July2023.csv", clear
 	rename m1_206g phq9g
 	rename m1_206h phq9h
 	rename m1_206i phq9i
-	rename health_problems_affecting_207  q207productive
+	rename health_problems_affecting_207 m1_207
 	
 	rename (rate_health_quality_301	overall_view_of_health_302 how_confident_are_you_303 ///
 	how_confident_are_you_304 how_confident_are_you_305_a how_confident_are_you_305_b) ///
-	(q301qualrate q302overallview q303confidentcare q304confidentafford q305confidentresp q305confidenttellprov)
+	(m1_301 m1_302 m1_303 m1_304 m1_305a m1_305b)
 	
 	rename (how_did_you_travel_401 specify_other_transport_401 how_long_in_hours_or_minut_402 ///
 	        do_you_know_the_distance_403a how_far_403b is_this_the_nearest_health_404 ///
 			what_is_the_most_important_405 specify_other_reason_405) ///
-		   (q401travel q401other q402time q403knowdist q403distance q404nearest q405reason q405other)
+		   (m1_401 m1_401_other m1_402 q403knowdist q403distance q404nearest q405reason q405other)
 		   
 	rename (what_is_your_first_languag_501 specify_other_language_501 have_you_ever_attend_502 ///
 	        what_is_the_highest_level_503 can_you_read_any_part_504 what_is_your_current_marit_505 ///
