@@ -45,15 +45,15 @@ import delimited using "$data/25July2023.csv", clear
 	rename is_the_place_kebele_you_eth_1_1 kebele_malaria
 	rename eth_2_1_is_the_place_or_ke kebele_intworm
 	
-	rename in_general_how_would_201m1 q201srhealth
-	rename did_you_have_diabetes_202a q202diabetes
+	rename in_general_how_would_201m1 m1_201
+	rename did_you_have_diabetes_202a m1_202a
 	rename (did_yo_have_hbp_202b did_you_had_cardiac_disease did_you_had_mental_disorder ///
 	        did_you_had_hiv before_you_got_pregnant_202f before_you_got_pregnant_202g) ///
-			(q202hbp q202cardiac q202mental q202hiv q202hepb q202renal)
+			(m1_202b m1_202c m1_202d m1_202e m1_202f m1_202g)
 	rename (before_pregnant_diagn_203 specify_the_diagnosed_203 currently_taking_medication ///
 	        which_best_describe_your_205a which_describes_your_205b which_describe_your_205c ///
 			which_describe_your_205d which_describe_your_205e) ///
-		   (q203diagnosis q202other q204meds q205mobility q205selfcare q205activities q205pain q205anxiety)	
+		   (m1_203 m1_203_other m1_204 m1_205a m1_205b m1_205c m1_205d m1_205e)	
 	rename m1_206a phq9a
 	rename m1_206b phq9b
 	rename m1_206c phq9c
@@ -63,79 +63,89 @@ import delimited using "$data/25July2023.csv", clear
 	rename m1_206g phq9g
 	rename m1_206h phq9h
 	rename m1_206i phq9i
-	rename health_problems_affecting_207  q207productive
+	rename health_problems_affecting_207 m1_207
 	
 	rename (rate_health_quality_301	overall_view_of_health_302 how_confident_are_you_303 ///
 	how_confident_are_you_304 how_confident_are_you_305_a how_confident_are_you_305_b) ///
-	(q301qualrate q302overallview q303confidentcare q304confidentafford q305confidentresp q305confidenttellprov)
+	(m1_301 m1_302 m1_303 m1_304 m1_305a m1_305b)
 	
 	rename (how_did_you_travel_401 specify_other_transport_401 how_long_in_hours_or_minut_402 ///
 	        do_you_know_the_distance_403a how_far_403b is_this_the_nearest_health_404 ///
 			what_is_the_most_important_405 specify_other_reason_405) ///
-		   (q401travel q401other q402time q403knowdist q403distance q404nearest q405reason q405other)
+		   (m1_401 m1_401_other m1_402 m1_403a m1_403b m1_404 m1_405 m1_405_other)
 		   
 	rename (what_is_your_first_languag_501 specify_other_language_501 have_you_ever_attend_502 ///
 	        what_is_the_highest_level_503 can_you_read_any_part_504 what_is_your_current_marit_505 ///
 			what_is_your_occupation_506 specify_other_occupation_506 what_is_your_religion_507 ///
 			specify_other_religion_507 how_many_people_508) ///
-			(q501language q501other q502school q503level q504literate q505marriage q506occupation ///
-			q506other q507religion q507other q508support)
+			(m1_501 m1_501_other m1_502 m1_503 m1_504 m1_505 m1_506 ///
+			m1_506_other m1_507 m1_507_other m1_508)
 	
 	rename (have_you_ever_heard_509a do_you_think_that_people_509b a_have_you_ever_heard_510a ///
 	        do_you_think_that_tb_can_510b when_children_have_diarrhe_511 is_smoke_from_a_wood_burni_512) ///
-	       (q509hiv q509hivtrans q510tb q510tbtrad q511diarrhea q512woodburn)
+	       (m1_509a m1_509b m1_510a m1_510b m1_511 m1_512)
 	
 	rename (i_would_like_to_know_how_601 how_likely_are_you_to_reco_602	how_long_in_minutes_did_603 ///
 	        how_long_in_hours_or_minut_604 eth_1_6_1_do_you_know_how_lo eth_1_6_2_how_long_is_your) ///
-			(q601qoc q602nps q603visitlength q604waittime q604knowlab q604labwait) 
+			(m1_601 m1_602 m1_603 m1_604a m1_604b m1_604c) 
 			
 	rename (thinking_about_the_visit_605 thinking_about_the_visit_605b thinking_about_the_visit_605c ///
 	        thinking_about_the_visit_605d thinking_about_the_visit_605e thinking_about_the_visit_605f ///
 			thinking_about_the_visit_605g thinking_about_the_visit_605h thinking_about_the_visit_605i ///
 			thinking_about_the_visit_605j thinking_about_the_visit_605k) ///
-	        (q605skills q605equip q605respect q605clarity q605involved q605time q605wait q605courtesy ///
-			q605confidentiality q605privacy q605cost)
+	        (m1_605a m1_605b m1_605c m1_605d m1_605e m1_605f m1_605g m1_605h ///
+			m1_605i m1_605j m1_605k)
 			
 	rename (measure_your_blood_pressure_700	measure_your_weight_701 measure_your_height_702 ///
 	        measure_your_upper_arm_703 measure_heart_rate_704 take_urine_sample_705 take_blood_drop_706 ///
 			take_blood_draw_707) ///
-		   (q700bp q701weight q702height q703muac q704babyrate q705urine q706blooddrop q706blooddraw)
+		   (m1_700 m1_701 m1_702 m1_703 m1_704 m1_705 m1_706 m1_707)
 		   
-	rename (do_hiv_test_708a	share_hiv_test_result_708b medicine_for_hiv_708c explain_medicine_usage_708d do_hiv_viral_load_test_708e do_cd4_test_708f do_hiv_viral_load_test_709a do_cd4_test_709b m1_710a m1_710b m1_710c m1_711a result_of_blood_sugar_test_711b m1_712) (q708hiv q708hivresult q708hivmed q708hivmedex q708hivload q708hivcd4 q709hivload q709hivdc4 q710syphilis q710syphilisresult q710syphilismed q711bloodsugar q711bloodsugarresult q712ultrasound)
+	rename (do_hiv_test_708a share_hiv_test_result_708b medicine_for_hiv_708c explain_medicine_usage_708d do_hiv_viral_load_test_708e do_cd4_test_708f do_hiv_viral_load_test_709a do_cd4_test_709b result_of_blood_sugar_test_711b) (m1_708a m1_708b m1_708c m1_708d m1_708e m1_708f m1_709a m1_709b m1_711b)
 		
-	rename (how_subscription_for_713a_1 how_do_they_provide_713b_1 how_do_they_provide_713c_1 how_do_they_provide_713d_1 how_do_they_provide_713e_1 how_do_they_provide_713f_1 how_do_they_provide_713g_1 how_do_they_provide_713h_1 how_do_they_provide_713i_1 whare_you_given_injection_714a receive_tetanus_injection_714b nuber_of_tetanus_injection_714c how_many_years_ago_714d  how_many_years_ago_last_714e) (q713fefa q713capill q713foodsupp q713intworm q713malaria q713nerves q713multivit q713hypertension q713diabetes q714tt q714ttbefore q714ttnumber q714ttyears q714ttyears2)
+	rename (how_subscription_for_713a_1 how_do_they_provide_713b_1 how_do_they_provide_713c_1 how_do_they_provide_713d_1 how_do_they_provide_713e_1 how_do_they_provide_713f_1 how_do_they_provide_713g_1 how_do_they_provide_713h_1 how_do_they_provide_713i_1 whare_you_given_injection_714a receive_tetanus_injection_714b nuber_of_tetanus_injection_714c how_many_years_ago_714d  how_many_years_ago_last_714e) (m1_713a m1_713b m1_713c m1_713d m1_713e m1_713f m1_713g m1_713h m1_713i m1_714a m1_714b m1_714c m1_714d m1_714e)
 	
-	rename (provided_with_an_insecticide_715 m1_716a m1_716b m1_716c m1_716d m1_716e discuss_about_feeling_depress_71 discuss_about_diabetes_718 discuss_about_bp_719 discuss_about_cardiac_720 discuss_about_mental_health_721 discuss_about_hiv_722 discus_about_medication_723) (q715itn q716nutrition q716exercise q716mental q716itn q716complication q717depression q718diabetes q719hypertension q720cardiac q721mental q722hiv q723meds)
+	rename (provided_with_an_insecticide_715 discuss_about_feeling_depress_71 discuss_about_diabetes_718 discuss_about_bp_719 discuss_about_cardiac_720 discuss_about_mental_health_721 discuss_about_hiv_722 discus_about_medication_723) (m1_715 m1_717 m1_718 m1_719 m1_720 m1_721 m1_722 m1_723)
 	
-	rename (should_come_back_724a when_did_he_tell_you_724b to_see_gynecologist_724c to_see_mental_health_provider_72 to_go_to_hospital_724e to_go_for_urine_test_724f go_to_blood_test_724g go_to_do_hiv_test_724h go_to_do_ultrasound_test_724i) (q724return q724returnwhen q724gynecologist q724mentalhealth q724hospital q724urine q724blood q724hiv q724ultrasound)
+	rename (should_come_back_724a when_did_he_tell_you_724b to_see_gynecologist_724c to_see_mental_health_provider_72 to_go_to_hospital_724e to_go_for_urine_test_724f go_to_blood_test_724g go_to_do_hiv_test_724h go_to_do_ultrasound_test_724i) (m1_724a m1_724b m1_724c m1_724d m1_724e m1_724f m1_724g m1_724h m1_724i)
 	
-	rename (estimated_date_for_delivery_801	m1_802a m1_802b m1_802c m1_802d how_many_months_weeks_803 calculate_gestational_age_804 how_many_babies_you_preg_805 ask_your_last_period_806 when_you_got_pregnant_807) (q801edd q802edd q802lmpknown q802lmp q802gacalc q803gaself q804trimester q805numbbabies q806asklmp q807desired)
+	rename (estimated_date_for_delivery_801	 how_many_months_weeks_803 calculate_gestational_age_804 how_many_babies_you_preg_805 ask_your_last_period_806 when_you_got_pregnant_807) (m1_801 m1_803 m1_804 m1_805 m1_806 m1_807)
 	
-	rename (discuss_your_birth_plan_809 m1_810a m1_810b other_than_the_list_above m1_811 you_might_need_c_section_812a) (q809birthplan q810planbirthloc q810planbirthfac q810other q811mwh q812toldcs) 
+	rename (specify_other_reason_808) (m1_808_other)
 	
-	rename (common_health_problems_813a advice_for_treatment_813b some_women_experience_813c some_women_experience_813d  during_the_visit_today_813e some_women_experience_eth_1_8a eth_1_8b_hyperemesis_gravi eth_1_8c_did_you_experienc eth_1_8d_did_you_experienc eth_1_8e_did_you_experienc eth_1_8f_did_you_experienc eth_1_8g_any_other_pregnan specify_the_feeling_eth_1_8_h eth_2_8_did_the_provider) (q813neausea q813heartburn q813cramp q813backpain q813advice q813preeclamp q813hypgrav q813anemia q813amniotic q813asthma q813rhiso q813problem q813other q813adviceb)
+	rename (discuss_your_birth_plan_809 other_than_the_list_above m1_811 you_might_need_c_section_812a m1_812b_0 other_reason_for_c_section_812) (m1_809 m1_810_other m1_811 m1_812a m1_812b m1_812_other) 
 	
-	rename (experience_headaches_814a experience_for_vaginal_bleed_814	experience_a_fever_814c experience_abdominal_pain_814d experience_breath_difficulty_814 experience_convulsions_814f experience_repeated_faint_814g exprience_biby_stop_moving_814h could_you_please_tell_814i) (q814headache q814bleeding q814fever q814abpain q814breathing q814convulsions q814fainting q814babynotmoving q814blurvision)
+	rename (common_health_problems_813a advice_for_treatment_813b some_women_experience_813c some_women_experience_813d  during_the_visit_today_813e some_women_experience_eth_1_8a eth_1_8b_hyperemesis_gravi eth_1_8c_did_you_experienc eth_1_8d_did_you_experienc eth_1_8e_did_you_experienc eth_1_8f_did_you_experienc eth_1_8g_any_other_pregnan specify_the_feeling_eth_1_8_h eth_2_8_did_the_provider) (m1_813a m1_813b m1_813c m1_813d m1_813e m1_eth_1_8a m1_eth_1_8b m1_eth_1_8c m1_eth_1_8d m1_eth_1_8e m1_eth_1_8f m1_eth_1_8g m1_eth_1_8gother m1_eth_2_8)
 	
-	rename you_said_you_didn_t_have_symp_81 q816complication
+	rename (experience_headaches_814a experience_for_vaginal_bleed_814	experience_a_fever_814c experience_abdominal_pain_814d experience_breath_difficulty_814 experience_convulsions_814f experience_repeated_faint_814g exprience_biby_stop_moving_814h could_you_please_tell_814i) (m1_814a m1_814b m1_814c m1_814d m1_814e m1_814f m1_814g m1_814h m1_814i)
 	
-	rename (smoke_cigarettes_901 advised_to_stop_smoking_902 frequency_of_chew_khat_903 advice_to_stop_khat_904 drink_alcohol_within_30_days_905 when_you_do_drink_alcohol_906 advised_to_stop_alcohol_907) (q901smoke q902stopsmoke q903khat q904stopkhat q905alcohol q906alcoholamount q907stopalcohol)
+	rename (other_specify_kan_biroo_ib) (m1_815_other)
 	
-	rename (no_of_pregnancies_you_had_1001 no_of_births_you_had_1002 how_many_of_those_birth_alive_10 have_you_ever_lost_a_pregn_after baby_came_too_early_1005 blood_need_during_pregnancy_1006 m1_eth_1_10 had_cesarean_section_1007) (q1001pregnancies q1002births q1003livebirths q1004stillbirth q1005preterm q1006bloodtrans q10et1congenital q1007cs)
+	rename you_said_you_didn_t_have_symp_81 m1_816
 	
-	rename (delivery_lasted_12_hours_1008 no_children_still_alive_1009 had_a_baby_die_within_1month_101 discuss_about_prev_pregn_1011a discuss_lost_baby_after_5m_1011b discuss_baby_born_dead_1011c discuss_baby_born_early_1011d discuss_you_had_c_section_1011e discuss_baby_die_within_1m_1011f anyone_ever_hit_kicked_1101 anyone_humiliate_you_1103) (q1008longlabor q1009livechildren q1010onemodeath q1011pregnancies q1011miscarriage q1011stillbirth q1011preterm q1011cs q1011onemonthdeath q1101physabuse q1103verbabuse)
+	rename (smoke_cigarettes_901 advised_to_stop_smoking_902 frequency_of_chew_khat_903 advice_to_stop_khat_904 drink_alcohol_within_30_days_905 when_you_do_drink_alcohol_906 advised_to_stop_alcohol_907) (m1_901 m1_902 m1_903 m1_904 m1_905 m1_906 m1_907)
 	
-	rename discuss_on_seek_support_1105	q1105providerdiscuss
+	rename (no_of_pregnancies_you_had_1001 no_of_births_you_had_1002 how_many_of_those_birth_alive_10 have_you_ever_lost_a_pregn_after baby_came_too_early_1005 blood_need_during_pregnancy_1006 m1_eth_1_10 had_cesarean_section_1007) (m1_1001 m1_1002 m1_1003 m1_1004 m1_1005 m1_1006 m1_eth_1_10 m1_1007)
 	
-	rename (main_source_of_drink_water_1201 other_source_of_drink_1201 kind_of_toilet_facilities_1202 specify_other_toilet_1202 household_have_electricity_1203 household_have_radio_1204 household_have_tv_1205 household_have_telephone_1206 household_have_frige_1207 type_of_fuel_for_cook_1208 other_fuel_type_for_cook_1208) (q1201water q1201other q1202toilet q1202other q1203electricity q1204radio q1205tv q1206telephone q1207fridge q1208cookfuel q1208other)
+	rename (specify_who_else_hit_1102)(m1_1102_other)
 	
-	rename (material_type_for_floor_1209 other_material_for_floor_1209 material_for_walls_1210 other_material_for_wall_1210 material_for_roof_1211 other_material_for_roof_1211 anyone_own_bicycle_1212 anyone_own_motor_cycle_1213 anyone_own_car_or_truck_1214 anyone_have_bank_account_1215 no_of_meals_per_day_1216 how_many_meals_per_1216_1) (q1209floor q1209other q1210walls q1210other q1211roof q1211other q1212bicycle q1213motocycle q1214car q1215bankacct q1216knowmeals q1216meals)
+	rename (delivery_lasted_12_hours_1008 no_children_still_alive_1009 had_a_baby_die_within_1month_101 discuss_about_prev_pregn_1011a discuss_lost_baby_after_5m_1011b discuss_baby_born_dead_1011c discuss_baby_born_early_1011d discuss_you_had_c_section_1011e discuss_baby_die_within_1m_1011f anyone_ever_hit_kicked_1101 anyone_humiliate_you_1103) (m1_1008 m1_1009 m1_1010 m1_1011a m1_1011b m1_1011c m1_1011d m1_1011e m1_1011f m1_1101 m1_1103)
 	
-	rename (money_from_pocket_for_trans_1217 m1_1218a m1_1218a_1 m1_1218b m1_1218b_1 m1_1218c m1_1218c_1 m1_1218d m1_1218d_1 m1_1218e m1_1218e_1 m1_1218f m1_1218f_1 m1_1219) (q1217oop q1218reg q1218regamt q1218meds q1218medsamt q1218test q1218testamt q1218transport q1218transportamt q1218food q1218foodamt q1218other q1218otheramt q1219total)
+	rename specify_who_humuliates_you m1_1104_other
 	
-	rename (m1_1221	m1_1222 other_health_insurance_type m1_1223) (q1221insurance q1221insurancetype q1221insuranceother q1223satisfaction) 
+	rename discuss_on_seek_support_1105	m1_1105
 	
-	rename (eth_1_13_muac_safartuu_naa m1_1306 m1_1307 m1_1308 hemoglobin_level_from_test m1_1401) (muac q1306hgbcard q1307hgbcard q1308hgbyn q1309hgbtest q1401timedaycall)
+	rename (main_source_of_drink_water_1201 other_source_of_drink_1201 kind_of_toilet_facilities_1202 specify_other_toilet_1202 household_have_electricity_1203 household_have_radio_1204 household_have_tv_1205 household_have_telephone_1206 household_have_frige_1207 type_of_fuel_for_cook_1208 other_fuel_type_for_cook_1208) (m1_1201 m1_1201_other m1_1202 m1_1202_other m1_1203 m1_1204 m1_1205 m1_1206 m1_1207 m1_1208 m1_1208_other)
+	
+	rename (material_type_for_floor_1209 other_material_for_floor_1209 material_for_walls_1210 other_material_for_wall_1210 material_for_roof_1211 other_material_for_roof_1211 anyone_own_bicycle_1212 anyone_own_motor_cycle_1213 anyone_own_car_or_truck_1214 anyone_have_bank_account_1215 no_of_meals_per_day_1216 how_many_meals_per_1216_1) (m1_1209 m1_1209_other m1_1210 m1_1210_other m1_1211 m1_1211_other m1_1212 m1_1213 m1_1214 m1_1215 m1_1216 m1_1216_1)
+	
+	rename money_from_pocket_for_trans_1217 m1_1217
+	
+	rename other_financial_source_1220 m1_1220_other
+	
+	rename other_health_insurance_type m1_1222_other
+	
+	rename (eth_1_13_muac_safartuu_naa hemoglobin_level_from_test) (m1_eth_1_13 m1_1309)
 	
 	rename (interview_end_time total_duration_of_intervie module_1_baseline_face_to_face_e) (m1_end_time interview_length m1_complete)
 	
@@ -196,37 +206,35 @@ label define FacilityTypeLabel 1 "General Hospital" 2 "Primary Hospital" 3 "Heal
 label values facility_type FacilityTypeLabel 
 
 label define reason_anc 1 "Low cost" 2 "Short distance" 3 "Short waiting time" 4 "Good healthcare provider skills" 5 "Staff shows respect" 6 "Medicines and equipment are available" 7 "Cleaner facility" 8 "Only facility available" 9 "covered by CBHI" 10 "Were referred or told to use this provider" 11 "Covered by other insurance" 96 "Other, specify" 99 "NR/RF" 
-label values q405reason reason_anc
+label values m1_405 reason_anc
 
 
 * Demographic value labels 
 label define language 1 "Oromiffa" 2 "Amharegna" 3 "Somaligna" 4 "Tigrigna" 5 "Sidamigna" 6 "Wolaytigna" 7 "Gurage" 8 "Afar" 9 "Hadiyya" 10 "Gamogna" 11 "Gedeo" 12 "Kafa" 96 "Other, specify" 98 "DK" 99 "NR/RF" 
-label values q501language language
+label values m1_501 language
 
 label define education 1 "Some primary" 2 "Completed primary" 3 "Some secondary" 4 "Completed secondary" 5 "Higher education" 99 "NR/RF" 
-label values q503level education
+label values m1_503 education
 
 label define literacy 1 "Cannot read at all" ///
 	                  2 "Able to read only parts of sentence" 3 "Able to read whole sentence" 4 "Blind/visually impaired" ///
 					  99 "NR/RF" 
-label values q504literate literacy
+label values m1_504 literacy
 
 label define marriage 1 "Never married" 2 "Widowed" 3 "Divorced" 4 "Separated" 5 "Currently married" 6 "Living with partner as if married" 99 "NR/RF" 
-label values q505marriage marriage 
+label values m1_505 marriage 
 
 label define occupation 1 "Government employee" 2 "Private employee" 3 "Non-government employee" 4 "Merchant/Trader" 5 "Farmer/farmworker/pastoralist" 6 "Homemaker/housewife" 7 "Student" 8 "Laborer" 9 "Unemployed" 96 "Other, specify" 98 "DK" 99 "NR/RF"
-label values q506occupation occupation
+label values m1_506 occupation
  
 label define religion 1 "Orthodox" 2 "Catholic" 3 "Protestant" 4 "Muslim" 5 "Indigenous" 96 "Other, specify" 98 "DK" 99 "RF"
-label values q507religion religion
+label values m1_507 religion
 
 label define eligconsent 1 "Eligible and signed consent" 2 "Eligible but did not consent" 3 "Eligible but does not understand [language spoken by interviewer" 0 "Ineligible" 
 label values b7eligible eligconsent
 
-
 label define modcomplete 0 "Incomplete" 1 "Unverified" 2 "Complete" 
 label values m1_complete modcomplete
-
 
    ** Repeated Data Value Labels 
    * Label likert scales 
@@ -234,34 +242,31 @@ label values m1_complete modcomplete
 	 99 "Refused"
 	 
      * Label values for variables with Likert values 
-	   label values q201srhealth q301qualrate q601qoc likert 
-	   label values q605skills q605equip q605respect q605clarity q605involved q605time q605wait q605courtesy q605confidentiality q605privacy q605cost likert
-	   
-	 	 
+	   label values m1_201 m1_301 m1_601 likert 
+	   label values m1_605a m1_605b m1_605c m1_605d m1_605e m1_605f m1_605g m1_605h m1_605i m1_605j m1_605k likert
+	   	 
    * Label Yes/No 
 	 label define YN 1 "Yes" 0 "No" 3 "not applicable" 98 "DK" 99 "RF" 
 	 label define YN2 1 "Yes" 2 "No" 98 "DK" 99 "RF" 
-	 label values  q716nutrition q716exercise q716mental q716itn q716complication YN
-   	 label values q717depression q718diabetes q719hypertension q720cardiac q721mental q722hiv q723meds YN 
-	 label values q813neausea q813heartburn q813cramp q813backpain q813advice YN
-	 label values q904stopkhat q905alcohol q907stopalcohol YN
+	 label values m1_716a m1_716b m1_716c m1_716d m1_716e YN
+   	 label values m1_717 m1_718 m1_719 m1_720 m1_721 m1_722 m1_723 YN 
+	 label values m1_813a m1_813b m1_813c m1_813d m1_813e YN
+	 label values m1_904 m1_905 m1_907 YN
 
 	 	 
 	 * Label values for varaiables with Yes / No responses 
-	 label values q502school q509hiv q509hivtrans q510tb q510tbtrad YN 
-	 label values q204meds YN
-	 label values q203diagnosis YN2
-   	 label values q202diabetes q202hbp q202cardiac q202mental q202hiv q202hepb q202renal YN
-	 label values q724return q724returnwhen q724gynecologist q724mentalhealth q724hospital YN
-	 label values q724urine q724blood q724hiv q724ultrasound YN
-	 label values q724return q724gynecologist q724mentalhealth q724hospital YN
-	 label values q801edd q802lmpknown YN
-	 label values q814headache q814bleeding q814fever q814abpain q814breathing q814convulsions q814fainting q814babynotmoving q814blurvision YN
-	label values q1004stillbirth q1005preterm q1006bloodtrans q10et1congenital q1007cs q1008longlabor q1010onemodeath YN
-	label values q1011pregnancies q1011miscarriage q1011stillbirth q1011preterm q1011cs q1011onemonthdeath YN
-	label values q1101physabuse q1103verbabuse YN
-	label values q1217oop q1218reg q1218meds q1218test q1218transport q1218food q1218other YN
-	label values q1221insurance YN
+	 label values m1_502 m1_509a m1_509b m1_510a m1_510b YN 
+	 label values m1_204 YN
+	 label values m1_203 YN2
+   	 label values m1_202a m1_202b m1_202c m1_202d m1_202e m1_202f m1_202g YN
+	 label values m1_724a m1_724c m1_724d m1_724e m1_724f m1_724g m1_724h m1_724i YN
+	 label values m1_801 m1_802b YN
+	 label values m1_814a m1_814b m1_814c m1_814d m1_814e m1_814f m1_814g m1_814h m1_814i YN
+	 label values m1_1004 m1_1005 m1_1006 m1_eth_1_10 m1_1007 m1_1008 m1_1010 YN
+	 label values m1_1011a m1_1011b m1_1011c m1_1011d m1_1011e m1_1011f YN
+	 label values m1_1101 m1_1103 YN
+	 label values m1_1217 m1_1218a m1_1218b m1_1218c m1_1218d m1_1218e m1_1218f YN
+	 label values m1_1221 YN
 	*label values current_income savings health_insurance sold_items family_members borrowed other YN
 
 	 
@@ -270,32 +275,29 @@ label values m1_complete modcomplete
 	 label define EQ5Dpain 1 "I have no pain" 2 "I have some pain" 3 "I have severe pain" 99 "NR/RF" 
 	 label define EQ5Danxiety 1 "I have no anxiety" 2 "I have some anxiety" 3 "I have severe anxiety" 99 "NR/RF" 
 	 
-	 label values q205mobility q205selfcare q205activities EQ5D
-	 label values q205pain EQ5Dpain
-	 label values q205anxiety EQ5Danxiety
+	 label values m1_205a m1_205b m1_205c EQ5D
+	 label values m1_205d EQ5Dpain
+	 label values m1_205e EQ5Danxiety
 	 
 * QoC labels 
-   label define recommend 1 "Very likely" 2 "Somewhat likely" 3 "Not too likely" 4 "Not at all likely" 99 "NR/RF" 
-   label values q602nps recommend
-   tab q602nps
+	label define recommend 1 "Very likely" 2 "Somewhat likely" 3 "Not too likely" 4 "Not at all likely" 99 "NR/RF" 
+	label values m1_602 recommend
    
-   label define satisfaction 1 "Very satisfied" 2 "Satisfied" 3 "Neither satisfied nor dissatisfied" 4 "Dissatisfied" 5 "Very dissatisfied" 98 "DK" 99 "NR/RF" 
-   label values q1223satisfaction satisfaction
-   tab q1223satisfaction
+	label define satisfaction 1 "Very satisfied" 2 "Satisfied" 3 "Neither satisfied nor dissatisfied" 4 "Dissatisfied" 5 "Very dissatisfied" 98 "DK" 99 "NR/RF" 
+	label values m1_1223 satisfaction
 
-   label define diarrhea  1 "Less than usual" 2 "More than usual" 3 "About the same" 4 "It doesnt matter" 98 "DK" 
-	label values q511diarrhea diarrhea 
+	label define diarrhea  1 "Less than usual" 2 "More than usual" 3 "About the same" 4 "It doesnt matter" 98 "DK" 
+	label values m1_511 diarrhea 
 
-	
 	label define smoke 1 "Good" 2 "Harmful" 3 "Doesnt matter" 98 "DK" 
-	label values q512woodburn smoke 
+	label values m1_512 smoke 
 
-		label define hsview 1 "system works pretty well, minor changes" ///
-	                    2 "some good things, but major changes are needed" ///
-						3 "system has so much wrong with it, completely rebuild it" ///
+	label define hsview 1 "System works pretty well, minor changes" ///
+	                    2 "Some good things, but major changes are needed" ///
+						3 "System has so much wrong with it, completely rebuild it" ///
 						98 "DK" ///
 						99 "RF" 
-	label values q302overallview hsview
+	label values m1_302 hsview
 	
 	label define confidence 1 "Very confident" ///
 	                        2 "Somewhat confident" ///
@@ -303,87 +305,79 @@ label values m1_complete modcomplete
 							4 "Not at all confident" ///
 							98 "DK" ///
 							99 "NR/RF"
-	label values q303confidentcare q304confidentafford q305confidentresp q305confidenttellprov confidence 
+	label values m1_303 m1_304 m1_305a m1_305b confidence 
 
 	label define travel_mode 1 "Walking" 2 "Bicycle" 3 "Motorcycle" 4 "Car (personal or borrowed)" 5 "Bus/train/other public transportation" 6 "Mule/horse/donkey" 7 "Bajaj" 96 "Other (specify)" 98 "DK" 99 "NR/RF" 
-	
-	label values q401travel travel_mode
+	label values m1_401 travel_mode
 
 	label define bypass 1 "Yes, its the nearest" 2 "No, theres another one closer" 98 "DK" 99 "NR/RF" 
-	label values q404nearest bypass 
-
+	label values m1_404 bypass 
 	
-	label values q700bp q701weight q702height q703muac q704babyrate q705urine q706blooddrop q706blooddraw YN
-	label values q712ultrasound YN
-	label values q708hiv q710syphilis q711bloodsugar q712ultrasound YN
+	label values m1_700 m1_701 m1_702 m1_703 m1_704 m1_705 m1_706 m1_707 YN
+	label values m1_712 YN
+	label values m1_708a m1_708c m1_708d m1_708e m1_708f m1_710a m1_711a m1_712 YN
 	
     label define yesnona 1 "Yes" 0 "No" 2 "Not applicable" 98 "DK" 99 "RF" 
 	
-	label values q704babyrate yesnona
+	label values m1_704 yesnona
 	
-	
-		label define test_result 1 "Positive" 2 "Negative" 98 "DK" 99 "RF" 
-	label values q708hivresult test_result
-	label values q710syphilisresult test_result
+	label define test_result 1 "Positive" 2 "Negative" 98 "DK" 99 "RF" 
+	label values m1_708b test_result
+	label values m1_710b test_result
 	label define bdsugartest 1 "Blood sugar was high/elevated" 2 "Blood sugar was normal" 98 "DK" 99 "NR/RF"
-	label values q711bloodsugarresult bdsugartest
-
-	label values q708hiv YN 
-    label values q711bloodsugar YN
-    label values q710syphilis q710syphilismed YN
-	label values q708hivmed q708hivmedex q708hivload q708hivcd4 q709hivload q709hivdc4 YN
-    label values q714tt q714ttbefore YN 
-	
+	label values m1_711b bdsugartest
+	label values m1_708a YN 
+    label values m1_711a YN
+    label values m1_710a q710syphilismed YN
+	label values m1_708a m1_708c m1_708d m1_708e m1_708f m1_709a m1_709b YN
+    label values m1_714a m1_714b YN 
 	
 	label define meds 1 "Provider gave it directly" 2 "Prescription, told to get it somewhere else" 3 "Neither" 98 "DK" 99 "NR/RF" 
-	
-	label values q713fefa q713capill q713foodsupp q713intworm q713malaria q713nerves q713multivit q713hypertension q713diabetes meds
-
+	label values m1_713a m1_713b m1_713c m1_713d m1_713e m1_713f m1_713g m1_713h m1_713i meds
 
 	label define itn 1 "Yes" 0 "No" 2 "Already have one"
-	label values q715itn itn
+	label values m1_715 itn
 
 	label define trimester 1 "First trimester" 2 "Second trimester" 3 "Third trimester" 98 "Unknown" 
 	label define numbabies 1 "One baby" 2 "Two babies (twins)" 3 "Three or more babies (triplets or higher)" 98 "DK" 99 "NR/RF"
-	label values q805numbbabies numbabies 
-	label values q806asklmp q807desired q809birthplan q811mwh q812toldcs YN
-	label define q810planbirthloc 1 "In your home" 2 "Someone elses home" 3 "Government hospital" 4 "Government health center" 5 "Government health post" 6 "NGO or faith-based health facility" 7 "Private hospital" 8 "Private specialty maternity center" 9 "Private specialty maternity clinic" 10 "Private clinic" 11 "Another private medical facility (including pharmacy, shop, traditional healer)" 98 "DK" 99 "NR/RF" 
+	label values m1_805 numbabies 
+	label values m1_806 m1_807 m1_809 m1_811 m1_812a YN
+	label define m1_810a 1 "In your home" 2 "Someone elses home" 3 "Government hospital" 4 "Government health center" 5 "Government health post" 6 "NGO or faith-based health facility" 7 "Private hospital" 8 "Private specialty maternity center" 9 "Private specialty maternity clinic" 10 "Private clinic" 11 "Another private medical facility (including pharmacy, shop, traditional healer)" 98 "DK" 99 "NR/RF" 
 	
-	label values q810planbirthloc q810planbirthloc
+	label values m1_810a m1_810a
 
 	label define smokeamt 1 "Every day" 2 "Some days" 3 "Not at all" 98 "DK" 99 "NR/RF" 
 		
-	label values q901smoke q903khat smokeamt
+	label values m1_901 m1_903 smokeamt
 
 	label define water_source 1 "Piped water" 2 "Water from open well" 3 "Water from covered well or borehole" 4 "Surface water" 5 "Rain water" 6 "Bottled water" 96 "Other (specify)" 98 "DK" 99 "NR/RF" 
 	
-	label values q1201water water_source
+	label values m1_1201 water_source
 	
 	label define toilet 1 "Flush or pour flush toilet" 2 "Pit toilet/latrine" 3 "No facility" 96 "Other (specify)" 98 "DK" 99 "NR/RF" 
 	
-	label values q1202toilet toilet
+	label values m1_1202 toilet
 	
-	label values q1203electricity q1204radio q1205tv q1206telephone q1207fridge YN
+	label values m1_1203 m1_1204 m1_1205 m1_1206 m1_1207 YN
 	
 	label define cook_fuel 1 "Main electricity" 2 "Bottled gas" 3 "Paraffin/kerosene" 4 "Coal/Charcoal" 5 "Firewood" 6 "Dung" 7 "Crop residuals" 8 "Solar" 96 "Other (specify)" 98 "DK" 99 "NR/RF" 
-	label values q1208cookfuel cook_fuel
-	
+	label values m1_1208 cook_fuel
 	
 	label define floor 1 "Natural floor (earth, dung)" 2 "Rudimentary floor (wood planks, palm)" 3 "Finished floor (polished wood, tiles, cement, vinyl)" 96 "Other (specify)" 98 "DK" 99 "NR/RF"
 	
-	label values q1209floor floor 
+	label values m1_1209 floor 
 	
 	label define walls 1 "Grass" 2 "Poles and mud" 3 "Sun-dried bricks" 4 "Baked bricks" 5 "Timber" 6 "Cement bricks" 7 "Stones" 8 "Corrugated iron" 96 "Other (specify)" 98 "DK" 99 "NR/RF"
 	
-	label values q1210walls walls
+	label values m1_1210 walls
 
 	label define roof 1 "No roof" 2 "Grass/leaves/mud" 3 "Iron sheets" 4 "Tiles" 5 "Concrete" 96 "Other (specify)" 98 "DK" 99 "NR/RF" 
-	label values q1211roof roof
+	label values m1_1211 roof
 	
-	label values q1212bicycle q1213motocycle q1214car q1215bankacct YN
+	label values m1_1212 m1_1213 m1_1214 m1_1215 YN
 
 	label define insurance_type 1 "Community based health insurance" 2 "Employer-provided health insurance (reimbursement)" 3 "Private health insurance" 96 "Other (specify)" 98 "DK" 99 "NR/RF"
-	label values q1221insurancetype insurance_type
+	label values m1_1221 insurance_type
 	
 	** MODULE 2:
 	label define m2_attempt_outcome 1 "Answered the phone, correct respondent (Start survey)" 2 "Answered but not by the respondent (Go to A4)" 3 "No answer (rings but not response or line was busy)" 4 "Number does not work (does not ring/connect to a phone)" 5 "Phone was switched off"
@@ -875,17 +869,12 @@ label values m2_complete m2_complete
 
 	
 *STEP FOUR: RECODING MISSING VALUES 
+	* Recode refused and don't know values
 	* Note: .a means NA, .r means refused, .d is don't know, . is missing 
 	* Need to figure out a way to clean up string "text" only vars (ex. 803)
 
-* Recode refused and don't know values  
-* Kate: should we rename "q706blooddraw" = "q707blooddraw"? Also, "q813neausea" spelling needs to be fixed
-
 	** MODULE 1:
-	recode mobile_phone q201srhealth q202diabetes q202hbp q202cardiac q202mental q202hiv q202hepb q202renal q204meds q205mobility q205selfcare q205activities q205pain q205anxiety phq9a phq9b phq9c phq9d phq9e phq9f phq9g phq9h phq9i q301qualrate  q302overallview q303confidentcare q304confidentafford q305confidentresp q305confidenttellprov q401travel q403knowdist q403distance q404nearest q405reason q501language q503level q504literate q505marriage q506occupation q507religion q601qoc q602nps q605skills q605equip q605respect q605clarity q605involved q605time q605wait q605courtesy q605confidentiality q605privacy q605cost q700bp q701weight q702height q703muac q704babyrate q705urine q706blooddrop q706blooddraw q708hiv q708hivresult q708hivmed q708hivmedex q708hivload q708hivcd4 q709hivload q709hivdc4 q710syphilis q710syphilisresult q710syphilismed q711bloodsugar q711bloodsugarresult q712ultrasound q713fefa q713capill q713foodsupp q713intworm q713malaria q713nerves q713multivit q713hypertension q713diabetes q714tt q714ttbefore q716nutrition q716exercise q716mental q716itn q716complication q717depression q718diabetes q719hypertension q720cardiac q721mental q722hiv q723meds q724return q724gynecologist q724hospital q724urine q724blood q724hiv q724ultrasound q724mentalhealth q801edd q805numbbabies q806asklmp q810planbirthloc why_you_might_need_c_section_812 q813neausea q813heartburn q813cramp q813backpain q813advice q813preeclamp q813hypgrav q813anemia q813amniotic q813asthma q813rhiso q813problem q813adviceb q814headache q814bleeding q814fever q814abpain q814breathing q814convulsions q814fainting q814babynotmoving q814blurvision q816complication q901smoke q902stopsmoke q903khat q904stopkhat q905alcohol q907stopalcohol q1004stillbirth q1005preterm q1006bloodtrans q1007cs q1008longlabor q1010onemodeath q1011pregnancies q1011miscarriage q1011stillbirth q1011preterm q1011cs q1101physabuse  q1103verbabuse q1105providerdiscuss q1201water q1202toilet q1203electricity q1204radio q1205tv q1206telephone q1207fridge q1208cookfuel q1209floor q1210walls q1211roof q1212bicycle q1213motocycle q1214car q1215bankacct q1216knowmeals q1216meals q1217oop q1218reg q1218meds q1218test q1218transport q1218food q1218other q1221insurance q1221insurancetype q1223satisfaction q714ttnumber (99 = .r)
-
-*is this duplicated? 
-*recode mobile_phone q201srhealth q202diabetes q202hbp q202cardiac q202mental q202hiv q202hepb q202renal q204meds q205mobility q205selfcare q205activities q205pain q205anxiety phq9a phq9b phq9c phq9d phq9e phq9f phq9g phq9h phq9i q301qualrate  q302overallview q303confidentcare q304confidentafford q305confidentresp q305confidenttellprov q401travel q403knowdist q403distance q404nearest q405reason q501language q503level q504literate q505marriage q506occupation q507religion q601qoc q602nps q605skills q605equip q605respect q605clarity q605involved q605time q605wait q605courtesy q605confidentiality q605privacy q605cost q700bp q701weight q702height q703muac q704babyrate q705urine q706blooddrop q706blooddraw q708hiv q708hivresult q708hivmed q708hivmedex q708hivload q708hivcd4 q709hivload q709hivdc4 q710syphilis q710syphilisresult q710syphilismed q711bloodsugar q711bloodsugarresult q712ultrasound q713fefa q713capill q713foodsupp q713intworm q713malaria q713nerves q713multivit q713hypertension q713diabetes q714tt q714ttbefore q716nutrition q716exercise q716mental q716itn q716complication q717depression q718diabetes q719hypertension q720cardiac q721mental q722hiv q723meds q724return q724gynecologist q724hospital q724urine q724blood q724hiv q724ultrasound q724mentalhealth q801edd q805numbbabies q806asklmp q810planbirthloc why_you_might_need_c_section_812 q813neausea q813heartburn q813cramp q813backpain q813advice q813preeclamp q813hypgrav q813anemia q813amniotic q813asthma q813rhiso q813problem q813adviceb q814headache q814bleeding q814fever q814abpain q814breathing q814convulsions q814fainting q814babynotmoving q814blurvision q816complication q901smoke q902stopsmoke q903khat q904stopkhat q905alcohol q907stopalcohol q1004stillbirth q1005preterm q1006bloodtrans q1007cs q1008longlabor q1010onemodeath q1011pregnancies q1011miscarriage q1011stillbirth q1011preterm q1011cs q1101physabuse  q1103verbabuse q1105providerdiscuss q1201water q1202toilet q1203electricity q1204radio q1205tv q1206telephone q1207fridge q1208cookfuel q1209floor q1210walls q1211roof q1212bicycle q1213motocycle q1214car q1215bankacct q1216knowmeals q1216meals q1217oop q1218reg q1218meds q1218test q1218transport q1218food q1218other q1221insurance q1221insurancetype q1223satisfaction q714ttnumber (99 = .r)
+	recode mobile_phone m1_201 m1_202a m1_202b m1_202c m1_202d m1_202e m1_202f m1_202g q204meds q205mobility q205selfcare q205activities q205pain q205anxiety phq9a phq9b phq9c phq9d phq9e phq9f phq9g phq9h phq9i q301qualrate  q302overallview q303confidentcare q304confidentafford q305confidentresp q305confidenttellprov q401travel q403knowdist q403distance q404nearest q405reason q501language q503level q504literate q505marriage q506occupation q507religion q601qoc q602nps q605skills q605equip q605respect q605clarity q605involved q605time q605wait q605courtesy q605confidentiality q605privacy q605cost q700bp q701weight q702height q703muac q704babyrate q705urine q706blooddrop q706blooddraw q708hiv q708hivresult q708hivmed q708hivmedex q708hivload q708hivcd4 q709hivload q709hivdc4 q710syphilis q710syphilisresult q710syphilismed q711bloodsugar q711bloodsugarresult q712ultrasound q713fefa q713capill q713foodsupp q713intworm q713malaria q713nerves q713multivit q713hypertension q713diabetes q714tt q714ttbefore q716nutrition q716exercise q716mental q716itn q716complication q717depression q718diabetes q719hypertension q720cardiac q721mental q722hiv q723meds q724return q724gynecologist q724hospital q724urine q724blood q724hiv q724ultrasound q724mentalhealth q801edd q805numbbabies q806asklmp q810planbirthloc why_you_might_need_c_section_812 q813neausea q813heartburn q813cramp q813backpain q813advice q813preeclamp q813hypgrav q813anemia q813amniotic q813asthma q813rhiso q813problem q813adviceb q814headache q814bleeding q814fever q814abpain q814breathing q814convulsions q814fainting q814babynotmoving q814blurvision q816complication q901smoke q902stopsmoke q903khat q904stopkhat q905alcohol q907stopalcohol q1004stillbirth q1005preterm q1006bloodtrans q1007cs q1008longlabor q1010onemodeath q1011pregnancies q1011miscarriage q1011stillbirth q1011preterm q1011cs q1101physabuse  q1103verbabuse q1105providerdiscuss q1201water q1202toilet q1203electricity q1204radio q1205tv q1206telephone q1207fridge q1208cookfuel q1209floor q1210walls q1211roof q1212bicycle q1213motocycle q1214car q1215bankacct q1216knowmeals q1216meals q1217oop q1218reg q1218meds q1218test q1218transport q1218food q1218other q1221insurance q1221insurancetype q1223satisfaction q714ttnumber (99 = .r)
 
 	recode q401travel q404nearest q501language q506occupation q507religion q509hiv q510tb q511diarrhea q512woodburn q700bp q701weight q702height q703muac q704babyrate q705urine q706blooddrop q706blooddraw q708hiv q708hivresult q708hivmed q708hivmedex q708hivload q708hivcd4 q709hivload q709hivdc4 q710syphilis q710syphilisresult q710syphilismed q711bloodsugar q711bloodsugarresult q712ultrasound q713fefa q713capill q713foodsupp q713intworm q713malaria q713nerves q713multivit q713hypertension q713diabetes q714tt q714ttbefore q716nutrition q716exercise q716mental q716itn q716complication q717depression q718diabetes q719hypertension q720cardiac q721mental q722hiv q723meds q724return q724gynecologist q724mentalhealth q724hospital q724urine q724blood q724hiv q724ultrasound q801edd q805numbbabies q806asklmp q807desired q809birthplan q810planbirthloc q810planbirthfac q811mwh q812toldcs q813neausea q813heartburn q813cramp q813backpain q813advice q813preeclamp q813hypgrav q813anemia q813amniotic q813asthma q813rhiso q813problem q813adviceb q814headache q814bleeding q814fever q814abpain q814breathing q814convulsions q814fainting q814babynotmoving q814blurvision q816complication q901smoke q902stopsmoke q903khat q904stopkhat q905alcohol q907stopalcohol q1004stillbirth q1005preterm q1006bloodtrans q10et1congenital q1007cs q1008longlabor q1010onemodeath q1011pregnancies q1011miscarriage q1011stillbirth q1011preterm q1011cs q1011onemonthdeath q1101physabuse q1105providerdiscuss q1201water q1202toilet q1203electricity q1204radio q1205tv q1206telephone q1207fridge q1208cookfuel q1209floor q1210walls q1211roof q1212bicycle q1213motocycle q1214car q1215bankacct q1216knowmeals q1218reg q1218meds q1218test q1218transport q1218food q1218other q1221insurancetype q1223satisfaction q804trimester (98 = .d)
 

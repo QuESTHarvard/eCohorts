@@ -54,8 +54,7 @@ global user "/Users/shs8688"
 	*INDIA:
 	global in_data_final "$user/Dropbox (Harvard University)/SPH-Kruk Team/QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data/India/02 recoded data"
 	
-	
-	
+
 * Path to GitHub folder 
 global github "$user/Documents/GitHub/eCohorts"
 
