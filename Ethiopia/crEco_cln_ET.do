@@ -72,38 +72,38 @@ import delimited using "$data/25July2023.csv", clear
 	rename (how_did_you_travel_401 specify_other_transport_401 how_long_in_hours_or_minut_402 ///
 	        do_you_know_the_distance_403a how_far_403b is_this_the_nearest_health_404 ///
 			what_is_the_most_important_405 specify_other_reason_405) ///
-		   (m1_401 m1_401_other m1_402 q403knowdist q403distance q404nearest q405reason q405other)
+		   (m1_401 m1_401_other m1_402 m1_403a m1_403b m1_404 m1_405 m1_405_other)
 		   
 	rename (what_is_your_first_languag_501 specify_other_language_501 have_you_ever_attend_502 ///
 	        what_is_the_highest_level_503 can_you_read_any_part_504 what_is_your_current_marit_505 ///
 			what_is_your_occupation_506 specify_other_occupation_506 what_is_your_religion_507 ///
 			specify_other_religion_507 how_many_people_508) ///
-			(q501language q501other q502school q503level q504literate q505marriage q506occupation ///
-			q506other q507religion q507other q508support)
+			(m1_501 m1_501_other m1_502 m1_503 m1_504 m1_505 m1_506 ///
+			m1_506_other m1_507 m1_507_other m1_508)
 	
 	rename (have_you_ever_heard_509a do_you_think_that_people_509b a_have_you_ever_heard_510a ///
 	        do_you_think_that_tb_can_510b when_children_have_diarrhe_511 is_smoke_from_a_wood_burni_512) ///
-	       (q509hiv q509hivtrans q510tb q510tbtrad q511diarrhea q512woodburn)
+	       (m1_509a m1_509b m1_510a m1_510b m1_511 m1_512)
 	
 	rename (i_would_like_to_know_how_601 how_likely_are_you_to_reco_602	how_long_in_minutes_did_603 ///
 	        how_long_in_hours_or_minut_604 eth_1_6_1_do_you_know_how_lo eth_1_6_2_how_long_is_your) ///
-			(q601qoc q602nps q603visitlength q604waittime q604knowlab q604labwait) 
+			(m1_601 m1_602 m1_603 m1_604a m1_604b m1_604c) 
 			
 	rename (thinking_about_the_visit_605 thinking_about_the_visit_605b thinking_about_the_visit_605c ///
 	        thinking_about_the_visit_605d thinking_about_the_visit_605e thinking_about_the_visit_605f ///
 			thinking_about_the_visit_605g thinking_about_the_visit_605h thinking_about_the_visit_605i ///
 			thinking_about_the_visit_605j thinking_about_the_visit_605k) ///
-	        (q605skills q605equip q605respect q605clarity q605involved q605time q605wait q605courtesy ///
-			q605confidentiality q605privacy q605cost)
+	        (m1_605a m1_605b m1_605c m1_605d m1_605e m1_605f m1_605g m1_605h ///
+			m1_605i m1_605j m1_605k)
 			
 	rename (measure_your_blood_pressure_700	measure_your_weight_701 measure_your_height_702 ///
 	        measure_your_upper_arm_703 measure_heart_rate_704 take_urine_sample_705 take_blood_drop_706 ///
 			take_blood_draw_707) ///
-		   (q700bp q701weight q702height q703muac q704babyrate q705urine q706blooddrop q706blooddraw)
+		   (m1_700 m1_701 m1_702 m1_703 m1_704 m1_705 m1_706 m1_707)
 		   
-	rename (do_hiv_test_708a	share_hiv_test_result_708b medicine_for_hiv_708c explain_medicine_usage_708d do_hiv_viral_load_test_708e do_cd4_test_708f do_hiv_viral_load_test_709a do_cd4_test_709b m1_710a m1_710b m1_710c m1_711a result_of_blood_sugar_test_711b m1_712) (q708hiv q708hivresult q708hivmed q708hivmedex q708hivload q708hivcd4 q709hivload q709hivdc4 q710syphilis q710syphilisresult q710syphilismed q711bloodsugar q711bloodsugarresult q712ultrasound)
+	rename (do_hiv_test_708a share_hiv_test_result_708b medicine_for_hiv_708c explain_medicine_usage_708d do_hiv_viral_load_test_708e do_cd4_test_708f do_hiv_viral_load_test_709a do_cd4_test_709b result_of_blood_sugar_test_711b) (m1_708a m1_708b m1_708c m1_708d m1_708e m1_708f m1_709a m1_709b m1_711b)
 		
-	rename (how_subscription_for_713a_1 how_do_they_provide_713b_1 how_do_they_provide_713c_1 how_do_they_provide_713d_1 how_do_they_provide_713e_1 how_do_they_provide_713f_1 how_do_they_provide_713g_1 how_do_they_provide_713h_1 how_do_they_provide_713i_1 whare_you_given_injection_714a receive_tetanus_injection_714b nuber_of_tetanus_injection_714c how_many_years_ago_714d  how_many_years_ago_last_714e) (q713fefa q713capill q713foodsupp q713intworm q713malaria q713nerves q713multivit q713hypertension q713diabetes q714tt q714ttbefore q714ttnumber q714ttyears q714ttyears2)
+	rename (how_subscription_for_713a_1 how_do_they_provide_713b_1 how_do_they_provide_713c_1 how_do_they_provide_713d_1 how_do_they_provide_713e_1 how_do_they_provide_713f_1 how_do_they_provide_713g_1 how_do_they_provide_713h_1 how_do_they_provide_713i_1 whare_you_given_injection_714a receive_tetanus_injection_714b nuber_of_tetanus_injection_714c how_many_years_ago_714d  how_many_years_ago_last_714e) (m1_713a m1_713b m1_713c m1_713d m1_713e m1_713f m1_713g m1_713h m1_713i m1_714a m1_714b m1_714c m1_714d m1_714e)
 	
 	rename (provided_with_an_insecticide_715 m1_716a m1_716b m1_716c m1_716d m1_716e discuss_about_feeling_depress_71 discuss_about_diabetes_718 discuss_about_bp_719 discuss_about_cardiac_720 discuss_about_mental_health_721 discuss_about_hiv_722 discus_about_medication_723) (q715itn q716nutrition q716exercise q716mental q716itn q716complication q717depression q718diabetes q719hypertension q720cardiac q721mental q722hiv q723meds)
 	
