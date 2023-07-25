@@ -6,23 +6,13 @@
 *------------------------------------------------------------------------------*
 
 * Import Data 
-
-*global user "/Users/katewright/Dropbox (Harvard University)/"
-global user "/Users/shs8688/Dropbox (Harvard University)/"
-
-global data "$user/SPH-Kruk Team/QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/1 Ethiopia/Interim data/Data"
+global data "$et_data/"
 
 clear all 
 set maxvar 15000 
-import delimited using "$data/ET_ECohort_06142023.csv", clear
+import delimited using "$data/25July2023.csv", clear
 
-*These datasets download the entire longitudinal dataset, so we have to drop the 
-*events that we're not interested in. This "baseline_arm_1" pulls baseline data only 
-
-*keep if redcap_event_name=="baseline_arm_1" 
-
-** Delete variables from M3-5 
-drop iic_3-module_5_end_line_facetoface_sur
+*These datasets download the entire longitudinal dataset, so we have to drop the events that we're not interested in. 
 
 *------------------------------------------------------------------------------*
 
