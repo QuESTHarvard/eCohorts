@@ -322,67 +322,62 @@ label values m1_complete modcomplete
 	label values m1_704 yesnona
 	
 	label define test_result 1 "Positive" 2 "Negative" 98 "DK" 99 "RF" 
-	label values q708hivresult test_result
-	label values q710syphilisresult test_result
+	label values m1_708b test_result
+	label values m1_710b test_result
 	label define bdsugartest 1 "Blood sugar was high/elevated" 2 "Blood sugar was normal" 98 "DK" 99 "NR/RF"
-	label values q711bloodsugarresult bdsugartest
-
-	label values q708hiv YN 
-    label values q711bloodsugar YN
-    label values q710syphilis q710syphilismed YN
-	label values q708hivmed q708hivmedex q708hivload q708hivcd4 q709hivload q709hivdc4 YN
-    label values q714tt q714ttbefore YN 
-	
+	label values m1_711b bdsugartest
+	label values m1_708a YN 
+    label values m1_711a YN
+    label values m1_710a q710syphilismed YN
+	label values m1_708a m1_708c m1_708d m1_708e m1_708f m1_709a m1_709b YN
+    label values m1_714a m1_714b YN 
 	
 	label define meds 1 "Provider gave it directly" 2 "Prescription, told to get it somewhere else" 3 "Neither" 98 "DK" 99 "NR/RF" 
-	
-	label values q713fefa q713capill q713foodsupp q713intworm q713malaria q713nerves q713multivit q713hypertension q713diabetes meds
-
+	label values m1_713a m1_713b m1_713c m1_713d m1_713e m1_713f m1_713g m1_713h m1_713i meds
 
 	label define itn 1 "Yes" 0 "No" 2 "Already have one"
-	label values q715itn itn
+	label values m1_715 itn
 
 	label define trimester 1 "First trimester" 2 "Second trimester" 3 "Third trimester" 98 "Unknown" 
 	label define numbabies 1 "One baby" 2 "Two babies (twins)" 3 "Three or more babies (triplets or higher)" 98 "DK" 99 "NR/RF"
-	label values q805numbbabies numbabies 
-	label values q806asklmp q807desired q809birthplan q811mwh q812toldcs YN
-	label define q810planbirthloc 1 "In your home" 2 "Someone elses home" 3 "Government hospital" 4 "Government health center" 5 "Government health post" 6 "NGO or faith-based health facility" 7 "Private hospital" 8 "Private specialty maternity center" 9 "Private specialty maternity clinic" 10 "Private clinic" 11 "Another private medical facility (including pharmacy, shop, traditional healer)" 98 "DK" 99 "NR/RF" 
+	label values m1_805 numbabies 
+	label values m1_806 m1_807 m1_809 m1_811 m1_812a YN
+	label define m1_810a 1 "In your home" 2 "Someone elses home" 3 "Government hospital" 4 "Government health center" 5 "Government health post" 6 "NGO or faith-based health facility" 7 "Private hospital" 8 "Private specialty maternity center" 9 "Private specialty maternity clinic" 10 "Private clinic" 11 "Another private medical facility (including pharmacy, shop, traditional healer)" 98 "DK" 99 "NR/RF" 
 	
-	label values q810planbirthloc q810planbirthloc
+	label values m1_810a m1_810a
 
 	label define smokeamt 1 "Every day" 2 "Some days" 3 "Not at all" 98 "DK" 99 "NR/RF" 
 		
-	label values q901smoke q903khat smokeamt
+	label values m1_901 m1_903 smokeamt
 
 	label define water_source 1 "Piped water" 2 "Water from open well" 3 "Water from covered well or borehole" 4 "Surface water" 5 "Rain water" 6 "Bottled water" 96 "Other (specify)" 98 "DK" 99 "NR/RF" 
 	
-	label values q1201water water_source
+	label values m1_1201 water_source
 	
 	label define toilet 1 "Flush or pour flush toilet" 2 "Pit toilet/latrine" 3 "No facility" 96 "Other (specify)" 98 "DK" 99 "NR/RF" 
 	
-	label values q1202toilet toilet
+	label values m1_1202 toilet
 	
-	label values q1203electricity q1204radio q1205tv q1206telephone q1207fridge YN
+	label values m1_1203 m1_1204 m1_1205 m1_1206 m1_1207 YN
 	
 	label define cook_fuel 1 "Main electricity" 2 "Bottled gas" 3 "Paraffin/kerosene" 4 "Coal/Charcoal" 5 "Firewood" 6 "Dung" 7 "Crop residuals" 8 "Solar" 96 "Other (specify)" 98 "DK" 99 "NR/RF" 
-	label values q1208cookfuel cook_fuel
-	
+	label values m1_1208 cook_fuel
 	
 	label define floor 1 "Natural floor (earth, dung)" 2 "Rudimentary floor (wood planks, palm)" 3 "Finished floor (polished wood, tiles, cement, vinyl)" 96 "Other (specify)" 98 "DK" 99 "NR/RF"
 	
-	label values q1209floor floor 
+	label values m1_1209 floor 
 	
 	label define walls 1 "Grass" 2 "Poles and mud" 3 "Sun-dried bricks" 4 "Baked bricks" 5 "Timber" 6 "Cement bricks" 7 "Stones" 8 "Corrugated iron" 96 "Other (specify)" 98 "DK" 99 "NR/RF"
 	
-	label values q1210walls walls
+	label values m1_1210 walls
 
 	label define roof 1 "No roof" 2 "Grass/leaves/mud" 3 "Iron sheets" 4 "Tiles" 5 "Concrete" 96 "Other (specify)" 98 "DK" 99 "NR/RF" 
-	label values q1211roof roof
+	label values m1_1211 roof
 	
-	label values q1212bicycle q1213motocycle q1214car q1215bankacct YN
+	label values m1_1212 m1_1213 m1_1214 m1_1215 YN
 
 	label define insurance_type 1 "Community based health insurance" 2 "Employer-provided health insurance (reimbursement)" 3 "Private health insurance" 96 "Other (specify)" 98 "DK" 99 "NR/RF"
-	label values q1221insurancetype insurance_type
+	label values m1_1221 insurance_type
 	
 	** MODULE 2:
 	label define m2_attempt_outcome 1 "Answered the phone, correct respondent (Start survey)" 2 "Answered but not by the respondent (Go to A4)" 3 "No answer (rings but not response or line was busy)" 4 "Number does not work (does not ring/connect to a phone)" 5 "Phone was switched off"
