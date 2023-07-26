@@ -84,6 +84,21 @@ import delimited using "$data/25July2023.csv", clear
 	rename (have_you_ever_heard_509a do_you_think_that_people_509b a_have_you_ever_heard_510a ///
 	        do_you_think_that_tb_can_510b when_children_have_diarrhe_511 is_smoke_from_a_wood_burni_512) ///
 	       (m1_509a m1_509b m1_510a m1_510b m1_511 m1_512)
+		   
+	rename (what_phone_numbers_513a___1 what_phone_numbers_513a___2 what_phone_numbers_513a___3  ///
+		   what_phone_numbers_513a___4 what_phone_numbers_513a___5 what_phone_numbers_513a___6 ///
+		   what_phone_numbers_513a___7 what_phone_numbers_513a___8) (m1_513a_1 m1_513a_2 m1_513a_3 ///
+		   m1_513a_4 m1_513a_5 m1_513a_6 m1_513a_7 m1_513a_8)
+	
+	rename (primary_phone_number_513b can_i_flash_this_number_513c secondary_personal_phone_513d ///
+		   spouse_or_partner_513e community_health_worker_513f close_friend_or_family_513g ///
+		   close_friend_or_family_513h other_phone_number_513i we_can_give_you_a_mobile_phone_5) ///
+		   (m1_513b m1_513c m1_513d m1_513e m1_513f m1_513g m1_513h m1_513i m1_514a)
+	
+	rename (mobile_phone_number_514b where_is_your_town_515a where_is_your_zone_515b where_is_your_kebele_515c  ///
+		    what_is_your_house_num_515d could_you_please_describe_516 is_this_a_temporary_reside_517 until_when_will_you_be_at_518  ///
+			where_will_your_district_519a where_will_your_kebele_519b where_will_your_village_519c) (m1_514b m1_515a m1_515b m1_515c ///
+			m1_515d m1_516 m1_517 m1_518 m1_519a m1_519b m1_519c)
 	
 	rename (i_would_like_to_know_how_601 how_likely_are_you_to_reco_602	how_long_in_minutes_did_603 ///
 	        how_long_in_hours_or_minut_604 eth_1_6_1_do_you_know_how_lo eth_1_6_2_how_long_is_your) ///
@@ -148,6 +163,7 @@ import delimited using "$data/25July2023.csv", clear
 	rename (eth_1_13_muac_safartuu_naa hemoglobin_level_from_test) (m1_eth_1_13 m1_1309)
 	
 	rename (interview_end_time total_duration_of_intervie module_1_baseline_face_to_face_e) (m1_end_time interview_length m1_complete)
+	
 	
 * MODULE 2:
 	
@@ -236,6 +252,12 @@ label values b7eligible eligconsent
 label define modcomplete 0 "Incomplete" 1 "Unverified" 2 "Complete" 
 label values m1_complete modcomplete
 
+ladel define flash 1 "Flash successful" 2 "Unsuccessful, reenter phone number" 3 "Respondent did not give permission for flash"
+label values m1_513c flash
+
+label define residence 1 "Temporary" 2 "Permanent"
+label define m1_517 residence
+
    ** Repeated Data Value Labels 
    * Label likert scales 
      label define likert 1 "Excellent" 2 "Very good" 3 "Good" 4 "Fair" 5 "Poor" ///
@@ -255,7 +277,7 @@ label values m1_complete modcomplete
 
 	 	 
 	 * Label values for varaiables with Yes / No responses 
-	 label values m1_502 m1_509a m1_509b m1_510a m1_510b YN 
+	 label values m1_502 m1_509a m1_509b m1_510a m1_510b m1_514a YN 
 	 label values m1_204 YN
 	 label values m1_203 YN2
    	 label values m1_202a m1_202b m1_202c m1_202d m1_202e m1_202f m1_202g YN
@@ -328,7 +350,7 @@ label values m1_complete modcomplete
 	label values m1_711b bdsugartest
 	label values m1_708a YN 
     label values m1_711a YN
-    label values m1_710a q710syphilismed YN
+    label values m1_710a m1_710b YN
 	label values m1_708a m1_708c m1_708d m1_708e m1_708f m1_709a m1_709b YN
     label values m1_714a m1_714b YN 
 	
@@ -874,7 +896,7 @@ label values m2_complete m2_complete
 	* Need to figure out a way to clean up string "text" only vars (ex. 803)
 
 	** MODULE 1:
-	recode mobile_phone m1_201 m1_202a m1_202b m1_202c m1_202d m1_202e m1_202f m1_202g q204meds q205mobility q205selfcare q205activities q205pain q205anxiety phq9a phq9b phq9c phq9d phq9e phq9f phq9g phq9h phq9i q301qualrate  q302overallview q303confidentcare q304confidentafford q305confidentresp q305confidenttellprov q401travel q403knowdist q403distance q404nearest q405reason q501language q503level q504literate q505marriage q506occupation q507religion q601qoc q602nps q605skills q605equip q605respect q605clarity q605involved q605time q605wait q605courtesy q605confidentiality q605privacy q605cost q700bp q701weight q702height q703muac q704babyrate q705urine q706blooddrop q706blooddraw q708hiv q708hivresult q708hivmed q708hivmedex q708hivload q708hivcd4 q709hivload q709hivdc4 q710syphilis q710syphilisresult q710syphilismed q711bloodsugar q711bloodsugarresult q712ultrasound q713fefa q713capill q713foodsupp q713intworm q713malaria q713nerves q713multivit q713hypertension q713diabetes q714tt q714ttbefore q716nutrition q716exercise q716mental q716itn q716complication q717depression q718diabetes q719hypertension q720cardiac q721mental q722hiv q723meds q724return q724gynecologist q724hospital q724urine q724blood q724hiv q724ultrasound q724mentalhealth q801edd q805numbbabies q806asklmp q810planbirthloc why_you_might_need_c_section_812 q813neausea q813heartburn q813cramp q813backpain q813advice q813preeclamp q813hypgrav q813anemia q813amniotic q813asthma q813rhiso q813problem q813adviceb q814headache q814bleeding q814fever q814abpain q814breathing q814convulsions q814fainting q814babynotmoving q814blurvision q816complication q901smoke q902stopsmoke q903khat q904stopkhat q905alcohol q907stopalcohol q1004stillbirth q1005preterm q1006bloodtrans q1007cs q1008longlabor q1010onemodeath q1011pregnancies q1011miscarriage q1011stillbirth q1011preterm q1011cs q1101physabuse  q1103verbabuse q1105providerdiscuss q1201water q1202toilet q1203electricity q1204radio q1205tv q1206telephone q1207fridge q1208cookfuel q1209floor q1210walls q1211roof q1212bicycle q1213motocycle q1214car q1215bankacct q1216knowmeals q1216meals q1217oop q1218reg q1218meds q1218test q1218transport q1218food q1218other q1221insurance q1221insurancetype q1223satisfaction q714ttnumber (99 = .r)
+	recode mobile_phone kebele_malaria kebele_intworm m1_201 m1_202a m1_202b m1_202c m1_202d m1_202e m1_202f m1_202g m1_204 m1_205a m1_205b m1_205c m1_205d m1_205e phq9a phq9b phq9c phq9d phq9e phq9f phq9g phq9h phq9i m1_301 m1_302 m1_303 m1_304 m1_305a m1_305b m1_401 m1_403a m1_403b m1_404 m1_405 m1_501 m1_501 m1_504 m1_505 m1_506 m1_507 m1_601 m1_602 m1_605a m1_605b m1_605c m1_605d m1_605e m1_605f m1_605g m1_605h m1_605i m1_605j m1_605k m1_700 m1_701 m1_702 m1_703 m1_704 m1_705 m1_706 m1_707 m1_708a m1_708b m1_708c m1_708d m1_708e m1_708f m1_709a m1_709b m1_710a m1_710b m1_710c m1_711a m1_711b m1_712 m1_713a m1_713b m1_713c m1_713d m1_713e m1_713f m1_713g m1_713h m1_713i m1_714a m1_714b m1_716a m1_716b m1_716c m1_716d m1_716e m1_717 m1_718 m1_719 m1_720 m1_721 m1_722 m1_723 m1_724a m1_724c m1_724d m1_724e m1_724f m1_724g m1_724h m1_724i m1_801 m1_805 m1_806 m1_810a m1_810b m1_813a m1_813b m1_813c m1_813d m1_813e m1_eth_1_8a m1_eth_1_8b m1_eth_1_8c m1_eth_1_8d m1_eth_1_8e m1_eth_1_8f m1_eth_1_8g m1_814a m1_814b m1_814c m1_814d m1_814e m1_814f m1_814g m1_814h m1_814i m1_816 m1_901 m1_902 m1_903 m1_904 m1_905 m1_907 m1_1004 m1_1005 m1_1006 m1_1007 m1_1008 m1_1010 m1_1011a m1_1011b m1_1011c m1_1011d m1_1011e m1_1011f m1_1101 m1_1103 m1_1105 m1_1201 m1_1202 m1_1203 m1_1204 m1_1205 m1_1206 m1_1207 m1_1208 m1_1209 m1_1210 m1_1211 m1_1212 m1_1213 m1_1214 m1_1215 m1_1216 m1_1217 m1_1221 m1_1222 m1_1223 q714ttnumber (99 = .r)
 
 	recode q401travel q404nearest q501language q506occupation q507religion q509hiv q510tb q511diarrhea q512woodburn q700bp q701weight q702height q703muac q704babyrate q705urine q706blooddrop q706blooddraw q708hiv q708hivresult q708hivmed q708hivmedex q708hivload q708hivcd4 q709hivload q709hivdc4 q710syphilis q710syphilisresult q710syphilismed q711bloodsugar q711bloodsugarresult q712ultrasound q713fefa q713capill q713foodsupp q713intworm q713malaria q713nerves q713multivit q713hypertension q713diabetes q714tt q714ttbefore q716nutrition q716exercise q716mental q716itn q716complication q717depression q718diabetes q719hypertension q720cardiac q721mental q722hiv q723meds q724return q724gynecologist q724mentalhealth q724hospital q724urine q724blood q724hiv q724ultrasound q801edd q805numbbabies q806asklmp q807desired q809birthplan q810planbirthloc q810planbirthfac q811mwh q812toldcs q813neausea q813heartburn q813cramp q813backpain q813advice q813preeclamp q813hypgrav q813anemia q813amniotic q813asthma q813rhiso q813problem q813adviceb q814headache q814bleeding q814fever q814abpain q814breathing q814convulsions q814fainting q814babynotmoving q814blurvision q816complication q901smoke q902stopsmoke q903khat q904stopkhat q905alcohol q907stopalcohol q1004stillbirth q1005preterm q1006bloodtrans q10et1congenital q1007cs q1008longlabor q1010onemodeath q1011pregnancies q1011miscarriage q1011stillbirth q1011preterm q1011cs q1011onemonthdeath q1101physabuse q1105providerdiscuss q1201water q1202toilet q1203electricity q1204radio q1205tv q1206telephone q1207fridge q1208cookfuel q1209floor q1210walls q1211roof q1212bicycle q1213motocycle q1214car q1215bankacct q1216knowmeals q1218reg q1218meds q1218test q1218transport q1218food q1218other q1221insurancetype q1223satisfaction q804trimester (98 = .d)
 
