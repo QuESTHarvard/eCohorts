@@ -918,12 +918,11 @@ recode b6anc_first (. = .a) if b5anc== 2
 recode b6anc_first_conf (.a = .a) if b5anc== 2
 recode continuecare (. = .a) if b6anc_first_conf ==2 
 recode flash (. = .a) if mobile_phone == 0 | mobile_phone == 99 | mobile_phone == .
-recode q503level (. = .a) if q502school	== 0 | q502school == .
-recode q504literate (. = .a) if q502school	== 0 | q503level == 1
-
-recode q509hivtrans (. = .a) if q509hiv == 0
-recode q510tbtrad (. = .a) if q510tb == 0
-recode primary_phone_number_513b can_i_flash_this_number_513c (. = .a) if what_phone_numbers_513a___1 == 0 | what_phone_numbers_513a___2 == 1 | what_phone_numbers_513a___3 == 1 | ///
+recode m1_503 (. = .a) if m1_502 == 0 | m1_502 == .
+recode m1_504 (. = .a) if m1_502 == 0 | m1_503 == 1
+recode m1_509b (. = .a) if m1_509a == 0
+recode m1_510b (. = .a) if m1_510a == 0
+recode m1_513b can_i_flash_this_number_513c (. = .a) if what_phone_numbers_513a___1 == 0 | what_phone_numbers_513a___2 == 1 | what_phone_numbers_513a___3 == 1 | ///
 																		  what_phone_numbers_513a___4 == 1 | what_phone_numbers_513a___5 == 1 | what_phone_numbers_513a___6 == 1 | ///
 																		  what_phone_numbers_513a___7 == 1 | what_phone_numbers_513a___8 == 1 
 
