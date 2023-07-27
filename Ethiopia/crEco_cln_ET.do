@@ -39,8 +39,11 @@ import delimited using "$data/25July2023.csv", clear
     rename data_collector_confirms_01 b6anc_first_conf
 	rename eth_1_b_do_you_plan_to_con continuecare
 	rename is_the_respondent_eligible b7eligible
+	rename what_is_your_first_name_101 first_name
+	rename what_is_your_family_name_102 family_name
 	rename assign_respondent_id_103 respondentid
 	rename do_you_have_a_mobile_phone mobile_phone
+	rename what_is_your_phone_number phone_number
 	rename can_i_flash_this_mobile_num flash
 	rename is_the_place_kebele_you_eth_1_1 kebele_malaria
 	rename eth_2_1_is_the_place_or_ke kebele_intworm
@@ -917,6 +920,7 @@ recode b6anc_first (. = .a) if b5anc== 2
 recode b6anc_first_conf (.a = .a) if b5anc== 2
 recode continuecare (. = .a) if b6anc_first_conf ==2 
 recode flash (. = .a) if mobile_phone == 0 | mobile_phone == 99 | mobile_phone == .
+recode phone_number (. = .a) if mobile_phone == 0 | mobile_phone == 99 | mobile_phone == .
 recode m1_503 (. = .a) if m1_502 == 0 | m1_502 == .
 recode m1_504 (. = .a) if m1_502 == 0 | m1_503 == 1
 recode m1_509b (. = .a) if m1_509a == 0
@@ -1684,6 +1688,7 @@ lab var woreda_other "A4_Other. Specify other study site"
 lab var facility "A5. Facility name"
 lab var facility_other "A5_Other. Specify other facility name"
 lab var facility_type "A5. Facility type"
+lab var interviewer_name_a7 "A7. Interviewer Name"
 lab var permission "B1. May we have your permission to explain why we are here today, and to ask some questions?"
 lab var care_self "B2. Are you here today to receive care for yourself or someone else?"
 lab var age "B3. How old are you?"
@@ -1693,7 +1698,11 @@ lab var b6anc_first "B6. Is this the first time you've come to a health facility
 lab var b6anc_first_conf "01. Data collector confirms with provider that this is the woman's first visit. Data collector confirms with maternal health card that it is the woman's first visit."
 lab var continuecare "ETH-1-B. Do you plan to continue receiving care for your pregnancy in the East Shewa zone or Adama town?"
 lab var b7eligible "B7. Is the respondent eligible to participate in the study AND signed a consent form?"
-lab var mobile_phone "105. What is your phone number? "
+lab var first_name "101. What is your first name?"
+lab var family_name "102. What is your family name?"
+lab var respondentid "103. Assign respondent ID"
+lab var mobile_phone "104. Do you have a mobile phone with you today?"
+lab var phone_number "105. What is your phone number?"
 lab var flash "106. Can I 'flash' this number now to make sure I have noted it correctly?"
 lab var kebele_malaria "Eth-1-1 Interviewer check whether the area that the woman living is malarias or not? "
 lab var kebele_intworm "Eth-2-1. Interviewer check whether the area that the woman living is endemic for intestinal worm or not?"
