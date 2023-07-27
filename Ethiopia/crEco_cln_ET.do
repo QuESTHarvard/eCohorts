@@ -252,11 +252,11 @@ label values b7eligible eligconsent
 label define modcomplete 0 "Incomplete" 1 "Unverified" 2 "Complete" 
 label values m1_complete modcomplete
 
-ladel define flash 1 "Flash successful" 2 "Unsuccessful, reenter phone number" 3 "Respondent did not give permission for flash"
+label define flash 1 "Flash successful" 2 "Unsuccessful, reenter phone number" 3 "Respondent did not give permission for flash"
 label values m1_513c flash
 
 label define residence 1 "Temporary" 2 "Permanent"
-label define m1_517 residence
+label values m1_517 residence
 
    ** Repeated Data Value Labels 
    * Label likert scales 
@@ -1668,10 +1668,12 @@ recode m2_endstatus (. = .a) if m2_endtime == ""
 					   
 	* STEP FIVE: LABELING VARIABLES (for sumtab command)
 label variable record_id "Record ID"
-label variable redcap_event_name "Event Name"
+label variable event "Event Name"
 label variable redcap_repeat_instrument "Repeat Instrument"
 label variable redcap_repeat_instance "Repeat Instance"
 label variable redcap_data_access_group "Data Access Group"
+label variable study_id "Study ID"
+label variable interviewer_id "Interviewer ID"
 
 	** MODULE 1:		
 
