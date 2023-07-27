@@ -15,12 +15,19 @@ import delimited using "$data/25July2023.csv", clear
 *These datasets download the entire longitudinal dataset, so we have to drop the events that we're not interested in. 
 
 *------------------------------------------------------------------------------*
+	* STEPS: 
+		* STEP ONE: RENAME VARIABLES (starts at: line 29)
+		* STEP TW0: ADD VALUE LABELS (starts at: line 214)
+		* STEP THREE: RECODING MISSING VALUES (starts at: line 903)
+		* STEP FOUR: LABELING VARIABLES (starts at: line 1688)
+		* STEP FIVE: ORDER VARIABLES (starts at: line 2379)
+		* STEP SIX: SAVE DATA
 
-* STEP ONE: change variable names 
-    * this will be done in various steps / sections, because kw needs to see how the data pull into stata \
-	
-	
-* MODULE 1:
+*------------------------------------------------------------------------------*
+
+	* STEP ONE: RENAME VARAIBLES
+    
+	* MODULE 1:
 	
 	rename (record_id redcap_event_name) (record_id event)
 	rename (study_id interviewer_id date_of_interview_m1 time_of_interview_m1) ///
@@ -202,10 +209,10 @@ import delimited using "$data/25July2023.csv", clear
 	
 	rename (specify_other_income_sourc m2_time_it_is_interru at_what_time_it_is_restart time_of_interview_end_103b total_duration_of_interv_103c module_2_phone_surveys_prenatal_)(m2_705_other m2_interupt_time m2_restart_time m2_endtime m2_int_duration m2_complete)
 	
-
-	* STEP TWO: add value labels 
-	** many of these value labels can be found in the "REDCap_STATA.do" file saved in 
-	** the same interim data folder. 
+*===============================================================================
+	
+	* STEP TWO: ADD VALUE LABELS 
+	** many of these value labels can be found in the "REDCap_STATA.do" file that can be downloaded from redcap
 
 	** MODULE 1:
 * Label study site values 
@@ -892,11 +899,12 @@ label values m2_endstatus m2_endstatus
 label define m2_complete 0 "Incomplete" 1 "Unverified" 2 "Complete" 
 label values m2_complete m2_complete
 
-	
-*STEP FOUR: RECODING MISSING VALUES 
-	* Recode refused and don't know values
-	* Note: .a means NA, .r means refused, .d is don't know, . is missing 
-	* Need to figure out a way to clean up string "text" only vars (ex. 803)
+*===============================================================================
+		
+	*STEP THREE: RECODING MISSING VALUES 
+		* Recode refused and don't know values
+		* Note: .a means NA, .r means refused, .d is don't know, . is missing 
+		* Need to figure out a way to clean up string "text" only vars that have numeric entries (ex. 803)
 
 	** MODULE 1:
 	recode mobile_phone kebele_malaria kebele_intworm m1_201 m1_202a m1_202b m1_202c m1_202d m1_202e m1_202f m1_202g m1_203 m1_204 m1_205a m1_205b m1_205c m1_205d m1_205e phq9a phq9b phq9c phq9d phq9e phq9f phq9g phq9h phq9i m1_301 m1_302 m1_303 m1_304 m1_305a m1_305b m1_401 m1_404 m1_405 m1_501 m1_503 m1_504 m1_505 m1_506 m1_507 m1_601 m1_602 m1_605a m1_605b m1_605c m1_605d m1_605e m1_605f m1_605g m1_605h m1_605i m1_605j m1_605k m1_700 m1_701 m1_702 m1_703 m1_704 m1_705 m1_706 m1_707 m1_708a m1_708b m1_708c m1_708d m1_708e m1_708f m1_709a m1_709b m1_710a m1_710b m1_710c m1_711a m1_711b m1_712 m1_713a m1_713b m1_713c m1_713d m1_713e m1_713f m1_713g m1_713h m1_713i m1_714a m1_714b m1_716a m1_716b m1_716c m1_716d m1_716e m1_717 m1_718 m1_719 m1_720 m1_721 m1_722 m1_723 m1_724a m1_724c m1_724d m1_724e m1_724f m1_724g m1_724h m1_724i m1_801 m1_805 m1_806 m1_807 m1_810a m1_810b m1_813a m1_813b m1_813c m1_813d m1_813e m1_eth_1_8a m1_eth_1_8b m1_eth_1_8c m1_eth_1_8d m1_eth_1_8e m1_eth_1_8f m1_eth_1_8g m1_eth_2_8 m1_814a m1_814b m1_814c m1_814d m1_814e m1_814f m1_814g m1_814h m1_814i m1_816 m1_901 m1_902 m1_903 m1_904 m1_905 m1_907 m1_1004 m1_1005 m1_1006 m1_eth_1_10 m1_1007 m1_1008 m1_1010 m1_1011a m1_1011b m1_1011c m1_1011d m1_1011e m1_1011f m1_1101 m1_1103 m1_1105 m1_1201 m1_1202 m1_1203 m1_1204 m1_1205 m1_1206 m1_1207 m1_1208 m1_1209 m1_1210 m1_1211 m1_1212 m1_1213 m1_1214 m1_1215 m1_1216 m1_1217 m1_1221 m1_1222 m1_1223 (99 = .r)
@@ -1333,14 +1341,21 @@ recode maternal_death_reported (. = .a) if m2_permission==0
 
 recode m2_hiv_status (. = .a) if maternal_death_reported == 1 | m1_708b == 1
 
-* SS: Fix
-* recode date_of_maternal_death (. = .a) if maternal_death_reported == 0
+* SS: Fix in redcap? error says recode only allows numeric vars but it works below
+* recode date_of_maternal_death (. = .a) if maternal_death_reported == 0 | ///
+										  *maternal_death_reported == . | ///
+										  *maternal_death_reported == .a
 
 recode maternal_death_learn (. = .a) if maternal_death_reported == 0
 
 recode maternal_death_learn_other (. = .a) if maternal_death_learn == 1 | maternal_death_learn == 2 | maternal_death_learn == 3 | maternal_death_learn == 4
 
 recode m2_201 m2_202 (. = .a) if maternal_death_reported == 2 | maternal_death_reported == 3
+
+* SS: fix
+recode date_of_maternal_death_2 (. = .a) if maternal_death_reported == 0 | ///
+											maternal_death_reported == . | ///
+											maternal_death_reported == .a
 
 recode m2_203a m2_203b m2_203c m2_203d m2_203e ///
 	   m2_203f m2_203g m2_203h m2_203i m2_204a ///
@@ -1669,8 +1684,9 @@ recode m2_int_duration (. = .a) if m2_permission == 0 | m2_permission == . | m2_
 
 recode m2_endstatus (. = .a) if m2_endtime == ""
 
-					   
-	* STEP FIVE: LABELING VARIABLES (for sumtab command)
+*===============================================================================					   
+	
+	* STEP FOUR: LABELING VARIABLES (for sumtab command)
 label variable record_id "Record ID"
 label variable event "Event Name"
 label variable redcap_repeat_instrument "Repeat Instrument"
@@ -2089,7 +2105,8 @@ label variable m2_attempt_contact "CALL TRACKING:   Is this still the best conta
 label variable m2_attempt_bestnumber "CALL TRACKING:  Could you please share the best number to contact [what_is_your_first_name_101] [what_is_your_family_name_102]"
 label variable m2_attempt_goodtime "CALL TRACKING:  Do you know when would be a good time to reach [what_is_your_first_name_101] [what_is_your_family_name_102]?"
 
-label variable m2_start "IIC. May I proceed with the interview? "
+label variable m2_start "IIC. May I proceed with the interview?"
+label variable m2_103 "102. Date of interview (D-M-Y)"
 label variable m2_permission "CR1. Permission granted to conduct call"
 label variable m2_date "102. Date of interview (D-M-Y)"
 label variable m2_time_start "103A. Time of interview started"
@@ -2105,6 +2122,7 @@ label variable m2_201 "201. I would like to start by asking about your health an
 
 label variable m2_202 "202. As you know, this survey is about health care that women receive during pregnancy, delivery and after birth. So that I know that I am asking the right questions, I need to confirm whether you are still pregnant?"
 
+label variable date_of_maternal_death_2 "110. Date of maternal death (D-M-Y)"
 label variable m2_203a "203a. Since you last spoke to us, have you experienced severe or persistent headaches?"
 label variable m2_203b "203b. Since you last spoke to us, have you experienced vaginal bleeding of any amount?"
 label variable m2_203c "203c. Since you last spoke to us, have you experienced fever?"
@@ -2184,9 +2202,8 @@ label variable any_of_the_following_v_28 "310. Was the second consultation is fo
 label variable any_of_the_following_v_29 "310. Was the second consultation is for any of the following? Include all that apply. / ይህ የ2ኛ ክትትል ለየትኛው አገልግሎት ነበር? የሚመለከተውን ሁሉ ይንገሩኝ/ንገሪኝ። / Daawwannaan kun kanneen armaan gadii keessaa tokkoof turee?  (choice=To pick up medicine / መድሀኒት ለመውሰድ / Qoricha fudhachuuf)"
 label variable any_of_the_following_v_30 "310. Was the second consultation is for any of the following? Include all that apply. / ይህ የ2ኛ ክትትል ለየትኛው አገልግሎት ነበር? የሚመለከተውን ሁሉ ይንገሩኝ/ንገሪኝ። / Daawwannaan kun kanneen armaan gadii keessaa tokkoof turee?  (choice=To get a vaccine / ክትባት ለመውሰድ / Talaallii  fudhachuuf)"
 label variable any_of_the_following_v_31 "310. Was the second consultation is for any of the following? Include all that apply. / ይህ የ2ኛ ክትትል ለየትኛው አገልግሎት ነበር? የሚመለከተውን ሁሉ ይንገሩኝ/ንገሪኝ። / Daawwannaan kun kanneen armaan gadii keessaa tokkoof turee?  (choice=Other reasons / ሌላ ምክኒያት / Sababni biraa)"
-label variable m2_310_other "310-oth. Specify other reason for second consultation / ካለ ይጥቀሱ / Ibsii"
 */
-
+label variable m2_310_other "310-oth. Specify other reason for second consultation / ካለ ይጥቀሱ / Ibsii"
 
 label variable m2_311 "311. Was the third consultation is for a routine antenatal care visit?"
 label variable m2_312 "312. Was the third consultation is for a referral from your antenatal care provider?"
@@ -2198,8 +2215,9 @@ label variable any_of_the_following_v_36 "313. Was the third consultation is for
 label variable any_of_the_following_v_37 "313. Was the third consultation is for any of the following? Include all that apply. / ይህ የ3ኛ ክትትል ለየትኛው አገልግሎት ነበር? የሚመለከተውን ሁሉ ይንገሩኝ/ንገሪኝ። / Daawwannaan kun kanneen armaan gadii keessaa tokkoof turee? Kamiif turee? (choice=To pick up medicine / መድሀኒት ለመውሰድ / Qoricha fudhachuuf)"
 label variable any_of_the_following_v_38 "313. Was the third consultation is for any of the following? Include all that apply. / ይህ የ3ኛ ክትትል ለየትኛው አገልግሎት ነበር? የሚመለከተውን ሁሉ ይንገሩኝ/ንገሪኝ። / Daawwannaan kun kanneen armaan gadii keessaa tokkoof turee? Kamiif turee? (choice=To get a vaccine / ክትባት ለመውሰድ / Talaallii  fudhachuuf)"
 label variable any_of_the_following_v_39 "313. Was the third consultation is for any of the following? Include all that apply. / ይህ የ3ኛ ክትትል ለየትኛው አገልግሎት ነበር? የሚመለከተውን ሁሉ ይንገሩኝ/ንገሪኝ። / Daawwannaan kun kanneen armaan gadii keessaa tokkoof turee? Kamiif turee? (choice=Other reasons / ሌላ ምክኒያት / Sababni biraa)"
-label variable m2_313_other "313-oth. Specify any other reason for the third consultation"
 */
+label variable m2_313_other "313-oth. Specify any other reason for the third consultation"
+
 
 label variable m2_314 "314. Was the fourth consultation is for a routine antenatal care visit?"
 label variable m2_315 "315. Was the fourth consultation is for a referral from your antenatal care provider?"
@@ -2225,8 +2243,9 @@ label variable any_of_the_following_v_52 "319. Was the fifth consultation is for
 label variable any_of_the_following_v_53 "319. Was the fifth consultation is for any of the following? Include all that apply. / ይህ የ5ኛ ክትትል ለየትኛው አገልግሎት ነበር? የሚመለከተውን ሁሉ ይንገሩኝ/ንገሪኝ። / Daawwannaan kun kanneen armaan gadii keessaa tokkoof turee? (choice=To pick up medicine / መድሀኒት ለመውሰድ / Qoricha fudhachuuf)"
 label variable any_of_the_following_v_54 "319. Was the fifth consultation is for any of the following? Include all that apply. / ይህ የ5ኛ ክትትል ለየትኛው አገልግሎት ነበር? የሚመለከተውን ሁሉ ይንገሩኝ/ንገሪኝ። / Daawwannaan kun kanneen armaan gadii keessaa tokkoof turee? (choice=To get a vaccine / ክትባት ለመውሰድ / Talaallii  fudhachuuf)"
 label variable any_of_the_following_v_55 "319. Was the fifth consultation is for any of the following? Include all that apply. / ይህ የ5ኛ ክትትል ለየትኛው አገልግሎት ነበር? የሚመለከተውን ሁሉ ይንገሩኝ/ንገሪኝ። / Daawwannaan kun kanneen armaan gadii keessaa tokkoof turee? (choice=Other reasons / ሌላ ምክኒያት / Sababni biraa)"
-label variable m2_319_other "319-oth. Specify other reason for the fifth consultation"
 */
+label variable m2_319_other "319-oth. Specify other reason for the fifth consultation"
+
 
 
 /*
@@ -2328,6 +2347,7 @@ label variable m2_702c "702c. Did you spend money on Transport (round trip) incl
 label variable m2_702c_other "702c-oth. How much money did you spend on Transport (round trip) including that of the person accompanying you?"
 label variable m2_702d "702d. Did you spend money on Food and accommodation including that of person accompanying you?"
 label variable m2_702d_other "702d-oth. How much money did you spend on Food and accommodation including that of person accompanying you?"
+label variable m2_702e "702e. Did you spend money for other services?"
 label variable m2_702e_other "702e-oth. How much money did you spend on other item/service?"
 label variable m2_703 "703. So, in total you spent"
 label variable m2_704 "704. Is the total cost correct?"
@@ -2353,3 +2373,14 @@ label variable m2_endtime "103B. Time of Interview end"
 label variable m2_int_duration "103C. Total Duration of interview (In minutes)"
 label variable m2_endstatus "What is this womens current status at the end of the interview?"
 label variable m2_complete "Complete?"
+
+
+*===============================================================================
+
+	* STEP FIVE: ORDER VARIABLES
+	
+*===============================================================================
+
+	* STEP SIX: SAVE DATA TO RECODED FOLDER
+
+	
