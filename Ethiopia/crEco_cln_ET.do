@@ -903,7 +903,6 @@ label values m2_complete m2_complete
 	** MODULE 2:
 	recode m2_301 m2_203a m2_203b m2_203c m2_203d m2_203e m2_203f m2_203g m2_203h m2_203i m2_204a m2_204b m2_204c m2_204d m2_204e m2_204f m2_204g m2_204h m2_204i m2_205c m2_205d m2_205e m2_205f m2_205g m2_205h m2_205i m2_206 m2_207 m2_208 m2_301 m2_303a m2_303b m2_303c m2_303d m2_303e m2_305 m2_306 m2_308 m2_309 m2_311 m2_312 m2_314 m2_315 m2_317 m2_318 m2_321 m2_401 m2_402 m2_403 m2_404 m2_405 m2_501a m2_501b m2_501c m2_501d m2_501e m2_501f m2_501g m2_502 m2_503a m2_503b m2_503c m2_503d m2_503e m2_503f m2_504 m2_505a m2_505b m2_505c m2_505d m2_505e m2_505f m2_506a m2_506b m2_506c m2_506d m2_507 m2_508a m2_508b_number m2_508c m2_509a m2_509b m2_509c m2_601a m2_601b m2_601c m2_601d m2_601e m2_601f m2_601g m2_601h m2_601i m2_601j m2_601k m2_601l m2_601m m2_601n m2_602a m2_603 m2_604 m2_701 m2_702a m2_702b m2_702c m2_702d m2_702e m2_704 (99 = .r)
 	
-	
 	recode m2_201 m2_203a m2_203b m2_203c m2_203d m2_203e m2_203f m2_203g m2_203h m2_203i m2_204a m2_204b m2_204c m2_204d m2_204e m2_204f m2_204g m2_204h m2_204i m2_206 m2_207 m2_208 m2_301 m2_303a m2_303b m2_303c m2_303d m2_303e m2_305 m2_306 m2_308 m2_309 m2_311 m2_312 m2_314 m2_315 m2_317 m2_318 m2_321 m2_401 m2_402 m2_403 m2_404 m2_405 m2_501a m2_501b m2_501c m2_501d m2_501e m2_501f m2_501g m2_502 m2_503a m2_503b m2_503c m2_503d m2_503e m2_503f m2_504 m2_505a m2_505b m2_505c m2_505d m2_505e m2_505f m2_506a m2_506b m2_506c m2_506d m2_507 m2_508a m2_508b_number m2_508c m2_509a m2_509b m2_509c m2_601a m2_601b m2_601c m2_601d m2_601e m2_601f m2_601g m2_601h m2_601i m2_601j m2_601k m2_601l m2_601m m2_601n m2_602a m2_603 m2_604 m2_701 m2_702a m2_702b m2_702c m2_702d m2_702e m2_704 (98 = .d)
 
 * Recode missing values to NA for questions respondents would not have been asked 
@@ -922,98 +921,84 @@ recode m1_503 (. = .a) if m1_502 == 0 | m1_502 == .
 recode m1_504 (. = .a) if m1_502 == 0 | m1_503 == 1
 recode m1_509b (. = .a) if m1_509a == 0
 recode m1_510b (. = .a) if m1_510a == 0
-recode m1_513b can_i_flash_this_number_513c (. = .a) if what_phone_numbers_513a___1 == 0 | what_phone_numbers_513a___2 == 1 | what_phone_numbers_513a___3 == 1 | ///
-																		  what_phone_numbers_513a___4 == 1 | what_phone_numbers_513a___5 == 1 | what_phone_numbers_513a___6 == 1 | ///
-																		  what_phone_numbers_513a___7 == 1 | what_phone_numbers_513a___8 == 1 
+recode m1_513b m1_513c (. = .a) if m1_513a_1 == 0 | m1_513a_2 == 1 | ///
+	   m1_513a_3 == 1 | m1_513a_4 == 1 | m1_513a_5 == 1 | ///
+	   m1_513a_6 == 1 | m1_513a_7 == 1 | m1_513a_8 == 1 
 
-recode secondary_personal_phone_513d (. = .a) if what_phone_numbers_513a___2 == 0 | what_phone_numbers_513a___1 == 1 | what_phone_numbers_513a___3 == 1 | ///
-											     what_phone_numbers_513a___4 == 1 | what_phone_numbers_513a___5 == 1 | what_phone_numbers_513a___6 == 1 | ///
-												 what_phone_numbers_513a___7 == 1 | what_phone_numbers_513a___8 == 1 											 
+recode m1_513d (. = .a) if m1_513a_2 == 0 | m1_513a_1 == 1 | ///
+	   m1_513a_3 == 1 | m1_513a_4 == 1 | m1_513a_5 == 1 | ///
+	   m1_513a_6 == 1 | m1_513a_7 == 1 | m1_513a_8 == 1 											 
 
-recode spouse_or_partner_513e (. = .a) if what_phone_numbers_513a___3 == 0 | what_phone_numbers_513a___1 == 1 | what_phone_numbers_513a___2 == 1 | ///
-											     what_phone_numbers_513a___4 == 1 | what_phone_numbers_513a___5 == 1 | what_phone_numbers_513a___6 == 1 | ///
-												 what_phone_numbers_513a___7 == 1 | what_phone_numbers_513a___8 == 1 
+recode m1_513e (. = .a) if m1_513a_3 == 0 | m1_513a_1 == 1 | ///
+	   m1_513a_2 == 1 | m1_513a_4 == 1 | m1_513a_5 == 1 | m1_513a_6 == 1 | ///
+	   m1_513a_7 == 1 | m1_513a_8 == 1 
 												 
-recode community_health_worker_513f (. = .a) if what_phone_numbers_513a___4 == 0 | what_phone_numbers_513a___1 == 1 | what_phone_numbers_513a___2 == 1 | ///
-											     what_phone_numbers_513a___3 == 1 | what_phone_numbers_513a___5 == 1 | what_phone_numbers_513a___6 == 1 | ///
-												 what_phone_numbers_513a___7 == 1 | what_phone_numbers_513a___8 == 1 
+recode m1_513f (. = .a) if m1_513a_4 == 0 | m1_513a_1 == 1 | m1_513a_2 == 1 | ///
+	   m1_513a_3 == 1 | m1_513a_5 == 1 | m1_513a_6 == 1 | ///
+	   m1_513a_7 == 1 | m1_513a_8 == 1 
 												 
-recode close_friend_or_family_513g (. = .a) if what_phone_numbers_513a___5 == 0 | what_phone_numbers_513a___1 == 1 | what_phone_numbers_513a___2 == 1 | ///
-											     what_phone_numbers_513a___3 == 1 | what_phone_numbers_513a___4 == 1 | what_phone_numbers_513a___6 == 1 | ///
-												 what_phone_numbers_513a___7 == 1 | what_phone_numbers_513a___8 == 1 	
+recode m1_513g (. = .a) if m1_513a_5 == 0 | m1_513a_1 == 1 | m1_513a_2 == 1 | ///
+	   m1_513a_3 == 1 | m1_513a_4 == 1 | m1_513a_6 == 1 | ///
+	   m1_513a_7 == 1 | m1_513a_8 == 1 	
 												 
-recode close_friend_or_family_513h (. = .a) if what_phone_numbers_513a___6 == 0 | what_phone_numbers_513a___1 == 1 | what_phone_numbers_513a___2 == 1 | ///
-											     what_phone_numbers_513a___3 == 1 | what_phone_numbers_513a___4 == 1 | what_phone_numbers_513a___5 == 1 | ///
-												 what_phone_numbers_513a___7 == 1 | what_phone_numbers_513a___8 == 1 
+recode m1_513h (. = .a) if m1_513a_6 == 0 | m1_513a_1 == 1 | m1_513a_2 == 1 | ///
+	   m1_513a_3 == 1 | m1_513a_4 == 1 | m1_513a_5 == 1 | ///
+	   m1_513a_7 == 1 | m1_513a_8 == 1 
 												 
-recode other_phone_number_513i (. = .a) if what_phone_numbers_513a___7 == 0 | what_phone_numbers_513a___1 == 1 | what_phone_numbers_513a___2 == 1 | ///
-											     what_phone_numbers_513a___3 == 1 | what_phone_numbers_513a___4 == 1 | what_phone_numbers_513a___5 == 1 | ///
-												 what_phone_numbers_513a___6 == 1 | what_phone_numbers_513a___8 == 1 												 
+recode m1_513i (. = .a) if m1_513a_7 == 0 | m1_513a_1 == 1 | m1_513a_2 == 1 | ///
+	   m1_513a_3 == 1 | m1_513a_4 == 1 | m1_513a_5 == 1 | ///
+	   m1_513a_6 == 1 | m1_513a_8 == 1 												 
 
-recode we_can_give_you_a_mobile_phone_5 (. = .a) if what_phone_numbers_513a___3 == 1 | what_phone_numbers_513a___4 == 1 | what_phone_numbers_513a___5 == 1 | ///
-												    what_phone_numbers_513a___6 == 1 | what_phone_numbers_513a___7 == 1 | what_phone_numbers_513a___8 == 1	
+recode m1_514a (. = .a) if m1_513a_3 == 1 | m1_513a_4 == 1 | m1_513a_5 == 1 | ///
+	   m1_513a_6 == 1 | m1_513a_7 == 1 | m1_513a_8 == 1	
 
-*string var:
-*replace until_when_will_you_be_at_518 = .a if is_this_a_temporary_reside_517 == 2 | is_this_a_temporary_reside_517 == .	
+recode m1_708b (. = .a) if m1_708a == 0 | m1_708a == . | m1_708a == .d
+recode m1_708c (. = .a) if m1_708b	== 2 | m1_708b == . |	m1_708b == .d | m1_708b == .a 
+recode m1_708d (. = .a) if m1_708c	== 0 | m1_708c == . | m1_708c == .d | m1_708c == .a 
+recode m1_708e (. = .a) if m1_708b == 2 | m1_708b == . | m1_708b == .d | m1_708b == .a
+recode m1_708f (. = .a) if m1_708b == 2 | m1_708b == . | m1_708b == .d | q708hivresult == .a
 
+recode m1_710b (. = .a) if m1_710a == 0 | m1_710a == . | m1_710a == .d
+recode m1_710c (. = .a) if m1_710b == 2 | m1_710b == .a | m1_710b == .d
 
-recode q708hivresult (. = .a) if q708hiv == 0 | q708hiv == . | q708hiv == .d
-recode q708hivmed (. = .a) if q708hivresult	== 2 | q708hivresult == . |	q708hivresult == .d | q708hivresult == .a 
-recode q708hivmedex (. = .a) if q708hivmed	== 0 | q708hivmed == . | q708hivmed == .d | q708hivmed == .a 
-recode q708hivload (. = .a) if q708hivresult == 2 | q708hivresult == . | q708hivresult == .d | q708hivresult == .a
-recode q708hivcd4 (. = .a) if q708hivresult == 2 | q708hivresult == . | q708hivresult == .d | q708hivresult == .a
+recode m1_711b (. = .a) if m1_711a == 0 | m1_711a == . | m1_711a == .d
 
+recode m1_714c (. = .a) if m1_714b == 0 | m1_714b == . | m1_714b == .d | m1_714b == .r
+* SS: Fix in redcap to make a number
+*recode m1_714d (. = .a) if m1_714b == 0 | m1_714b == . | m1_714b == .d | m1_714b == .r
+recode m1_714e (. = .a) if m1_714c == . | m1_714c == .r
 
-recode q710syphilisresult (. = .a) if q710syphilis == 0 | q710syphilis == . | q710syphilis == .d
+recode m1_718 (. = .a) if m1_202a == 0 | m1_202a == .
+recode m1_719 (. = .a) if m1_202b == 0 | m1_202b == .
+recode m1_720 (. = .a) if m1_202c == 0 | m1_202c == .
+recode m1_721 (. = .a) if m1_202d == 0 | m1_202d == .
+recode m1_722 (. = .a) if m1_202e == 0 | m1_202e == .
 
-recode q710syphilismed (. = .a) if q710syphilisresult == 2 | q710syphilisresult == .a | q710syphilisresult == .d
-
-recode q711bloodsugarresult (. = .a) if q711bloodsugar == 0 | q711bloodsugar == . | q711bloodsugar == .d
-
-recode q714ttbefore (. = .a) if q714tt == 0 | q714tt == . | q714tt == .d | q714tt == .r
-
-*recode q714ttyears (. = .a) if q714ttnumber == . | q714ttnumber == .r
-recode q714ttyears2 (. = .a) if q714ttnumber == 1 | q714ttnumber == . | q714ttnumber == .r
-
-recode q718diabetes (. = .a) if q202diabetes == 0 | q202diabetes == .
-
-recode q719hypertension (. = .a) if q202hbp == 0 | q202hbp == .
-
-recode q202cardiac (. = .a) if q720cardiac == 0 | q720cardiac == .
-
-recode q202mental (. = .a) if q721mental == 0 | q721mental == .
-
-recode q202hiv (. = .a) if q722hiv == 0 | q722hiv == .
-
-recode q724returnwhen (. = .a) if q724return == 0 | q724return == .
-
-recode q724urine (. = .a) if q705urine == 1 | q705urine == . | q705urine == .d | q705urine == .r
-
-recode q724blood (. = .a) if  q706blooddraw == 1 | q706blooddraw == . | q706blooddraw == .d | q706blooddraw == .r
-
-recode q724hiv (. = .a) if q708hiv == 1 | q708hiv == . | q708hiv == .d | q708hiv == .r
-
-recode q724ultrasound (. = .a) if q712ultrasound == 1 | q712ultrasound == . | q712ultrasound == .d | q712ultrasound == .r
+recode m1_724b (. = .a) if m1_724a == 0 | m1_724a == .
+recode m1_724f (. = .a) if m1_705 == 1 | m1_705 == . | m1_705 == .d | m1_705 == .r
+recode m1_724g (. = .a) if  m1_707 == 1 | m1_707 == . | m1_707 == .d | m1_707 == .r
+recode m1_724h (. = .a) if m1_708a == 1 | m1_708a == . | m1_708a == .d | m1_708a == .r
+recode m1_724i (. = .a) if m1_712 == 1 | m1_712 == . | m1_712 == .d | m1_712 == .r
 
 * double check this skip pattern
 * Need to recode  q803gaself text "DK" = .d
-recode q804trimester (. = .a) if (q801edd == 0 | q801edd == . | q801edd == .d | q801edd == .r) & (q802lmpknown == 0 | q802lmpknown == .) & (q803gaself == "98" |  q803gaself == "Dk" | q803gaself == "") 
+recode m1_804 (. = .a) if (m1_801 == 0 | m1_801 == . | m1_801 == .d | m1_801 == .r) & (m1_802b == 0 | m1_802b == .) & (m1_803 == "98" |  m1_803 == "Dk" | m1_803 == "") 
 
-recode there_are_many_reasons_why_808__ (0 = .a) if q804trimester == 1 | q804trimester == . | q804trimester == .a | q804trimester == .d
-recode v204 (0 = .a) if q804trimester == 1 | q804trimester == . | q804trimester == .a | q804trimester == .d
-recode v205 (0 = .a) if q804trimester == 1 | q804trimester == . | q804trimester == .a | q804trimester == .d
-recode v206 (0 = .a) if q804trimester == 1 | q804trimester == . | q804trimester == .a | q804trimester == .d
-recode v207 (0 = .a) if q804trimester == 1 | q804trimester == . | q804trimester == .a | q804trimester == .d
-recode v208 (0 = .a) if q804trimester == 1 | q804trimester == . | q804trimester == .a | q804trimester == .d
-recode v209 (0 = .a) if q804trimester == 1 | q804trimester == . | q804trimester == .a | q804trimester == .d
-recode v210 (0 = .a) if q804trimester == 1 | q804trimester == . | q804trimester == .a | q804trimester == .d
-recode v211 (0 = .a) if q804trimester == 1 | q804trimester == . | q804trimester == .a | q804trimester == .d
-recode v212 (0 = .a) if q804trimester == 1 | q804trimester == . | q804trimester == .a | q804trimester == .d
-recode v213 (0 = .a) if q804trimester == 1 | q804trimester == . | q804trimester == .a | q804trimester == .d
-recode v214 (0 = .a) if q804trimester == 1 | q804trimester == . | q804trimester == .a | q804trimester == .d
-recode v215 (0 = .a) if q804trimester == 1 | q804trimester == . | q804trimester == .a | q804trimester == .d
-recode v216 (0 = .a) if q804trimester == 1 | q804trimester == . | q804trimester == .a | q804trimester == .d
-recode v217 (0 = .a) if q804trimester == 1 | q804trimester == . | q804trimester == .a | q804trimester == .d
+recode there_are_many_reasons_why_808__ (0 = .a) if m1_804 == 1 | m1_804 == . | m1_804 == .a | m1_804 == .d
+recode v204 (0 = .a) if m1_804 == 1 | m1_804 == . | m1_804 == .a | m1_804 == .d
+recode v205 (0 = .a) if m1_804 == 1 | m1_804 == . | m1_804 == .a | m1_804 == .d
+recode v206 (0 = .a) if m1_804 == 1 | m1_804 == . | m1_804 == .a | m1_804 == .d
+recode v207 (0 = .a) if m1_804 == 1 | m1_804 == . | m1_804 == .a | m1_804 == .d
+recode v208 (0 = .a) if m1_804 == 1 | m1_804 == . | m1_804 == .a | m1_804 == .d
+recode v209 (0 = .a) if m1_804 == 1 | m1_804 == . | m1_804 == .a | m1_804 == .d
+recode v210 (0 = .a) if m1_804 == 1 | m1_804 == . | m1_804 == .a | m1_804 == .d
+recode v211 (0 = .a) if m1_804 == 1 | m1_804 == . | m1_804 == .a | m1_804 == .d
+recode v212 (0 = .a) if m1_804 == 1 | m1_804 == . | m1_804 == .a | m1_804 == .d
+recode v213 (0 = .a) if m1_804 == 1 | m1_804 == . | m1_804 == .a | m1_804 == .d
+recode v214 (0 = .a) if m1_804 == 1 | m1_804 == . | m1_804 == .a | m1_804 == .d
+recode v215 (0 = .a) if m1_804 == 1 | m1_804 == . | m1_804 == .a | m1_804 == .d
+recode v216 (0 = .a) if m1_804 == 1 | m1_804 == . | m1_804 == .a | m1_804 == .d
+recode v217 (0 = .a) if m1_804 == 1 | m1_804 == . | m1_804 == .a | m1_804 == .d
 
 recode m1_812b_0 (. = .a) (0 = .a) if q812toldcs == 0 | q812toldcs ==. | q812toldcs == .d 
 
