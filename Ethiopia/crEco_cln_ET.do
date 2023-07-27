@@ -6,11 +6,9 @@
 *------------------------------------------------------------------------------*
 
 * Import Data 
-global data "$et_data/"
-
 clear all 
 set maxvar 15000 
-import delimited using "$data/25July2023.csv", clear
+import delimited using "$et_data/25July2023.csv", clear
 
 *These datasets download the entire longitudinal dataset, so we have to drop the events that we're not interested in. 
 
@@ -2382,5 +2380,9 @@ label variable m2_complete "Complete?"
 *===============================================================================
 
 	* STEP SIX: SAVE DATA TO RECODED FOLDER
-
+	* note: as of 7-27 we are dropping M3-M5 data until it is cleaned
+	
+drop iic_3-module_5_end_line_facetoface_sur
+	
+save "$et_data_final/eco_m1m2_et.dta", replace
 	
