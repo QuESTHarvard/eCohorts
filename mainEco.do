@@ -61,7 +61,7 @@ global github "$user/Documents/GitHub/eCohorts"
 ************************************************
 
 * Clean each dataset separately 
-run "$github/Ethiopia/crEco_cln_ET.do"
+*run "$github/Ethiopia/crEco_cln_ET.do"
 
 *summtab table creation
 run "$github/eCohorts/Ethiopia/anEco_mtbl_ET.do"
