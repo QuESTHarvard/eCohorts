@@ -980,7 +980,7 @@ recode m1_724g (. = .a) if  m1_707 == 1 | m1_707 == . | m1_707 == .d | m1_707 ==
 recode m1_724h (. = .a) if m1_708a == 1 | m1_708a == . | m1_708a == .d | m1_708a == .r
 recode m1_724i (. = .a) if m1_712 == 1 | m1_712 == . | m1_712 == .d | m1_712 == .r
 
-* double check this skip pattern
+* SS: double check this skip pattern
 * Need to recode  q803gaself text "DK" = .d
 recode m1_804 (. = .a) if (m1_801 == 0 | m1_801 == . | m1_801 == .d | m1_801 == .r) & (m1_802b == 0 | m1_802b == .) & (m1_803 == "98" |  m1_803 == "Dk" | m1_803 == "") 
 
@@ -1000,315 +1000,317 @@ recode v215 (0 = .a) if m1_804 == 1 | m1_804 == . | m1_804 == .a | m1_804 == .d
 recode v216 (0 = .a) if m1_804 == 1 | m1_804 == . | m1_804 == .a | m1_804 == .d
 recode v217 (0 = .a) if m1_804 == 1 | m1_804 == . | m1_804 == .a | m1_804 == .d
 
-recode m1_812b_0 (. = .a) (0 = .a) if q812toldcs == 0 | q812toldcs ==. | q812toldcs == .d 
+* SS: Fix in redcap to add this skip pattern
+recode m1_812b (. = .a) (0 = .a) if m1_812a == 0 | m1_812a ==. | m1_812a == .d 
 
-recode q813advice (. = .a) if (q813neausea == 0 | q813neausea == .d | q813neausea == .r) & (q813heartburn == 0 | q813heartburn == .d | q813heartburn == .r) & ///
-							   (q813cramp == 0 | q813cramp == .d | q813cramp == .r) & (q813backpain == 0 | q813backpain == .d | q813backpain == .r)
+recode m1_813e (. = .a) if (m1_813a == 0 | m1_813a == .d | m1_813a == .r) & (m1_813b == 0 | ///
+	   m1_813b == .d | m1_813b == .r) & (m1_813c == 0 | m1_813c == .d | m1_813c == .r) & ///
+	   (m1_813d == 0 | m1_813d == .d | m1_813d == .r)
 
-recode q813adviceb (. = .a) if (q813preeclamp == 0 | q813preeclamp == .d | q813preeclamp == .r) & (q813hypgrav == 0 | q813hypgrav == .d | q813hypgrav == .r) & ///
-							   (q813anemia == 0 | q813anemia == .d | q813anemia == .r) & (q813amniotic == 0 | q813amniotic == .d | q813amniotic == .r) & ///
-							   (q813asthma == 0 | q813asthma == .d | q813asthma == .r) & (q813rhiso == 0 | q813rhiso == .d | q813rhiso == .r) & ///
-							   (q813problem == 0 | q813problem == .d | q813problem == .r)
+recode m1_eth_2_8 (. = .a) if (m1_eth_1_8a == 0 | m1_eth_1_8a == .d | m1_eth_1_8a == .r) & ///
+	   (m1_eth_1_8b == 0 | m1_eth_1_8b == .d | m1_eth_1_8b == .r) & ///
+	   (m1_eth_1_8c == 0 | m1_eth_1_8c == .d | m1_eth_1_8c == .r) & ///
+	   (m1_eth_1_8d == 0 | m1_eth_1_8d == .d | m1_eth_1_8d == .r) & ///
+	   (m1_eth_1_8e == 0 | m1_eth_1_8e == .d | m1_eth_1_8e == .r) & ///
+	   (m1_eth_1_8f == 0 | m1_eth_1_8f == .d | m1_eth_1_8f == .r) & ///
+	   (m1_eth_1_8g == 0 | m1_eth_1_8g == .d | m1_eth_1_8g == .r)
 
-
-recode q814babynotmoving (. = .a) if q804trimester == 1	| q804trimester == 2 | q804trimester == . | q804trimester == .a | q804trimester == .d								   
-						   
-recode provider_tell_you_to_do_regardin (0 = .a) if (q814headache == 0 | q814headache == .d | q814headache == .r | q814headache == .) & ///
-													(q814bleeding == 0 | q814bleeding == .d | q814bleeding == .r | q814bleeding == .) & ///
-													(q814fever == 0 | q814fever == .d | q814fever == .r | q814fever == .) & ///
-													(q814abpain == 0 | q814abpain == .d | q814abpain == .r | q814abpain == .) & ///
-													(q814breathing == 0 | q814breathing == .d | q814breathing == .r | q814breathing == .) & ///
-													(q814convulsions == 0 | q814convulsions == .d | q814convulsions == .r | q814convulsions == .) & ///
-													(q814fainting == 0 | q814fainting == .d | q814fainting == .r | q814fainting == .) & ///
-													(q814babynotmoving == 0 | q814babynotmoving == .d | q814babynotmoving == .r | q814babynotmoving == . | q814babynotmoving == .a) & ///
-													(q814blurvision == 0 | q814blurvision == .d | q814blurvision == .r | q814blurvision == .)
+recode m1_814h (. = .a) if m1_804 == 1	| m1_804 == 2 | m1_804 == . | m1_804 == .a | m1_804 == .d								   			   
+recode provider_tell_you_to_do_regardin (0 = .a) if (m1_814a == 0 | m1_814a == .d | m1_814a == .r | m1_814a == .) & ///
+													(m1_814b == 0 | m1_814b == .d | m1_814b == .r | m1_814b == .) & ///
+													(m1_814c == 0 | m1_814c == .d | m1_814c == .r | m1_814c == .) & ///
+													(m1_814d == 0 | m1_814d == .d | m1_814d == .r | m1_814d == .) & ///
+													(m1_814e == 0 | m1_814e == .d | m1_814e == .r | m1_814e == .) & ///
+													(m1_814f == 0 | m1_814f == .d | m1_814f == .r | m1_814f == .) & ///
+													(m1_814g == 0 | m1_814g == .d | m1_814g == .r | m1_814g == .) & ///
+													(m1_814h == 0 | m1_814h == .d | m1_814h == .r | m1_814h == . | m1_814h == .a) & ///
+													(m1_814i == 0 | m1_814i == .d | m1_814i == .r | m1_814i == .)
    							   
-recode provider_tell_you_to_do_regardin (0 = .) if q814headache == 1 | q814bleeding ==1 | q814fever == 1 | q814abpain == 1 | ///
-													q814breathing == 1 | q814convulsions == 1 | q814fainting == 1 | q814babynotmoving == 1 | ///
-													q814blurvision == 1
+recode provider_tell_you_to_do_regardin (0 = .) if m1_814a == 1 | m1_814b ==1 | m1_814c == 1 | m1_814d == 1 | ///
+												   m1_814e == 1 | m1_814f == 1 | m1_814g == 1 | m1_814h == 1 | ///
+												   m1_814i == 1
 													
-recode v259 (0 = .a) if (q814headache == 0 | q814headache == .d | q814headache == .r | q814headache == .) & ///
-													(q814bleeding == 0 | q814bleeding == .d | q814bleeding == .r | q814bleeding == .) & ///
-													(q814fever == 0 | q814fever == .d | q814fever == .r | q814fever == .) & ///
-													(q814abpain == 0 | q814abpain == .d | q814abpain == .r | q814abpain == .) & ///
-													(q814breathing == 0 | q814breathing == .d | q814breathing == .r | q814breathing == .) & ///
-													(q814convulsions == 0 | q814convulsions == .d | q814convulsions == .r | q814convulsions == .) & ///
-													(q814fainting == 0 | q814fainting == .d | q814fainting == .r | q814fainting == .) & ///
-													(q814babynotmoving == 0 | q814babynotmoving == .d | q814babynotmoving == .r | q814babynotmoving == . | q814babynotmoving == .a) & ///
-													(q814blurvision == 0 | q814blurvision == .d | q814blurvision == .r | q814blurvision == .)
+recode v259 (0 = .a) if (m1_814a == 0 | m1_814a == .d | m1_814a == .r | m1_814a == .) & ///
+						(m1_814b == 0 | m1_814b == .d | m1_814b == .r | m1_814b == .) & ///
+						(m1_814c == 0 | m1_814c == .d | m1_814c == .r | m1_814c == .) & ///
+						(m1_814d == 0 | m1_814d == .d | m1_814d == .r | m1_814d == .) & ///
+						(m1_814e == 0 | m1_814e == .d | m1_814e == .r | m1_814e == .) & ///
+						(m1_814f == 0 | m1_814f == .d | m1_814f == .r | m1_814f == .) & ///
+						(m1_814g == 0 | m1_814g == .d | m1_814g == .r | m1_814g == .) & ///
+						(m1_814h == 0 | m1_814h == .d | m1_814h == .r | m1_814h == . | m1_814h == .a) & ///
+						(m1_814i == 0 | m1_814i == .d | m1_814i == .r | m1_814i == .)
 													
-recode v259 (0 = .) if q814headache == 1 | q814bleeding ==1 | q814fever == 1 | q814abpain == 1 | ///
-													q814breathing == 1 | q814convulsions == 1 | q814fainting == 1 | q814babynotmoving == 1 | ///
-													q814blurvision == 1		
+recode v259 (0 = .) if m1_814a == 1 | m1_814b ==1 | m1_814c == 1 | m1_814d == 1 | ///
+					   m1_814e == 1 | m1_814f == 1 | m1_814g == 1 | m1_814h == 1 | ///
+					   m1_814i == 1
 													
-recode v260 (0 = .a) if (q814headache == 0 | q814headache == .d | q814headache == .r | q814headache == .) & ///
-													(q814bleeding == 0 | q814bleeding == .d | q814bleeding == .r | q814bleeding == .) & ///
-													(q814fever == 0 | q814fever == .d | q814fever == .r | q814fever == .) & ///
-													(q814abpain == 0 | q814abpain == .d | q814abpain == .r | q814abpain == .) & ///
-													(q814breathing == 0 | q814breathing == .d | q814breathing == .r | q814breathing == .) & ///
-													(q814convulsions == 0 | q814convulsions == .d | q814convulsions == .r | q814convulsions == .) & ///
-													(q814fainting == 0 | q814fainting == .d | q814fainting == .r | q814fainting == .) & ///
-													(q814babynotmoving == 0 | q814babynotmoving == .d | q814babynotmoving == .r | q814babynotmoving == . | q814babynotmoving == .a) & ///
-													(q814blurvision == 0 | q814blurvision == .d | q814blurvision == .r | q814blurvision == .)
+recode v260 (0 = .a) if (m1_814a == 0 | m1_814a == .d | m1_814a == .r | m1_814a == .) & ///
+						(m1_814b == 0 | m1_814b == .d | m1_814b == .r | m1_814b == .) & ///
+						(m1_814c == 0 | m1_814c == .d | m1_814c == .r | m1_814c == .) & ///
+						(m1_814d == 0 | m1_814d == .d | m1_814d == .r | m1_814d == .) & ///
+						(m1_814e == 0 | m1_814e == .d | m1_814e == .r | m1_814e == .) & ///
+						(m1_814f == 0 | m1_814f == .d | m1_814f == .r | m1_814f == .) & ///
+						(m1_814g == 0 | m1_814g == .d | m1_814g == .r | m1_814g == .) & ///
+						(m1_814h == 0 | m1_814h == .d | m1_814h == .r | m1_814h == . | m1_814h == .a) & ///
+						(m1_814i == 0 | m1_814i == .d | m1_814i == .r | m1_814i == .)
 													
-recode v260 (0 = .) if q814headache == 1 | q814bleeding ==1 | q814fever == 1 | q814abpain == 1 | ///
-													q814breathing == 1 | q814convulsions == 1 | q814fainting == 1 | q814babynotmoving == 1 | ///
-													q814blurvision == 1		
+recode v260 (0 = .) if m1_814a == 1 | m1_814b ==1 | m1_814c == 1 | m1_814d == 1 | ///
+					   m1_814e == 1 | m1_814f == 1 | m1_814g == 1 | m1_814h == 1 | ///
+					   m1_814i == 1
 													
+recode v261 (0 = .a) if (m1_814a == 0 | m1_814a == .d | m1_814a == .r | m1_814a == .) & ///
+						(m1_814b == 0 | m1_814b == .d | m1_814b == .r | m1_814b == .) & ///
+						(m1_814c == 0 | m1_814c == .d | m1_814c == .r | m1_814c == .) & ///
+						(m1_814d == 0 | m1_814d == .d | m1_814d == .r | m1_814d == .) & ///
+						(m1_814e == 0 | m1_814e == .d | m1_814e == .r | m1_814e == .) & ///
+						(m1_814f == 0 | m1_814f == .d | m1_814f == .r | m1_814f == .) & ///
+						(m1_814g == 0 | m1_814g == .d | m1_814g == .r | m1_814g == .) & ///
+						(m1_814h == 0 | m1_814h == .d | m1_814h == .r | m1_814h == . | m1_814h == .a) & ///
+						(m1_814i == 0 | m1_814i == .d | m1_814i == .r | m1_814i == .)
 													
-recode v261 (0 = .a) if (q814headache == 0 | q814headache == .d | q814headache == .r | q814headache == .) & ///
-													(q814bleeding == 0 | q814bleeding == .d | q814bleeding == .r | q814bleeding == .) & ///
-													(q814fever == 0 | q814fever == .d | q814fever == .r | q814fever == .) & ///
-													(q814abpain == 0 | q814abpain == .d | q814abpain == .r | q814abpain == .) & ///
-													(q814breathing == 0 | q814breathing == .d | q814breathing == .r | q814breathing == .) & ///
-													(q814convulsions == 0 | q814convulsions == .d | q814convulsions == .r | q814convulsions == .) & ///
-													(q814fainting == 0 | q814fainting == .d | q814fainting == .r | q814fainting == .) & ///
-													(q814babynotmoving == 0 | q814babynotmoving == .d | q814babynotmoving == .r | q814babynotmoving == . | q814babynotmoving == .a) & ///
-													(q814blurvision == 0 | q814blurvision == .d | q814blurvision == .r | q814blurvision == .)
+recode v261 (0 = .) if m1_814a == 1 | m1_814b ==1 | m1_814c == 1 | m1_814d == 1 | ///
+					   m1_814e == 1 | m1_814f == 1 | m1_814g == 1 | m1_814h == 1 | ///
+					   m1_814i == 1
 													
-recode v261 (0 = .) if q814headache == 1 | q814bleeding ==1 | q814fever == 1 | q814abpain == 1 | ///
-													q814breathing == 1 | q814convulsions == 1 | q814fainting == 1 | q814babynotmoving == 1 | ///
-													q814blurvision == 1		
+recode v262 (0 = .a) if (m1_814a == 0 | m1_814a == .d | m1_814a == .r | m1_814a == .) & ///
+						(m1_814b == 0 | m1_814b == .d | m1_814b == .r | m1_814b == .) & ///
+						(m1_814c == 0 | m1_814c == .d | m1_814c == .r | m1_814c == .) & ///
+						(m1_814d == 0 | m1_814d == .d | m1_814d == .r | m1_814d == .) & ///
+						(m1_814e == 0 | m1_814e == .d | m1_814e == .r | m1_814e == .) & ///
+						(m1_814f == 0 | m1_814f == .d | m1_814f == .r | m1_814f == .) & ///
+						(m1_814g == 0 | m1_814g == .d | m1_814g == .r | m1_814g == .) & ///
+						(m1_814h == 0 | m1_814h == .d | m1_814h == .r | m1_814h == . | m1_814h == .a) & ///
+						(m1_814i == 0 | m1_814i == .d | m1_814i == .r | m1_814i == .)
 													
-recode v262 (0 = .a) if (q814headache == 0 | q814headache == .d | q814headache == .r | q814headache == .) & ///
-													(q814bleeding == 0 | q814bleeding == .d | q814bleeding == .r | q814bleeding == .) & ///
-													(q814fever == 0 | q814fever == .d | q814fever == .r | q814fever == .) & ///
-													(q814abpain == 0 | q814abpain == .d | q814abpain == .r | q814abpain == .) & ///
-													(q814breathing == 0 | q814breathing == .d | q814breathing == .r | q814breathing == .) & ///
-													(q814convulsions == 0 | q814convulsions == .d | q814convulsions == .r | q814convulsions == .) & ///
-													(q814fainting == 0 | q814fainting == .d | q814fainting == .r | q814fainting == .) & ///
-													(q814babynotmoving == 0 | q814babynotmoving == .d | q814babynotmoving == .r | q814babynotmoving == . | q814babynotmoving == .a) & ///
-													(q814blurvision == 0 | q814blurvision == .d | q814blurvision == .r | q814blurvision == .)
+recode v262 (0 = .) if m1_814a == 1 | m1_814b ==1 | m1_814c == 1 | m1_814d == 1 | ///
+					   m1_814e == 1 | m1_814f == 1 | m1_814g == 1 | m1_814h == 1 | ///
+					   m1_814i == 1
 													
-recode v262 (0 = .) if q814headache == 1 | q814bleeding ==1 | q814fever == 1 | q814abpain == 1 | ///
-													q814breathing == 1 | q814convulsions == 1 | q814fainting == 1 | q814babynotmoving == 1 | ///
-													q814blurvision == 1		
+recode v263 (0 = .a) if (m1_814a == 0 | m1_814a == .d | m1_814a == .r | m1_814a == .) & ///
+						(m1_814b == 0 | m1_814b == .d | m1_814b == .r | m1_814b == .) & ///
+						(m1_814c == 0 | m1_814c == .d | m1_814c == .r | m1_814c == .) & ///
+						(m1_814d == 0 | m1_814d == .d | m1_814d == .r | m1_814d == .) & ///
+						(m1_814e == 0 | m1_814e == .d | m1_814e == .r | m1_814e == .) & ///
+						(m1_814f == 0 | m1_814f == .d | m1_814f == .r | m1_814f == .) & ///
+						(m1_814g == 0 | m1_814g == .d | m1_814g == .r | m1_814g == .) & ///
+						(m1_814h == 0 | m1_814h == .d | m1_814h == .r | m1_814h == . | m1_814h == .a) & ///
+						(m1_814i == 0 | m1_814i == .d | m1_814i == .r | m1_814i == .)
 													
-recode v263 (0 = .a) if (q814headache == 0 | q814headache == .d | q814headache == .r | q814headache == .) & ///
-													(q814bleeding == 0 | q814bleeding == .d | q814bleeding == .r | q814bleeding == .) & ///
-													(q814fever == 0 | q814fever == .d | q814fever == .r | q814fever == .) & ///
-													(q814abpain == 0 | q814abpain == .d | q814abpain == .r | q814abpain == .) & ///
-													(q814breathing == 0 | q814breathing == .d | q814breathing == .r | q814breathing == .) & ///
-													(q814convulsions == 0 | q814convulsions == .d | q814convulsions == .r | q814convulsions == .) & ///
-													(q814fainting == 0 | q814fainting == .d | q814fainting == .r | q814fainting == .) & ///
-													(q814babynotmoving == 0 | q814babynotmoving == .d | q814babynotmoving == .r | q814babynotmoving == . | q814babynotmoving == .a) & ///
-													(q814blurvision == 0 | q814blurvision == .d | q814blurvision == .r | q814blurvision == .)
-													
-recode v263 (0 = .) if q814headache == 1 | q814bleeding ==1 | q814fever == 1 | q814abpain == 1 | ///
-													q814breathing == 1 | q814convulsions == 1 | q814fainting == 1 | q814babynotmoving == 1 | ///
-													q814blurvision == 1		
+recode v263 (0 = .) if m1_814a == 1 | m1_814b ==1 | m1_814c == 1 | m1_814d == 1 | ///
+					   m1_814e == 1 | m1_814f == 1 | m1_814g == 1 | m1_814h == 1 | ///
+					   m1_814i == 1	
 
-recode v264 (0 = .a) if (q814headache == 0 | q814headache == .d | q814headache == .r | q814headache == .) & ///
-													(q814bleeding == 0 | q814bleeding == .d | q814bleeding == .r | q814bleeding == .) & ///
-													(q814fever == 0 | q814fever == .d | q814fever == .r | q814fever == .) & ///
-													(q814abpain == 0 | q814abpain == .d | q814abpain == .r | q814abpain == .) & ///
-													(q814breathing == 0 | q814breathing == .d | q814breathing == .r | q814breathing == .) & ///
-													(q814convulsions == 0 | q814convulsions == .d | q814convulsions == .r | q814convulsions == .) & ///
-													(q814fainting == 0 | q814fainting == .d | q814fainting == .r | q814fainting == .) & ///
-													(q814babynotmoving == 0 | q814babynotmoving == .d | q814babynotmoving == .r | q814babynotmoving == . | q814babynotmoving == .a) & ///
-													(q814blurvision == 0 | q814blurvision == .d | q814blurvision == .r | q814blurvision == .)
+recode v264 (0 = .a) if (m1_814a == 0 | m1_814a == .d | m1_814a == .r | m1_814a == .) & ///
+						(m1_814b == 0 | m1_814b == .d | m1_814b == .r | m1_814b == .) & ///
+						(m1_814c == 0 | m1_814c == .d | m1_814c == .r | m1_814c == .) & ///
+						(m1_814d == 0 | m1_814d == .d | m1_814d == .r | m1_814d == .) & ///
+						(m1_814e == 0 | m1_814e == .d | m1_814e == .r | m1_814e == .) & ///
+						(m1_814f == 0 | m1_814f == .d | m1_814f == .r | m1_814f == .) & ///
+						(m1_814g == 0 | m1_814g == .d | m1_814g == .r | m1_814g == .) & ///
+						(m1_814h == 0 | m1_814h == .d | m1_814h == .r | m1_814h == . | m1_814h == .a) & ///
+						(m1_814i == 0 | m1_814i == .d | m1_814i == .r | m1_814i == .)
 													
-recode v264 (0 = .) if q814headache == 1 | q814bleeding ==1 | q814fever == 1 | q814abpain == 1 | ///
-													q814breathing == 1 | q814convulsions == 1 | q814fainting == 1 | q814babynotmoving == 1 | ///
-													q814blurvision == 1		
+recode v264 (0 = .) if m1_814a == 1 | m1_814b ==1 | m1_814c == 1 | m1_814d == 1 | ///
+					   m1_814e == 1 | m1_814f == 1 | m1_814g == 1 | m1_814h == 1 | ///
+					   m1_814i == 1	
 													
-recode v265 (0 = .a) if (q814headache == 0 | q814headache == .d | q814headache == .r | q814headache == .) & ///
-													(q814bleeding == 0 | q814bleeding == .d | q814bleeding == .r | q814bleeding == .) & ///
-													(q814fever == 0 | q814fever == .d | q814fever == .r | q814fever == .) & ///
-													(q814abpain == 0 | q814abpain == .d | q814abpain == .r | q814abpain == .) & ///
-													(q814breathing == 0 | q814breathing == .d | q814breathing == .r | q814breathing == .) & ///
-													(q814convulsions == 0 | q814convulsions == .d | q814convulsions == .r | q814convulsions == .) & ///
-													(q814fainting == 0 | q814fainting == .d | q814fainting == .r | q814fainting == .) & ///
-													(q814babynotmoving == 0 | q814babynotmoving == .d | q814babynotmoving == .r | q814babynotmoving == . | q814babynotmoving == .a) & ///
-													(q814blurvision == 0 | q814blurvision == .d | q814blurvision == .r | q814blurvision == .)
+recode v265 (0 = .a) if (m1_814a == 0 | m1_814a == .d | m1_814a == .r | m1_814a == .) & ///
+						(m1_814b == 0 | m1_814b == .d | m1_814b == .r | m1_814b == .) & ///
+						(m1_814c == 0 | m1_814c == .d | m1_814c == .r | m1_814c == .) & ///
+						(m1_814d == 0 | m1_814d == .d | m1_814d == .r | m1_814d == .) & ///
+						(m1_814e == 0 | m1_814e == .d | m1_814e == .r | m1_814e == .) & ///
+						(m1_814f == 0 | m1_814f == .d | m1_814f == .r | m1_814f == .) & ///
+						(m1_814g == 0 | m1_814g == .d | m1_814g == .r | m1_814g == .) & ///
+						(m1_814h == 0 | m1_814h == .d | m1_814h == .r | m1_814h == . | m1_814h == .a) & ///
+						(m1_814i == 0 | m1_814i == .d | m1_814i == .r | m1_814i == .)
 													
-recode v265 (0 = .) if q814headache == 1 | q814bleeding ==1 | q814fever == 1 | q814abpain == 1 | ///
-													q814breathing == 1 | q814convulsions == 1 | q814fainting == 1 | q814babynotmoving == 1 | ///
-													q814blurvision == 1		
+recode v265 (0 = .) if m1_814a == 1 | m1_814b ==1 | m1_814c == 1 | m1_814d == 1 | ///
+					   m1_814e == 1 | m1_814f == 1 | m1_814g == 1 | m1_814h == 1 | ///
+					   m1_814i == 1	
 													
-recode v266 (0 = .a) if (q814headache == 0 | q814headache == .d | q814headache == .r | q814headache == .) & ///
-													(q814bleeding == 0 | q814bleeding == .d | q814bleeding == .r | q814bleeding == .) & ///
-													(q814fever == 0 | q814fever == .d | q814fever == .r | q814fever == .) & ///
-													(q814abpain == 0 | q814abpain == .d | q814abpain == .r | q814abpain == .) & ///
-													(q814breathing == 0 | q814breathing == .d | q814breathing == .r | q814breathing == .) & ///
-													(q814convulsions == 0 | q814convulsions == .d | q814convulsions == .r | q814convulsions == .) & ///
-													(q814fainting == 0 | q814fainting == .d | q814fainting == .r | q814fainting == .) & ///
-													(q814babynotmoving == 0 | q814babynotmoving == .d | q814babynotmoving == .r | q814babynotmoving == . | q814babynotmoving == .a) & ///
-													(q814blurvision == 0 | q814blurvision == .d | q814blurvision == .r | q814blurvision == .)
+recode v266 (0 = .a) if (m1_814a == 0 | m1_814a == .d | m1_814a == .r | m1_814a == .) & ///
+						(m1_814b == 0 | m1_814b == .d | m1_814b == .r | m1_814b == .) & ///
+						(m1_814c == 0 | m1_814c == .d | m1_814c == .r | m1_814c == .) & ///
+						(m1_814d == 0 | m1_814d == .d | m1_814d == .r | m1_814d == .) & ///
+						(m1_814e == 0 | m1_814e == .d | m1_814e == .r | m1_814e == .) & ///
+						(m1_814f == 0 | m1_814f == .d | m1_814f == .r | m1_814f == .) & ///
+						(m1_814g == 0 | m1_814g == .d | m1_814g == .r | m1_814g == .) & ///
+						(m1_814h == 0 | m1_814h == .d | m1_814h == .r | m1_814h == . | m1_814h == .a) & ///
+						(m1_814i == 0 | m1_814i == .d | m1_814i == .r | m1_814i == .)
 													
-recode v266 (0 = .) if q814headache == 1 | q814bleeding ==1 | q814fever == 1 | q814abpain == 1 | ///
-													q814breathing == 1 | q814convulsions == 1 | q814fainting == 1 | q814babynotmoving == 1 | ///
-													q814blurvision == 1		
+recode v266 (0 = .) if m1_814a == 1 | m1_814b ==1 | m1_814c == 1 | m1_814d == 1 | ///
+					   m1_814e == 1 | m1_814f == 1 | m1_814g == 1 | m1_814h == 1 | ///
+					   m1_814i == 1	
 
-recode v267 (0 = .d) if (q814headache == 0 | q814headache == .d | q814headache == .r | q814headache == .) & ///
-													(q814bleeding == 0 | q814bleeding == .d | q814bleeding == .r | q814bleeding == .) & ///
-													(q814fever == 0 | q814fever == .d | q814fever == .r | q814fever == .) & ///
-													(q814abpain == 0 | q814abpain == .d | q814abpain == .r | q814abpain == .) & ///
-													(q814breathing == 0 | q814breathing == .d | q814breathing == .r | q814breathing == .) & ///
-													(q814convulsions == 0 | q814convulsions == .d | q814convulsions == .r | q814convulsions == .) & ///
-													(q814fainting == 0 | q814fainting == .d | q814fainting == .r | q814fainting == .) & ///
-													(q814babynotmoving == 0 | q814babynotmoving == .d | q814babynotmoving == .r | q814babynotmoving == . | q814babynotmoving == .a) & ///
-													(q814blurvision == 0 | q814blurvision == .d | q814blurvision == .r | q814blurvision == .)
+recode v267 (0 = .d) if (m1_814a == 0 | m1_814a == .d | m1_814a == .r | m1_814a == .) & ///
+						(m1_814b == 0 | m1_814b == .d | m1_814b == .r | m1_814b == .) & ///
+						(m1_814c == 0 | m1_814c == .d | m1_814c == .r | m1_814c == .) & ///
+						(m1_814d == 0 | m1_814d == .d | m1_814d == .r | m1_814d == .) & ///
+						(m1_814e == 0 | m1_814e == .d | m1_814e == .r | m1_814e == .) & ///
+						(m1_814f == 0 | m1_814f == .d | m1_814f == .r | m1_814f == .) & ///
+						(m1_814g == 0 | m1_814g == .d | m1_814g == .r | m1_814g == .) & ///
+						(m1_814h == 0 | m1_814h == .d | m1_814h == .r | m1_814h == . | m1_814h == .a) & ///
+						(m1_814i == 0 | m1_814i == .d | m1_814i == .r | m1_814i == .)
 													
-recode v267 (0 = .) if q814headache == 1 | q814bleeding ==1 | q814fever == 1 | q814abpain == 1 | ///
-													q814breathing == 1 | q814convulsions == 1 | q814fainting == 1 | q814babynotmoving == 1 | ///
-													q814blurvision == 1		
+recode v267 (0 = .) if m1_814a == 1 | m1_814b ==1 | m1_814c == 1 | m1_814d == 1 | ///
+					   m1_814e == 1 | m1_814f == 1 | m1_814g == 1 | m1_814h == 1 | ///
+					   m1_814i == 1	
 
-recode v268 (0 = .r) if (q814headache == 0 | q814headache == .d | q814headache == .r | q814headache == .) & ///
-													(q814bleeding == 0 | q814bleeding == .d | q814bleeding == .r | q814bleeding == .) & ///
-													(q814fever == 0 | q814fever == .d | q814fever == .r | q814fever == .) & ///
-													(q814abpain == 0 | q814abpain == .d | q814abpain == .r | q814abpain == .) & ///
-													(q814breathing == 0 | q814breathing == .d | q814breathing == .r | q814breathing == .) & ///
-													(q814convulsions == 0 | q814convulsions == .d | q814convulsions == .r | q814convulsions == .) & ///
-													(q814fainting == 0 | q814fainting == .d | q814fainting == .r | q814fainting == .) & ///
-													(q814babynotmoving == 0 | q814babynotmoving == .d | q814babynotmoving == .r | q814babynotmoving == . | q814babynotmoving == .a) & ///
-													(q814blurvision == 0 | q814blurvision == .d | q814blurvision == .r | q814blurvision == .)
+recode v268 (0 = .r) if (m1_814a == 0 | m1_814a == .d | m1_814a == .r | m1_814a == .) & ///
+						(m1_814b == 0 | m1_814b == .d | m1_814b == .r | m1_814b == .) & ///
+						(m1_814c == 0 | m1_814c == .d | m1_814c == .r | m1_814c == .) & ///
+						(m1_814d == 0 | m1_814d == .d | m1_814d == .r | m1_814d == .) & ///
+						(m1_814e == 0 | m1_814e == .d | m1_814e == .r | m1_814e == .) & ///
+						(m1_814f == 0 | m1_814f == .d | m1_814f == .r | m1_814f == .) & ///
+						(m1_814g == 0 | m1_814g == .d | m1_814g == .r | m1_814g == .) & ///
+						(m1_814h == 0 | m1_814h == .d | m1_814h == .r | m1_814h == . | m1_814h == .a) & ///
+						(m1_814i == 0 | m1_814i == .d | m1_814i == .r | m1_814i == .)
 													
-recode v268(0 = .) if q814headache == 1 | q814bleeding ==1 | q814fever == 1 | q814abpain == 1 | ///
-													q814breathing == 1 | q814convulsions == 1 | q814fainting == 1 | q814babynotmoving == 1 | ///
-													q814blurvision == 1		
+recode v268(0 = .) if m1_814a == 1 | m1_814b ==1 | m1_814c == 1 | m1_814d == 1 | ///
+					   m1_814e == 1 | m1_814f == 1 | m1_814g == 1 | m1_814h == 1 | ///
+					   m1_814i == 1
 				
-recode q816complication (. = .a) if (q814headache == 1 | q814bleeding ==1 | q814fever == 1 | q814abpain == 1 | ///
-									q814breathing == 1 | q814convulsions == 1 | q814fainting == 1 | q814blurvision == 1) & ///
-									(q814babynotmoving == 1 | q814babynotmoving == .a | q814babynotmoving == .)
+recode q816complication (. = .a) if (m1_814a == 1 | m1_814b ==1 | m1_814c == 1 | m1_814d == 1 | ///
+									m1_814e == 1 | m1_814f == 1 | m1_814g == 1 | m1_814i == 1) & ///
+									(m1_814h == 1 | m1_814h == .a | m1_814h == .)
 									
-recode q902stopsmoke (. = .a) if q901smoke == 3 | q901smoke == .d | q901smoke == .r | q901smoke == .
+recode m1_902 (. = .a) if m1_901 == 3 | m1_901 == .d | m1_901 == .r | m1_901 == .
 
-recode q904stopkhat (. = .a) if q903khat == 3 | q903khat == .d | q903khat == .r | q903khat == .
+recode m1_904 (. = .a) if m1_903 == 3 | m1_903 == .d | m1_903 == .r | m1_903 == .
 
-recode q907stopalcohol (. = .a) if q905alcohol == 0 | q905alcohol == . | q905alcohol == .d | q905alcohol == .r
+recode m1_907 (. = .a) if m1_905 == 0 | m1_905 == . | m1_905 == .d | m1_905 == .r
 					
-recode q1002births (. = .a) if q1001pregnancies <= 1 | q1001pregnancies == .	
+recode m1_1002 (. = .a) if m1_1001 <= 1 | m1_1001 == .	
 
-recode q1003livebirths (. = .a) if q1002births <1 | q1002births == . | q1002births == .a	
+recode m1_1003 (. = .a) if m1_1002 <1 | m1_1002 == . | m1_1002 == .a	
 
-recode q1004stillbirth (. = .a) if q1001pregnancies <= q1002births
+recode m1_1004 (. = .a) if m1_1001 <= m1_1002
 
-recode q1005preterm (. = .a) if (q1002births<1 | q1002births ==.a | q1002births ==.)
+recode m1_1005 (. = .a) if (m1_1002<1 | m1_1002 ==.a | m1_1002 ==.)
 
-recode q1006bloodtrans  (. = .a) if (q1002births<1 | q1002births ==.a | q1002births ==.)
+recode m1_1006  (. = .a) if (m1_1002<1 | m1_1002 ==.a | m1_1002 ==.)
 
-recode q10et1congenital (. = .a) if (q1002births<1 | q1002births ==.a | q1002births ==.)
+recode m1_eth_1_10 (. = .a) if (m1_1002<1 | m1_1002 ==.a | m1_1002 ==.)
 
-recode q1007cs (. = .a) if (q1002births<1 | q1002births ==.a | q1002births ==.)
+recode m1_1007 (. = .a) if (m1_1002<1 | m1_1002 ==.a | m1_1002 ==.)
 
-recode q1008longlabor (. = .a) if (q1002births<1 | q1002births ==.a | q1002births ==.)
+recode m1_1008 (. = .a) if (m1_1002<1 | m1_1002 ==.a | m1_1002 ==.)
 
-recode q1009livechildren (. = .a) if (q1003livebirths <1 | q1003livebirths == .a | q1003livebirths == .)
+recode m1_1009 (. = .a) if (m1_1003 <1 | m1_1003 == .a | m1_1003 == .)
 
-recode q1010onemodeath (. = .a) if (q1003livebirths <= q1009livechildren) | q1003livebirths == .a 
+recode m1_1010 (. = .a) if (m1_1003 <= m1_1009) | m1_1003 == .a 
 
-recode q1011pregnancies (. = .a) if (q1001pregnancies <= 1 | q1001pregnancies ==.)
+recode m1_1011a (. = .a) if (m1_1001 <= 1 | m1_1001 ==.)
 
-recode q1011miscarriage (. = .a) if q1004stillbirth == 0 | q1004stillbirth == . | q1004stillbirth == .a
+recode m1_1011b (. = .a) if m1_1004 == 0 | m1_1004 == . | m1_1004 == .a
 
-recode q1011stillbirth (. = .a) if (q1002births <= q1003livebirths)	
+recode m1_1011c (. = .a) if (m1_1002 <= m1_1003)	
 
-recode q1011preterm (. = .a) if	q1005preterm == 0 | q1005preterm == . | q1005preterm == .a
+recode m1_1011d (. = .a) if	m1_1005 == 0 | m1_1005 == . | m1_1005 == .a
 
-recode q1011cs (. = .a) if q1007cs == 0 | q1007cs == . | q1007cs == .a
+recode m1_1011e (. = .a) if m1_1007 == 0 | m1_1007 == . | m1_1007 == .a
 
-recode q1011onemonthdeath (. = .a) if q1010onemodeath == 0 | q1010onemodeath == . | q1010onemodeath == .a
+recode m1_1011f (. = .a) if m1_1010 == 0 | m1_1010 == . | m1_1010 == .a
 
-recode who_has_done_these_things_1102__ (0 = .a) if q1101physabuse == 0 | q1101physabuse == . | q1101physabuse == .r
-recode who_has_done_these_things_1102__ (0 = .) if q1101physabuse == 1
-recode v297 (0 = .a) if q1101physabuse == 0 | q1101physabuse == . | q1101physabuse == .r
-recode v297 (0 = .) if q1101physabuse == 1
-recode v298 (0 = .a) if q1101physabuse == 0 | q1101physabuse == . | q1101physabuse == .r
-recode v298 (0 = .) if q1101physabuse == 1
-recode v299 (0 = .a) if q1101physabuse == 0 | q1101physabuse == . | q1101physabuse == .r
-recode v299 (0 = .) if q1101physabuse == 1
-recode v300 (0 = .a) if q1101physabuse == 0 | q1101physabuse == . | q1101physabuse == .r
-recode v300 (0 = .) if q1101physabuse == 1
-recode v301 (0 = .a) if q1101physabuse == 0 | q1101physabuse == . | q1101physabuse == .r
-recode v301 (0 = .) if q1101physabuse == 1
-recode v302 (0 = .a) if q1101physabuse == 0 | q1101physabuse == . | q1101physabuse == .r
-recode v302 (0 = .) if q1101physabuse == 1
-recode v303 (0 = .a) if q1101physabuse == 0 | q1101physabuse == . | q1101physabuse == .r
-recode v303 (0 = .) if q1101physabuse == 1
-recode v304 (0 = .a) if q1101physabuse == 0 | q1101physabuse == . | q1101physabuse == .r
-recode v304 (0 = .) if q1101physabuse == 1
-recode v305 (0 = .a) if q1101physabuse == 0 | q1101physabuse == . | q1101physabuse == .r
-recode v305 (0 = .) if q1101physabuse == 1
-recode v306 (0 = .a) if q1101physabuse == 0 | q1101physabuse == . | q1101physabuse == .r
-recode v306 (0 = .) if q1101physabuse == 1
-recode v307 (0 = .a) if q1101physabuse == 0 | q1101physabuse == . | q1101physabuse == .r
-recode v307 (0 = .) if q1101physabuse == 1
-recode v308 (0 = .a) if q1101physabuse == 0 | q1101physabuse == . | q1101physabuse == .r
-recode v308 (0 = .) if q1101physabuse == 1
+recode who_has_done_these_things_1102__ (0 = .a) if m1_1101 == 0 | m1_1101 == . | m1_1101 == .r
+recode who_has_done_these_things_1102__ (0 = .) if m1_1101 == 1
+recode v297 (0 = .a) if m1_1101 == 0 | m1_1101 == . | m1_1101 == .r
+recode v297 (0 = .) if m1_1101 == 1
+recode v298 (0 = .a) if m1_1101 == 0 | m1_1101 == . | m1_1101 == .r
+recode v298 (0 = .) if m1_1101 == 1
+recode v299 (0 = .a) if m1_1101 == 0 | m1_1101 == . | m1_1101 == .r
+recode v299 (0 = .) if m1_1101 == 1
+recode v300 (0 = .a) if m1_1101 == 0 | m1_1101 == . | m1_1101 == .r
+recode v300 (0 = .) if m1_1101 == 1
+recode v301 (0 = .a) if m1_1101 == 0 | m1_1101 == . | m1_1101 == .r
+recode v301 (0 = .) if m1_1101 == 1
+recode v302 (0 = .a) if m1_1101 == 0 | m1_1101 == . | m1_1101 == .r
+recode v302 (0 = .) if m1_1101 == 1
+recode v303 (0 = .a) if m1_1101 == 0 | m1_1101 == . | m1_1101 == .r
+recode v303 (0 = .) if m1_1101 == 1
+recode v304 (0 = .a) if m1_1101 == 0 | m1_1101 == . | m1_1101 == .r
+recode v304 (0 = .) if m1_1101 == 1
+recode v305 (0 = .a) if m1_1101 == 0 | m1_1101 == . | m1_1101 == .r
+recode v305 (0 = .) if m1_1101 == 1
+recode v306 (0 = .a) if m1_1101 == 0 | m1_1101 == . | m1_1101 == .r
+recode v306 (0 = .) if m1_1101 == 1
+recode v307 (0 = .a) if m1_1101 == 0 | m1_1101 == . | m1_1101 == .r
+recode v307 (0 = .) if m1_1101 == 1
+recode v308 (0 = .a) if m1_1101 == 0 | m1_1101 == . | m1_1101 == .r
+recode v308 (0 = .) if m1_1101 == 1
 
-recode who_has_done_these_things_1104__ (0 = .a) if q1103verbabuse == 0 | q1103verbabuse == . | q1103verbabuse == .r
-recode who_has_done_these_things_1104__ (0 = .) if q1103verbabuse == 1
-recode v312 (0 = .a) if q1103verbabuse == 0 | q1103verbabuse == . | q1103verbabuse == .r
-recode v312 (0 = .) if q1103verbabuse == 1
-recode v313 (0 = .a) if q1103verbabuse == 0 | q1103verbabuse == . | q1103verbabuse == .r
-recode v313 (0 = .) if q1103verbabuse == 1
-recode v314 (0 = .a) if q1103verbabuse == 0 | q1103verbabuse == . | q1103verbabuse == .r
-recode v314 (0 = .) if q1103verbabuse == 1
-recode v315 (0 = .a) if q1103verbabuse == 0 | q1103verbabuse == . | q1103verbabuse == .r
-recode v315 (0 = .) if q1103verbabuse == 1
-recode v316 (0 = .a) if q1103verbabuse == 0 | q1103verbabuse == . | q1103verbabuse == .r
-recode v316 (0 = .) if q1103verbabuse == 1
-recode v317 (0 = .a) if q1103verbabuse == 0 | q1103verbabuse == . | q1103verbabuse == .r
-recode v317 (0 = .) if q1103verbabuse == 1
-recode v318 (0 = .a) if q1103verbabuse == 0 | q1103verbabuse == . | q1103verbabuse == .r
-recode v318 (0 = .) if q1103verbabuse == 1
-recode v319 (0 = .a) if q1103verbabuse == 0 | q1103verbabuse == . | q1103verbabuse == .r
-recode v319 (0 = .) if q1103verbabuse == 1
-recode v320 (0 = .a) if q1103verbabuse == 0 | q1103verbabuse == . | q1103verbabuse == .r
-recode v320 (0 = .) if q1103verbabuse == 1
-recode v321 (0 = .a) if q1103verbabuse == 0 | q1103verbabuse == . | q1103verbabuse == .r
-recode v321 (0 = .) if q1103verbabuse == 1
-recode v322 (0 = .a) if q1103verbabuse == 0 | q1103verbabuse == . | q1103verbabuse == .r
-recode v322 (0 = .) if q1103verbabuse == 1
-recode v323 (0 = .a) if q1103verbabuse == 0 | q1103verbabuse == . | q1103verbabuse == .r
-recode v323 (0 = .) if q1103verbabuse == 1
+recode who_has_done_these_things_1104__ (0 = .a) if m1_1103 == 0 | m1_1103 == . | m1_1103 == .r
+recode who_has_done_these_things_1104__ (0 = .) if m1_1103 == 1
+recode v312 (0 = .a) if m1_1103 == 0 | m1_1103 == . | m1_1103 == .r
+recode v312 (0 = .) if m1_1103 == 1
+recode v313 (0 = .a) if m1_1103 == 0 | m1_1103 == . | m1_1103 == .r
+recode v313 (0 = .) if m1_1103 == 1
+recode v314 (0 = .a) if m1_1103 == 0 | m1_1103 == . | m1_1103 == .r
+recode v314 (0 = .) if m1_1103 == 1
+recode v315 (0 = .a) if m1_1103 == 0 | m1_1103 == . | m1_1103 == .r
+recode v315 (0 = .) if m1_1103 == 1
+recode v316 (0 = .a) if m1_1103 == 0 | m1_1103 == . | m1_1103 == .r
+recode v316 (0 = .) if m1_1103 == 1
+recode v317 (0 = .a) if m1_1103 == 0 | m1_1103 == . | m1_1103 == .r
+recode v317 (0 = .) if m1_1103 == 1
+recode v318 (0 = .a) if m1_1103 == 0 | m1_1103 == . | m1_1103 == .r
+recode v318 (0 = .) if m1_1103 == 1
+recode v319 (0 = .a) if m1_1103 == 0 | m1_1103 == . | m1_1103 == .r
+recode v319 (0 = .) if m1_1103 == 1
+recode v320 (0 = .a) if m1_1103 == 0 | m1_1103 == . | m1_1103 == .r
+recode v320 (0 = .) if m1_1103 == 1
+recode v321 (0 = .a) if m1_1103 == 0 | m1_1103 == . | m1_1103 == .r
+recode v321 (0 = .) if m1_1103 == 1
+recode v322 (0 = .a) if m1_1103 == 0 | m1_1103 == . | m1_1103 == .r
+recode v322 (0 = .) if m1_1103 == 1
+recode v323 (0 = .a) if m1_1103 == 0 | m1_1103 == . | m1_1103 == .r
+recode v323 (0 = .) if m1_1103 == 1
 
-recode q1105providerdiscuss (. = .a) if (q1101physabuse == 0 | q1101physabuse == . | q1101physabuse == .r) & (q1103verbabuse == 0 | q1103verbabuse == . | q1103verbabuse == .r)
+recode m1_1105 (. = .a) if (m1_1101 == 0 | m1_1101 == . | m1_1101 == .r) & (m1_1103 == 0 | m1_1103 == . | m1_1103 == .r)
 
-recode q1218reg (. = .a) if q1217oop == 0 | q1217oop == . | q1217oop == .r
+recode m1_1218a (. = .a) if m1_1217 == 0 | m1_1217 == . | m1_1217 == .r
+recode m1_1218a_1 (. = .a) if m1_1218a == 0 | m1_1218a == .a
 
-recode q1218regamt (. = .a) if q1218reg == 0 | q1218reg == .a
+recode m1_1218b (. = .a) if m1_1217 == 0 | m1_1217 == . | m1_1217 == .r
+recode m1_1218b_1 (. = .a) if m1_1218b == 0 | m1_1218b == .a 
 
-recode q1218meds (. = .a) if q1217oop == 0 | q1217oop == . | q1217oop == .r
-*recode q1218medsamt (. = .a) if q1218meds == 0 | q1218meds == .a //string var
+recode m1_1218c (. = .a) if m1_1217 == 0 | m1_1217 == . | m1_1217 == .r
+recode m1_1218c_1 (. = .a) if m1_1218c == 0 | m1_1218c == .a
 
-recode q1218test (. = .a) if q1217oop == 0 | q1217oop == . | q1217oop == .r
-recode q1218testamt (. = .a) if q1218test == 0 | q1218test == .a
+recode m1_1218d (. = .a) if m1_1217 == 0 | m1_1217 == . | m1_1217 == .r
+recode m1_1218d_1 (. = .a) if m1_1218d == 0 | m1_1218d == .a
 
-recode q1218transport (. = .a) if q1217oop == 0 | q1217oop == . | q1217oop == .r
-recode q1218transportamt (. = .a) if q1218transport == 0 | q1218transport == .a
+recode m1_1218e (. = .a) if m1_1217 == 0 | m1_1217 == . | m1_1217 == .r
+recode m1_1218e_1 (. = .a) if m1_1218e == 0 | m1_1218e == .a
 
-recode q1218food (. = .a) if q1217oop == 0 | q1217oop == . | q1217oop == .r
-recode q1218foodamt (. = .a) if q1218food == 0 | q1218food == .a
+recode m1_1218f (. = .a) if m1_1217 == 0 | m1_1217 == . | m1_1217 == .r
+recode m1_1218f_1 (. = .a) if m1_1218f == 0 | m1_1218f == .a
 
-recode q1218other (. = .a) if q1217oop == 0 | q1217oop == . | q1217oop == .r
-recode q1218otheramt (. = .a) if q1218other == 0 | q1218other == .a
-
-recode q1219total (. = .a) if q1218regamt == .a & q1218medsamt == "" & q1218testamt ==.a & q1218transportamt == .a & q1218foodamt == .a & q1218otheramt == .a
+recode m1_1219 (. = .a) if m1_1218a_1 == .a & m1_1218b_1 == "" & m1_1218c_1 ==.a & ///
+						   m1_1218d_1 == .a & m1_1218e_1 == .a & m1_1218f_1 == .a
     
-recode financial_source_for_the_spent_1 (0 = .a) if q1217oop == 0 | q1217oop == . | q1217oop == .r
-recode financial_source_for_the_spent_1 (0 = .) if q1217oop == 1
-recode v364 (0 = .a) if q1217oop == 0 | q1217oop == . | q1217oop == .r
-recode v364 (0 = .) if q1217oop == 1
-recode v365 (0 = .a) if q1217oop == 0 | q1217oop == . | q1217oop == .r
-recode v365 (0 = .) if q1217oop == 1
-recode v366 (0 = .a) if q1217oop == 0 | q1217oop == . | q1217oop == .r
-recode v366 (0 = .) if q1217oop == 1
-recode v367 (0 = .a) if q1217oop == 0 | q1217oop == . | q1217oop == .r
-recode v367 (0 = .) if q1217oop == 1
-recode v368 (0 = .a) if q1217oop == 0 | q1217oop == . | q1217oop == .r
-recode v368 (0 = .) if q1217oop == 1
-recode v369 (0 = .a) if q1217oop == 0 | q1217oop == . | q1217oop == .r
-recode v369 (0 = .) if q1217oop == 1
+recode financial_source_for_the_spent_1 (0 = .a) if m1_1217 == 0 | m1_1217 == . | m1_1217 == .r
+recode financial_source_for_the_spent_1 (0 = .) if m1_1217 == 1
+recode v364 (0 = .a) if m1_1217 == 0 | m1_1217 == . | m1_1217 == .r
+recode v364 (0 = .) if m1_1217 == 1
+recode v365 (0 = .a) if m1_1217 == 0 | m1_1217 == . | m1_1217 == .r
+recode v365 (0 = .) if m1_1217 == 1
+recode v366 (0 = .a) if m1_1217 == 0 | m1_1217 == . | m1_1217 == .r
+recode v366 (0 = .) if m1_1217 == 1
+recode v367 (0 = .a) if m1_1217 == 0 | m1_1217 == . | m1_1217 == .r
+recode v367 (0 = .) if m1_1217 == 1
+recode v368 (0 = .a) if m1_1217 == 0 | m1_1217 == . | m1_1217 == .r
+recode v368 (0 = .) if m1_1217 == 1
+recode v369 (0 = .a) if m1_1217 == 0 | m1_1217 == . | m1_1217 == .r
+recode v369 (0 = .) if m1_1217 == 1
 
-recode q1221insurancetype (. = .a) if q1221insurance == 0 | q1221insurance == .
+recode 	m1_1222 (. = .a) if m1_1221 == 0 | m1_1221 == .
 
-*recode q1307hgbcard (. = .a) if q1306hgbcard == 0 | q1306hgbcard == . //String var
+recode m1_1307 (. = .a) if m1_1306 == 0 | m1_1306 == 96 | m1_1306 == . 
 
-recode q1308hgbyn (. = .a) if q1306hgbcard == 1 | q1306hgbcard == .
+recode m1_1308 (. = .a) if m1_1306 == 1 | m1_1306 == 96 | m1_1306 == .
 
-recode q1309hgbtest (. = .a) if q1308hgbyn == 0 | q1308hgbyn == . | q1308hgbyn == .a
+recode m1_1309 (. = .a) if m1_1308 == 0 | m1_1308 == . | m1_1308 == .a
 
 	** MODULE 2:
 recode m2_attempt_relationship (. = .a) if m2_attempt_outcome == 1 | m2_attempt_outcome == 3 | m2_attempt_outcome == 4 | m2_attempt_outcome == 5
