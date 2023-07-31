@@ -10,6 +10,7 @@ drop in 1/72 // drop the test records
 keep if  b7eligible ==1 // drop the non eligible.. this is also droping the other modules currently.
 drop redcap_repeat_instrument-redcap_data_access_group m2_attempt_date-m2_complete // drops M2 variables
 
+
 * GENERAL RISK FACTORS
 	gen aged18 = age<18
 	gen aged35 = age>35
@@ -41,6 +42,7 @@ drop redcap_repeat_instrument-redcap_data_access_group m2_attempt_date-m2_comple
 		replace Hb_card="11.3" if Hb_card=="113"
 	destring Hb_card, replace
 	replace Hb = Hb_card if Hb==.a // use the card value if the test wasn't done
+
 	gen anemic= 1 if Hb<10
 	replace anemic=0 if Hb>=10 & Hb<. 
 	drop Hb*
@@ -93,3 +95,4 @@ drop redcap_repeat_instrument-redcap_data_access_group m2_attempt_date-m2_comple
 	lab var low_BMI "BMI below 18.5 (low)"
 	lab var height_m "Height in meters"
 	lab var dangersigns "Experienced a danger sign so far in pregnancy"
+

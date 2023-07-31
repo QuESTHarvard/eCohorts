@@ -4,23 +4,24 @@
 
 * GLOBALS
 global user "/Users/catherine.arsenault/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts"
+global user "/Users/katewright/Dropbox (Harvard University)/SPH-Kruk Team/QuEST Network/Core Research/Ecohorts"
 
 * IMPORT DATA
-import delimited "$user/MNH Ecohorts QuEST-shared/Data/Ethiopia/01 raw data/MaternalAndNewbornHe_DATA_LABELS_2023-07-19_1654.csv", clear 
+* import delimited "$user/MNH Ecohorts QuEST-shared/Data/Ethiopia/01 raw data/MaternalAndNewbornHe_DATA_LABELS_2023-07-19_1654.csv", clear
+
+import delimited "$user/MNH Ecohorts QuEST-shared/Data/Ethiopia/01 raw data/MaternalAndNewbornHe_DATA_LABELS_2023-07-27_1837.csv", clear  
 
 	* DROP THE TEST RECORDS AND KEEP ELIGIBLE RECORDS 
-	drop in 1/71
+	drop in 1/72
 	encode b7istherespondenteligibletoparti, gen(eli)
-	keep if eli==1
-
+	
 	* KEEP REQUIRED VARS FOR CALL TRACKING
 	keep recordid  eventname repeatinstrument repeatinstance ///	
-	b7istherespondenteligibletoparti a2dateofinterviewdmyየቃለመጠይቁቀንguy ///
+	eli a2dateofinterviewdmyየቃለመጠይቁቀንguy ///
 	a7interviewernameየጠያቂዋስምmaqaaafa dgestationalageinweeksbasedonlnm ///
 	howmanyweekspregnantdoyouthinkyo interviewercalculatesthegestatio ///
 	v415 agestationalageatthiscallbasedon bgestationalagebasedonmaternales ///
 	 dateofinterviewdmyየቃለመጠይቁቀንguyya aonwhatdatedidyougivebirthordidt
-	 
 	 
 	* RENAME VARIABLES
 	rename (a2dateofinterviewdmyየቃለመጠይቁቀንguy-aonwhatdatedidyougivebirthordidt) ///
@@ -35,7 +36,8 @@ import delimited "$user/MNH Ecohorts QuEST-shared/Data/Ethiopia/01 raw data/Mate
 	}
 	 * REFORMAT TO WIDE FORM (1 ROW PER WOMAN)
 	 sort PID eventname
-	 by PID, sort: carryforward m1*, replace
+	 by PID, sort: carryforward m1* eli, replace
+	 keep if eli==1
 	 gsort PID -eventname
 	 by PID: carryforward m3*, replace
 	 preserve 
@@ -58,6 +60,6 @@ import delimited "$user/MNH Ecohorts QuEST-shared/Data/Ethiopia/01 raw data/Mate
 	
 	
 	 * EXPORT TO CALL TRACKING SHEET
-	 export excel using "$user/MNH Ecohorts QuEST-shared/Data collection/1 Ethiopia/Data Collection/DataCollectionTracker.xlsx", sheet("Individual tracking", replace) firstrow(var)
+	 export excel using "$user/MNH Ecohorts QuEST-shared/Data collection/1 Ethiopia/Data Collection/DataCollectionTracker.xlsx", sheet("Individual tracking 07272023", replace) firstrow(var)
 	 
 	 

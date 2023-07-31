@@ -1,36 +1,31 @@
 * Ethiopia ECohort Baseline Data Cleaning File 
-* Created by K. Wright, S. Sabwa 
-* Updated: May 11 2023 
+* Created by K. Wright, S. Sabwa, C. Arsenault 
+* Updated: July 24 2023 
 
 
 *------------------------------------------------------------------------------*
 
 * Import Data 
-
-*global user "/Users/katewright/Dropbox (Harvard University)/"
-global user "/Users/shs8688/Dropbox (Harvard University)/"
-
-global data "$user/SPH-Kruk Team/QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/1 Ethiopia/Interim data/Data"
-
 clear all 
 set maxvar 15000 
-import delimited using "$data/ET_ECohort_06142023.csv", clear
+import delimited using "$et_data/25July2023.csv", clear
 
-*These datasets download the entire longitudinal dataset, so we have to drop the 
-*events that we're not interested in. This "baseline_arm_1" pulls baseline data only 
+*These datasets download the entire longitudinal dataset, so we have to drop the events that we're not interested in. 
 
-*keep if redcap_event_name=="baseline_arm_1" 
-
-** Delete variables from M3-5 
-drop iic_3-module_5_end_line_facetoface_sur
+*------------------------------------------------------------------------------*
+	* STEPS: 
+		* STEP ONE: RENAME VARIABLES (starts at: line 29)
+		* STEP TW0: ADD VALUE LABELS (starts at: line 214)
+		* STEP THREE: RECODING MISSING VALUES (starts at: line 903)
+		* STEP FOUR: LABELING VARIABLES (starts at: line 1688)
+		* STEP FIVE: ORDER VARIABLES (starts at: line 2379)
+		* STEP SIX: SAVE DATA
 
 *------------------------------------------------------------------------------*
 
-* STEP ONE: change variable names 
-    * this will be done in various steps / sections, because kw needs to see how the data pull into stata \
-	
-	
-* MODULE 1:
+	* STEP ONE: RENAME VARAIBLES
+    
+	* MODULE 1:
 	
 	rename (record_id redcap_event_name) (record_id event)
 	rename (study_id interviewer_id date_of_interview_m1 time_of_interview_m1) ///
@@ -49,21 +44,24 @@ drop iic_3-module_5_end_line_facetoface_sur
     rename data_collector_confirms_01 b6anc_first_conf
 	rename eth_1_b_do_you_plan_to_con continuecare
 	rename is_the_respondent_eligible b7eligible
+	rename what_is_your_first_name_101 first_name
+	rename what_is_your_family_name_102 family_name
 	rename assign_respondent_id_103 respondentid
 	rename do_you_have_a_mobile_phone mobile_phone
+	rename what_is_your_phone_number phone_number
 	rename can_i_flash_this_mobile_num flash
 	rename is_the_place_kebele_you_eth_1_1 kebele_malaria
 	rename eth_2_1_is_the_place_or_ke kebele_intworm
 	
-	rename in_general_how_would_201m1 q201srhealth
-	rename did_you_have_diabetes_202a q202diabetes
+	rename in_general_how_would_201m1 m1_201
+	rename did_you_have_diabetes_202a m1_202a
 	rename (did_yo_have_hbp_202b did_you_had_cardiac_disease did_you_had_mental_disorder ///
 	        did_you_had_hiv before_you_got_pregnant_202f before_you_got_pregnant_202g) ///
-			(q202hbp q202cardiac q202mental q202hiv q202hepb q202renal)
+			(m1_202b m1_202c m1_202d m1_202e m1_202f m1_202g)
 	rename (before_pregnant_diagn_203 specify_the_diagnosed_203 currently_taking_medication ///
 	        which_best_describe_your_205a which_describes_your_205b which_describe_your_205c ///
 			which_describe_your_205d which_describe_your_205e) ///
-		   (q203diagnosis q202other q204meds q205mobility q205selfcare q205activities q205pain q205anxiety)	
+		   (m1_203 m1_203_other m1_204 m1_205a m1_205b m1_205c m1_205d m1_205e)	
 	rename m1_206a phq9a
 	rename m1_206b phq9b
 	rename m1_206c phq9c
@@ -73,81 +71,107 @@ drop iic_3-module_5_end_line_facetoface_sur
 	rename m1_206g phq9g
 	rename m1_206h phq9h
 	rename m1_206i phq9i
-	rename health_problems_affecting_207  q207productive
+	rename health_problems_affecting_207 m1_207
 	
 	rename (rate_health_quality_301	overall_view_of_health_302 how_confident_are_you_303 ///
 	how_confident_are_you_304 how_confident_are_you_305_a how_confident_are_you_305_b) ///
-	(q301qualrate q302overallview q303confidentcare q304confidentafford q305confidentresp q305confidenttellprov)
+	(m1_301 m1_302 m1_303 m1_304 m1_305a m1_305b)
 	
 	rename (how_did_you_travel_401 specify_other_transport_401 how_long_in_hours_or_minut_402 ///
 	        do_you_know_the_distance_403a how_far_403b is_this_the_nearest_health_404 ///
 			what_is_the_most_important_405 specify_other_reason_405) ///
-		   (q401travel q401other q402time q403knowdist q403distance q404nearest q405reason q405other)
+		   (m1_401 m1_401_other m1_402 m1_403a m1_403b m1_404 m1_405 m1_405_other)
 		   
 	rename (what_is_your_first_languag_501 specify_other_language_501 have_you_ever_attend_502 ///
 	        what_is_the_highest_level_503 can_you_read_any_part_504 what_is_your_current_marit_505 ///
 			what_is_your_occupation_506 specify_other_occupation_506 what_is_your_religion_507 ///
 			specify_other_religion_507 how_many_people_508) ///
-			(q501language q501other q502school q503level q504literate q505marriage q506occupation ///
-			q506other q507religion q507other q508support)
+			(m1_501 m1_501_other m1_502 m1_503 m1_504 m1_505 m1_506 ///
+			m1_506_other m1_507 m1_507_other m1_508)
 	
 	rename (have_you_ever_heard_509a do_you_think_that_people_509b a_have_you_ever_heard_510a ///
 	        do_you_think_that_tb_can_510b when_children_have_diarrhe_511 is_smoke_from_a_wood_burni_512) ///
-	       (q509hiv q509hivtrans q510tb q510tbtrad q511diarrhea q512woodburn)
+	       (m1_509a m1_509b m1_510a m1_510b m1_511 m1_512)
+		   
+	rename (what_phone_numbers_513a___1 what_phone_numbers_513a___2 what_phone_numbers_513a___3  ///
+		   what_phone_numbers_513a___4 what_phone_numbers_513a___5 what_phone_numbers_513a___6 ///
+		   what_phone_numbers_513a___7 what_phone_numbers_513a___8) (m1_513a_1 m1_513a_2 m1_513a_3 ///
+		   m1_513a_4 m1_513a_5 m1_513a_6 m1_513a_7 m1_513a_8)
+	
+	rename (primary_phone_number_513b can_i_flash_this_number_513c secondary_personal_phone_513d ///
+		   spouse_or_partner_513e community_health_worker_513f close_friend_or_family_513g ///
+		   close_friend_or_family_513h other_phone_number_513i we_can_give_you_a_mobile_phone_5) ///
+		   (m1_513b m1_513c m1_513d m1_513e m1_513f m1_513g m1_513h m1_513i m1_514a)
+	
+	rename (mobile_phone_number_514b where_is_your_town_515a where_is_your_zone_515b where_is_your_kebele_515c  ///
+		    what_is_your_house_num_515d could_you_please_describe_516 is_this_a_temporary_reside_517 until_when_will_you_be_at_518  ///
+			where_will_your_district_519a where_will_your_kebele_519b where_will_your_village_519c) (m1_514b m1_515a m1_515b m1_515c ///
+			m1_515d m1_516 m1_517 m1_518 m1_519a m1_519b m1_519c)
 	
 	rename (i_would_like_to_know_how_601 how_likely_are_you_to_reco_602	how_long_in_minutes_did_603 ///
 	        how_long_in_hours_or_minut_604 eth_1_6_1_do_you_know_how_lo eth_1_6_2_how_long_is_your) ///
-			(q601qoc q602nps q603visitlength q604waittime q604knowlab q604labwait) 
+			(m1_601 m1_602 m1_603 m1_604a m1_604b m1_604c) 
 			
 	rename (thinking_about_the_visit_605 thinking_about_the_visit_605b thinking_about_the_visit_605c ///
 	        thinking_about_the_visit_605d thinking_about_the_visit_605e thinking_about_the_visit_605f ///
 			thinking_about_the_visit_605g thinking_about_the_visit_605h thinking_about_the_visit_605i ///
 			thinking_about_the_visit_605j thinking_about_the_visit_605k) ///
-	        (q605skills q605equip q605respect q605clarity q605involved q605time q605wait q605courtesy ///
-			q605confidentiality q605privacy q605cost)
+	        (m1_605a m1_605b m1_605c m1_605d m1_605e m1_605f m1_605g m1_605h ///
+			m1_605i m1_605j m1_605k)
 			
 	rename (measure_your_blood_pressure_700	measure_your_weight_701 measure_your_height_702 ///
 	        measure_your_upper_arm_703 measure_heart_rate_704 take_urine_sample_705 take_blood_drop_706 ///
 			take_blood_draw_707) ///
-		   (q700bp q701weight q702height q703muac q704babyrate q705urine q706blooddrop q706blooddraw)
+		   (m1_700 m1_701 m1_702 m1_703 m1_704 m1_705 m1_706 m1_707)
 		   
-	rename (do_hiv_test_708a	share_hiv_test_result_708b medicine_for_hiv_708c explain_medicine_usage_708d do_hiv_viral_load_test_708e do_cd4_test_708f do_hiv_viral_load_test_709a do_cd4_test_709b m1_710a m1_710b m1_710c m1_711a result_of_blood_sugar_test_711b m1_712) (q708hiv q708hivresult q708hivmed q708hivmedex q708hivload q708hivcd4 q709hivload q709hivdc4 q710syphilis q710syphilisresult q710syphilismed q711bloodsugar q711bloodsugarresult q712ultrasound)
+	rename (do_hiv_test_708a share_hiv_test_result_708b medicine_for_hiv_708c explain_medicine_usage_708d do_hiv_viral_load_test_708e do_cd4_test_708f do_hiv_viral_load_test_709a do_cd4_test_709b result_of_blood_sugar_test_711b) (m1_708a m1_708b m1_708c m1_708d m1_708e m1_708f m1_709a m1_709b m1_711b)
 		
-	rename (how_subscription_for_713a_1 how_do_they_provide_713b_1 how_do_they_provide_713c_1 how_do_they_provide_713d_1 how_do_they_provide_713e_1 how_do_they_provide_713f_1 how_do_they_provide_713g_1 how_do_they_provide_713h_1 how_do_they_provide_713i_1 whare_you_given_injection_714a receive_tetanus_injection_714b nuber_of_tetanus_injection_714c how_many_years_ago_714d  how_many_years_ago_last_714e) (q713fefa q713capill q713foodsupp q713intworm q713malaria q713nerves q713multivit q713hypertension q713diabetes q714tt q714ttbefore q714ttnumber q714ttyears q714ttyears2)
+	rename (how_subscription_for_713a_1 how_do_they_provide_713b_1 how_do_they_provide_713c_1 how_do_they_provide_713d_1 how_do_they_provide_713e_1 how_do_they_provide_713f_1 how_do_they_provide_713g_1 how_do_they_provide_713h_1 how_do_they_provide_713i_1 whare_you_given_injection_714a receive_tetanus_injection_714b nuber_of_tetanus_injection_714c how_many_years_ago_714d  how_many_years_ago_last_714e) (m1_713a m1_713b m1_713c m1_713d m1_713e m1_713f m1_713g m1_713h m1_713i m1_714a m1_714b m1_714c m1_714d m1_714e)
 	
-	rename (provided_with_an_insecticide_715 m1_716a m1_716b m1_716c m1_716d m1_716e discuss_about_feeling_depress_71 discuss_about_diabetes_718 discuss_about_bp_719 discuss_about_cardiac_720 discuss_about_mental_health_721 discuss_about_hiv_722 discus_about_medication_723) (q715itn q716nutrition q716exercise q716mental q716itn q716complication q717depression q718diabetes q719hypertension q720cardiac q721mental q722hiv q723meds)
+	rename (provided_with_an_insecticide_715 discuss_about_feeling_depress_71 discuss_about_diabetes_718 discuss_about_bp_719 discuss_about_cardiac_720 discuss_about_mental_health_721 discuss_about_hiv_722 discus_about_medication_723) (m1_715 m1_717 m1_718 m1_719 m1_720 m1_721 m1_722 m1_723)
 	
-	rename (should_come_back_724a when_did_he_tell_you_724b to_see_gynecologist_724c to_see_mental_health_provider_72 to_go_to_hospital_724e to_go_for_urine_test_724f go_to_blood_test_724g go_to_do_hiv_test_724h go_to_do_ultrasound_test_724i) (q724return q724returnwhen q724gynecologist q724mentalhealth q724hospital q724urine q724blood q724hiv q724ultrasound)
+	rename (should_come_back_724a when_did_he_tell_you_724b to_see_gynecologist_724c to_see_mental_health_provider_72 to_go_to_hospital_724e to_go_for_urine_test_724f go_to_blood_test_724g go_to_do_hiv_test_724h go_to_do_ultrasound_test_724i) (m1_724a m1_724b m1_724c m1_724d m1_724e m1_724f m1_724g m1_724h m1_724i)
 	
-	rename (estimated_date_for_delivery_801	m1_802a m1_802b m1_802c m1_802d how_many_months_weeks_803 calculate_gestational_age_804 how_many_babies_you_preg_805 ask_your_last_period_806 when_you_got_pregnant_807) (q801edd q802edd q802lmpknown q802lmp q802gacalc q803gaself q804trimester q805numbbabies q806asklmp q807desired)
+	rename (estimated_date_for_delivery_801	 how_many_months_weeks_803 calculate_gestational_age_804 how_many_babies_you_preg_805 ask_your_last_period_806 when_you_got_pregnant_807) (m1_801 m1_803 m1_804 m1_805 m1_806 m1_807)
 	
-	rename (discuss_your_birth_plan_809 m1_810a m1_810b other_than_the_list_above m1_811 you_might_need_c_section_812a) (q809birthplan q810planbirthloc q810planbirthfac q810other q811mwh q812toldcs) 
+	rename (specify_other_reason_808) (m1_808_other)
 	
-	rename (common_health_problems_813a advice_for_treatment_813b some_women_experience_813c some_women_experience_813d  during_the_visit_today_813e some_women_experience_eth_1_8a eth_1_8b_hyperemesis_gravi eth_1_8c_did_you_experienc eth_1_8d_did_you_experienc eth_1_8e_did_you_experienc eth_1_8f_did_you_experienc eth_1_8g_any_other_pregnan specify_the_feeling_eth_1_8_h eth_2_8_did_the_provider) (q813neausea q813heartburn q813cramp q813backpain q813advice q813preeclamp q813hypgrav q813anemia q813amniotic q813asthma q813rhiso q813problem q813other q813adviceb)
+	rename (discuss_your_birth_plan_809 other_than_the_list_above m1_811 you_might_need_c_section_812a m1_812b_0 other_reason_for_c_section_812) (m1_809 m1_810_other m1_811 m1_812a m1_812b m1_812_other) 
 	
-	rename (experience_headaches_814a experience_for_vaginal_bleed_814	experience_a_fever_814c experience_abdominal_pain_814d experience_breath_difficulty_814 experience_convulsions_814f experience_repeated_faint_814g exprience_biby_stop_moving_814h could_you_please_tell_814i) (q814headache q814bleeding q814fever q814abpain q814breathing q814convulsions q814fainting q814babynotmoving q814blurvision)
+	rename (common_health_problems_813a advice_for_treatment_813b some_women_experience_813c some_women_experience_813d  during_the_visit_today_813e some_women_experience_eth_1_8a eth_1_8b_hyperemesis_gravi eth_1_8c_did_you_experienc eth_1_8d_did_you_experienc eth_1_8e_did_you_experienc eth_1_8f_did_you_experienc eth_1_8g_any_other_pregnan specify_the_feeling_eth_1_8_h eth_2_8_did_the_provider) (m1_813a m1_813b m1_813c m1_813d m1_813e m1_eth_1_8a m1_eth_1_8b m1_eth_1_8c m1_eth_1_8d m1_eth_1_8e m1_eth_1_8f m1_eth_1_8g m1_eth_1_8gother m1_eth_2_8)
 	
-	rename you_said_you_didn_t_have_symp_81 q816complication
+	rename (experience_headaches_814a experience_for_vaginal_bleed_814	experience_a_fever_814c experience_abdominal_pain_814d experience_breath_difficulty_814 experience_convulsions_814f experience_repeated_faint_814g exprience_biby_stop_moving_814h could_you_please_tell_814i) (m1_814a m1_814b m1_814c m1_814d m1_814e m1_814f m1_814g m1_814h m1_814i)
 	
-	rename (smoke_cigarettes_901 advised_to_stop_smoking_902 frequency_of_chew_khat_903 advice_to_stop_khat_904 drink_alcohol_within_30_days_905 when_you_do_drink_alcohol_906 advised_to_stop_alcohol_907) (q901smoke q902stopsmoke q903khat q904stopkhat q905alcohol q906alcoholamount q907stopalcohol)
+	rename (other_specify_kan_biroo_ib) (m1_815_other)
 	
-	rename (no_of_pregnancies_you_had_1001 no_of_births_you_had_1002 how_many_of_those_birth_alive_10 have_you_ever_lost_a_pregn_after baby_came_too_early_1005 blood_need_during_pregnancy_1006 m1_eth_1_10 had_cesarean_section_1007) (q1001pregnancies q1002births q1003livebirths q1004stillbirth q1005preterm q1006bloodtrans q10et1congenital q1007cs)
+	rename you_said_you_didn_t_have_symp_81 m1_816
 	
-	rename (delivery_lasted_12_hours_1008 no_children_still_alive_1009 had_a_baby_die_within_1month_101 discuss_about_prev_pregn_1011a discuss_lost_baby_after_5m_1011b discuss_baby_born_dead_1011c discuss_baby_born_early_1011d discuss_you_had_c_section_1011e discuss_baby_die_within_1m_1011f anyone_ever_hit_kicked_1101 anyone_humiliate_you_1103) (q1008longlabor q1009livechildren q1010onemodeath q1011pregnancies q1011miscarriage q1011stillbirth q1011preterm q1011cs q1011onemonthdeath q1101physabuse q1103verbabuse)
+	rename (smoke_cigarettes_901 advised_to_stop_smoking_902 frequency_of_chew_khat_903 advice_to_stop_khat_904 drink_alcohol_within_30_days_905 when_you_do_drink_alcohol_906 advised_to_stop_alcohol_907) (m1_901 m1_902 m1_903 m1_904 m1_905 m1_906 m1_907)
 	
-	rename discuss_on_seek_support_1105	q1105providerdiscuss
+	rename (no_of_pregnancies_you_had_1001 no_of_births_you_had_1002 how_many_of_those_birth_alive_10 have_you_ever_lost_a_pregn_after baby_came_too_early_1005 blood_need_during_pregnancy_1006 m1_eth_1_10 had_cesarean_section_1007) (m1_1001 m1_1002 m1_1003 m1_1004 m1_1005 m1_1006 m1_eth_1_10 m1_1007)
 	
-	rename (main_source_of_drink_water_1201 other_source_of_drink_1201 kind_of_toilet_facilities_1202 specify_other_toilet_1202 household_have_electricity_1203 household_have_radio_1204 household_have_tv_1205 household_have_telephone_1206 household_have_frige_1207 type_of_fuel_for_cook_1208 other_fuel_type_for_cook_1208) (q1201water q1201other q1202toilet q1202other q1203electricity q1204radio q1205tv q1206telephone q1207fridge q1208cookfuel q1208other)
+	rename (specify_who_else_hit_1102)(m1_1102_other)
 	
-	rename (material_type_for_floor_1209 other_material_for_floor_1209 material_for_walls_1210 other_material_for_wall_1210 material_for_roof_1211 other_material_for_roof_1211 anyone_own_bicycle_1212 anyone_own_motor_cycle_1213 anyone_own_car_or_truck_1214 anyone_have_bank_account_1215 no_of_meals_per_day_1216 how_many_meals_per_1216_1) (q1209floor q1209other q1210walls q1210other q1211roof q1211other q1212bicycle q1213motocycle q1214car q1215bankacct q1216knowmeals q1216meals)
+	rename (delivery_lasted_12_hours_1008 no_children_still_alive_1009 had_a_baby_die_within_1month_101 discuss_about_prev_pregn_1011a discuss_lost_baby_after_5m_1011b discuss_baby_born_dead_1011c discuss_baby_born_early_1011d discuss_you_had_c_section_1011e discuss_baby_die_within_1m_1011f anyone_ever_hit_kicked_1101 anyone_humiliate_you_1103) (m1_1008 m1_1009 m1_1010 m1_1011a m1_1011b m1_1011c m1_1011d m1_1011e m1_1011f m1_1101 m1_1103)
 	
-	rename (money_from_pocket_for_trans_1217 m1_1218a m1_1218a_1 m1_1218b m1_1218b_1 m1_1218c m1_1218c_1 m1_1218d m1_1218d_1 m1_1218e m1_1218e_1 m1_1218f m1_1218f_1 m1_1219) (q1217oop q1218reg q1218regamt q1218meds q1218medsamt q1218test q1218testamt q1218transport q1218transportamt q1218food q1218foodamt q1218other q1218otheramt q1219total)
+	rename specify_who_humuliates_you m1_1104_other
 	
-	rename (m1_1221	m1_1222 other_health_insurance_type m1_1223) (q1221insurance q1221insurancetype q1221insuranceother q1223satisfaction) 
+	rename discuss_on_seek_support_1105	m1_1105
 	
-	rename (eth_1_13_muac_safartuu_naa m1_1306 m1_1307 m1_1308 hemoglobin_level_from_test m1_1401) (muac q1306hgbcard q1307hgbcard q1308hgbyn q1309hgbtest q1401timedaycall)
+	rename (main_source_of_drink_water_1201 other_source_of_drink_1201 kind_of_toilet_facilities_1202 specify_other_toilet_1202 household_have_electricity_1203 household_have_radio_1204 household_have_tv_1205 household_have_telephone_1206 household_have_frige_1207 type_of_fuel_for_cook_1208 other_fuel_type_for_cook_1208) (m1_1201 m1_1201_other m1_1202 m1_1202_other m1_1203 m1_1204 m1_1205 m1_1206 m1_1207 m1_1208 m1_1208_other)
+	
+	rename (material_type_for_floor_1209 other_material_for_floor_1209 material_for_walls_1210 other_material_for_wall_1210 material_for_roof_1211 other_material_for_roof_1211 anyone_own_bicycle_1212 anyone_own_motor_cycle_1213 anyone_own_car_or_truck_1214 anyone_have_bank_account_1215 no_of_meals_per_day_1216 how_many_meals_per_1216_1) (m1_1209 m1_1209_other m1_1210 m1_1210_other m1_1211 m1_1211_other m1_1212 m1_1213 m1_1214 m1_1215 m1_1216 m1_1216_1)
+	
+	rename money_from_pocket_for_trans_1217 m1_1217
+	
+	rename other_financial_source_1220 m1_1220_other
+	
+	rename other_health_insurance_type m1_1222_other
+	
+	rename (eth_1_13_muac_safartuu_naa hemoglobin_level_from_test) (muac m1_1309)
 	
 	rename (interview_end_time total_duration_of_intervie module_1_baseline_face_to_face_e) (m1_end_time interview_length m1_complete)
+	
 	
 * MODULE 2:
 	
@@ -183,10 +207,10 @@ drop iic_3-module_5_end_line_facetoface_sur
 	
 	rename (specify_other_income_sourc m2_time_it_is_interru at_what_time_it_is_restart time_of_interview_end_103b total_duration_of_interv_103c module_2_phone_surveys_prenatal_)(m2_705_other m2_interupt_time m2_restart_time m2_endtime m2_int_duration m2_complete)
 	
-
-	* STEP TWO: add value labels 
-	** many of these value labels can be found in the "REDCap_STATA.do" file saved in 
-	** the same interim data folder. 
+*===============================================================================
+	
+	* STEP TWO: ADD VALUE LABELS 
+	** many of these value labels can be found in the "REDCap_STATA.do" file that can be downloaded from redcap
 
 	** MODULE 1:
 * Label study site values 
@@ -206,37 +230,41 @@ label define FacilityTypeLabel 1 "General Hospital" 2 "Primary Hospital" 3 "Heal
 label values facility_type FacilityTypeLabel 
 
 label define reason_anc 1 "Low cost" 2 "Short distance" 3 "Short waiting time" 4 "Good healthcare provider skills" 5 "Staff shows respect" 6 "Medicines and equipment are available" 7 "Cleaner facility" 8 "Only facility available" 9 "covered by CBHI" 10 "Were referred or told to use this provider" 11 "Covered by other insurance" 96 "Other, specify" 99 "NR/RF" 
-label values q405reason reason_anc
+label values m1_405 reason_anc
 
 
 * Demographic value labels 
 label define language 1 "Oromiffa" 2 "Amharegna" 3 "Somaligna" 4 "Tigrigna" 5 "Sidamigna" 6 "Wolaytigna" 7 "Gurage" 8 "Afar" 9 "Hadiyya" 10 "Gamogna" 11 "Gedeo" 12 "Kafa" 96 "Other, specify" 98 "DK" 99 "NR/RF" 
-label values q501language language
+label values m1_501 language
 
 label define education 1 "Some primary" 2 "Completed primary" 3 "Some secondary" 4 "Completed secondary" 5 "Higher education" 99 "NR/RF" 
-label values q503level education
+label values m1_503 education
 
 label define literacy 1 "Cannot read at all" ///
 	                  2 "Able to read only parts of sentence" 3 "Able to read whole sentence" 4 "Blind/visually impaired" ///
 					  99 "NR/RF" 
-label values q504literate literacy
+label values m1_504 literacy
 
 label define marriage 1 "Never married" 2 "Widowed" 3 "Divorced" 4 "Separated" 5 "Currently married" 6 "Living with partner as if married" 99 "NR/RF" 
-label values q505marriage marriage 
+label values m1_505 marriage 
 
 label define occupation 1 "Government employee" 2 "Private employee" 3 "Non-government employee" 4 "Merchant/Trader" 5 "Farmer/farmworker/pastoralist" 6 "Homemaker/housewife" 7 "Student" 8 "Laborer" 9 "Unemployed" 96 "Other, specify" 98 "DK" 99 "NR/RF"
-label values q506occupation occupation
+label values m1_506 occupation
  
 label define religion 1 "Orthodox" 2 "Catholic" 3 "Protestant" 4 "Muslim" 5 "Indigenous" 96 "Other, specify" 98 "DK" 99 "RF"
-label values q507religion religion
+label values m1_507 religion
 
 label define eligconsent 1 "Eligible and signed consent" 2 "Eligible but did not consent" 3 "Eligible but does not understand [language spoken by interviewer" 0 "Ineligible" 
 label values b7eligible eligconsent
 
-
 label define modcomplete 0 "Incomplete" 1 "Unverified" 2 "Complete" 
 label values m1_complete modcomplete
 
+label define flash 1 "Flash successful" 2 "Unsuccessful, reenter phone number" 3 "Respondent did not give permission for flash"
+label values m1_513c flash
+
+label define residence 1 "Temporary" 2 "Permanent"
+label values m1_517 residence
 
    ** Repeated Data Value Labels 
    * Label likert scales 
@@ -244,34 +272,31 @@ label values m1_complete modcomplete
 	 99 "Refused"
 	 
      * Label values for variables with Likert values 
-	   label values q201srhealth q301qualrate q601qoc likert 
-	   label values q605skills q605equip q605respect q605clarity q605involved q605time q605wait q605courtesy q605confidentiality q605privacy q605cost likert
-	   
-	 	 
+	   label values m1_201 m1_301 m1_601 likert 
+	   label values m1_605a m1_605b m1_605c m1_605d m1_605e m1_605f m1_605g m1_605h m1_605i m1_605j m1_605k likert
+	   	 
    * Label Yes/No 
 	 label define YN 1 "Yes" 0 "No" 3 "not applicable" 98 "DK" 99 "RF" 
 	 label define YN2 1 "Yes" 2 "No" 98 "DK" 99 "RF" 
-	 label values  q716nutrition q716exercise q716mental q716itn q716complication YN
-   	 label values q717depression q718diabetes q719hypertension q720cardiac q721mental q722hiv q723meds YN 
-	 label values q813neausea q813heartburn q813cramp q813backpain q813advice YN
-	 label values q904stopkhat q905alcohol q907stopalcohol YN
+	 label values m1_716a m1_716b m1_716c m1_716d m1_716e YN
+   	 label values m1_717 m1_718 m1_719 m1_720 m1_721 m1_722 m1_723 YN 
+	 label values m1_813a m1_813b m1_813c m1_813d m1_813e YN
+	 label values m1_904 m1_905 m1_907 YN
 
 	 	 
 	 * Label values for varaiables with Yes / No responses 
-	 label values q502school q509hiv q509hivtrans q510tb q510tbtrad YN 
-	 label values q204meds YN
-	 label values q203diagnosis YN2
-   	 label values q202diabetes q202hbp q202cardiac q202mental q202hiv q202hepb q202renal YN
-	 label values q724return q724returnwhen q724gynecologist q724mentalhealth q724hospital YN
-	 label values q724urine q724blood q724hiv q724ultrasound YN
-	 label values q724return q724gynecologist q724mentalhealth q724hospital YN
-	 label values q801edd q802lmpknown YN
-	 label values q814headache q814bleeding q814fever q814abpain q814breathing q814convulsions q814fainting q814babynotmoving q814blurvision YN
-	label values q1004stillbirth q1005preterm q1006bloodtrans q10et1congenital q1007cs q1008longlabor q1010onemodeath YN
-	label values q1011pregnancies q1011miscarriage q1011stillbirth q1011preterm q1011cs q1011onemonthdeath YN
-	label values q1101physabuse q1103verbabuse YN
-	label values q1217oop q1218reg q1218meds q1218test q1218transport q1218food q1218other YN
-	label values q1221insurance YN
+	 label values m1_502 m1_509a m1_509b m1_510a m1_510b m1_514a YN 
+	 label values m1_204 YN
+	 label values m1_203 YN2
+   	 label values m1_202a m1_202b m1_202c m1_202d m1_202e m1_202f m1_202g YN
+	 label values m1_724a m1_724c m1_724d m1_724e m1_724f m1_724g m1_724h m1_724i YN
+	 label values m1_801 m1_802b YN
+	 label values m1_814a m1_814b m1_814c m1_814d m1_814e m1_814f m1_814g m1_814h m1_814i YN
+	 label values m1_1004 m1_1005 m1_1006 m1_eth_1_10 m1_1007 m1_1008 m1_1010 YN
+	 label values m1_1011a m1_1011b m1_1011c m1_1011d m1_1011e m1_1011f YN
+	 label values m1_1101 m1_1103 YN
+	 label values m1_1217 m1_1218a m1_1218b m1_1218c m1_1218d m1_1218e m1_1218f YN
+	 label values m1_1221 YN
 	*label values current_income savings health_insurance sold_items family_members borrowed other YN
 
 	 
@@ -280,32 +305,29 @@ label values m1_complete modcomplete
 	 label define EQ5Dpain 1 "I have no pain" 2 "I have some pain" 3 "I have severe pain" 99 "NR/RF" 
 	 label define EQ5Danxiety 1 "I have no anxiety" 2 "I have some anxiety" 3 "I have severe anxiety" 99 "NR/RF" 
 	 
-	 label values q205mobility q205selfcare q205activities EQ5D
-	 label values q205pain EQ5Dpain
-	 label values q205anxiety EQ5Danxiety
+	 label values m1_205a m1_205b m1_205c EQ5D
+	 label values m1_205d EQ5Dpain
+	 label values m1_205e EQ5Danxiety
 	 
 * QoC labels 
-   label define recommend 1 "Very likely" 2 "Somewhat likely" 3 "Not too likely" 4 "Not at all likely" 99 "NR/RF" 
-   label values q602nps recommend
-   tab q602nps
+	label define recommend 1 "Very likely" 2 "Somewhat likely" 3 "Not too likely" 4 "Not at all likely" 99 "NR/RF" 
+	label values m1_602 recommend
    
-   label define satisfaction 1 "Very satisfied" 2 "Satisfied" 3 "Neither satisfied nor dissatisfied" 4 "Dissatisfied" 5 "Very dissatisfied" 98 "DK" 99 "NR/RF" 
-   label values q1223satisfaction satisfaction
-   tab q1223satisfaction
+	label define satisfaction 1 "Very satisfied" 2 "Satisfied" 3 "Neither satisfied nor dissatisfied" 4 "Dissatisfied" 5 "Very dissatisfied" 98 "DK" 99 "NR/RF" 
+	label values m1_1223 satisfaction
 
-   label define diarrhea  1 "Less than usual" 2 "More than usual" 3 "About the same" 4 "It doesnt matter" 98 "DK" 
-	label values q511diarrhea diarrhea 
+	label define diarrhea  1 "Less than usual" 2 "More than usual" 3 "About the same" 4 "It doesnt matter" 98 "DK" 
+	label values m1_511 diarrhea 
 
-	
 	label define smoke 1 "Good" 2 "Harmful" 3 "Doesnt matter" 98 "DK" 
-	label values q512woodburn smoke 
+	label values m1_512 smoke 
 
-		label define hsview 1 "system works pretty well, minor changes" ///
-	                    2 "some good things, but major changes are needed" ///
-						3 "system has so much wrong with it, completely rebuild it" ///
+	label define hsview 1 "System works pretty well, minor changes" ///
+	                    2 "Some good things, but major changes are needed" ///
+						3 "System has so much wrong with it, completely rebuild it" ///
 						98 "DK" ///
 						99 "RF" 
-	label values q302overallview hsview
+	label values m1_302 hsview
 	
 	label define confidence 1 "Very confident" ///
 	                        2 "Somewhat confident" ///
@@ -313,87 +335,79 @@ label values m1_complete modcomplete
 							4 "Not at all confident" ///
 							98 "DK" ///
 							99 "NR/RF"
-	label values q303confidentcare q304confidentafford q305confidentresp q305confidenttellprov confidence 
+	label values m1_303 m1_304 m1_305a m1_305b confidence 
 
 	label define travel_mode 1 "Walking" 2 "Bicycle" 3 "Motorcycle" 4 "Car (personal or borrowed)" 5 "Bus/train/other public transportation" 6 "Mule/horse/donkey" 7 "Bajaj" 96 "Other (specify)" 98 "DK" 99 "NR/RF" 
-	
-	label values q401travel travel_mode
+	label values m1_401 travel_mode
 
 	label define bypass 1 "Yes, its the nearest" 2 "No, theres another one closer" 98 "DK" 99 "NR/RF" 
-	label values q404nearest bypass 
-
+	label values m1_404 bypass 
 	
-	label values q700bp q701weight q702height q703muac q704babyrate q705urine q706blooddrop q706blooddraw YN
-	label values q712ultrasound YN
-	label values q708hiv q710syphilis q711bloodsugar q712ultrasound YN
+	label values m1_700 m1_701 m1_702 m1_703 m1_704 m1_705 m1_706 m1_707 YN
+	label values m1_712 YN
+	label values m1_708a m1_708c m1_708d m1_708e m1_708f m1_710a m1_711a m1_712 YN
 	
     label define yesnona 1 "Yes" 0 "No" 2 "Not applicable" 98 "DK" 99 "RF" 
 	
-	label values q704babyrate yesnona
+	label values m1_704 yesnona
 	
-	
-		label define test_result 1 "Positive" 2 "Negative" 98 "DK" 99 "RF" 
-	label values q708hivresult test_result
-	label values q710syphilisresult test_result
+	label define test_result 1 "Positive" 2 "Negative" 98 "DK" 99 "RF" 
+	label values m1_708b test_result
+	label values m1_710b test_result
 	label define bdsugartest 1 "Blood sugar was high/elevated" 2 "Blood sugar was normal" 98 "DK" 99 "NR/RF"
-	label values q711bloodsugarresult bdsugartest
-
-	label values q708hiv YN 
-    label values q711bloodsugar YN
-    label values q710syphilis q710syphilismed YN
-	label values q708hivmed q708hivmedex q708hivload q708hivcd4 q709hivload q709hivdc4 YN
-    label values q714tt q714ttbefore YN 
-	
+	label values m1_711b bdsugartest
+	label values m1_708a YN 
+    label values m1_711a YN
+    label values m1_710a m1_710b YN
+	label values m1_708a m1_708c m1_708d m1_708e m1_708f m1_709a m1_709b YN
+    label values m1_714a m1_714b YN 
 	
 	label define meds 1 "Provider gave it directly" 2 "Prescription, told to get it somewhere else" 3 "Neither" 98 "DK" 99 "NR/RF" 
-	
-	label values q713fefa q713capill q713foodsupp q713intworm q713malaria q713nerves q713multivit q713hypertension q713diabetes meds
-
+	label values m1_713a m1_713b m1_713c m1_713d m1_713e m1_713f m1_713g m1_713h m1_713i meds
 
 	label define itn 1 "Yes" 0 "No" 2 "Already have one"
-	label values q715itn itn
+	label values m1_715 itn
 
 	label define trimester 1 "First trimester" 2 "Second trimester" 3 "Third trimester" 98 "Unknown" 
 	label define numbabies 1 "One baby" 2 "Two babies (twins)" 3 "Three or more babies (triplets or higher)" 98 "DK" 99 "NR/RF"
-	label values q805numbbabies numbabies 
-	label values q806asklmp q807desired q809birthplan q811mwh q812toldcs YN
-	label define q810planbirthloc 1 "In your home" 2 "Someone elses home" 3 "Government hospital" 4 "Government health center" 5 "Government health post" 6 "NGO or faith-based health facility" 7 "Private hospital" 8 "Private specialty maternity center" 9 "Private specialty maternity clinic" 10 "Private clinic" 11 "Another private medical facility (including pharmacy, shop, traditional healer)" 98 "DK" 99 "NR/RF" 
+	label values m1_805 numbabies 
+	label values m1_806 m1_807 m1_809 m1_811 m1_812a YN
+	label define m1_810a 1 "In your home" 2 "Someone elses home" 3 "Government hospital" 4 "Government health center" 5 "Government health post" 6 "NGO or faith-based health facility" 7 "Private hospital" 8 "Private specialty maternity center" 9 "Private specialty maternity clinic" 10 "Private clinic" 11 "Another private medical facility (including pharmacy, shop, traditional healer)" 98 "DK" 99 "NR/RF" 
 	
-	label values q810planbirthloc q810planbirthloc
+	label values m1_810a m1_810a
 
 	label define smokeamt 1 "Every day" 2 "Some days" 3 "Not at all" 98 "DK" 99 "NR/RF" 
 		
-	label values q901smoke q903khat smokeamt
+	label values m1_901 m1_903 smokeamt
 
 	label define water_source 1 "Piped water" 2 "Water from open well" 3 "Water from covered well or borehole" 4 "Surface water" 5 "Rain water" 6 "Bottled water" 96 "Other (specify)" 98 "DK" 99 "NR/RF" 
 	
-	label values q1201water water_source
+	label values m1_1201 water_source
 	
 	label define toilet 1 "Flush or pour flush toilet" 2 "Pit toilet/latrine" 3 "No facility" 96 "Other (specify)" 98 "DK" 99 "NR/RF" 
 	
-	label values q1202toilet toilet
+	label values m1_1202 toilet
 	
-	label values q1203electricity q1204radio q1205tv q1206telephone q1207fridge YN
+	label values m1_1203 m1_1204 m1_1205 m1_1206 m1_1207 YN
 	
 	label define cook_fuel 1 "Main electricity" 2 "Bottled gas" 3 "Paraffin/kerosene" 4 "Coal/Charcoal" 5 "Firewood" 6 "Dung" 7 "Crop residuals" 8 "Solar" 96 "Other (specify)" 98 "DK" 99 "NR/RF" 
-	label values q1208cookfuel cook_fuel
-	
+	label values m1_1208 cook_fuel
 	
 	label define floor 1 "Natural floor (earth, dung)" 2 "Rudimentary floor (wood planks, palm)" 3 "Finished floor (polished wood, tiles, cement, vinyl)" 96 "Other (specify)" 98 "DK" 99 "NR/RF"
 	
-	label values q1209floor floor 
+	label values m1_1209 floor 
 	
 	label define walls 1 "Grass" 2 "Poles and mud" 3 "Sun-dried bricks" 4 "Baked bricks" 5 "Timber" 6 "Cement bricks" 7 "Stones" 8 "Corrugated iron" 96 "Other (specify)" 98 "DK" 99 "NR/RF"
 	
-	label values q1210walls walls
+	label values m1_1210 walls
 
 	label define roof 1 "No roof" 2 "Grass/leaves/mud" 3 "Iron sheets" 4 "Tiles" 5 "Concrete" 96 "Other (specify)" 98 "DK" 99 "NR/RF" 
-	label values q1211roof roof
+	label values m1_1211 roof
 	
-	label values q1212bicycle q1213motocycle q1214car q1215bankacct YN
+	label values m1_1212 m1_1213 m1_1214 m1_1215 YN
 
 	label define insurance_type 1 "Community based health insurance" 2 "Employer-provided health insurance (reimbursement)" 3 "Private health insurance" 96 "Other (specify)" 98 "DK" 99 "NR/RF"
-	label values q1221insurancetype insurance_type
+	label values m1_1221 insurance_type
 	
 	** MODULE 2:
 	label define m2_attempt_outcome 1 "Answered the phone, correct respondent (Start survey)" 2 "Answered but not by the respondent (Go to A4)" 3 "No answer (rings but not response or line was busy)" 4 "Number does not work (does not ring/connect to a phone)" 5 "Phone was switched off"
@@ -883,25 +897,20 @@ label values m2_endstatus m2_endstatus
 label define m2_complete 0 "Incomplete" 1 "Unverified" 2 "Complete" 
 label values m2_complete m2_complete
 
-	
-*STEP FOUR: RECODING MISSING VALUES 
-	* Note: .a means NA, .r means refused, .d is don't know, . is missing 
-	* Need to figure out a way to clean up string "text" only vars (ex. 803)
-
-* Recode refused and don't know values  
-* Kate: should we rename "q706blooddraw" = "q707blooddraw"? Also, "q813neausea" spelling needs to be fixed
+*===============================================================================
+		
+	*STEP THREE: RECODING MISSING VALUES 
+		* Recode refused and don't know values
+		* Note: .a means NA, .r means refused, .d is don't know, . is missing 
+		* Need to figure out a way to clean up string "text" only vars that have numeric entries (ex. 803)
 
 	** MODULE 1:
-	recode mobile_phone q201srhealth q202diabetes q202hbp q202cardiac q202mental q202hiv q202hepb q202renal q204meds q205mobility q205selfcare q205activities q205pain q205anxiety phq9a phq9b phq9c phq9d phq9e phq9f phq9g phq9h phq9i q301qualrate  q302overallview q303confidentcare q304confidentafford q305confidentresp q305confidenttellprov q401travel q403knowdist q403distance q404nearest q405reason q501language q503level q504literate q505marriage q506occupation q507religion q601qoc q602nps q605skills q605equip q605respect q605clarity q605involved q605time q605wait q605courtesy q605confidentiality q605privacy q605cost q700bp q701weight q702height q703muac q704babyrate q705urine q706blooddrop q706blooddraw q708hiv q708hivresult q708hivmed q708hivmedex q708hivload q708hivcd4 q709hivload q709hivdc4 q710syphilis q710syphilisresult q710syphilismed q711bloodsugar q711bloodsugarresult q712ultrasound q713fefa q713capill q713foodsupp q713intworm q713malaria q713nerves q713multivit q713hypertension q713diabetes q714tt q714ttbefore q716nutrition q716exercise q716mental q716itn q716complication q717depression q718diabetes q719hypertension q720cardiac q721mental q722hiv q723meds q724return q724gynecologist q724hospital q724urine q724blood q724hiv q724ultrasound q724mentalhealth q801edd q805numbbabies q806asklmp q810planbirthloc why_you_might_need_c_section_812 q813neausea q813heartburn q813cramp q813backpain q813advice q813preeclamp q813hypgrav q813anemia q813amniotic q813asthma q813rhiso q813problem q813adviceb q814headache q814bleeding q814fever q814abpain q814breathing q814convulsions q814fainting q814babynotmoving q814blurvision q816complication q901smoke q902stopsmoke q903khat q904stopkhat q905alcohol q907stopalcohol q1004stillbirth q1005preterm q1006bloodtrans q1007cs q1008longlabor q1010onemodeath q1011pregnancies q1011miscarriage q1011stillbirth q1011preterm q1011cs q1101physabuse  q1103verbabuse q1105providerdiscuss q1201water q1202toilet q1203electricity q1204radio q1205tv q1206telephone q1207fridge q1208cookfuel q1209floor q1210walls q1211roof q1212bicycle q1213motocycle q1214car q1215bankacct q1216knowmeals q1216meals q1217oop q1218reg q1218meds q1218test q1218transport q1218food q1218other q1221insurance q1221insurancetype q1223satisfaction q714ttnumber (99 = .r)
+	recode mobile_phone kebele_malaria kebele_intworm m1_201 m1_202a m1_202b m1_202c m1_202d m1_202e m1_202f m1_202g m1_203 m1_204 m1_205a m1_205b m1_205c m1_205d m1_205e phq9a phq9b phq9c phq9d phq9e phq9f phq9g phq9h phq9i m1_301 m1_302 m1_303 m1_304 m1_305a m1_305b m1_401 m1_404 m1_405 m1_501 m1_503 m1_504 m1_505 m1_506 m1_507 m1_601 m1_602 m1_605a m1_605b m1_605c m1_605d m1_605e m1_605f m1_605g m1_605h m1_605i m1_605j m1_605k m1_700 m1_701 m1_702 m1_703 m1_704 m1_705 m1_706 m1_707 m1_708a m1_708b m1_708c m1_708d m1_708e m1_708f m1_709a m1_709b m1_710a m1_710b m1_710c m1_711a m1_711b m1_712 m1_713a m1_713b m1_713c m1_713d m1_713e m1_713f m1_713g m1_713h m1_713i m1_714a m1_714b m1_716a m1_716b m1_716c m1_716d m1_716e m1_717 m1_718 m1_719 m1_720 m1_721 m1_722 m1_723 m1_724a m1_724c m1_724d m1_724e m1_724f m1_724g m1_724h m1_724i m1_801 m1_805 m1_806 m1_807 m1_810a m1_810b m1_813a m1_813b m1_813c m1_813d m1_813e m1_eth_1_8a m1_eth_1_8b m1_eth_1_8c m1_eth_1_8d m1_eth_1_8e m1_eth_1_8f m1_eth_1_8g m1_eth_2_8 m1_814a m1_814b m1_814c m1_814d m1_814e m1_814f m1_814g m1_814h m1_814i m1_816 m1_901 m1_902 m1_903 m1_904 m1_905 m1_907 m1_1004 m1_1005 m1_1006 m1_eth_1_10 m1_1007 m1_1008 m1_1010 m1_1011a m1_1011b m1_1011c m1_1011d m1_1011e m1_1011f m1_1101 m1_1103 m1_1105 m1_1201 m1_1202 m1_1203 m1_1204 m1_1205 m1_1206 m1_1207 m1_1208 m1_1209 m1_1210 m1_1211 m1_1212 m1_1213 m1_1214 m1_1215 m1_1216 m1_1217 m1_1221 m1_1222 m1_1223 (99 = .r)
 
-*is this duplicated? 
-*recode mobile_phone q201srhealth q202diabetes q202hbp q202cardiac q202mental q202hiv q202hepb q202renal q204meds q205mobility q205selfcare q205activities q205pain q205anxiety phq9a phq9b phq9c phq9d phq9e phq9f phq9g phq9h phq9i q301qualrate  q302overallview q303confidentcare q304confidentafford q305confidentresp q305confidenttellprov q401travel q403knowdist q403distance q404nearest q405reason q501language q503level q504literate q505marriage q506occupation q507religion q601qoc q602nps q605skills q605equip q605respect q605clarity q605involved q605time q605wait q605courtesy q605confidentiality q605privacy q605cost q700bp q701weight q702height q703muac q704babyrate q705urine q706blooddrop q706blooddraw q708hiv q708hivresult q708hivmed q708hivmedex q708hivload q708hivcd4 q709hivload q709hivdc4 q710syphilis q710syphilisresult q710syphilismed q711bloodsugar q711bloodsugarresult q712ultrasound q713fefa q713capill q713foodsupp q713intworm q713malaria q713nerves q713multivit q713hypertension q713diabetes q714tt q714ttbefore q716nutrition q716exercise q716mental q716itn q716complication q717depression q718diabetes q719hypertension q720cardiac q721mental q722hiv q723meds q724return q724gynecologist q724hospital q724urine q724blood q724hiv q724ultrasound q724mentalhealth q801edd q805numbbabies q806asklmp q810planbirthloc why_you_might_need_c_section_812 q813neausea q813heartburn q813cramp q813backpain q813advice q813preeclamp q813hypgrav q813anemia q813amniotic q813asthma q813rhiso q813problem q813adviceb q814headache q814bleeding q814fever q814abpain q814breathing q814convulsions q814fainting q814babynotmoving q814blurvision q816complication q901smoke q902stopsmoke q903khat q904stopkhat q905alcohol q907stopalcohol q1004stillbirth q1005preterm q1006bloodtrans q1007cs q1008longlabor q1010onemodeath q1011pregnancies q1011miscarriage q1011stillbirth q1011preterm q1011cs q1101physabuse  q1103verbabuse q1105providerdiscuss q1201water q1202toilet q1203electricity q1204radio q1205tv q1206telephone q1207fridge q1208cookfuel q1209floor q1210walls q1211roof q1212bicycle q1213motocycle q1214car q1215bankacct q1216knowmeals q1216meals q1217oop q1218reg q1218meds q1218test q1218transport q1218food q1218other q1221insurance q1221insurancetype q1223satisfaction q714ttnumber (99 = .r)
-
-	recode q401travel q404nearest q501language q506occupation q507religion q509hiv q510tb q511diarrhea q512woodburn q700bp q701weight q702height q703muac q704babyrate q705urine q706blooddrop q706blooddraw q708hiv q708hivresult q708hivmed q708hivmedex q708hivload q708hivcd4 q709hivload q709hivdc4 q710syphilis q710syphilisresult q710syphilismed q711bloodsugar q711bloodsugarresult q712ultrasound q713fefa q713capill q713foodsupp q713intworm q713malaria q713nerves q713multivit q713hypertension q713diabetes q714tt q714ttbefore q716nutrition q716exercise q716mental q716itn q716complication q717depression q718diabetes q719hypertension q720cardiac q721mental q722hiv q723meds q724return q724gynecologist q724mentalhealth q724hospital q724urine q724blood q724hiv q724ultrasound q801edd q805numbbabies q806asklmp q807desired q809birthplan q810planbirthloc q810planbirthfac q811mwh q812toldcs q813neausea q813heartburn q813cramp q813backpain q813advice q813preeclamp q813hypgrav q813anemia q813amniotic q813asthma q813rhiso q813problem q813adviceb q814headache q814bleeding q814fever q814abpain q814breathing q814convulsions q814fainting q814babynotmoving q814blurvision q816complication q901smoke q902stopsmoke q903khat q904stopkhat q905alcohol q907stopalcohol q1004stillbirth q1005preterm q1006bloodtrans q10et1congenital q1007cs q1008longlabor q1010onemodeath q1011pregnancies q1011miscarriage q1011stillbirth q1011preterm q1011cs q1011onemonthdeath q1101physabuse q1105providerdiscuss q1201water q1202toilet q1203electricity q1204radio q1205tv q1206telephone q1207fridge q1208cookfuel q1209floor q1210walls q1211roof q1212bicycle q1213motocycle q1214car q1215bankacct q1216knowmeals q1218reg q1218meds q1218test q1218transport q1218food q1218other q1221insurancetype q1223satisfaction q804trimester (98 = .d)
+	recode m1_401 m1_404 m1_501 m1_506 m1_507 m1_509b m1_510b m1_511 m1_512 m1_700 m1_701 m1_702 m1_703 m1_704 m1_705 m1_706 m1_707 m1_708a m1_708b m1_708c m1_708d m1_708e m1_708f m1_709a m1_709b m1_710a m1_710b m1_710c m1_711a m1_711b m1_712 m1_713a m1_713b m1_713c m1_713d m1_713e m1_713f m1_713g m1_713h m1_713i m1_714a m1_714b m1_716a m1_716b m1_716c m1_716d m1_716e m1_717 m1_718 m1_719 m1_720 m1_721 m1_722 m1_723 m1_724a m1_724c m1_724d m1_724e m1_724f m1_724g m1_724h m1_724i m1_801 m1_805 m1_806 m1_807 m1_809 m1_810a m1_810b m1_811 m1_812a m1_813a m1_813b m1_813c m1_813d m1_813e m1_eth_1_8a m1_eth_1_8b m1_eth_1_8c m1_eth_1_8d m1_eth_1_8e m1_eth_1_8f m1_eth_1_8g m1_eth_2_8 m1_814a m1_814b m1_814c m1_814d m1_814e m1_814f m1_814g m1_814h m1_814i m1_816 m1_901 m1_902 m1_903 m1_904 m1_905 m1_907 m1_1004 m1_1005 m1_1006 m1_eth_1_10 m1_1007 m1_1008 m1_1010 m1_1011a m1_1011b m1_1011c m1_1011d m1_1011e m1_1011f m1_1101 m1_1105 m1_1201 m1_1202 m1_1203 m1_1204 m1_1205 m1_1206 m1_1207 m1_1208 m1_1209 m1_1210 m1_1211 m1_1212 m1_1213 m1_1214 m1_1215 m1_1216 m1_1218a m1_1218b m1_1218c m1_1218d m1_1218e m1_1218f m1_1221 m1_1223 m1_804 (98 = .d)
 
 	** MODULE 2:
 	recode m2_301 m2_203a m2_203b m2_203c m2_203d m2_203e m2_203f m2_203g m2_203h m2_203i m2_204a m2_204b m2_204c m2_204d m2_204e m2_204f m2_204g m2_204h m2_204i m2_205c m2_205d m2_205e m2_205f m2_205g m2_205h m2_205i m2_206 m2_207 m2_208 m2_301 m2_303a m2_303b m2_303c m2_303d m2_303e m2_305 m2_306 m2_308 m2_309 m2_311 m2_312 m2_314 m2_315 m2_317 m2_318 m2_321 m2_401 m2_402 m2_403 m2_404 m2_405 m2_501a m2_501b m2_501c m2_501d m2_501e m2_501f m2_501g m2_502 m2_503a m2_503b m2_503c m2_503d m2_503e m2_503f m2_504 m2_505a m2_505b m2_505c m2_505d m2_505e m2_505f m2_506a m2_506b m2_506c m2_506d m2_507 m2_508a m2_508b_number m2_508c m2_509a m2_509b m2_509c m2_601a m2_601b m2_601c m2_601d m2_601e m2_601f m2_601g m2_601h m2_601i m2_601j m2_601k m2_601l m2_601m m2_601n m2_602a m2_603 m2_604 m2_701 m2_702a m2_702b m2_702c m2_702d m2_702e m2_704 (99 = .r)
-	
 	
 	recode m2_201 m2_203a m2_203b m2_203c m2_203d m2_203e m2_203f m2_203g m2_203h m2_203i m2_204a m2_204b m2_204c m2_204d m2_204e m2_204f m2_204g m2_204h m2_204i m2_206 m2_207 m2_208 m2_301 m2_303a m2_303b m2_303c m2_303d m2_303e m2_305 m2_306 m2_308 m2_309 m2_311 m2_312 m2_314 m2_315 m2_317 m2_318 m2_321 m2_401 m2_402 m2_403 m2_404 m2_405 m2_501a m2_501b m2_501c m2_501d m2_501e m2_501f m2_501g m2_502 m2_503a m2_503b m2_503c m2_503d m2_503e m2_503f m2_504 m2_505a m2_505b m2_505c m2_505d m2_505e m2_505f m2_506a m2_506b m2_506c m2_506d m2_507 m2_508a m2_508b_number m2_508c m2_509a m2_509b m2_509c m2_601a m2_601b m2_601c m2_601d m2_601e m2_601f m2_601g m2_601h m2_601i m2_601j m2_601k m2_601l m2_601m m2_601n m2_602a m2_603 m2_604 m2_701 m2_702a m2_702b m2_702c m2_702d m2_702e m2_704 (98 = .d)
 
@@ -917,413 +926,404 @@ recode b6anc_first (. = .a) if b5anc== 2
 recode b6anc_first_conf (.a = .a) if b5anc== 2
 recode continuecare (. = .a) if b6anc_first_conf ==2 
 recode flash (. = .a) if mobile_phone == 0 | mobile_phone == 99 | mobile_phone == .
-recode q503level (. = .a) if q502school	== 0 | q502school == .
-recode q504literate (. = .a) if q502school	== 0 | q503level == 1
+recode phone_number (. = .a) if mobile_phone == 0 | mobile_phone == 99 | mobile_phone == .
+recode m1_503 (. = .a) if m1_502 == 0 | m1_502 == .
+recode m1_504 (. = .a) if m1_502 == 0 | m1_503 == 1
+recode m1_509b (. = .a) if m1_509a == 0
+recode m1_510b (. = .a) if m1_510a == 0
+recode m1_513b m1_513c (. = .a) if m1_513a_1 == 0 | m1_513a_2 == 1 | ///
+	   m1_513a_3 == 1 | m1_513a_4 == 1 | m1_513a_5 == 1 | ///
+	   m1_513a_6 == 1 | m1_513a_7 == 1 | m1_513a_8 == 1 
 
-recode q509hivtrans (. = .a) if q509hiv == 0
-recode q510tbtrad (. = .a) if q510tb == 0
-recode primary_phone_number_513b can_i_flash_this_number_513c (. = .a) if what_phone_numbers_513a___1 == 0 | what_phone_numbers_513a___2 == 1 | what_phone_numbers_513a___3 == 1 | ///
-																		  what_phone_numbers_513a___4 == 1 | what_phone_numbers_513a___5 == 1 | what_phone_numbers_513a___6 == 1 | ///
-																		  what_phone_numbers_513a___7 == 1 | what_phone_numbers_513a___8 == 1 
+recode m1_513d (. = .a) if m1_513a_2 == 0 | m1_513a_1 == 1 | ///
+	   m1_513a_3 == 1 | m1_513a_4 == 1 | m1_513a_5 == 1 | ///
+	   m1_513a_6 == 1 | m1_513a_7 == 1 | m1_513a_8 == 1 											 
 
-recode secondary_personal_phone_513d (. = .a) if what_phone_numbers_513a___2 == 0 | what_phone_numbers_513a___1 == 1 | what_phone_numbers_513a___3 == 1 | ///
-											     what_phone_numbers_513a___4 == 1 | what_phone_numbers_513a___5 == 1 | what_phone_numbers_513a___6 == 1 | ///
-												 what_phone_numbers_513a___7 == 1 | what_phone_numbers_513a___8 == 1 											 
-
-recode spouse_or_partner_513e (. = .a) if what_phone_numbers_513a___3 == 0 | what_phone_numbers_513a___1 == 1 | what_phone_numbers_513a___2 == 1 | ///
-											     what_phone_numbers_513a___4 == 1 | what_phone_numbers_513a___5 == 1 | what_phone_numbers_513a___6 == 1 | ///
-												 what_phone_numbers_513a___7 == 1 | what_phone_numbers_513a___8 == 1 
+recode m1_513e (. = .a) if m1_513a_3 == 0 | m1_513a_1 == 1 | ///
+	   m1_513a_2 == 1 | m1_513a_4 == 1 | m1_513a_5 == 1 | m1_513a_6 == 1 | ///
+	   m1_513a_7 == 1 | m1_513a_8 == 1 
 												 
-recode community_health_worker_513f (. = .a) if what_phone_numbers_513a___4 == 0 | what_phone_numbers_513a___1 == 1 | what_phone_numbers_513a___2 == 1 | ///
-											     what_phone_numbers_513a___3 == 1 | what_phone_numbers_513a___5 == 1 | what_phone_numbers_513a___6 == 1 | ///
-												 what_phone_numbers_513a___7 == 1 | what_phone_numbers_513a___8 == 1 
+recode m1_513f (. = .a) if m1_513a_4 == 0 | m1_513a_1 == 1 | m1_513a_2 == 1 | ///
+	   m1_513a_3 == 1 | m1_513a_5 == 1 | m1_513a_6 == 1 | ///
+	   m1_513a_7 == 1 | m1_513a_8 == 1 
 												 
-recode close_friend_or_family_513g (. = .a) if what_phone_numbers_513a___5 == 0 | what_phone_numbers_513a___1 == 1 | what_phone_numbers_513a___2 == 1 | ///
-											     what_phone_numbers_513a___3 == 1 | what_phone_numbers_513a___4 == 1 | what_phone_numbers_513a___6 == 1 | ///
-												 what_phone_numbers_513a___7 == 1 | what_phone_numbers_513a___8 == 1 	
+recode m1_513g (. = .a) if m1_513a_5 == 0 | m1_513a_1 == 1 | m1_513a_2 == 1 | ///
+	   m1_513a_3 == 1 | m1_513a_4 == 1 | m1_513a_6 == 1 | ///
+	   m1_513a_7 == 1 | m1_513a_8 == 1 	
 												 
-recode close_friend_or_family_513h (. = .a) if what_phone_numbers_513a___6 == 0 | what_phone_numbers_513a___1 == 1 | what_phone_numbers_513a___2 == 1 | ///
-											     what_phone_numbers_513a___3 == 1 | what_phone_numbers_513a___4 == 1 | what_phone_numbers_513a___5 == 1 | ///
-												 what_phone_numbers_513a___7 == 1 | what_phone_numbers_513a___8 == 1 
+recode m1_513h (. = .a) if m1_513a_6 == 0 | m1_513a_1 == 1 | m1_513a_2 == 1 | ///
+	   m1_513a_3 == 1 | m1_513a_4 == 1 | m1_513a_5 == 1 | ///
+	   m1_513a_7 == 1 | m1_513a_8 == 1 
 												 
-recode other_phone_number_513i (. = .a) if what_phone_numbers_513a___7 == 0 | what_phone_numbers_513a___1 == 1 | what_phone_numbers_513a___2 == 1 | ///
-											     what_phone_numbers_513a___3 == 1 | what_phone_numbers_513a___4 == 1 | what_phone_numbers_513a___5 == 1 | ///
-												 what_phone_numbers_513a___6 == 1 | what_phone_numbers_513a___8 == 1 												 
+recode m1_513i (. = .a) if m1_513a_7 == 0 | m1_513a_1 == 1 | m1_513a_2 == 1 | ///
+	   m1_513a_3 == 1 | m1_513a_4 == 1 | m1_513a_5 == 1 | ///
+	   m1_513a_6 == 1 | m1_513a_8 == 1 												 
 
-recode we_can_give_you_a_mobile_phone_5 (. = .a) if what_phone_numbers_513a___3 == 1 | what_phone_numbers_513a___4 == 1 | what_phone_numbers_513a___5 == 1 | ///
-												    what_phone_numbers_513a___6 == 1 | what_phone_numbers_513a___7 == 1 | what_phone_numbers_513a___8 == 1	
+recode m1_514a (. = .a) if m1_513a_3 == 1 | m1_513a_4 == 1 | m1_513a_5 == 1 | ///
+	   m1_513a_6 == 1 | m1_513a_7 == 1 | m1_513a_8 == 1	
 
-*string var:
-*replace until_when_will_you_be_at_518 = .a if is_this_a_temporary_reside_517 == 2 | is_this_a_temporary_reside_517 == .	
+recode m1_708b (. = .a) if m1_708a == 0 | m1_708a == . | m1_708a == .d
+recode m1_708c (. = .a) if m1_708b	== 2 | m1_708b == . |	m1_708b == .d | m1_708b == .a 
+recode m1_708d (. = .a) if m1_708c	== 0 | m1_708c == . | m1_708c == .d | m1_708c == .a 
+recode m1_708e (. = .a) if m1_708b == 2 | m1_708b == . | m1_708b == .d | m1_708b == .a
+recode m1_708f (. = .a) if m1_708b == 2 | m1_708b == . | m1_708b == .d | m1_708b == .a
 
+recode m1_710b (. = .a) if m1_710a == 0 | m1_710a == . | m1_710a == .d
+recode m1_710c (. = .a) if m1_710b == 2 | m1_710b == .a | m1_710b == .d
 
-recode q708hivresult (. = .a) if q708hiv == 0 | q708hiv == . | q708hiv == .d
-recode q708hivmed (. = .a) if q708hivresult	== 2 | q708hivresult == . |	q708hivresult == .d | q708hivresult == .a 
-recode q708hivmedex (. = .a) if q708hivmed	== 0 | q708hivmed == . | q708hivmed == .d | q708hivmed == .a 
-recode q708hivload (. = .a) if q708hivresult == 2 | q708hivresult == . | q708hivresult == .d | q708hivresult == .a
-recode q708hivcd4 (. = .a) if q708hivresult == 2 | q708hivresult == . | q708hivresult == .d | q708hivresult == .a
+recode m1_711b (. = .a) if m1_711a == 0 | m1_711a == . | m1_711a == .d
 
+recode m1_714c (. = .a) if m1_714b == 0 | m1_714b == . | m1_714b == .d | m1_714b == .r
+* SS: Fix in redcap to make a number
+*recode m1_714d (. = .a) if m1_714b == 0 | m1_714b == . | m1_714b == .d | m1_714b == .r
+recode m1_714e (. = .a) if m1_714c == . | m1_714c == .r
 
-recode q710syphilisresult (. = .a) if q710syphilis == 0 | q710syphilis == . | q710syphilis == .d
+recode m1_718 (. = .a) if m1_202a == 0 | m1_202a == .
+recode m1_719 (. = .a) if m1_202b == 0 | m1_202b == .
+recode m1_720 (. = .a) if m1_202c == 0 | m1_202c == .
+recode m1_721 (. = .a) if m1_202d == 0 | m1_202d == .
+recode m1_722 (. = .a) if m1_202e == 0 | m1_202e == .
 
-recode q710syphilismed (. = .a) if q710syphilisresult == 2 | q710syphilisresult == .a | q710syphilisresult == .d
+recode m1_724b (. = .a) if m1_724a == 0 | m1_724a == .
+recode m1_724f (. = .a) if m1_705 == 1 | m1_705 == . | m1_705 == .d | m1_705 == .r
+recode m1_724g (. = .a) if  m1_707 == 1 | m1_707 == . | m1_707 == .d | m1_707 == .r
+recode m1_724h (. = .a) if m1_708a == 1 | m1_708a == . | m1_708a == .d | m1_708a == .r
+recode m1_724i (. = .a) if m1_712 == 1 | m1_712 == . | m1_712 == .d | m1_712 == .r
 
-recode q711bloodsugarresult (. = .a) if q711bloodsugar == 0 | q711bloodsugar == . | q711bloodsugar == .d
-
-recode q714ttbefore (. = .a) if q714tt == 0 | q714tt == . | q714tt == .d | q714tt == .r
-
-*recode q714ttyears (. = .a) if q714ttnumber == . | q714ttnumber == .r
-recode q714ttyears2 (. = .a) if q714ttnumber == 1 | q714ttnumber == . | q714ttnumber == .r
-
-recode q718diabetes (. = .a) if q202diabetes == 0 | q202diabetes == .
-
-recode q719hypertension (. = .a) if q202hbp == 0 | q202hbp == .
-
-recode q202cardiac (. = .a) if q720cardiac == 0 | q720cardiac == .
-
-recode q202mental (. = .a) if q721mental == 0 | q721mental == .
-
-recode q202hiv (. = .a) if q722hiv == 0 | q722hiv == .
-
-recode q724returnwhen (. = .a) if q724return == 0 | q724return == .
-
-recode q724urine (. = .a) if q705urine == 1 | q705urine == . | q705urine == .d | q705urine == .r
-
-recode q724blood (. = .a) if  q706blooddraw == 1 | q706blooddraw == . | q706blooddraw == .d | q706blooddraw == .r
-
-recode q724hiv (. = .a) if q708hiv == 1 | q708hiv == . | q708hiv == .d | q708hiv == .r
-
-recode q724ultrasound (. = .a) if q712ultrasound == 1 | q712ultrasound == . | q712ultrasound == .d | q712ultrasound == .r
-
-* double check this skip pattern
+* SS: double check this skip pattern
 * Need to recode  q803gaself text "DK" = .d
-recode q804trimester (. = .a) if (q801edd == 0 | q801edd == . | q801edd == .d | q801edd == .r) & (q802lmpknown == 0 | q802lmpknown == .) & (q803gaself == "98" |  q803gaself == "Dk" | q803gaself == "") 
+recode m1_804 (. = .a) if (m1_801 == 0 | m1_801 == . | m1_801 == .d | m1_801 == .r) & (m1_802b == 0 | m1_802b == .) & (m1_803 == "98" |  m1_803 == "Dk" | m1_803 == "") 
 
-recode there_are_many_reasons_why_808__ (0 = .a) if q804trimester == 1 | q804trimester == . | q804trimester == .a | q804trimester == .d
-recode v204 (0 = .a) if q804trimester == 1 | q804trimester == . | q804trimester == .a | q804trimester == .d
-recode v205 (0 = .a) if q804trimester == 1 | q804trimester == . | q804trimester == .a | q804trimester == .d
-recode v206 (0 = .a) if q804trimester == 1 | q804trimester == . | q804trimester == .a | q804trimester == .d
-recode v207 (0 = .a) if q804trimester == 1 | q804trimester == . | q804trimester == .a | q804trimester == .d
-recode v208 (0 = .a) if q804trimester == 1 | q804trimester == . | q804trimester == .a | q804trimester == .d
-recode v209 (0 = .a) if q804trimester == 1 | q804trimester == . | q804trimester == .a | q804trimester == .d
-recode v210 (0 = .a) if q804trimester == 1 | q804trimester == . | q804trimester == .a | q804trimester == .d
-recode v211 (0 = .a) if q804trimester == 1 | q804trimester == . | q804trimester == .a | q804trimester == .d
-recode v212 (0 = .a) if q804trimester == 1 | q804trimester == . | q804trimester == .a | q804trimester == .d
-recode v213 (0 = .a) if q804trimester == 1 | q804trimester == . | q804trimester == .a | q804trimester == .d
-recode v214 (0 = .a) if q804trimester == 1 | q804trimester == . | q804trimester == .a | q804trimester == .d
-recode v215 (0 = .a) if q804trimester == 1 | q804trimester == . | q804trimester == .a | q804trimester == .d
-recode v216 (0 = .a) if q804trimester == 1 | q804trimester == . | q804trimester == .a | q804trimester == .d
-recode v217 (0 = .a) if q804trimester == 1 | q804trimester == . | q804trimester == .a | q804trimester == .d
+recode there_are_many_reasons_why_808__ (0 = .a) if m1_804 == 1 | m1_804 == . | m1_804 == .a | m1_804 == .d
+recode v204 (0 = .a) if m1_804 == 1 | m1_804 == . | m1_804 == .a | m1_804 == .d
+recode v205 (0 = .a) if m1_804 == 1 | m1_804 == . | m1_804 == .a | m1_804 == .d
+recode v206 (0 = .a) if m1_804 == 1 | m1_804 == . | m1_804 == .a | m1_804 == .d
+recode v207 (0 = .a) if m1_804 == 1 | m1_804 == . | m1_804 == .a | m1_804 == .d
+recode v208 (0 = .a) if m1_804 == 1 | m1_804 == . | m1_804 == .a | m1_804 == .d
+recode v209 (0 = .a) if m1_804 == 1 | m1_804 == . | m1_804 == .a | m1_804 == .d
+recode v210 (0 = .a) if m1_804 == 1 | m1_804 == . | m1_804 == .a | m1_804 == .d
+recode v211 (0 = .a) if m1_804 == 1 | m1_804 == . | m1_804 == .a | m1_804 == .d
+recode v212 (0 = .a) if m1_804 == 1 | m1_804 == . | m1_804 == .a | m1_804 == .d
+recode v213 (0 = .a) if m1_804 == 1 | m1_804 == . | m1_804 == .a | m1_804 == .d
+recode v214 (0 = .a) if m1_804 == 1 | m1_804 == . | m1_804 == .a | m1_804 == .d
+recode v215 (0 = .a) if m1_804 == 1 | m1_804 == . | m1_804 == .a | m1_804 == .d
+recode v216 (0 = .a) if m1_804 == 1 | m1_804 == . | m1_804 == .a | m1_804 == .d
+recode v217 (0 = .a) if m1_804 == 1 | m1_804 == . | m1_804 == .a | m1_804 == .d
 
-recode m1_812b_0 (. = .a) (0 = .a) if q812toldcs == 0 | q812toldcs ==. | q812toldcs == .d 
+* SS: Fix in redcap to add this skip pattern
+recode m1_812b (. = .a) (0 = .a) if m1_812a == 0 | m1_812a ==. | m1_812a == .d 
 
-recode q813advice (. = .a) if (q813neausea == 0 | q813neausea == .d | q813neausea == .r) & (q813heartburn == 0 | q813heartburn == .d | q813heartburn == .r) & ///
-							   (q813cramp == 0 | q813cramp == .d | q813cramp == .r) & (q813backpain == 0 | q813backpain == .d | q813backpain == .r)
+recode m1_813e (. = .a) if (m1_813a == 0 | m1_813a == .d | m1_813a == .r) & (m1_813b == 0 | ///
+	   m1_813b == .d | m1_813b == .r) & (m1_813c == 0 | m1_813c == .d | m1_813c == .r) & ///
+	   (m1_813d == 0 | m1_813d == .d | m1_813d == .r)
 
-recode q813adviceb (. = .a) if (q813preeclamp == 0 | q813preeclamp == .d | q813preeclamp == .r) & (q813hypgrav == 0 | q813hypgrav == .d | q813hypgrav == .r) & ///
-							   (q813anemia == 0 | q813anemia == .d | q813anemia == .r) & (q813amniotic == 0 | q813amniotic == .d | q813amniotic == .r) & ///
-							   (q813asthma == 0 | q813asthma == .d | q813asthma == .r) & (q813rhiso == 0 | q813rhiso == .d | q813rhiso == .r) & ///
-							   (q813problem == 0 | q813problem == .d | q813problem == .r)
+recode m1_eth_2_8 (. = .a) if (m1_eth_1_8a == 0 | m1_eth_1_8a == .d | m1_eth_1_8a == .r) & ///
+	   (m1_eth_1_8b == 0 | m1_eth_1_8b == .d | m1_eth_1_8b == .r) & ///
+	   (m1_eth_1_8c == 0 | m1_eth_1_8c == .d | m1_eth_1_8c == .r) & ///
+	   (m1_eth_1_8d == 0 | m1_eth_1_8d == .d | m1_eth_1_8d == .r) & ///
+	   (m1_eth_1_8e == 0 | m1_eth_1_8e == .d | m1_eth_1_8e == .r) & ///
+	   (m1_eth_1_8f == 0 | m1_eth_1_8f == .d | m1_eth_1_8f == .r) & ///
+	   (m1_eth_1_8g == 0 | m1_eth_1_8g == .d | m1_eth_1_8g == .r)
 
-
-recode q814babynotmoving (. = .a) if q804trimester == 1	| q804trimester == 2 | q804trimester == . | q804trimester == .a | q804trimester == .d								   
-						   
-recode provider_tell_you_to_do_regardin (0 = .a) if (q814headache == 0 | q814headache == .d | q814headache == .r | q814headache == .) & ///
-													(q814bleeding == 0 | q814bleeding == .d | q814bleeding == .r | q814bleeding == .) & ///
-													(q814fever == 0 | q814fever == .d | q814fever == .r | q814fever == .) & ///
-													(q814abpain == 0 | q814abpain == .d | q814abpain == .r | q814abpain == .) & ///
-													(q814breathing == 0 | q814breathing == .d | q814breathing == .r | q814breathing == .) & ///
-													(q814convulsions == 0 | q814convulsions == .d | q814convulsions == .r | q814convulsions == .) & ///
-													(q814fainting == 0 | q814fainting == .d | q814fainting == .r | q814fainting == .) & ///
-													(q814babynotmoving == 0 | q814babynotmoving == .d | q814babynotmoving == .r | q814babynotmoving == . | q814babynotmoving == .a) & ///
-													(q814blurvision == 0 | q814blurvision == .d | q814blurvision == .r | q814blurvision == .)
+recode m1_814h (. = .a) if m1_804 == 1	| m1_804 == 2 | m1_804 == . | m1_804 == .a | m1_804 == .d								   			   
+recode provider_tell_you_to_do_regardin (0 = .a) if (m1_814a == 0 | m1_814a == .d | m1_814a == .r | m1_814a == .) & ///
+													(m1_814b == 0 | m1_814b == .d | m1_814b == .r | m1_814b == .) & ///
+													(m1_814c == 0 | m1_814c == .d | m1_814c == .r | m1_814c == .) & ///
+													(m1_814d == 0 | m1_814d == .d | m1_814d == .r | m1_814d == .) & ///
+													(m1_814e == 0 | m1_814e == .d | m1_814e == .r | m1_814e == .) & ///
+													(m1_814f == 0 | m1_814f == .d | m1_814f == .r | m1_814f == .) & ///
+													(m1_814g == 0 | m1_814g == .d | m1_814g == .r | m1_814g == .) & ///
+													(m1_814h == 0 | m1_814h == .d | m1_814h == .r | m1_814h == . | m1_814h == .a) & ///
+													(m1_814i == 0 | m1_814i == .d | m1_814i == .r | m1_814i == .)
    							   
-recode provider_tell_you_to_do_regardin (0 = .) if q814headache == 1 | q814bleeding ==1 | q814fever == 1 | q814abpain == 1 | ///
-													q814breathing == 1 | q814convulsions == 1 | q814fainting == 1 | q814babynotmoving == 1 | ///
-													q814blurvision == 1
+recode provider_tell_you_to_do_regardin (0 = .) if m1_814a == 1 | m1_814b ==1 | m1_814c == 1 | m1_814d == 1 | ///
+												   m1_814e == 1 | m1_814f == 1 | m1_814g == 1 | m1_814h == 1 | ///
+												   m1_814i == 1
 													
-recode v259 (0 = .a) if (q814headache == 0 | q814headache == .d | q814headache == .r | q814headache == .) & ///
-													(q814bleeding == 0 | q814bleeding == .d | q814bleeding == .r | q814bleeding == .) & ///
-													(q814fever == 0 | q814fever == .d | q814fever == .r | q814fever == .) & ///
-													(q814abpain == 0 | q814abpain == .d | q814abpain == .r | q814abpain == .) & ///
-													(q814breathing == 0 | q814breathing == .d | q814breathing == .r | q814breathing == .) & ///
-													(q814convulsions == 0 | q814convulsions == .d | q814convulsions == .r | q814convulsions == .) & ///
-													(q814fainting == 0 | q814fainting == .d | q814fainting == .r | q814fainting == .) & ///
-													(q814babynotmoving == 0 | q814babynotmoving == .d | q814babynotmoving == .r | q814babynotmoving == . | q814babynotmoving == .a) & ///
-													(q814blurvision == 0 | q814blurvision == .d | q814blurvision == .r | q814blurvision == .)
+recode v259 (0 = .a) if (m1_814a == 0 | m1_814a == .d | m1_814a == .r | m1_814a == .) & ///
+						(m1_814b == 0 | m1_814b == .d | m1_814b == .r | m1_814b == .) & ///
+						(m1_814c == 0 | m1_814c == .d | m1_814c == .r | m1_814c == .) & ///
+						(m1_814d == 0 | m1_814d == .d | m1_814d == .r | m1_814d == .) & ///
+						(m1_814e == 0 | m1_814e == .d | m1_814e == .r | m1_814e == .) & ///
+						(m1_814f == 0 | m1_814f == .d | m1_814f == .r | m1_814f == .) & ///
+						(m1_814g == 0 | m1_814g == .d | m1_814g == .r | m1_814g == .) & ///
+						(m1_814h == 0 | m1_814h == .d | m1_814h == .r | m1_814h == . | m1_814h == .a) & ///
+						(m1_814i == 0 | m1_814i == .d | m1_814i == .r | m1_814i == .)
 													
-recode v259 (0 = .) if q814headache == 1 | q814bleeding ==1 | q814fever == 1 | q814abpain == 1 | ///
-													q814breathing == 1 | q814convulsions == 1 | q814fainting == 1 | q814babynotmoving == 1 | ///
-													q814blurvision == 1		
+recode v259 (0 = .) if m1_814a == 1 | m1_814b ==1 | m1_814c == 1 | m1_814d == 1 | ///
+					   m1_814e == 1 | m1_814f == 1 | m1_814g == 1 | m1_814h == 1 | ///
+					   m1_814i == 1
 													
-recode v260 (0 = .a) if (q814headache == 0 | q814headache == .d | q814headache == .r | q814headache == .) & ///
-													(q814bleeding == 0 | q814bleeding == .d | q814bleeding == .r | q814bleeding == .) & ///
-													(q814fever == 0 | q814fever == .d | q814fever == .r | q814fever == .) & ///
-													(q814abpain == 0 | q814abpain == .d | q814abpain == .r | q814abpain == .) & ///
-													(q814breathing == 0 | q814breathing == .d | q814breathing == .r | q814breathing == .) & ///
-													(q814convulsions == 0 | q814convulsions == .d | q814convulsions == .r | q814convulsions == .) & ///
-													(q814fainting == 0 | q814fainting == .d | q814fainting == .r | q814fainting == .) & ///
-													(q814babynotmoving == 0 | q814babynotmoving == .d | q814babynotmoving == .r | q814babynotmoving == . | q814babynotmoving == .a) & ///
-													(q814blurvision == 0 | q814blurvision == .d | q814blurvision == .r | q814blurvision == .)
+recode v260 (0 = .a) if (m1_814a == 0 | m1_814a == .d | m1_814a == .r | m1_814a == .) & ///
+						(m1_814b == 0 | m1_814b == .d | m1_814b == .r | m1_814b == .) & ///
+						(m1_814c == 0 | m1_814c == .d | m1_814c == .r | m1_814c == .) & ///
+						(m1_814d == 0 | m1_814d == .d | m1_814d == .r | m1_814d == .) & ///
+						(m1_814e == 0 | m1_814e == .d | m1_814e == .r | m1_814e == .) & ///
+						(m1_814f == 0 | m1_814f == .d | m1_814f == .r | m1_814f == .) & ///
+						(m1_814g == 0 | m1_814g == .d | m1_814g == .r | m1_814g == .) & ///
+						(m1_814h == 0 | m1_814h == .d | m1_814h == .r | m1_814h == . | m1_814h == .a) & ///
+						(m1_814i == 0 | m1_814i == .d | m1_814i == .r | m1_814i == .)
 													
-recode v260 (0 = .) if q814headache == 1 | q814bleeding ==1 | q814fever == 1 | q814abpain == 1 | ///
-													q814breathing == 1 | q814convulsions == 1 | q814fainting == 1 | q814babynotmoving == 1 | ///
-													q814blurvision == 1		
+recode v260 (0 = .) if m1_814a == 1 | m1_814b ==1 | m1_814c == 1 | m1_814d == 1 | ///
+					   m1_814e == 1 | m1_814f == 1 | m1_814g == 1 | m1_814h == 1 | ///
+					   m1_814i == 1
 													
+recode v261 (0 = .a) if (m1_814a == 0 | m1_814a == .d | m1_814a == .r | m1_814a == .) & ///
+						(m1_814b == 0 | m1_814b == .d | m1_814b == .r | m1_814b == .) & ///
+						(m1_814c == 0 | m1_814c == .d | m1_814c == .r | m1_814c == .) & ///
+						(m1_814d == 0 | m1_814d == .d | m1_814d == .r | m1_814d == .) & ///
+						(m1_814e == 0 | m1_814e == .d | m1_814e == .r | m1_814e == .) & ///
+						(m1_814f == 0 | m1_814f == .d | m1_814f == .r | m1_814f == .) & ///
+						(m1_814g == 0 | m1_814g == .d | m1_814g == .r | m1_814g == .) & ///
+						(m1_814h == 0 | m1_814h == .d | m1_814h == .r | m1_814h == . | m1_814h == .a) & ///
+						(m1_814i == 0 | m1_814i == .d | m1_814i == .r | m1_814i == .)
 													
-recode v261 (0 = .a) if (q814headache == 0 | q814headache == .d | q814headache == .r | q814headache == .) & ///
-													(q814bleeding == 0 | q814bleeding == .d | q814bleeding == .r | q814bleeding == .) & ///
-													(q814fever == 0 | q814fever == .d | q814fever == .r | q814fever == .) & ///
-													(q814abpain == 0 | q814abpain == .d | q814abpain == .r | q814abpain == .) & ///
-													(q814breathing == 0 | q814breathing == .d | q814breathing == .r | q814breathing == .) & ///
-													(q814convulsions == 0 | q814convulsions == .d | q814convulsions == .r | q814convulsions == .) & ///
-													(q814fainting == 0 | q814fainting == .d | q814fainting == .r | q814fainting == .) & ///
-													(q814babynotmoving == 0 | q814babynotmoving == .d | q814babynotmoving == .r | q814babynotmoving == . | q814babynotmoving == .a) & ///
-													(q814blurvision == 0 | q814blurvision == .d | q814blurvision == .r | q814blurvision == .)
+recode v261 (0 = .) if m1_814a == 1 | m1_814b ==1 | m1_814c == 1 | m1_814d == 1 | ///
+					   m1_814e == 1 | m1_814f == 1 | m1_814g == 1 | m1_814h == 1 | ///
+					   m1_814i == 1
 													
-recode v261 (0 = .) if q814headache == 1 | q814bleeding ==1 | q814fever == 1 | q814abpain == 1 | ///
-													q814breathing == 1 | q814convulsions == 1 | q814fainting == 1 | q814babynotmoving == 1 | ///
-													q814blurvision == 1		
+recode v262 (0 = .a) if (m1_814a == 0 | m1_814a == .d | m1_814a == .r | m1_814a == .) & ///
+						(m1_814b == 0 | m1_814b == .d | m1_814b == .r | m1_814b == .) & ///
+						(m1_814c == 0 | m1_814c == .d | m1_814c == .r | m1_814c == .) & ///
+						(m1_814d == 0 | m1_814d == .d | m1_814d == .r | m1_814d == .) & ///
+						(m1_814e == 0 | m1_814e == .d | m1_814e == .r | m1_814e == .) & ///
+						(m1_814f == 0 | m1_814f == .d | m1_814f == .r | m1_814f == .) & ///
+						(m1_814g == 0 | m1_814g == .d | m1_814g == .r | m1_814g == .) & ///
+						(m1_814h == 0 | m1_814h == .d | m1_814h == .r | m1_814h == . | m1_814h == .a) & ///
+						(m1_814i == 0 | m1_814i == .d | m1_814i == .r | m1_814i == .)
 													
-recode v262 (0 = .a) if (q814headache == 0 | q814headache == .d | q814headache == .r | q814headache == .) & ///
-													(q814bleeding == 0 | q814bleeding == .d | q814bleeding == .r | q814bleeding == .) & ///
-													(q814fever == 0 | q814fever == .d | q814fever == .r | q814fever == .) & ///
-													(q814abpain == 0 | q814abpain == .d | q814abpain == .r | q814abpain == .) & ///
-													(q814breathing == 0 | q814breathing == .d | q814breathing == .r | q814breathing == .) & ///
-													(q814convulsions == 0 | q814convulsions == .d | q814convulsions == .r | q814convulsions == .) & ///
-													(q814fainting == 0 | q814fainting == .d | q814fainting == .r | q814fainting == .) & ///
-													(q814babynotmoving == 0 | q814babynotmoving == .d | q814babynotmoving == .r | q814babynotmoving == . | q814babynotmoving == .a) & ///
-													(q814blurvision == 0 | q814blurvision == .d | q814blurvision == .r | q814blurvision == .)
+recode v262 (0 = .) if m1_814a == 1 | m1_814b ==1 | m1_814c == 1 | m1_814d == 1 | ///
+					   m1_814e == 1 | m1_814f == 1 | m1_814g == 1 | m1_814h == 1 | ///
+					   m1_814i == 1
 													
-recode v262 (0 = .) if q814headache == 1 | q814bleeding ==1 | q814fever == 1 | q814abpain == 1 | ///
-													q814breathing == 1 | q814convulsions == 1 | q814fainting == 1 | q814babynotmoving == 1 | ///
-													q814blurvision == 1		
+recode v263 (0 = .a) if (m1_814a == 0 | m1_814a == .d | m1_814a == .r | m1_814a == .) & ///
+						(m1_814b == 0 | m1_814b == .d | m1_814b == .r | m1_814b == .) & ///
+						(m1_814c == 0 | m1_814c == .d | m1_814c == .r | m1_814c == .) & ///
+						(m1_814d == 0 | m1_814d == .d | m1_814d == .r | m1_814d == .) & ///
+						(m1_814e == 0 | m1_814e == .d | m1_814e == .r | m1_814e == .) & ///
+						(m1_814f == 0 | m1_814f == .d | m1_814f == .r | m1_814f == .) & ///
+						(m1_814g == 0 | m1_814g == .d | m1_814g == .r | m1_814g == .) & ///
+						(m1_814h == 0 | m1_814h == .d | m1_814h == .r | m1_814h == . | m1_814h == .a) & ///
+						(m1_814i == 0 | m1_814i == .d | m1_814i == .r | m1_814i == .)
 													
-recode v263 (0 = .a) if (q814headache == 0 | q814headache == .d | q814headache == .r | q814headache == .) & ///
-													(q814bleeding == 0 | q814bleeding == .d | q814bleeding == .r | q814bleeding == .) & ///
-													(q814fever == 0 | q814fever == .d | q814fever == .r | q814fever == .) & ///
-													(q814abpain == 0 | q814abpain == .d | q814abpain == .r | q814abpain == .) & ///
-													(q814breathing == 0 | q814breathing == .d | q814breathing == .r | q814breathing == .) & ///
-													(q814convulsions == 0 | q814convulsions == .d | q814convulsions == .r | q814convulsions == .) & ///
-													(q814fainting == 0 | q814fainting == .d | q814fainting == .r | q814fainting == .) & ///
-													(q814babynotmoving == 0 | q814babynotmoving == .d | q814babynotmoving == .r | q814babynotmoving == . | q814babynotmoving == .a) & ///
-													(q814blurvision == 0 | q814blurvision == .d | q814blurvision == .r | q814blurvision == .)
-													
-recode v263 (0 = .) if q814headache == 1 | q814bleeding ==1 | q814fever == 1 | q814abpain == 1 | ///
-													q814breathing == 1 | q814convulsions == 1 | q814fainting == 1 | q814babynotmoving == 1 | ///
-													q814blurvision == 1		
+recode v263 (0 = .) if m1_814a == 1 | m1_814b ==1 | m1_814c == 1 | m1_814d == 1 | ///
+					   m1_814e == 1 | m1_814f == 1 | m1_814g == 1 | m1_814h == 1 | ///
+					   m1_814i == 1	
 
-recode v264 (0 = .a) if (q814headache == 0 | q814headache == .d | q814headache == .r | q814headache == .) & ///
-													(q814bleeding == 0 | q814bleeding == .d | q814bleeding == .r | q814bleeding == .) & ///
-													(q814fever == 0 | q814fever == .d | q814fever == .r | q814fever == .) & ///
-													(q814abpain == 0 | q814abpain == .d | q814abpain == .r | q814abpain == .) & ///
-													(q814breathing == 0 | q814breathing == .d | q814breathing == .r | q814breathing == .) & ///
-													(q814convulsions == 0 | q814convulsions == .d | q814convulsions == .r | q814convulsions == .) & ///
-													(q814fainting == 0 | q814fainting == .d | q814fainting == .r | q814fainting == .) & ///
-													(q814babynotmoving == 0 | q814babynotmoving == .d | q814babynotmoving == .r | q814babynotmoving == . | q814babynotmoving == .a) & ///
-													(q814blurvision == 0 | q814blurvision == .d | q814blurvision == .r | q814blurvision == .)
+recode v264 (0 = .a) if (m1_814a == 0 | m1_814a == .d | m1_814a == .r | m1_814a == .) & ///
+						(m1_814b == 0 | m1_814b == .d | m1_814b == .r | m1_814b == .) & ///
+						(m1_814c == 0 | m1_814c == .d | m1_814c == .r | m1_814c == .) & ///
+						(m1_814d == 0 | m1_814d == .d | m1_814d == .r | m1_814d == .) & ///
+						(m1_814e == 0 | m1_814e == .d | m1_814e == .r | m1_814e == .) & ///
+						(m1_814f == 0 | m1_814f == .d | m1_814f == .r | m1_814f == .) & ///
+						(m1_814g == 0 | m1_814g == .d | m1_814g == .r | m1_814g == .) & ///
+						(m1_814h == 0 | m1_814h == .d | m1_814h == .r | m1_814h == . | m1_814h == .a) & ///
+						(m1_814i == 0 | m1_814i == .d | m1_814i == .r | m1_814i == .)
 													
-recode v264 (0 = .) if q814headache == 1 | q814bleeding ==1 | q814fever == 1 | q814abpain == 1 | ///
-													q814breathing == 1 | q814convulsions == 1 | q814fainting == 1 | q814babynotmoving == 1 | ///
-													q814blurvision == 1		
+recode v264 (0 = .) if m1_814a == 1 | m1_814b ==1 | m1_814c == 1 | m1_814d == 1 | ///
+					   m1_814e == 1 | m1_814f == 1 | m1_814g == 1 | m1_814h == 1 | ///
+					   m1_814i == 1	
 													
-recode v265 (0 = .a) if (q814headache == 0 | q814headache == .d | q814headache == .r | q814headache == .) & ///
-													(q814bleeding == 0 | q814bleeding == .d | q814bleeding == .r | q814bleeding == .) & ///
-													(q814fever == 0 | q814fever == .d | q814fever == .r | q814fever == .) & ///
-													(q814abpain == 0 | q814abpain == .d | q814abpain == .r | q814abpain == .) & ///
-													(q814breathing == 0 | q814breathing == .d | q814breathing == .r | q814breathing == .) & ///
-													(q814convulsions == 0 | q814convulsions == .d | q814convulsions == .r | q814convulsions == .) & ///
-													(q814fainting == 0 | q814fainting == .d | q814fainting == .r | q814fainting == .) & ///
-													(q814babynotmoving == 0 | q814babynotmoving == .d | q814babynotmoving == .r | q814babynotmoving == . | q814babynotmoving == .a) & ///
-													(q814blurvision == 0 | q814blurvision == .d | q814blurvision == .r | q814blurvision == .)
+recode v265 (0 = .a) if (m1_814a == 0 | m1_814a == .d | m1_814a == .r | m1_814a == .) & ///
+						(m1_814b == 0 | m1_814b == .d | m1_814b == .r | m1_814b == .) & ///
+						(m1_814c == 0 | m1_814c == .d | m1_814c == .r | m1_814c == .) & ///
+						(m1_814d == 0 | m1_814d == .d | m1_814d == .r | m1_814d == .) & ///
+						(m1_814e == 0 | m1_814e == .d | m1_814e == .r | m1_814e == .) & ///
+						(m1_814f == 0 | m1_814f == .d | m1_814f == .r | m1_814f == .) & ///
+						(m1_814g == 0 | m1_814g == .d | m1_814g == .r | m1_814g == .) & ///
+						(m1_814h == 0 | m1_814h == .d | m1_814h == .r | m1_814h == . | m1_814h == .a) & ///
+						(m1_814i == 0 | m1_814i == .d | m1_814i == .r | m1_814i == .)
 													
-recode v265 (0 = .) if q814headache == 1 | q814bleeding ==1 | q814fever == 1 | q814abpain == 1 | ///
-													q814breathing == 1 | q814convulsions == 1 | q814fainting == 1 | q814babynotmoving == 1 | ///
-													q814blurvision == 1		
+recode v265 (0 = .) if m1_814a == 1 | m1_814b ==1 | m1_814c == 1 | m1_814d == 1 | ///
+					   m1_814e == 1 | m1_814f == 1 | m1_814g == 1 | m1_814h == 1 | ///
+					   m1_814i == 1	
 													
-recode v266 (0 = .a) if (q814headache == 0 | q814headache == .d | q814headache == .r | q814headache == .) & ///
-													(q814bleeding == 0 | q814bleeding == .d | q814bleeding == .r | q814bleeding == .) & ///
-													(q814fever == 0 | q814fever == .d | q814fever == .r | q814fever == .) & ///
-													(q814abpain == 0 | q814abpain == .d | q814abpain == .r | q814abpain == .) & ///
-													(q814breathing == 0 | q814breathing == .d | q814breathing == .r | q814breathing == .) & ///
-													(q814convulsions == 0 | q814convulsions == .d | q814convulsions == .r | q814convulsions == .) & ///
-													(q814fainting == 0 | q814fainting == .d | q814fainting == .r | q814fainting == .) & ///
-													(q814babynotmoving == 0 | q814babynotmoving == .d | q814babynotmoving == .r | q814babynotmoving == . | q814babynotmoving == .a) & ///
-													(q814blurvision == 0 | q814blurvision == .d | q814blurvision == .r | q814blurvision == .)
+recode v266 (0 = .a) if (m1_814a == 0 | m1_814a == .d | m1_814a == .r | m1_814a == .) & ///
+						(m1_814b == 0 | m1_814b == .d | m1_814b == .r | m1_814b == .) & ///
+						(m1_814c == 0 | m1_814c == .d | m1_814c == .r | m1_814c == .) & ///
+						(m1_814d == 0 | m1_814d == .d | m1_814d == .r | m1_814d == .) & ///
+						(m1_814e == 0 | m1_814e == .d | m1_814e == .r | m1_814e == .) & ///
+						(m1_814f == 0 | m1_814f == .d | m1_814f == .r | m1_814f == .) & ///
+						(m1_814g == 0 | m1_814g == .d | m1_814g == .r | m1_814g == .) & ///
+						(m1_814h == 0 | m1_814h == .d | m1_814h == .r | m1_814h == . | m1_814h == .a) & ///
+						(m1_814i == 0 | m1_814i == .d | m1_814i == .r | m1_814i == .)
 													
-recode v266 (0 = .) if q814headache == 1 | q814bleeding ==1 | q814fever == 1 | q814abpain == 1 | ///
-													q814breathing == 1 | q814convulsions == 1 | q814fainting == 1 | q814babynotmoving == 1 | ///
-													q814blurvision == 1		
+recode v266 (0 = .) if m1_814a == 1 | m1_814b ==1 | m1_814c == 1 | m1_814d == 1 | ///
+					   m1_814e == 1 | m1_814f == 1 | m1_814g == 1 | m1_814h == 1 | ///
+					   m1_814i == 1	
 
-recode v267 (0 = .d) if (q814headache == 0 | q814headache == .d | q814headache == .r | q814headache == .) & ///
-													(q814bleeding == 0 | q814bleeding == .d | q814bleeding == .r | q814bleeding == .) & ///
-													(q814fever == 0 | q814fever == .d | q814fever == .r | q814fever == .) & ///
-													(q814abpain == 0 | q814abpain == .d | q814abpain == .r | q814abpain == .) & ///
-													(q814breathing == 0 | q814breathing == .d | q814breathing == .r | q814breathing == .) & ///
-													(q814convulsions == 0 | q814convulsions == .d | q814convulsions == .r | q814convulsions == .) & ///
-													(q814fainting == 0 | q814fainting == .d | q814fainting == .r | q814fainting == .) & ///
-													(q814babynotmoving == 0 | q814babynotmoving == .d | q814babynotmoving == .r | q814babynotmoving == . | q814babynotmoving == .a) & ///
-													(q814blurvision == 0 | q814blurvision == .d | q814blurvision == .r | q814blurvision == .)
+recode v267 (0 = .d) if (m1_814a == 0 | m1_814a == .d | m1_814a == .r | m1_814a == .) & ///
+						(m1_814b == 0 | m1_814b == .d | m1_814b == .r | m1_814b == .) & ///
+						(m1_814c == 0 | m1_814c == .d | m1_814c == .r | m1_814c == .) & ///
+						(m1_814d == 0 | m1_814d == .d | m1_814d == .r | m1_814d == .) & ///
+						(m1_814e == 0 | m1_814e == .d | m1_814e == .r | m1_814e == .) & ///
+						(m1_814f == 0 | m1_814f == .d | m1_814f == .r | m1_814f == .) & ///
+						(m1_814g == 0 | m1_814g == .d | m1_814g == .r | m1_814g == .) & ///
+						(m1_814h == 0 | m1_814h == .d | m1_814h == .r | m1_814h == . | m1_814h == .a) & ///
+						(m1_814i == 0 | m1_814i == .d | m1_814i == .r | m1_814i == .)
 													
-recode v267 (0 = .) if q814headache == 1 | q814bleeding ==1 | q814fever == 1 | q814abpain == 1 | ///
-													q814breathing == 1 | q814convulsions == 1 | q814fainting == 1 | q814babynotmoving == 1 | ///
-													q814blurvision == 1		
+recode v267 (0 = .) if m1_814a == 1 | m1_814b ==1 | m1_814c == 1 | m1_814d == 1 | ///
+					   m1_814e == 1 | m1_814f == 1 | m1_814g == 1 | m1_814h == 1 | ///
+					   m1_814i == 1	
 
-recode v268 (0 = .r) if (q814headache == 0 | q814headache == .d | q814headache == .r | q814headache == .) & ///
-													(q814bleeding == 0 | q814bleeding == .d | q814bleeding == .r | q814bleeding == .) & ///
-													(q814fever == 0 | q814fever == .d | q814fever == .r | q814fever == .) & ///
-													(q814abpain == 0 | q814abpain == .d | q814abpain == .r | q814abpain == .) & ///
-													(q814breathing == 0 | q814breathing == .d | q814breathing == .r | q814breathing == .) & ///
-													(q814convulsions == 0 | q814convulsions == .d | q814convulsions == .r | q814convulsions == .) & ///
-													(q814fainting == 0 | q814fainting == .d | q814fainting == .r | q814fainting == .) & ///
-													(q814babynotmoving == 0 | q814babynotmoving == .d | q814babynotmoving == .r | q814babynotmoving == . | q814babynotmoving == .a) & ///
-													(q814blurvision == 0 | q814blurvision == .d | q814blurvision == .r | q814blurvision == .)
+recode v268 (0 = .r) if (m1_814a == 0 | m1_814a == .d | m1_814a == .r | m1_814a == .) & ///
+						(m1_814b == 0 | m1_814b == .d | m1_814b == .r | m1_814b == .) & ///
+						(m1_814c == 0 | m1_814c == .d | m1_814c == .r | m1_814c == .) & ///
+						(m1_814d == 0 | m1_814d == .d | m1_814d == .r | m1_814d == .) & ///
+						(m1_814e == 0 | m1_814e == .d | m1_814e == .r | m1_814e == .) & ///
+						(m1_814f == 0 | m1_814f == .d | m1_814f == .r | m1_814f == .) & ///
+						(m1_814g == 0 | m1_814g == .d | m1_814g == .r | m1_814g == .) & ///
+						(m1_814h == 0 | m1_814h == .d | m1_814h == .r | m1_814h == . | m1_814h == .a) & ///
+						(m1_814i == 0 | m1_814i == .d | m1_814i == .r | m1_814i == .)
 													
-recode v268(0 = .) if q814headache == 1 | q814bleeding ==1 | q814fever == 1 | q814abpain == 1 | ///
-													q814breathing == 1 | q814convulsions == 1 | q814fainting == 1 | q814babynotmoving == 1 | ///
-													q814blurvision == 1		
+recode v268(0 = .) if m1_814a == 1 | m1_814b ==1 | m1_814c == 1 | m1_814d == 1 | ///
+					   m1_814e == 1 | m1_814f == 1 | m1_814g == 1 | m1_814h == 1 | ///
+					   m1_814i == 1
 				
-recode q816complication (. = .a) if (q814headache == 1 | q814bleeding ==1 | q814fever == 1 | q814abpain == 1 | ///
-									q814breathing == 1 | q814convulsions == 1 | q814fainting == 1 | q814blurvision == 1) & ///
-									(q814babynotmoving == 1 | q814babynotmoving == .a | q814babynotmoving == .)
+recode m1_816 (. = .a) if (m1_814a == 1 | m1_814b ==1 | m1_814c == 1 | m1_814d == 1 | ///
+									m1_814e == 1 | m1_814f == 1 | m1_814g == 1 | m1_814i == 1) & ///
+									(m1_814h == 1 | m1_814h == .a | m1_814h == .)
 									
-recode q902stopsmoke (. = .a) if q901smoke == 3 | q901smoke == .d | q901smoke == .r | q901smoke == .
+recode m1_902 (. = .a) if m1_901 == 3 | m1_901 == .d | m1_901 == .r | m1_901 == .
 
-recode q904stopkhat (. = .a) if q903khat == 3 | q903khat == .d | q903khat == .r | q903khat == .
+recode m1_904 (. = .a) if m1_903 == 3 | m1_903 == .d | m1_903 == .r | m1_903 == .
 
-recode q907stopalcohol (. = .a) if q905alcohol == 0 | q905alcohol == . | q905alcohol == .d | q905alcohol == .r
+recode m1_907 (. = .a) if m1_905 == 0 | m1_905 == . | m1_905 == .d | m1_905 == .r
 					
-recode q1002births (. = .a) if q1001pregnancies <= 1 | q1001pregnancies == .	
+recode m1_1002 (. = .a) if m1_1001 <= 1 | m1_1001 == .	
 
-recode q1003livebirths (. = .a) if q1002births <1 | q1002births == . | q1002births == .a	
+recode m1_1003 (. = .a) if m1_1002 <1 | m1_1002 == . | m1_1002 == .a	
 
-recode q1004stillbirth (. = .a) if q1001pregnancies <= q1002births
+recode m1_1004 (. = .a) if m1_1001 <= m1_1002
 
-recode q1005preterm (. = .a) if (q1002births<1 | q1002births ==.a | q1002births ==.)
+recode m1_1005 (. = .a) if (m1_1002<1 | m1_1002 ==.a | m1_1002 ==.)
 
-recode q1006bloodtrans  (. = .a) if (q1002births<1 | q1002births ==.a | q1002births ==.)
+recode m1_1006  (. = .a) if (m1_1002<1 | m1_1002 ==.a | m1_1002 ==.)
 
-recode q10et1congenital (. = .a) if (q1002births<1 | q1002births ==.a | q1002births ==.)
+recode m1_eth_1_10 (. = .a) if (m1_1002<1 | m1_1002 ==.a | m1_1002 ==.)
 
-recode q1007cs (. = .a) if (q1002births<1 | q1002births ==.a | q1002births ==.)
+recode m1_1007 (. = .a) if (m1_1002<1 | m1_1002 ==.a | m1_1002 ==.)
 
-recode q1008longlabor (. = .a) if (q1002births<1 | q1002births ==.a | q1002births ==.)
+recode m1_1008 (. = .a) if (m1_1002<1 | m1_1002 ==.a | m1_1002 ==.)
 
-recode q1009livechildren (. = .a) if (q1003livebirths <1 | q1003livebirths == .a | q1003livebirths == .)
+recode m1_1009 (. = .a) if (m1_1003 <1 | m1_1003 == .a | m1_1003 == .)
 
-recode q1010onemodeath (. = .a) if (q1003livebirths <= q1009livechildren) | q1003livebirths == .a 
+recode m1_1010 (. = .a) if (m1_1003 <= m1_1009) | m1_1003 == .a 
 
-recode q1011pregnancies (. = .a) if (q1001pregnancies <= 1 | q1001pregnancies ==.)
+recode m1_1011a (. = .a) if (m1_1001 <= 1 | m1_1001 ==.)
 
-recode q1011miscarriage (. = .a) if q1004stillbirth == 0 | q1004stillbirth == . | q1004stillbirth == .a
+recode m1_1011b (. = .a) if m1_1004 == 0 | m1_1004 == . | m1_1004 == .a
 
-recode q1011stillbirth (. = .a) if (q1002births <= q1003livebirths)	
+recode m1_1011c (. = .a) if (m1_1002 <= m1_1003)	
 
-recode q1011preterm (. = .a) if	q1005preterm == 0 | q1005preterm == . | q1005preterm == .a
+recode m1_1011d (. = .a) if	m1_1005 == 0 | m1_1005 == . | m1_1005 == .a
 
-recode q1011cs (. = .a) if q1007cs == 0 | q1007cs == . | q1007cs == .a
+recode m1_1011e (. = .a) if m1_1007 == 0 | m1_1007 == . | m1_1007 == .a
 
-recode q1011onemonthdeath (. = .a) if q1010onemodeath == 0 | q1010onemodeath == . | q1010onemodeath == .a
+recode m1_1011f (. = .a) if m1_1010 == 0 | m1_1010 == . | m1_1010 == .a
 
-recode who_has_done_these_things_1102__ (0 = .a) if q1101physabuse == 0 | q1101physabuse == . | q1101physabuse == .r
-recode who_has_done_these_things_1102__ (0 = .) if q1101physabuse == 1
-recode v297 (0 = .a) if q1101physabuse == 0 | q1101physabuse == . | q1101physabuse == .r
-recode v297 (0 = .) if q1101physabuse == 1
-recode v298 (0 = .a) if q1101physabuse == 0 | q1101physabuse == . | q1101physabuse == .r
-recode v298 (0 = .) if q1101physabuse == 1
-recode v299 (0 = .a) if q1101physabuse == 0 | q1101physabuse == . | q1101physabuse == .r
-recode v299 (0 = .) if q1101physabuse == 1
-recode v300 (0 = .a) if q1101physabuse == 0 | q1101physabuse == . | q1101physabuse == .r
-recode v300 (0 = .) if q1101physabuse == 1
-recode v301 (0 = .a) if q1101physabuse == 0 | q1101physabuse == . | q1101physabuse == .r
-recode v301 (0 = .) if q1101physabuse == 1
-recode v302 (0 = .a) if q1101physabuse == 0 | q1101physabuse == . | q1101physabuse == .r
-recode v302 (0 = .) if q1101physabuse == 1
-recode v303 (0 = .a) if q1101physabuse == 0 | q1101physabuse == . | q1101physabuse == .r
-recode v303 (0 = .) if q1101physabuse == 1
-recode v304 (0 = .a) if q1101physabuse == 0 | q1101physabuse == . | q1101physabuse == .r
-recode v304 (0 = .) if q1101physabuse == 1
-recode v305 (0 = .a) if q1101physabuse == 0 | q1101physabuse == . | q1101physabuse == .r
-recode v305 (0 = .) if q1101physabuse == 1
-recode v306 (0 = .a) if q1101physabuse == 0 | q1101physabuse == . | q1101physabuse == .r
-recode v306 (0 = .) if q1101physabuse == 1
-recode v307 (0 = .a) if q1101physabuse == 0 | q1101physabuse == . | q1101physabuse == .r
-recode v307 (0 = .) if q1101physabuse == 1
-recode v308 (0 = .a) if q1101physabuse == 0 | q1101physabuse == . | q1101physabuse == .r
-recode v308 (0 = .) if q1101physabuse == 1
+recode who_has_done_these_things_1102__ (0 = .a) if m1_1101 == 0 | m1_1101 == . | m1_1101 == .r
+recode who_has_done_these_things_1102__ (0 = .) if m1_1101 == 1
+recode v297 (0 = .a) if m1_1101 == 0 | m1_1101 == . | m1_1101 == .r
+recode v297 (0 = .) if m1_1101 == 1
+recode v298 (0 = .a) if m1_1101 == 0 | m1_1101 == . | m1_1101 == .r
+recode v298 (0 = .) if m1_1101 == 1
+recode v299 (0 = .a) if m1_1101 == 0 | m1_1101 == . | m1_1101 == .r
+recode v299 (0 = .) if m1_1101 == 1
+recode v300 (0 = .a) if m1_1101 == 0 | m1_1101 == . | m1_1101 == .r
+recode v300 (0 = .) if m1_1101 == 1
+recode v301 (0 = .a) if m1_1101 == 0 | m1_1101 == . | m1_1101 == .r
+recode v301 (0 = .) if m1_1101 == 1
+recode v302 (0 = .a) if m1_1101 == 0 | m1_1101 == . | m1_1101 == .r
+recode v302 (0 = .) if m1_1101 == 1
+recode v303 (0 = .a) if m1_1101 == 0 | m1_1101 == . | m1_1101 == .r
+recode v303 (0 = .) if m1_1101 == 1
+recode v304 (0 = .a) if m1_1101 == 0 | m1_1101 == . | m1_1101 == .r
+recode v304 (0 = .) if m1_1101 == 1
+recode v305 (0 = .a) if m1_1101 == 0 | m1_1101 == . | m1_1101 == .r
+recode v305 (0 = .) if m1_1101 == 1
+recode v306 (0 = .a) if m1_1101 == 0 | m1_1101 == . | m1_1101 == .r
+recode v306 (0 = .) if m1_1101 == 1
+recode v307 (0 = .a) if m1_1101 == 0 | m1_1101 == . | m1_1101 == .r
+recode v307 (0 = .) if m1_1101 == 1
+recode v308 (0 = .a) if m1_1101 == 0 | m1_1101 == . | m1_1101 == .r
+recode v308 (0 = .) if m1_1101 == 1
 
-recode who_has_done_these_things_1104__ (0 = .a) if q1103verbabuse == 0 | q1103verbabuse == . | q1103verbabuse == .r
-recode who_has_done_these_things_1104__ (0 = .) if q1103verbabuse == 1
-recode v312 (0 = .a) if q1103verbabuse == 0 | q1103verbabuse == . | q1103verbabuse == .r
-recode v312 (0 = .) if q1103verbabuse == 1
-recode v313 (0 = .a) if q1103verbabuse == 0 | q1103verbabuse == . | q1103verbabuse == .r
-recode v313 (0 = .) if q1103verbabuse == 1
-recode v314 (0 = .a) if q1103verbabuse == 0 | q1103verbabuse == . | q1103verbabuse == .r
-recode v314 (0 = .) if q1103verbabuse == 1
-recode v315 (0 = .a) if q1103verbabuse == 0 | q1103verbabuse == . | q1103verbabuse == .r
-recode v315 (0 = .) if q1103verbabuse == 1
-recode v316 (0 = .a) if q1103verbabuse == 0 | q1103verbabuse == . | q1103verbabuse == .r
-recode v316 (0 = .) if q1103verbabuse == 1
-recode v317 (0 = .a) if q1103verbabuse == 0 | q1103verbabuse == . | q1103verbabuse == .r
-recode v317 (0 = .) if q1103verbabuse == 1
-recode v318 (0 = .a) if q1103verbabuse == 0 | q1103verbabuse == . | q1103verbabuse == .r
-recode v318 (0 = .) if q1103verbabuse == 1
-recode v319 (0 = .a) if q1103verbabuse == 0 | q1103verbabuse == . | q1103verbabuse == .r
-recode v319 (0 = .) if q1103verbabuse == 1
-recode v320 (0 = .a) if q1103verbabuse == 0 | q1103verbabuse == . | q1103verbabuse == .r
-recode v320 (0 = .) if q1103verbabuse == 1
-recode v321 (0 = .a) if q1103verbabuse == 0 | q1103verbabuse == . | q1103verbabuse == .r
-recode v321 (0 = .) if q1103verbabuse == 1
-recode v322 (0 = .a) if q1103verbabuse == 0 | q1103verbabuse == . | q1103verbabuse == .r
-recode v322 (0 = .) if q1103verbabuse == 1
-recode v323 (0 = .a) if q1103verbabuse == 0 | q1103verbabuse == . | q1103verbabuse == .r
-recode v323 (0 = .) if q1103verbabuse == 1
+recode who_has_done_these_things_1104__ (0 = .a) if m1_1103 == 0 | m1_1103 == . | m1_1103 == .r
+recode who_has_done_these_things_1104__ (0 = .) if m1_1103 == 1
+recode v312 (0 = .a) if m1_1103 == 0 | m1_1103 == . | m1_1103 == .r
+recode v312 (0 = .) if m1_1103 == 1
+recode v313 (0 = .a) if m1_1103 == 0 | m1_1103 == . | m1_1103 == .r
+recode v313 (0 = .) if m1_1103 == 1
+recode v314 (0 = .a) if m1_1103 == 0 | m1_1103 == . | m1_1103 == .r
+recode v314 (0 = .) if m1_1103 == 1
+recode v315 (0 = .a) if m1_1103 == 0 | m1_1103 == . | m1_1103 == .r
+recode v315 (0 = .) if m1_1103 == 1
+recode v316 (0 = .a) if m1_1103 == 0 | m1_1103 == . | m1_1103 == .r
+recode v316 (0 = .) if m1_1103 == 1
+recode v317 (0 = .a) if m1_1103 == 0 | m1_1103 == . | m1_1103 == .r
+recode v317 (0 = .) if m1_1103 == 1
+recode v318 (0 = .a) if m1_1103 == 0 | m1_1103 == . | m1_1103 == .r
+recode v318 (0 = .) if m1_1103 == 1
+recode v319 (0 = .a) if m1_1103 == 0 | m1_1103 == . | m1_1103 == .r
+recode v319 (0 = .) if m1_1103 == 1
+recode v320 (0 = .a) if m1_1103 == 0 | m1_1103 == . | m1_1103 == .r
+recode v320 (0 = .) if m1_1103 == 1
+recode v321 (0 = .a) if m1_1103 == 0 | m1_1103 == . | m1_1103 == .r
+recode v321 (0 = .) if m1_1103 == 1
+recode v322 (0 = .a) if m1_1103 == 0 | m1_1103 == . | m1_1103 == .r
+recode v322 (0 = .) if m1_1103 == 1
+recode v323 (0 = .a) if m1_1103 == 0 | m1_1103 == . | m1_1103 == .r
+recode v323 (0 = .) if m1_1103 == 1
 
-recode q1105providerdiscuss (. = .a) if (q1101physabuse == 0 | q1101physabuse == . | q1101physabuse == .r) & (q1103verbabuse == 0 | q1103verbabuse == . | q1103verbabuse == .r)
+recode m1_1105 (. = .a) if (m1_1101 == 0 | m1_1101 == . | m1_1101 == .r) & (m1_1103 == 0 | m1_1103 == . | m1_1103 == .r)
 
-recode q1218reg (. = .a) if q1217oop == 0 | q1217oop == . | q1217oop == .r
+recode m1_1218a (. = .a) if m1_1217 == 0 | m1_1217 == . | m1_1217 == .r
+recode m1_1218a_1 (. = .a) if m1_1218a == 0 | m1_1218a == .a
 
-recode q1218regamt (. = .a) if q1218reg == 0 | q1218reg == .a
+recode m1_1218b (. = .a) if m1_1217 == 0 | m1_1217 == . | m1_1217 == .r
 
-recode q1218meds (. = .a) if q1217oop == 0 | q1217oop == . | q1217oop == .r
-*recode q1218medsamt (. = .a) if q1218meds == 0 | q1218meds == .a //string var
+* SS: Need to fix variable in redcap, this is a string var:
+* recode m1_1218b_1 (. = .a) if m1_1218b == 0 | m1_1218b == .a 
 
-recode q1218test (. = .a) if q1217oop == 0 | q1217oop == . | q1217oop == .r
-recode q1218testamt (. = .a) if q1218test == 0 | q1218test == .a
+recode m1_1218c (. = .a) if m1_1217 == 0 | m1_1217 == . | m1_1217 == .r
+recode m1_1218c_1 (. = .a) if m1_1218c == 0 | m1_1218c == .a
 
-recode q1218transport (. = .a) if q1217oop == 0 | q1217oop == . | q1217oop == .r
-recode q1218transportamt (. = .a) if q1218transport == 0 | q1218transport == .a
+recode m1_1218d (. = .a) if m1_1217 == 0 | m1_1217 == . | m1_1217 == .r
+recode m1_1218d_1 (. = .a) if m1_1218d == 0 | m1_1218d == .a
 
-recode q1218food (. = .a) if q1217oop == 0 | q1217oop == . | q1217oop == .r
-recode q1218foodamt (. = .a) if q1218food == 0 | q1218food == .a
+recode m1_1218e (. = .a) if m1_1217 == 0 | m1_1217 == . | m1_1217 == .r
+recode m1_1218e_1 (. = .a) if m1_1218e == 0 | m1_1218e == .a
 
-recode q1218other (. = .a) if q1217oop == 0 | q1217oop == . | q1217oop == .r
-recode q1218otheramt (. = .a) if q1218other == 0 | q1218other == .a
+recode m1_1218f (. = .a) if m1_1217 == 0 | m1_1217 == . | m1_1217 == .r
+recode m1_1218f_1 (. = .a) if m1_1218f == 0 | m1_1218f == .a
 
-recode q1219total (. = .a) if q1218regamt == .a & q1218medsamt == "" & q1218testamt ==.a & q1218transportamt == .a & q1218foodamt == .a & q1218otheramt == .a
+recode m1_1219 (. = .a) if m1_1218a_1 == .a & m1_1218b_1 == "" & m1_1218c_1 ==.a & ///
+						   m1_1218d_1 == .a & m1_1218e_1 == .a & m1_1218f_1 == .a
     
-recode financial_source_for_the_spent_1 (0 = .a) if q1217oop == 0 | q1217oop == . | q1217oop == .r
-recode financial_source_for_the_spent_1 (0 = .) if q1217oop == 1
-recode v364 (0 = .a) if q1217oop == 0 | q1217oop == . | q1217oop == .r
-recode v364 (0 = .) if q1217oop == 1
-recode v365 (0 = .a) if q1217oop == 0 | q1217oop == . | q1217oop == .r
-recode v365 (0 = .) if q1217oop == 1
-recode v366 (0 = .a) if q1217oop == 0 | q1217oop == . | q1217oop == .r
-recode v366 (0 = .) if q1217oop == 1
-recode v367 (0 = .a) if q1217oop == 0 | q1217oop == . | q1217oop == .r
-recode v367 (0 = .) if q1217oop == 1
-recode v368 (0 = .a) if q1217oop == 0 | q1217oop == . | q1217oop == .r
-recode v368 (0 = .) if q1217oop == 1
-recode v369 (0 = .a) if q1217oop == 0 | q1217oop == . | q1217oop == .r
-recode v369 (0 = .) if q1217oop == 1
+recode financial_source_for_the_spent_1 (0 = .a) if m1_1217 == 0 | m1_1217 == . | m1_1217 == .r
+recode financial_source_for_the_spent_1 (0 = .) if m1_1217 == 1
+recode v364 (0 = .a) if m1_1217 == 0 | m1_1217 == . | m1_1217 == .r
+recode v364 (0 = .) if m1_1217 == 1
+recode v365 (0 = .a) if m1_1217 == 0 | m1_1217 == . | m1_1217 == .r
+recode v365 (0 = .) if m1_1217 == 1
+recode v366 (0 = .a) if m1_1217 == 0 | m1_1217 == . | m1_1217 == .r
+recode v366 (0 = .) if m1_1217 == 1
+recode v367 (0 = .a) if m1_1217 == 0 | m1_1217 == . | m1_1217 == .r
+recode v367 (0 = .) if m1_1217 == 1
+recode v368 (0 = .a) if m1_1217 == 0 | m1_1217 == . | m1_1217 == .r
+recode v368 (0 = .) if m1_1217 == 1
+recode v369 (0 = .a) if m1_1217 == 0 | m1_1217 == . | m1_1217 == .r
+recode v369 (0 = .) if m1_1217 == 1
 
-recode q1221insurancetype (. = .a) if q1221insurance == 0 | q1221insurance == .
+recode 	m1_1222 (. = .a) if m1_1221 == 0 | m1_1221 == .
 
-*recode q1307hgbcard (. = .a) if q1306hgbcard == 0 | q1306hgbcard == . //String var
+* SS: Fix
+* recode m1_1307 (. = .a) if m1_1306 == 0 | m1_1306 == 96 | m1_1306 == . 
 
-recode q1308hgbyn (. = .a) if q1306hgbcard == 1 | q1306hgbcard == .
+recode m1_1308 (. = .a) if m1_1306 == 1 | m1_1306 == 96 | m1_1306 == .
 
-recode q1309hgbtest (. = .a) if q1308hgbyn == 0 | q1308hgbyn == . | q1308hgbyn == .a
+recode m1_1309 (. = .a) if m1_1308 == 0 | m1_1308 == . | m1_1308 == .a
 
 	** MODULE 2:
 recode m2_attempt_relationship (. = .a) if m2_attempt_outcome == 1 | m2_attempt_outcome == 3 | m2_attempt_outcome == 4 | m2_attempt_outcome == 5
@@ -1337,15 +1337,23 @@ recode m2_start (. = .a) if m2_attempt_outcome == 2 |  m2_attempt_outcome == 3 |
 recode m2_permission (. = .a) if m2_start == 0
 recode maternal_death_reported (. = .a) if m2_permission==0
 
-recode m2_hiv_status (. = .a) if maternal_death_reported == 1 | q708hivresult == 1
+recode m2_hiv_status (. = .a) if maternal_death_reported == 1 | m1_708b == 1
 
-recode date_of_maternal_death (. = .a) if maternal_death_reported == 0
+* SS: Fix in redcap? error says recode only allows numeric vars but it works below
+* recode date_of_maternal_death (. = .a) if maternal_death_reported == 0 | ///
+										  *maternal_death_reported == . | ///
+										  *maternal_death_reported == .a
 
 recode maternal_death_learn (. = .a) if maternal_death_reported == 0
 
 recode maternal_death_learn_other (. = .a) if maternal_death_learn == 1 | maternal_death_learn == 2 | maternal_death_learn == 3 | maternal_death_learn == 4
 
 recode m2_201 m2_202 (. = .a) if maternal_death_reported == 2 | maternal_death_reported == 3
+
+* SS: fix
+recode date_of_maternal_death_2 (. = .a) if maternal_death_reported == 0 | ///
+											maternal_death_reported == . | ///
+											maternal_death_reported == .a
 
 recode m2_203a m2_203b m2_203c m2_203d m2_203e ///
 	   m2_203f m2_203g m2_203h m2_203i m2_204a ///
@@ -1383,20 +1391,20 @@ recode m2_306 (. = .a) if m2_305 == 1 | m2_305 == 98 | m2_305 == 99
 recode any_of_the_following_1st_consult (0 = .a) if m2_306 == 1 | m2_306 == 98 | m2_306 == 99
 recode any_of_the_following_1st_consult (0 = .) if m2_306 == 0
 
-recode v476 (0 = .a) if m2_306 == 1 | m2_306 == 98 | m2_306 == 99
-recode v476 (0 = .) if m2_306 == 0
-
-recode v477 (0 = .a) if m2_306 == 1 | m2_306 == 98 | m2_306 == 99
-recode v477 (0 = .) if m2_306 == 0
-
-recode v478 (0 = .a) if m2_306 == 1 | m2_306 == 98 | m2_306 == 99
-recode v478 (0 = .) if m2_306 == 0
-
-recode v479 (0 = .a) if m2_306 == 1 | m2_306 == 98 | m2_306 == 99
-recode v479 (0 = .) if m2_306 == 0
-
 recode v480 (0 = .a) if m2_306 == 1 | m2_306 == 98 | m2_306 == 99
 recode v480 (0 = .) if m2_306 == 0
+
+recode v481 (0 = .a) if m2_306 == 1 | m2_306 == 98 | m2_306 == 99
+recode v481 (0 = .) if m2_306 == 0
+
+recode v482 (0 = .a) if m2_306 == 1 | m2_306 == 98 | m2_306 == 99
+recode v482 (0 = .) if m2_306 == 0
+
+recode v483 (0 = .a) if m2_306 == 1 | m2_306 == 98 | m2_306 == 99
+recode v483 (0 = .) if m2_306 == 0
+
+recode v484 (0 = .a) if m2_306 == 1 | m2_306 == 98 | m2_306 == 99
+recode v484 (0 = .) if m2_306 == 0
 
 recode m2_308 (. = .a) if m2_302 == 1 | m2_302 == . | m2_302 == .a
 
@@ -1405,44 +1413,45 @@ recode m2_309 (. = .a) if m2_308 == 1 | m2_308 == 98 | m2_308 == 99
 recode any_of_the_following_2nd_consult (0 = .a) if m2_306 == 1 | m2_306 == 98 | m2_306 == 99
 recode any_of_the_following_2nd_consult (0 = .) if m2_306 == 0
 
-recode v485 (0 = .a) if m2_309 == 1 | m2_309 == 98 | m2_309 == 99
-recode v485 (0 = .) if m2_309 == 0
-
-recode v486 (0 = .a) if m2_309 == 1 | m2_309 == 98 | m2_309 == 99
-recode v486 (0 = .) if m2_309 == 0
-
-recode v487 (0 = .a) if m2_309 == 1 | m2_309 == 98 | m2_309 == 99
-recode v487 (0 = .) if m2_309 == 0
-
-recode v488 (0 = .a) if m2_309 == 1 | m2_309 == 98 | m2_309 == 99
-recode v488 (0 = .) if m2_309 == 0
-
 recode v489 (0 = .a) if m2_309 == 1 | m2_309 == 98 | m2_309 == 99
 recode v489 (0 = .) if m2_309 == 0
 
-recode m2_310_other (. = .a) if v489 ==1
+recode v490 (0 = .a) if m2_309 == 1 | m2_309 == 98 | m2_309 == 99
+recode v490 (0 = .) if m2_309 == 0
+
+recode v491 (0 = .a) if m2_309 == 1 | m2_309 == 98 | m2_309 == 99
+recode v491 (0 = .) if m2_309 == 0
+
+recode v492 (0 = .a) if m2_309 == 1 | m2_309 == 98 | m2_309 == 99
+recode v492 (0 = .) if m2_309 == 0
+
+recode v493 (0 = .a) if m2_309 == 1 | m2_309 == 98 | m2_309 == 99
+recode v493 (0 = .) if m2_309 == 0
+
+* SS: Fix
+* recode m2_310_other (. = .a) if v489 ==1
 
 recode m2_311 (. = .a) if m2_302 == 1 | m2_302 == . | m2_302 == .a | m2_302 == 2
 
 recode m2_312 (. = .a) if m2_311 == 1 | m2_311 == 98 | m2_311 == 99
 
-recode any_of_the_following_3rd_consult___1 (0 = .a) if m2_312 == 1 | m2_312 == 98 | m2_312 == 99
-recode any_of_the_following_3rd_consult___1 (0 = .) if m2_312 == 0
-
-recode v494 (0 = .a) if m2_312 == 1 | m2_312 == 98 | m2_312 == 99
-recode v494 (0 = .) if m2_312 == 0
-
-recode v495 (0 = .a) if m2_312 == 1 | m2_312 == 98 | m2_312 == 99
-recode v495 (0 = .) if m2_312 == 0
-
-recode v496 (0 = .a) if m2_312 == 1 | m2_312 == 98 | m2_312 == 99
-recode v496 (0 = .) if m2_312 == 0
-
-recode v497 (0 = .a) if m2_312 == 1 | m2_312 == 98 | m2_312 == 99
-recode v497 (0 = .) if m2_312 == 0
+recode any_of_the_following_3rd_consult (0 = .a) if m2_312 == 1 | m2_312 == 98 | m2_312 == 99
+recode any_of_the_following_3rd_consult (0 = .) if m2_312 == 0
 
 recode v498 (0 = .a) if m2_312 == 1 | m2_312 == 98 | m2_312 == 99
 recode v498 (0 = .) if m2_312 == 0
+
+recode v499 (0 = .a) if m2_312 == 1 | m2_312 == 98 | m2_312 == 99
+recode v499 (0 = .) if m2_312 == 0
+
+recode v500 (0 = .a) if m2_312 == 1 | m2_312 == 98 | m2_312 == 99
+recode v500 (0 = .) if m2_312 == 0
+
+recode v501 (0 = .a) if m2_312 == 1 | m2_312 == 98 | m2_312 == 99
+recode v501 (0 = .) if m2_312 == 0
+
+recode v502 (0 = .a) if m2_312 == 1 | m2_312 == 98 | m2_312 == 99
+recode v502 (0 = .) if m2_312 == 0
 
 recode m2_314 (. = .a) if m2_302 == 1 | m2_302 == . | m2_302 == .a | m2_302 == 2 | m2_302 == 3
 
@@ -1451,22 +1460,23 @@ recode m2_315 (. = .a) if m2_314 == 1 | m2_314 == 98 | m2_314 == 99
 recode any_of_the_following_4th_consult (0 = .a) if m2_315 == 1 | m2_315 == 98 | m2_315 == 99
 recode any_of_the_following_4th_consult (0 = .) if m2_315 == 0
 
-recode v503 (0 = .a) if m2_315 == 1 | m2_315 == 98 | m2_315 == 99
-recode v503 (0 = .) if m2_315 == 0
-
-recode v504 (0 = .a) if m2_315 == 1 | m2_315 == 98 | m2_315 == 99
-recode v504 (0 = .) if m2_315 == 0
-
-recode v505 (0 = .a) if m2_315 == 1 | m2_315 == 98 | m2_315 == 99
-recode v505 (0 = .) if m2_315 == 0
-
-recode v506 (0 = .a) if m2_315 == 1 | m2_315 == 98 | m2_315 == 99
-recode v506 (0 = .) if m2_315 == 0
-
 recode v507 (0 = .a) if m2_315 == 1 | m2_315 == 98 | m2_315 == 99
 recode v507 (0 = .) if m2_315 == 0
 
-recode m2_316_other (. = .a) if v507 == 1
+recode v508 (0 = .a) if m2_315 == 1 | m2_315 == 98 | m2_315 == 99
+recode v508 (0 = .) if m2_315 == 0
+
+recode v509 (0 = .a) if m2_315 == 1 | m2_315 == 98 | m2_315 == 99
+recode v509 (0 = .) if m2_315 == 0
+
+recode v510 (0 = .a) if m2_315 == 1 | m2_315 == 98 | m2_315 == 99
+recode v510 (0 = .) if m2_315 == 0
+
+recode v511 (0 = .a) if m2_315 == 1 | m2_315 == 98 | m2_315 == 99
+recode v511 (0 = .) if m2_315 == 0
+
+* SS: Fix
+* recode m2_316_other (. = .a) if v507 == 1
 
 recode m2_317 (. = .a) if m2_302 == 1 | m2_302 == . | m2_302 == .a | m2_302 == 2 | m2_302 == 3 | m2_302 == 4
 recode m2_318 (. = .a) if m2_317 == 1 | m2_317 == 98 | m2_317 == 99
@@ -1474,37 +1484,25 @@ recode m2_318 (. = .a) if m2_317 == 1 | m2_317 == 98 | m2_317 == 99
 recode any_of_the_following_5th_consult (0 = .a) if m2_318 == 1 | m2_318 == 98 | m2_318 == 99
 recode any_of_the_following_5th_consult (0 = .) if m2_318 == 0
 
-recode v512 (0 = .a) if m2_318 == 1 | m2_318 == 98 | m2_318 == 99
-recode v512 (0 = .) if m2_318 == 0
-
-recode v513 (0 = .a) if m2_318 == 1 | m2_318 == 98 | m2_318 == 99
-recode v513 (0 = .) if m2_318 == 0
-
-recode v514 (0 = .a) if m2_318 == 1 | m2_318 == 98 | m2_318 == 99
-recode v514 (0 = .) if m2_318 == 0
-
-recode v515 (0 = .a) if m2_318 == 1 | m2_318 == 98 | m2_318 == 99
-recode v515 (0 = .) if m2_318 == 0
-
 recode v516 (0 = .a) if m2_318 == 1 | m2_318 == 98 | m2_318 == 99
 recode v516 (0 = .) if m2_318 == 0
+
+recode v517 (0 = .a) if m2_318 == 1 | m2_318 == 98 | m2_318 == 99
+recode v517 (0 = .) if m2_318 == 0
+
+recode v518 (0 = .a) if m2_318 == 1 | m2_318 == 98 | m2_318 == 99
+recode v518 (0 = .) if m2_318 == 0
+
+recode v519 (0 = .a) if m2_318 == 1 | m2_318 == 98 | m2_318 == 99
+recode v519 (0 = .) if m2_318 == 0
+
+recode v520 (0 = .a) if m2_318 == 1 | m2_318 == 98 | m2_318 == 99
+recode v520 (0 = .) if m2_318 == 0
 
 recode m2_319_other (. = .a) if v516 == 1
 
 recode prevent_more_antenatal_care_320_ (0 = .a) if m2_202 == 0 | m2_202 == 98 | m2_202 == 99 | m2_301 == 1 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
 recode prevent_more_antenatal_care_320_ (0 = .) if m2_202 == 1 & m2_301 == 0
-
-recode v519 (0 = .a) if m2_202 == 0 | m2_202 == 98 | m2_202 == 99 | m2_301 == 1 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
-recode v519 (0 = .) if m2_202 == 1 & m2_301 == 0
-
-recode v520 (0 = .a) if m2_202 == 0 | m2_202 == 98 | m2_202 == 99 | m2_301 == 1 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
-recode v520 (0 = .) if m2_202 == 1 & m2_301 == 0
-
-recode v521 (0 = .a) if m2_202 == 0 | m2_202 == 98 | m2_202 == 99 | m2_301 == 1 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
-recode v521 (0 = .) if m2_202 == 1 & m2_301 == 0
-
-recode v522 (0 = .a) if m2_202 == 0 | m2_202 == 98 | m2_202 == 99 | m2_301 == 1 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
-recode v522 (0 = .) if m2_202 == 1 & m2_301 == 0
 
 recode v523 (0 = .a) if m2_202 == 0 | m2_202 == 98 | m2_202 == 99 | m2_301 == 1 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
 recode v523 (0 = .) if m2_202 == 1 & m2_301 == 0
@@ -1532,6 +1530,18 @@ recode v530 (0 = .) if m2_202 == 1 & m2_301 == 0
 
 recode v531 (0 = .a) if m2_202 == 0 | m2_202 == 98 | m2_202 == 99 | m2_301 == 1 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
 recode v531 (0 = .) if m2_202 == 1 & m2_301 == 0
+
+recode v532 (0 = .a) if m2_202 == 0 | m2_202 == 98 | m2_202 == 99 | m2_301 == 1 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
+recode v532 (0 = .) if m2_202 == 1 & m2_301 == 0
+
+recode v533 (0 = .a) if m2_202 == 0 | m2_202 == 98 | m2_202 == 99 | m2_301 == 1 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
+recode v533 (0 = .) if m2_202 == 1 & m2_301 == 0
+
+recode v534 (0 = .a) if m2_202 == 0 | m2_202 == 98 | m2_202 == 99 | m2_301 == 1 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
+recode v534 (0 = .) if m2_202 == 1 & m2_301 == 0
+
+recode v535 (0 = .a) if m2_202 == 0 | m2_202 == 98 | m2_202 == 99 | m2_301 == 1 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
+recode v535 (0 = .) if m2_202 == 1 & m2_301 == 0
 
 
 recode m2_321 (. = .a) if m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a
@@ -1638,7 +1648,7 @@ recode m2_702d_other (. = .a) if m2_702d !=1
 recode m2_702e (. = .a) if m2_701 == 0 | m2_701 == 98 | m2_701 == 99 | m2_701 ==. | m2_701 == .a
 recode m2_702e_other (. = .a) if m2_702e !=1
 
-*Ask Kate if we should add 98 into branching logic for 704_other
+* SS: Ask Kate if we should add 98 into branching logic for 704_other
 recode m2_703 m2_704 (. = .a) if m2_701 == 0 | m2_701 == 98 | m2_701 == 99 | m2_701 ==. | m2_701 == .a
 
 recode m2_704_other (. = .a) if m2_704 != 1 
@@ -1646,23 +1656,23 @@ recode m2_704_other (. = .a) if m2_704 != 1
 recode which_of_the_following_fin_705__ (0 = .a) if m2_701 == 0 | m2_701 == 98 | m2_701 == 99 | m2_701 ==. | m2_701 == .a
 recode which_of_the_following_fin_705__ (0 = .) if m2_701 == 1
 
-recode v610 (0 = .a) if m2_701 == 0 | m2_701 == 98 | m2_701 == 99 | m2_701 ==. | m2_701 == .a
-recode v610 (0 = .) if m2_701 == 1
-
-recode v611 (0 = .a) if m2_701 == 0 | m2_701 == 98 | m2_701 == 99 | m2_701 ==. | m2_701 == .a
-recode v611 (0 = .) if m2_701 == 1
-
-recode v612 (0 = .a) if m2_701 == 0 | m2_701 == 98 | m2_701 == 99 | m2_701 ==. | m2_701 == .a
-recode v612 (0 = .) if m2_701 == 1
-
-recode v613 (0 = .a) if m2_701 == 0 | m2_701 == 98 | m2_701 == 99 | m2_701 ==. | m2_701 == .a
-recode v613 (0 = .) if m2_701 == 1
-
 recode v614 (0 = .a) if m2_701 == 0 | m2_701 == 98 | m2_701 == 99 | m2_701 ==. | m2_701 == .a
 recode v614 (0 = .) if m2_701 == 1
 
 recode v615 (0 = .a) if m2_701 == 0 | m2_701 == 98 | m2_701 == 99 | m2_701 ==. | m2_701 == .a
 recode v615 (0 = .) if m2_701 == 1
+
+recode v616 (0 = .a) if m2_701 == 0 | m2_701 == 98 | m2_701 == 99 | m2_701 ==. | m2_701 == .a
+recode v616 (0 = .) if m2_701 == 1
+
+recode v617 (0 = .a) if m2_701 == 0 | m2_701 == 98 | m2_701 == 99 | m2_701 ==. | m2_701 == .a
+recode v617 (0 = .) if m2_701 == 1
+
+recode v618 (0 = .a) if m2_701 == 0 | m2_701 == 98 | m2_701 == 99 | m2_701 ==. | m2_701 == .a
+recode v618 (0 = .) if m2_701 == 1
+
+recode v619 (0 = .a) if m2_701 == 0 | m2_701 == 98 | m2_701 == 99 | m2_701 ==. | m2_701 == .a
+recode v619 (0 = .) if m2_701 == 1
 
 recode m2_interview_inturrupt (. = .a) if m2_permission == 0 | m2_permission == . | m2_permission == .a | m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a 
  
@@ -1672,13 +1682,16 @@ recode m2_int_duration (. = .a) if m2_permission == 0 | m2_permission == . | m2_
 
 recode m2_endstatus (. = .a) if m2_endtime == ""
 
-					   
-	* STEP FIVE: LABELING VARIABLES (for sumtab command)
+*===============================================================================					   
+	
+	* STEP FOUR: LABELING VARIABLES (for sumtab command)
 label variable record_id "Record ID"
-label variable redcap_event_name "Event Name"
+label variable event "Event Name"
 label variable redcap_repeat_instrument "Repeat Instrument"
 label variable redcap_repeat_instance "Repeat Instance"
 label variable redcap_data_access_group "Data Access Group"
+label variable study_id "Study ID"
+label variable interviewer_id "Interviewer ID"
 
 	** MODULE 1:		
 
@@ -1689,6 +1702,7 @@ lab var woreda_other "A4_Other. Specify other study site"
 lab var facility "A5. Facility name"
 lab var facility_other "A5_Other. Specify other facility name"
 lab var facility_type "A5. Facility type"
+lab var interviewer_name_a7 "A7. Interviewer Name"
 lab var permission "B1. May we have your permission to explain why we are here today, and to ask some questions?"
 lab var care_self "B2. Are you here today to receive care for yourself or someone else?"
 lab var age "B3. How old are you?"
@@ -1698,26 +1712,30 @@ lab var b6anc_first "B6. Is this the first time you've come to a health facility
 lab var b6anc_first_conf "01. Data collector confirms with provider that this is the woman's first visit. Data collector confirms with maternal health card that it is the woman's first visit."
 lab var continuecare "ETH-1-B. Do you plan to continue receiving care for your pregnancy in the East Shewa zone or Adama town?"
 lab var b7eligible "B7. Is the respondent eligible to participate in the study AND signed a consent form?"
-lab var mobile_phone "105. What is your phone number? "
+lab var first_name "101. What is your first name?"
+lab var family_name "102. What is your family name?"
+lab var respondentid "103. Assign respondent ID"
+lab var mobile_phone "104. Do you have a mobile phone with you today?"
+lab var phone_number "105. What is your phone number?"
 lab var flash "106. Can I 'flash' this number now to make sure I have noted it correctly?"
 lab var kebele_malaria "Eth-1-1 Interviewer check whether the area that the woman living is malarias or not? "
 lab var kebele_intworm "Eth-2-1. Interviewer check whether the area that the woman living is endemic for intestinal worm or not?"
-lab var q201srhealth "201. In general, how would you rate your overall health?"
-lab var q202diabetes "202.a. BEFORE you got pregnant, did you know that you had Diabetes?"
-lab var q202hbp "202.b. BEFORE you got pregnant, did you know that you had High blood pressure or hypertension?"
-lab var q202cardiac "202.c. BEFORE you got pregnant, did you know that you had a cardiac disease or problem with your heart?"
-lab var q202mental "202.d BEFORE you got pregnant, did you know that you had A mental health disorder such as depression, anxiety, bipolar disorder, or schizophrenia?"
-lab var q202hiv "202.e BEFORE you got pregnant, did you know that you had HIV?"
-lab var q202hepb "202f. BEFORE you got pregnant, did you know that you had Hepatitis B?"
-lab var q202renal "202g. BEFORE you got pregnant, did you know that you had Renal disorder? "
-lab var q203diagnosis "203. Before you got pregnant, were you diagnosed with any other major health problems?"
-lab var q202other "203_Other. Specify the diagnosis health problem"
-lab var q204meds "204. Are you currently taking any medications?"
-lab var q205mobility "205A. I am going to read three statements about your mobility, by which I mean your ability to walk around. Please indicate which statement best describe your own health state today?"
-lab var q205selfcare "205B. I am now going to read three statements regarding your ability to self-care, by which I mean whether you can wash and dress yourself without assistance. Please indicate which statement best describe your own health state today"
-lab var q205activities "205C. I am going to read three statements regarding your ability to perform your usual daily activities, by which I mean your ability to work, take care of your family or perform leisure activities. Please indicate which statement best describe your own health state today."
-lab var q205pain "205D. I am going to read three statements regarding your experience with physical pain or discomfort. Please indicate which statement best describe your own health state today"
-lab var q205anxiety "205E. I am going to read three statements regarding your experience with anxiety or depression. Please indicate which statements best describe your own health state today"
+lab var m1_201 "201. In general, how would you rate your overall health?"
+lab var m1_202a "202.a. BEFORE you got pregnant, did you know that you had Diabetes?"
+lab var m1_202b "202.b. BEFORE you got pregnant, did you know that you had High blood pressure or hypertension?"
+lab var m1_202c "202.c. BEFORE you got pregnant, did you know that you had a cardiac disease or problem with your heart?"
+lab var m1_202d "202.d BEFORE you got pregnant, did you know that you had A mental health disorder such as depression, anxiety, bipolar disorder, or schizophrenia?"
+lab var m1_202e "202.e BEFORE you got pregnant, did you know that you had HIV?"
+lab var m1_202f "202f. BEFORE you got pregnant, did you know that you had Hepatitis B?"
+lab var m1_202g "202g. BEFORE you got pregnant, did you know that you had Renal disorder? "
+lab var m1_203 "203. Before you got pregnant, were you diagnosed with any other major health problems?"
+lab var m1_203_other "203_Other. Specify the diagnosis health problem"
+lab var m1_204 "204. Are you currently taking any medications?"
+lab var m1_205a "205A. I am going to read three statements about your mobility, by which I mean your ability to walk around. Please indicate which statement best describe your own health state today?"
+lab var m1_205b "205B. I am now going to read three statements regarding your ability to self-care, by which I mean whether you can wash and dress yourself without assistance. Please indicate which statement best describe your own health state today"
+lab var m1_205c "205C. I am going to read three statements regarding your ability to perform your usual daily activities, by which I mean your ability to work, take care of your family or perform leisure activities. Please indicate which statement best describe your own health state today."
+lab var m1_205d "205D. I am going to read three statements regarding your experience with physical pain or discomfort. Please indicate which statement best describe your own health state today"
+lab var m1_205e "205E. I am going to read three statements regarding your experience with anxiety or depression. Please indicate which statements best describe your own health state today"
 lab var phq9a "206A. Over the past 2 weeks, how many days have you been bothered by little interest or pleasure in doing things?"
 lab var phq9b "206B. Over the past 2 weeks, on how many days have you been bothered by feeling down, depressed, or hopeless ?"
 lab var phq9c "206C. Over the past 2 weeks, on how many days have you been bothered by trouble falling or staying asleep, or sleeping too much?"
@@ -1727,323 +1745,323 @@ lab var phq9f "206F. Over the past 2 weeks, on how many days have you been bothe
 lab var phq9g "206G. Over the past 2 weeks, on how many days have you been bothered by trouble concentrating on things, such as your work or home duties?"
 lab var phq9h "206H. Over the past 2 weeks, on how many days have you been bothered by moving or speaking so slowly that other people could have noticed? Or so fidgety or restless that you have been moving a lot more than usual?"
 lab var phq9i "206I. Over the past 2 weeks, on how many days have you been bothered by Thoughts that you would be better off dead, or thoughts of hurting yourself in some way?"
-lab var q207productive "207. Over the past 2 weeks, on how many days did health problems affect your productivity while you were working? Work may include formal employment, a business, sales or farming, but also work you do around the house, childcare, or studying. Think about days you were limited in the amount or kind of work you could do, days you accomplished less than you would like, or days you could not do your work as carefully as usual."
-lab var q301qualrate "301. How would you rate the overall quality of medical care in Ethiopia?"
-lab var q302overallview "302. Overall view of the health care system in your country"
-lab var q303confidentcare "303. Confidence that you would receive good quality healthcare from the health system if you got very sick?"
-lab var q304confidentafford "304. Confidence you would be able to afford the healthcare you needed if you became very sick?"
-lab var q305confidentresp "305.A. Confidence that you that you are the person who is responsible for managing your overall health?"
-lab var q305confidenttellprov "305.B. Confidence that you that you can tell a healthcare provider concerns you have even when he or she does not ask "
-lab var q401travel "401. How did you travel to the facility today?"
-lab var q401other "401_Other. Other specify"
-lab var q402time "402. How long in minutes did it take you to reach this facility from your home?"
-lab var q403knowdist "403a. Do you know the distance from your home to the / facility?"
-lab var q403distance "403b. How far in kilometers is your home from this facility?"
-lab var q404nearest "404. Is this the nearest health facility to your home that provides antenatal care for pregnant women?"
-lab var q405reason "405. What is the most important reason for choosing this facility for your visit today?"
-lab var q405other "405_Other. Specify other reason"
-lab var q501language "501. What is your first language?"
-lab var q501other "501_Other. Specify other language"
-lab var q502school "502. Have you ever attended school?"
-lab var q503level "503. What is the highest level of education you have completed?"
-lab var q504literate "504. Now I would like you to read this sentence to me. 1. PARENTS LOVE THEIR CHILDREN. 3. THE CHILD IS READING A BOOK. 4. CHILDREN WORK HARD AT SCHOOL."
-lab var q505marriage "505. What is your current marital status?"
-lab var q506occupation "506. What is your occupation, that is, what kind of work do you mainly do?"
-lab var q506other "506_Other. Specify other occupation"
-lab var q507religion "507. What is your religion?"
-lab var q507other "507_Other. Specify other religion"
-lab var q508support "508. How many people do you have near you that you can readily count on for help in times of difficulty such as to watch over children, bring you to the hospital or store, or help you when you are sick?"
-lab var q509hiv "509a. Now I would like to talk about something else. Have you ever heard of an illness called HIV/AIDS?"
-lab var q509hivtrans "509b. Do you think that people can get the HIV virus from mosquito bites?"
-lab var q510tb "510a. Have you ever heard of an illness called tuberculosis or TB?"
-lab var q510tbtrad "510b. Do you think that TB can be treated using herbal or traditional medicine made from plants?"
-lab var q511diarrhea "511. When children have diarrhea, do you think that they should be given less to drink than usual, more to drink than usual, about the same or it doesn't matter?"
-lab var q512woodburn "512. Is smoke from a wood burning traditional stove good for health, harmful for health or do you think it doesn't really matter?"
-lab var what_phone_numbers_513a___1 "513a. What phone numbers can we use to reach you in the coming months? / Primary personal phone"
-lab var what_phone_numbers_513a___2 "513a. What phone numbers can we use to reach you in the coming months? / Secondary personal phone"
-lab var what_phone_numbers_513a___3 "513a. What phone numbers can we use to reach you in the coming months? / Spouse or partner phone"
-lab var what_phone_numbers_513a___4 "513a. What phone numbers can we use to reach you in the coming months? / Community health worker phone"
-lab var what_phone_numbers_513a___5 "513a. What phone numbers can we use to reach you in the coming months? / Friend or other family member phone 1"
-lab var what_phone_numbers_513a___6 "513a. What phone numbers can we use to reach you in the coming months? / Friend or other family member phone 2"
-lab var what_phone_numbers_513a___7 "513a. What phone numbers can we use to reach you in the coming months? / Other phone"
-lab var what_phone_numbers_513a___8 "513a. What phone numbers can we use to reach you in the coming months? / Does not have any phone numbers"
-lab var primary_phone_number_513b "513b. Primary personal phone number"
-lab var can_i_flash_this_number_513c "513c. Can I flash this number now to make sure I have noted it correctly?"
-lab var secondary_personal_phone_513d "513d. Secondary personal phone number"
-lab var spouse_or_partner_513e "513e. Spouse or partner phone number"
-lab var community_health_worker_513f "513f. Community health worker phone"
-lab var close_friend_or_family_513g "513g. Close friend or family member phone"
-lab var close_friend_or_family_513h "513h. Close friend or family member phone number 2"
-lab var other_phone_number_513i "513i. Other phone number"
-lab var we_can_give_you_a_mobile_phone_5 "514a. We would like you to be able to participate in this study. We can give you a mobile phone for you to take home so that we can reach you. Would you like to receive a mobile phone?"
-lab var mobile_phone_number_514b "514b. Interviewer enters the number of the phone provided. Interviewer flashes the number to ensure it is entered correctly."
-lab var where_is_your_town_515a "515a. Where is your town/district?"
-lab var where_is_your_zone_515b "515b. Where is your zone or sub-city?"
-lab var where_is_your_kebele_515c "515c. Where is your Kebele you live?"
-lab var what_is_your_house_num_515d "515d. What is your village name/block"
-lab var could_you_please_describe_516 "516. Could you please describe directions to your residence? Please give us enough detail so that a data collection team member could find your residence if we needed to ask you some follow up questions"
-lab var is_this_a_temporary_reside_517 "517. Is this a temporary residence or a permanent residence?"
-lab var until_when_will_you_be_at_518 "518. Until when will you be at this residence?"
-lab var where_will_your_district_519a "519a. Where will your district be after this date "
-lab var where_will_your_kebele_519b "519b. Where will your kebele be after this date"
-lab var where_will_your_village_519c "519c. Where will your village be after this date"
-lab var q601qoc "601. Overall how would you rate the quality of care you received today?"
-lab var q602nps "602. How likely are you to recommend this facility or provider to a family member or friend to receive care for their pregnancy?"
-lab var q603visitlength "603. How long in minutes did you spend with the health provider today?"
-lab var q604waittime "604. How long in minutes did you wait between the time you arrived at this facility and the time you were able to see a provider for the consultation?"
-lab var q604knowlab "Eth-1-6-1. How long in hours did you spend at this facility today for all aspects of your care, including wait time, the consultation, and any other components of your care today?"
-lab var q604labwait "Eth-1-6.2. How long in hours did you spend at this facility today for all aspects of your care, including wait time, the consultation, and any other components of your care today?"
-lab var q605skills "605a. How would you rate the knowledge and skills of your provider?"
-lab var q605equip "605b. How would you rate the equipment and supplies that the provider had available such as medical equipment or access to lab?"
-lab var q605respect "605c. How would you rate the level of respect the provider showed you?"
-lab var q605clarity "605d. How would you rate the clarity of the provider's explanations?"
-lab var q605involved "605e. How would you rate the degree to which the provider involved you as much as you wanted to be in decisions about your care?"
-lab var q605time "605f. How would you rate the amount of time the provider spent with you?"
-lab var q605wait "605g. How would you rate the amount of time you waited before being seen?"
-lab var q605courtesy "605h. How would you rate the courtesy and helpfulness of the healthcare facility staff, other than your provider?"
-lab var q605confidentiality "605i. How would you rate the confidentiality of care or diagnosis?"
-lab var q605privacy "605j. How would you rate the privacy (Auditory or visual)?"
-lab var q605cost "605k. How would you rate the affordability of charge or bill to the service?"
-lab var q700bp "700. Measure your blood pressure?"
-lab var q701weight "701. Measure your weight?"
-lab var q702height "702. Measure your height?"
-lab var q703muac "703. Measure your upper arm?"
-lab var q704babyrate "704. Listen to the heart rate of the baby (that is, where the provider places a listening device against your belly to hear the baby's heart beating)?"
-lab var q705urine "705. Take a urine sample (that is, you peed in a container)?"
-lab var q706blooddrop "706. Take a blood drop using a finger prick (that is, taking a drop of blood from your finger)"
-lab var q706blooddraw "707. Take a blood draw (that is, taking blood from your arm with a syringe)"
-lab var q708hiv "708a. Do an HIV test?"
-lab var q708hivresult "708b. Would you please share with me the result of the HIV test? Remember this information will remain confidential."
-lab var q708hivmed "708c. Did the provider give you medicine for HIV?"
-lab var q708hivmedex "708d. Did the provider explain how to take the medicine for HIV?"
-lab var q708hivload "708e. Did the provider do an HIV viral load test?"
-lab var q708hivcd4 "708f. Did the provider do a CD4 test?"
-lab var q709hivload "709a. Did the provider do an HIV viral load test?"
-lab var q709hivdc4 "709b. Did the provider do a CD4 test?"
-lab var q710syphilis "710a. Did they do a syphilis test?"
-lab var q710syphilisresult "710b. Would you please share with me the result of the syphilis test?"
-lab var q710syphilismed "710c. Did the provider give you medicine for syphilis directly, gave you a prescription or told you to get it somewhere else, or neither?"
-lab var q711bloodsugar "711a. Did they do a blood sugar test for diabetes?"
-lab var q711bloodsugarresult "711b. Do you know the result of your blood sugar test?"
-lab var q712ultrasound "712. Did they do an ultrasound (that is, when a probe is moved on your belly to produce a video of the baby on a screen)"
-lab var q713fefa "713a_1. Iron and folic acid pills?"
-lab var q713capill "713b_1. Calcium pills?"
-lab var q713foodsupp "713c_1. The food supplement like Super Cereal or Plumpynut?"
-lab var q713intworm "713d_1. Medicine for intestinal worms?"
-lab var q713malaria "713e_1. Medicine for malaria (endemic only)?"
-lab var q713nerves "713f_1. Medicine for your emotions, nerves, or mental health?"
-lab var q713multivit "713g_1. Multivitamins?"
-lab var q713hypertension "713h_1. Medicine for hypertension?"
-lab var q713diabetes "713i_1. Medicine for diabetes, including injections of insulin?"
-lab var q714tt "714a. During the visit today, were you given an injection in the arm to prevent the baby from getting tetanus, that is, convulsions after birth?"
-lab var q714ttbefore "714b. At any time BEFORE the visit today, did you receive any tetanus injections?"
-lab var q714ttnumber "714c. Before today, how many times did you receive a tetanus injection?"
-lab var q714ttyears "714d. How many years ago did you receive that tetanus injection?"
-lab var q714ttyears2 "714e. How many years ago did you receive the last tetanus injection?"
-lab var q715itn "715. Were you provided with an insecticide treated bed net to prevent malaria?"
-lab var q716nutrition "716a. Did you discuss about Nutrition or what is you to be eating during your pregnancy?"
-lab var q716exercise "716b. Did you discuss about Exercise or physical activity during your pregnancy?"
-lab var q716mental "716c. Did you discuss about Your level of anxiety or depression?"
-lab var q716itn "716d. Did you discuss about how to use a mosquito net that has been treated with an insecticide? (Malaria endemic zones only)?"
-lab var q716complication "716e. Did you discuss about Signs of pregnancy complications that would require you to go to the health facility?"
-lab var q717depression "717. Did you discuss that you were feeling down or depressed, or had little interest in doing things?"
-lab var q718diabetes "718. Did you discuss your diabetes, or not?"
-lab var q719hypertension "719. Did you discuss your high blood pressure or hypertension, or not?"
-lab var q720cardiac "720. Did you discuss your cardiac problems or problems with your heart, or not?"
-lab var q721mental "720. Did you discuss your cardiac problems or problems with your heart, or not?"
-lab var q722hiv "722. Did you discuss your HIV, or not?"
-lab var q723meds "723. Did you discuss the medications you are currently taking, or not?"
-lab var q724return "724a. Were you told you should come back for another antenatal care visit at this facility?"
-lab var q724returnwhen "724b. When did he tell you to come back? In how many weeks?"
-lab var q724gynecologist "724c. Were you told to go see a specialist like an obstetrician or a gynecologist?"
-lab var q724mentalhealth "724d. That you should see a mental health provider like a psychologist?"
-lab var q724hospital "724e. To go to the hospital for follow-up antenatal care?"
-lab var q724urine "724f. To go somewhere else to do a urine test such as a lab or another health facility?"
-lab var q724blood "724g. To go somewhere else to do a blood test such as a lab or another health facility?"
-lab var q724hiv "724h. To go somewhere else to do an HIV test such as a lab or another health facility?"
-lab var q724ultrasound "724i. Were you told to go somewhere else to do an ultrasound such as a hospital or another health facility?"
-lab var q801edd "801. Did the healthcare provider tell you the estimated date of delivery, or not?"
-lab var q802edd "802a. What is the estimated date of delivery the provider told you?"
-lab var q802lmpknown "802b. Do you know your last normal menstrual period?"
-lab var q802lmp "802c. What is the date of your last normal menstrual period"
-lab var q802gacalc "802d. Gestational age in weeks based on LNMP"
-lab var q803gaself "803. How many weeks pregnant do you think you are?"
-lab var q804trimester "804. Interviewer calculates the gestational age in trimester based on Q802 (estimated due date) or on Q803 (self-reported number of months pregnant)."
-lab var q805numbbabies "805. How many babies are you pregnant with?"
-lab var q806asklmp "806. During the visit today, did the healthcare provider ask when you had your last period, or not?"
-lab var q807desired "807. When you got pregnant, did you want to get pregnant at that time?"
+lab var m1_207 "207. Over the past 2 weeks, on how many days did health problems affect your productivity while you were working? Work may include formal employment, a business, sales or farming, but also work you do around the house, childcare, or studying. Think about days you were limited in the amount or kind of work you could do, days you accomplished less than you would like, or days you could not do your work as carefully as usual."
+lab var m1_301 "301. How would you rate the overall quality of medical care in Ethiopia?"
+lab var m1_302 "302. Overall view of the health care system in your country"
+lab var m1_303 "303. Confidence that you would receive good quality healthcare from the health system if you got very sick?"
+lab var m1_304 "304. Confidence you would be able to afford the healthcare you needed if you became very sick?"
+lab var m1_305a "305.A. Confidence that you that you are the person who is responsible for managing your overall health?"
+lab var m1_305b "305.B. Confidence that you that you can tell a healthcare provider concerns you have even when he or she does not ask "
+lab var m1_401 "401. How did you travel to the facility today?"
+lab var m1_401_other "401_Other. Other specify"
+lab var m1_402 "402. How long in minutes did it take you to reach this facility from your home?"
+lab var m1_403a "403a. Do you know the distance from your home to the / facility?"
+lab var m1_403b "403b. How far in kilometers is your home from this facility?"
+lab var m1_404 "404. Is this the nearest health facility to your home that provides antenatal care for pregnant women?"
+lab var m1_405 "405. What is the most important reason for choosing this facility for your visit today?"
+lab var m1_405_other "405_Other. Specify other reason"
+lab var m1_501 "501. What is your first language?"
+lab var m1_501_other "501_Other. Specify other language"
+lab var m1_502 "502. Have you ever attended school?"
+lab var m1_503 "503. What is the highest level of education you have completed?"
+lab var m1_504 "504. Now I would like you to read this sentence to me. 1. PARENTS LOVE THEIR CHILDREN. 3. THE CHILD IS READING A BOOK. 4. CHILDREN WORK HARD AT SCHOOL."
+lab var m1_505 "505. What is your current marital status?"
+lab var m1_506 "506. What is your occupation, that is, what kind of work do you mainly do?"
+lab var m1_506_other "506_Other. Specify other occupation"
+lab var m1_507 "507. What is your religion?"
+lab var m1_507_other "507_Other. Specify other religion"
+lab var m1_508 "508. How many people do you have near you that you can readily count on for help in times of difficulty such as to watch over children, bring you to the hospital or store, or help you when you are sick?"
+lab var m1_509a "509a. Now I would like to talk about something else. Have you ever heard of an illness called HIV/AIDS?"
+lab var m1_509b "509b. Do you think that people can get the HIV virus from mosquito bites?"
+lab var m1_510a "510a. Have you ever heard of an illness called tuberculosis or TB?"
+lab var m1_510b "510b. Do you think that TB can be treated using herbal or traditional medicine made from plants?"
+lab var m1_511 "511. When children have diarrhea, do you think that they should be given less to drink than usual, more to drink than usual, about the same or it doesn't matter?"
+lab var m1_512 "512. Is smoke from a wood burning traditional stove good for health, harmful for health or do you think it doesn't really matter?"
+lab var m1_513a_1 "513a. What phone numbers can we use to reach you in the coming months? / Primary personal phone"
+lab var m1_513a_2 "513a. What phone numbers can we use to reach you in the coming months? / Secondary personal phone"
+lab var m1_513a_3 "513a. What phone numbers can we use to reach you in the coming months? / Spouse or partner phone"
+lab var m1_513a_4 "513a. What phone numbers can we use to reach you in the coming months? / Community health worker phone"
+lab var m1_513a_5 "513a. What phone numbers can we use to reach you in the coming months? / Friend or other family member phone 1"
+lab var m1_513a_6 "513a. What phone numbers can we use to reach you in the coming months? / Friend or other family member phone 2"
+lab var m1_513a_7 "513a. What phone numbers can we use to reach you in the coming months? / Other phone"
+lab var m1_513a_8 "513a. What phone numbers can we use to reach you in the coming months? / Does not have any phone numbers"
+lab var m1_513b "513b. Primary personal phone number"
+lab var m1_513c "513c. Can I flash this number now to make sure I have noted it correctly?"
+lab var m1_513d "513d. Secondary personal phone number"
+lab var m1_513e "513e. Spouse or partner phone number"
+lab var m1_513f "513f. Community health worker phone"
+lab var m1_513g "513g. Close friend or family member phone"
+lab var m1_513h "513h. Close friend or family member phone number 2"
+lab var m1_513i "513i. Other phone number"
+lab var m1_514a "514a. We would like you to be able to participate in this study. We can give you a mobile phone for you to take home so that we can reach you. Would you like to receive a mobile phone?"
+lab var m1_514b "514b. Interviewer enters the number of the phone provided. Interviewer flashes the number to ensure it is entered correctly."
+lab var m1_515a "515a. Where is your town/district?"
+lab var m1_515b "515b. Where is your zone or sub-city?"
+lab var m1_515c "515c. Where is your Kebele you live?"
+lab var m1_515d "515d. What is your village name/block"
+lab var m1_516 "516. Could you please describe directions to your residence? Please give us enough detail so that a data collection team member could find your residence if we needed to ask you some follow up questions"
+lab var m1_517 "517. Is this a temporary residence or a permanent residence?"
+lab var m1_518 "518. Until when will you be at this residence?"
+lab var m1_519a "519a. Where will your district be after this date "
+lab var m1_519b "519b. Where will your kebele be after this date"
+lab var m1_519c "519c. Where will your village be after this date"
+lab var m1_601 "601. Overall how would you rate the quality of care you received today?"
+lab var m1_602 "602. How likely are you to recommend this facility or provider to a family member or friend to receive care for their pregnancy?"
+lab var m1_603 "603. How long in minutes did you spend with the health provider today?"
+lab var m1_604a "604. How long in minutes did you wait between the time you arrived at this facility and the time you were able to see a provider for the consultation?"
+lab var m1_604b "Eth-1-6-1. How long in hours did you spend at this facility today for all aspects of your care, including wait time, the consultation, and any other components of your care today?"
+lab var m1_604c "Eth-1-6.2. How long in hours did you spend at this facility today for all aspects of your care, including wait time, the consultation, and any other components of your care today?"
+lab var m1_605a "605a. How would you rate the knowledge and skills of your provider?"
+lab var m1_605b "605b. How would you rate the equipment and supplies that the provider had available such as medical equipment or access to lab?"
+lab var m1_605c "605c. How would you rate the level of respect the provider showed you?"
+lab var m1_605d "605d. How would you rate the clarity of the provider's explanations?"
+lab var m1_605e "605e. How would you rate the degree to which the provider involved you as much as you wanted to be in decisions about your care?"
+lab var m1_605f "605f. How would you rate the amount of time the provider spent with you?"
+lab var m1_605g "605g. How would you rate the amount of time you waited before being seen?"
+lab var m1_605h "605h. How would you rate the courtesy and helpfulness of the healthcare facility staff, other than your provider?"
+lab var m1_605i "605i. How would you rate the confidentiality of care or diagnosis?"
+lab var m1_605j "605j. How would you rate the privacy (Auditory or visual)?"
+lab var m1_605k "605k. How would you rate the affordability of charge or bill to the service?"
+lab var m1_700 "700. Measure your blood pressure?"
+lab var m1_701 "701. Measure your weight?"
+lab var m1_702 "702. Measure your height?"
+lab var m1_703 "703. Measure your upper arm?"
+lab var m1_704 "704. Listen to the heart rate of the baby (that is, where the provider places a listening device against your belly to hear the baby's heart beating)?"
+lab var m1_705 "705. Take a urine sample (that is, you peed in a container)?"
+lab var m1_706 "706. Take a blood drop using a finger prick (that is, taking a drop of blood from your finger)"
+lab var m1_707 "707. Take a blood draw (that is, taking blood from your arm with a syringe)"
+lab var m1_708a "708a. Do an HIV test?"
+lab var m1_708b "708b. Would you please share with me the result of the HIV test? Remember this information will remain confidential."
+lab var m1_708c "708c. Did the provider give you medicine for HIV?"
+lab var m1_708d "708d. Did the provider explain how to take the medicine for HIV?"
+lab var m1_708e "708e. Did the provider do an HIV viral load test?"
+lab var m1_708f "708f. Did the provider do a CD4 test?"
+lab var m1_709a "709a. Did the provider do an HIV viral load test?"
+lab var m1_709b "709b. Did the provider do a CD4 test?"
+lab var m1_710a "710a. Did they do a syphilis test?"
+lab var m1_710b "710b. Would you please share with me the result of the syphilis test?"
+lab var m1_710c "710c. Did the provider give you medicine for syphilis directly, gave you a prescription or told you to get it somewhere else, or neither?"
+lab var m1_711a "711a. Did they do a blood sugar test for diabetes?"
+lab var m1_711b "711b. Do you know the result of your blood sugar test?"
+lab var m1_712 "712. Did they do an ultrasound (that is, when a probe is moved on your belly to produce a video of the baby on a screen)"
+lab var m1_713a "713a_1. Iron and folic acid pills?"
+lab var m1_713b "713b_1. Calcium pills?"
+lab var m1_713c "713c_1. The food supplement like Super Cereal or Plumpynut?"
+lab var m1_713d "713d_1. Medicine for intestinal worms?"
+lab var m1_713e "713e_1. Medicine for malaria (endemic only)?"
+lab var m1_713f "713f_1. Medicine for your emotions, nerves, or mental health?"
+lab var m1_713g "713g_1. Multivitamins?"
+lab var m1_713h "713h_1. Medicine for hypertension?"
+lab var m1_713i "713i_1. Medicine for diabetes, including injections of insulin?"
+lab var m1_714a "714a. During the visit today, were you given an injection in the arm to prevent the baby from getting tetanus, that is, convulsions after birth?"
+lab var m1_714b "714b. At any time BEFORE the visit today, did you receive any tetanus injections?"
+lab var m1_714c "714c. Before today, how many times did you receive a tetanus injection?"
+lab var m1_714d "714d. How many years ago did you receive that tetanus injection?"
+lab var m1_714e "714e. How many years ago did you receive the last tetanus injection?"
+lab var m1_715 "715. Were you provided with an insecticide treated bed net to prevent malaria?"
+lab var m1_716a "716a. Did you discuss about Nutrition or what is you to be eating during your pregnancy?"
+lab var m1_716b "716b. Did you discuss about Exercise or physical activity during your pregnancy?"
+lab var m1_716c "716c. Did you discuss about Your level of anxiety or depression?"
+lab var m1_716d "716d. Did you discuss about how to use a mosquito net that has been treated with an insecticide? (Malaria endemic zones only)?"
+lab var m1_716e "716e. Did you discuss about Signs of pregnancy complications that would require you to go to the health facility?"
+lab var m1_717 "717. Did you discuss that you were feeling down or depressed, or had little interest in doing things?"
+lab var m1_718 "718. Did you discuss your diabetes, or not?"
+lab var m1_719 "719. Did you discuss your high blood pressure or hypertension, or not?"
+lab var m1_720 "720. Did you discuss your cardiac problems or problems with your heart, or not?"
+lab var m1_721 "721. During the visit today, did you and the healthcare provider discuss your mental health disorder, or not?"
+lab var m1_722 "722. Did you discuss your HIV, or not?"
+lab var m1_723 "723. Did you discuss the medications you are currently taking, or not?"
+lab var m1_724a "724a. Were you told you should come back for another antenatal care visit at this facility?"
+lab var m1_724b "724b. When did he tell you to come back? In how many weeks?"
+lab var m1_724c "724c. Were you told to go see a specialist like an obstetrician or a gynecologist?"
+lab var m1_724d "724d. That you should see a mental health provider like a psychologist?"
+lab var m1_724e "724e. To go to the hospital for follow-up antenatal care?"
+lab var m1_724f "724f. To go somewhere else to do a urine test such as a lab or another health facility?"
+lab var m1_724g "724g. To go somewhere else to do a blood test such as a lab or another health facility?"
+lab var m1_724h "724h. To go somewhere else to do an HIV test such as a lab or another health facility?"
+lab var m1_724i "724i. Were you told to go somewhere else to do an ultrasound such as a hospital or another health facility?"
+lab var m1_801 "801. Did the healthcare provider tell you the estimated date of delivery, or not?"
+lab var m1_802a "802a. What is the estimated date of delivery the provider told you?"
+lab var m1_802b "802b. Do you know your last normal menstrual period?"
+lab var m1_802c "802c. What is the date of your last normal menstrual period"
+lab var m1_802d "802d. Gestational age in weeks based on LNMP"
+lab var m1_803 "803. How many weeks pregnant do you think you are?"
+lab var m1_804 "804. Interviewer calculates the gestational age in trimester based on Q802 (estimated due date) or on Q803 (self-reported number of months pregnant)."
+lab var m1_805 "805. How many babies are you pregnant with?"
+lab var m1_806 "806. During the visit today, did the healthcare provider ask when you had your last period, or not?"
+lab var m1_807 "807. When you got pregnant, did you want to get pregnant at that time?"
 lab var there_are_many_reasons_why_808__ "808. Didn't realize you were pregnant"
-*lab var v198 "808. Tried to come earlier and were sent away"
-lab var v199 "808. You received care at home"
-lab var v200 "808. High cost (e.g., high out of pocket payment, not covered by insurance)"
-lab var v201 "808. Far distance (e.g., too far to walk or drive, transport not readily available)"
-lab var v202 "808. Long waiting time (e.g., long line to access facility, long wait for the provider)"
-lab var v203 "808. Poor healthcare provider skills (e.g., spent too little time with patient, did not conduct a thorough exam)"
-lab var v204 "808. Staff don't show respect (e.g., staff is rude, impolite, dismissive) "
-lab var v205 "808. Medicines and equipment are not available (e.g., medicines regularly out of stock, equipment like X-ray machines broken or unavailable)"
-lab var v206 "808. COVID-19 fear"
-lab var v207 "808. Don't know where to go (e.g., too complicated)"
-lab var v208 "808. Fear of discovering serious problems"
-lab var v209 "808. Do not know advantage of early coming"
-lab var v210 "808. Other, specify"
-lab var v211 "808. NR/RF"
-lab var specify_other_reason_808 "808_Other. Specify other reason not to receive care earlier in your pregnancy."
-lab var q809birthplan "809. During the visit today, did you and the provider discuss your birth plan?"
-lab var q810planbirthloc "810a. Where do you plan to give birth?"
-lab var q810planbirthfac "810b. What is the name of the [facility type from 810a] where you plan to give birth?"
-lab var q810other "810b_Other. Other than the list above, specify"
-lab var q811mwh "811. Do you plan to stay at a maternity waiting home before delivering your baby?"
-lab var q812toldcs "812a. During the visit today, did the provider tell you that you might need a C-section?"
-lab var m1_812b_0 "812b.0. Have you told the reason why you might need a c-section?"
+lab var v204 "808. Tried to come earlier and were sent away"
+lab var v205 "808. You received care at home"
+lab var v206 "808. High cost (e.g., high out of pocket payment, not covered by insurance)"
+lab var v207 "808. Far distance (e.g., too far to walk or drive, transport not readily available)"
+lab var v208 "808. Long waiting time (e.g., long line to access facility, long wait for the provider)"
+lab var v209 "808. Poor healthcare provider skills (e.g., spent too little time with patient, did not conduct a thorough exam)"
+lab var v210 "808. Staff don't show respect (e.g., staff is rude, impolite, dismissive) "
+lab var v211 "808. Medicines and equipment are not available (e.g., medicines regularly out of stock, equipment like X-ray machines broken or unavailable)"
+lab var v212 "808. COVID-19 fear"
+lab var v213 "808. Don't know where to go (e.g., too complicated)"
+lab var v214 "808. Fear of discovering serious problems"
+lab var v215 "808. Do not know advantage of early coming"
+lab var v216 "808. Other, specify"
+lab var v217 "808. NR/RF"
+lab var m1_808_other "808_Other. Specify other reason not to receive care earlier in your pregnancy."
+lab var m1_809 "809. During the visit today, did you and the provider discuss your birth plan?"
+lab var m1_810a "810a. Where do you plan to give birth?"
+lab var m1_810b "810b. What is the name of the [facility type from 810a] where you plan to give birth?"
+lab var m1_810_other "810b_Other. Other than the list above, specify"
+lab var m1_811 "811. Do you plan to stay at a maternity waiting home before delivering your baby?"
+lab var m1_812a "812a. During the visit today, did the provider tell you that you might need a C-section?"
+lab var m1_812b "812b.0. Have you told the reason why you might need a c-section?"
 lab var why_you_might_need_c_section_812 "812b. Because I had a c-section before"
-lab var v221 "812b. Because I am pregnant with more than one baby"
-lab var v222 "812b. Because of the baby's position"
-lab var v223 "812b. Because of the position of the placenta"
-lab var v224 "812b. Because I have health problems"
-lab var v225 "812b. Other, specify"
-lab var v226 "812b. DK"
-lab var v227 "812b. NR/RF"
-lab var other_reason_for_c_section_812 "812_Other. Specify other reason for C-section"
-lab var q813neausea "813a. Some women experience common health problems during pregnancy. Did you experience nausea in your pregnancy so far, or not?"
-lab var q813heartburn "813b. Some women experience common health problems during pregnancy. Did you experience heartburn in your pregnancy so far, or not?"
-lab var q813cramp "813c. Some women experience common health problems during pregnancy. Did you experience leg cramps in your pregnancy so far, or not?"
-lab var q813backpain "813d. Some women experience common health problems during pregnancy. Did you experience back pain in your pregnancy so far, or not?"
-lab var q813advice "813e. During the visit today did the provider give you treatment or advice for addressing these kinds of problems?"
-lab var q813preeclamp "Eth-1-8a. Did you experience Preeclampsia / Eclampsia in your pregnancy so far, or not?"
-lab var q813hypgrav "Eth-1-8b. Some women experience medical and obstetric health problems during pregnancy. Did you experience Hyperemesis gravidarum during pregnancy in your pregnancy so far, or not?"
-lab var q813anemia "Eth-1-8c. Some women experience medical and obstetric health problems during pregnancy. Did you experience Anemia during pregnancy in your pregnancy so far, or not?"
-lab var q813amniotic "Eth-1-8d. Some women experience medical and obstetric health problems during pregnancy. Did you experience Amniotic fluid volume problems (Oligohydramnios / Polyhydramnios) during pregnancy in your pregnancy so far, or not?"
-lab var q813asthma "Eth-1-8e. Some women experience medical and obstetric health problems during pregnancy. Did you experience Asthma during pregnancy in your pregnancy so far, or not?"
-lab var q813rhiso "Eth-1-8f. Some women experience medical and obstetric health problems during pregnancy. Did you experience RH isoimmunization during pregnancy in your pregnancy so far, or not?"
-lab var q813problem "Eth - 1 - 8g. Any other pregnancy problem"
-lab var q813other "Eth-1-8g_Other. Specify any other experience in your pregnancy so far"
-lab var q813adviceb "Eth-2-8. During the visit today, did the provider give you a treatment or advice for addressing these kinds of problems?"
-lab var q814headache "814a. Could you please tell me if you have experienced Severe or persistent headaches in your pregnancy so far, or not?"
-lab var q814bleeding "814b. Could you please tell me if you have experienced Vaginal bleeding of any amount in your pregnancy so far, or not?"
-lab var q814fever "814c. Could you please tell me if you have experienced a fever in your pregnancy so far, or not?"
-lab var q814abpain "814d. Could you please tell me if you have experienced Severe abdominal pain, not just discomfort in your pregnancy so far, or not?"
-lab var q814breathing "814e. Could you please tell me if you have experienced a lot of difficulty breathing even when you are resting in your pregnancy so far, or not?"
-lab var q814convulsions "814f. Could you please tell me if you have experienced Convulsions or seizures in your pregnancy so far, or not?"
-lab var q814fainting "814g. Could you please tell me if you have experienced repeated fainting or loss of consciousness in your pregnancy so far, or not?"
-lab var q814babynotmoving "814h. Could you please tell me if you have experienced noticing that the baby has completely stopped moving in your pregnancy so far, or not?"
-lab var q814blurvision "814i. Could you please tell me if you have experienced blurring of vision in your pregnancy so far, or not?"
+lab var v227 "812b. Because I am pregnant with more than one baby"
+lab var v228 "812b. Because of the baby's position"
+lab var v229 "812b. Because of the position of the placenta"
+lab var v230 "812b. Because I have health problems"
+lab var v231 "812b. Other, specify"
+lab var v232 "812b. DK"
+lab var v233 "812b. NR/RF"
+lab var m1_812_other "812_Other. Specify other reason for C-section"
+lab var m1_813a "813a. Some women experience common health problems during pregnancy. Did you experience nausea in your pregnancy so far, or not?"
+lab var m1_813b "813b. Some women experience common health problems during pregnancy. Did you experience heartburn in your pregnancy so far, or not?"
+lab var m1_813c "813c. Some women experience common health problems during pregnancy. Did you experience leg cramps in your pregnancy so far, or not?"
+lab var m1_813d "813d. Some women experience common health problems during pregnancy. Did you experience back pain in your pregnancy so far, or not?"
+lab var m1_813e "813e. During the visit today did the provider give you treatment or advice for addressing these kinds of problems?"
+lab var m1_eth_1_8a "Eth-1-8a. Did you experience Preeclampsia / Eclampsia in your pregnancy so far, or not?"
+lab var m1_eth_1_8b "Eth-1-8b. Some women experience medical and obstetric health problems during pregnancy. Did you experience Hyperemesis gravidarum during pregnancy in your pregnancy so far, or not?"
+lab var m1_eth_1_8c "Eth-1-8c. Some women experience medical and obstetric health problems during pregnancy. Did you experience Anemia during pregnancy in your pregnancy so far, or not?"
+lab var m1_eth_1_8d "Eth-1-8d. Some women experience medical and obstetric health problems during pregnancy. Did you experience Amniotic fluid volume problems (Oligohydramnios / Polyhydramnios) during pregnancy in your pregnancy so far, or not?"
+lab var m1_eth_1_8e "Eth-1-8e. Some women experience medical and obstetric health problems during pregnancy. Did you experience Asthma during pregnancy in your pregnancy so far, or not?"
+lab var m1_eth_1_8f "Eth-1-8f. Some women experience medical and obstetric health problems during pregnancy. Did you experience RH isoimmunization during pregnancy in your pregnancy so far, or not?"
+lab var m1_eth_1_8g "Eth - 1 - 8g. Any other pregnancy problem"
+lab var m1_eth_1_8gother "Eth-1-8g_Other. Specify any other experience in your pregnancy so far"
+lab var m1_eth_2_8 "Eth-2-8. During the visit today, did the provider give you a treatment or advice for addressing these kinds of problems?"
+lab var m1_814a "814a. Could you please tell me if you have experienced Severe or persistent headaches in your pregnancy so far, or not?"
+lab var m1_814b "814b. Could you please tell me if you have experienced Vaginal bleeding of any amount in your pregnancy so far, or not?"
+lab var m1_814c "814c. Could you please tell me if you have experienced a fever in your pregnancy so far, or not?"
+lab var m1_814d "814d. Could you please tell me if you have experienced Severe abdominal pain, not just discomfort in your pregnancy so far, or not?"
+lab var m1_814e "814e. Could you please tell me if you have experienced a lot of difficulty breathing even when you are resting in your pregnancy so far, or not?"
+lab var m1_814f "814f. Could you please tell me if you have experienced Convulsions or seizures in your pregnancy so far, or not?"
+lab var m1_814g "814g. Could you please tell me if you have experienced repeated fainting or loss of consciousness in your pregnancy so far, or not?"
+lab var m1_814h "814h. Could you please tell me if you have experienced noticing that the baby has completely stopped moving in your pregnancy so far, or not?"
+lab var m1_814i "814i. Could you please tell me if you have experienced blurring of vision in your pregnancy so far, or not?"
 lab var provider_tell_you_to_do_regardin "815. Nothing, we did not discuss this"
-lab var v253 "815.Told me to come back to this health facility"
-lab var v254 "815.They told you to get a lab test or imaging (e.g., ultrasound, blood tests, x-ray, heart echo)"
-lab var v255 "815.They provided a treatment in the visit"
-lab var v256 "815. They prescribed a medication"
-lab var v257 "815. They told you to come back to this health facility "
-lab var v258 "815. They told you to go somewhere else for higher level care"
-lab var v259 "815. They told you to wait and see"
-lab var v260 "815. Other (specify)"
-lab var v261 "815. DK"
-lab var v262 "815. NR/RF"
-lab var other_specify_kan_biroo_ib "815_Other. Other (specify)"
-lab var q816complication "816. You said that you did not have any of the symptoms I just listed. Did the health provider ask you whether or not you had these symptoms, or did this topic not come up today?"
-lab var q901smoke "901. How often do you currently smoke cigarettes or use any other type of tobacco? Is it every day, some days, or not at all?"
-lab var q902stopsmoke "902. During the visit today, did the health provider advise you to stop smoking or using tobacco products?"
-lab var q903khat "903. How often do you chew khat? Is it every day, some days, or not at all?"
-lab var q904stopkhat "904. During the visit today, did the health provider advise you to stop chewing khat?"
-lab var q905alcohol "905. Have you consumed an alcoholic drink (i.e., Tela, Tej, Areke, Bira, Wine, Borde, Whisky) within the past 30 days?"
-lab var q906alcoholamount "906. When you do drink alcohol, how many standard drinks do you consume on average?"
-lab var q907stopalcohol "907. During the visit today, did the health provider advise you to stop drinking alcohol?"
-lab var q1001pregnancies "1001. How many pregnancies have you had, including the current pregnancy and regardless of whether you gave birth or not?"
-lab var q1002births "1002. How many births have you had (including babies born alive or dead)?"
-lab var q1003livebirths "1003. In how many of those births was the baby born alive?"
-lab var q1004stillbirth "1004. Have you ever lost a pregnancy after 20 weeks of being pregnant?"
-lab var q1005preterm "1005. Have you ever had a baby that came too early, more than 3 weeks before the due date / Small baby?"
-lab var q1006bloodtrans "1006. Have you ever bled so much in a previous pregnancy or delivery that you needed to be given blood or go back to the delivery room for an operation?"
-lab var q10et1congenital "Eth-1-10. Have you ever had a baby born with a congenital anomaly? I mean a neural tube defect"
-lab var q1007cs "1007. Have you ever had cesarean section?"
-lab var q1008longlabor "1008. Have you ever had a delivery that lasted more than 12 hours of you pushing?"
-lab var q1009livechildren "1009. How many of your children are still alive?"
-lab var q1010onemodeath "1010. Have you ever had a baby die within the first month of their life?"
-lab var q1011pregnancies "1011a. Did you discuss about your previous pregnancies, or not?"
-lab var q1011miscarriage "1011b. Did you discuss about that you lost a baby after 5 months of pregnancy, or not?"
-lab var q1011stillbirth "1011c. Did you discuss about that you had a baby who was born dead before, or not?"
-lab var q1011preterm "1011d. Did you discuss about that you had a baby born early before, or not?"
-lab var q1011cs "1011e. Did you discuss about that you had a c-section before, or not?"
-lab var q1011onemonthdeath "1011f. Did you discuss about that you had a baby die within their first month of life?"
-lab var q1101physabuse "1101. At any point during your current pregnancy, has anyone ever hit, slapped, kicked, or done anything else to hurt you physically?"
+lab var v259 "815.Told me to come back to this health facility"
+lab var v260 "815.They told you to get a lab test or imaging (e.g., ultrasound, blood tests, x-ray, heart echo)"
+lab var v261 "815.They provided a treatment in the visit"
+lab var v262 "815. They prescribed a medication"
+lab var v263 "815. They told you to come back to this health facility "
+lab var v264 "815. They told you to go somewhere else for higher level care"
+lab var v265 "815. They told you to wait and see"
+lab var v266 "815. Other (specify)"
+lab var v267 "815. DK"
+lab var v268 "815. NR/RF"
+lab var m1_815_other "815_Other. Other (specify)"
+lab var m1_816 "816. You said that you did not have any of the symptoms I just listed. Did the health provider ask you whether or not you had these symptoms, or did this topic not come up today?"
+lab var m1_901 "901. How often do you currently smoke cigarettes or use any other type of tobacco? Is it every day, some days, or not at all?"
+lab var m1_902 "902. During the visit today, did the health provider advise you to stop smoking or using tobacco products?"
+lab var m1_903 "903. How often do you chew khat? Is it every day, some days, or not at all?"
+lab var m1_904 "904. During the visit today, did the health provider advise you to stop chewing khat?"
+lab var m1_905 "905. Have you consumed an alcoholic drink (i.e., Tela, Tej, Areke, Bira, Wine, Borde, Whisky) within the past 30 days?"
+lab var m1_906 "906. When you do drink alcohol, how many standard drinks do you consume on average?"
+lab var m1_907 "907. During the visit today, did the health provider advise you to stop drinking alcohol?"
+lab var m1_1001 "1001. How many pregnancies have you had, including the current pregnancy and regardless of whether you gave birth or not?"
+lab var m1_1002 "1002. How many births have you had (including babies born alive or dead)?"
+lab var m1_1003 "1003. In how many of those births was the baby born alive?"
+lab var m1_1004 "1004. Have you ever lost a pregnancy after 20 weeks of being pregnant?"
+lab var m1_1005 "1005. Have you ever had a baby that came too early, more than 3 weeks before the due date / Small baby?"
+lab var m1_1006 "1006. Have you ever bled so much in a previous pregnancy or delivery that you needed to be given blood or go back to the delivery room for an operation?"
+lab var m1_eth_1_10 "Eth-1-10. Have you ever had a baby born with a congenital anomaly? I mean a neural tube defect"
+lab var m1_1007 "1007. Have you ever had cesarean section?"
+lab var m1_1008 "1008. Have you ever had a delivery that lasted more than 12 hours of you pushing?"
+lab var m1_1009 "1009. How many of your children are still alive?"
+lab var m1_1010 "1010. Have you ever had a baby die within the first month of their life?"
+lab var m1_1011a "1011a. Did you discuss about your previous pregnancies, or not?"
+lab var m1_1011b "1011b. Did you discuss about that you lost a baby after 5 months of pregnancy, or not?"
+lab var m1_1011c "1011c. Did you discuss about that you had a baby who was born dead before, or not?"
+lab var m1_1011d "1011d. Did you discuss about that you had a baby born early before, or not?"
+lab var m1_1011e "1011e. Did you discuss about that you had a c-section before, or not?"
+lab var m1_1011f "1011f. Did you discuss about that you had a baby die within their first month of life?"
+lab var m1_1101 "1101. At any point during your current pregnancy, has anyone ever hit, slapped, kicked, or done anything else to hurt you physically?"
 lab var who_has_done_these_things_1102__ "1102. Current husband / partner"
-lab var v291 "1102. Parent (Mother; Father, step-parent, in-law)"
-lab var v292 "1102. Sibling"
-lab var v293 "1102. Child"
-lab var v294 "1102. Late /last / ex-husband/partner"
-lab var v295 "1102. Other relative"
-lab var v296 "1102. Friend /acquaintance/"
-lab var v297 "1102. Teacher"
-lab var v298 "1102. Employer"
-lab var v299 "1102. Stranger"
-lab var v300 "1102. Other, specify"
-lab var v301 "1102. DK"
-lab var v302 "1102. NR/RF"
-lab var specify_who_else_hit_1102 "1102_Oth. Specify who else hit, kick, slapped, ... you"
-lab var q1103verbabuse "1103. At any point during your current pregnancy, has anyone ever said or done something to humiliate you, insulted you or made you feel bad about yourself?"
+lab var v297 "1102. Parent (Mother; Father, step-parent, in-law)"
+lab var v298 "1102. Sibling"
+lab var v299 "1102. Child"
+lab var v300 "1102. Late /last / ex-husband/partner"
+lab var v301 "1102. Other relative"
+lab var v302 "1102. Friend /acquaintance/"
+lab var v303 "1102. Teacher"
+lab var v304 "1102. Employer"
+lab var v305 "1102. Stranger"
+lab var v306 "1102. Other, specify"
+lab var v307 "1102. DK"
+lab var v308 "1102. NR/RF"
+lab var m1_1102_other "1102_Oth. Specify who else hit, kick, slapped, ... you"
+lab var m1_1103 "1103. At any point during your current pregnancy, has anyone ever said or done something to humiliate you, insulted you or made you feel bad about yourself?"
 lab var who_has_done_these_things_1104__ "1104. Current husband / partner"
-lab var v306 "1104. Parent (Mother; Father, step-parent, in-law)"
-lab var v307 "1104. Sibling"
-lab var v308 "1104. Child"
-lab var v309 "1104. Late /last / ex-husband/partner"
-lab var v310 "1104. Other relative"
-lab var v311 "1104. Friend /acquaintance"
-lab var v312 "1104. Teacher"
-lab var v313 "1104. Employer"
-lab var v314 "1104. Stranger"
-lab var v315 "1104. Other (specify)"
-lab var v316 "1104. DF"
-lab var v317 "1104. NR/RF"
-lab var specify_who_humuliates_you "1104_Other. Specify others who humiliates you"
-lab var q1105providerdiscuss "1105. During the visit today, did the health provider discuss with you where you can seek support for these things?"
-lab var q1201water "1201. What is the main source of drinking water for members of your household?"
-lab var q1201other "1201_Other. Specify other source of drink water"
-lab var q1202toilet "1202. What kind of toilet facilities does your household have?"
-lab var q1202other "1202_Other. Specify other kind of toilet facility"
-lab var q1203electricity "1203. Does your household have electricity?"
-lab var q1204radio "1204. Does your household have a radio?"
-lab var q1205tv "1205. Does your household have a television?"
-lab var q1206telephone "1206. Does your household have a telephone or a mobile phone?"
-lab var q1207fridge "1207. Does your household have a refrigerator?"
-lab var q1208cookfuel "1208. What type of fuel does your household mainly use for cooking?"
-lab var q1208other "1208_Other. Specify other fuel type for cooking"
-lab var q1209floor "1209. What is the main material of your floor?"
-lab var q1209other "1209_Other. Specify other fuel type for cooking"
-lab var q1210walls "1210. What is the main material your walls are made of?"
-lab var q1210other "1210_Other. Specify other fuel type for cooking"
-lab var q1211roof "1211. What is the main material your roof is made of?"
-lab var q1211other "1211_Other. Specify other fuel type for cooking"
-lab var q1212bicycle "1212. Does any member of your household own a bicycle?"
-lab var q1213motocycle "1213. Does any member of your household own a motorcycle or motor scooter?" 
-lab var q1214car "1214. Does any member of your household own a car or truck?"
-lab var q1215bankacct "1215. Does any member of your household have a bank account?"
-lab var q1216knowmeals "1216. Do you know number of meals does your household usually have per day?"
-lab var q1216meals "1216.1. How many meals does your household usually have per day?"
-lab var q1217oop "1217. Did you pay money out of your pocket for this visit, including for the consultation or other indirect costs like your transport to the facility?"
-lab var q1218reg "1218a. Have you spent money for registration or consultation?"
-lab var q1218regamt "1218a.1. How much money did you spend on Registration / Consultation?"
-lab var q1218meds "1218b. Have you spent money for Medicine/vaccines (including outside purchase)"
-lab var q1218medsamt "1218b.1. How much money do you spent for medicine/vaccines (including outside purchase)"
-lab var q1218test "1218c. Have you spent money for Test/investigations (x-ray, lab etc.)?"
-lab var q1218testamt "1218c.1. How much money have you spent on Test/investigations (x-ray, lab etc.)?"
-lab var q1218transport "1218d. Have you spent money for Transport (round trip) including that of person accompanying you?"
-lab var q1218transportamt "1218d.1. How much money have you spent for transport (round trip) including that of person accompanying you?"
-lab var q1218food "1218e. Have you spent money for food and accommodation including that of person accompanying you?"
-lab var q1218foodamt "1218e.1. How much money have you spent on food and accommodation including that of the person accompanying you?"
-lab var q1218other "1218f. Have you spent money for other purpose?"
-lab var q1218otheramt "1218f.1. How much money have you spent for other purpose?"
-lab var q1219total "Total amount spent"
+lab var v312 "1104. Parent (Mother; Father, step-parent, in-law)"
+lab var v313 "1104. Sibling"
+lab var v314 "1104. Child"
+lab var v315 "1104. Late /last / ex-husband/partner"
+lab var v316 "1104. Other relative"
+lab var v317 "1104. Friend /acquaintance"
+lab var v318 "1104. Teacher"
+lab var v319 "1104. Employer"
+lab var v320 "1104. Stranger"
+lab var v321 "1104. Other (specify)"
+lab var v322 "1104. DF"
+lab var v323 "1104. NR/RF"
+lab var m1_1104_other "1104_Other. Specify others who humiliates you"
+lab var m1_1105 "1105. During the visit today, did the health provider discuss with you where you can seek support for these things?"
+lab var m1_1201 "1201. What is the main source of drinking water for members of your household?"
+lab var m1_1201_other "1201_Other. Specify other source of drink water"
+lab var m1_1202 "1202. What kind of toilet facilities does your household have?"
+lab var m1_1202_other "1202_Other. Specify other kind of toilet facility"
+lab var m1_1203 "1203. Does your household have electricity?"
+lab var m1_1204 "1204. Does your household have a radio?"
+lab var m1_1205 "1205. Does your household have a television?"
+lab var m1_1206 "1206. Does your household have a telephone or a mobile phone?"
+lab var m1_1207 "1207. Does your household have a refrigerator?"
+lab var m1_1208 "1208. What type of fuel does your household mainly use for cooking?"
+lab var m1_1208_other "1208_Other. Specify other fuel type for cooking"
+lab var m1_1209 "1209. What is the main material of your floor?"
+lab var m1_1209_other "1209_Other. Specify other fuel type for cooking"
+lab var m1_1210 "1210. What is the main material your walls are made of?"
+lab var m1_1210_other "1210_Other. Specify other fuel type for cooking"
+lab var m1_1211 "1211. What is the main material your roof is made of?"
+lab var m1_1211_other "1211_Other. Specify other fuel type for cooking"
+lab var m1_1212 "1212. Does any member of your household own a bicycle?"
+lab var m1_1213 "1213. Does any member of your household own a motorcycle or motor scooter?" 
+lab var m1_1214 "1214. Does any member of your household own a car or truck?"
+lab var m1_1215 "1215. Does any member of your household have a bank account?"
+lab var m1_1216 "1216. Do you know number of meals does your household usually have per day?"
+lab var m1_1216_1 "1216.1. How many meals does your household usually have per day?"
+lab var m1_1217 "1217. Did you pay money out of your pocket for this visit, including for the consultation or other indirect costs like your transport to the facility?"
+lab var m1_1218a "1218a. Have you spent money for registration or consultation?"
+lab var m1_1218a_1 "1218a.1. How much money did you spend on Registration / Consultation?"
+lab var m1_1218b "1218b. Have you spent money for Medicine/vaccines (including outside purchase)"
+lab var m1_1218b_1 "1218b.1. How much money do you spent for medicine/vaccines (including outside purchase)"
+lab var m1_1218c "1218c. Have you spent money for Test/investigations (x-ray, lab etc.)?"
+lab var m1_1218c_1 "1218c.1. How much money have you spent on Test/investigations (x-ray, lab etc.)?"
+lab var m1_1218d "1218d. Have you spent money for Transport (round trip) including that of person accompanying you?"
+lab var m1_1218d_1 "1218d.1. How much money have you spent for transport (round trip) including that of person accompanying you?"
+lab var m1_1218e "1218e. Have you spent money for food and accommodation including that of person accompanying you?"
+lab var m1_1218e_1 "1218e.1. How much money have you spent on food and accommodation including that of the person accompanying you?"
+lab var m1_1218f "1218f. Have you spent money for other purpose?"
+lab var m1_1218f_1 "1218f.1. How much money have you spent for other purpose?"
+lab var m1_1219 "Total amount spent"
 lab var financial_source_for_the_spent_1 "1220. Current income of any household members"
-lab var v358 "1220. Saving(bank account"
-lab var v359 "1220. Payment or reimbursement from a health insurance plan"
-lab var v360 "1220. Sold items (e.g. furniture, animals, jewellery, furniture)"
-lab var v361 "1220. Family members or friends from outside the household"
-lab var v362 "1220. Borrowed (from someone other than a friend or family)"
-lab var v363 "1220. Other (specify)"
-lab var other_financial_source_1220 "1220_Other. Specify other financial source for household use to pay for this"
-lab var q1221insurance "1221. Are you covered with a health insurance?"
-lab var q1221insurancetype "1222. What type of health insurance coverage do you have?"
-lab var q1221insuranceother "1222_Other. Specify other health insurance"
-lab var q1223satisfaction "1223. To conclude this survey, overall, please tell me how satisfied you are with the health services you received at this establishment today?"
+lab var v364 "1220. Saving(bank account"
+lab var v365 "1220. Payment or reimbursement from a health insurance plan"
+lab var v366 "1220. Sold items (e.g. furniture, animals, jewellery, furniture)"
+lab var v367 "1220. Family members or friends from outside the household"
+lab var v368 "1220. Borrowed (from someone other than a friend or family)"
+lab var v369 "1220. Other (specify)"
+lab var m1_1220_other "1220_Other. Specify other financial source for household use to pay for this"
+lab var m1_1221 "1221. Are you covered with a health insurance?"
+lab var m1_1222 "1222. What type of health insurance coverage do you have?"
+lab var m1_1222_other "1222_Other. Specify other health insurance"
+lab var m1_1223 "1223. To conclude this survey, overall, please tell me how satisfied you are with the health services you received at this establishment today?"
 lab var height_cm "Height in centimeters"
 lab var weight_kg "Weight in kilograms"
 lab var bp_time_1_systolic "Time 1 (Systolic)"
@@ -2056,11 +2074,11 @@ lab var bp_time_3_systolic "Time 3 (Systolic)"
 lab var bp_time_3_diastolic "Time 3 (Diastolic)"
 lab var pulse_rate_time_3 "Time 3 (Heart Rate)"
 lab var muac "Measured Upper arm circumference"
-lab var q1306hgbcard "1306. Hemoglobin level available in maternal health card"
-lab var q1307hgbcard "1307. HEMOGLOBIN LEVEL FROM MATERNAL HEALTH CARD "
-lab var q1308hgbyn "1308. Will you take the anemia test?"
-lab var q1309hgbtest "1309. HEMOGLOBIN LEVEL FROM TEST PERFORMED BY DATA COLLECTOR"
-lab var q1401timedaycall "1401. What period of the day is most convenient for you to answer the phone survey?"
+lab var m1_1306 "1306. Hemoglobin level available in maternal health card"
+lab var m1_1307 "1307. HEMOGLOBIN LEVEL FROM MATERNAL HEALTH CARD "
+lab var m1_1308 "1308. Will you take the anemia test?"
+lab var m1_1309 "1309. HEMOGLOBIN LEVEL FROM TEST PERFORMED BY DATA COLLECTOR"
+lab var m1_1401 "1401. What period of the day is most convenient for you to answer the phone survey?"
 lab var m1_1402___1 "1402. Which is the best phone number to use to contact you: The phone provided for the study"
 lab var m1_1402___2 "1402. Which is the best phone number to use to contact you: Primary personal phone"
 lab var m1_1402___3 "1402. Which is the best phone number to use to contact you: Secondary personal phone"
@@ -2085,7 +2103,8 @@ label variable m2_attempt_contact "CALL TRACKING:   Is this still the best conta
 label variable m2_attempt_bestnumber "CALL TRACKING:  Could you please share the best number to contact [what_is_your_first_name_101] [what_is_your_family_name_102]"
 label variable m2_attempt_goodtime "CALL TRACKING:  Do you know when would be a good time to reach [what_is_your_first_name_101] [what_is_your_family_name_102]?"
 
-label variable m2_start "IIC. May I proceed with the interview? "
+label variable m2_start "IIC. May I proceed with the interview?"
+label variable m2_103 "102. Date of interview (D-M-Y)"
 label variable m2_permission "CR1. Permission granted to conduct call"
 label variable m2_date "102. Date of interview (D-M-Y)"
 label variable m2_time_start "103A. Time of interview started"
@@ -2101,6 +2120,7 @@ label variable m2_201 "201. I would like to start by asking about your health an
 
 label variable m2_202 "202. As you know, this survey is about health care that women receive during pregnancy, delivery and after birth. So that I know that I am asking the right questions, I need to confirm whether you are still pregnant?"
 
+label variable date_of_maternal_death_2 "110. Date of maternal death (D-M-Y)"
 label variable m2_203a "203a. Since you last spoke to us, have you experienced severe or persistent headaches?"
 label variable m2_203b "203b. Since you last spoke to us, have you experienced vaginal bleeding of any amount?"
 label variable m2_203c "203c. Since you last spoke to us, have you experienced fever?"
@@ -2180,9 +2200,8 @@ label variable any_of_the_following_v_28 "310. Was the second consultation is fo
 label variable any_of_the_following_v_29 "310. Was the second consultation is for any of the following? Include all that apply. / ይህ የ2ኛ ክትትል ለየትኛው አገልግሎት ነበር? የሚመለከተውን ሁሉ ይንገሩኝ/ንገሪኝ። / Daawwannaan kun kanneen armaan gadii keessaa tokkoof turee?  (choice=To pick up medicine / መድሀኒት ለመውሰድ / Qoricha fudhachuuf)"
 label variable any_of_the_following_v_30 "310. Was the second consultation is for any of the following? Include all that apply. / ይህ የ2ኛ ክትትል ለየትኛው አገልግሎት ነበር? የሚመለከተውን ሁሉ ይንገሩኝ/ንገሪኝ። / Daawwannaan kun kanneen armaan gadii keessaa tokkoof turee?  (choice=To get a vaccine / ክትባት ለመውሰድ / Talaallii  fudhachuuf)"
 label variable any_of_the_following_v_31 "310. Was the second consultation is for any of the following? Include all that apply. / ይህ የ2ኛ ክትትል ለየትኛው አገልግሎት ነበር? የሚመለከተውን ሁሉ ይንገሩኝ/ንገሪኝ። / Daawwannaan kun kanneen armaan gadii keessaa tokkoof turee?  (choice=Other reasons / ሌላ ምክኒያት / Sababni biraa)"
-label variable m2_310_other "310-oth. Specify other reason for second consultation / ካለ ይጥቀሱ / Ibsii"
 */
-
+label variable m2_310_other "310-oth. Specify other reason for second consultation / ካለ ይጥቀሱ / Ibsii"
 
 label variable m2_311 "311. Was the third consultation is for a routine antenatal care visit?"
 label variable m2_312 "312. Was the third consultation is for a referral from your antenatal care provider?"
@@ -2194,8 +2213,9 @@ label variable any_of_the_following_v_36 "313. Was the third consultation is for
 label variable any_of_the_following_v_37 "313. Was the third consultation is for any of the following? Include all that apply. / ይህ የ3ኛ ክትትል ለየትኛው አገልግሎት ነበር? የሚመለከተውን ሁሉ ይንገሩኝ/ንገሪኝ። / Daawwannaan kun kanneen armaan gadii keessaa tokkoof turee? Kamiif turee? (choice=To pick up medicine / መድሀኒት ለመውሰድ / Qoricha fudhachuuf)"
 label variable any_of_the_following_v_38 "313. Was the third consultation is for any of the following? Include all that apply. / ይህ የ3ኛ ክትትል ለየትኛው አገልግሎት ነበር? የሚመለከተውን ሁሉ ይንገሩኝ/ንገሪኝ። / Daawwannaan kun kanneen armaan gadii keessaa tokkoof turee? Kamiif turee? (choice=To get a vaccine / ክትባት ለመውሰድ / Talaallii  fudhachuuf)"
 label variable any_of_the_following_v_39 "313. Was the third consultation is for any of the following? Include all that apply. / ይህ የ3ኛ ክትትል ለየትኛው አገልግሎት ነበር? የሚመለከተውን ሁሉ ይንገሩኝ/ንገሪኝ። / Daawwannaan kun kanneen armaan gadii keessaa tokkoof turee? Kamiif turee? (choice=Other reasons / ሌላ ምክኒያት / Sababni biraa)"
-label variable m2_313_other "313-oth. Specify any other reason for the third consultation"
 */
+label variable m2_313_other "313-oth. Specify any other reason for the third consultation"
+
 
 label variable m2_314 "314. Was the fourth consultation is for a routine antenatal care visit?"
 label variable m2_315 "315. Was the fourth consultation is for a referral from your antenatal care provider?"
@@ -2221,8 +2241,9 @@ label variable any_of_the_following_v_52 "319. Was the fifth consultation is for
 label variable any_of_the_following_v_53 "319. Was the fifth consultation is for any of the following? Include all that apply. / ይህ የ5ኛ ክትትል ለየትኛው አገልግሎት ነበር? የሚመለከተውን ሁሉ ይንገሩኝ/ንገሪኝ። / Daawwannaan kun kanneen armaan gadii keessaa tokkoof turee? (choice=To pick up medicine / መድሀኒት ለመውሰድ / Qoricha fudhachuuf)"
 label variable any_of_the_following_v_54 "319. Was the fifth consultation is for any of the following? Include all that apply. / ይህ የ5ኛ ክትትል ለየትኛው አገልግሎት ነበር? የሚመለከተውን ሁሉ ይንገሩኝ/ንገሪኝ። / Daawwannaan kun kanneen armaan gadii keessaa tokkoof turee? (choice=To get a vaccine / ክትባት ለመውሰድ / Talaallii  fudhachuuf)"
 label variable any_of_the_following_v_55 "319. Was the fifth consultation is for any of the following? Include all that apply. / ይህ የ5ኛ ክትትል ለየትኛው አገልግሎት ነበር? የሚመለከተውን ሁሉ ይንገሩኝ/ንገሪኝ። / Daawwannaan kun kanneen armaan gadii keessaa tokkoof turee? (choice=Other reasons / ሌላ ምክኒያት / Sababni biraa)"
-label variable m2_319_other "319-oth. Specify other reason for the fifth consultation"
 */
+label variable m2_319_other "319-oth. Specify other reason for the fifth consultation"
+
 
 
 /*
@@ -2324,6 +2345,7 @@ label variable m2_702c "702c. Did you spend money on Transport (round trip) incl
 label variable m2_702c_other "702c-oth. How much money did you spend on Transport (round trip) including that of the person accompanying you?"
 label variable m2_702d "702d. Did you spend money on Food and accommodation including that of person accompanying you?"
 label variable m2_702d_other "702d-oth. How much money did you spend on Food and accommodation including that of person accompanying you?"
+label variable m2_702e "702e. Did you spend money for other services?"
 label variable m2_702e_other "702e-oth. How much money did you spend on other item/service?"
 label variable m2_703 "703. So, in total you spent"
 label variable m2_704 "704. Is the total cost correct?"
@@ -2349,3 +2371,18 @@ label variable m2_endtime "103B. Time of Interview end"
 label variable m2_int_duration "103C. Total Duration of interview (In minutes)"
 label variable m2_endstatus "What is this womens current status at the end of the interview?"
 label variable m2_complete "Complete?"
+
+
+*===============================================================================
+
+	* STEP FIVE: ORDER VARIABLES
+	
+*===============================================================================
+
+	* STEP SIX: SAVE DATA TO RECODED FOLDER
+	* note: as of 7-27 we are dropping M3-M5 data until it is cleaned
+	
+drop iic_3-module_5_end_line_facetoface_sur
+	
+save "$et_data_final/eco_m1m2_et.dta", replace
+	
