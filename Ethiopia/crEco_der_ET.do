@@ -15,6 +15,22 @@
 u "$user/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data/Ethiopia/02 recoded data/eco_m1m2_et.dta", clear
 *------------------------------------------------------------------------------*
 * MODULE 1
+*------------------------------------------------------------------------------*
+	* SECTION A: META DATA
+			gen facility_own = facility
+			recode facility_own (2/11 14 16/19 =1) ///
+							    (1 13 15 20 21 22 96 =2)
+			
+			lab def facility_own 1 "Public" 2 "Private"
+			lab val facility_own facility_own 
+			
+			gen facility_lvl = facility 
+			recode facility_lvl (2/6 8/12 14 16 17 19  =1) (7 18 =2) ///
+								(1 13 15 20 21 22 96 =3) 
+			
+			lab def facility_lvl 1"Primary" 2 "Secondary" 3 "Private"
+			lab val facility_lvl facility_lvl
+*------------------------------------------------------------------------------*	
 	* SECTION 7: VISIT TODAY: CONTENT OF CARE
 			* Technical quality of first ANC visit
 			gen bp = m1_700 
@@ -24,14 +40,19 @@ u "$user/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuES
 			gen fetal_hr = m1_704
 			recode fetal_hr  (2=.) // only applies to those in 2nd or 3rd trimester
 			gen urine = m1_705
-			gen blood = rowmax(m1_706 m1_707) // finger prick or blood draw
+			egen blood = rowmax(m1_706 m1_707) // finger prick or blood draw
 			gen hiv_test =  m1_708a
 			gen syphilis_test = m1_710a
 			gen blood_sugar_test = m1_711a
+			gen ultrasound = m1_712
+			gen ifa =  m1_713a
+			recode ifa (2=1) (3=0)
+			gen tt = m1_714a
+
 			egen anc1tq = rowmean(bp weight height upper_arm fetal_hr urine ///
-								  blood )
+								  blood ultrasound ifa tt ) // 10 items
 	
-	
+*------------------------------------------------------------------------------*	
 	* SECTION 13: HEALTH ASSESSMENTS AT BASELINE
 
 			* High blood pressure (HBP)
@@ -69,8 +90,9 @@ u "$user/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuES
 			gen low_BMI= 1 if BMI<18.5 
 			replace low_BMI = 0 if BMI>=18.5 & BMI<.
 
-	
+*------------------------------------------------------------------------------*	
 * Labelling new variables 
+	lab var facility_own "Facility ownership"
 	lab var bp "Blood pressure taken at ANC1"
 	lab var weight "Weight taken at ANC1"
 	lab var height "Height measured at ANC1"
@@ -79,6 +101,8 @@ u "$user/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuES
 	lab var blood "Blood test done at ANC1 (finger prick or blood draw)"
 	lab var hiv_test "HIV test done at ANC1"
 	lab var syphilis_test "Syphilis test done at ANC1"
+	lab var ultrasound "Ultrasound done at ANC1"
+	lab var ifa "Received iron and folic acid pills directly or a prescription at ANC1"
 	lab var anc1tq "Technical quality score 1st ANC"
 	lab var HBP "High blood pressure at 1st ANC"
 	lab var anemic "Anemic (Hb <10.0)"
