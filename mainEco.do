@@ -14,8 +14,6 @@
 * Setting up files and macros
 ********************************************************************************
 * global 
-
-
 clear all
 set more off
 
@@ -24,10 +22,10 @@ macro drop _all
 
 * Setting user globals 
 global user "/Users/shs8688"
-*global user "/Users/catherine.arsenault"
+global user "/Users/catherine.arsenault"
 *global user "/Users/katedwright"
 
-
+********************************************************************************
 * Setting file path globals for raw data
 	*ETHIOPIA:
 	global et_data "$user/Dropbox (Harvard University)/SPH-Kruk Team/QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data/Ethiopia/01 raw data"
@@ -41,6 +39,7 @@ global user "/Users/shs8688"
 	*INDIA:
 	global in_data "$user/Dropbox (Harvard University)/SPH-Kruk Team/QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data/India/01 raw data"
 	
+********************************************************************************	
 * Path to recoded data folders:
 	*ETHIOPIA:
 	global et_data_final "$user/Dropbox (Harvard University)/SPH-Kruk Team/QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data/Ethiopia/02 recoded data"
@@ -54,11 +53,11 @@ global user "/Users/shs8688"
 	*INDIA:
 	global in_data_final "$user/Dropbox (Harvard University)/SPH-Kruk Team/QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data/India/02 recoded data"
 	
-
+********************************************************************************
 * Path to GitHub folder 
 global github "$user/Documents/GitHub/eCohorts"
 
-************************************************
+********************************************************************************
 
 * Clean each dataset separately 
 *run "$github/Ethiopia/crEco_cln_ET.do"
