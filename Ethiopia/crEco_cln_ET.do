@@ -2391,6 +2391,6 @@ label variable m2_complete "Complete?"
 	* note: as of 7-27 we are dropping M3-M5 data until it is cleaned
 	
 drop iic_3-module_5_end_line_facetoface_sur
-	
+
 save "$et_data_final/eco_m1m2_et.dta", replace
 	
