@@ -30,7 +30,9 @@ drop redcap_repeat_instrument-redcap_data_access_group m2_attempt_date-m2_comple
 	egen obst_risk = rowmax(multi sb neodeath preterm PPH csect)
 	
 	egen anyrisk = rowmax (general_risk obst_risk)
-	
+
+* COMPETENT CARE
+	tabstat anc1tq, by(facility_lvl) stat(mean sd count)
 * ADVANCED ANC
 	egen specialist_hosp= rowmax(m1_724e m1_724c)
 	gen comeback_ANC = m1_724a
@@ -54,9 +56,5 @@ drop redcap_repeat_instrument-redcap_data_access_group m2_attempt_date-m2_comple
 	
 	/*
 	egen dangersigns = rowmax(m1_814a m1_814b m1_814c m1_814d m1_814e m1_814f m1_814g)
-	
-	
-	
-	
 	lab var dangersigns "Experienced a danger sign so far in pregnancy"
 
