@@ -10,8 +10,16 @@ clear all
 set maxvar 15000 
 import delimited using "$et_data/25July2023.csv", clear
 
-*These datasets download the entire longitudinal dataset, so we have to drop the events that we're not interested in. 
+*These datasets download the entire longitudinal dataset.
 
+drop if record_id == "1" | record_id == "2" | record_id == "3" | record_id == "4" | record_id == "5" | record_id == "6" | ///
+		record_id == "7" | record_id == "8" | record_id == "9" | record_id == "10" | record_id == "11" | record_id == "12" | ///
+		record_id == "13" | record_id == "14" | record_id == "15" | record_id == "16" | record_id == "17" | record_id == "18" | ///
+		record_id == "19" 
+
+
+keep if is_the_respondent_eligible == 1
+		
 *------------------------------------------------------------------------------*
 	* STEPS: 
 		* STEP ONE: RENAME VARIABLES (starts at: line 29)
@@ -27,7 +35,7 @@ import delimited using "$et_data/25July2023.csv", clear
     
 	* MODULE 1:
 	
-	rename (record_id redcap_event_name) (record_id event)
+	rename (record_id redcap_event_name) (redcap_record_id event)
 	rename (study_id interviewer_id date_of_interview_m1 time_of_interview_m1) ///
 	       (study_id interviewer_id date_m1 m1_start_time)
 	rename study_site_a4 woreda
@@ -2383,6 +2391,6 @@ label variable m2_complete "Complete?"
 	* note: as of 7-27 we are dropping M3-M5 data until it is cleaned
 	
 drop iic_3-module_5_end_line_facetoface_sur
-	
+
 save "$et_data_final/eco_m1m2_et.dta", replace
 	
