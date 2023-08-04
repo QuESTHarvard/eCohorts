@@ -33,25 +33,36 @@ u "$user/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuES
 *------------------------------------------------------------------------------*	
 	* SECTION 7: VISIT TODAY: CONTENT OF CARE
 			* Technical quality of first ANC visit
-			gen bp = m1_700 
-			gen weight = m1_701 
-			gen height = m1_702
-			gen upper_arm = m1_703
-			gen fetal_hr = m1_704
-			recode fetal_hr  (2=.) // only applies to those in 2nd or 3rd trimester
-			gen urine = m1_705
-			egen blood = rowmax(m1_706 m1_707) // finger prick or blood draw
-			gen hiv_test =  m1_708a
-			gen syphilis_test = m1_710a
-			gen blood_sugar_test = m1_711a
-			gen ultrasound = m1_712
-			gen ifa =  m1_713a
-			recode ifa (2=1) (3=0)
-			gen tt = m1_714a
+			gen anc1bp = m1_700 
+			gen anc1weight = m1_701 
+			gen anc1height = m1_702
+			egen anc1bmi = rowtotal(m1_701 m1_702)
+			recode anc1bmi (1=0) (2=1)
+			gen anc1muac = m1_703
+			gen anc1fetal_hr = m1_704
+			recode anc1fetal_hr  (2=.) // only applies to those in 2nd or 3rd trimester
+			gen anc1urine = m1_705
+			egen anc1blood = rowmax(m1_706 m1_707) // finger prick or blood draw
+			gen anc1hiv_test =  m1_708a
+			gen anc1syphilis_test = m1_710a
+			gen anc1blood_sugar_test = m1_711a
+			gen anc1ultrasound = m1_712
+			gen anc1ifa =  m1_713a
+			recode anc1ifa (2=1) (3=0)
+			gen anc1tt = m1_714a
 
-			egen anc1tq = rowmean(bp weight height upper_arm fetal_hr urine ///
-								  blood ultrasound ifa tt ) // 10 items
-	
+			egen anc1tq = rowmean(anc1bp anc1weight anc1height anc1muac anc1fetal_hr anc1urine ///
+								 anc1blood anc1ultrasound anc1ifa anc1tt ) // 10 items
+								  
+			* Counselling at first ANC visit
+			gen counsel_nutri =  m1_716a  
+			gen counsel_exer=  m1_716b
+			gen counsel_complic =  m1_716e
+			gen counsel_comeback = m1_724a
+			gen counsel_birthplan =  m1_809
+			egen anc1counsel = rowmean(counsel_nutri counsel_exer counsel_complic ///
+								counsel_comeback counsel_birthplan)
+			
 *------------------------------------------------------------------------------*	
 	* SECTION 13: HEALTH ASSESSMENTS AT BASELINE
 
@@ -84,6 +95,11 @@ u "$user/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuES
 			replace anemic=0 if Hb>=10 & Hb<. 
 			drop Hb*
 			
+			* MUAC
+			recode muac (999=.)
+			gen malnutrition = 1 if muac<23
+			replace malnutrition = 0 if muac>=23 & muac<.
+			
 			* BMI 
 			gen height_m = height_cm/100
 			gen BMI = weight_kg / (height_m^2)
@@ -93,20 +109,27 @@ u "$user/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuES
 *------------------------------------------------------------------------------*	
 * Labelling new variables 
 	lab var facility_own "Facility ownership"
-	lab var bp "Blood pressure taken at ANC1"
-	lab var weight "Weight taken at ANC1"
-	lab var height "Height measured at ANC1"
-	lab var upper_arm "Upper arm measured at ANC1"
-	lab var urine "Urine test done at ANC1"
-	lab var blood "Blood test done at ANC1 (finger prick or blood draw)"
-	lab var hiv_test "HIV test done at ANC1"
-	lab var syphilis_test "Syphilis test done at ANC1"
-	lab var ultrasound "Ultrasound done at ANC1"
-	lab var ifa "Received iron and folic acid pills directly or a prescription at ANC1"
+	lab var anc1bp "Blood pressure taken at ANC1"
+	lab var anc1weight "Weight taken at ANC1"
+	lab var anc1height "Height measured at ANC1"
+	lab var anc1bmi "Both Weight and Height measured at ANC1"
+	lab var anc1muac "Upper arm measured at ANC1"
+	lab var anc1urine "Urine test done at ANC1"
+	lab var anc1blood "Blood test done at ANC1 (finger prick or blood draw)"
+	lab var anc1hiv_test "HIV test done at ANC1"
+	lab var anc1syphilis_test "Syphilis test done at ANC1"
+	lab var anc1ultrasound "Ultrasound done at ANC1"
+	lab var anc1ifa "Received iron and folic acid pills directly or a prescription at ANC1"
 	lab var anc1tq "Technical quality score 1st ANC"
+	lab var counsel_nutri "Counselled about proper nutrition at ANC1"
+	lab var counsel_exer "Counselled about exercise at ANC1"
+	lab var counsel_complic  "Counselled about signs of pregnancy complications"
+	lab var counsel_birthplan "Counselled on birth plan at ANC1"
+	lab var anc1counsel "Counselling quality score 1st ANC"
 	lab var HBP "High blood pressure at 1st ANC"
 	lab var anemic "Anemic (Hb <10.0)"
 	lab var height_m "Height in meters"
+	lab var malnutrition "Acute malnutrition MUAC<23"
 	lab var BMI "Body mass index"
 	lab var low_BMI "BMI below 18.5 (low)"
 	
