@@ -3,13 +3,13 @@
 * Created Jul 19, 2023, C.Arsenault
 
 * GLOBALS
-global user "/Users/catherine.arsenault/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts"
+*global user "/Users/catherine.arsenault/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts"
 global user "/Users/katewright/Dropbox (Harvard University)/SPH-Kruk Team/QuEST Network/Core Research/Ecohorts"
 
 * IMPORT DATA
 * import delimited "$user/MNH Ecohorts QuEST-shared/Data/Ethiopia/01 raw data/MaternalAndNewbornHe_DATA_LABELS_2023-07-19_1654.csv", clear
 
-import delimited "$user/MNH Ecohorts QuEST-shared/Data/Ethiopia/01 raw data/MaternalAndNewbornHe_DATA_LABELS_2023-07-27_1837.csv", clear  
+import delimited "$user/MNH Ecohorts QuEST-shared/Data/Ethiopia/01 raw data/MaternalAndNewbornHe_DATA_LABELS_2023-08-04_1219.csv", clear  
 
 	* DROP THE TEST RECORDS AND KEEP ELIGIBLE RECORDS 
 	drop in 1/72
@@ -60,6 +60,6 @@ import delimited "$user/MNH Ecohorts QuEST-shared/Data/Ethiopia/01 raw data/Mate
 	
 	
 	 * EXPORT TO CALL TRACKING SHEET
-	 export excel using "$user/MNH Ecohorts QuEST-shared/Data collection/1 Ethiopia/Data Collection/DataCollectionTracker.xlsx", sheet("Individual tracking 07272023", replace) firstrow(var)
+	 export excel using "$user/MNH Ecohorts QuEST-shared/Data collection/1 Ethiopia/Data Collection/DataCollectionTracker.xlsx", sheet("Individual tracking 08042023", replace) firstrow(var)
 	 
 	 
