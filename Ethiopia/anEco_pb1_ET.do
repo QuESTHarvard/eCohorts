@@ -30,19 +30,35 @@ drop redcap_repeat_instrument-redcap_data_access_group m2_attempt_date-m2_comple
 	egen obst_risk = rowmax(multi sb neodeath preterm PPH csect)
 	
 	egen anyrisk = rowmax (general_risk obst_risk)
-
-* COMPETENT CARE
-	tabstat anc1tq, by(facility_lvl) stat(mean sd count)
-* ADVANCED ANC
+	
+			tab1 general_risk obst_risk anyrisk
+	
+* COMPETENT CARE ANC1
+	* By facility type
+			tabstat anc1tq, by(facility_lvl) stat(mean sd count)
+			tabstat anc1counsel, by(facility_lvl) stat(mean sd count)
+	
+	
+* COMPETENT SYSTEMS
+	* Cascades
+	ta malnutrition // 218
+	egen screen_mal = rowmax(anc1muac anc1bmi)
+	ta screen_mal if malnut==1
+	
+	
+	* By level of risk
 	egen specialist_hosp= rowmax(m1_724e m1_724c)
-	gen comeback_ANC = m1_724a
-	gen wks_ANC= m1_724b
-	recode wks_ANC (35/44=.) // implausible values for weeks until next ANC
+			ta specialist_hosp anyrisk, chi2 col
+			ttest anc1tq, by(anyrisk)
+			ttest anc1counsel, by(anyrisk)
+	
+	
+	
+	
 	
 	lab var aged18 "Aged less than 19"
 	lab var aged40 "Aged more than 40"
 	lab var chronic "Has a chronic illness"
-	
 	lab var multi "Multiple pregnancy (twins, triplets, etc.)"
 	lab var sb "Had a previous stillbirth"
 	lab var neodeath "Had a previous neonatal death"
