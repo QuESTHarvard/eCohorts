@@ -12,11 +12,23 @@ keep if  b7eligible ==1 // drop the non eligible.. this is also droping the othe
 * Keep M1 only
 drop redcap_repeat_instrument-redcap_data_access_group m2_attempt_date-m2_complete 
 
-* COMPETENT CARE ANC1
+* QUALITY OF ANC1
 	* By facility type
 			tabstat anc1tq, by(facility_lvl) stat(mean sd count)
 			tabstat anc1counsel, by(facility_lvl) stat(mean sd count)
+			tabstat m1_603, by(facility_lvl) stat(mean sd count)
+			tabstat anc1ux, by(facility_lvl) stat(mean sd count)
+			ta vgm1_601 facility_lvl, col
+			
 	
+	* By education level 
+			tabstat anc1tq, by(educ_cat) stat(mean sd count)
+			tabstat anc1counsel, by(educ_cat) stat(mean sd count)
+			tabstat m1_603, by(educ_cat) stat(mean sd count)
+			tabstat anc1ux, by(educ_cat) stat(mean sd count)
+			ta vgm1_601 educ_cat,  col
+			ta anc1ultrasound educ_cat, col
+			
 * GENERAL RISK FACTORS
 	gen aged18 = age<18
 	gen aged35 = age>35
@@ -26,25 +38,33 @@ drop redcap_repeat_instrument-redcap_data_access_group m2_attempt_date-m2_comple
 	
 * OBSTETRIC RISK FACTORS
 	gen multi= m1_805>1 & m1_805<.
-	gen sb = m1_1003-m1_1002 // live births - deliveries
-	recode sb (-5/-1=1) (0/.=0)
 	gen neodeath = m1_1010 ==1
 	gen preterm = m1_1005 ==1
 	gen PPH=m1_1006==1
 	gen csect = m1_1007==1
 	
-	egen obst_risk = rowmax(multi sb neodeath preterm PPH csect)
+	egen obst_risk = rowmax(multi stillbirth neodeath preterm PPH csect)
 	egen anyrisk = rowmax (general_risk obst_risk)
 	
 			tab1 general_risk obst_risk anyrisk
+			ta anyrisk facility_lvl, col
+			ta anyrisk educ_cat, col
 	
 * COMPETENT SYSTEMS
 	* Care quality by level of risk
-	egen specialist_hosp= rowmax(m1_724e m1_724c)
-			ta specialist_hosp anyrisk, chi2 col
 			ttest anc1tq, by(anyrisk)
 			ttest anc1counsel, by(anyrisk)
-	
+			ttest anc1ux, by(anyrisk)
+			ttest m1_603, by(anyrisk)
+			ta specialist_hosp anyrisk, chi2 col
+			
+	* Care quality by danger signs
+			ttest anc1tq, by(danger)
+			ttest anc1counsel, by(danger)
+			ttest anc1ux, by(danger)
+			ttest m1_603, by(danger)
+			ta specialist_hosp danger, chi2 col
+			
 	* CASCADES: CONDITIONS IDENTIFIED BY E-COHORT
 	* Malnutrition
 	egen screen_mal = rowmax(anc1muac anc1bmi)
@@ -89,6 +109,29 @@ drop redcap_repeat_instrument-redcap_data_access_group m2_attempt_date-m2_comple
 			ta specialist_hosp if m1_202c==1
 			ta depression_tx if m1_202d==1
 	
+	* CASCADES:OBSTETRIC RISK FACTORS
+			ta m1_1004 // nb late miscarriages
+			ta m1_1011b if m1_1004==1
+			ta specialist_hosp if m1_1004==1
+			
+			ta stillbirth // 37
+			ta m1_1011c if stillbirth==1
+			ta specialist_hosp if stillbirth==1
+			
+			ta preterm // previous preterm baby
+			ta  m1_1011d if preterm==1
+			ta specialist_hosp if preterm==1
+			
+			ta csect // previous c-section
+			ta m1_1011e if csect==1
+			ta specialist_hosp if csect==1
+			
+			ta  neodeath // previous neonatal death
+			ta m1_1011f if neodeath==1
+			ta specialist_hosp if neodeath==1
+	
+	
+	
 	
 	lab var aged18 "Aged less than 19"
 	lab var aged40 "Aged more than 40"
@@ -100,12 +143,11 @@ drop redcap_repeat_instrument-redcap_data_access_group m2_attempt_date-m2_comple
 	lab var PPH "Had a previous hemorrage at pregnancy or delivery"
 	lab var general_risk "Has any of the general risk factors"
 	lab var obst_risk = "Has any obstetric risk factors"
-	lab var anyrisk = "Has any general or obstetric risk factors"
-	lab var specialist_hosp = "Told to go see a specialist or to go to hospital for ANC"
+	lab var anyrisk = "Has any general or obstetric risk factors" 
+	
 	lab var exer_nutri "Counselled on both nutrition and exercise at ANC1"
 	
 	
-	/*
-	egen dangersigns = rowmax(m1_814a m1_814b m1_814c m1_814d m1_814e m1_814f m1_814g)
-	lab var dangersigns "Experienced a danger sign so far in pregnancy"
+	
+	
 
