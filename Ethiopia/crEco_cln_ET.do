@@ -1293,6 +1293,11 @@ recode m1_1218b (. = .a) if m1_1217 == 0 | m1_1217 == . | m1_1217 == .r
 
 * SS: Need to fix variable in redcap, this is a string var:
 * recode m1_1218b_1 (. = .a) if m1_1218b == 0 | m1_1218b == .a 
+replace m1_1218b_1 = "" if m1_1218b_1=="Unknown"
+destring m1_1218b_1, replace
+
+recode m1_1218b (. = .a) if m1_1217 == 0 | m1_1217 == . | m1_1217 == .r
+recode m1_1218b_1 (. = .a) if m1_1218b == 0 | m1_1218b == .a
 
 recode m1_1218c (. = .a) if m1_1217 == 0 | m1_1217 == . | m1_1217 == .r
 recode m1_1218c_1 (. = .a) if m1_1218c == 0 | m1_1218c == .a
