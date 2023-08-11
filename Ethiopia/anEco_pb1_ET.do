@@ -4,7 +4,7 @@
 
 
 u "$user/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data/Ethiopia/02 recoded data/eco_m1m2_et_der.dta", clear
-*test
+
 * This should be removed after Shalom addresses it
 drop in 1/72 // drop the test records
 keep if  b7eligible ==1 // drop the non eligible.. this is also droping the other modules currently.
