@@ -7,8 +7,8 @@
 
 * Import Data 
 clear all 
-set maxvar 15000 
-import delimited using "$et_data/25July2023.csv", clear
+
+import delimited using "$et_data/17Aug2023.csv", clear
 
 *These datasets download the entire longitudinal dataset.
 
@@ -19,6 +19,8 @@ drop if record_id == "1" | record_id == "2" | record_id == "3" | record_id == "4
 
 
 keep if is_the_respondent_eligible == 1
+
+gen country = "Ethiopia"
 		
 *------------------------------------------------------------------------------*
 	* STEPS: 
@@ -45,7 +47,7 @@ keep if is_the_respondent_eligible == 1
 	rename facility_type_a6 facility_type
 	rename b1_may_we_have_your_permis permission
 	rename b2_are_you_here_today_to_r care_self
-	rename b3_how_old_are_you age
+	rename b3_how_old_are_you enrollage
 	rename b4_which_zone_district zone_live
 	rename b5_are_you_here_to_receive b5anc
 	rename b6_is_this_the_first_time_you b6anc_first
@@ -928,8 +930,8 @@ label values m2_complete m2_complete
 * MODULE 1:
 * Kept these recode commands here even though everyone has given permission 
 recode care_self (. = .a) if permission == 0
-recode age (. = .a) if permission == 0
-recode zone_live (. = .a) if age>15 
+recode enrollage (. = .a) if permission == 0
+recode zone_live (. = .a) if enrollage>15 
 recode b6anc_first (. = .a) if b5anc== 2
 recode b6anc_first_conf (.a = .a) if b5anc== 2
 recode continuecare (. = .a) if b6anc_first_conf ==2 
@@ -1716,7 +1718,7 @@ lab var facility_type "A5. Facility type"
 lab var interviewer_name_a7 "A7. Interviewer Name"
 lab var permission "B1. May we have your permission to explain why we are here today, and to ask some questions?"
 lab var care_self "B2. Are you here today to receive care for yourself or someone else?"
-lab var age "B3. How old are you?"
+lab var enrollage "B3. How old are you?"
 lab var zone_live "B4. In which zone/district/ sub city are you living?"
 lab var b5anc "B5. By that I mean care related to a pregnancy?"
 lab var b6anc_first "B6. Is this the first time you've come to a health facility to talk to a healthcare provider about this pregnancy?"
