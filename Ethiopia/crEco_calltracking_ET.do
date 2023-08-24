@@ -9,7 +9,7 @@ global user "/Users/katewright/Dropbox (Harvard University)/SPH-Kruk Team/QuEST 
 * IMPORT DATA
 * import delimited "$user/MNH Ecohorts QuEST-shared/Data/Ethiopia/01 raw data/MaternalAndNewbornHe_DATA_LABELS_2023-07-19_1654.csv", clear
 
-import delimited "$user/MNH Ecohorts QuEST-shared/Data/Ethiopia/01 raw data/MaternalAndNewbornHe_DATA_LABELS_2023-08-04_1219.csv", clear  
+import delimited "$user/MNH Ecohorts QuEST-shared/Data/Ethiopia/01 raw data/MaternalAndNewbornHe_DATA_LABELS_2023-08-23_1416.csv", clear  
 
 	* DROP THE TEST RECORDS AND KEEP ELIGIBLE RECORDS 
 	drop in 1/72
@@ -55,6 +55,7 @@ import delimited "$user/MNH Ecohorts QuEST-shared/Data/Ethiopia/01 raw data/Mate
 	* CALL STATISTICS
 	egen nb_m2_1 = rownonmiss(m2_dated1)
 	egen nb_m2_2 = rownonmiss (m2_dated2)
+	egen nb_m2_3 = rownonmiss (m2_dated3)
 	egen nb_m3 = rownonmiss(m3_dated)
 	egen nb_fu_calls = rowtotal (nb_m2_1 nb_m2_2 nb_m3)
 	
