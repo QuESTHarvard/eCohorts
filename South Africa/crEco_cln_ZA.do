@@ -158,5 +158,4 @@ rename (MOD1Physical_Assessment_1306 MOD1_Physical_Assessment_1307 MOD1_Physical
 	* STEP TWO: ADD VALUE LABELS 
 	** many of these value labels can be found in the "REDCap_STATA.do" file that can be downloaded from redcap
 	
-		
-		
+	** MODULE 1:
