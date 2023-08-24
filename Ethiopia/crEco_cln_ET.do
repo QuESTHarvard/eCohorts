@@ -1,4 +1,4 @@
-* Ethiopia ECohort Baseline Data Cleaning File 
+* Ethiopia ECohort Data Cleaning File 
 * Created by K. Wright, S. Sabwa, C. Arsenault 
 * Updated: July 24 2023 
 

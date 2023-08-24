@@ -1,4 +1,4 @@
-* South Africa MNH ECohort Baseline Data Cleaning File 
+* South Africa MNH ECohort Data Cleaning File 
 * Created by S. Sabwa
 * Updated: Aug 17 2023 
 
@@ -159,3 +159,159 @@ rename (MOD1Physical_Assessment_1306 MOD1_Physical_Assessment_1307 MOD1_Physical
 	** many of these value labels can be found in the "REDCap_STATA.do" file that can be downloaded from redcap
 	
 	** MODULE 1:
+* Label district values 
+encode study_site, generate(recstudy_site)
+label define study_site 1 "D1: King Cetshwayo District" 2 "D2: Zululand District"  
+label values recstudy_site study_site
+
+
+* Label sub-district values - confirm because SD1 is second choice on pdf
+encode study_site_sd, generate(recstudy_site_sd)
+label define study_site_sd 1 "SD1: uMhlathuze Local Municipality" 2 "SD2: Nongoma Local Municipality"  
+label values recstudy_site_sd study_site_sd
+
+
+* Label Facility Name values -confirm with the next install of data
+** no data for BNH? in data dictionary
+** what is ROK?
+encode facility, generate(recfacility)
+label define facility 1 "Buchanana Clinic (BCH)" 2 "Benedictine Gateway Clinic (BNE)" ///
+					  3 "Buxedene Clinic (BXE)" 4 "Ekubungazeleni Clinic (EUB)" 5 "Isiboniso Clinic (IIB)" ///
+					  6 "Khandisa Clinic (KAN)" 7 "Mabamba Clinic (MBA)" 8 "Meerensee Clinic (MER)" ///
+					  9 "Mandlanzini Clinic (MND)" 10 "Maphophoma Clinic (MPH)" 11 "Nseleni CHC (NEL)" ///
+					  12 "Ndlozana Clinic (NLO)" 13 "Njoko Clinic (NOK)" 14 "Nkunzana Clinic (NUN)" ///
+					  15 "Ntuze Clinic (NUZ)" 16 "Ngwelezana Clinic (NWE)" 17 "Phaphamani Clinic (PAP)" ///
+					  18 "Queen Nolonolo Clinic (QEE)" 19 "Richards Bay Clinic (RCH)" 20 "ROK" ///
+					  21 "Thokozani Clinic (TOK)" 22 "Umkhontokayise Clinic (UKH)" 23 "Usuthu Clinic (UUT)"
+label values recfacility facility
+
+
+* eligiblity vars:
+label define permission 1 "Yes" 0 "No"
+label values permission permission 
+
+label define care_self 1 "For myself" 0 "For someone else"
+label values care_self care_self 
+
+label define enrollage_cat 1 "Yes" 0 "No"
+label values enrollage_cat enrollage_cat
+
+label define b5anc 1 "Yes" 0 "No"
+label values b5anc b5anc
+
+label define b6anc_first 1 "Yes" 0 "No"
+label values b6anc_first b6anc_first
+
+label define b7eligible 1 "Eligible and signed consent" 2 "Eligible but did not consent - STOP, end survey" ///
+						3 "Eligible but does not understand [language spoken by interviewer] - STOP, end survey" ///
+						0 "Ineligible - STOP, end survey"
+label values b7eligible b7eligible
+
+label define mobile_phone 1 "Yes" 0 "No" 99 "NR/RF"
+label values mobile_phone mobile_phone
+
+label define flash 1 "Flash successful" 2 "Unsuccessful, reenter phone number" ///
+				   3 "Respondent did not give permission for flash"
+label values flash flash
+
+
+ ** Repeated Data Value Labels 
+   * Label likert scales 
+label define likert 1 "Excellent" 2 "Very good" 3 "Good" 4 "Fair" 5 "Poor" ///
+	 99 "NR/RF"
+	 
+     * Label values for variables with Likert values 
+label values m1_201 m1_301 m1_601 likert 
+label values m1_605a m1_605b m1_605c m1_605d m1_605e m1_605f m1_605g m1_605h likert
+	   	 
+* Label Yes/No 
+	 label define YN 1 "Yes" 0 "No" 98 "Don't know" 99 "NF/RF" 
+	 label define YN2 1 "Yes" 0 "No" 
+	 label define YN3 1 "Yes" 0 "No" 3 "Don't Know"
+	 label define YN4 1 "Yes" 0 "No" 99 "Don't Know"
+	 
+	 label values m1_202a m1_202b m1_202c m1_202d m1_202e m1_204 YN
+	 label values m1_203 YN2
+	 
+	 label values m1_502 m1_509a m1_510a m1_514a YN2 
+	 label values m1_509b YN3
+	 label values m1_510b YN4
+	 
+	 label values m1_716a m1_716b m1_716c m1_716d m1_716e YN
+   	 label values m1_717 m1_718 m1_719 m1_720 m1_721 m1_722 m1_723 YN 
+	 label values m1_724a m1_724c m1_724d m1_724e m1_724f m1_724g m1_724h m1_724i YN
+	 label values m1_801 YN
+	 label values m1_814a m1_814b m1_814c m1_814d m1_814e m1_814f m1_814g m1_814h YN
+	 label values m1_813a m1_813b YN
+	 label values m1_905 m1_907 YN
+
+	 label values m1_1004 m1_1005 m1_1006 m1_1007 m1_1008 m1_1010 YN
+	 label values m1_1011a m1_1011b m1_1011c m1_1011d m1_1011e m1_1011f YN
+	 label values m1_1101 m1_1103 YN
+	 label values m1_1217 YN
+	 label values m1_1219 YN2
+	 label values m1_1221 YN
+
+* Labels for EQ5D - copied from ET	 
+     label define EQ5D 1 "I have no problems" 2 "I have some problems" ///
+					   3 "I have severe problems" 99 "NR/RF" 
+	 label define EQ5Dpain 1 "I have no pain" 2 "I have some pain" ///
+						   3 "I have severe pain" 99 "NR/RF" 
+	 label define EQ5Danxiety 1 "I have no anxiety" 2 "I have some anxiety" ///
+							  3 "I have severe anxiety" 99 "NR/RF" 
+	 
+	 label values m1_205a m1_205b m1_205c EQ5D
+	 label values m1_205d EQ5Dpain
+	 label values m1_205e EQ5Danxiety
+	
+* Labels for PHQ9
+	label define phq 0 "None of the days" 1 "Several days" 2 "More than half the days (>7)" ///
+				 3 "Nearly every day" 99 "NR/RF"
+	label values phq9a phq9b phq9c phq9d phq9e phq9f phq9g phq9h phq9i phq
+
+
+	label define hsview 1 "System works pretty well, minor changes" ///
+	                    2 "Some good things, but major changes are needed" ///
+						3 "System has so much wrong with it, completely rebuild it" 
+	label values m1_302 hsview
+
+	label define confidence 1 "Very confident" ///
+	                        2 "Somewhat confident" ///
+							3 "Not very confident" ///
+							4 "Not at all confident" ///
+							99 "NR/RF"
+	label values m1_303 m1_304 m1_305a m1_305b confidence 
+
+
+* QoC labels 
+	label define recommend 1 "Very likely" 2 "Somewhat likely" 3 "Not too likely" 4 "Not at all likely" 99 "NR/RF" 
+	label values m1_602 recommend
+   
+	label define satisfaction 1 "Very satisfied" 2 "Satisfied" 3 "Neither satisfied nor dissatisfied" 4 "Dissatisfied" 5 "Very dissatisfied" 98 "DK" 99 "NR/RF" 
+	label values m1_1223 satisfaction
+
+label define travel_mode 1 "Walking" 2 "Bicycle" 3 "Motorcycle" 4 "Car (personal or borrowed)" 5 "Bus/train/other public transportation" 96 "Other (specify)" 98 "DK" 99 "NR/RF" 
+label values m1_401 travel_mode
+
+label define bypass 1 "Yes, its the nearest" 2 "No, theres another one closer" 98 "DK" 99 "NR/RF" 
+label values m1_404 bypass 
+
+label define reason_anc 1 "Low cost" 2 "Short distance" 3 "Short waiting time" 4 "Good healthcare provider skills" 5 "Staff shows respect" 6 "Medicines and equipment are available" 7 "Cleaner facility" 8 "Only facility available" 9 "Covered by insurance" 10 "Were referred or told to use this provider" 96 "Other, specify" 99 "NR/RF" 
+label values m1_405 reason_anc
+
+* Demographic value labels 
+label define language 1 "IsiZulu" 2 "IsiXhosa" 3 "English" 4 "Afrikaans" 5 "Setswana" 6 "IsiNdebele" ///
+						7 "Siswati" 8 "Nothern Sotho (Sepedi)" 9 "Southern Sotho (Sesotho)" 10 "Tshivenda" ///
+						11 "Xitsonga" 96 "Other, specify" 99 "NR/RF" 
+label values m1_501 language
+
+label define education 1 "Some primary" 2 "Completed primary" 3 "Some secondary" 4 "Completed secondary" 5 "Higher education" 9999998 "NR/RF" 
+label values m1_503 education
+
+
+
+
+
+
+
+
