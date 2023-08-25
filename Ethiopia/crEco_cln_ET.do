@@ -1,4 +1,4 @@
-* Ethiopia ECohort Baseline Data Cleaning File 
+* Ethiopia ECohort Data Cleaning File 
 * Created by K. Wright, S. Sabwa, C. Arsenault 
 * Updated: July 24 2023 
 
@@ -1697,7 +1697,7 @@ recode m2_endstatus (. = .a) if m2_endtime == ""
 
 *===============================================================================					   
 	
-	* STEP FOUR: LABELING VARIABLES (for sumtab command)
+	* STEP FOUR: LABELING VARIABLES
 label variable record_id "Record ID"
 label variable event "Event Name"
 label variable redcap_repeat_instrument "Repeat Instrument"
