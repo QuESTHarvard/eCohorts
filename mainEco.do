@@ -54,6 +54,7 @@ global user "/Users/shs8688"
 	global in_data_final "$user/Dropbox (Harvard University)/SPH-Kruk Team/QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data/India/02 recoded data"
 	
 ********************************************************************************
+
 * Path to GitHub folder 
 global github "$user/Documents/GitHub/eCohorts"
 
@@ -61,7 +62,23 @@ global github "$user/Documents/GitHub/eCohorts"
 
 * Clean each dataset separately 
 run "$github/Ethiopia/crEco_cln_ET.do"
+run "$github/South Africa/crEco_cln_ZA.do"
 
-*summtab table creation
-run "$github/eCohorts/Ethiopia/anEco_mtbl_ET.do"
+* ETHIOPIA:
+	* derived vars
+	run "$github/Ethiopia/crEco_der_ET.do"
+	
+	* Call tracking
+	run "$github/Ethiopia/crEco_calltracking_ET.do"
+	
+	* summtab table creation
+	run "$github/Ethiopia/anEco_mtbl_ET.do"
+
+	* policy briefs
+	run "$github/Ethiopia/anEco_pb1_ET.do"
+	
+	
+
+
+
 
