@@ -69,10 +69,10 @@ rename (MOD1_Demogr_502 MOD1_Demogr_503 MOD1_Demogr_504 MOD1_Demogr_505 MOD1_Dem
 		MOD1_Demogr_510b MOD1_Demogr_511 MOD1_Demogr_512) (m1_502 m1_503 m1_504 m1_505 m1_506 m1_506_other m1_507 ///
 		m1_507_other m1_508 m1_509a m1_509b m1_510a m1_510b m1_511 m1_512)
 		
-rename (MOD1_Demogr_513a MOD1_Demogr_514a MOD1_Demogr_515) (m1_513a_za m1_514a m1_515_za)	
+rename (MOD1_Demogr_513a MOD1_Demogr_514a MOD1_Demogr_515) (m1_513a_za m1_514a m1_515_address)	
 		
 rename (MOD1_Demogr_516 MOD1_Demogr_517 MOD1_Demogr_518 MOD1_Demogr_519) (m1_516 m1_517 m1_518 m1_519a) 		
-rename (MOD1_User_Exp_601 MOD1_User_Exp_602 MOD1_User_Exp_603 MOD1_User_Exp_604) (m1_601 m1_602 m1_603 m1_604a)		
+rename (MOD1_User_Exp_601 MOD1_User_Exp_602 MOD1_User_Exp_603 MOD1_User_Exp_604) (m1_601 m1_602 m1_603 m1_604)		
 
 rename (MOD1_User_Exp_605a MOD1_User_Exp_605b MOD1_User_Exp_605c MOD1_User_Exp_605d MOD1_User_Exp_605e MOD1_User_Exp_605f MOD1_User_Exp_605g MOD1_User_Exp_605h) (m1_605a m1_605b m1_605c m1_605d m1_605e ///
 		m1_605f m1_605g m1_605h)
@@ -88,7 +88,7 @@ rename (MOD1_Cont_Care_708e MOD1_Cont_Care_708f MOD1_Cont_Care_709a MOD1_Cont_Ca
 		m1_713a)	
 		
 rename 	(MOD1_Cont_Care_713b MOD1_Cont_Care_713c MOD1_Cont_Care_713e MOD1_Cont_Care_713f MOD1_Cont_Care_713g ///
-		MOD1_Cont_Care_713i MOD1_Cont_Care_713d MOD1_Cont_Care_713j MOD1_Cont_Care_713k) (m1_713_za m1_713b ///
+		MOD1_Cont_Care_713i MOD1_Cont_Care_713d MOD1_Cont_Care_713j MOD1_Cont_Care_713k) (m1_713_za_in m1_713b ///
 		m1_713c m1_713d m1_713e m1_713f m1_713g m1_713h m1_713i)
 		
 rename (MOD1_Cont_Care_713h MOD1_Cont_Care_713l MOD1_Cont_Care_714a MOD1_Cont_Care_714b MOD1_Cont_Care_714c ///
@@ -152,6 +152,24 @@ rename (MOD1_Physical_Assessment_1303a MOD1_Physical_Assessment_1303b MOD1_Physi
 rename (MOD1Physical_Assessment_1306 MOD1_Physical_Assessment_1307 MOD1_Physical_Assessment_1308 MOD1_Physical_Assessment_1309 ///
 		MOD1_Next_Call_1401) (m1_1306 m1_1307 m1_1308 m1_1309 m1_1401)		
 		
+* Fix variables:
+replace m1_714e = 14 if m1_714e == 2009
+replace m1_714e = 12 if m1_714e == 2011
+replace m1_714e = 11 if m1_714e == 2012
+replace m1_714e = 9 if m1_714e == 2014
+replace m1_714e = 8 if m1_714e == 2015
+replace m1_714e = 7 if m1_714e == 2016
+replace m1_714e = 6 if m1_714e == 2017
+replace m1_714e = 5 if m1_714e == 2018
+replace m1_714e = 4 if m1_714e == 2019
+replace m1_714e = 3 if m1_714e == 2020
+replace m1_714e = 2 if m1_714e == 2021
+replace m1_714e = 1 if m1_714e == 2022
+
+replace m1_604 = "." if m1_604 == ""
+replace m1_604 = "1" if m1_604 == "1 hour"
+encode m1_604, generate(recm1_604)
+
 
 *===============================================================================
 	
@@ -485,7 +503,7 @@ label values m1_1401 m1_1401
 *------------------------------------------------------------------------------*
 * drop variables after recoding/renaming
 
-drop study_site study_site_sd facility 	 
+drop study_site study_site_sd facility m1_604
 ren rec* *
 
 *===============================================================================
@@ -500,7 +518,7 @@ ren rec* *
 
 recode m1_404 m1_506 m1_507  m1_700 m1_701 m1_702 m1_703 m1_705 m1_706 m1_707 m1_708a m1_708b m1_708c ///
 	  m1_708d m1_708e m1_708f m1_709a m1_710a m1_710b m1_710c m1_711a m1_711b m1_712 m1_713a m1_713c ///
-	  m1_713d m1_713e m1_713f m1_713g m1_713h m1_713i m1_713m_za m1_713n_za m1_714a m1_714b m1_716a m1_716b ///
+	  m1_713d m1_713e m1_713f m1_713g m1_713h m1_713i m1_713m_za m1_713n_za m1_714a m1_714b m1_714c m1_716a m1_716b ///
 	  m1_716c m1_716d m1_716e m1_717 m1_718 m1_719 m1_720 m1_721 m1_722 m1_723 m1_724a m1_724c m1_724d ///
 	  m1_724e m1_724f m1_724g m1_724h m1_724i m1_801 m1_803 m1_805 m1_806 m1_809 m1_810a m1_811 m1_812a m1_812b  ///
 	  m1_813a m1_813b m1_814a  m1_814b m1_814c m1_814d m1_814e m1_814f m1_814g m1_814h m1_815 m1_816 m1_901 ///
@@ -557,14 +575,14 @@ replace m1_512 = . if m1_512 == 9999998
 replace m1_513a_za = "." if m1_513a_za == ""
 replace m1_513a_za = "." if m1_513a_za == "9999998"
 replace m1_514a = . if m1_514a == 9999998
-replace m1_515_za = "." if m1_515_za == "9999998"
+replace m1_515_address = "." if m1_515_address == "9999998"
 replace m1_516 = "." if m1_516 == "9999998"
 replace m1_517 = . if m1_517 == 9999998
 replace m1_519a = "." if m1_519a == "9999998"
 replace m1_601 = . if m1_601 == 9999998
 replace m1_602 = . if m1_602 == 9999998
 replace m1_603 = . if m1_603 == 9999998
-replace m1_604a = "." if m1_604a == "9999998"
+replace m1_604 = . if m1_604 == 9999998
 replace m1_605a = . if m1_605a == 9999998
 replace m1_605b = . if m1_605b == 9999998
 replace m1_605c = . if m1_605c == 9999998
@@ -1009,7 +1027,7 @@ lab var m1_511 "511. When children have diarrhea, do you think that they should 
 lab var m1_512 "512. Is smoke from a wood burning traditional stove good for health, harmful for health or do you think it doesn't really matter?"
 lab var m1_513a_za "513a. What phone numbers can we use to reach you in the coming months?"
 lab var m1_514a "514a. We would like you to be able to participate in this study. We can give you a mobile phone for you to take home so that we can reach you. Would you like to receive a mobile phone?"
-lab var m1_515_za "515. Can you please tell me where you live? What is your address?"
+lab var m1_515_address "515. Can you please tell me where you live? What is your address?"
 lab var m1_516 "516. Could you please describe directions to your residence? Please give us enough detail so that a data collection team member could find your residence if we needed to ask you some follow up questions"
 lab var m1_517 "517. Is this a temporary residence or a permanent residence?"
 lab var m1_518 "518. Until when will you be at this residence?"
@@ -1017,7 +1035,7 @@ lab var m1_519a "519a. Where will your district be after this date "
 lab var m1_601 "601. Overall how would you rate the quality of care you received today?"
 lab var m1_602 "602. How likely are you to recommend this facility or provider to a family member or friend to receive care for their pregnancy?"
 lab var m1_603 "603. How long in minutes did you spend with the health provider today?"
-lab var m1_604a "604. How long in minutes did you wait between the time you arrived at this facility and the time you were able to see a provider for the consultation?"
+lab var m1_604 "604. How long in minutes did you wait between the time you arrived at this facility and the time you were able to see a provider for the consultation?"
 lab var m1_605a "605a. How would you rate the knowledge and skills of your provider?"
 lab var m1_605b "605b. How would you rate the equipment and supplies that the provider had available such as medical equipment or access to lab?"
 lab var m1_605c "605c. How would you rate the level of respect the provider showed you?"
@@ -1208,12 +1226,13 @@ lab var m1_1401 "1401. What period of the day is most convenient for you to answ
 *===============================================================================
 
 	* STEP SIX: SAVE DATA TO RECODED FOLDER
-	* note: as of 7-27 we are dropping M3-M5 data until it is cleaned
 	
 drop xxx RESPONSE_Checked  
 
 order m1_*, sequential
 order country study_site study_site_sd facility interviewer_id date_m1 pre_screening_num_za permission care_self enrollage_cat enrollage zone_live b5anc b6anc_first b7eligible respondentid mobile_phone phone_number flash
+
+order phq9a phq9b phq9c phq9d phq9e phq9f phq9g phq9h phq9i, after(m1_205e)
 
 save "$za_data_final/eco_m1_za.dta", replace
 	
