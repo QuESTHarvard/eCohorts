@@ -67,7 +67,7 @@ gen country = "Ethiopia"
 	rename did_you_have_diabetes_202a m1_202a
 	rename (did_yo_have_hbp_202b did_you_had_cardiac_disease did_you_had_mental_disorder ///
 	        did_you_had_hiv before_you_got_pregnant_202f before_you_got_pregnant_202g) ///
-			(m1_202b m1_202c m1_202d m1_202e m1_202f m1_202g)
+			(m1_202b m1_202c m1_202d m1_202e m1_202f_et m1_202g_et)
 	rename (before_pregnant_diagn_203 specify_the_diagnosed_203 currently_taking_medication ///
 	        which_best_describe_your_205a which_describes_your_205b which_describe_your_205c ///
 			which_describe_your_205d which_describe_your_205e) ///
@@ -114,13 +114,15 @@ gen country = "Ethiopia"
 		   (m1_513b m1_513c m1_513d m1_513e m1_513f m1_513g m1_513h m1_513i m1_514a)
 	
 	rename (mobile_phone_number_514b where_is_your_town_515a where_is_your_zone_515b where_is_your_kebele_515c  ///
-		    what_is_your_house_num_515d could_you_please_describe_516 is_this_a_temporary_reside_517 until_when_will_you_be_at_518  ///
-			where_will_your_district_519a where_will_your_kebele_519b where_will_your_village_519c) (m1_514b m1_515a m1_515b m1_515c ///
-			m1_515d m1_516 m1_517 m1_518 m1_519a m1_519b m1_519c)
+		    what_is_your_house_num_515d could_you_please_describe_516 is_this_a_temporary_reside_517 ///
+			until_when_will_you_be_at_518  ///
+			where_will_your_district_519a where_will_your_kebele_519b where_will_your_village_519c) ///
+			(m1_514b m1_515a_town m1_515b_zone m1_515c_kebele ///
+			m1_515d_house m1_516 m1_517 m1_518 m1_519a m1_519b m1_519c)
 	
 	rename (i_would_like_to_know_how_601 how_likely_are_you_to_reco_602	how_long_in_minutes_did_603 ///
 	        how_long_in_hours_or_minut_604 eth_1_6_1_do_you_know_how_lo eth_1_6_2_how_long_is_your) ///
-			(m1_601 m1_602 m1_603 m1_604a m1_604b m1_604c) 
+			(m1_601 m1_602 m1_603 m1_604 m1_604b m1_604c) 
 			
 	rename (thinking_about_the_visit_605 thinking_about_the_visit_605b thinking_about_the_visit_605c ///
 	        thinking_about_the_visit_605d thinking_about_the_visit_605e thinking_about_the_visit_605f ///
@@ -144,13 +146,25 @@ gen country = "Ethiopia"
 	
 	rename (estimated_date_for_delivery_801	 how_many_months_weeks_803 calculate_gestational_age_804 how_many_babies_you_preg_805 ask_your_last_period_806 when_you_got_pregnant_807) (m1_801 m1_803 m1_804 m1_805 m1_806 m1_807)
 	
+	rename (there_are_many_reasons_why_808__ v204 v205 v206 v207 v208 v209 v210 v211 v212 v213 v214 v215 v216 v217) ///
+		   (m1_808_0_et m1_808_1_et m1_808_2_et m1_808_3_et m1_808_4_et m1_808_5_et m1_808_6_et m1_808_7_et m1_808_8_et ///
+		   m1_808_9_et m1_808_10_et m1_808_11_et m1_808_12_et m1_808_96_et m1_808_99_et)
+	
 	rename (specify_other_reason_808) (m1_808_other)
 	
-	rename (discuss_your_birth_plan_809 other_than_the_list_above m1_811 you_might_need_c_section_812a m1_812b_0 other_reason_for_c_section_812) (m1_809 m1_810_other m1_811 m1_812a m1_812b m1_812_other) 
+	rename (discuss_your_birth_plan_809 other_than_the_list_above m1_811 you_might_need_c_section_812a) ///
+		   (m1_809 m1_810_other m1_811 m1_812a) 
 	
-	rename (common_health_problems_813a advice_for_treatment_813b some_women_experience_813c some_women_experience_813d  during_the_visit_today_813e some_women_experience_eth_1_8a eth_1_8b_hyperemesis_gravi eth_1_8c_did_you_experienc eth_1_8d_did_you_experienc eth_1_8e_did_you_experienc eth_1_8f_did_you_experienc eth_1_8g_any_other_pregnan specify_the_feeling_eth_1_8_h eth_2_8_did_the_provider) (m1_813a m1_813b m1_813c m1_813d m1_813e m1_eth_1_8a m1_eth_1_8b m1_eth_1_8c m1_eth_1_8d m1_eth_1_8e m1_eth_1_8f m1_eth_1_8g m1_eth_1_8gother m1_eth_2_8)
+	rename (m1_812b_0 why_you_might_need_c_section_812 v227 v228 v229 v230 v231 v232 v233 ///
+		   other_reason_for_c_section_812) (m1_812b_0_et m1_812b_1_et m1_812b_2_et m1_812b_3_et ///
+		   m1_812b_4_et m1_812b_5_et m1_812b_96_et m1_812b_98_et m1_812b_99_et m1_812b_other) 
+	
+	rename (common_health_problems_813a advice_for_treatment_813b some_women_experience_813c some_women_experience_813d  during_the_visit_today_813e some_women_experience_eth_1_8a eth_1_8b_hyperemesis_gravi eth_1_8c_did_you_experienc eth_1_8d_did_you_experienc eth_1_8e_did_you_experienc eth_1_8f_did_you_experienc eth_1_8g_any_other_pregnan specify_the_feeling_eth_1_8_h eth_2_8_did_the_provider) (m1_813a m1_813b m1_813c m1_813d m1_813e m1_8a_et m1_8b_et m1_8c_et m1_8d_et m1_8e_et m1_8f_et m1_8g_et m1_8gother_et m1_2_8_et)
 	
 	rename (experience_headaches_814a experience_for_vaginal_bleed_814	experience_a_fever_814c experience_abdominal_pain_814d experience_breath_difficulty_814 experience_convulsions_814f experience_repeated_faint_814g exprience_biby_stop_moving_814h could_you_please_tell_814i) (m1_814a m1_814b m1_814c m1_814d m1_814e m1_814f m1_814g m1_814h m1_814i)
+	
+	rename (provider_tell_you_to_do_regardin v259 v260 v261 v262 v263 v264 v265 v266 v267 v268) ///
+			(m1_815_0 m1_815_1 m1_815_2 m1_815_3 m1_815_4 m1_815_5 m1_815_6 m1_815_7 m1_815_96 m1_815_98 m1_815_99)
 	
 	rename (other_specify_kan_biroo_ib) (m1_815_other)
 	
@@ -158,11 +172,19 @@ gen country = "Ethiopia"
 	
 	rename (smoke_cigarettes_901 advised_to_stop_smoking_902 frequency_of_chew_khat_903 advice_to_stop_khat_904 drink_alcohol_within_30_days_905 when_you_do_drink_alcohol_906 advised_to_stop_alcohol_907) (m1_901 m1_902 m1_903 m1_904 m1_905 m1_906 m1_907)
 	
-	rename (no_of_pregnancies_you_had_1001 no_of_births_you_had_1002 how_many_of_those_birth_alive_10 have_you_ever_lost_a_pregn_after baby_came_too_early_1005 blood_need_during_pregnancy_1006 m1_eth_1_10 had_cesarean_section_1007) (m1_1001 m1_1002 m1_1003 m1_1004 m1_1005 m1_1006 m1_eth_1_10 m1_1007)
+	rename (no_of_pregnancies_you_had_1001 no_of_births_you_had_1002 how_many_of_those_birth_alive_10 have_you_ever_lost_a_pregn_after baby_came_too_early_1005 blood_need_during_pregnancy_1006 m1_eth_1_10 had_cesarean_section_1007) (m1_1001 m1_1002 m1_1003 m1_1004 m1_1005 m1_1006 m1_1_10_et m1_1007)
+	
+	rename (who_has_done_these_things_1102__ v297 v298 v299 v300 v301 v302 v303 v304 v305 v306 v307 v308) ///
+		   (m1_1102_1 m1_1102_2 m1_1102_3 m1_1102_4 m1_1102_5 m1_1102_6 m1_1102_7 ///
+		   m1_1102_8 m1_1102_9 m1_1102_10 m1_1102_96 m1_1102_98 m1_1102_99)
 	
 	rename (specify_who_else_hit_1102)(m1_1102_other)
 	
 	rename (delivery_lasted_12_hours_1008 no_children_still_alive_1009 had_a_baby_die_within_1month_101 discuss_about_prev_pregn_1011a discuss_lost_baby_after_5m_1011b discuss_baby_born_dead_1011c discuss_baby_born_early_1011d discuss_you_had_c_section_1011e discuss_baby_die_within_1m_1011f anyone_ever_hit_kicked_1101 anyone_humiliate_you_1103) (m1_1008 m1_1009 m1_1010 m1_1011a m1_1011b m1_1011c m1_1011d m1_1011e m1_1011f m1_1101 m1_1103)
+	
+	rename (who_has_done_these_things_1104__ v312 v313 v314 v315 v316 v317 v318 v319 v320 v321 v322 v323) ///
+           (m1_1104_1 m1_1104_2 m1_1104_3 m1_1104_4 m1_1104_5 m1_1104_6 m1_1104_7 ///
+		   m1_1104_8 m1_1104_9 m1_1104_10 m1_1104_96 m1_1104_98 m1_1104_99)
 	
 	rename specify_who_humuliates_you m1_1104_other
 	
@@ -174,11 +196,18 @@ gen country = "Ethiopia"
 	
 	rename money_from_pocket_for_trans_1217 m1_1217
 	
+	rename (financial_source_for_the_spent_1 v364 v365 v366 v367 v368 v369) ///
+	        (m1_1220_1_et m1_1220_2_et m1_1220_3_et m1_1220_4_et m1_1220_5_et m1_1220_6_et m1_1220_96_et)
+	
 	rename other_financial_source_1220 m1_1220_other
 	
 	rename other_health_insurance_type m1_1222_other
 	
 	rename (eth_1_13_muac_safartuu_naa hemoglobin_level_from_test) (muac m1_1309)
+	
+	rename (m1_1402___1 m1_1402___2 m1_1402___3 m1_1402___4 m1_1402___5 m1_1402___6 m1_1402___7 ///
+			m1_1402___8 m1_1402___9) (m1_1402_1_et m1_1402_2_et m1_1402_3_et m1_1402_4_et m1_1402_5_et ///
+			m1_1402_6_et m1_1402_7_et m1_1402_8_et m1_1402_9_et)
 	
 	rename (interview_end_time total_duration_of_intervie module_1_baseline_face_to_face_e) (m1_end_time interview_length m1_complete)
 	
@@ -302,7 +331,7 @@ label values m1_517 residence
 	 label values m1_724a m1_724c m1_724d m1_724e m1_724f m1_724g m1_724h m1_724i YN
 	 label values m1_801 m1_802b YN
 	 label values m1_814a m1_814b m1_814c m1_814d m1_814e m1_814f m1_814g m1_814h m1_814i YN
-	 label values m1_1004 m1_1005 m1_1006 m1_eth_1_10 m1_1007 m1_1008 m1_1010 YN
+	 label values m1_1004 m1_1005 m1_1006 m1_1_10_et m1_1007 m1_1008 m1_1010 YN
 	 label values m1_1011a m1_1011b m1_1011c m1_1011d m1_1011e m1_1011f YN
 	 label values m1_1101 m1_1103 YN
 	 label values m1_1217 m1_1218a m1_1218b m1_1218c m1_1218d m1_1218e m1_1218f YN
@@ -915,9 +944,9 @@ label values m2_complete m2_complete
 		* Need to figure out a way to clean up string "text" only vars that have numeric entries (ex. 803)
 
 	** MODULE 1:
-	recode mobile_phone kebele_malaria kebele_intworm m1_201 m1_202a m1_202b m1_202c m1_202d m1_202e m1_202f m1_202g m1_203 m1_204 m1_205a m1_205b m1_205c m1_205d m1_205e phq9a phq9b phq9c phq9d phq9e phq9f phq9g phq9h phq9i m1_301 m1_302 m1_303 m1_304 m1_305a m1_305b m1_401 m1_404 m1_405 m1_501 m1_503 m1_504 m1_505 m1_506 m1_507 m1_601 m1_602 m1_605a m1_605b m1_605c m1_605d m1_605e m1_605f m1_605g m1_605h m1_605i m1_605j m1_605k m1_700 m1_701 m1_702 m1_703 m1_704 m1_705 m1_706 m1_707 m1_708a m1_708b m1_708c m1_708d m1_708e m1_708f m1_709a m1_709b m1_710a m1_710b m1_710c m1_711a m1_711b m1_712 m1_713a m1_713b m1_713c m1_713d m1_713e m1_713f m1_713g m1_713h m1_713i m1_714a m1_714b m1_716a m1_716b m1_716c m1_716d m1_716e m1_717 m1_718 m1_719 m1_720 m1_721 m1_722 m1_723 m1_724a m1_724c m1_724d m1_724e m1_724f m1_724g m1_724h m1_724i m1_801 m1_805 m1_806 m1_807 m1_810a m1_810b m1_813a m1_813b m1_813c m1_813d m1_813e m1_eth_1_8a m1_eth_1_8b m1_eth_1_8c m1_eth_1_8d m1_eth_1_8e m1_eth_1_8f m1_eth_1_8g m1_eth_2_8 m1_814a m1_814b m1_814c m1_814d m1_814e m1_814f m1_814g m1_814h m1_814i m1_816 m1_901 m1_902 m1_903 m1_904 m1_905 m1_907 m1_1004 m1_1005 m1_1006 m1_eth_1_10 m1_1007 m1_1008 m1_1010 m1_1011a m1_1011b m1_1011c m1_1011d m1_1011e m1_1011f m1_1101 m1_1103 m1_1105 m1_1201 m1_1202 m1_1203 m1_1204 m1_1205 m1_1206 m1_1207 m1_1208 m1_1209 m1_1210 m1_1211 m1_1212 m1_1213 m1_1214 m1_1215 m1_1216 m1_1217 m1_1221 m1_1222 m1_1223 (99 = .r)
+	recode mobile_phone kebele_malaria kebele_intworm m1_201 m1_202a m1_202b m1_202c m1_202d m1_202e m1_202f m1_202g m1_203 m1_204 m1_205a m1_205b m1_205c m1_205d m1_205e phq9a phq9b phq9c phq9d phq9e phq9f phq9g phq9h phq9i m1_301 m1_302 m1_303 m1_304 m1_305a m1_305b m1_401 m1_404 m1_405 m1_501 m1_503 m1_504 m1_505 m1_506 m1_507 m1_601 m1_602 m1_605a m1_605b m1_605c m1_605d m1_605e m1_605f m1_605g m1_605h m1_605i m1_605j m1_605k m1_700 m1_701 m1_702 m1_703 m1_704 m1_705 m1_706 m1_707 m1_708a m1_708b m1_708c m1_708d m1_708e m1_708f m1_709a m1_709b m1_710a m1_710b m1_710c m1_711a m1_711b m1_712 m1_713a m1_713b m1_713c m1_713d m1_713e m1_713f m1_713g m1_713h m1_713i m1_714a m1_714b m1_716a m1_716b m1_716c m1_716d m1_716e m1_717 m1_718 m1_719 m1_720 m1_721 m1_722 m1_723 m1_724a m1_724c m1_724d m1_724e m1_724f m1_724g m1_724h m1_724i m1_801 m1_805 m1_806 m1_807 m1_810a m1_810b m1_813a m1_813b m1_813c m1_813d m1_813e m1_8a_et m1_8b_et m1_8c_et m1_8d_et m1_8e_et m1_8f_et m1_8g_et m1_2_8_et m1_814a m1_814b m1_814c m1_814d m1_814e m1_814f m1_814g m1_814h m1_814i m1_816 m1_901 m1_902 m1_903 m1_904 m1_905 m1_907 m1_1004 m1_1005 m1_1006 m1_1_10_et m1_1007 m1_1008 m1_1010 m1_1011a m1_1011b m1_1011c m1_1011d m1_1011e m1_1011f m1_1101 m1_1103 m1_1105 m1_1201 m1_1202 m1_1203 m1_1204 m1_1205 m1_1206 m1_1207 m1_1208 m1_1209 m1_1210 m1_1211 m1_1212 m1_1213 m1_1214 m1_1215 m1_1216 m1_1217 m1_1221 m1_1222 m1_1223 (99 = .r)
 
-	recode m1_401 m1_404 m1_501 m1_506 m1_507 m1_509b m1_510b m1_511 m1_512 m1_700 m1_701 m1_702 m1_703 m1_704 m1_705 m1_706 m1_707 m1_708a m1_708b m1_708c m1_708d m1_708e m1_708f m1_709a m1_709b m1_710a m1_710b m1_710c m1_711a m1_711b m1_712 m1_713a m1_713b m1_713c m1_713d m1_713e m1_713f m1_713g m1_713h m1_713i m1_714a m1_714b m1_716a m1_716b m1_716c m1_716d m1_716e m1_717 m1_718 m1_719 m1_720 m1_721 m1_722 m1_723 m1_724a m1_724c m1_724d m1_724e m1_724f m1_724g m1_724h m1_724i m1_801 m1_805 m1_806 m1_807 m1_809 m1_810a m1_810b m1_811 m1_812a m1_813a m1_813b m1_813c m1_813d m1_813e m1_eth_1_8a m1_eth_1_8b m1_eth_1_8c m1_eth_1_8d m1_eth_1_8e m1_eth_1_8f m1_eth_1_8g m1_eth_2_8 m1_814a m1_814b m1_814c m1_814d m1_814e m1_814f m1_814g m1_814h m1_814i m1_816 m1_901 m1_902 m1_903 m1_904 m1_905 m1_907 m1_1004 m1_1005 m1_1006 m1_eth_1_10 m1_1007 m1_1008 m1_1010 m1_1011a m1_1011b m1_1011c m1_1011d m1_1011e m1_1011f m1_1101 m1_1105 m1_1201 m1_1202 m1_1203 m1_1204 m1_1205 m1_1206 m1_1207 m1_1208 m1_1209 m1_1210 m1_1211 m1_1212 m1_1213 m1_1214 m1_1215 m1_1216 m1_1218a m1_1218b m1_1218c m1_1218d m1_1218e m1_1218f m1_1221 m1_1223 m1_804 (98 = .d)
+	recode m1_401 m1_404 m1_501 m1_506 m1_507 m1_509b m1_510b m1_511 m1_512 m1_700 m1_701 m1_702 m1_703 m1_704 m1_705 m1_706 m1_707 m1_708a m1_708b m1_708c m1_708d m1_708e m1_708f m1_709a m1_709b m1_710a m1_710b m1_710c m1_711a m1_711b m1_712 m1_713a m1_713b m1_713c m1_713d m1_713e m1_713f m1_713g m1_713h m1_713i m1_714a m1_714b m1_716a m1_716b m1_716c m1_716d m1_716e m1_717 m1_718 m1_719 m1_720 m1_721 m1_722 m1_723 m1_724a m1_724c m1_724d m1_724e m1_724f m1_724g m1_724h m1_724i m1_801 m1_805 m1_806 m1_807 m1_809 m1_810a m1_810b m1_811 m1_812a m1_813a m1_813b m1_813c m1_813d m1_813e m1_8a_et m1_8b_et m1_8c_et m1_8d_et m1_8e_et m1_8f_et m1_8g_et m1_2_8_et m1_814a m1_814b m1_814c m1_814d m1_814e m1_814f m1_814g m1_814h m1_814i m1_816 m1_901 m1_902 m1_903 m1_904 m1_905 m1_907 m1_1004 m1_1005 m1_1006 m1_1_10_et m1_1007 m1_1008 m1_1010 m1_1011a m1_1011b m1_1011c m1_1011d m1_1011e m1_1011f m1_1101 m1_1105 m1_1201 m1_1202 m1_1203 m1_1204 m1_1205 m1_1206 m1_1207 m1_1208 m1_1209 m1_1210 m1_1211 m1_1212 m1_1213 m1_1214 m1_1215 m1_1216 m1_1218a m1_1218b m1_1218c m1_1218d m1_1218e m1_1218f m1_1221 m1_1223 m1_804 (98 = .d)
 
 	** MODULE 2:
 	recode m2_301 m2_203a m2_203b m2_203c m2_203d m2_203e m2_203f m2_203g m2_203h m2_203i m2_204a m2_204b m2_204c m2_204d m2_204e m2_204f m2_204g m2_204h m2_204i m2_205c m2_205d m2_205e m2_205f m2_205g m2_205h m2_205i m2_206 m2_207 m2_208 m2_301 m2_303a m2_303b m2_303c m2_303d m2_303e m2_305 m2_306 m2_308 m2_309 m2_311 m2_312 m2_314 m2_315 m2_317 m2_318 m2_321 m2_401 m2_402 m2_403 m2_404 m2_405 m2_501a m2_501b m2_501c m2_501d m2_501e m2_501f m2_501g m2_502 m2_503a m2_503b m2_503c m2_503d m2_503e m2_503f m2_504 m2_505a m2_505b m2_505c m2_505d m2_505e m2_505f m2_506a m2_506b m2_506c m2_506d m2_507 m2_508a m2_508b_number m2_508c m2_509a m2_509b m2_509c m2_601a m2_601b m2_601c m2_601d m2_601e m2_601f m2_601g m2_601h m2_601i m2_601j m2_601k m2_601l m2_601m m2_601n m2_602a m2_603 m2_604 m2_701 m2_702a m2_702b m2_702c m2_702d m2_702e m2_704 (99 = .r)
@@ -984,8 +1013,19 @@ recode m1_710c (. = .a) if m1_710b == 2 | m1_710b == .a | m1_710b == .d
 recode m1_711b (. = .a) if m1_711a == 0 | m1_711a == . | m1_711a == .d
 
 recode m1_714c (. = .a) if m1_714b == 0 | m1_714b == . | m1_714b == .d | m1_714b == .r
-* SS: Fix in redcap to make a number
-*recode m1_714d (. = .a) if m1_714b == 0 | m1_714b == . | m1_714b == .d | m1_714b == .r
+
+* SS confirm these with Kate
+replace m1_714d = ".a" if m1_714b == 0 | m1_714b == . | m1_714b == .d | m1_714b == .r
+replace m1_714d = "." if m1_714d == ""
+replace m1_714d = ".d" if m1_714d == "Dont know" | m1_714d == "Dont know." | m1_714d == "Dont remember"
+replace m1_714d = "0" if m1_714d == "0.08"
+replace m1_714d = "1" if m1_714d == "1,10/12"
+replace m1_714d = "2.5" if m1_714d == "2 yr 6month"
+replace m1_714d = "2.7" if m1_714d == "2yr and 8 month"
+replace m1_714d = "3" if m1_714d == "3 years"
+replace m1_714d = "0" if m1_714d == "3week"
+encode m1_714d, generate(recm1_714d)
+
 recode m1_714e (. = .a) if m1_714c == . | m1_714c == .r
 
 recode m1_718 (. = .a) if m1_202a == 0 | m1_202a == .
@@ -1001,42 +1041,41 @@ recode m1_724h (. = .a) if m1_708a == 1 | m1_708a == . | m1_708a == .d | m1_708a
 recode m1_724i (. = .a) if m1_712 == 1 | m1_712 == . | m1_712 == .d | m1_712 == .r
 
 * SS: double check this skip pattern
-* Need to recode  q803gaself text "DK" = .d
 recode m1_804 (. = .a) if (m1_801 == 0 | m1_801 == . | m1_801 == .d | m1_801 == .r) & (m1_802b == 0 | m1_802b == .) & (m1_803 == "98" |  m1_803 == "Dk" | m1_803 == "") 
 
-recode there_are_many_reasons_why_808__ (0 = .a) if m1_804 == 1 | m1_804 == . | m1_804 == .a | m1_804 == .d
-recode v204 (0 = .a) if m1_804 == 1 | m1_804 == . | m1_804 == .a | m1_804 == .d
-recode v205 (0 = .a) if m1_804 == 1 | m1_804 == . | m1_804 == .a | m1_804 == .d
-recode v206 (0 = .a) if m1_804 == 1 | m1_804 == . | m1_804 == .a | m1_804 == .d
-recode v207 (0 = .a) if m1_804 == 1 | m1_804 == . | m1_804 == .a | m1_804 == .d
-recode v208 (0 = .a) if m1_804 == 1 | m1_804 == . | m1_804 == .a | m1_804 == .d
-recode v209 (0 = .a) if m1_804 == 1 | m1_804 == . | m1_804 == .a | m1_804 == .d
-recode v210 (0 = .a) if m1_804 == 1 | m1_804 == . | m1_804 == .a | m1_804 == .d
-recode v211 (0 = .a) if m1_804 == 1 | m1_804 == . | m1_804 == .a | m1_804 == .d
-recode v212 (0 = .a) if m1_804 == 1 | m1_804 == . | m1_804 == .a | m1_804 == .d
-recode v213 (0 = .a) if m1_804 == 1 | m1_804 == . | m1_804 == .a | m1_804 == .d
-recode v214 (0 = .a) if m1_804 == 1 | m1_804 == . | m1_804 == .a | m1_804 == .d
-recode v215 (0 = .a) if m1_804 == 1 | m1_804 == . | m1_804 == .a | m1_804 == .d
-recode v216 (0 = .a) if m1_804 == 1 | m1_804 == . | m1_804 == .a | m1_804 == .d
-recode v217 (0 = .a) if m1_804 == 1 | m1_804 == . | m1_804 == .a | m1_804 == .d
+recode m1_808_0_et (0 = .a) if m1_804 == 1 | m1_804 == . | m1_804 == .a | m1_804 == .d
+recode m1_808_1_et (0 = .a) if m1_804 == 1 | m1_804 == . | m1_804 == .a | m1_804 == .d
+recode m1_808_2_et (0 = .a) if m1_804 == 1 | m1_804 == . | m1_804 == .a | m1_804 == .d
+recode m1_808_3_et (0 = .a) if m1_804 == 1 | m1_804 == . | m1_804 == .a | m1_804 == .d
+recode m1_808_4_et (0 = .a) if m1_804 == 1 | m1_804 == . | m1_804 == .a | m1_804 == .d
+recode m1_808_5_et (0 = .a) if m1_804 == 1 | m1_804 == . | m1_804 == .a | m1_804 == .d
+recode m1_808_6_et (0 = .a) if m1_804 == 1 | m1_804 == . | m1_804 == .a | m1_804 == .d
+recode m1_808_7_et (0 = .a) if m1_804 == 1 | m1_804 == . | m1_804 == .a | m1_804 == .d
+recode m1_808_8_et (0 = .a) if m1_804 == 1 | m1_804 == . | m1_804 == .a | m1_804 == .d
+recode m1_808_9_et (0 = .a) if m1_804 == 1 | m1_804 == . | m1_804 == .a | m1_804 == .d
+recode m1_808_10_et (0 = .a) if m1_804 == 1 | m1_804 == . | m1_804 == .a | m1_804 == .d
+recode m1_808_11_et (0 = .a) if m1_804 == 1 | m1_804 == . | m1_804 == .a | m1_804 == .d
+recode m1_808_12_et (0 = .a) if m1_804 == 1 | m1_804 == . | m1_804 == .a | m1_804 == .d
+recode m1_808_96_et (0 = .a) if m1_804 == 1 | m1_804 == . | m1_804 == .a | m1_804 == .d
+recode m1_808_99_et (0 = .a) if m1_804 == 1 | m1_804 == . | m1_804 == .a | m1_804 == .d
 
 * SS: Fix in redcap to add this skip pattern
-recode m1_812b (. = .a) (0 = .a) if m1_812a == 0 | m1_812a ==. | m1_812a == .d 
+recode m1_812b_0_et (. = .a) (0 = .a) if m1_812a == 0 | m1_812a ==. | m1_812a == .d 
 
 recode m1_813e (. = .a) if (m1_813a == 0 | m1_813a == .d | m1_813a == .r) & (m1_813b == 0 | ///
 	   m1_813b == .d | m1_813b == .r) & (m1_813c == 0 | m1_813c == .d | m1_813c == .r) & ///
 	   (m1_813d == 0 | m1_813d == .d | m1_813d == .r)
 
-recode m1_eth_2_8 (. = .a) if (m1_eth_1_8a == 0 | m1_eth_1_8a == .d | m1_eth_1_8a == .r) & ///
-	   (m1_eth_1_8b == 0 | m1_eth_1_8b == .d | m1_eth_1_8b == .r) & ///
-	   (m1_eth_1_8c == 0 | m1_eth_1_8c == .d | m1_eth_1_8c == .r) & ///
-	   (m1_eth_1_8d == 0 | m1_eth_1_8d == .d | m1_eth_1_8d == .r) & ///
-	   (m1_eth_1_8e == 0 | m1_eth_1_8e == .d | m1_eth_1_8e == .r) & ///
-	   (m1_eth_1_8f == 0 | m1_eth_1_8f == .d | m1_eth_1_8f == .r) & ///
-	   (m1_eth_1_8g == 0 | m1_eth_1_8g == .d | m1_eth_1_8g == .r)
+recode m1_2_8_et (. = .a) if (m1_8a_et == 0 | m1_8a_et == .d | m1_8a_et == .r) & ///
+	   (m1_8b_et == 0 | m1_8b_et == .d | m1_8b_et == .r) & ///
+	   (m1_8c_et == 0 | m1_8c_et == .d | m1_8c_et == .r) & ///
+	   (m1_8d_et == 0 | m1_8d_et == .d | m1_8d_et == .r) & ///
+	   (m1_8e_et == 0 | m1_8e_et == .d | m1_8e_et == .r) & ///
+	   (m1_8f_et == 0 | m1_8f_et == .d | m1_8f_et == .r) & ///
+	   (m1_8g_et == 0 | m1_8g_et == .d | m1_8g_et == .r)
 
 recode m1_814h (. = .a) if m1_804 == 1	| m1_804 == 2 | m1_804 == . | m1_804 == .a | m1_804 == .d								   			   
-recode provider_tell_you_to_do_regardin (0 = .a) if (m1_814a == 0 | m1_814a == .d | m1_814a == .r | m1_814a == .) & ///
+recode m1_815_0 (0 = .a) if (m1_814a == 0 | m1_814a == .d | m1_814a == .r | m1_814a == .) & ///
 													(m1_814b == 0 | m1_814b == .d | m1_814b == .r | m1_814b == .) & ///
 													(m1_814c == 0 | m1_814c == .d | m1_814c == .r | m1_814c == .) & ///
 													(m1_814d == 0 | m1_814d == .d | m1_814d == .r | m1_814d == .) & ///
@@ -1046,11 +1085,11 @@ recode provider_tell_you_to_do_regardin (0 = .a) if (m1_814a == 0 | m1_814a == .
 													(m1_814h == 0 | m1_814h == .d | m1_814h == .r | m1_814h == . | m1_814h == .a) & ///
 													(m1_814i == 0 | m1_814i == .d | m1_814i == .r | m1_814i == .)
    							   
-recode provider_tell_you_to_do_regardin (0 = .) if m1_814a == 1 | m1_814b ==1 | m1_814c == 1 | m1_814d == 1 | ///
+recode m1_815_0 (0 = .) if m1_814a == 1 | m1_814b ==1 | m1_814c == 1 | m1_814d == 1 | ///
 												   m1_814e == 1 | m1_814f == 1 | m1_814g == 1 | m1_814h == 1 | ///
 												   m1_814i == 1
 													
-recode v259 (0 = .a) if (m1_814a == 0 | m1_814a == .d | m1_814a == .r | m1_814a == .) & ///
+recode m1_815_1 (0 = .a) if (m1_814a == 0 | m1_814a == .d | m1_814a == .r | m1_814a == .) & ///
 						(m1_814b == 0 | m1_814b == .d | m1_814b == .r | m1_814b == .) & ///
 						(m1_814c == 0 | m1_814c == .d | m1_814c == .r | m1_814c == .) & ///
 						(m1_814d == 0 | m1_814d == .d | m1_814d == .r | m1_814d == .) & ///
@@ -1060,11 +1099,11 @@ recode v259 (0 = .a) if (m1_814a == 0 | m1_814a == .d | m1_814a == .r | m1_814a 
 						(m1_814h == 0 | m1_814h == .d | m1_814h == .r | m1_814h == . | m1_814h == .a) & ///
 						(m1_814i == 0 | m1_814i == .d | m1_814i == .r | m1_814i == .)
 													
-recode v259 (0 = .) if m1_814a == 1 | m1_814b ==1 | m1_814c == 1 | m1_814d == 1 | ///
+recode m1_815_1 (0 = .) if m1_814a == 1 | m1_814b ==1 | m1_814c == 1 | m1_814d == 1 | ///
 					   m1_814e == 1 | m1_814f == 1 | m1_814g == 1 | m1_814h == 1 | ///
 					   m1_814i == 1
 													
-recode v260 (0 = .a) if (m1_814a == 0 | m1_814a == .d | m1_814a == .r | m1_814a == .) & ///
+recode m1_815_2 (0 = .a) if (m1_814a == 0 | m1_814a == .d | m1_814a == .r | m1_814a == .) & ///
 						(m1_814b == 0 | m1_814b == .d | m1_814b == .r | m1_814b == .) & ///
 						(m1_814c == 0 | m1_814c == .d | m1_814c == .r | m1_814c == .) & ///
 						(m1_814d == 0 | m1_814d == .d | m1_814d == .r | m1_814d == .) & ///
@@ -1074,11 +1113,11 @@ recode v260 (0 = .a) if (m1_814a == 0 | m1_814a == .d | m1_814a == .r | m1_814a 
 						(m1_814h == 0 | m1_814h == .d | m1_814h == .r | m1_814h == . | m1_814h == .a) & ///
 						(m1_814i == 0 | m1_814i == .d | m1_814i == .r | m1_814i == .)
 													
-recode v260 (0 = .) if m1_814a == 1 | m1_814b ==1 | m1_814c == 1 | m1_814d == 1 | ///
+recode m1_815_2 (0 = .) if m1_814a == 1 | m1_814b ==1 | m1_814c == 1 | m1_814d == 1 | ///
 					   m1_814e == 1 | m1_814f == 1 | m1_814g == 1 | m1_814h == 1 | ///
 					   m1_814i == 1
 													
-recode v261 (0 = .a) if (m1_814a == 0 | m1_814a == .d | m1_814a == .r | m1_814a == .) & ///
+recode m1_815_3 (0 = .a) if (m1_814a == 0 | m1_814a == .d | m1_814a == .r | m1_814a == .) & ///
 						(m1_814b == 0 | m1_814b == .d | m1_814b == .r | m1_814b == .) & ///
 						(m1_814c == 0 | m1_814c == .d | m1_814c == .r | m1_814c == .) & ///
 						(m1_814d == 0 | m1_814d == .d | m1_814d == .r | m1_814d == .) & ///
@@ -1088,11 +1127,11 @@ recode v261 (0 = .a) if (m1_814a == 0 | m1_814a == .d | m1_814a == .r | m1_814a 
 						(m1_814h == 0 | m1_814h == .d | m1_814h == .r | m1_814h == . | m1_814h == .a) & ///
 						(m1_814i == 0 | m1_814i == .d | m1_814i == .r | m1_814i == .)
 													
-recode v261 (0 = .) if m1_814a == 1 | m1_814b ==1 | m1_814c == 1 | m1_814d == 1 | ///
+recode m1_815_3 (0 = .) if m1_814a == 1 | m1_814b ==1 | m1_814c == 1 | m1_814d == 1 | ///
 					   m1_814e == 1 | m1_814f == 1 | m1_814g == 1 | m1_814h == 1 | ///
 					   m1_814i == 1
 													
-recode v262 (0 = .a) if (m1_814a == 0 | m1_814a == .d | m1_814a == .r | m1_814a == .) & ///
+recode m1_815_4 (0 = .a) if (m1_814a == 0 | m1_814a == .d | m1_814a == .r | m1_814a == .) & ///
 						(m1_814b == 0 | m1_814b == .d | m1_814b == .r | m1_814b == .) & ///
 						(m1_814c == 0 | m1_814c == .d | m1_814c == .r | m1_814c == .) & ///
 						(m1_814d == 0 | m1_814d == .d | m1_814d == .r | m1_814d == .) & ///
@@ -1102,11 +1141,11 @@ recode v262 (0 = .a) if (m1_814a == 0 | m1_814a == .d | m1_814a == .r | m1_814a 
 						(m1_814h == 0 | m1_814h == .d | m1_814h == .r | m1_814h == . | m1_814h == .a) & ///
 						(m1_814i == 0 | m1_814i == .d | m1_814i == .r | m1_814i == .)
 													
-recode v262 (0 = .) if m1_814a == 1 | m1_814b ==1 | m1_814c == 1 | m1_814d == 1 | ///
+recode m1_815_4 (0 = .) if m1_814a == 1 | m1_814b ==1 | m1_814c == 1 | m1_814d == 1 | ///
 					   m1_814e == 1 | m1_814f == 1 | m1_814g == 1 | m1_814h == 1 | ///
 					   m1_814i == 1
 													
-recode v263 (0 = .a) if (m1_814a == 0 | m1_814a == .d | m1_814a == .r | m1_814a == .) & ///
+recode m1_815_5 (0 = .a) if (m1_814a == 0 | m1_814a == .d | m1_814a == .r | m1_814a == .) & ///
 						(m1_814b == 0 | m1_814b == .d | m1_814b == .r | m1_814b == .) & ///
 						(m1_814c == 0 | m1_814c == .d | m1_814c == .r | m1_814c == .) & ///
 						(m1_814d == 0 | m1_814d == .d | m1_814d == .r | m1_814d == .) & ///
@@ -1116,11 +1155,11 @@ recode v263 (0 = .a) if (m1_814a == 0 | m1_814a == .d | m1_814a == .r | m1_814a 
 						(m1_814h == 0 | m1_814h == .d | m1_814h == .r | m1_814h == . | m1_814h == .a) & ///
 						(m1_814i == 0 | m1_814i == .d | m1_814i == .r | m1_814i == .)
 													
-recode v263 (0 = .) if m1_814a == 1 | m1_814b ==1 | m1_814c == 1 | m1_814d == 1 | ///
+recode m1_815_5 (0 = .) if m1_814a == 1 | m1_814b ==1 | m1_814c == 1 | m1_814d == 1 | ///
 					   m1_814e == 1 | m1_814f == 1 | m1_814g == 1 | m1_814h == 1 | ///
 					   m1_814i == 1	
 
-recode v264 (0 = .a) if (m1_814a == 0 | m1_814a == .d | m1_814a == .r | m1_814a == .) & ///
+recode m1_815_6 (0 = .a) if (m1_814a == 0 | m1_814a == .d | m1_814a == .r | m1_814a == .) & ///
 						(m1_814b == 0 | m1_814b == .d | m1_814b == .r | m1_814b == .) & ///
 						(m1_814c == 0 | m1_814c == .d | m1_814c == .r | m1_814c == .) & ///
 						(m1_814d == 0 | m1_814d == .d | m1_814d == .r | m1_814d == .) & ///
@@ -1130,11 +1169,11 @@ recode v264 (0 = .a) if (m1_814a == 0 | m1_814a == .d | m1_814a == .r | m1_814a 
 						(m1_814h == 0 | m1_814h == .d | m1_814h == .r | m1_814h == . | m1_814h == .a) & ///
 						(m1_814i == 0 | m1_814i == .d | m1_814i == .r | m1_814i == .)
 													
-recode v264 (0 = .) if m1_814a == 1 | m1_814b ==1 | m1_814c == 1 | m1_814d == 1 | ///
+recode m1_815_6 (0 = .) if m1_814a == 1 | m1_814b ==1 | m1_814c == 1 | m1_814d == 1 | ///
 					   m1_814e == 1 | m1_814f == 1 | m1_814g == 1 | m1_814h == 1 | ///
 					   m1_814i == 1	
 													
-recode v265 (0 = .a) if (m1_814a == 0 | m1_814a == .d | m1_814a == .r | m1_814a == .) & ///
+recode m1_815_7 (0 = .a) if (m1_814a == 0 | m1_814a == .d | m1_814a == .r | m1_814a == .) & ///
 						(m1_814b == 0 | m1_814b == .d | m1_814b == .r | m1_814b == .) & ///
 						(m1_814c == 0 | m1_814c == .d | m1_814c == .r | m1_814c == .) & ///
 						(m1_814d == 0 | m1_814d == .d | m1_814d == .r | m1_814d == .) & ///
@@ -1144,11 +1183,11 @@ recode v265 (0 = .a) if (m1_814a == 0 | m1_814a == .d | m1_814a == .r | m1_814a 
 						(m1_814h == 0 | m1_814h == .d | m1_814h == .r | m1_814h == . | m1_814h == .a) & ///
 						(m1_814i == 0 | m1_814i == .d | m1_814i == .r | m1_814i == .)
 													
-recode v265 (0 = .) if m1_814a == 1 | m1_814b ==1 | m1_814c == 1 | m1_814d == 1 | ///
+recode m1_815_7 (0 = .) if m1_814a == 1 | m1_814b ==1 | m1_814c == 1 | m1_814d == 1 | ///
 					   m1_814e == 1 | m1_814f == 1 | m1_814g == 1 | m1_814h == 1 | ///
 					   m1_814i == 1	
 													
-recode v266 (0 = .a) if (m1_814a == 0 | m1_814a == .d | m1_814a == .r | m1_814a == .) & ///
+recode m1_815_96 (0 = .a) if (m1_814a == 0 | m1_814a == .d | m1_814a == .r | m1_814a == .) & ///
 						(m1_814b == 0 | m1_814b == .d | m1_814b == .r | m1_814b == .) & ///
 						(m1_814c == 0 | m1_814c == .d | m1_814c == .r | m1_814c == .) & ///
 						(m1_814d == 0 | m1_814d == .d | m1_814d == .r | m1_814d == .) & ///
@@ -1158,25 +1197,11 @@ recode v266 (0 = .a) if (m1_814a == 0 | m1_814a == .d | m1_814a == .r | m1_814a 
 						(m1_814h == 0 | m1_814h == .d | m1_814h == .r | m1_814h == . | m1_814h == .a) & ///
 						(m1_814i == 0 | m1_814i == .d | m1_814i == .r | m1_814i == .)
 													
-recode v266 (0 = .) if m1_814a == 1 | m1_814b ==1 | m1_814c == 1 | m1_814d == 1 | ///
-					   m1_814e == 1 | m1_814f == 1 | m1_814g == 1 | m1_814h == 1 | ///
-					   m1_814i == 1	
-
-recode v267 (0 = .d) if (m1_814a == 0 | m1_814a == .d | m1_814a == .r | m1_814a == .) & ///
-						(m1_814b == 0 | m1_814b == .d | m1_814b == .r | m1_814b == .) & ///
-						(m1_814c == 0 | m1_814c == .d | m1_814c == .r | m1_814c == .) & ///
-						(m1_814d == 0 | m1_814d == .d | m1_814d == .r | m1_814d == .) & ///
-						(m1_814e == 0 | m1_814e == .d | m1_814e == .r | m1_814e == .) & ///
-						(m1_814f == 0 | m1_814f == .d | m1_814f == .r | m1_814f == .) & ///
-						(m1_814g == 0 | m1_814g == .d | m1_814g == .r | m1_814g == .) & ///
-						(m1_814h == 0 | m1_814h == .d | m1_814h == .r | m1_814h == . | m1_814h == .a) & ///
-						(m1_814i == 0 | m1_814i == .d | m1_814i == .r | m1_814i == .)
-													
-recode v267 (0 = .) if m1_814a == 1 | m1_814b ==1 | m1_814c == 1 | m1_814d == 1 | ///
+recode m1_815_96 (0 = .) if m1_814a == 1 | m1_814b ==1 | m1_814c == 1 | m1_814d == 1 | ///
 					   m1_814e == 1 | m1_814f == 1 | m1_814g == 1 | m1_814h == 1 | ///
 					   m1_814i == 1	
 
-recode v268 (0 = .r) if (m1_814a == 0 | m1_814a == .d | m1_814a == .r | m1_814a == .) & ///
+recode m1_815_98 (0 = .d) if (m1_814a == 0 | m1_814a == .d | m1_814a == .r | m1_814a == .) & ///
 						(m1_814b == 0 | m1_814b == .d | m1_814b == .r | m1_814b == .) & ///
 						(m1_814c == 0 | m1_814c == .d | m1_814c == .r | m1_814c == .) & ///
 						(m1_814d == 0 | m1_814d == .d | m1_814d == .r | m1_814d == .) & ///
@@ -1186,10 +1211,25 @@ recode v268 (0 = .r) if (m1_814a == 0 | m1_814a == .d | m1_814a == .r | m1_814a 
 						(m1_814h == 0 | m1_814h == .d | m1_814h == .r | m1_814h == . | m1_814h == .a) & ///
 						(m1_814i == 0 | m1_814i == .d | m1_814i == .r | m1_814i == .)
 													
-recode v268(0 = .) if m1_814a == 1 | m1_814b ==1 | m1_814c == 1 | m1_814d == 1 | ///
+recode m1_815_98 (0 = .) if m1_814a == 1 | m1_814b ==1 | m1_814c == 1 | m1_814d == 1 | ///
+					   m1_814e == 1 | m1_814f == 1 | m1_814g == 1 | m1_814h == 1 | ///
+					   m1_814i == 1	
+
+recode m1_815_99 (0 = .r) if (m1_814a == 0 | m1_814a == .d | m1_814a == .r | m1_814a == .) & ///
+						(m1_814b == 0 | m1_814b == .d | m1_814b == .r | m1_814b == .) & ///
+						(m1_814c == 0 | m1_814c == .d | m1_814c == .r | m1_814c == .) & ///
+						(m1_814d == 0 | m1_814d == .d | m1_814d == .r | m1_814d == .) & ///
+						(m1_814e == 0 | m1_814e == .d | m1_814e == .r | m1_814e == .) & ///
+						(m1_814f == 0 | m1_814f == .d | m1_814f == .r | m1_814f == .) & ///
+						(m1_814g == 0 | m1_814g == .d | m1_814g == .r | m1_814g == .) & ///
+						(m1_814h == 0 | m1_814h == .d | m1_814h == .r | m1_814h == . | m1_814h == .a) & ///
+						(m1_814i == 0 | m1_814i == .d | m1_814i == .r | m1_814i == .)
+													
+recode m1_815_99(0 = .) if m1_814a == 1 | m1_814b ==1 | m1_814c == 1 | m1_814d == 1 | ///
 					   m1_814e == 1 | m1_814f == 1 | m1_814g == 1 | m1_814h == 1 | ///
 					   m1_814i == 1
-* confirm why 814h "and"				
+
+* SS: confirm why 814h "and"				
 recode m1_816 (. = .a) if (m1_814a == 1 | m1_814b ==1 | m1_814c == 1 | m1_814d == 1 | ///
 									m1_814e == 1 | m1_814f == 1 | m1_814g == 1 | m1_814i == 1) & ///
 									(m1_814h == 1 | m1_814h == .a | m1_814h == .)
@@ -1210,7 +1250,7 @@ recode m1_1005 (. = .a) if (m1_1002<1 | m1_1002 ==.a | m1_1002 ==.)
 
 recode m1_1006  (. = .a) if (m1_1002<1 | m1_1002 ==.a | m1_1002 ==.)
 
-recode m1_eth_1_10 (. = .a) if (m1_1002<1 | m1_1002 ==.a | m1_1002 ==.)
+recode m1_1_10_et (. = .a) if (m1_1002<1 | m1_1002 ==.a | m1_1002 ==.)
 
 recode m1_1007 (. = .a) if (m1_1002<1 | m1_1002 ==.a | m1_1002 ==.)
 
@@ -1232,68 +1272,67 @@ recode m1_1011e (. = .a) if m1_1007 == 0 | m1_1007 == . | m1_1007 == .a
 
 recode m1_1011f (. = .a) if m1_1010 == 0 | m1_1010 == . | m1_1010 == .a
 
-recode who_has_done_these_things_1102__ (0 = .a) if m1_1101 == 0 | m1_1101 == . | m1_1101 == .r
-recode who_has_done_these_things_1102__ (0 = .) if m1_1101 == 1
-recode v297 (0 = .a) if m1_1101 == 0 | m1_1101 == . | m1_1101 == .r
-recode v297 (0 = .) if m1_1101 == 1
-recode v298 (0 = .a) if m1_1101 == 0 | m1_1101 == . | m1_1101 == .r
-recode v298 (0 = .) if m1_1101 == 1
-recode v299 (0 = .a) if m1_1101 == 0 | m1_1101 == . | m1_1101 == .r
-recode v299 (0 = .) if m1_1101 == 1
-recode v300 (0 = .a) if m1_1101 == 0 | m1_1101 == . | m1_1101 == .r
-recode v300 (0 = .) if m1_1101 == 1
-recode v301 (0 = .a) if m1_1101 == 0 | m1_1101 == . | m1_1101 == .r
-recode v301 (0 = .) if m1_1101 == 1
-recode v302 (0 = .a) if m1_1101 == 0 | m1_1101 == . | m1_1101 == .r
-recode v302 (0 = .) if m1_1101 == 1
-recode v303 (0 = .a) if m1_1101 == 0 | m1_1101 == . | m1_1101 == .r
-recode v303 (0 = .) if m1_1101 == 1
-recode v304 (0 = .a) if m1_1101 == 0 | m1_1101 == . | m1_1101 == .r
-recode v304 (0 = .) if m1_1101 == 1
-recode v305 (0 = .a) if m1_1101 == 0 | m1_1101 == . | m1_1101 == .r
-recode v305 (0 = .) if m1_1101 == 1
-recode v306 (0 = .a) if m1_1101 == 0 | m1_1101 == . | m1_1101 == .r
-recode v306 (0 = .) if m1_1101 == 1
-recode v307 (0 = .a) if m1_1101 == 0 | m1_1101 == . | m1_1101 == .r
-recode v307 (0 = .) if m1_1101 == 1
-recode v308 (0 = .a) if m1_1101 == 0 | m1_1101 == . | m1_1101 == .r
-recode v308 (0 = .) if m1_1101 == 1
+recode m1_1102_1 (0 = .a) if m1_1101 == 0 | m1_1101 == . | m1_1101 == .r
+recode m1_1102_1 (0 = .) if m1_1101 == 1
+recode m1_1102_2 (0 = .a) if m1_1101 == 0 | m1_1101 == . | m1_1101 == .r
+recode m1_1102_2 (0 = .) if m1_1101 == 1
+recode m1_1102_3 (0 = .a) if m1_1101 == 0 | m1_1101 == . | m1_1101 == .r
+recode m1_1102_3 (0 = .) if m1_1101 == 1
+recode m1_1102_4 (0 = .a) if m1_1101 == 0 | m1_1101 == . | m1_1101 == .r
+recode m1_1102_4 (0 = .) if m1_1101 == 1
+recode m1_1102_5 (0 = .a) if m1_1101 == 0 | m1_1101 == . | m1_1101 == .r
+recode m1_1102_5 (0 = .) if m1_1101 == 1
+recode m1_1102_6 (0 = .a) if m1_1101 == 0 | m1_1101 == . | m1_1101 == .r
+recode m1_1102_6 (0 = .) if m1_1101 == 1
+recode m1_1102_7 (0 = .a) if m1_1101 == 0 | m1_1101 == . | m1_1101 == .r
+recode m1_1102_7 (0 = .) if m1_1101 == 1
+recode m1_1102_8 (0 = .a) if m1_1101 == 0 | m1_1101 == . | m1_1101 == .r
+recode m1_1102_8 (0 = .) if m1_1101 == 1
+recode m1_1102_9 (0 = .a) if m1_1101 == 0 | m1_1101 == . | m1_1101 == .r
+recode m1_1102_9 (0 = .) if m1_1101 == 1
+recode m1_1102_10 (0 = .a) if m1_1101 == 0 | m1_1101 == . | m1_1101 == .r
+recode m1_1102_10 (0 = .) if m1_1101 == 1
+recode m1_1102_96 (0 = .a) if m1_1101 == 0 | m1_1101 == . | m1_1101 == .r
+recode m1_1102_96 (0 = .) if m1_1101 == 1
+recode m1_1102_98 (0 = .a) if m1_1101 == 0 | m1_1101 == . | m1_1101 == .r
+recode m1_1102_98 (0 = .) if m1_1101 == 1
+recode m1_1102_99 (0 = .a) if m1_1101 == 0 | m1_1101 == . | m1_1101 == .r
+recode m1_1102_99 (0 = .) if m1_1101 == 1
 
-recode who_has_done_these_things_1104__ (0 = .a) if m1_1103 == 0 | m1_1103 == . | m1_1103 == .r
-recode who_has_done_these_things_1104__ (0 = .) if m1_1103 == 1
-recode v312 (0 = .a) if m1_1103 == 0 | m1_1103 == . | m1_1103 == .r
-recode v312 (0 = .) if m1_1103 == 1
-recode v313 (0 = .a) if m1_1103 == 0 | m1_1103 == . | m1_1103 == .r
-recode v313 (0 = .) if m1_1103 == 1
-recode v314 (0 = .a) if m1_1103 == 0 | m1_1103 == . | m1_1103 == .r
-recode v314 (0 = .) if m1_1103 == 1
-recode v315 (0 = .a) if m1_1103 == 0 | m1_1103 == . | m1_1103 == .r
-recode v315 (0 = .) if m1_1103 == 1
-recode v316 (0 = .a) if m1_1103 == 0 | m1_1103 == . | m1_1103 == .r
-recode v316 (0 = .) if m1_1103 == 1
-recode v317 (0 = .a) if m1_1103 == 0 | m1_1103 == . | m1_1103 == .r
-recode v317 (0 = .) if m1_1103 == 1
-recode v318 (0 = .a) if m1_1103 == 0 | m1_1103 == . | m1_1103 == .r
-recode v318 (0 = .) if m1_1103 == 1
-recode v319 (0 = .a) if m1_1103 == 0 | m1_1103 == . | m1_1103 == .r
-recode v319 (0 = .) if m1_1103 == 1
-recode v320 (0 = .a) if m1_1103 == 0 | m1_1103 == . | m1_1103 == .r
-recode v320 (0 = .) if m1_1103 == 1
-recode v321 (0 = .a) if m1_1103 == 0 | m1_1103 == . | m1_1103 == .r
-recode v321 (0 = .) if m1_1103 == 1
-recode v322 (0 = .a) if m1_1103 == 0 | m1_1103 == . | m1_1103 == .r
-recode v322 (0 = .) if m1_1103 == 1
-recode v323 (0 = .a) if m1_1103 == 0 | m1_1103 == . | m1_1103 == .r
-recode v323 (0 = .) if m1_1103 == 1
+recode m1_1104_1 (0 = .a) if m1_1103 == 0 | m1_1103 == . | m1_1103 == .r
+recode m1_1104_1 (0 = .) if m1_1103 == 1
+recode m1_1104_2 (0 = .a) if m1_1103 == 0 | m1_1103 == . | m1_1103 == .r
+recode m1_1104_2 (0 = .) if m1_1103 == 1
+recode m1_1104_3 (0 = .a) if m1_1103 == 0 | m1_1103 == . | m1_1103 == .r
+recode m1_1104_3 (0 = .) if m1_1103 == 1
+recode m1_1104_4 (0 = .a) if m1_1103 == 0 | m1_1103 == . | m1_1103 == .r
+recode m1_1104_4 (0 = .) if m1_1103 == 1
+recode m1_1104_5 (0 = .a) if m1_1103 == 0 | m1_1103 == . | m1_1103 == .r
+recode m1_1104_5 (0 = .) if m1_1103 == 1
+recode m1_1104_6 (0 = .a) if m1_1103 == 0 | m1_1103 == . | m1_1103 == .r
+recode m1_1104_6 (0 = .) if m1_1103 == 1
+recode m1_1104_7 (0 = .a) if m1_1103 == 0 | m1_1103 == . | m1_1103 == .r
+recode m1_1104_7 (0 = .) if m1_1103 == 1
+recode m1_1104_8 (0 = .a) if m1_1103 == 0 | m1_1103 == . | m1_1103 == .r
+recode m1_1104_8 (0 = .) if m1_1103 == 1
+recode m1_1104_9 (0 = .a) if m1_1103 == 0 | m1_1103 == . | m1_1103 == .r
+recode m1_1104_9 (0 = .) if m1_1103 == 1
+recode m1_1104_10 (0 = .a) if m1_1103 == 0 | m1_1103 == . | m1_1103 == .r
+recode m1_1104_10 (0 = .) if m1_1103 == 1
+recode m1_1104_96 (0 = .a) if m1_1103 == 0 | m1_1103 == . | m1_1103 == .r
+recode m1_1104_96 (0 = .) if m1_1103 == 1
+recode m1_1104_98 (0 = .a) if m1_1103 == 0 | m1_1103 == . | m1_1103 == .r
+recode m1_1104_98 (0 = .) if m1_1103 == 1
+recode m1_1104_99 (0 = .a) if m1_1103 == 0 | m1_1103 == . | m1_1103 == .r
+recode m1_1104_99 (0 = .) if m1_1103 == 1
 
 recode m1_1105 (. = .a) if (m1_1101 == 0 | m1_1101 == . | m1_1101 == .r) & (m1_1103 == 0 | m1_1103 == . | m1_1103 == .r)
 
 recode m1_1218a (. = .a) if m1_1217 == 0 | m1_1217 == . | m1_1217 == .r
 recode m1_1218a_1 (. = .a) if m1_1218a == 0 | m1_1218a == .a
 
-* SS: Need to fix variable in redcap, this is a string var:
-* recode m1_1218b_1 (. = .a) if m1_1218b == 0 | m1_1218b == .a 
-replace m1_1218b_1 = "" if m1_1218b_1=="Unknown"
+replace m1_1218b_1 = ".a" if m1_1218b == 0 | m1_1218b == .a 
+replace m1_1218b_1 = "." if m1_1218b_1=="Unknown"
 destring m1_1218b_1, replace
 
 recode m1_1218b (. = .a) if m1_1217 == 0 | m1_1217 == . | m1_1217 == .r
@@ -1314,25 +1353,36 @@ recode m1_1218f_1 (. = .a) if m1_1218f == 0 | m1_1218f == .a
 recode m1_1219 (. = .a) if m1_1218a_1 == .a & m1_1218b_1 == . & m1_1218c_1 ==.a & ///
 						   m1_1218d_1 == .a & m1_1218e_1 == .a & m1_1218f_1 == .a
     
-recode financial_source_for_the_spent_1 (0 = .a) if m1_1217 == 0 | m1_1217 == . | m1_1217 == .r
-recode financial_source_for_the_spent_1 (0 = .) if m1_1217 == 1
-recode v364 (0 = .a) if m1_1217 == 0 | m1_1217 == . | m1_1217 == .r
-recode v364 (0 = .) if m1_1217 == 1
-recode v365 (0 = .a) if m1_1217 == 0 | m1_1217 == . | m1_1217 == .r
-recode v365 (0 = .) if m1_1217 == 1
-recode v366 (0 = .a) if m1_1217 == 0 | m1_1217 == . | m1_1217 == .r
-recode v366 (0 = .) if m1_1217 == 1
-recode v367 (0 = .a) if m1_1217 == 0 | m1_1217 == . | m1_1217 == .r
-recode v367 (0 = .) if m1_1217 == 1
-recode v368 (0 = .a) if m1_1217 == 0 | m1_1217 == . | m1_1217 == .r
-recode v368 (0 = .) if m1_1217 == 1
-recode v369 (0 = .a) if m1_1217 == 0 | m1_1217 == . | m1_1217 == .r
-recode v369 (0 = .) if m1_1217 == 1
+recode m1_1220_1_et (0 = .a) if m1_1217 == 0 | m1_1217 == . | m1_1217 == .r
+recode m1_1220_1_et (0 = .) if m1_1217 == 1
+recode m1_1220_2_et (0 = .a) if m1_1217 == 0 | m1_1217 == . | m1_1217 == .r
+recode m1_1220_2_et (0 = .) if m1_1217 == 1
+recode m1_1220_3_et (0 = .a) if m1_1217 == 0 | m1_1217 == . | m1_1217 == .r
+recode m1_1220_3_et (0 = .) if m1_1217 == 1
+recode m1_1220_4_et (0 = .a) if m1_1217 == 0 | m1_1217 == . | m1_1217 == .r
+recode m1_1220_4_et (0 = .) if m1_1217 == 1
+recode m1_1220_5_et (0 = .a) if m1_1217 == 0 | m1_1217 == . | m1_1217 == .r
+recode m1_1220_5_et (0 = .) if m1_1217 == 1
+recode m1_1220_6_et (0 = .a) if m1_1217 == 0 | m1_1217 == . | m1_1217 == .r
+recode m1_1220_6_et (0 = .) if m1_1217 == 1
+recode m1_1220_96_et (0 = .a) if m1_1217 == 0 | m1_1217 == . | m1_1217 == .r
+recode m1_1220_96_et (0 = .) if m1_1217 == 1
 
-recode 	m1_1222 (. = .a) if m1_1221 == 0 | m1_1221 == .
+recode m1_1222 (. = .a) if m1_1221 == 0 | m1_1221 == .
 
-* SS: Fix
-* recode m1_1307 (. = .a) if m1_1306 == 0 | m1_1306 == 96 | m1_1306 == . 
+replace m1_1307 = ".a" if m1_1306 == 0 | m1_1306 == 96 | m1_1306 == .
+replace m1_1307 = "." if m1_1307 == ""
+replace m1_1307 = "12.6" if m1_1307 == "12.6g/d"
+replace m1_1307 = "12.6" if m1_1307 == "12.6g/dl"
+replace m1_1307 = "13" if m1_1307 == "13g/dl"
+replace m1_1307 = "14" if m1_1307 == "14."
+replace m1_1307 = "14.6" if m1_1307 == "14.6g/dl"
+replace m1_1307 = "15" if m1_1307 == "15g/dl"
+replace m1_1307 = "16.3" if m1_1307 == "16.3g/dl"
+replace m1_1307 = "16.6" if m1_1307 == "16.6g/dl"
+replace m1_1307 = "16" if m1_1307 == "16g/dl"
+replace m1_1307 = "17.6" if m1_1307 == "17.6g/dl"
+destring m1_1307, replace
 
 recode m1_1308 (. = .a) if m1_1306 == 1 | m1_1306 == 96 | m1_1306 == .
 
@@ -1695,10 +1745,17 @@ recode m2_int_duration (. = .a) if m2_permission == 0 | m2_permission == . | m2_
 
 recode m2_endstatus (. = .a) if m2_endtime == ""
 
+
+*------------------------------------------------------------------------------*
+* drop variables after recoding/renaming
+
+drop m1_714d
+ren rec* *
+
 *===============================================================================					   
 	
 	* STEP FOUR: LABELING VARIABLES
-label variable record_id "Record ID"
+label variable redcap_record_id "Record ID"
 label variable event "Event Name"
 label variable redcap_repeat_instrument "Repeat Instrument"
 label variable redcap_repeat_instance "Repeat Instance"
@@ -1821,7 +1878,7 @@ lab var m1_519c "519c. Where will your village be after this date"
 lab var m1_601 "601. Overall how would you rate the quality of care you received today?"
 lab var m1_602 "602. How likely are you to recommend this facility or provider to a family member or friend to receive care for their pregnancy?"
 lab var m1_603 "603. How long in minutes did you spend with the health provider today?"
-lab var m1_604a "604. How long in minutes did you wait between the time you arrived at this facility and the time you were able to see a provider for the consultation?"
+lab var m1_604 "604. How long in minutes did you wait between the time you arrived at this facility and the time you were able to see a provider for the consultation?"
 lab var m1_604b "Eth-1-6-1. How long in hours did you spend at this facility today for all aspects of your care, including wait time, the consultation, and any other components of your care today?"
 lab var m1_604c "Eth-1-6.2. How long in hours did you spend at this facility today for all aspects of your care, including wait time, the consultation, and any other components of your care today?"
 lab var m1_605a "605a. How would you rate the knowledge and skills of your provider?"
@@ -1903,21 +1960,21 @@ lab var m1_804 "804. Interviewer calculates the gestational age in trimester bas
 lab var m1_805 "805. How many babies are you pregnant with?"
 lab var m1_806 "806. During the visit today, did the healthcare provider ask when you had your last period, or not?"
 lab var m1_807 "807. When you got pregnant, did you want to get pregnant at that time?"
-lab var there_are_many_reasons_why_808__ "808. Didn't realize you were pregnant"
-lab var v204 "808. Tried to come earlier and were sent away"
-lab var v205 "808. You received care at home"
-lab var v206 "808. High cost (e.g., high out of pocket payment, not covered by insurance)"
-lab var v207 "808. Far distance (e.g., too far to walk or drive, transport not readily available)"
-lab var v208 "808. Long waiting time (e.g., long line to access facility, long wait for the provider)"
-lab var v209 "808. Poor healthcare provider skills (e.g., spent too little time with patient, did not conduct a thorough exam)"
-lab var v210 "808. Staff don't show respect (e.g., staff is rude, impolite, dismissive) "
-lab var v211 "808. Medicines and equipment are not available (e.g., medicines regularly out of stock, equipment like X-ray machines broken or unavailable)"
-lab var v212 "808. COVID-19 fear"
-lab var v213 "808. Don't know where to go (e.g., too complicated)"
-lab var v214 "808. Fear of discovering serious problems"
-lab var v215 "808. Do not know advantage of early coming"
-lab var v216 "808. Other, specify"
-lab var v217 "808. NR/RF"
+lab var m1_808_0_et "808. Didn't realize you were pregnant"
+lab var m1_808_1_et "808. Tried to come earlier and were sent away"
+lab var m1_808_2_et "808. You received care at home"
+lab var m1_808_3_et "808. High cost (e.g., high out of pocket payment, not covered by insurance)"
+lab var m1_808_4_et "808. Far distance (e.g., too far to walk or drive, transport not readily available)"
+lab var m1_808_5_et "808. Long waiting time (e.g., long line to access facility, long wait for the provider)"
+lab var m1_808_6_et "808. Poor healthcare provider skills (e.g., spent too little time with patient, did not conduct a thorough exam)"
+lab var m1_808_7_et "808. Staff don't show respect (e.g., staff is rude, impolite, dismissive) "
+lab var m1_808_8_et "808. Medicines and equipment are not available (e.g., medicines regularly out of stock, equipment like X-ray machines broken or unavailable)"
+lab var m1_808_9_et "808. COVID-19 fear"
+lab var m1_808_10_et "808. Don't know where to go (e.g., too complicated)"
+lab var m1_808_11_et "808. Fear of discovering serious problems"
+lab var m1_808_12_et "808. Do not know advantage of early coming"
+lab var m1_808_96_et "808. Other, specify"
+lab var m1_808_99_et "808. NR/RF"
 lab var m1_808_other "808_Other. Specify other reason not to receive care earlier in your pregnancy."
 lab var m1_809 "809. During the visit today, did you and the provider discuss your birth plan?"
 lab var m1_810a "810a. Where do you plan to give birth?"
@@ -1925,30 +1982,30 @@ lab var m1_810b "810b. What is the name of the [facility type from 810a] where y
 lab var m1_810_other "810b_Other. Other than the list above, specify"
 lab var m1_811 "811. Do you plan to stay at a maternity waiting home before delivering your baby?"
 lab var m1_812a "812a. During the visit today, did the provider tell you that you might need a C-section?"
-lab var m1_812b "812b.0. Have you told the reason why you might need a c-section?"
-lab var why_you_might_need_c_section_812 "812b. Because I had a c-section before"
-lab var v227 "812b. Because I am pregnant with more than one baby"
-lab var v228 "812b. Because of the baby's position"
-lab var v229 "812b. Because of the position of the placenta"
-lab var v230 "812b. Because I have health problems"
-lab var v231 "812b. Other, specify"
-lab var v232 "812b. DK"
-lab var v233 "812b. NR/RF"
-lab var m1_812_other "812_Other. Specify other reason for C-section"
+lab var m1_812b_0_et "812b.0. Have you told the reason why you might need a c-section?"
+lab var m1_812b_1_et "812b. Because I had a c-section before"
+lab var m1_812b_2_et "812b. Because I am pregnant with more than one baby"
+lab var m1_812b_3_et "812b. Because of the baby's position"
+lab var m1_812b_4_et "812b. Because of the position of the placenta"
+lab var m1_812b_5_et "812b. Because I have health problems"
+lab var m1_812b_96_et "812b. Other, specify"
+lab var m1_812b_98_et "812b. DK"
+lab var m1_812b_99_et "812b. NR/RF"
+lab var m1_812b_other "812_Other. Specify other reason for C-section"
 lab var m1_813a "813a. Some women experience common health problems during pregnancy. Did you experience nausea in your pregnancy so far, or not?"
 lab var m1_813b "813b. Some women experience common health problems during pregnancy. Did you experience heartburn in your pregnancy so far, or not?"
 lab var m1_813c "813c. Some women experience common health problems during pregnancy. Did you experience leg cramps in your pregnancy so far, or not?"
 lab var m1_813d "813d. Some women experience common health problems during pregnancy. Did you experience back pain in your pregnancy so far, or not?"
 lab var m1_813e "813e. During the visit today did the provider give you treatment or advice for addressing these kinds of problems?"
-lab var m1_eth_1_8a "Eth-1-8a. Did you experience Preeclampsia / Eclampsia in your pregnancy so far, or not?"
-lab var m1_eth_1_8b "Eth-1-8b. Some women experience medical and obstetric health problems during pregnancy. Did you experience Hyperemesis gravidarum during pregnancy in your pregnancy so far, or not?"
-lab var m1_eth_1_8c "Eth-1-8c. Some women experience medical and obstetric health problems during pregnancy. Did you experience Anemia during pregnancy in your pregnancy so far, or not?"
-lab var m1_eth_1_8d "Eth-1-8d. Some women experience medical and obstetric health problems during pregnancy. Did you experience Amniotic fluid volume problems (Oligohydramnios / Polyhydramnios) during pregnancy in your pregnancy so far, or not?"
-lab var m1_eth_1_8e "Eth-1-8e. Some women experience medical and obstetric health problems during pregnancy. Did you experience Asthma during pregnancy in your pregnancy so far, or not?"
-lab var m1_eth_1_8f "Eth-1-8f. Some women experience medical and obstetric health problems during pregnancy. Did you experience RH isoimmunization during pregnancy in your pregnancy so far, or not?"
-lab var m1_eth_1_8g "Eth - 1 - 8g. Any other pregnancy problem"
-lab var m1_eth_1_8gother "Eth-1-8g_Other. Specify any other experience in your pregnancy so far"
-lab var m1_eth_2_8 "Eth-2-8. During the visit today, did the provider give you a treatment or advice for addressing these kinds of problems?"
+lab var m1_8a_et "Eth-1-8a. Did you experience Preeclampsia / Eclampsia in your pregnancy so far, or not?"
+lab var m1_8b_et "Eth-1-8b. Some women experience medical and obstetric health problems during pregnancy. Did you experience Hyperemesis gravidarum during pregnancy in your pregnancy so far, or not?"
+lab var m1_8c_et "Eth-1-8c. Some women experience medical and obstetric health problems during pregnancy. Did you experience Anemia during pregnancy in your pregnancy so far, or not?"
+lab var m1_8d_et "Eth-1-8d. Some women experience medical and obstetric health problems during pregnancy. Did you experience Amniotic fluid volume problems (Oligohydramnios / Polyhydramnios) during pregnancy in your pregnancy so far, or not?"
+lab var m1_8e_et "Eth-1-8e. Some women experience medical and obstetric health problems during pregnancy. Did you experience Asthma during pregnancy in your pregnancy so far, or not?"
+lab var m1_8f_et "Eth-1-8f. Some women experience medical and obstetric health problems during pregnancy. Did you experience RH isoimmunization during pregnancy in your pregnancy so far, or not?"
+lab var m1_8g_et "Eth - 1 - 8g. Any other pregnancy problem"
+lab var m1_8gother_et "Eth-1-8g_Other. Specify any other experience in your pregnancy so far"
+lab var m1_2_8_et "Eth-2-8. During the visit today, did the provider give you a treatment or advice for addressing these kinds of problems?"
 lab var m1_814a "814a. Could you please tell me if you have experienced Severe or persistent headaches in your pregnancy so far, or not?"
 lab var m1_814b "814b. Could you please tell me if you have experienced Vaginal bleeding of any amount in your pregnancy so far, or not?"
 lab var m1_814c "814c. Could you please tell me if you have experienced a fever in your pregnancy so far, or not?"
@@ -1958,17 +2015,17 @@ lab var m1_814f "814f. Could you please tell me if you have experienced Convulsi
 lab var m1_814g "814g. Could you please tell me if you have experienced repeated fainting or loss of consciousness in your pregnancy so far, or not?"
 lab var m1_814h "814h. Could you please tell me if you have experienced noticing that the baby has completely stopped moving in your pregnancy so far, or not?"
 lab var m1_814i "814i. Could you please tell me if you have experienced blurring of vision in your pregnancy so far, or not?"
-lab var provider_tell_you_to_do_regardin "815. Nothing, we did not discuss this"
-lab var v259 "815.Told me to come back to this health facility"
-lab var v260 "815.They told you to get a lab test or imaging (e.g., ultrasound, blood tests, x-ray, heart echo)"
-lab var v261 "815.They provided a treatment in the visit"
-lab var v262 "815. They prescribed a medication"
-lab var v263 "815. They told you to come back to this health facility "
-lab var v264 "815. They told you to go somewhere else for higher level care"
-lab var v265 "815. They told you to wait and see"
-lab var v266 "815. Other (specify)"
-lab var v267 "815. DK"
-lab var v268 "815. NR/RF"
+lab var m1_815_0 "815. Nothing, we did not discuss this"
+lab var m1_815_1 "815.Told me to come back to this health facility"
+lab var m1_815_2 "815.They told you to get a lab test or imaging (e.g., ultrasound, blood tests, x-ray, heart echo)"
+lab var m1_815_3 "815.They provided a treatment in the visit"
+lab var m1_815_4 "815. They prescribed a medication"
+lab var m1_815_5 "815. They told you to come back to this health facility "
+lab var m1_815_6 "815. They told you to go somewhere else for higher level care"
+lab var m1_815_7 "815. They told you to wait and see"
+lab var m1_815_96 "815. Other (specify)"
+lab var m1_815_98 "815. DK"
+lab var m1_815_99 "815. NR/RF"
 lab var m1_815_other "815_Other. Other (specify)"
 lab var m1_816 "816. You said that you did not have any of the symptoms I just listed. Did the health provider ask you whether or not you had these symptoms, or did this topic not come up today?"
 lab var m1_901 "901. How often do you currently smoke cigarettes or use any other type of tobacco? Is it every day, some days, or not at all?"
@@ -1984,7 +2041,7 @@ lab var m1_1003 "1003. In how many of those births was the baby born alive?"
 lab var m1_1004 "1004. Have you ever lost a pregnancy after 20 weeks of being pregnant?"
 lab var m1_1005 "1005. Have you ever had a baby that came too early, more than 3 weeks before the due date / Small baby?"
 lab var m1_1006 "1006. Have you ever bled so much in a previous pregnancy or delivery that you needed to be given blood or go back to the delivery room for an operation?"
-lab var m1_eth_1_10 "Eth-1-10. Have you ever had a baby born with a congenital anomaly? I mean a neural tube defect"
+lab var m1_1_10_et "Eth-1-10. Have you ever had a baby born with a congenital anomaly? I mean a neural tube defect"
 lab var m1_1007 "1007. Have you ever had cesarean section?"
 lab var m1_1008 "1008. Have you ever had a delivery that lasted more than 12 hours of you pushing?"
 lab var m1_1009 "1009. How many of your children are still alive?"
@@ -1996,34 +2053,34 @@ lab var m1_1011d "1011d. Did you discuss about that you had a baby born early be
 lab var m1_1011e "1011e. Did you discuss about that you had a c-section before, or not?"
 lab var m1_1011f "1011f. Did you discuss about that you had a baby die within their first month of life?"
 lab var m1_1101 "1101. At any point during your current pregnancy, has anyone ever hit, slapped, kicked, or done anything else to hurt you physically?"
-lab var who_has_done_these_things_1102__ "1102. Current husband / partner"
-lab var v297 "1102. Parent (Mother; Father, step-parent, in-law)"
-lab var v298 "1102. Sibling"
-lab var v299 "1102. Child"
-lab var v300 "1102. Late /last / ex-husband/partner"
-lab var v301 "1102. Other relative"
-lab var v302 "1102. Friend /acquaintance/"
-lab var v303 "1102. Teacher"
-lab var v304 "1102. Employer"
-lab var v305 "1102. Stranger"
-lab var v306 "1102. Other, specify"
-lab var v307 "1102. DK"
-lab var v308 "1102. NR/RF"
+lab var m1_1102_1 "1102. Current husband / partner"
+lab var m1_1102_2 "1102. Parent (Mother; Father, step-parent, in-law)"
+lab var m1_1102_3 "1102. Sibling"
+lab var m1_1102_4 "1102. Child"
+lab var m1_1102_5 "1102. Late /last / ex-husband/partner"
+lab var m1_1102_6 "1102. Other relative"
+lab var m1_1102_7 "1102. Friend /acquaintance/"
+lab var m1_1102_8 "1102. Teacher"
+lab var m1_1102_9 "1102. Employer"
+lab var m1_1102_10 "1102. Stranger"
+lab var m1_1102_96 "1102. Other, specify"
+lab var m1_1102_98 "1102. DK"
+lab var m1_1102_99 "1102. NR/RF"
 lab var m1_1102_other "1102_Oth. Specify who else hit, kick, slapped, ... you"
 lab var m1_1103 "1103. At any point during your current pregnancy, has anyone ever said or done something to humiliate you, insulted you or made you feel bad about yourself?"
-lab var who_has_done_these_things_1104__ "1104. Current husband / partner"
-lab var v312 "1104. Parent (Mother; Father, step-parent, in-law)"
-lab var v313 "1104. Sibling"
-lab var v314 "1104. Child"
-lab var v315 "1104. Late /last / ex-husband/partner"
-lab var v316 "1104. Other relative"
-lab var v317 "1104. Friend /acquaintance"
-lab var v318 "1104. Teacher"
-lab var v319 "1104. Employer"
-lab var v320 "1104. Stranger"
-lab var v321 "1104. Other (specify)"
-lab var v322 "1104. DF"
-lab var v323 "1104. NR/RF"
+lab var m1_1104_1 "1104. Current husband / partner"
+lab var m1_1104_2 "1104. Parent (Mother; Father, step-parent, in-law)"
+lab var m1_1104_3 "1104. Sibling"
+lab var m1_1104_4 "1104. Child"
+lab var m1_1104_5 "1104. Late /last / ex-husband/partner"
+lab var m1_1104_6 "1104. Other relative"
+lab var m1_1104_7 "1104. Friend /acquaintance"
+lab var m1_1104_8 "1104. Teacher"
+lab var m1_1104_9 "1104. Employer"
+lab var m1_1104_10 "1104. Stranger"
+lab var m1_1104_96 "1104. Other (specify)"
+lab var m1_1104_98 "1104. DF"
+lab var m1_1104_99 "1104. NR/RF"
 lab var m1_1104_other "1104_Other. Specify others who humiliates you"
 lab var m1_1105 "1105. During the visit today, did the health provider discuss with you where you can seek support for these things?"
 lab var m1_1201 "1201. What is the main source of drinking water for members of your household?"
@@ -2063,13 +2120,13 @@ lab var m1_1218e_1 "1218e.1. How much money have you spent on food and accommoda
 lab var m1_1218f "1218f. Have you spent money for other purpose?"
 lab var m1_1218f_1 "1218f.1. How much money have you spent for other purpose?"
 lab var m1_1219 "Total amount spent"
-lab var financial_source_for_the_spent_1 "1220. Current income of any household members"
-lab var v364 "1220. Saving(bank account"
-lab var v365 "1220. Payment or reimbursement from a health insurance plan"
-lab var v366 "1220. Sold items (e.g. furniture, animals, jewellery, furniture)"
-lab var v367 "1220. Family members or friends from outside the household"
-lab var v368 "1220. Borrowed (from someone other than a friend or family)"
-lab var v369 "1220. Other (specify)"
+lab var m1_1220_1_et "1220. Current income of any household members"
+lab var m1_1220_2_et "1220. Saving(bank account"
+lab var m1_1220_3_et "1220. Payment or reimbursement from a health insurance plan"
+lab var m1_1220_4_et "1220. Sold items (e.g. furniture, animals, jewellery, furniture)"
+lab var m1_1220_5_et "1220. Family members or friends from outside the household"
+lab var m1_1220_6_et "1220. Borrowed (from someone other than a friend or family)"
+lab var m1_1220_96_et "1220. Other (specify)"
 lab var m1_1220_other "1220_Other. Specify other financial source for household use to pay for this"
 lab var m1_1221 "1221. Are you covered with a health insurance?"
 lab var m1_1222 "1222. What type of health insurance coverage do you have?"
@@ -2092,15 +2149,15 @@ lab var m1_1307 "1307. HEMOGLOBIN LEVEL FROM MATERNAL HEALTH CARD "
 lab var m1_1308 "1308. Will you take the anemia test?"
 lab var m1_1309 "1309. HEMOGLOBIN LEVEL FROM TEST PERFORMED BY DATA COLLECTOR"
 lab var m1_1401 "1401. What period of the day is most convenient for you to answer the phone survey?"
-lab var m1_1402___1 "1402. Which is the best phone number to use to contact you: The phone provided for the study"
-lab var m1_1402___2 "1402. Which is the best phone number to use to contact you: Primary personal phone"
-lab var m1_1402___3 "1402. Which is the best phone number to use to contact you: Secondary personal phone"
-lab var m1_1402___4 "1402. Which is the best phone number to use to contact you: Spouse or partner phone"
-lab var m1_1402___5 "1402. Which is the best phone number to use to contact you: Community health worker phone"
-lab var m1_1402___6 "1402. Which is the best phone number to use to contact you: Friend or other family member phone 1 "
-lab var m1_1402___7 "1402. Which is the best phone number to use to contact you: Friend or other family member phone 2"
-lab var m1_1402___8 "1402. Which is the best phone number to use to contact you: Other phone"
-lab var m1_1402___9 "1402. Which is the best phone number to use to contact you: Does not have any phone numbers"
+lab var m1_1402_1_et "1402. Which is the best phone number to use to contact you: The phone provided for the study"
+lab var m1_1402_2_et "1402. Which is the best phone number to use to contact you: Primary personal phone"
+lab var m1_1402_3_et "1402. Which is the best phone number to use to contact you: Secondary personal phone"
+lab var m1_1402_4_et "1402. Which is the best phone number to use to contact you: Spouse or partner phone"
+lab var m1_1402_5_et "1402. Which is the best phone number to use to contact you: Community health worker phone"
+lab var m1_1402_6_et "1402. Which is the best phone number to use to contact you: Friend or other family member phone 1 "
+lab var m1_1402_7_et "1402. Which is the best phone number to use to contact you: Friend or other family member phone 2"
+lab var m1_1402_8_et "1402. Which is the best phone number to use to contact you: Other phone"
+lab var m1_1402_9_et "1402. Which is the best phone number to use to contact you: Does not have any phone numbers"
 lab var m1_end_time "Interview end time"
 lab var interview_length "Total Duration of interview"
 lab var m1_complete "Complete?"
@@ -2396,6 +2453,7 @@ label variable m2_complete "Complete?"
 	* note: as of 7-27 we are dropping M3-M5 data until it is cleaned
 	
 drop iic_3-module_5_end_line_facetoface_sur
+
 
 save "$et_data_final/eco_m1m2_et.dta", replace
 	
