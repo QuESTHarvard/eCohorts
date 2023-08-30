@@ -10,6 +10,34 @@ clear all
 
 import excel "/Users/shs8688/Dropbox (Harvard University)/SPH-Kruk Team/QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data/South Africa/01 raw data/27Jul2023_interimdata.xlsx", sheet("MNH_Module_1_Baseline 17Jul2023") firstrow
 
+drop if CRHID == QEE_008 | BXE_001 | BXE_005 | BXE_006 | BXE_008 | 9999998 | EUB_001 |EUB_002 | MPH_001 | ///
+		         MPH_002 | NEL_001 | NOK_001 | NOK_002 | NWE_001 | NWE_002 | QEE_001 | QEE_002 | QEE_003 | QEE_005 | ///
+				 QEE_006 | QEE_009 | QEE_010 | QEE_011 | RCH_001 | RCH_002 | TOK_001 | TOK_002 | NEL_003 | IIB_016 | ///
+				 IIB_018 | IIB_019 | IIB_021 | KAN_006 | KAN_007 | KAN_011 | KAN_013 | KAN_019 | KAN_020 | KAN_033 | ///
+				 KAN_039 | MER_006 | MER_017 | MER_032 | MER_039 | NEL_036 | NEL_037 | NEL_038 | NLO_006 | NWE_005 | ///
+				 NWE_016 | RCH_034 | RCH_040 | RCH_041 | KAN_016 | MER_002 | MER_003 | MER_018 | MER_019 | MER_025 | ///
+				 MER_030 | MPH_015 | NEL_008 | NEL_010 | NEL_012 | NEL_057 | NWE_018 | NWE_034 | QEE_004 | RCH_005 | ///
+				 RCH_006 | RCH_008 | RCH_009 | RCH_011 | RCH_014 | RCH_018 | RCH_019 | RCH_023 | Rch_035 | Rch_039 | ///
+				 QEE_053 | TOK_007 | BNE_033 | BXE_035  
+
+/*			 
+* List of IDs to drop
+local ids_to_drop BNE_013 QEE_008 BXE_001 BXE_005 BXE_006 BXE_008 9999998 9999998 EUB_001 EUB_002 MPH_001 MPH_002 NEL_001 NOK_001 ///
+	  NOK_002 NWE_001 NWE_002 9999998 9999998 QEE_001 QEE_002 QEE_003 QEE_005 QEE_006 QEE_009 QEE_010 QEE_011 RCH_001 RCH_002 TOK_001 ///
+	  TOK_002 9999998 9999998 9999998 9999998 9999998 9999998 9999998 9999998 9999998 9999998 9999998 9999998 9999998 9999998 9999998 ///
+	  9999998 9999998 9999998 9999998 9999998 9999998 9999998 9999998 9999998 9999998 9999998 9999998 9999998 9999998 9999998 9999998 ///
+	  9999998 9999998 9999998 9999998 9999998 9999998 9999998 9999998 9999998 9999998 9999998 9999998 9999998 9999998 9999998 NEL_003 ///
+	  9999998 9999998 9999998 9999998 9999998 9999998 9999998 9999998 9999998 9999998 9999998 9999998 9999998 9999998 9999998 IIB_016 ///
+	  IIB_018 IIB_019 IIB_021 KAN_006 KAN_007 KAN_011 KAN_013 KAN_019 KAN_020 KAN_033 KAN_039 MER_006 MER_017 MER_032 MER_039 NEL_036 ///
+	  NEL_037 NEL_038 NLO_006 NWE_005 NWE_016 RCH_034 RCH_040 RCH_041 KAN_016 MER_002 MER_003 MER_018 MER_019 MER_025 MER_030 MPH_015 ///
+	  NEL_008 NEL_010 NEL_012 NEL_057 NWE_018 NWE_034 QEE_004 RCH_005 RCH_006 RCH_008 RCH_009 RCH_011 RCH_014 RCH_018 RCH_019 RCH_023 ///
+	  Rch_035 Rch_039 QEE_053 TOK_007 BNE_033 BXE_035
+
+* Drop observations with IDs in the list
+drop if inlist(CRHID, `ids_to_drop')
+*/
+
+
 keep if MOD1_ELIGIBILITY_B7 == 1
 
 gen country = "South Africa"
@@ -170,6 +198,8 @@ replace m1_604 = "." if m1_604 == ""
 replace m1_604 = "1" if m1_604 == "1 hour"
 encode m1_604, generate(recm1_604)
 
+replace facility = "TOK" if facility == "ROK"
+
 
 *===============================================================================
 	
@@ -199,8 +229,8 @@ label define facility 1 "Buchanana Clinic (BCH)" 2 "Benedictine Gateway Clinic (
 					  9 "Mandlanzini Clinic (MND)" 10 "Maphophoma Clinic (MPH)" 11 "Nseleni CHC (NEL)" ///
 					  12 "Ndlozana Clinic (NLO)" 13 "Njoko Clinic (NOK)" 14 "Nkunzana Clinic (NUN)" ///
 					  15 "Ntuze Clinic (NUZ)" 16 "Ngwelezana Clinic (NWE)" 17 "Phaphamani Clinic (PAP)" ///
-					  18 "Queen Nolonolo Clinic (QEE)" 19 "Richards Bay Clinic (RCH)" 20 "ROK" ///
-					  21 "Thokozani Clinic (TOK)" 22 "Umkhontokayise Clinic (UKH)" 23 "Usuthu Clinic (UUT)"
+					  18 "Queen Nolonolo Clinic (QEE)" 19 "Richards Bay Clinic (RCH)" ///
+					  20 "Thokozani Clinic (TOK)" 21 "Umkhontokayise Clinic (UKH)" 22 "Usuthu Clinic (UUT)"
 label values recfacility facility
 
 
