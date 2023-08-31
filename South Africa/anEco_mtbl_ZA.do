@@ -16,7 +16,7 @@ use "/Users/katewright/Dropbox (Harvard University)/SPH-Kruk Team/QuEST Network/
 
 **---------summtab for enrollment data----------* 
 
-summtab, by(study_site) catvars (facility) total catmisstype(missnoperc) excel excelname(ZA_ECohort_summtab) sheetname(Enrollment) directory("$user/$data")
+summtab2, by(study_site) vars(facility m1_803) type(2 1) mean median range total replace catmisstype(missnoperc) total excel excelname(ZA_ECohort_summtab) sheetname(Enrollment) directory("$user/$data")
 
 **----------------------------------------------* 
 
@@ -61,3 +61,83 @@ summtab, by(study_site) catvars(m1_301 m1_302 m1_303 m1_304 m1_305a m1_305b) tot
 **--------  summtab for care pathways ---------*
 
 summtab2, by (study_site) vars(m1_401 m1_402 m1_403b m1_404 m1_405) type (2 1 1 2 2) mean median range total replace catmisstype(missnoperc) total excel excelname(ZA_ECohort_summtab) sheetname(Care Pathways) directory("$user/$data")
+
+**---------------------------------------------*
+
+**--------  summtab for user experience ---------*
+
+summtab2, by(study_site) vars (m1_603 m1_604 m1_601 m1_605a m1_605b m1_605c m1_605d m1_605e m1_605f m1_605g m1_605h m1_602 m1_1223) type (1 1 2 2 2 2 2 2 2 2 2 2 2) mean median range total replace catmisstype(missnoperc) total excel excelname(ZA_ECohort_summtab) sheetname(User Experience) directory("$user/$data")
+
+**-----------------------------------------------*
+
+**--------  summtab for content of care: investigations  ---------*
+
+summtab, by(study_site) catvars (m1_700 m1_701 m1_702 m1_703 m1_704 m1_705 m1_706 m1_707 m1_708a m1_710a m1_711a m1_712) replace catmisstype(missnoperc) total excel excelname(ZA_ECohort_summtab) sheetname(Content. Investigations) directory("$user/$data")
+
+**---------------------------------------------------------------*
+
+**--------  summtab for content of care: test results  ---------*
+
+summtab, by(study_site) catvars(m1_708a m1_708b m1_710a m1_710b m1_711a m1_711b) replace excel excelname(ZA_ECohort_summtab) sheetname(TestResult) directory("$user/$data")
+
+**--------------------------------------------------------------*
+
+**--------  summtab for content of care: STI care  ---------*
+
+summtab, by(study_site) catvars(m1_708a m1_708a m1_708b m1_708c m1_708d m1_708e m1_708f m1_709a m1_709b m1_710a m1_710b m1_710c) replace catmisstype(missnoperc) total excel excelname(ZA_ECohort_summtab) sheetname(STIcare) directory("$user/$data")
+
+**----------------------------------------------------------*
+
+**--------  summtab for content of care: medicines  ---------*
+
+summtab, by(study_site) catvars(m1_713_za_in m1_713a m1_713b m1_713c m1_713d m1_713e m1_713f m1_713g m1_713h m1_713i m1_713m_za m1_713n_za m1_714a m1_715) replace catmisstype(missnoperc) total excel excelname(ZA_ECohort_summtab) sheetname(Meds) directory("$user/$data")
+
+**------------------------------------------------------------*	
+
+**--------  summtab for content of care: counseling  ---------*
+	
+summtab, by(study_site) catvars(m1_716a m1_716b m1_716c m1_716d m1_716e) catmisstype(missnoperc) total replace excel excelname(ZA_ECohort_summtab) sheetname(Counsel) directory("$user/$data")
+
+**-------------------------------------------------------------*	
+
+**--------  summtab for content of care: instructions  ---------*
+
+summtab2, by(study_site) vars (m1_724a m1_724b m1_724c m1_724d m1_724e) type (2 1 2 2 2) mean median range replace catmisstype(missnoperc) total excel excelname(ZA_ECohort_summtab) sheetname(AdvCare) directory("$user/$data")
+
+**--------------------------------------------------------------*		
+
+**--------  summtab for gestational age / pregnancy info  ---------*
+
+summtab2, by(study_site) vars (m1_801 m1_803 m1_804 m1_805 m1_806 m1_807 m1_809 m1_810a m1_811 m1_812a m1_813a m1_813b m1_814a m1_814b m1_814c m1_814d m1_814e m1_814f m1_814g m1_814h) type (2 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2) mean median range replace catmisstype(missnoperc) total excel excelname(ZA_ECohort_summtab) sheetname(GA_perginfo) directory("$user/$data")
+  
+**-----------------------------------------------------------------*		
+
+**--------  summtab for obstetric history  ---------*
+
+summtab, by (study_site) catvars(m1_1001 m1_1002 m1_1003 m1_1004 m1_1005 m1_1006 m1_1007 m1_1008 m1_1009 m1_1010) catmisstype(missnoperc) total replace excel excelname(ZA_ECohort_summtab) sheetname(ObsHistory) directory("$user/$data")
+
+**--------------------------------------------------*
+
+**--------  summtab for risky health behaviors  ---------*
+	
+summtab2, by(study_site) vars(m1_901 m1_902 m1_905 m1_906 m1_907 m1_908_za m1_909_za m1_910_za) type (2 2 2 1 2 2 2 2) mean median range replace catmisstype(missnoperc) total excel excelname(ZA_ECohort_summtab) sheetname(riskybeh) directory("$user/$data")
+
+**-------------------------------------------------------*
+
+**--------  summtab for experience of violence  ---------*
+	
+summtab, by(study_site) catvars(m1_1101 m1_1102 m1_1102_other m1_1103 m1_1104 m1_1104_other m1_1105) replace excel excelname(ZA_ECohort_summtab) sheetname(violence) directory("$user/$data")
+	
+**-------------------------------------------------------* 
+
+**--------  summtab for economic status  ---------*
+	
+summtab, by(study_site) catvars(m1_1201 m1_1201_other m1_1202 m1_1202_other m1_1203 m1_1204 m1_1205 m1_1206 m1_1207 m1_1208 m1_1209 m1_1210 m1_1210_other m1_1211 m1_1211_other m1_1212 m1_1213 m1_1214 m1_1215 m1_1216a) replace catmisstype(missnoperc) total excel excelname(ZA_ECohort_summtab) sheetname(econstat) directory("$user/$data")
+	
+**------------------------------------------------*
+
+**--------  summtab for cost of visit & insurance  ---------*
+
+summtab2, by(study_site) vars (m1_1217 m1_1218a_1 m1_1218b_1 m1_1218c_1 m1_1218d_1 m1_1218e_1 m1_1219 m1_1220 m1_1221) type(2 1 1 1 1 1 1 2 2) mean median range replace catmisstype(missnoperc) total excel excelname(ZA_ECohort_summtab) sheetname(visit cost) directory("$user/$data")
+
+**----------------------------------------------------------*
