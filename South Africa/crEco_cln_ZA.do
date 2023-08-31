@@ -9,16 +9,24 @@
 clear all 
 
 import excel "/Users/shs8688/Dropbox (Harvard University)/SPH-Kruk Team/QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data/South Africa/01 raw data/27Jul2023_interimdata.xlsx", sheet("MNH_Module_1_Baseline 17Jul2023") firstrow
-
-drop if CRHID == QEE_008 | BXE_001 | BXE_005 | BXE_006 | BXE_008 | 9999998 | EUB_001 |EUB_002 | MPH_001 | ///
-		         MPH_002 | NEL_001 | NOK_001 | NOK_002 | NWE_001 | NWE_002 | QEE_001 | QEE_002 | QEE_003 | QEE_005 | ///
-				 QEE_006 | QEE_009 | QEE_010 | QEE_011 | RCH_001 | RCH_002 | TOK_001 | TOK_002 | NEL_003 | IIB_016 | ///
-				 IIB_018 | IIB_019 | IIB_021 | KAN_006 | KAN_007 | KAN_011 | KAN_013 | KAN_019 | KAN_020 | KAN_033 | ///
-				 KAN_039 | MER_006 | MER_017 | MER_032 | MER_039 | NEL_036 | NEL_037 | NEL_038 | NLO_006 | NWE_005 | ///
-				 NWE_016 | RCH_034 | RCH_040 | RCH_041 | KAN_016 | MER_002 | MER_003 | MER_018 | MER_019 | MER_025 | ///
-				 MER_030 | MPH_015 | NEL_008 | NEL_010 | NEL_012 | NEL_057 | NWE_018 | NWE_034 | QEE_004 | RCH_005 | ///
-				 RCH_006 | RCH_008 | RCH_009 | RCH_011 | RCH_014 | RCH_018 | RCH_019 | RCH_023 | Rch_035 | Rch_039 | ///
-				 QEE_053 | TOK_007 | BNE_033 | BXE_035  
+ 
+drop if CRHID == "9999998" | CRHID == "EUB_001" | CRHID == "EUB_002" | CRHID == "MPH_001" | CRHID == "MPH_002" | ///
+		CRHID == "NEL_001" | CRHID == "NOK_001" | CRHID == "NOK_002" | CRHID == "NWE_001" | CRHID == "NWE_002" | ///
+		CRHID == "QEE_001" | CRHID == "QEE_002" | CRHID == "QEE_003" | CRHID == "QEE_005" | CRHID == "QEE_006" | ///
+		CRHID == "QEE_009" | CRHID == "QEE_010" | CRHID == "QEE_011" | CRHID == "RCH_001" | CRHID == "RCH_002" | ///
+		CRHID == "TOK_001" | CRHID == "TOK_002" | CRHID == "NEL_003" | CRHID == "IIB_016" | CRHID == "IIB_018" | ///
+		CRHID == "IIB_019" | CRHID == "IIB_021" | CRHID == "KAN_006" | CRHID == "KAN_007" | CRHID == "KAN_011" | ///
+		CRHID == "KAN_013" | CRHID == "KAN_019" | CRHID == "KAN_020" | CRHID == "KAN_033" | CRHID == "KAN_039" | ///
+		CRHID == "MER_006" | CRHID == "MER_017" | CRHID == "MER_032" | CRHID == "MER_039" | CRHID == "NEL_036" | ///
+		CRHID == "NEL_037" | CRHID == "NEL_038" | CRHID == "NLO_006" | CRHID == "NWE_005" | CRHID == "NWE_016" | ///
+		CRHID == "RCH_034" | CRHID == "RCH_040" | CRHID == "RCH_041" | CRHID == "KAN_016" | CRHID == "MER_002" | ///
+		CRHID == "MER_003" | CRHID == "MER_018" | CRHID == "MER_019" | CRHID == "MER_025" | CRHID == "MER_030" | ///
+		CRHID == "MPH_015" | CRHID == "NEL_008" | CRHID == "NEL_010" | CRHID == "NEL_012" | CRHID == "NEL_057" | ///
+		CRHID == "NWE_018" | CRHID == "NWE_034" | CRHID == "QEE_004" | CRHID == "RCH_005" | CRHID == "RCH_006" | ///
+		CRHID == "RCH_008" | CRHID == "RCH_009" | CRHID == "RCH_011" | CRHID == "RCH_014" | CRHID == "RCH_018" | ///
+		CRHID == "RCH_019" | CRHID == "RCH_023" | CRHID == "Rch_035" | CRHID == "Rch_039" | CRHID == "BNE_013" | ///
+		CRHID == "QEE_008" | CRHID == "BXE_001" | CRHID == "BXE_005" | CRHID == "BXE_006" | CRHID == "BXE_008" | ///
+		CRHID == "QEE_053" | CRHID == "TOK_007" | CRHID == "BNE_033" | CRHID == "BXE_035" | CRHID == ""  
 
 /*			 
 * List of IDs to drop
@@ -181,6 +189,9 @@ rename (MOD1Physical_Assessment_1306 MOD1_Physical_Assessment_1307 MOD1_Physical
 		MOD1_Next_Call_1401) (m1_1306 m1_1307 m1_1308 m1_1309 m1_1401)		
 		
 * Fix variables:
+recode m1_714d (2002 = 21) if m1_714d == 2002
+recode m1_714d (2017 = 6) if m1_714d == 2017
+
 replace m1_714e = 14 if m1_714e == 2009
 replace m1_714e = 12 if m1_714e == 2011
 replace m1_714e = 11 if m1_714e == 2012
@@ -199,6 +210,8 @@ replace m1_604 = "1" if m1_604 == "1 hour"
 encode m1_604, generate(recm1_604)
 
 replace facility = "TOK" if facility == "ROK"
+
+replace m1_909_za = "." if m1_909_za == ""
 
 
 *===============================================================================
@@ -284,7 +297,7 @@ label values m1_605a m1_605b m1_605c m1_605d m1_605e m1_605f m1_605g m1_605h lik
 	 label values m1_509b YN3
 	 label values m1_510b YN4
 	 
-	 label values m1_700 m1_701 m1_702 m1_703 m1_704 m1_705 m1_706 m1_707 m1_708a YN
+	 label values m1_700 m1_701 m1_702 m1_703 m1_705 m1_706 m1_707 m1_708a YN
 	 label values m1_708c m1_708d m1_708e m1_708f m1_709a m1_709b m1_710a YN 
 	 label values m1_711a m1_712 m1_714a m1_714b YN 
 	 label values m1_716a m1_716b m1_716c m1_716d m1_716e YN
@@ -294,7 +307,7 @@ label values m1_605a m1_605b m1_605c m1_605d m1_605e m1_605f m1_605g m1_605h lik
 	 label values m1_813a m1_813b m1_816 YN
 	 label values m1_814a m1_814b m1_814c m1_814d m1_814e m1_814f m1_814g m1_814h YN
 	 label values m1_905 m1_907 YN
-	 label values m1_902 YN5
+	 label values m1_902 m1_704 YN5
 
 	 label values m1_1004 m1_1005 m1_1006 m1_1007 m1_1008 m1_1010 YN
 	 label values m1_1011a m1_1011b m1_1011c m1_1011d m1_1011e m1_1011f YN
@@ -551,8 +564,8 @@ recode m1_404 m1_506 m1_507  m1_700 m1_701 m1_702 m1_703 m1_705 m1_706 m1_707 m1
 	  m1_713d m1_713e m1_713f m1_713g m1_713h m1_713i m1_713m_za m1_713n_za m1_714a m1_714b m1_714c m1_716a m1_716b ///
 	  m1_716c m1_716d m1_716e m1_717 m1_718 m1_719 m1_720 m1_721 m1_722 m1_723 m1_724a m1_724c m1_724d ///
 	  m1_724e m1_724f m1_724g m1_724h m1_724i m1_801 m1_803 m1_805 m1_806 m1_809 m1_810a m1_811 m1_812a m1_812b  ///
-	  m1_813a m1_813b m1_814a  m1_814b m1_814c m1_814d m1_814e m1_814f m1_814g m1_814h m1_815 m1_816 m1_901 ///
-	  m1_902 m1_907 m1_1004 m1_1005 m1_1006 m1_1008 m1_1010 m1_1011a m1_1011b m1_1011c m1_1011d m1_1011e ///
+	  m1_813a m1_813b m1_814a m1_814b m1_814c m1_814d m1_814e m1_814f m1_814g m1_814h m1_815 m1_816 m1_901 ///
+	  m1_902 m1_907 m1_908_za m1_1004 m1_1005 m1_1006 m1_1008 m1_1010 m1_1011a m1_1011b m1_1011c m1_1011d m1_1011e ///
 	  m1_1011f m1_1201 m1_1202 m1_1204 m1_1205 m1_1206 m1_1207 m1_1208 m1_1209 m1_1210 m1_1211 m1_1212 ///
 	  m1_1213 m1_1214 m1_1215 m1_1216 m1_1223 (98 = .d)
 
@@ -581,9 +594,220 @@ recode m1_808 (95 = .a)
 recode m1_1223 (96 = .r)
 	   
 *------------------------------------------------------------------------------*
-* recoding to make "9999998" into true missings - confirm 
-replace phone_number = "." if phone_number == "9999998"
+
+* recoding for skip pattern logic:	   
+	   
+* Recode missing values to NA for questions respondents would not have been asked 
+* due to skip patterns
+
+recode RESPONSE_Lattitude RESPONSE_Longitude (. = .a) if RESPONSE_Location == "UNKNOWN"
+
+* MODULE 1:
+* Kept these recode commands here even though everyone has given permission 
+recode care_self (. = .a) if permission == 0
+recode enrollage (. = .a) if permission == 0
+*recode zone_live (. = .a) if enrollage>15 /// not in dataset
+*recode zone_live (. = .a) if enrollage_cat == 0 /// string var
+recode b6anc_first (. = .a) if b5anc== 2
+*recode b6anc_first_conf (.a = .a) if b5anc== 2 /// not in dataset
+*recode continuecare (. = .a) if b6anc_first_conf ==2 /// not in dataset
+recode flash (. 9999998 = .a) if mobile_phone == 0 | mobile_phone == . 
+replace phone_number = ".a" if mobile_phone == 0 | mobile_phone == . 
+
+** SS: 401 other should be a string
+replace m1_401_other = .a if m1_401 != 96
+replace m1_405_other = ".a" if m1_405 != 96
+replace m1_501_other = ".a" if m1_501 != 96
+recode m1_503 (. 9999998 = .a) if m1_502 == 0 | m1_502 == . 
+
+recode m1_504 (. 9999998 = .a) if m1_502 == 0 | m1_503 == 3 | m1_503 == 4 | ///
+					      m1_503 == 5 | m1_503 == .a | m1_503 == .
+
+replace m1_506_other = ".a" if m1_506 != 96	
+
+** SS: 507 other should be a string
+replace m1_507_other = .a if m1_507 != 96		
+				  
+recode m1_509b (. 9999998 = .a) if m1_509a == 0 | m1_509a == .
+recode m1_510b (. 9999998 = .a) if m1_510a == 0 | m1_510a == .
+
+recode m1_517 (. = .a) if m1_516 == "." | m1_516 == "9999998" | m1_516 == ""
+recode m1_518 (. 9978082 = .a) if m1_517 == 2 | m1_517 == . | m1_517 == .a
+replace m1_519a = ".a" if m1_517 == 2 | m1_517 == . | m1_517 == .a
+
+* confirm how to add skip patterns here since there are multiple answers seperated by a comma
+* also 513b-513i are not in the dataset
+*recode m1_513b m1_513c m1_513d m1_513e m1_513f m1_513g m1_513h m1_513i if m1_513a_za == . 
+
+* SS: it looks like this question is asked to women with no personal phone mq_513a_za>2 but this is a checkbox var
+*recode m1_514a (. = .a) if m1_513a_za == "." 
+	   	   
+recode m1_708b (. 9999998 = .a) if m1_708a == . | m1_708a == 0 | m1_708a == .d | m1_708a == .r
+recode m1_708c (. 9999998 = .a) if m1_708b	== 2 | m1_708b == . |	m1_708b == .d | m1_708b == .a | m1_708b == .r
+recode m1_708d (. 9999998 = .a) if m1_708c	== 0 | m1_708c == . | m1_708c == .d | m1_708c == .a | m1_708c == .r
+recode m1_708e (. 9999998 = .a) if m1_708d == 0 | m1_708d == . | m1_708d == .d | m1_708d == .a | m1_708d == .r
+recode m1_708f (. 9999998 = .a) if m1_708e == 0 | m1_708e == . | m1_708e == .d | m1_708e == .a | m1_708e == .r
+recode m1_709a (. = .a) if m1_708b	== 2 | m1_708b == . | m1_708b == .d | m1_708b == .a | m1_708b == .r | m1_708b == .a
+recode m1_709b (. = .a) if m1_708b	== 2 | m1_708b == . | m1_708b == .d | m1_708b == .a | m1_708b == .r | m1_708b == .a
+recode m1_710b (. 9999998 = .a) if m1_710a == 0 | m1_710a == . | m1_710a == .d | m1_710a == .a | m1_710a == .r
+recode m1_710c (. 9999998= .a) if m1_710b == 2 | m1_710b == .a | m1_710b == .d | m1_710b == .r | m1_710b == .
+recode m1_711b (. 9999998 = .a) if m1_711a == 0 | m1_711a == . | m1_711a == .d | m1_711a == .r | m1_711a == .a
+recode m1_714c (. 9999998 999999 9999998 9999999 = .a) if m1_714b == 0 | m1_714b == . | m1_714b == .d | m1_714b == .r | m1_714b == .a 
+recode m1_714d (. 9999998 9999999 99999998 99999988 999999 = .a) if m1_714b == 0 | m1_714b == . | m1_714b == .d | m1_714b == .r | m1_714b == .a | m1_714c == .
+recode m1_714e (. 9999998 9999998 9999999 99999998 999999 = .a) if m1_714c == . | m1_714c == .a | m1_714b == 0 | m1_714b == . | m1_714b == .d | m1_714b == .r | m1_714b == .a
+recode m1_717 (. 9999998 = .a) if m1_202d == 0 | m1_202d == . 
+recode m1_718 (. 9999998 = .a) if m1_202a == 0 | m1_202a == .
+recode m1_719 (. 9999998 = .a) if m1_202b == 0 | m1_202b == .
+recode m1_720 (. 9999998 = .a) if m1_202c == 0 | m1_202c == .
+recode m1_721 (. 9999998 = .a) if m1_202d == 0 | m1_202d == .
+recode m1_722 (. 9999998 = .a) if m1_202e == 0 | m1_202e == . | m1_202e == .r
+recode m1_723 (. 9999998 = .a) if m1_204 == 0 | m1_204 == . | m1_204 == .r
+recode m1_724b (. 9999998 = .a) if m1_724a == 0 | m1_724a == . | m1_724a == .d
+recode m1_724c (. 9999998 = .a) if m1_705 == 1 | m1_705 == . 
+recode m1_724d (. 9999998 = .a) if m1_705 == 1 | m1_705 == . 
+recode m1_724e (. 9999998 = .a) if m1_705 == 1 | m1_705 == . 
+recode m1_724f (. 9999998 = .a) if m1_705 == 1 | m1_705 == . 
+recode m1_724g (. 9999998 = .a) if  m1_707 == 1 | m1_707 == . 
+recode m1_724h (. 9999998 = .a) if m1_708a == 1 | m1_708a == . 
+recode m1_724i (. 9999998 = .a) if m1_712 == 1 | m1_712 == . | m1_712 == .d
+replace m1_802a = ".a" if m1_801 == . | m1_801 ==0 | m1_801 ==.a | m1_801 ==.d
+recode m1_804 (. 9999998 = .a) if (m1_801 == 0 | m1_801 == . | m1_801 == .d) & (m1_802a == "." | m1_802a == "" | m1_802a == ".a") & (m1_803 == . | m1_803 == .d | m1_803 == .r)
+recode m1_808 (. 9999998 = .a) if m1_804 == 1 | m1_804 == . | m1_804 == .a 
+replace m1_808_other = ".a" if m1_808 != 96	
+replace m1_810b = ".a" if m1_810a == 1 | m1_810a == 2 | m1_810a == .d | m1_810a == .
+recode m1_812b (. 9999998 = .a) if m1_812a == 0 | m1_812a ==. | m1_812a == .d 
+recode m1_813b (. 9999998 = .a) if m1_813a == 0 | m1_813a == . | m1_813a == .d
+recode m1_814h (. 9999998 = .a) if m1_804 == 1	| m1_804 == 2 | m1_804 == . | m1_804 == .a | m1_804 == .d		
+						   			   
+recode m1_815 (. 9999998 = .a) if (m1_814a == 0 | m1_814a == .) & (m1_814b == 0 | m1_814b == .) ///
+						   & (m1_814c == 0 | m1_814c == .d | m1_814c == .) & ///
+						   (m1_814d == 0 | m1_814d == .d | m1_814d == .) & ///
+						   (m1_814e == 0 | m1_814e == .) & ///
+						   (m1_814f == 0 | m1_814f == .d | m1_814f == .) & ///
+						   (m1_814g == 0 | m1_814g == .) & ///
+						   (m1_814h == 0 | m1_814h == .d | m1_814h == .r | ///
+						   m1_814h == . | m1_814h == .a) 
+						   
+replace m1_815_other = ".a" if m1_815 != 96	 	
+
+recode m1_816 (. 9999998 = .a) if (m1_814a == . | m1_814a == .a | m1_814a == .d | m1_814a == .r) & ///
+								  (m1_814b == . | m1_814b == .a | m1_814b == .d | m1_814b == .r) & ///
+								  (m1_814c == . | m1_814c == .a | m1_814c == .d | m1_814c == .r) & ///
+							      (m1_814d == . | m1_814d == .a | m1_814d == .d | m1_814d == .r) & ///
+								  (m1_814e == . | m1_814e == .a | m1_814e == .d | m1_814e == .r) & ///
+								  (m1_814f == . | m1_814f == .a | m1_814f == .d | m1_814f == .r) & ///
+								  (m1_814g == . | m1_814g == .a | m1_814g == .d | m1_814g == .r) & ///
+								  (m1_814h == . | m1_814h == .a | m1_814h == .d | m1_814h == .r) 
+
+egen symp_total = rowtotal(m1_814a m1_814b m1_814c m1_814d m1_814e m1_814f m1_814g m1_814h) 	
+recode m1_816 (. 9999998 = .a) if symp_total >= 1
+drop symp_total
+									
+recode m1_902 (. 9999998 = .a) if m1_901 == 3 | m1_901 == .d | m1_901 == .r | m1_901 == .
+
+recode m1_906 (. 9999998 = .a) if m1_905 == 0 | m1_905 == . | m1_905 == .r
+
+recode m1_907 (. 9999998 = .a) if m1_905 == 0 | m1_905 == . | m1_905 == .d | m1_905 == .r
+					
+recode m1_1002 (. 9999998 = .a) if m1_1001 <= 1 | m1_1001 == .	
+
+recode m1_1003 (. 9999998 = .a) if m1_1002 <1 | m1_1002 == . | m1_1002 == .a	
+
+recode m1_1004 (. 9999998 = .a) if m1_1001 <= m1_1002
+
+recode m1_1005 (. 9999998 = .a) if (m1_1002<1 | m1_1002 ==.a | m1_1002 == .)
+
+recode m1_1006 (. 9999998 = .a) if (m1_1002<1 | m1_1002 ==.a | m1_1002 == .)
+
+recode m1_1007 (. 9999998 = .a) if (m1_1002<1 | m1_1002 ==.a | m1_1002 ==.)
+
+recode m1_1008 (. 9999998 = .a) if (m1_1002<1 | m1_1002 ==.a | m1_1002 ==.)
+
+recode m1_1009 (. 9999998 = .a) if (m1_1003 <1 | m1_1003 == .a | m1_1003 == .)
+
+recode m1_1010 (. 9999998 = .a) if (m1_1003 <= m1_1009) | m1_1003 == .a 
+
+recode m1_1011a (. 9999998 = .a) if (m1_1001 <= 1 | m1_1001 ==.)
+
+recode m1_1011b (. 9999998 = .a) if m1_1004 == 0 | m1_1004 == . | m1_1004 == .a
+
+recode m1_1011c (. 9999998 = .a) if (m1_1002 <= m1_1003)	
+
+recode m1_1011d (. 9999998 = .a) if	m1_1005 == 0 | m1_1005 == . | m1_1005 == .a
+
+recode m1_1011e (. 9999998 = .a) if m1_1007 == 0 | m1_1007 == . | m1_1007 == .a
+
+recode m1_1011f (. 9999998 = .a) if m1_1010 == 0 | m1_1010 == . | m1_1010 == .a
+
+recode m1_1102 (. 9999998 = .a) if m1_1101 == 0 | m1_1101 == . 
+
+replace m1_1102_other = .a if m1_1102 != 96	
+
+recode m1_1104 (. 9999998 = .a) if m1_1103 == 0 | m1_1103 == .
+
+replace m1_1104_other = ".a" if m1_1104 != 96	 
+
+recode m1_1105 (. 9999998 = .a) if (m1_1101 == 0 | m1_1101 == .) & (m1_1103 == 0 | m1_1103 == .)
+
+replace m1_1201_other = ".a" if m1_1201 != 96	
+
+replace m1_1202_other = ".a" if m1_1202 != 96	
+
+replace m1_1208_other = .a if m1_1208 != 96	
+
+replace m1_1209_other = .a if m1_1209 != 96	
+
+replace m1_1210_other = ".a" if m1_1210 != 96	
+
+replace m1_1211_other = ".a" if m1_1211 != 96	
+
+recode m1_1218a_1 (. 9999998 = .a) if m1_1217 == 0 | m1_1217 == .
+
+recode m1_1218b_1 (. 9999998 = .a) if m1_1217 == 0 | m1_1217 == . 
+
+recode m1_1218c_1 (. 9999998 = .a) if m1_1217 == 0 | m1_1217 == . 
+
+recode m1_1218d_1 (. 9999998 = .a) if m1_1217 == 0 | m1_1217 == . 
+
+recode m1_1218e_1 (. 9999998 = .a) if m1_1217 == 0 | m1_1217 == . 
+
+recode m1_1218_za (. 9999998 = .a) if m1_1217 == 0 | m1_1217 == .
+
+recode m1_1218g (. 9999998= .a) if m1_1217 == 0 | m1_1217 == . 
+
+recode m1_1218g_za (. 9999998 = .a) if m1_1217 == 0 | m1_1217 == . 
+
+recode m1_1219 (. 9999998 = .a) if (m1_1218a_1 == .a | m1_1218a_1 == .) & ///
+						   (m1_1218b_1 == .a | m1_1218b_1 == .) & ///
+						   (m1_1218c_1 ==.a | m1_1218c_1 == .) & ///
+						   (m1_1218d_1 == .a | m1_1218c_1 == .) & ///
+						   (m1_1218e_1 == .a | m1_1218e_1 == .) & ///
+						   (m1_1218_za == .a | m1_1218_za == .) & ///
+						   (m1_1218g == .a | m1_1218g == .) & ///
+						   (m1_1218g_za == .a | m1_1218g_za ==.)
+    
+recode m1_1220 (. 9999998 = .a) if m1_1217 == 0 | m1_1217 == . | m1_1217 == .r
+
+replace m1_1220_other = ".a" if m1_1220 != 96	
+
+replace m1_1222 = ".a" if m1_1221 == 0 | m1_1221 == .
+
+recode m1_1307 (. 9999998 = .a) if m1_1306 == 0 | m1_1306 == 96 | m1_1306 == . 
+
+recode m1_1308 (. 9999998 = .a) if m1_1306 == 1 | m1_1306 == 96 | m1_1306 == .
+
+recode m1_1309 (. 9999998 = .a) if m1_1308 == 0 | m1_1308 == . | m1_1308 == .a	  
+
+
+*------------------------------------------------------------------------------* 
+
+* Per 8/29 email from Londiwe: 9999998 is system generated if;
+	* The questionnaire is incomplete, i.e. the participant decided not to continue with the interview
+	*There was a skip from the previous question. e.g. 513a=8, then the following questions will appear as 9999998
+* recoding to make "9999998" into "."
+
 replace flash = . if flash == 9999998
+replace phone_number = "." if phone_number == "9999998"
 replace m1_401_other = . if m1_401_other == 9999998
 replace m1_405_other = "." if m1_405_other == "9999998"
 replace m1_501_other = "." if m1_501_other == "9999998"
@@ -604,11 +828,13 @@ replace m1_511 = . if m1_511 == 9999998
 replace m1_512 = . if m1_512 == 9999998
 replace m1_513a_za = "." if m1_513a_za == ""
 replace m1_513a_za = "." if m1_513a_za == "9999998"
-replace m1_514a = . if m1_514a == 9999998
+
+* SS: this coud change once we figure out how to use checkbox data. Technically women with a personal phone wouldn't have been asked this question
+replace m1_514a = . if m1_514a == 9999998 
 replace m1_515_address = "." if m1_515_address == "9999998"
 replace m1_516 = "." if m1_516 == "9999998"
 replace m1_517 = . if m1_517 == 9999998
-replace m1_519a = "." if m1_519a == "9999998"
+replace m1_519a = ".a" if m1_519a == "9999998"
 replace m1_601 = . if m1_601 == 9999998
 replace m1_602 = . if m1_602 == 9999998
 replace m1_603 = . if m1_603 == 9999998
@@ -682,7 +908,10 @@ replace m1_719 = . if m1_719 == 9999998
 replace m1_720 = . if m1_720 == 9999998
 replace m1_721 = . if m1_721 == 9999998
 replace m1_722 = . if m1_722 == 9999998
-replace m1_723 = . if m1_723 == 9999998
+
+* SS: due. skip patterns, only people who answered "yes" to 204 were asked 723… but nearly everyone has 9999998 as an answer 
+*replace m1_723 = . if m1_723 == 9999998
+
 replace m1_724a = . if m1_724a == 9999998
 replace m1_724b = . if m1_724b == 9999998
 replace m1_724c = . if m1_724c == 9999998
@@ -699,7 +928,10 @@ replace m1_804 = . if m1_804 == 9999998
 replace m1_805 = . if m1_805 == 9999998
 replace m1_806 = . if m1_806 == 9999998
 replace m1_807 = . if m1_807 == 9999998
-replace m1_808 = . if m1_808 == 9999998
+
+* SS: N=306 peeople in 2nd and 3rd trimester have 9999998 in data for 808
+*replace m1_808 = . if m1_808 == 9999998
+
 replace m1_808_other = "." if m1_808_other == "9999998"
 replace m1_809 = . if m1_809 == 9999998
 replace m1_810a = . if m1_810a == 9999998
@@ -720,7 +952,10 @@ replace m1_814h = . if m1_814h == 9999998
 replace m1_815 = . if m1_815 == 9999998
 replace m1_815_other = "." if m1_815_other == "9999998"
 replace m1_815_other = "." if m1_815_other == "9999999"
-replace m1_816 = . if m1_816 == 9999998
+
+* SS: N=400 people with no symptoms reported "9999998"
+*replace m1_816 = . if m1_816 == 9999998
+
 replace m1_901 = . if m1_901 == 9999998
 replace m1_902 = . if m1_902 == 9999998
 replace m1_905 = . if m1_905 == 9999998
@@ -747,7 +982,7 @@ replace m1_1011e = . if m1_1011e == 9999998
 replace m1_1011f = . if m1_1011f == 9999998
 replace m1_1101 = . if m1_1101 == 9999998
 replace m1_1102 = . if m1_1102 == 9999998
-replace m1_1102_other = . if m1_1102_other == 9999998
+replace m1_1102_other = .a if m1_1102_other == 9999998
 replace m1_1103 = . if m1_1103 == 9999998
 replace m1_1104 = . if m1_1104 == 9999998
 replace m1_1104_other = "." if m1_1104_other == "9999998"
@@ -806,173 +1041,6 @@ replace m1_1306 = . if m1_1306 == 9999998
 replace m1_1308 = . if m1_1308 == 9999998 
 replace m1_1401 = . if m1_1401 == 9999998 
 
-*------------------------------------------------------------------------------*
-* recoding for skip pattern logic:	   
-	   
-* Recode missing values to NA for questions respondents would not have been asked 
-* due to skip patterns
-
-recode RESPONSE_Lattitude RESPONSE_Longitude (. = .a) if RESPONSE_Location == "UNKNOWN"
-
-* MODULE 1:
-* Kept these recode commands here even though everyone has given permission 
-recode care_self (. = .a) if permission == 0
-recode enrollage (. = .a) if permission == 0
-*recode zone_live (. = .a) if enrollage>15 /// not in dataset
-*recode zone_live (. = .a) if enrollage_cat == 0 /// string var
-recode b6anc_first (. = .a) if b5anc== 2
-*recode b6anc_first_conf (.a = .a) if b5anc== 2 /// not in dataset
-*recode continuecare (. = .a) if b6anc_first_conf ==2 /// not in dataset
-recode flash (. = .a) if mobile_phone == 0 | mobile_phone == . 
-*recode phone_number (. = .a) if mobile_phone == 0 | mobile_phone == . /// string
-recode m1_503 (. = .a) if m1_502 == 0 | m1_502 == . 
-recode m1_504 (. = .a) if m1_502 == 0 | m1_503 == 1 | m1_503 == .a | ///
-	   m1_503 == .r | m1_503 == .
-recode m1_509b (. = .a) if m1_509a == 0 | m1_509a == .
-recode m1_510b (. = .a) if m1_510a == 0 | m1_510a == .
-
-* confirm how to add skip patterns here since there are multiple answers seperated by a comma
-* also 513b-513i are not in the dataset
-*recode m1_513b m1_513c m1_513d m1_513e m1_513f m1_513g m1_513h m1_513i if m1_513a_za == . 
-
-recode m1_514a (. = .a) if m1_513a_za == "." 
-	   	   
-recode m1_708b (. = .a) if m1_708a == .
-recode m1_708c (. = .a) if m1_708b	== 2 | m1_708b == . |	m1_708b == .d | m1_708b == .a | m1_708b == .r
-
-recode m1_708d (. = .a) if m1_708c	== 0 | m1_708c == . | m1_708c == .d | m1_708c == .a 
-
-recode m1_708e (. = .a) if m1_708b == 2 | m1_708b == . | m1_708b == .d | m1_708b == .a | m1_708b == .r
-
-recode m1_708f (. = .a) if m1_708b == 2 | m1_708b == . | m1_708b == .d | m1_708b == .a | m1_708b == .r
-
-recode m1_710b (. = .a) if m1_710a == 0 | m1_710a == . | m1_710a == .d
-recode m1_710c (. = .a) if m1_710b == 2 | m1_710b == .a | m1_710b == .d
-
-recode m1_711b (. = .a) if m1_711a == 0 | m1_711a == . | m1_711a == .d
-
-recode m1_714c (. = .a) if m1_714b == 0 | m1_714b == . | m1_714b == .d 
-
-recode m1_714d (. = .a) if m1_714b == 0 | m1_714b == . | m1_714b == .d
-
-* confirm if 714e should be recoded if m1_714c == 0
-recode m1_714e (. = .a) if m1_714c == . | m1_714c == .a
-
-recode m1_718 (. = .a) if m1_202a == 0 | m1_202a == .
-recode m1_719 (. = .a) if m1_202b == 0 | m1_202b == .
-recode m1_720 (. = .a) if m1_202c == 0 | m1_202c == .
-recode m1_721 (. = .a) if m1_202d == 0 | m1_202d == .
-recode m1_722 (. = .a) if m1_202e == 0 | m1_202e == . | m1_202e == .r
-recode m1_724b (. = .a) if m1_724a == 0 | m1_724a == . | m1_724a == .d
-recode m1_724c (. = .a) if m1_705 == 1 | m1_705 == . 
-recode m1_724d (. = .a) if m1_705 == 1 | m1_705 == . 
-recode m1_724e (. = .a) if m1_705 == 1 | m1_705 == . 
-recode m1_724f (. = .a) if m1_705 == 1 | m1_705 == . 
-recode m1_724g (. = .a) if  m1_707 == 1 | m1_707 == . 
-recode m1_724h (. = .a) if m1_708a == 1 | m1_708a == . 
-recode m1_724i (. = .a) if m1_712 == 1 | m1_712 == . | m1_712 == .d
-
-replace m1_802a = ".a" if m1_801 == . | m1_801 ==0 | m1_801 ==.a
-
-recode m1_804 (. = .a) if (m1_801 == 0 | m1_801 == . | m1_801 == .d) & (m1_802a == "." | m1_802a == "") & (m1_803 == . | m1_803 == .d | m1_803 == .r)
-
-recode m1_808 (0 = .a) if m1_804 == 1 | m1_804 == . | m1_804 == .a 
-
-recode m1_812b (. = .a) (0 = .a) if m1_812a == 0 | m1_812a ==. | m1_812a == .d 
-
-recode m1_814h (. = .a) if m1_804 == 1	| m1_804 == 2 | m1_804 == . | m1_804 == .a | m1_804 == .d		
-						   			   
-recode m1_815 (. = .a) if (m1_814a == 0 | m1_814a == .) & (m1_814b == 0 | m1_814b == .) ///
-						   & (m1_814c == 0 | m1_814c == .d | m1_814c == .) & ///
-						   (m1_814d == 0 | m1_814d == .d | m1_814d == .) & ///
-						   (m1_814e == 0 | m1_814e == .) & ///
-						   (m1_814f == 0 | m1_814f == .d | m1_814f == .) & ///
-						   (m1_814g == 0 | m1_814g == .) & ///
-						   (m1_814h == 0 | m1_814h == .d | m1_814h == .r | ///
-						   m1_814h == . | m1_814h == .a) 
-  							   
-* confirm				
-recode m1_816 (. = .a) if (m1_814a == 1 | m1_814b ==1 | m1_814c == 1 | ///
-						  m1_814d == 1 | m1_814e == 1 | m1_814f == 1 | ///
-						  m1_814g == 1 | m1_814h == 1) 
-									
-recode m1_902 (. = .a) if m1_901 == 3 | m1_901 == .d | m1_901 == .r | m1_901 == .
-
-*recode m1_904 (. = .a) if m1_903 == 3 | m1_903 == .d | m1_903 == .r | m1_903 == .
-
-recode m1_907 (. = .a) if m1_905 == 0 | m1_905 == . | m1_905 == .d | m1_905 == .r
-					
-recode m1_1002 (. = .a) if m1_1001 <= 1 | m1_1001 == .	
-
-recode m1_1003 (. = .a) if m1_1002 <1 | m1_1002 == . | m1_1002 == .a	
-
-recode m1_1004 (. = .a) if m1_1001 <= m1_1002
-
-recode m1_1005 (. = .a) if (m1_1002<1 | m1_1002 ==.a | m1_1002 ==.)
-
-recode m1_1006 (. = .a) if (m1_1002<1 | m1_1002 ==.a | m1_1002 ==.)
-
-recode m1_1007 (. = .a) if (m1_1002<1 | m1_1002 ==.a | m1_1002 ==.)
-
-recode m1_1008 (. = .a) if (m1_1002<1 | m1_1002 ==.a | m1_1002 ==.)
-
-recode m1_1009 (. = .a) if (m1_1003 <1 | m1_1003 == .a | m1_1003 == .)
-
-recode m1_1010 (. = .a) if (m1_1003 <= m1_1009) | m1_1003 == .a 
-
-recode m1_1011a (. = .a) if (m1_1001 <= 1 | m1_1001 ==.)
-
-recode m1_1011b (. = .a) if m1_1004 == 0 | m1_1004 == . | m1_1004 == .a
-
-recode m1_1011c (. = .a) if (m1_1002 <= m1_1003)	
-
-recode m1_1011d (. = .a) if	m1_1005 == 0 | m1_1005 == . | m1_1005 == .a
-
-recode m1_1011e (. = .a) if m1_1007 == 0 | m1_1007 == . | m1_1007 == .a
-
-recode m1_1011f (. = .a) if m1_1010 == 0 | m1_1010 == . | m1_1010 == .a
-
-recode m1_1102 (. = .a) if m1_1101 == 0 | m1_1101 == . 
-
-recode m1_1104 (. = .a) if m1_1103 == 0 | m1_1103 == . 
-
-recode m1_1105 (. = .a) if (m1_1101 == 0 | m1_1101 == .) & (m1_1103 == 0 | m1_1103 == .)
-
-recode m1_1218a_1 (. = .a) if m1_1217 == 0 | m1_1217 == .
-
-recode m1_1218b_1 (. = .a) if m1_1217 == 0 | m1_1217 == . 
-
-recode m1_1218c_1 (. = .a) if m1_1217 == 0 | m1_1217 == . 
-
-recode m1_1218d_1 (. = .a) if m1_1217 == 0 | m1_1217 == . 
-
-recode m1_1218e_1 (. = .a) if m1_1217 == 0 | m1_1217 == . 
-
-recode m1_1218_za (. = .a) if m1_1217 == 0 | m1_1217 == .
-
-recode m1_1218g (. = .a) if m1_1217 == 0 | m1_1217 == . 
-
-recode m1_1218g_za (. = .a) if m1_1217 == 0 | m1_1217 == . 
-
-recode m1_1219 (. = .a) if (m1_1218a_1 == .a | m1_1218a_1 == .) & ///
-						   (m1_1218b_1 == .a | m1_1218b_1 == .) & ///
-						   (m1_1218c_1 ==.a | m1_1218c_1 == .) & ///
-						   (m1_1218d_1 == .a | m1_1218c_1 == .) & ///
-						   (m1_1218e_1 == .a | m1_1218e_1 == .) & ///
-						   (m1_1218_za == .a | m1_1218_za == .) & ///
-						   (m1_1218g == .a | m1_1218g == .) & ///
-						   (m1_1218g_za == .a | m1_1218g_za ==.)
-    
-recode m1_1220 (. = .a) if m1_1217 == 0 | m1_1217 == . | m1_1217 == .r
-
-replace m1_1222 = ".a" if m1_1221 == 0 | m1_1221 == .
-
-recode m1_1307 (. = .a) if m1_1306 == 0 | m1_1306 == 96 | m1_1306 == . 
-
-recode m1_1308 (. = .a) if m1_1306 == 1 | m1_1306 == 96 | m1_1306 == .
-
-recode m1_1309 (. = .a) if m1_1308 == 0 | m1_1308 == . | m1_1308 == .a	   
-	   
 	   
 *===============================================================================					   
 	
