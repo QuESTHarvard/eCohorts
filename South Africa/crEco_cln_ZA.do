@@ -473,7 +473,7 @@ label define m1_815 1 "Nothing, we did not discuss this" ///
 					3 "They provided a treatment in the visit" 4 "They prescribed a medication" ///
 					5 "They told you to come back to this health facility" 6 "They told you to go somewhere else for higher level care" ///
 					7 "They told you to wait and see" 96 "Other, specify" 98 "Don't Know" 99 "NR/RF"
-
+label values m1_815 m1_815
 					
 label define smokeamt 1 "Every day" 2 "Some days" 3 "Not at all" 98 "DK" 99 "NR/RF" 
 label values m1_901 smokeamt					
