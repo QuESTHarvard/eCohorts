@@ -436,9 +436,8 @@ label define numbabies 1 "One baby" 2 "Two babies (twins)" ///
 					   3 "Three or more babies (triplets or higher)" 98 "DK" 99 "NR/RF"
 label values m1_805 numbabies 
 
-* confirm? doesn't match the dictionary
-*label define m1_807 1 "Yes" 2 "No" 99 "NR/RF"
-*label values m1_807 m1_807
+label define m1_807 1 "Yes" 2 "No" 99 "NR/RF"
+label values m1_807 m1_807
 
 label define m1_808 0 "Didn't realize you were pregnant" 1 "Tried to come earlier and were sent away" ///
 					2 "You received care at home" ///
