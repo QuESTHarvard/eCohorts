@@ -4,49 +4,10 @@
 
 *------------------------------------------------------------------------------*
 
-global user "/Users/katewright/Dropbox (Harvard University)/"
+* Importing clean ET dataset that was created in "crEco_cln_ET.do"
 
-global data "SPH-Kruk Team/QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/1 Ethiopia/Interim data"
-
-* This .do file should be used only after the data has been cleaned, using the ET_Cleaning.do file
-
-*------------------------------------------------------------------------------*
-
-*------------------------------------------------------------------------------*
-
-* how do we write this code if it already has gone through the cleaning .do file?
-* what 'cleaning' 'variable creation' do we want in this file versus the other file? 
-
-import delimited using "$user/$data/ET_ECohort_06092023_1.csv", clear
-keep if event=="module_1_arm_1" 
-drop m2_107-module_5_end_line_facetoface_sur
-
-drop if record_id < "15"
-drop if record_id == "2"
-drop if record_id == "3"
-drop if record_id == "4"
-drop if record_id == "5"
-drop if record_id == "6"
-drop if record_id == "7"
-drop if record_id == "8"
-drop if record_id == "9"
-
-keep if b7eligible == 1
-
-
-* where do we want the code for the enrollment variables, like woreda, site, sampstrata, etc? 
-
-generate site = woreda 
-recode site (1 6 = 1) ///
-            (2 3 4 5 7 96 = 2)
-label values site site 
-
-* create new variable for sampling strata 
-** we need to make sure we recode in the cleaning file the facility name and strata for st. fransisco
-generate sampstrata = facility
-recode sampstrata (2 3 4 5 6 8 9 10 11 14 16 17 19 = 1) (18 7 = 2) (22 13 15 1 12 23 96 = 3) (20 21 = 4) 
-label values sampstrata strata
-
+import u "$et_data_final/eco_m1m2_et.dta", clear
+drop m2_iic-m2_complete
 
 **---------summtab for enrollment data----------* 
 

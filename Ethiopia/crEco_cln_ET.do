@@ -8,16 +8,19 @@
 * Import Data 
 clear all 
 
-import delimited using "$et_data/17Aug2023.csv", clear
+*--------------------DATA FILE (update with path to dataset/file name):
+import delimited using "$et_data/8Sep2023.csv", clear
+*---------------------
 
-*These datasets download the entire longitudinal dataset.
-
-drop if record_id == "1" | record_id == "2" | record_id == "3" | record_id == "4" | record_id == "5" | record_id == "6" | ///
-		record_id == "7" | record_id == "8" | record_id == "9" | record_id == "10" | record_id == "11" | record_id == "12" | ///
-		record_id == "13" | record_id == "14" | record_id == "15" | record_id == "16" | record_id == "17" | record_id == "18" | ///
+drop if record_id == "1" | record_id == "2" | record_id == "3" | ///
+		record_id == "4" | record_id == "5" | record_id == "6" | ///
+		record_id == "7" | record_id == "8" | record_id == "9" | ///
+		record_id == "10" | record_id == "11" | record_id == "12" | ///
+		record_id == "13" | record_id == "14" | record_id == "15" | ///
+		record_id == "16" | record_id == "17" | record_id == "18" | ///
 		record_id == "19" 
 
-
+* filter for eligible participants only:
 keep if is_the_respondent_eligible == 1
 
 gen country = "Ethiopia"
@@ -256,6 +259,17 @@ gen country = "Ethiopia"
 label define woreda 1 "Adama special district (town)" 2 "Dugda" 3 "Bora" 4 "Adami Tulu Jido Kombolcha" 5 "Olenchiti" 6 "Adama" 7 "Lume" 96 "Other, specify" 
 label values woreda woreda
 label define site 1 "Adama" 2 "East Shewa"
+
+generate site = woreda 
+recode site (1 = 1) ///
+            (2 3 4 5 6 7 96 = 2)
+label values site site 
+
+* create new variable for sampling strata 
+** we need to make sure we recode in the cleaning file the facility name and strata for st. fransisco
+generate sampstrata = facility
+recode sampstrata (2 3 4 5 6 8 9 10 11 14 16 17 19 = 1) (18 7 = 2) (22 13 15 1 12 23 96 = 3) (20 21 = 4) 
+label values sampstrata strata
 
 * Label Facility Name values 
 label define FacilityLabel 1 "Meki Catholic Primary Clinic (01)" 2 "Bote Health Center (02)" 3 "Meki Health Center (03)" 4 "Adami Tulu Health Center (04)" 5 "Bulbula Health Center (05)" 6 "Dubisa Health Center (06)" 7 "Olenchiti Primary Hospital (07)" 8 "Awash Malkasa Health Center (08)" 9 "koka Health Center (09)" 10 "Biyo Health Center (10)" 11 "Ejersa Health Center (11)" 12 "Catholic Church Primary Clinic (12)" 13 "Noh Primary Clinic (13)" 14 "Adama Health Center (14)" 15 "Family Guidance Nazret Specialty Clinic (15)" 16 "Biftu (16)" 17 "Bokushenen (17)" 18 "Adama Teaching Hospital (18)" 19 "Hawas (19)" 20 "Medhanialem Hospital (20)" 21 "Sister Aklisiya Hospital (21)" 22 "Marie stopes Specialty Clinic (22)" 96 "Other in East Shewa or Adama (23)" 
