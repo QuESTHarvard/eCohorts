@@ -8,15 +8,17 @@
 * Import Data 
 clear all 
 
+*--------------------DATA FILE (update with path to dataset/file name):
 import delimited using "$et_data/17Aug2023.csv", clear
+*---------------------
 
-*These datasets download the entire longitudinal dataset.
-
-drop if record_id == "1" | record_id == "2" | record_id == "3" | record_id == "4" | record_id == "5" | record_id == "6" | ///
-		record_id == "7" | record_id == "8" | record_id == "9" | record_id == "10" | record_id == "11" | record_id == "12" | ///
-		record_id == "13" | record_id == "14" | record_id == "15" | record_id == "16" | record_id == "17" | record_id == "18" | ///
+drop if record_id == "1" | record_id == "2" | record_id == "3" | ///
+		record_id == "4" | record_id == "5" | record_id == "6" | ///
+		record_id == "7" | record_id == "8" | record_id == "9" | ///
+		record_id == "10" | record_id == "11" | record_id == "12" | ///
+		record_id == "13" | record_id == "14" | record_id == "15" | ///
+		record_id == "16" | record_id == "17" | record_id == "18" | ///
 		record_id == "19" 
-
 
 keep if is_the_respondent_eligible == 1
 
