@@ -151,16 +151,7 @@ u "$user/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuES
 			* Anemia 
 			gen Hb= m1_1309 // test done by E-Cohort data collector
 			gen Hb_card= m1_1307 // hemoglobin value taken from the card
-				replace Hb_card = "12.6" if Hb_card=="12.6g/d" | Hb_card=="12.6g/dl"
-				replace Hb_card = "13" if Hb_card=="13g/dl" 
-				replace Hb_card= "14.6" if Hb_card=="14.6g/dl"
-				replace Hb_card = "15" if Hb_card=="15g/dl"
-				replace Hb_card= "16.3" if Hb_card=="16.3g/dl"
-				replace Hb_card= "16.6" if Hb_card=="16.6g/dl"
-				replace Hb_card= "16" if Hb_card=="16g/dl"
-				replace Hb_card= "17.6" if Hb_card=="17.6g/dl"
-				replace Hb_card="11.3" if Hb_card=="113"
-			destring Hb_card, replace
+				replace Hb_card=11.3 if Hb_card==113
 			replace Hb = Hb_card if Hb==.a // use the card value if the test wasn't done
 				// Reference value of 10 from: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8990104/
 			gen anemic= 1 if Hb<10
