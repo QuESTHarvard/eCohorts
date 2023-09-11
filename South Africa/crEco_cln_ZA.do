@@ -217,7 +217,6 @@ replace m1_909_za = "." if m1_909_za == ""
 *===============================================================================
 	
 	* STEP TWO: ADD VALUE LABELS 
-	** many of these value labels can be found in the "REDCap_STATA.do" file that can be downloaded from redcap
 	
 	** MODULE 1:
 * Label district values 
