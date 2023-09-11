@@ -136,5 +136,8 @@ rename preferred_language interview_language_ke
 rename noconsent_why noconsent_why_ke		
 rename end_comment m1_end_comment_ke	
 		
-		
-		
+*===============================================================================
+	
+	* STEP TWO: ADD VALUE LABELS (NA in KENYA)
+
+*===============================================================================
