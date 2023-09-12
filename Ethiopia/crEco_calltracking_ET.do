@@ -51,7 +51,8 @@ import delimited "$user/MNH Ecohorts QuEST-shared/Data/Ethiopia/01 raw data/11Se
 	keep if eventname=="Module 1"
 	merge 1:1 PID using  "$user/MNH Ecohorts QuEST-shared/Data collection/1 Ethiopia/Data Collection/tmp.dta"
 	sort m1_date PID 
-	order PID m1_dated m1* m2_dated1 m2_*1 m2_dated2 m2_*2 m3_date m3* m4* m5* 
+	order PID m1_dated m1* m2_dated1 m2_*1 m2_dated2 m2_*2 m2_dated3 m2_*3 m2_dated4 ///
+	      m2_*4 m2_dated5 m2_*5  m2_dated6 m2_*6   m3_date m3* m4* m5* 
 	drop recordid eventname repeatinstrument _merge
 	dropmiss _all, force
 	
@@ -66,6 +67,7 @@ import delimited "$user/MNH Ecohorts QuEST-shared/Data/Ethiopia/01 raw data/11Se
 	egen nb_m4 = rownonmiss(m4_dated)
 	egen nb_fu_calls = rowtotal (nb_m2_1 nb_m2_2 nb_m2_3 nb_m2_4 nb_m2_5 nb_m2_6 nb_m3 nb_m4)
 	
+	rm "$user/MNH Ecohorts QuEST-shared/Data collection/1 Ethiopia/Data Collection/tmp.dta"
 	
 	 * EXPORT TO CALL TRACKING SHEET
 	 export excel using "$user/MNH Ecohorts QuEST-shared/Data collection/1 Ethiopia/Data Collection/DataCollectionTracker.xlsx", sheet("Individual tracking 09112023", replace) firstrow(var)
