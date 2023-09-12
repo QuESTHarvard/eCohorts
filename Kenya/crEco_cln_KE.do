@@ -19,7 +19,7 @@ gen country = "Kenya"
 *------------------------------------------------------------------------------*
 	* STEPS: 
 		* STEP ONE: RENAME VARIABLES (starts at: line 28)
-		* STEP TW0: ADD VALUE LABELS (starts at: line 158)
+		* STEP TW0: ADD VALUE LABELS - NA in KENYA 
 		* STEP THREE: RECODING MISSING VALUES (starts at: line 496)
 		* STEP FOUR: LABELING VARIABLES (starts at: line 954)
 		* STEP FIVE: ORDER VARIABLES (starts at: line )
@@ -141,3 +141,35 @@ rename end_comment m1_end_comment_ke
 	* STEP TWO: ADD VALUE LABELS (NA in KENYA)
 
 *===============================================================================
+
+*===============================================================================
+		
+	*STEP THREE: RECODING MISSING VALUES 
+		* Recode refused and don't know values
+		* Note: .a means NA, .r means refused, .d is don't know, . is missing 
+		* Need to figure out a way to clean up string "text" only vars that have numeric entries (ex. 803)
+
+	** MODULE 1:
+
+recode m1_404 m1_506 m1_509b m1_510b  m1_700 m1_702 m1_703 m1_704 m1_705 m1_706 ///
+	   m1_707 m1_708a ///
+	   m1_708b m1_708e m1_708f m1_709a m1_709b m1_710a m1_710b  m1_711a m1_712 ///
+	   m1_714a m1_714b m1_714c m1_716a m1_716b m1_716c m1_716d m1_716e m1_717  ///
+	   m1_719 m1_724a m1_724c m1_724d m1_724e m1_724g m1_724i m1_801 m1_803 ////
+	   m1_805 m1_806 m1_809 m1_810a m1_812a m1_813b m1_814d ///
+	   m1_807 m1_810a m1_814e m1_814f m1_814g m1_814h m1_907   ///
+	   m1_1006 m1_1008 m1_1011a m1_1103 m1_1203 m1_1204 m1_1209 ///
+	   m1_1210 m1_1216b (998 = .d)
+
+recode m1_711b m1_713a m1_713b m1_713c m1_713d m1_713e m1_713f m1_713g m1_713h ///
+	   m1_713i (4 = .d)
+
+recode m1_303 m1_304 m1_305a m1_405 m1_504 m1_505 m1_507 m1_509b m1_510b  m1_605b m1_605e ///
+	   m1_605f m1_605h m1_701 m1_702 m1_708b m1_710a m1_710b ///
+	   m1_716a m1_716c m1_716d m1_724c m1_805 m1_807 m1_808 m1_809 m1_810a m1_812a ///
+	   m1_813a m1_813b m1_814g m1_901 m1_1004 m1_1005 m1_1010 m1_1011a m1_1209 ///
+	   m1_1210 m1_1211 m1_1216b phq9f phq9g m1_301 (999 = .r)
+  
+	
+replace m1_812b="998" == .d	
+	
