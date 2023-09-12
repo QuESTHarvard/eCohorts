@@ -5,9 +5,9 @@
 
 u "$user/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data/Ethiopia/02 recoded data/eco_m1m2_et_der.dta", clear
 
-* This should be removed after Shalom addresses it
-drop in 1/72 // drop the test records
-keep if  b7eligible ==1 // drop the non eligible.. this is also droping the other modules currently.
+* This should be removed after Shalom addresses it:
+drop in 1/6 // drop the test records
+
 
 * Keep M1 only
 drop redcap_repeat_instrument-redcap_data_access_group m2_attempt_date-m2_complete 
@@ -20,7 +20,6 @@ drop redcap_repeat_instrument-redcap_data_access_group m2_attempt_date-m2_comple
 			tabstat anc1ux, by(facility_lvl) stat(mean sd count)
 			ta vgm1_601 facility_lvl, col
 			
-	
 	* By education level 
 			tabstat anc1tq, by(educ_cat) stat(mean sd count)
 			tabstat anc1counsel, by(educ_cat) stat(mean sd count)
@@ -28,12 +27,19 @@ drop redcap_repeat_instrument-redcap_data_access_group m2_attempt_date-m2_comple
 			tabstat anc1ux, by(educ_cat) stat(mean sd count)
 			ta vgm1_601 educ_cat,  col
 			ta anc1ultrasound educ_cat, col
+	* Items done the least
+			tabstat anc1bp anc1muac anc1bmi anc1fetal_hr anc1urine anc1blood ///
+				    anc1ultrasound anc1ifa anc1tt counsel_nutri counsel_exer ///
+					counsel_complic counsel_comeback counsel_birthplan, ///
+					stat(mean count) col(stat)
+					
+			tabstat fpoor*, stat(mean count) col(stat)
 			
 * GENERAL RISK FACTORS
-	gen aged18 = age<18
-	gen aged35 = age>35
+	gen aged18 = enrollage<18
+	gen aged35 = enrollage>35
 	recode m1_203 (2=0)
-	egen chronic = rowmax(m1_202a m1_202b m1_202c m1_202d m1_202e m1_202f m1_202g m1_203)
+	egen chronic = rowmax(m1_202a m1_202b m1_202c m1_202d m1_202e m1_202f_et m1_202g_et m1_203)
 	egen general_risk = rowmax(aged18 aged35 chronic HBP anemic)
 	
 * OBSTETRIC RISK FACTORS
@@ -47,25 +53,22 @@ drop redcap_repeat_instrument-redcap_data_access_group m2_attempt_date-m2_comple
 	egen anyrisk = rowmax (general_risk obst_risk)
 	
 			tab1 general_risk obst_risk anyrisk
-			ta anyrisk facility_lvl, col
-			ta anyrisk educ_cat, col
+			
 	
 * COMPETENT SYSTEMS
 	* Care quality by level of risk
 			ttest anc1tq, by(anyrisk)
 			ttest anc1counsel, by(anyrisk)
-			ttest anc1ux, by(anyrisk)
 			ttest m1_603, by(anyrisk)
 			ta specialist_hosp anyrisk, chi2 col
 			
 	* Care quality by danger signs
 			ttest anc1tq, by(danger)
 			ttest anc1counsel, by(danger)
-			ttest anc1ux, by(danger)
 			ttest m1_603, by(danger)
 			ta specialist_hosp danger, chi2 col
 			
-	* CASCADES: CONDITIONS IDENTIFIED BY E-COHORT
+* CASCADES: CONDITIONS IDENTIFIED BY E-COHORT
 	* Malnutrition
 	egen screen_mal = rowmax(anc1muac anc1bmi)
 			ta malnutrition // 218
@@ -130,7 +133,15 @@ drop redcap_repeat_instrument-redcap_data_access_group m2_attempt_date-m2_comple
 			ta m1_1011f if neodeath==1
 			ta specialist_hosp if neodeath==1
 	
+	* COST OF VISIT
 	
+	su registration
+	su med
+	su lab
+	su indirect
+	foreach v in registration med_vax labtest indirect {
+		egen tot`v'= sum(`v')
+	}
 	
 	
 	lab var aged18 "Aged less than 19"
