@@ -24,7 +24,7 @@ drop if record_id == "1" | record_id == "2" | record_id == "3" | ///
 		record_id == "28"
 
 
-** FOR STATISTICS OF COMPLETED SURVEYS RUN THIS:
+** FOR STATISTICS OF COMPLETED SURVEYS:
 tab redcap_event_name
 tab redcap_repeat_instance
 
