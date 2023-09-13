@@ -10,7 +10,7 @@ clear all
 
 use "$ke_data/KEMRI_Module_1_ANC_2023z-9-6.dta"
 
-* Confirm: are there are any PIDS we should drop?
+* Confirm: are there are any PIDS we should drop? -James
 
 keep if consent == 1 // 27 ids dropped
 
@@ -28,7 +28,7 @@ gen country = "Kenya"
 *------------------------------------------------------------------------------*
 
 * what are these vars? no data in subscriberid, simid
-drop subscriberid simid username text_audit mean_sound_level min_sound_level max_sound_level sd_sound_level pct_sound_between0_60 pct_sound_above80 pct_conversation
+drop subscriberid simid username text_audit mean_sound_level min_sound_level max_sound_level sd_sound_level pct_sound_between0_60 pct_sound_above80 pct_conversation county_label
 
 
 	* STEP ONE: RENAME VARAIBLES
@@ -41,6 +41,8 @@ rename a4 study_site
 rename a5 facility
 rename b1 permission
 rename (b2 b3) (care_self enrollage)
+rename (b4 b4_oth b5 b6) (zone_live zone_live_other b5anc b6anc_first)
+rename a2 device_date_ke
 rename consent b7eligible
 rename (q101 q102 q103 q104 q105 q106) (first_name family_name respondentid ///
 		mobile_phone phone_number flash)
@@ -58,8 +60,9 @@ rename (q206a q206b q206c q206d q206e q206f q206g q206h q206i q207 q301 q302 q30
 		m1_302 m1_303 m1_304)		
 rename (q305a q305b) (m1_305a m1_305b)	
 rename (q401 q401_oth) (m1_401 m1_401_other)
-rename (q401_1 q401_2 q401_3 q401_4 q401_5 q401__96 q401_998 q401_999) (q401a_ke ///
-		q401b_ke q401c_ke q401d_ke q401e_ke q401_96_ke q401_998_ke q401_999_ke)	
+rename (q401_1 q401_2 q401_3 q401_4 q401_5 q401__96 q401_998 q401_999) (m1_401a_ke ///
+		m1_401b_ke m1_401c_ke m1_401d_ke m1_401e_ke m1_401_96_ke m1_401_998_ke ///
+		m1_401_999_ke)	
 rename (q402 q403 q404 q405 q405_oth) (m1_402 m1_403b m1_404 m1_405 m1_405_other)
 rename (q501 q501_oth q501b q501b_oth) (m1_501 m1_501_other m1_501_ke m1_501_ke_other)
 rename (q502 q503 q504) (m1_502 m1_503 m1_504)
@@ -418,6 +421,22 @@ lab var m1_202c "202.c. BEFORE you got pregnant, did you know that you had a car
 lab var m1_202d "202.d BEFORE you got pregnant, did you know that you had A mental health disorder such as depression, anxiety, bipolar disorder, or schizophrenia?"
 lab var m1_202e "202.e BEFORE you got pregnant, did you know that you had HIV?"
 lab var m1_203 "203. Before you got pregnant, were you diagnosed with any other major health problems?"
+lab var m1_203a_ke "203a. KE only: No major health problems"
+lab var m1_203b_ke "203b. KE only: No major health problems"
+lab var m1_203c_ke
+lab var m1_203d_ke
+lab var m1_203e_ke
+lab var m1_203f_ke
+lab var m1_203g_ke
+lab var m1_203h_ke
+lab var m1_203i_ke
+lab var m1_203j_ke
+lab var m1_203k_ke
+lab var m1_203l_ke
+lab var m1_203m_ke
+lab var m1_203n_ke
+lab var m1_203o_ke
+lab var m1_203_96_ke
 lab var m1_204 "204. Are you currently taking any medications?"
 lab var m1_205a "205A. I am going to read three statements about your mobility, by which I mean your ability to walk around. Please indicate which statement best describe your own health state today?"
 lab var m1_205b "205B. I am now going to read three statements regarding your ability to self-care, by which I mean whether you can wash and dress yourself without assistance. Please indicate which statement best describe your own health state today"
@@ -441,6 +460,14 @@ lab var m1_304 "304. Confidence you would be able to afford the healthcare you n
 lab var m1_305a "305.A. Confidence that you that you are the person who is responsible for managing your overall health?"
 lab var m1_305b "305.B. Confidence that you that you can tell a healthcare provider concerns you have even when he or she does not ask "
 lab var m1_401 "401. How did you travel to the facility today?"
+lab var m1_401a_ke "401a. KE only: "
+lab var m1_401b_ke "401b. KE only: "
+lab var m1_401c_ke "401c. KE only: "
+lab var m1_401d_ke "401d. KE only: "
+lab var m1_401e_ke "401e. KE only: "
+lab var m1_401_96_ke "401-other. KE only: Other, specify"
+lab var m1_401_998_ke "401. KE only: Don't Know"
+lab var m1_401_999_ke "401. KE only: NR/RF"
 lab var m1_401_other "401_Other. Other specify"
 lab var m1_402 "402. How long in minutes did it take you to reach this facility from your home?"
 lab var m1_403b "403b. How far in kilometers is your home from this facility?"
