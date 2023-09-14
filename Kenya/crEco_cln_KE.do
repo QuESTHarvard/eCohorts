@@ -80,9 +80,7 @@ rename (q502 q503 q504) (m1_502 m1_503 m1_504)
 rename (q505 q506 q506_oth q507 q507_oth q508 q509a q509b q510a q510b q511 q512 q518) ///
 	   (m1_505 m1_506 m1_506_other m1_507 m1_507_other m1_508 m1_509a m1_509b m1_510a ///
 	   m1_510b m1_511 m1_512 m1_518)
-	   
 rename (q514a q514b_1 q514b_2) (m1_514a m1_514b m1_514c_ke)
-
 rename (q601 q602 q603 q604) (m1_601 m1_602 m1_603 m1_604)
 rename (q605a q605b q605c q605d q605e q605f q605g q605h) (m1_605a m1_605b m1_605c m1_605d ///
 		m1_605e m1_605f m1_605g m1_605h)
@@ -90,8 +88,9 @@ rename (q700 q701 q702 q703 q704 q705 q706 q707 q708a q708b q708c q708d q708e q7
 		q709a q709b q710a q710b q710c q711a q711b q712) (m1_700 m1_701 m1_702 m1_703 ///
 		m1_704 m1_705 m1_706 m1_707 m1_708a m1_708b m1_708c m1_708d m1_708e m1_708f ///
 		m1_709a m1_709b m1_710a m1_710b m1_710c m1_711a m1_711b m1_712)
-rename (q713a q713b q713c q713d q713e q713f q713g q713h q713i q713j q713k q713l) (m1_713a m1_713b ///
-		m1_713c m1_713d m1_713e m1_713f m1_713g m1_713h m1_713i m1_713j_ke m1_713k_ke m1_713l_ke)
+rename (q713a q713c q713e q713f q713g q713i q713d q713j q713k q713b q713h q713l) ///
+	   (m1_713a m1_713b m1_713c m1_713d m1_713e m1_713f m1_713g m1_713h m1_713i m1_713j_ke ///
+	   m1_713k m1_713l)		
 rename (q714a q714b q714c q714d q714e q715) (m1_714a m1_714b m1_714c m1_714d m1_714e m1_715)
 rename (q716a q716b q716c q716d q716e q717 q718 q719 q720 q721 q722 q723 q724a q724b q724c ///
 		q724d q724e q724f q724g q724h q724i q801 q802a q802) (m1_716a m1_716b m1_716c m1_716d ///
@@ -113,13 +112,13 @@ rename (q1007 q1008 q1009 q1010) (m1_1007 m1_1008 m1_1009 m1_1010)
 rename (q1011a q1011b q1011c q1011d q1011e q1011f q1101) (m1_1011a m1_1011b m1_1011c ///
 		m1_1011d m1_1011e m1_1011f m1_1101)
 rename (q1102 q1102_1 q1102_2 q1102_3 q1102_4 q1102_5 q1102_6 q1102_7 q1102_8 q1102_9 ///
-		q1102_10 q1102__96 q1102_998 q1102_999 q1102_oth q1103) (m1_1102_1 m1_1102_2 ///
+		q1102_10 q1102__96 q1102_998 q1102_999 q1102_oth) (m1_1102 m1_1102_1 m1_1102_2 ///
 		m1_1102_3 m1_1102_4 m1_1102_5 m1_1102_6 m1_1102_7 m1_1102_8 m1_1102_9 m1_1102_10 ///
-		m1_1102_96 m1_1102_98 m1_1102_99 m1_1102_99_ke m1_1102_other m1_1103)
-rename (q1104 q1104_1 q1104_2 q1104_3 q1104_4 q1104_5 q1104_6 q1104_7 q1104_8 ///
-		q1104_9 q1104_10 q1104__96 q1104_998 q1104_999) (m1_1104_1 m1_1104_2 ///
-		m1_1104_3 m1_1104_4 m1_1104_5 m1_1104_6 m1_1104_7 m1_1104_8 m1_1104_9 ///
-		m1_1104_10 m1_1104_96 m1_1104_98 m1_1104_99 m1_1104_99_ke)
+		m1_1102_96 m1_1102_98 m1_1102_99 m1_1102_other)
+rename (q1103 q1104 q1104_1 q1104_2 q1104_3 q1104_4 q1104_5 q1104_6 q1104_7 q1104_8 ///
+		q1104_9 q1104_10 q1104__96 q1104_998 q1104_999) (m1_1103 m1_1104 m1_1104_1 m1_1104_2 ///
+		m1_1104_3 m1_1104_4 m1_1104_5 m1_1104_6 m1_1104_7 m1_1104_8 m1_1104_9 m1_1104_10 ///
+		m1_1104_96 m1_1104_98 m1_1104_99)
 rename (q1104_oth q1105 q1201 q1201_oth q1202 q1202_oth q1203 q1204 q1205 q1206 ///
 		q1207 q1208 q1208_oth q1209 q1209_oth q1210 q1210_oth q1211 q1211_oth q1212 ///
 		q1213 q1214 q1215) (m1_1104_other m1_1105 m1_1201 m1_1201_other m1_1202 ///
@@ -132,18 +131,14 @@ rename (q1216 q1217 q1218 clinic_cost q1218a q1218b q1218c q1218d q1218e q1218f_
 		m1_1218f_other m1_1218f m1_1218f_1 m1_1219 m1_other_costs_ke m1_1220)
 rename (q1220_oth q1221 q1222 q1222_oth q1223) (m1_1220_other m1_1221 m1_1222 ///
 		m1_1222_other m1_1223)	
-
 rename (q513a q513a_0 q513a_1 q513a_2 q513a_3 q513a_4 q513a_5 q513a_6 q513a__96) ///
 		(m1_513a m1_513a_1 m1_513a_2 m1_513a_3 m1_513a_4 m1_513a_5 m1_513a_6 ///
 		m1_513a_7 m1_513a_8)		
-
 rename q513c m1_513c
-
 *rename (q513d q513e_1 q513e_2 q513f_1 q513f_2 q513g_1 q513g_2 q513h_1 q513h_2 ///
 		*q513i_1 q513i_2 q514a q514b_1 q514b_2) (m1_513d m1_513e_name m1_513e m1_513f_name ///
 		*m1_513f m1_513g_name m1_513g m1_513h_name m1_513h m1_513i_name m1_513i m1_514a ///
 		*m1_514b m1_514c_ke)		
-
 rename (q515_5 q515_3 q515_4 q515_1 q515_1_oth q515_2 q515_2_oth q516 q517 q519_3 q519_4 ///
 		q519_1 q519_1_oth q519_2 q519_2_oth q519_5 q519_6) (m1_515_address m1_515_ward ///
 		m1_515_village m1_515_county m1_515_county_other m1_515_subcounty m1_515_subcounty_other ///
@@ -407,15 +402,15 @@ recode m1_1011f (.  = .a) if m1_1010 == 0 | m1_1010 == . | m1_1010 == .a
 replace m1_1102_1 = ".a" if m1_1101 == 0 | m1_1101 == . 
 
 recode m1_1102_2 m1_1102_3 m1_1102_4 m1_1102_5 m1_1102_6 m1_1102_7 m1_1102_8 ///
-	   m1_1102_9 m1_1102_10 m1_1102_96 m1_1102_98 m1_1102_99 m1_1102_99_ke (.  = .a) if ///
+	   m1_1102_9 m1_1102_10 m1_1102_96 m1_1102_98 m1_1102_99 (.  = .a) if ///
 	   m1_1101 == 0 | m1_1101 == . 
 
 * SS: change all checkboxes to match this:
 replace m1_1102_other = ".a" if m1_1102_96 == 0 | m1_1102_96 == .a
 
-replace m1_1104_1 = ".a" if m1_1103 == 0 | m1_1103 == . | m1_1103 == .d
+replace m1_1104 = ".a" if m1_1103 == 0 | m1_1103 == . | m1_1103 == .d
 
-recode m1_1104_2 m1_1104_3 m1_1104_4 m1_1104_5 m1_1104_6 m1_1104_7 m1_1104_8 m1_1104_9 m1_1104_10 m1_1104_96 m1_1104_98 m1_1104_99 m1_1104_99_ke (.  = .a) if m1_1103 == 0 | m1_1103 == . | m1_1103 == .d
+recode m1_1104_1 m1_1104_2 m1_1104_3 m1_1104_4 m1_1104_5 m1_1104_6 m1_1104_7 m1_1104_8 m1_1104_9 m1_1104_10 m1_1104_96 m1_1104_98 m1_1104_99 (.  = .a) if m1_1103 == 0 | m1_1103 == . | m1_1103 == .d
 
 replace m1_1104_other = ".a" if m1_1104_96 == 0 | m1_1104_96 == .a	 
 
@@ -475,14 +470,11 @@ lab var country "Country"
 lab var interviewer_id "Interviewer ID"
 lab var date_m1 "A2. Date of interview"
 lab var m1_start_time "A3. Time of interview"
-*lab var pre_screening_num_za "Pre-Screening Number"
 lab var study_site "A4. Study site"
 lab var facility "A5. Facility name"
-*lab var study_site_sd "A4_Other. Specify other study site"
 lab var permission "B1. May we have your permission to explain why we are here today, and to ask some questions?"
 lab var care_self "B2. Are you here today to receive care for yourself or someone else?"
 lab var enrollage "B3. How old are you?"
-*lab var enrollage_cat "B3.A: Are you 15 years or older?"
 lab var zone_live "B4. In which zone/district/ sub city are you living?"
 lab var b5anc "B5. By that I mean care related to a pregnancy?"
 lab var b6anc_first "B6. Is this the first time you've come to a health facility to talk to a healthcare provider about this pregnancy?"
@@ -494,11 +486,11 @@ lab var mobile_phone "104. Do you have a mobile phone with you today?"
 *lab var phone_number "105. What is your phone number?"
 lab var flash "106. Can I 'flash' this number now to make sure I have noted it correctly?"
 lab var m1_201 "201. In general, how would you rate your overall health?"
-lab var m1_202a "202.a. BEFORE you got pregnant, did you know that you had Diabetes?"
-lab var m1_202b "202.b. BEFORE you got pregnant, did you know that you had High blood pressure or hypertension?"
-lab var m1_202c "202.c. BEFORE you got pregnant, did you know that you had a cardiac disease or problem with your heart?"
-lab var m1_202d "202.d BEFORE you got pregnant, did you know that you had A mental health disorder such as depression, anxiety, bipolar disorder, or schizophrenia?"
-lab var m1_202e "202.e BEFORE you got pregnant, did you know that you had HIV?"
+lab var m1_202a "202a. BEFORE you got pregnant, did you know that you had Diabetes?"
+lab var m1_202b "202b. BEFORE you got pregnant, did you know that you had High blood pressure or hypertension?"
+lab var m1_202c "202c. BEFORE you got pregnant, did you know that you had a cardiac disease or problem with your heart?"
+lab var m1_202d "202d BEFORE you got pregnant, did you know that you had A mental health disorder such as depression, anxiety, bipolar disorder, or schizophrenia?"
+lab var m1_202e "202e BEFORE you got pregnant, did you know that you had HIV?"
 lab var m1_203 "203. Before you got pregnant, were you diagnosed with any other major health problems?"
 lab var m1_203a_ke "203a. KE only: No major health problems"
 lab var m1_203b_ke "203b. KE only: Sexually Transmitted Diseases (STDs)"
@@ -516,39 +508,39 @@ lab var m1_203m_ke "203m. KE only: Kidney failure"
 lab var m1_203n_ke "203n. KE only: Asthma"
 lab var m1_203o_ke "203o. KE only: Chronic obstructive pulmonary disease (COPD)"
 lab var m1_203_96_ke "203. KE only: Other, specify"
-lab var m1_203_other_ke "203. Other"
+lab var m1_203_other_ke "203_Other. Other major health problems"
 lab var m1_204 "204. Are you currently taking any medications?"
-lab var m1_205a "205A. I am going to read three statements about your mobility, by which I mean your ability to walk around. Please indicate which statement best describe your own health state today?"
-lab var m1_205b "205B. I am now going to read three statements regarding your ability to self-care, by which I mean whether you can wash and dress yourself without assistance. Please indicate which statement best describe your own health state today"
-lab var m1_205c "205C. I am going to read three statements regarding your ability to perform your usual daily activities, by which I mean your ability to work, take care of your family or perform leisure activities. Please indicate which statement best describe your own health state today."
-lab var m1_205d "205D. I am going to read three statements regarding your experience with physical pain or discomfort. Please indicate which statement best describe your own health state today"
-lab var m1_205e "205E. I am going to read three statements regarding your experience with anxiety or depression. Please indicate which statements best describe your own health state today"
-lab var phq9a "206A. Over the past 2 weeks, how many days have you been bothered by little interest or pleasure in doing things?"
-lab var phq9b "206B. Over the past 2 weeks, on how many days have you been bothered by feeling down, depressed, or hopeless ?"
-lab var phq9c "206C. Over the past 2 weeks, on how many days have you been bothered by trouble falling or staying asleep, or sleeping too much?"
-lab var phq9d "206D. Over the past 2 weeks, on how many days have you been bothered by feeling tired or having little energy"
-lab var phq9e "206E. Over the past 2 weeks, on how many days have you been bothered by poor appetite or overeating"
-lab var phq9f "206F. Over the past 2 weeks, on how many days have you been bothered by feeling bad about yourself or that you are a failure or have let yourself or your family down? "
-lab var phq9g "206G. Over the past 2 weeks, on how many days have you been bothered by trouble concentrating on things, such as your work or home duties?"
-lab var phq9h "206H. Over the past 2 weeks, on how many days have you been bothered by moving or speaking so slowly that other people could have noticed? Or so fidgety or restless that you have been moving a lot more than usual?"
-lab var phq9i "206I. Over the past 2 weeks, on how many days have you been bothered by Thoughts that you would be better off dead, or thoughts of hurting yourself in some way?"
+lab var m1_205a "205a. I am going to read three statements about your mobility, by which I mean your ability to walk around. Please indicate which statement best describe your own health state today?"
+lab var m1_205b "205b. I am now going to read three statements regarding your ability to self-care, by which I mean whether you can wash and dress yourself without assistance. Please indicate which statement best describe your own health state today"
+lab var m1_205c "205c. I am going to read three statements regarding your ability to perform your usual daily activities, by which I mean your ability to work, take care of your family or perform leisure activities. Please indicate which statement best describe your own health state today."
+lab var m1_205d "205d. I am going to read three statements regarding your experience with physical pain or discomfort. Please indicate which statement best describe your own health state today"
+lab var m1_205e "205e. I am going to read three statements regarding your experience with anxiety or depression. Please indicate which statements best describe your own health state today"
+lab var phq9a "206a. Over the past 2 weeks, how many days have you been bothered by little interest or pleasure in doing things?"
+lab var phq9b "206b. Over the past 2 weeks, on how many days have you been bothered by feeling down, depressed, or hopeless ?"
+lab var phq9c "206c. Over the past 2 weeks, on how many days have you been bothered by trouble falling or staying asleep, or sleeping too much?"
+lab var phq9d "206d. Over the past 2 weeks, on how many days have you been bothered by feeling tired or having little energy"
+lab var phq9e "206e. Over the past 2 weeks, on how many days have you been bothered by poor appetite or overeating"
+lab var phq9f "206f. Over the past 2 weeks, on how many days have you been bothered by feeling bad about yourself or that you are a failure or have let yourself or your family down? "
+lab var phq9g "206g. Over the past 2 weeks, on how many days have you been bothered by trouble concentrating on things, such as your work or home duties?"
+lab var phq9h "206h. Over the past 2 weeks, on how many days have you been bothered by moving or speaking so slowly that other people could have noticed? Or so fidgety or restless that you have been moving a lot more than usual?"
+lab var phq9i "206i. Over the past 2 weeks, on how many days have you been bothered by Thoughts that you would be better off dead, or thoughts of hurting yourself in some way?"
 lab var m1_207 "207. Over the past 2 weeks, on how many days did health problems affect your productivity while you were working? Work may include formal employment, a business, sales or farming, but also work you do around the house, childcare, or studying. Think about days you were limited in the amount or kind of work you could do, days you accomplished less than you would like, or days you could not do your work as carefully as usual."
 lab var m1_301 "301. How would you rate the overall quality of medical care in Ethiopia?"
 lab var m1_302 "302. Overall view of the health care system in your country"
 lab var m1_303 "303. Confidence that you would receive good quality healthcare from the health system if you got very sick?"
 lab var m1_304 "304. Confidence you would be able to afford the healthcare you needed if you became very sick?"
-lab var m1_305a "305A. Confidence that you that you are the person who is responsible for managing your overall health?"
-lab var m1_305b "305B. Confidence that you that you can tell a healthcare provider concerns you have even when he or she does not ask "
+lab var m1_305a "305a. Confidence that you that you are the person who is responsible for managing your overall health?"
+lab var m1_305b "305b. Confidence that you that you can tell a healthcare provider concerns you have even when he or she does not ask "
 lab var m1_401 "401. How did you travel to the facility today?"
-lab var m1_401a_ke "401a. KE only: "
-lab var m1_401b_ke "401b. KE only: "
-lab var m1_401c_ke "401c. KE only: "
-lab var m1_401d_ke "401d. KE only: "
-lab var m1_401e_ke "401e. KE only: "
-lab var m1_401_96_ke "401-other. KE only: Other, specify"
+lab var m1_401a_ke "401a. KE only: Walking"
+lab var m1_401b_ke "401b. KE only: Bicycle"
+lab var m1_401c_ke "401c. KE only: Motorcycle"
+lab var m1_401d_ke "401d. KE only: Car (personal or borrowed)"
+lab var m1_401e_ke "401e. KE only: Bus/train/other public transportation"
+lab var m1_401_96_ke "401. KE only: Other, specify"
 lab var m1_401_998_ke "401. KE only: Don't Know"
 lab var m1_401_999_ke "401. KE only: NR/RF"
-lab var m1_401_other "401_Other. Other specify"
+lab var m1_401_other "401_Other. Other specify: travel"
 lab var m1_402 "402. How long in minutes did it take you to reach this facility from your home?"
 lab var m1_403b "403b. How far in kilometers is your home from this facility?"
 lab var m1_404 "404. Is this the nearest health facility to your home that provides antenatal care for pregnant women?"
@@ -556,9 +548,18 @@ lab var m1_405 "405. What is the most important reason for choosing this facilit
 lab var m1_405_other "405_Other. Specify other reason"
 lab var m1_501 "501. What is your first language?"
 lab var m1_501_other "501_Other. Specify other language"
-lab var m1_501_ke "501. What is your first language?"
-lab var m1_501_ke_other "501. What is your first language?"
-
+lab var m1_501_ke "501b. Besides your primary/first language, which other languages do you speak fluently?"
+lab var m1_501_ke_other "501b_Other. Specify other language spoken?"
+lab var m1_501b_ke "501b. English"
+lab var m1_501c_ke "501b. Kiswahili"
+lab var m1_501d_ke "501b. Kikuyu"
+lab var m1_501e_ke "501b. Kikamba"
+lab var m1_501f_ke "501b. Kimeru"
+lab var m1_501g_ke "501b. Kalenjin"
+lab var m1_501h_ke "501b. Dholuo"
+lab var m1_501i_ke "501b. Luhya"
+lab var m1_501j_ke "501b. Kisii"
+lab var m1_501k_ke"501b. Other, specify"
 lab var m1_502 "502. Have you ever attended school?"
 lab var m1_503 "503. What is the highest level of education you have completed?"
 lab var m1_504 "504. Now I would like you to read this sentence to me. 1. PARENTS LOVE THEIR CHILDREN. 3. THE CHILD IS READING A BOOK. 4. CHILDREN WORK HARD AT SCHOOL."
@@ -574,13 +575,37 @@ lab var m1_510a "510a. Have you ever heard of an illness called tuberculosis or 
 lab var m1_510b "510b. Do you think that TB can be treated using herbal or traditional medicine made from plants?"
 lab var m1_511 "511. When children have diarrhea, do you think that they should be given less to drink than usual, more to drink than usual, about the same or it doesn't matter?"
 lab var m1_512 "512. Is smoke from a wood burning traditional stove good for health, harmful for health or do you think it doesn't really matter?"
-*lab var m1_513a_za "513a. What phone numbers can we use to reach you in the coming months?"
+lab var m1_513a "513a. What phone numbers can we use to reach you in the coming months?"
+lab var m1_513a_1 "513a. Does not have any phone numbers "
+lab var m1_513a_2 "513a. Primary personal phone"
+lab var m1_513a_3 "513a. Secondary personal phone"
+lab var m1_513a_4 "513a. Spouse or partner phone"
+lab var m1_513a_5 "513a. Community health worker phone"
+lab var m1_513a_6 "513a. Friend or other family member phone 1"
+lab var m1_513a_7 "513a. Friend or other family member phone 2"
+lab var m1_513a_8 "513a. Other phone"
+lab var m1_513c "513c. Can I flash this number?"
 lab var m1_514a "514a. We would like you to be able to participate in this study. We can give you a mobile phone for you to take home so that we can reach you. Would you like to receive a mobile phone?"
+lab var m1_514b "514b. New mobile phone number"
+lab var m1_514c_ke "514c. KE only: Flash this number now to make sure its noted it correctly"
 lab var m1_515_address "515. Can you please tell me where you live? What is your address?"
+lab var m1_515_county "515. County"
+lab var m1_515_county_other "515_other. Other county"
+lab var m1_515_subcounty "515. Sub-county"
+lab var m1_515_subcounty_other "515_other. Other sub-county"
+lab var m1_515_village "515. Village"
+lab var m1_515_ward "515. Ward"
 lab var m1_516 "516. Could you please describe directions to your residence? Please give us enough detail so that a data collection team member could find your residence if we needed to ask you some follow up questions"
 lab var m1_517 "517. Is this a temporary residence or a permanent residence?"
 lab var m1_518 "518. Until when will you be at this residence?"
-*lab var m1_519a "519a. Where will your district be after this date "
+lab var m1_519_address "Address/Street name + house number"
+lab var m1_519_county "519. County"
+lab var m1_519_county_other "519. Other county"
+lab var m1_519_directions "519. Could you please describe directions to your residence? Please give us enough detail so that a data collection team member could find your residence if we needed to ask you some follow up questions."
+lab var m1_519_subcounty "519. Sub-county"
+lab var m1_519_subcounty_other "519. Other sub-county"
+lab var m1_519_village "519. Village"
+lab var m1_519_ward "519. Ward"
 lab var m1_601 "601. Overall how would you rate the quality of care you received today?"
 lab var m1_602 "602. How likely are you to recommend this facility or provider to a family member or friend to receive care for their pregnancy?"
 lab var m1_603 "603. How long in minutes did you spend with the health provider today?"
@@ -615,18 +640,18 @@ lab var m1_710c "710c. Did the provider give you medicine for syphilis directly,
 lab var m1_711a "711a. Did they do a blood sugar test for diabetes?"
 lab var m1_711b "711b. Do you know the result of your blood sugar test?"
 lab var m1_712 "712. Did they do an ultrasound (that is, when a probe is moved on your belly to produce a video of the baby on a screen)"
-lab var m1_713a "713a_1. Iron and folic acid pills?"
-*lab var m1_713_za "713b: Iron injection"
-lab var m1_713b "713b_1. Calcium pills?"
-lab var m1_713c "713c_1. The food supplement like Super Cereal or Plumpynut?"
-lab var m1_713d "713d_1. Medicine for intestinal worms?"
-lab var m1_713e "713e_1. Medicine for malaria (endemic only)?"
-*lab var m1_713m_za "713h: Medicine for HIV"
-lab var m1_713f "713f_1. Medicine for your emotions, nerves, or mental health?"
-lab var m1_713g "713g_1. Multivitamins?"
-lab var m1_713h "713h_1. Medicine for hypertension?"
-lab var m1_713i "713i_1. Medicine for diabetes, including injections of insulin?"
-*lab var m1_713n_za "713l: Antibiotics for an infection"
+lab var m1_713a "713a. Iron or folic acid pills, e.g., IFAS or Pregnacare?"
+lab var m1_713b "713b. Calcium pills?"
+lab var m1_713c "713c. The food supplement like Super Cereal or Plumpynut?"
+lab var m1_713d "713d. Medicine for intestinal worms?"
+lab var m1_713e "713e. Medicine for malaria (endemic only)?"
+lab var m1_713f "713f. Medicine for your emotions, nerves, or mental health?"
+lab var m1_713g "713g. Multivitamins?"
+lab var m1_713h "713h. Medicine for hypertension?"
+lab var m1_713i "713i. Medicine for diabetes, including injections of insulin?"
+lab var m1_713j_ke "713j. Iron drip/injection?"
+lab var m1_713k "713l: Medicine for HIV/ ARVs?"
+lab var m1_713l "713l: Antibiotics for an infection?"
 lab var m1_714a "714a. During the visit today, were you given an injection in the arm to prevent the baby from getting tetanus, that is, convulsions after birth?"
 lab var m1_714b "714b. At any time BEFORE the visit today, did you receive any tetanus injections?"
 lab var m1_714c "714c. Before today, how many times did you receive a tetanus injection?"
@@ -656,9 +681,11 @@ lab var m1_724h "724h. To go somewhere else to do an HIV test such as a lab or a
 lab var m1_724i "724i. Were you told to go somewhere else to do an ultrasound such as a hospital or another health facility?"
 lab var m1_801 "801. Did the healthcare provider tell you the estimated date of delivery, or not?"
 lab var m1_802a "802a. What is the estimated date of delivery the provider told you?"
+lab var m1_802_ke "802. KE only: Do you know the estimated date of delivery?"
 lab var m1_803 "803. How many weeks pregnant do you think you are?"
 lab var m1_804 "804. Interviewer calculates the gestational age in trimester based on Q802 (estimated due date) or on Q803 (self-reported number of months pregnant)."
 lab var m1_805 "805. How many babies are you pregnant with?"
+lab var m1_805a_ke "805a. KE only: Please refer to the chart to confirm the number of babies that the respondent is expecting."
 lab var m1_806 "806. During the visit today, did the healthcare provider ask when you had your last period, or not?"
 lab var m1_807 "807. When you got pregnant, did you want to get pregnant at that time?"
 lab var m1_808 "808: There are many reasons why some women may not get antenatal care earlier in their pregnancy. Which, ifany, of the following, are reasons you did not receive care earlier in your pregnancy?"
@@ -666,30 +693,39 @@ lab var m1_808_other "808_Other. Specify other reason not to receive care earlie
 lab var m1_809 "809. During the visit today, did you and the provider discuss your birth plan?"
 lab var m1_810a "810a. Where do you plan to give birth?"
 lab var m1_810b "810b. What is the name of the [facility type from 810a] where you plan to give birth?"
-*lab var m1_811 "811. Do you plan to stay at a maternity waiting home before delivering your baby?"
+lab var m1_810_other "810_Other. Specify other facility name where you plan to give birth."
 lab var m1_812a "812a. During the visit today, did the provider tell you that you might need a C-section?"
-lab var m1_812b "812b.0. Have you told the reason why you might need a c-section?"
-lab var m1_813a "813a. Some women experience common health problems during pregnancy. Did you experience nausea in your pregnancy so far, or not?"
-lab var m1_813b "813b. Some women experience common health problems during pregnancy. Did you experience heartburn in your pregnancy so far, or not?"
-lab var m1_814a "814a. Could you please tell me if you have experienced Severe or persistent headaches in your pregnancy so far, or not?"
-lab var m1_814b "814b. Could you please tell me if you have experienced Vaginal bleeding of any amount in your pregnancy so far, or not?"
-lab var m1_814c "814c. Could you please tell me if you have experienced a fever in your pregnancy so far, or not?"
-lab var m1_814d "814d. Could you please tell me if you have experienced Severe abdominal pain, not just discomfort in your pregnancy so far, or not?"
-lab var m1_814e "814e. Could you please tell me if you have experienced a lot of difficulty breathing even when you are resting in your pregnancy so far, or not?"
-lab var m1_814f "814f. Could you please tell me if you have experienced Convulsions or seizures in your pregnancy so far, or not?"
-lab var m1_814g "814g. Could you please tell me if you have experienced repeated fainting or loss of consciousness in your pregnancy so far, or not?"
-lab var m1_814h "814h. Could you please tell me if you have experienced noticing that the baby has completely stopped moving in your pregnancy so far, or not?"
-*lab var m1_815 "815: During the visit today, what did the provider tell you to do regarding the [symptom(s) experienced in 814a-814h]?"
-lab var m1_815_other "815_Other. Other (specify)"
-*lab var m1_816 "816. You said that you did not have any of the symptoms I just listed. Did the health provider ask you whether or not you had these symptoms, or did this topic not come up today?"
+lab var m1_812b "812b. Have you told the reason why you might need a c-section?"
+lab var m1_812b_other "812b_Other. Specify other reason why you needed a C-section"
+lab var m1_813a "813a. Did you experience nausea in your pregnancy so far, or not?"
+lab var m1_813b "813b. Did you experience heartburn in your pregnancy so far, or not?"
+lab var m1_814a "814a. Did you experience severe or persistent headaches in your pregnancy so far, or not?"
+lab var m1_814b "814b. Did you experience vaginal bleeding of any amount in your pregnancy so far, or not?"
+lab var m1_814c "814c. Did you experience a fever in your pregnancy so far, or not?"
+lab var m1_814d "814d. Did you experience severe abdominal pain, not just discomfort in your pregnancy so far, or not?"
+lab var m1_814e "814e. Did you experience a lot of difficulty breathing even when you are resting in your pregnancy so far, or not?"
+lab var m1_814f "814f. Did you experience convulsions or seizures in your pregnancy so far, or not?"
+lab var m1_814g "814g. Did you experience repeated fainting or loss of consciousness in your pregnancy so far, or not?"
+lab var m1_814h "814h. Did you experience noticing that the baby has completely stopped moving in your pregnancy so far, or not?"
+lab var m1_815_0 "815: During the visit today, what did the provider tell you to do regarding the [symptom(s) experienced in 814a-814h]?"
+lab var m1_815_1 "815. Nothing, we did not discuss this"
+lab var m1_815_2 "815. They told you to get a lab test or imaging (e.g., ultrasound, blood tests, x-ray, heart echo)"
+lab var m1_815_3 "815. They provided a treatment in the visit"
+lab var m1_815_4 "815. They prescribed a medication"
+lab var m1_815_5 "815. They told you to come back to this health facility"
+lab var m1_815_6 "815. They told you to go somewhere else for higher level care"
+lab var m1_815_7 "815. They told you to wait and see"
+lab var m1_815_96 "815. Other (specify)"
+lab var m1_815_98 "815. Don't know"
+lab var m1_815_99 "815. NR/RF"
+lab var m1_815_other "815_Other. Specify other advice from provider"
 lab var m1_901 "901. How often do you currently smoke cigarettes or use any other type of tobacco? Is it every day, some days, or not at all?"
 lab var m1_902 "902. During the visit today, did the health provider advise you to stop smoking or using tobacco products?"
+lab var m1_903 "903. How often do you chew 'Miraa'? Is it every day, some days, or not at all?"
+lab var m1_904 "904. During the visit today, did the health provider advise you to stop chewing 'Miraa'?"
 lab var m1_905 "905. Have you consumed an alcoholic drink (i.e., Tela, Tej, Areke, Bira, Wine, Borde, Whisky) within the past 30 days?"
 lab var m1_906 "906. When you do drink alcohol, how many standard drinks do you consume on average?"
 lab var m1_907 "907. During the visit today, did the health provider advise you to stop drinking alcohol?"
-*lab var m1_908_za "908: What is the age of your partner or father of the baby? (Interviewer allows the participant to write down theanswer)"
-*lab var m1_909_za "909: Have you ever given oral, anal, or vaginal sex to someone because you expected to get or got any of thesethings?"
-*lab var m1_910_za "910: In the past 12 months, have you started or stayed in a relationship with a man or boy so that you couldreceive any of the following?"
 lab var m1_1001 "1001. How many pregnancies have you had, including the current pregnancy and regardless of whether you gave birth or not?"
 lab var m1_1002 "1002. How many births have you had (including babies born alive or dead)?"
 lab var m1_1003 "1003. In how many of those births was the baby born alive?"
@@ -707,10 +743,36 @@ lab var m1_1011d "1011d. Did you discuss about that you had a baby born early be
 lab var m1_1011e "1011e. Did you discuss about that you had a c-section before, or not?"
 lab var m1_1011f "1011f. Did you discuss about that you had a baby die within their first month of life?"
 lab var m1_1101 "1101. At any point during your current pregnancy, has anyone ever hit, slapped, kicked, or done anything else to hurt you physically?"
-*lab var m1_1102 "1102: Who has done these things to you while you were pregnant?"
-lab var m1_1102_other "1102_Oth. Specify who else hit, kick, slapped, ... you"
+lab var m1_1102 "1102: Who has done these things to you while you were pregnant?"
+lab var m1_1102_1 "1102. Current husband / partner"
+lab var m1_1102_2 "1102. Parent (mother, father, step-parent, in-law)"
+lab var m1_1102_3 "1102. Sibling"
+lab var m1_1102_4 "1102. Child"
+lab var m1_1102_5 "1102. Late /last / ex-husband/partner"
+lab var m1_1102_6 "1102. Other relative"
+lab var m1_1102_7 "1102. Friend/acquaintance"
+lab var m1_1102_8 "1102. Teacher"
+lab var m1_1102_9 "1102. Employer"
+lab var m1_1102_10 "1102. Stranger"
+lab var m1_1102_96 "1102. Other (specify)"
+lab var m1_1102_98 "1102. Don't know "
+lab var m1_1102_99 "1102. NR/RF"
+lab var m1_1102_other "1102_Other. Specify other person"
 lab var m1_1103 "1103. At any point during your current pregnancy, has anyone ever said or done something to humiliate you, insulted you or made you feel bad about yourself?"
-*lab var m1_1104 "1104: Who has done these things to you while you were pregnant?"
+lab var m1_1104 "1104: Who has done these things to you while you were pregnant?"
+lab var m1_1104_1 "1104. Current husband / partner"
+lab var m1_1104_2 "1104. Parent (mother, father, step-parent, in-law)"
+lab var m1_1104_3 "1104. Sibling"
+lab var m1_1104_4 "1104. Child"
+lab var m1_1104_5 "1104. Late /last / ex-husband/partner"
+lab var m1_1104_6 "1104. Other relative"
+lab var m1_1104_7 "1104. Friend/acquaintance"
+lab var m1_1104_8 "1104. Teacher"
+lab var m1_1104_9 "1104. Employer"
+lab var m1_1104_10 "1104. Stranger"
+lab var m1_1104_96 "1104. Other (specify)"
+lab var m1_1104_98 "1104. Don't know"
+lab var m1_1104_99 "1104. NR/RF"
 lab var m1_1104_other "1104_Other. Specify others who humiliates you"
 lab var m1_1105 "1105. During the visit today, did the health provider discuss with you where you can seek support for these things?"
 lab var m1_1201 "1201. What is the main source of drinking water for members of your household?"
