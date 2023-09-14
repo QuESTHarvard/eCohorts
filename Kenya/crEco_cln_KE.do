@@ -1,7 +1,6 @@
 * Kenya MNH ECohort Data Cleaning File 
 * Created by S. Sabwa
-* Updated: Sep 5 2023 
-
+* Last Updated: Sep 14 2023 
 
 *------------------------------------------------------------------------------*
 
@@ -13,16 +12,12 @@ use "$ke_data/KEMRI_Module_1_ANC_2023z-9-6.dta"
 *------------------------------------------------------------------------------*
 * Create sample: (M1 = 1,007)
 
-* Confirm: are there are any PIDS we should drop? -James
-
 keep if consent == 1 // 27 ids dropped
-drop if q105 == .
+drop if q105 == . // 3 ids dropped
 
 gen country = "Kenya"
 
 * recode a1 = ids and drop names
-
-* recode facility names? - leave in for now
 
 * de-identifying dataset and remove extra variables
 drop q101 q102 q105 q513b q513d q513e_1 q513e_2 q513f_1 q513f_2 q513g_1 q513g_2 ///
@@ -47,7 +42,7 @@ drop q101 q102 q105 q513b q513d q513e_1 q513e_2 q513f_1 q513f_2 q513g_1 q513g_2 
 rename duration interview_length
 rename a1 interviewer_id
 rename a4 study_site
-rename a5 facility
+rename facility_name facility 
 rename b1 permission
 rename (b2 b3) (care_self enrollage)
 rename (b4 b4_oth b5 b6) (zone_live zone_live_other b5anc b6anc_first)
@@ -98,8 +93,11 @@ rename (q716a q716b q716c q716d q716e q717 q718 q719 q720 q721 q722 q723 q724a q
 		m1_724e m1_724f m1_724g m1_724h m1_724i m1_801 m1_802_ke m1_802a)
 rename (q803 edd_chart gest_age_baseline q804 q805 expected_babies q806 q807 q808 q808_oth) (m1_803 ///
 		edd_chart_ke gest_age_baseline_ke m1_804 m1_805 m1_805a_ke m1_806 m1_807 m1_808 m1_808_other)
-rename (q809 q810a q810b q810b_oth) (m1_809 m1_810a m1_810b m1_810_other)
+rename (q809 q810a q810b q810b_oth) (m1_809 m1_810a m1_810b m1_810b_other)
 rename (q812a q812b q812b_oth q813a q813b) (m1_812a m1_812b m1_812b_other m1_813a m1_813b)
+rename (q812b_0 q812b_1 q812b_2 q812b_3 q812b_4 q812b_5 q812b__96 q812b_998 q812b_999) ///
+	   (m1_812b_0_ke m1_812b_1 m1_812b_2 m1_812b_3 m1_812b_4 m1_812b_5 m1_812b_96 ///
+	   m1_812b_98 m1_812b_99)
 rename (q814a q814b q814c q814d q814e q814f q814g q814h) (m1_814a m1_814b m1_814c ///
 		m1_814d m1_814e m1_814f m1_814g m1_814h)
 rename (q815 q815_0 q815_1 q815_2 q815_3 q815_4 q815_5 q815_6 q815__96 q815_998 ///
@@ -127,7 +125,7 @@ rename (q1104_oth q1105 q1201 q1201_oth q1202 q1202_oth q1203 q1204 q1205 q1206 
 		m1_1213 m1_1214 m1_1215)
 rename (q1216 q1217 q1218 clinic_cost q1218a q1218b q1218c q1218d q1218e q1218f_2 ///
 		q1218f_1 q1218f_3 q1219 other_costs q1220) (m1_1216b m1_1217 m1_1218_ke ///
-		m1_1218_1_ke m1_1218a_1 m1_1218b_1 m1_1218c_1 m1_1218d_1 m1_1218e_1 ///
+		m1_clinic_cost_ke m1_1218a_1 m1_1218b_1 m1_1218c_1 m1_1218d_1 m1_1218e_1 ///
 		m1_1218f_other m1_1218f m1_1218f_1 m1_1219 m1_other_costs_ke m1_1220)
 rename (q1220_oth q1221 q1222 q1222_oth q1223) (m1_1220_other m1_1221 m1_1222 ///
 		m1_1222_other m1_1223)	
@@ -135,10 +133,13 @@ rename (q513a q513a_0 q513a_1 q513a_2 q513a_3 q513a_4 q513a_5 q513a_6 q513a__96)
 		(m1_513a m1_513a_1 m1_513a_2 m1_513a_3 m1_513a_4 m1_513a_5 m1_513a_6 ///
 		m1_513a_7 m1_513a_8)		
 rename q513c m1_513c
+
+*these were dropped from the dataset above
 *rename (q513d q513e_1 q513e_2 q513f_1 q513f_2 q513g_1 q513g_2 q513h_1 q513h_2 ///
 		*q513i_1 q513i_2 q514a q514b_1 q514b_2) (m1_513d m1_513e_name m1_513e m1_513f_name ///
 		*m1_513f m1_513g_name m1_513g m1_513h_name m1_513h m1_513i_name m1_513i m1_514a ///
-		*m1_514b m1_514c_ke)		
+		*m1_514b m1_514c_ke)	
+		
 rename (q515_5 q515_3 q515_4 q515_1 q515_1_oth q515_2 q515_2_oth q516 q517 q519_3 q519_4 ///
 		q519_1 q519_1_oth q519_2 q519_2_oth q519_5 q519_6) (m1_515_address m1_515_ward ///
 		m1_515_village m1_515_county m1_515_county_other m1_515_subcounty m1_515_subcounty_other ///
@@ -148,20 +149,37 @@ rename (q1301 q1302 bp_count q1303a_1 q1303b_1 q1303c_1 q1303a_2 q1303b_2 q1303c
 		q1303a_3 q1303b_3 q1303c_3) (height_cm weight_kg m1_bp_count_ke bp_time_1_systolic ///
 		bp_time_1_diastolic time_1_pulse_rate bp_time_2_systolic bp_time_2_diastolic time_2_pulse_rate ///
 		bp_time_3_systolic bp_time_3_diastolic pulse_rate_time_3)
-rename (q1306 q1307 q1308 q1309 q1401 preferred_phone_oth preferred_phone_confirm q1402 endtime) ///
-		(m1_1306 m1_1307 m1_1308 m1_1309 m1_1401 m1_1401_other m1_1401a_ke m1_1402 m1_end_time)		
-rename preferred_language interview_language_ke
+rename (q1306 q1307 q1308 q1309 q1401 preferred_phone_oth preferred_phone_confirm endtime) ///
+		(m1_1306 m1_1307 m1_1308 m1_1309 m1_1401 m1_1401a_ke m1_1401b_ke m1_end_time)		
 rename noconsent_why noconsent_why_ke		
 rename end_comment m1_end_comment_ke	
 rename submissiondate date_m1
 rename starttime m1_start_time
-
+rename (q1401_1 q1401_2 q1401_3 q1401_4) (m1_1401_1_ke m1_1401_2_ke m1_1401_3_ke m1_1401_4_ke)
+rename total_cost m1_1218g
+rename (q1402 q1402_0 q1402_1 q1402_2 q1402_3 q1402_4 q1402_5 q1402_6 q1402_7) ///
+	   (m1_1402_ke m1_1402_0_ke m1_1402_1_ke m1_1402_2_ke m1_1402_3_ke m1_1402_4_ke ///
+	   m1_1402_5_ke m1_1402_6_ke m1_1402_7_ke)
+	   
+rename (preferred_language preferred_language_1 preferred_language_2 preferred_language_3 ///
+		preferred_language_4 preferred_language__96 preferred_language_oth) (pref_language_ke ///
+		pref_language_1_ke pref_language_2_ke pref_language_3_ke pref_language_4_ke pref_language_96_ke ///
+		pref_language_other_ke)
 
 *===============================================================================
 	
 	* STEP TWO: ADD VALUE LABELS (NA in KENYA)
 
 *===============================================================================
+* Generate new vars (KE only:
+
+destring (m1_clinic_cost_ke),replace
+
+egen m1_1218_other_total_ke = rowtotal(m1_1218d_1 m1_1218e_1 m1_1218f_1) 
+egen m1_1218_total_ke = rowtotal(m1_clinic_cost_ke m1_1218a_1 m1_1218b_1 m1_1218c_1 m1_1218_other_total_ke) 	
+	
+
+drop m1_1218g m1_other_costs_ke
 
 *===============================================================================
 		
@@ -240,12 +258,12 @@ recode m1_204 (. = .a) if (m1_203a_ke == 0 | m1_203a_ke == .) & ///
 				   (m1_203_96_ke == 0 | m1_203_96_ke == .) 
 */
 				   
-replace m1_203_other_ke = ".a" if m1_203_96_ke == 0 | m1_203_96_ke == .
+replace m1_203_other_ke = ".a" if m1_203_96_ke != 1
 
-*replace m1_401_other = ".a" if m1_401 != "-96" // doesn't work because of checkbox data
+replace m1_401_other = ".a" if m1_401_96_ke != 1 
 replace m1_405_other = ".a" if m1_405 != -96
 
-replace m1_501_ke_other = ".a" if m1_501k_ke == 0 | m1_501k_ke == .
+replace m1_501_ke_other = ".a" if m1_501k_ke != 1
 
 replace m1_501_other = ".a" if m1_501 != -96
 
@@ -257,21 +275,20 @@ recode m1_504 (.  = .a) if m1_503 == 2 | m1_503 == 3 | m1_503 == 4 | ///
 
 replace m1_506_other = ".a" if m1_506 != -96	
 
-** SS: 507 other should be a string
 replace m1_507_other = ".a" if m1_507 != -96		
 				  
 recode m1_509b (.  = .a) if m1_509a == 0 | m1_509a == . | m1_509a == .r
 recode m1_510b (.  = .a) if m1_510a == 0 | m1_510a == . | m1_510a == .r
 
-
-* - SS: confirm what is the skip pattern for m1_513c? Is there one?
+* SS: confirm what is the skip pattern for m1_513c? Is there one?
 recode m1_514a (. = .a) if m1_513c != .
 recode m1_514b (. = .a) if m1_514a == . | m1_514a == .a
 recode m1_514c_ke (. = .a) if m1_514a == . | m1_514a == .a
 
+replace m1_515_county_other = ".a" if m1_515_county != -96
+replace m1_515_subcounty_other = ".a" if m1_515_subcounty != -96
 recode m1_517 (. = .a) if m1_516 == "" 
 recode m1_518 (. = .a) if m1_517 == 2 | m1_517 == . | m1_517 == .a
-
 recode m1_519_county (. = .a) if m1_517 == 2 | m1_517 == . | m1_517 == .a
 replace m1_519_county_other = ".a" if m1_519_county != -96
 recode m1_519_subcounty (. = .a) if m1_517 == 2 | m1_517 == . | m1_517 == .a
@@ -327,13 +344,18 @@ replace gest_age_baseline_ke = ".a" if edd_chart_ke == 0 | edd_chart_ke == . | e
 
 recode m1_804 (.  = .a) if (m1_801 == 0 | m1_801 == . | m1_801 == .d) & (m1_802a == . | m1_802a == .a) & (m1_803 == . | m1_803 == .d | m1_803 == .r)
 recode m1_808 (.  = .a) if m1_804 == 1 | m1_804 == . | m1_804 == .a 
-replace m1_808_other = ".a" if m1_808 != 96	
+replace m1_808_other = ".a" if m1_808 != -96
+	
 replace m1_810b = .a if m1_810a == 1 | m1_810a == 2 | m1_810a == .d | m1_810a == . | m1_810a == .r
+replace m1_810b_other = ".a" if m1_810b != -96
+
 replace m1_812b = ".a" if m1_812a == 0 | m1_812a ==. | m1_812a == .d | m1_812a == .r
 
-recode q812b_0 q812b_1 q812b_2 q812b_3 q812b_4 q812b_5 q812b__96 q812b_998 ///
-	   q812b_999 (. = .a) if m1_812b == ".a"
+recode m1_812b_0_ke m1_812b_1 m1_812b_2 m1_812b_3 m1_812b_4 m1_812b_5 m1_812b_96 ///
+	   m1_812b_99 (. = .a) if m1_812b == ".a"
 
+replace m1_812b_other = ".a" if m1_812b_96 !=1
+	   
 recode m1_813b (.  = .a) if m1_813a == 0 | m1_813a == . | m1_813a == .d
 recode m1_814h (.  = .a) if m1_804 == 1	| m1_804 == 2 | m1_804 == . | m1_804 == .a | m1_804 == .d		
 						   			   
@@ -354,12 +376,7 @@ recode m1_815_1 m1_815_2 m1_815_3 m1_815_4 m1_815_5 m1_815_6 m1_815_7 ///
 	   (m1_814g == 0 | m1_814g == . | m1_814g == .d | m1_814g == .r) & ///
 	   (m1_814h == 0 | m1_814h == .d | m1_814h == .r | m1_814h == .a | m1_814h == .)
 						   
-replace m1_815_other = ".a" if m1_815_0 != "-96" // Need to figure out how to code this better because not picking up picking who selected other and another choice
-
-* m1_816 not in this dataset
-*egen symp_total = rowtotal(m1_814a m1_814b m1_814c m1_814d m1_814e m1_814f m1_814g m1_814h) 	
-*recode m1_815 (.  = .a) if symp_total >= 1
-*drop symp_total
+replace m1_815_other = ".a" if m1_815_96 != 1 
 									
 recode m1_902 (.  = .a) if m1_901 == 3 | m1_901 == .d | m1_901 == .r | m1_901 == .
 
@@ -399,20 +416,19 @@ recode m1_1011e (.  = .a) if m1_1007 == 0 | m1_1007 == . | m1_1007 == .a
 
 recode m1_1011f (.  = .a) if m1_1010 == 0 | m1_1010 == . | m1_1010 == .a
 
-replace m1_1102_1 = ".a" if m1_1101 == 0 | m1_1101 == . 
+replace m1_1102 = ".a" if m1_1101 == 0 | m1_1101 == . 
 
 recode m1_1102_2 m1_1102_3 m1_1102_4 m1_1102_5 m1_1102_6 m1_1102_7 m1_1102_8 ///
 	   m1_1102_9 m1_1102_10 m1_1102_96 m1_1102_98 m1_1102_99 (.  = .a) if ///
 	   m1_1101 == 0 | m1_1101 == . 
 
-* SS: change all checkboxes to match this:
-replace m1_1102_other = ".a" if m1_1102_96 == 0 | m1_1102_96 == .a
+replace m1_1102_other = ".a" if m1_1102_96 != 1
 
 replace m1_1104 = ".a" if m1_1103 == 0 | m1_1103 == . | m1_1103 == .d
 
 recode m1_1104_1 m1_1104_2 m1_1104_3 m1_1104_4 m1_1104_5 m1_1104_6 m1_1104_7 m1_1104_8 m1_1104_9 m1_1104_10 m1_1104_96 m1_1104_98 m1_1104_99 (.  = .a) if m1_1103 == 0 | m1_1103 == . | m1_1103 == .d
 
-replace m1_1104_other = ".a" if m1_1104_96 == 0 | m1_1104_96 == .a	 
+replace m1_1104_other = ".a" if m1_1104_96 != 1 
 
 recode m1_1105 (.  = .a) if (m1_1103 == 0 | m1_1103 == . | m1_1103 == .d)
 
@@ -432,9 +448,13 @@ replace m1_1211_other = ".a" if m1_1211 != -96
 
 recode m1_1218_ke m1_1218a_1 m1_1218b_1 m1_1218c_1 m1_1218d_1 m1_1218e_1 m1_1218f m1_1218f_1 (. = .a) if m1_1217 == 0 | m1_1217 == .
 
-replace m1_1218_1_ke = ".a" if m1_1217 == 0 | m1_1217 == .
+replace m1_1218_total_ke = .a if m1_1217 == 0 | m1_1217 == .
+
+replace m1_clinic_cost_ke = .a if m1_1217 == 0 | m1_1217 == .
 
 replace m1_1218f_other = ".a" if m1_1218f == 0 | m1_1218f == .a | m1_1218f == .
+
+replace m1_1218_total_ke = .a if m1_1217 == 0 | m1_1217 == .
 
 recode m1_1219 (.  = .a) if (m1_1218_ke == .a) & ///
 						   (m1_1218a_1 == .a | m1_1218a_1 ==.) & ///
@@ -443,9 +463,11 @@ recode m1_1219 (.  = .a) if (m1_1218_ke == .a) & ///
 						   (m1_1218d_1 == .a | m1_1218c_1 == .) & ///
 						   (m1_1218e_1 == .a | m1_1218e_1 == .) & ///
 						   (m1_1218f_1 == .a | m1_1218f_1 == .) & ///
-						   (m1_1218_1_ke == ".a")
+						   (m1_clinic_cost_ke == .a)
 
-replace m1_other_costs_ke = ".a" if m1_1218f_1  == .a | m1_1218f_1 == .						   
+replace m1_1218_other_total_ke = .a if m1_1217 == 0 | m1_1217 == .
+
+replace m1_1218_other_total_ke = .a if m1_1217 == 0 | m1_1217 == . 						   
 						   
 recode m1_1220 (.  = .a) if m1_1217 == 0 | m1_1217 == . 
 
@@ -453,20 +475,24 @@ replace m1_1220_other = ".a" if m1_1220 != -96
 
 replace m1_1222 = .a if m1_1221 == 0 | m1_1221 == .
 
+replace m1_1222_other = ".a" if m1_1222 != -96
+
 recode m1_1307 (.  = .a) if m1_1306 == 0 | m1_1306 == . 
 
 recode m1_1308 (.  = .a) if m1_1306 == 1 | m1_1306 == .
 
 recode m1_1309 (.  = .a) if m1_1308 == 0 | m1_1308 == . | m1_1308 == .a	  
 
+replace pref_language_other_ke = ".a" if pref_language_96_ke != 1
 
 *===============================================================================					   
 	
 	* STEP FOUR: LABELING VARIABLES
-
-lab var country "Country"
+drop enrollage 
+ren rec* *
 	
 	** MODULE 1:		
+lab var country "Country"
 lab var interviewer_id "Interviewer ID"
 lab var date_m1 "A2. Date of interview"
 lab var m1_start_time "A3. Time of interview"
@@ -508,7 +534,7 @@ lab var m1_203m_ke "203m. KE only: Kidney failure"
 lab var m1_203n_ke "203n. KE only: Asthma"
 lab var m1_203o_ke "203o. KE only: Chronic obstructive pulmonary disease (COPD)"
 lab var m1_203_96_ke "203. KE only: Other, specify"
-lab var m1_203_other_ke "203_Other. Other major health problems"
+lab var m1_203_other_ke "203_Other. KE only: Other major health problems"
 lab var m1_204 "204. Are you currently taking any medications?"
 lab var m1_205a "205a. I am going to read three statements about your mobility, by which I mean your ability to walk around. Please indicate which statement best describe your own health state today?"
 lab var m1_205b "205b. I am now going to read three statements regarding your ability to self-care, by which I mean whether you can wash and dress yourself without assistance. Please indicate which statement best describe your own health state today"
@@ -550,16 +576,16 @@ lab var m1_501 "501. What is your first language?"
 lab var m1_501_other "501_Other. Specify other language"
 lab var m1_501_ke "501b. Besides your primary/first language, which other languages do you speak fluently?"
 lab var m1_501_ke_other "501b_Other. Specify other language spoken?"
-lab var m1_501b_ke "501b. English"
-lab var m1_501c_ke "501b. Kiswahili"
-lab var m1_501d_ke "501b. Kikuyu"
-lab var m1_501e_ke "501b. Kikamba"
-lab var m1_501f_ke "501b. Kimeru"
-lab var m1_501g_ke "501b. Kalenjin"
-lab var m1_501h_ke "501b. Dholuo"
-lab var m1_501i_ke "501b. Luhya"
-lab var m1_501j_ke "501b. Kisii"
-lab var m1_501k_ke"501b. Other, specify"
+lab var m1_501b_ke "501b. KE only: English"
+lab var m1_501c_ke "501b. KE only: Kiswahili"
+lab var m1_501d_ke "501b. KE only: Kikuyu"
+lab var m1_501e_ke "501b. KE only: Kikamba"
+lab var m1_501f_ke "501b. KE only: Kimeru"
+lab var m1_501g_ke "501b. KE only: Kalenjin"
+lab var m1_501h_ke "501b. KE only: Dholuo"
+lab var m1_501i_ke "501b. KE only: Luhya"
+lab var m1_501j_ke "501b. KE only: Kisii"
+lab var m1_501k_ke"501b. KE only: Other, specify"
 lab var m1_502 "502. Have you ever attended school?"
 lab var m1_503 "503. What is the highest level of education you have completed?"
 lab var m1_504 "504. Now I would like you to read this sentence to me. 1. PARENTS LOVE THEIR CHILDREN. 3. THE CHILD IS READING A BOOK. 4. CHILDREN WORK HARD AT SCHOOL."
@@ -649,7 +675,7 @@ lab var m1_713f "713f. Medicine for your emotions, nerves, or mental health?"
 lab var m1_713g "713g. Multivitamins?"
 lab var m1_713h "713h. Medicine for hypertension?"
 lab var m1_713i "713i. Medicine for diabetes, including injections of insulin?"
-lab var m1_713j_ke "713j. Iron drip/injection?"
+lab var m1_713j_ke "713j. KE only: Iron drip/injection?"
 lab var m1_713k "713l: Medicine for HIV/ ARVs?"
 lab var m1_713l "713l: Antibiotics for an infection?"
 lab var m1_714a "714a. During the visit today, were you given an injection in the arm to prevent the baby from getting tetanus, that is, convulsions after birth?"
@@ -693,9 +719,18 @@ lab var m1_808_other "808_Other. Specify other reason not to receive care earlie
 lab var m1_809 "809. During the visit today, did you and the provider discuss your birth plan?"
 lab var m1_810a "810a. Where do you plan to give birth?"
 lab var m1_810b "810b. What is the name of the [facility type from 810a] where you plan to give birth?"
-lab var m1_810_other "810_Other. Specify other facility name where you plan to give birth."
+lab var m1_810b_other "810_Other. Specify other facility name where you plan to give birth."
 lab var m1_812a "812a. During the visit today, did the provider tell you that you might need a C-section?"
 lab var m1_812b "812b. Have you told the reason why you might need a c-section?"
+lab var m1_812b_0_ke "812b. KE only: I was not told why "
+lab var m1_812b_1 "812b. Because I had a c-section before"
+lab var m1_812b_2 "812b. Because I am pregnant with more than one baby"
+lab var m1_812b_3 "812b. Because of the baby's position"
+lab var m1_812b_4 "812b. Because of the position of the placenta"
+lab var m1_812b_5 "812b. Because I have health problems"
+lab var m1_812b_96 "812b. Other (specify)"
+lab var m1_812b_98 "812b. Don't Know"
+lab var m1_812b_99 "812b. NR/RF"
 lab var m1_812b_other "812b_Other. Specify other reason why you needed a C-section"
 lab var m1_813a "813a. Did you experience nausea in your pregnancy so far, or not?"
 lab var m1_813b "813b. Did you experience heartburn in your pregnancy so far, or not?"
@@ -796,21 +831,25 @@ lab var m1_1212 "1212. Does any member of your household own a bicycle?"
 lab var m1_1213 "1213. Does any member of your household own a motorcycle or motor scooter?" 
 lab var m1_1214 "1214. Does any member of your household own a car or truck?"
 lab var m1_1215 "1215. Does any member of your household have a bank account?"
-*lab var m1_1216a "1216: How many meals does your household usually have per day?"
+lab var m1_1216b "1216: How many meals does your household usually have per day?"
 lab var m1_1217 "1217. Did you pay money out of your pocket for this visit, including for the consultation or other indirect costs like your transport to the facility?"
-lab var m1_1218a_1 "1218a.1. How much money did you spend on Registration / Consultation?"
-lab var m1_1218b_1 "1218b.1. How much money do you spent for medicine/vaccines (including outside purchase)"
-lab var m1_1218c_1 "1218c.1. How much money have you spent on Test/investigations (x-ray, lab etc.)?"
-lab var m1_1218d_1 "1218d.1. How much money have you spent for transport (round trip) including that of person accompanying you?"
-lab var m1_1218e_1 "1218e.1. How much money have you spent on food and accommodation including that of the person accompanying you?"
-*lab var m1_1218_za "1218f: Other (specify)"
-*lab var m1_1218g "1218f: If other, please specify - Amount"
-*lab var m1_1218g_za "1218g: Total Spent"
-lab var m1_1219 "Total amount spent"
+lab var m1_clinic_cost_ke "1218. KE only: Total clinic costs"
+lab var m1_1218_ke "1218. KE only: How much (in Ksh.) in total did you spend at the clinic?"
+lab var m1_1218a_1 "1218a. How much money did you spend on Registration / Consultation?"
+lab var m1_1218b_1 "1218b. How much money do you spent for medicine/vaccines (including outside purchase)"
+lab var m1_1218c_1 "1218c. How much money have you spent on Test/investigations (x-ray, lab etc.)?"
+lab var m1_1218d_1 "1218d. How much money have you spent for transport (round trip) including that of person accompanying you?"
+lab var m1_1218e_1 "1218e. How much money have you spent on food and accommodation including that of the person accompanying you?"
+lab var m1_1218f "1218f. Are there any other costs that you incurred during your visit?"
+lab var m1_1218f_1 "1218f. How much were these other costs?"
+lab var m1_1218f_other "1218f_Other. What are those other costs that you incurred?"
+lab var m1_1218_total_ke "1218g. Total Spent"
+lab var m1_1219 "1219. Total amount spent"
 lab var m1_1220 "1220: Which of the following financial sources did your household use to pay for this?"
 lab var m1_1220_other "1220_Other. Specify other financial source for household use to pay for this"
 lab var m1_1221 "1221. Are you covered with a health insurance?"
 lab var m1_1222 "1222. What type of health insurance coverage do you have?"
+lab var m1_1222_other "1222_Other. Specify other health insurance coverage used."
 lab var m1_1223 "1223. To conclude this survey, overall, please tell me how satisfied you are with the health services you received at this establishment today?"
 lab var height_cm "Height in centimeters"
 lab var weight_kg "Weight in kilograms"
@@ -828,21 +867,64 @@ lab var m1_1307 "1307. HEMOGLOBIN LEVEL FROM MATERNAL HEALTH CARD "
 lab var m1_1308 "1308. Will you take the anemia test?"
 lab var m1_1309 "1309. HEMOGLOBIN LEVEL FROM TEST PERFORMED BY DATA COLLECTOR"
 lab var m1_1401 "1401. What period of the day is most convenient for you to answer the phone survey?"
-
+lab var m1_1401a_ke "1401a. KE only: Which phone number should we call you on?"
+lab var m1_1401b_ke "1401a. KE only: Is this the preferred phone number that we should call you on?"
+lab var m1_1401_1 "1401. KE only: Morning"
+lab var m1_1401_2 "1401. KE only: Midday"
+lab var m1_1401_3 "1401. KE only: Afternoon"
+lab var m1_1401_4 "1401. KE only: Evening"
+lab var m1_1402_ke "1402. KE only: Is there a specific day in the week that you do not want to be called?"
+lab var m1_1402_0_ke "1402. KE only: None"
+lab var m1_1402_1_ke "1402. KE only: Monday"
+lab var m1_1402_2_ke "1402. KE only: Tuesday"
+lab var m1_1402_3_ke "1402. KE only: Wednesday"
+lab var m1_1402_4_ke "1402. KE only: Thursday"
+lab var m1_1402_5_ke "1402. KE only: Friday"
+lab var m1_1402_6_ke "1402. KE only: Saturday"
+lab var m1_1402_7_ke "1402. KE only: Sunday"
+lab var m1_bp_count_ke "KE only: Blood pressure count"
+lab var m1_end_comment_ke "KE only: Enumerator: Add any comments you may have on the survey that affect data quality. Leave empty if no comments."
+lab var m1_end_time "Endtime"
+lab var m1_1218_other_total_ke "Transport, Food and other costs"
+lab var interview_length "Interview length"
+lab var gest_age_baseline_ke "KE only: Calculated gestational age"
+lab var edd_chart_ke "KE only: Data collector: Check from the chart, is the expected delivery date recorded?"
+lab var edd "KE only: Check from the chart, what is the expected delivery date recorded?"
+lab var pref_language_ke "KE only: In which language(s) do you feel most comfortable for the follow-up interviews?"
+lab var pref_language_1_ke "KE only: English"
+lab var pref_language_2_ke "KE only: Kiswahili"
+lab var pref_language_3_ke "KE only: Kikuyu"
+lab var pref_language_4_ke "KE only: Kamba"
+lab var pref_language_96_ke "KE only: Other (specify)"
+lab var pref_language_other_ke "KE only: Specify other preferred language"
 
 *===============================================================================
 
 	* STEP FIVE: ORDER VARIABLES
-	
-*===============================================================================
+drop username time_start_full time_start time_start_v2 deviceid	today_date today_date_d ///
+     county_label agree_phone county_eligibility q814a_calc_e q814b_calc_e q814c_calc_e ///
+	 q814d_calc_e q814e_calc_e q814f_calc_e q814g_calc_e q814h_calc_e q814_calc_e q814a_calc_ki ///
+	 q814b_calc_ki q814c_calc_ki q814d_calc_ki q814e_calc_ki q814f_calc_ki q814g_calc_ki q814h_calc_ki ///
+	 q814_calc_ki q814a_calc_ka q814b_calc_ka q814c_calc_ka q814e_calc_ka q814g_calc_ka q814h_calc_ka ///
+	 q814d_calc_ka q814f_calc_ka ///
+	 q814_calc_ka device_date_ke date_survey_baseline county_eligibility_oth a5 key formdef_version
 
-	* STEP SIX: SAVE DATA TO RECODED FOLDER
-drop username time_start_full time_start time_start_v2 deviceid	
- 
 order m1_*, sequential
-order country study_site facility interviewer_id date_m1 permission care_self enrollage zone_live b5anc b6anc_first b7eligible respondentid mobile_phone flash
+order country interviewer_id date_m1 m1_start_time study_site facility ///
+      permission care_self enrollage dob ///
+	  zone_live zone_live_other b5anc b6anc_first b7eligible noconsent_why_ke ///
+	  respondentid mobile_phone flash
 
 order phq9a phq9b phq9c phq9d phq9e phq9f phq9g phq9h phq9i, after(m1_205e)
+order edd_chart_ke edd gest_age_baseline_ke, after(m1_803)
+order m1_clinic_cost_ke, after(m1_1218_ke)
+order m1_1218_other_total_ke, after(m1_1218f_1)
+order m1_1218_total_ke, after(m1_1218_other_total_ke)
 
-*save "$ke_data_final/eco_m1_ke.dta", replace
-	
+*===============================================================================
+	* STEP SIX: SAVE DATA TO RECODED FOLDER
+
+	save "$ke_data_final/eco_m1_ke.dta", replace
+
+*===============================================================================
+
