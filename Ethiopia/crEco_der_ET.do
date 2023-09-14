@@ -42,6 +42,11 @@ u "$user/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuES
 
 			egen phq2_cat= rowtotal(phq9a phq9b)
 			recode phq2_cat (0/2=0) (3/6=1)
+			
+*------------------------------------------------------------------------------*	
+	* SECTION 3: CONFIDENCE AND TRUST HEALTH SYSTEM
+			recode m1_302 (98=.)
+	
 *------------------------------------------------------------------------------*	
 	* SECTION 5: BASIC DEMOGRAPHICS
 	
@@ -62,7 +67,12 @@ u "$user/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuES
 				recode `v' (2=1) (3/5=0), gen(vg`v')
 			}
 			egen anc1ux=rowmean(vgm1_605a-vgm1_605k)
-	
+			drop vgm1_605a-vgm1_605k
+			
+			foreach v in m1_605a m1_605b m1_605c m1_605d m1_605e m1_605f ///
+			             m1_605g m1_605h m1_605i m1_605j m1_605k {
+						 	recode `v' (4/5=1) (1/3=0), gen(fpoor`v')
+						 }
 *------------------------------------------------------------------------------*	
 	* SECTION 7: VISIT TODAY: CONTENT OF CARE
 	
@@ -74,7 +84,8 @@ u "$user/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuES
 			recode anc1bmi (1=0) (2=1)
 			gen anc1muac = m1_703
 			gen anc1fetal_hr = m1_704
-			recode anc1fetal_hr  (2=.) // only applies to those in 2nd or 3rd trimester
+			recode anc1fetal_hr  (2=.) 
+			replace anc1fetal_hr=. if m1_804==1 // only applies to those in 2nd or 3rd trimester
 			gen anc1urine = m1_705
 			egen anc1blood = rowmax(m1_706 m1_707) // finger prick or blood draw
 			gen anc1hiv_test =  m1_708a
@@ -112,9 +123,18 @@ u "$user/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuES
 			* Instructions and advanced care
 			egen specialist_hosp= rowmax(m1_724e m1_724c) 
 *------------------------------------------------------------------------------*	
-	* SECTION 8: CURRENT PREGNANCY	
-			egen dangersigns = rowmax(m1_814a m1_814b m1_814c m1_814d m1_814e m1_814f m1_814g)
+	* SECTION 8: CURRENT PREGNANCY
+			/* Gestational age at ANC1
+			Here we should recalculate the GA based on LMP (m1_802c and self-report m1_803 */
 			
+			
+			egen dangersigns = rowmax(m1_814a m1_814b m1_814c m1_814d m1_814e m1_814f m1_814g)
+*------------------------------------------------------------------------------*	
+	* SECTION 9: RISKY HEALTH BEHAVIOR
+			recode  m1_901 (1/2=1) (3=0)
+			recode m1_903  (1/2=1) (3=0)
+			egen risk_health = rowmax( m1_901  m1_903  m1_905)
+			egen stop_risk = rowmax( m1_902  m1_904  m1_907)
 *------------------------------------------------------------------------------*	
 	* SECTION 10: OBSTETRIC HISTORY
 			gen nbpreviouspreg = m1_1001-1 // nb of pregnancies including current minus current pregnancy
@@ -135,6 +155,15 @@ u "$user/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuES
 			predict wealthindex
 			xtile quintile = wealthindex, nq(5)
 			tab quintile */
+			
+			gen registration_cost= m1_1218a_1 // registration
+			replace registration = . if registr==0
+			gen med_vax_cost =  m1_1218b_1 // med or vax
+			replace med_vax_cost = . if med_vax_cost==0
+			gen labtest_cost =  m1_1218c_1 // lab tests
+			replace labtest_cost= . if labtest_cost==0
+			egen indirect_cost = rowtotal (m1_1218d_1 m1_1218e_1 m1_1218f_1 )
+			replace indirect = . if indirect==0
 *------------------------------------------------------------------------------*	
 	* SECTION 13: HEALTH ASSESSMENTS AT BASELINE
 
@@ -151,16 +180,7 @@ u "$user/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuES
 			* Anemia 
 			gen Hb= m1_1309 // test done by E-Cohort data collector
 			gen Hb_card= m1_1307 // hemoglobin value taken from the card
-				replace Hb_card = "12.6" if Hb_card=="12.6g/d" | Hb_card=="12.6g/dl"
-				replace Hb_card = "13" if Hb_card=="13g/dl" 
-				replace Hb_card= "14.6" if Hb_card=="14.6g/dl"
-				replace Hb_card = "15" if Hb_card=="15g/dl"
-				replace Hb_card= "16.3" if Hb_card=="16.3g/dl"
-				replace Hb_card= "16.6" if Hb_card=="16.6g/dl"
-				replace Hb_card= "16" if Hb_card=="16g/dl"
-				replace Hb_card= "17.6" if Hb_card=="17.6g/dl"
-				replace Hb_card="11.3" if Hb_card=="113"
-			destring Hb_card, replace
+				replace Hb_card=11.3 if Hb_card==113
 			replace Hb = Hb_card if Hb==.a // use the card value if the test wasn't done
 				// Reference value of 10 from: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8990104/
 			gen anemic= 1 if Hb<10

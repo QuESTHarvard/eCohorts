@@ -1408,6 +1408,7 @@ replace m1_1307 = "16.3" if m1_1307 == "16.3g/dl"
 replace m1_1307 = "16.6" if m1_1307 == "16.6g/dl"
 replace m1_1307 = "16" if m1_1307 == "16g/dl"
 replace m1_1307 = "17.6" if m1_1307 == "17.6g/dl"
+replace m1_1307 ="11.3" if m1_1307 == "113"
 destring m1_1307, replace
 
 recode m1_1308 (. = .a) if m1_1306 == 1 | m1_1306 == 96 | m1_1306 == .
