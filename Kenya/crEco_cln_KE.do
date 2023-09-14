@@ -46,7 +46,6 @@ drop q101 q102 q105 q513b q513d q513e_1 q513e_2 q513f_1 q513f_2 q513g_1 q513g_2 
 	* MODULE 1:
 rename duration interview_length
 rename a1 interviewer_id
-rename today_date date_m1
 rename a4 study_site
 rename a5 facility
 rename b1 permission
@@ -81,6 +80,9 @@ rename (q502 q503 q504) (m1_502 m1_503 m1_504)
 rename (q505 q506 q506_oth q507 q507_oth q508 q509a q509b q510a q510b q511 q512 q518) ///
 	   (m1_505 m1_506 m1_506_other m1_507 m1_507_other m1_508 m1_509a m1_509b m1_510a ///
 	   m1_510b m1_511 m1_512 m1_518)
+	   
+rename (q514a q514b_1 q514b_2) (m1_514a m1_514b m1_514c_ke)
+
 rename (q601 q602 q603 q604) (m1_601 m1_602 m1_603 m1_604)
 rename (q605a q605b q605c q605d q605e q605f q605g q605h) (m1_605a m1_605b m1_605c m1_605d ///
 		m1_605e m1_605f m1_605g m1_605h)
@@ -156,7 +158,10 @@ rename (q1306 q1307 q1308 q1309 q1401 preferred_phone_oth preferred_phone_confir
 rename preferred_language interview_language_ke
 rename noconsent_why noconsent_why_ke		
 rename end_comment m1_end_comment_ke	
-		
+rename submissiondate date_m1
+rename starttime m1_start_time
+
+
 *===============================================================================
 	
 	* STEP TWO: ADD VALUE LABELS (NA in KENYA)
@@ -182,14 +187,14 @@ recode m1_402 m1_403b m1_404 m1_506 m1_509b m1_510b  m1_700 m1_702 m1_703 m1_704
 	   m1_1210 m1_1216b m1_1222 m1_802_ke  (998 = .d)
 
 recode m1_711b m1_713a m1_713b m1_713c m1_713d m1_713e m1_713f m1_713g m1_713h ///
-	   m1_713i (4 = .d)
+	   m1_713i m1_901 (4 = .d)
 
 recode m1_303 m1_304 m1_305a m1_402 m1_405 m1_504 m1_505 m1_507 m1_509a m1_509b ///
 	   m1_510a m1_510b  m1_605b m1_605e ///
 	   m1_605f m1_605h m1_701 m1_702 m1_708b m1_710a m1_710b ///
 	   m1_716a m1_716c m1_716d m1_724c m1_805 m1_807 m1_808 m1_809 m1_810a m1_812a ///
 	   m1_813a m1_813b m1_814g m1_901 m1_1004 m1_1005 m1_1010 m1_1011a m1_1209 ///
-	   m1_1210 m1_1211 m1_1216b phq9f phq9g m1_301 (999 = .r)
+	   m1_1210 m1_1211 m1_1216b phq9f phq9g m1_301 m1_903 (999 = .r)
   	
 replace m1_812b=".d" if m1_812b== "998"	
 replace m1_815_0=".d" if m1_815_0== "998"	
@@ -205,7 +210,7 @@ replace m1_815_0=".r" if m1_815_0== "999"
 * MODULE 1:
 
 * eligibility:
-	* Kept these recode commands here even though everyone has given permission 
+	* Keep these recode commands here even though everyone has given permission 
 recode care_self (. = .a) if permission == 0
 
 destring(enrollage), gen(recenrollage)
@@ -264,8 +269,10 @@ recode m1_509b (.  = .a) if m1_509a == 0 | m1_509a == . | m1_509a == .r
 recode m1_510b (.  = .a) if m1_510a == 0 | m1_510a == . | m1_510a == .r
 
 
-**** 
-recode q514a q514b_1 q514b_2 /// rename first 
+* - SS: confirm what is the skip pattern for m1_513c? Is there one?
+recode m1_514a (. = .a) if m1_513c != .
+recode m1_514b (. = .a) if m1_514a == . | m1_514a == .a
+recode m1_514c_ke (. = .a) if m1_514a == . | m1_514a == .a
 
 recode m1_517 (. = .a) if m1_516 == "" 
 recode m1_518 (. = .a) if m1_517 == 2 | m1_517 == . | m1_517 == .a
@@ -329,8 +336,8 @@ replace m1_808_other = ".a" if m1_808 != 96
 replace m1_810b = .a if m1_810a == 1 | m1_810a == 2 | m1_810a == .d | m1_810a == . | m1_810a == .r
 replace m1_812b = ".a" if m1_812a == 0 | m1_812a ==. | m1_812a == .d | m1_812a == .r
 
-*******
-recode q812b_0 q812b_1 q812b_2 q812b_3 q812b_4 q812b_5 q812b__96 q812b_998 q812b_999 // rename first
+recode q812b_0 q812b_1 q812b_2 q812b_3 q812b_4 q812b_5 q812b__96 q812b_998 ///
+	   q812b_999 (. = .a) if m1_812b == ".a"
 
 recode m1_813b (.  = .a) if m1_813a == 0 | m1_813a == . | m1_813a == .d
 recode m1_814h (.  = .a) if m1_804 == 1	| m1_804 == 2 | m1_804 == . | m1_804 == .a | m1_804 == .d		
@@ -361,10 +368,7 @@ replace m1_815_other = ".a" if m1_815_0 != "-96" // Need to figure out how to co
 									
 recode m1_902 (.  = .a) if m1_901 == 3 | m1_901 == .d | m1_901 == .r | m1_901 == .
 
-**** 
-recode m1_904
-
-
+recode m1_904 (.  = .a) if m1_901 == 3 | m1_901 == .d | m1_901 == .r | m1_901 == .
 
 recode m1_906 (.  = .a) if m1_905 == 0 | m1_905 == . | m1_905 == .r
 
@@ -462,7 +466,6 @@ recode m1_1309 (.  = .a) if m1_1308 == 0 | m1_1308 == . | m1_1308 == .a
 
 
 *===============================================================================					   
-
 	
 	* STEP FOUR: LABELING VARIABLES
 
@@ -472,14 +475,14 @@ lab var country "Country"
 lab var interviewer_id "Interviewer ID"
 lab var date_m1 "A2. Date of interview"
 lab var m1_start_time "A3. Time of interview"
-lab var pre_screening_num_za "Pre-Screening Number"
+*lab var pre_screening_num_za "Pre-Screening Number"
 lab var study_site "A4. Study site"
 lab var facility "A5. Facility name"
-lab var study_site_sd "A4_Other. Specify other study site"
+*lab var study_site_sd "A4_Other. Specify other study site"
 lab var permission "B1. May we have your permission to explain why we are here today, and to ask some questions?"
 lab var care_self "B2. Are you here today to receive care for yourself or someone else?"
 lab var enrollage "B3. How old are you?"
-lab var enrollage_cat "B3.A: Are you 15 years or older?"
+*lab var enrollage_cat "B3.A: Are you 15 years or older?"
 lab var zone_live "B4. In which zone/district/ sub city are you living?"
 lab var b5anc "B5. By that I mean care related to a pregnancy?"
 lab var b6anc_first "B6. Is this the first time you've come to a health facility to talk to a healthcare provider about this pregnancy?"
@@ -488,7 +491,7 @@ lab var b7eligible "B7. Is the respondent eligible to participate in the study A
 *lab var family_name "102. What is your family name?"
 lab var respondentid "103. Assign respondent ID"
 lab var mobile_phone "104. Do you have a mobile phone with you today?"
-lab var phone_number "105. What is your phone number?"
+*lab var phone_number "105. What is your phone number?"
 lab var flash "106. Can I 'flash' this number now to make sure I have noted it correctly?"
 lab var m1_201 "201. In general, how would you rate your overall health?"
 lab var m1_202a "202.a. BEFORE you got pregnant, did you know that you had Diabetes?"
@@ -513,6 +516,7 @@ lab var m1_203m_ke "203m. KE only: Kidney failure"
 lab var m1_203n_ke "203n. KE only: Asthma"
 lab var m1_203o_ke "203o. KE only: Chronic obstructive pulmonary disease (COPD)"
 lab var m1_203_96_ke "203. KE only: Other, specify"
+lab var m1_203_other_ke "203. Other"
 lab var m1_204 "204. Are you currently taking any medications?"
 lab var m1_205a "205A. I am going to read three statements about your mobility, by which I mean your ability to walk around. Please indicate which statement best describe your own health state today?"
 lab var m1_205b "205B. I am now going to read three statements regarding your ability to self-care, by which I mean whether you can wash and dress yourself without assistance. Please indicate which statement best describe your own health state today"
@@ -533,8 +537,8 @@ lab var m1_301 "301. How would you rate the overall quality of medical care in E
 lab var m1_302 "302. Overall view of the health care system in your country"
 lab var m1_303 "303. Confidence that you would receive good quality healthcare from the health system if you got very sick?"
 lab var m1_304 "304. Confidence you would be able to afford the healthcare you needed if you became very sick?"
-lab var m1_305a "305.A. Confidence that you that you are the person who is responsible for managing your overall health?"
-lab var m1_305b "305.B. Confidence that you that you can tell a healthcare provider concerns you have even when he or she does not ask "
+lab var m1_305a "305A. Confidence that you that you are the person who is responsible for managing your overall health?"
+lab var m1_305b "305B. Confidence that you that you can tell a healthcare provider concerns you have even when he or she does not ask "
 lab var m1_401 "401. How did you travel to the facility today?"
 lab var m1_401a_ke "401a. KE only: "
 lab var m1_401b_ke "401b. KE only: "
@@ -552,6 +556,9 @@ lab var m1_405 "405. What is the most important reason for choosing this facilit
 lab var m1_405_other "405_Other. Specify other reason"
 lab var m1_501 "501. What is your first language?"
 lab var m1_501_other "501_Other. Specify other language"
+lab var m1_501_ke "501. What is your first language?"
+lab var m1_501_ke_other "501. What is your first language?"
+
 lab var m1_502 "502. Have you ever attended school?"
 lab var m1_503 "503. What is the highest level of education you have completed?"
 lab var m1_504 "504. Now I would like you to read this sentence to me. 1. PARENTS LOVE THEIR CHILDREN. 3. THE CHILD IS READING A BOOK. 4. CHILDREN WORK HARD AT SCHOOL."
@@ -567,13 +574,13 @@ lab var m1_510a "510a. Have you ever heard of an illness called tuberculosis or 
 lab var m1_510b "510b. Do you think that TB can be treated using herbal or traditional medicine made from plants?"
 lab var m1_511 "511. When children have diarrhea, do you think that they should be given less to drink than usual, more to drink than usual, about the same or it doesn't matter?"
 lab var m1_512 "512. Is smoke from a wood burning traditional stove good for health, harmful for health or do you think it doesn't really matter?"
-lab var m1_513a_za "513a. What phone numbers can we use to reach you in the coming months?"
+*lab var m1_513a_za "513a. What phone numbers can we use to reach you in the coming months?"
 lab var m1_514a "514a. We would like you to be able to participate in this study. We can give you a mobile phone for you to take home so that we can reach you. Would you like to receive a mobile phone?"
 lab var m1_515_address "515. Can you please tell me where you live? What is your address?"
 lab var m1_516 "516. Could you please describe directions to your residence? Please give us enough detail so that a data collection team member could find your residence if we needed to ask you some follow up questions"
 lab var m1_517 "517. Is this a temporary residence or a permanent residence?"
 lab var m1_518 "518. Until when will you be at this residence?"
-lab var m1_519a "519a. Where will your district be after this date "
+*lab var m1_519a "519a. Where will your district be after this date "
 lab var m1_601 "601. Overall how would you rate the quality of care you received today?"
 lab var m1_602 "602. How likely are you to recommend this facility or provider to a family member or friend to receive care for their pregnancy?"
 lab var m1_603 "603. How long in minutes did you spend with the health provider today?"
@@ -609,17 +616,17 @@ lab var m1_711a "711a. Did they do a blood sugar test for diabetes?"
 lab var m1_711b "711b. Do you know the result of your blood sugar test?"
 lab var m1_712 "712. Did they do an ultrasound (that is, when a probe is moved on your belly to produce a video of the baby on a screen)"
 lab var m1_713a "713a_1. Iron and folic acid pills?"
-lab var m1_713_za "713b: Iron injection"
+*lab var m1_713_za "713b: Iron injection"
 lab var m1_713b "713b_1. Calcium pills?"
 lab var m1_713c "713c_1. The food supplement like Super Cereal or Plumpynut?"
 lab var m1_713d "713d_1. Medicine for intestinal worms?"
 lab var m1_713e "713e_1. Medicine for malaria (endemic only)?"
-lab var m1_713m_za "713h: Medicine for HIV"
+*lab var m1_713m_za "713h: Medicine for HIV"
 lab var m1_713f "713f_1. Medicine for your emotions, nerves, or mental health?"
 lab var m1_713g "713g_1. Multivitamins?"
 lab var m1_713h "713h_1. Medicine for hypertension?"
 lab var m1_713i "713i_1. Medicine for diabetes, including injections of insulin?"
-lab var m1_713n_za "713l: Antibiotics for an infection"
+*lab var m1_713n_za "713l: Antibiotics for an infection"
 lab var m1_714a "714a. During the visit today, were you given an injection in the arm to prevent the baby from getting tetanus, that is, convulsions after birth?"
 lab var m1_714b "714b. At any time BEFORE the visit today, did you receive any tetanus injections?"
 lab var m1_714c "714c. Before today, how many times did you receive a tetanus injection?"
@@ -659,7 +666,7 @@ lab var m1_808_other "808_Other. Specify other reason not to receive care earlie
 lab var m1_809 "809. During the visit today, did you and the provider discuss your birth plan?"
 lab var m1_810a "810a. Where do you plan to give birth?"
 lab var m1_810b "810b. What is the name of the [facility type from 810a] where you plan to give birth?"
-lab var m1_811 "811. Do you plan to stay at a maternity waiting home before delivering your baby?"
+*lab var m1_811 "811. Do you plan to stay at a maternity waiting home before delivering your baby?"
 lab var m1_812a "812a. During the visit today, did the provider tell you that you might need a C-section?"
 lab var m1_812b "812b.0. Have you told the reason why you might need a c-section?"
 lab var m1_813a "813a. Some women experience common health problems during pregnancy. Did you experience nausea in your pregnancy so far, or not?"
@@ -672,17 +679,17 @@ lab var m1_814e "814e. Could you please tell me if you have experienced a lot of
 lab var m1_814f "814f. Could you please tell me if you have experienced Convulsions or seizures in your pregnancy so far, or not?"
 lab var m1_814g "814g. Could you please tell me if you have experienced repeated fainting or loss of consciousness in your pregnancy so far, or not?"
 lab var m1_814h "814h. Could you please tell me if you have experienced noticing that the baby has completely stopped moving in your pregnancy so far, or not?"
-lab var m1_815 "815: During the visit today, what did the provider tell you to do regarding the [symptom(s) experienced in 814a-814h]?"
+*lab var m1_815 "815: During the visit today, what did the provider tell you to do regarding the [symptom(s) experienced in 814a-814h]?"
 lab var m1_815_other "815_Other. Other (specify)"
-lab var m1_816 "816. You said that you did not have any of the symptoms I just listed. Did the health provider ask you whether or not you had these symptoms, or did this topic not come up today?"
+*lab var m1_816 "816. You said that you did not have any of the symptoms I just listed. Did the health provider ask you whether or not you had these symptoms, or did this topic not come up today?"
 lab var m1_901 "901. How often do you currently smoke cigarettes or use any other type of tobacco? Is it every day, some days, or not at all?"
 lab var m1_902 "902. During the visit today, did the health provider advise you to stop smoking or using tobacco products?"
 lab var m1_905 "905. Have you consumed an alcoholic drink (i.e., Tela, Tej, Areke, Bira, Wine, Borde, Whisky) within the past 30 days?"
 lab var m1_906 "906. When you do drink alcohol, how many standard drinks do you consume on average?"
 lab var m1_907 "907. During the visit today, did the health provider advise you to stop drinking alcohol?"
-lab var m1_908_za "908: What is the age of your partner or father of the baby? (Interviewer allows the participant to write down theanswer)"
-lab var m1_909_za "909: Have you ever given oral, anal, or vaginal sex to someone because you expected to get or got any of thesethings?"
-lab var m1_910_za "910: In the past 12 months, have you started or stayed in a relationship with a man or boy so that you couldreceive any of the following?"
+*lab var m1_908_za "908: What is the age of your partner or father of the baby? (Interviewer allows the participant to write down theanswer)"
+*lab var m1_909_za "909: Have you ever given oral, anal, or vaginal sex to someone because you expected to get or got any of thesethings?"
+*lab var m1_910_za "910: In the past 12 months, have you started or stayed in a relationship with a man or boy so that you couldreceive any of the following?"
 lab var m1_1001 "1001. How many pregnancies have you had, including the current pregnancy and regardless of whether you gave birth or not?"
 lab var m1_1002 "1002. How many births have you had (including babies born alive or dead)?"
 lab var m1_1003 "1003. In how many of those births was the baby born alive?"
@@ -700,10 +707,10 @@ lab var m1_1011d "1011d. Did you discuss about that you had a baby born early be
 lab var m1_1011e "1011e. Did you discuss about that you had a c-section before, or not?"
 lab var m1_1011f "1011f. Did you discuss about that you had a baby die within their first month of life?"
 lab var m1_1101 "1101. At any point during your current pregnancy, has anyone ever hit, slapped, kicked, or done anything else to hurt you physically?"
-lab var m1_1102 "1102: Who has done these things to you while you were pregnant?"
+*lab var m1_1102 "1102: Who has done these things to you while you were pregnant?"
 lab var m1_1102_other "1102_Oth. Specify who else hit, kick, slapped, ... you"
 lab var m1_1103 "1103. At any point during your current pregnancy, has anyone ever said or done something to humiliate you, insulted you or made you feel bad about yourself?"
-lab var m1_1104 "1104: Who has done these things to you while you were pregnant?"
+*lab var m1_1104 "1104: Who has done these things to you while you were pregnant?"
 lab var m1_1104_other "1104_Other. Specify others who humiliates you"
 lab var m1_1105 "1105. During the visit today, did the health provider discuss with you where you can seek support for these things?"
 lab var m1_1201 "1201. What is the main source of drinking water for members of your household?"
@@ -727,16 +734,16 @@ lab var m1_1212 "1212. Does any member of your household own a bicycle?"
 lab var m1_1213 "1213. Does any member of your household own a motorcycle or motor scooter?" 
 lab var m1_1214 "1214. Does any member of your household own a car or truck?"
 lab var m1_1215 "1215. Does any member of your household have a bank account?"
-lab var m1_1216a "1216: How many meals does your household usually have per day?"
+*lab var m1_1216a "1216: How many meals does your household usually have per day?"
 lab var m1_1217 "1217. Did you pay money out of your pocket for this visit, including for the consultation or other indirect costs like your transport to the facility?"
 lab var m1_1218a_1 "1218a.1. How much money did you spend on Registration / Consultation?"
 lab var m1_1218b_1 "1218b.1. How much money do you spent for medicine/vaccines (including outside purchase)"
 lab var m1_1218c_1 "1218c.1. How much money have you spent on Test/investigations (x-ray, lab etc.)?"
 lab var m1_1218d_1 "1218d.1. How much money have you spent for transport (round trip) including that of person accompanying you?"
 lab var m1_1218e_1 "1218e.1. How much money have you spent on food and accommodation including that of the person accompanying you?"
-lab var m1_1218_za "1218f: Other (specify)"
-lab var m1_1218g "1218f: If other, please specify - Amount"
-lab var m1_1218g_za "1218g: Total Spent"
+*lab var m1_1218_za "1218f: Other (specify)"
+*lab var m1_1218g "1218f: If other, please specify - Amount"
+*lab var m1_1218g_za "1218g: Total Spent"
 lab var m1_1219 "Total amount spent"
 lab var m1_1220 "1220: Which of the following financial sources did your household use to pay for this?"
 lab var m1_1220_other "1220_Other. Specify other financial source for household use to pay for this"
@@ -768,10 +775,10 @@ lab var m1_1401 "1401. What period of the day is most convenient for you to answ
 *===============================================================================
 
 	* STEP SIX: SAVE DATA TO RECODED FOLDER
-drop time_start_full time_start time_start_v2 deviceid	
+drop username time_start_full time_start time_start_v2 deviceid	
  
 order m1_*, sequential
-order country study_site study_site_sd facility interviewer_id date_m1 pre_screening_num_za permission care_self enrollage_cat enrollage zone_live b5anc b6anc_first b7eligible respondentid mobile_phone phone_number flash
+order country study_site facility interviewer_id date_m1 permission care_self enrollage zone_live b5anc b6anc_first b7eligible respondentid mobile_phone flash
 
 order phq9a phq9b phq9c phq9d phq9e phq9f phq9g phq9h phq9i, after(m1_205e)
 
