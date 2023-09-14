@@ -63,6 +63,7 @@ global github "$user/Documents/GitHub/eCohorts"
 * Clean each dataset separately 
 run "$github/Ethiopia/crEco_cln_ET.do"
 run "$github/South Africa/crEco_cln_ZA.do"
+run "$github/Kenya/crEco_cln_KE.do"
 
 * ETHIOPIA:
 	* derived vars

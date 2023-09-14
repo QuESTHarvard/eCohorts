@@ -9,7 +9,7 @@
 clear all 
 
 *--------------------DATA FILE (update with path to dataset/file name):
-import delimited using "$et_data/8Sep2023.csv", clear
+import delimited using "$et_data/17Aug2023.csv", clear
 *---------------------
 
 drop if record_id == "1" | record_id == "2" | record_id == "3" | ///
@@ -18,10 +18,22 @@ drop if record_id == "1" | record_id == "2" | record_id == "3" | ///
 		record_id == "10" | record_id == "11" | record_id == "12" | ///
 		record_id == "13" | record_id == "14" | record_id == "15" | ///
 		record_id == "16" | record_id == "17" | record_id == "18" | ///
-		record_id == "19" 
+		record_id == "19" | record_id == "20" | record_id == "21" | ///
+		record_id == "22" | record_id == "23" | record_id == "24" | ///
+		record_id == "25" | record_id == "26" | record_id == "27" | ///
+		record_id == "28"
 
+
+** FOR STATISTICS OF COMPLETED SURVEYS:
+tab redcap_event_name
+tab redcap_repeat_instance
+
+keep if redcap_event_name == "module_1_arm_1" | redcap_event_name == "module_2_arm_1" 
+		
 * filter for eligible participants only:
-keep if is_the_respondent_eligible == 1
+recode is_the_respondent_eligible (. = .a) if redcap_event_name != "module_1_arm_1" // N =17 missing answer to eligiblity
+
+keep if is_the_respondent_eligible == 1 | is_the_respondent_eligible == .a | is_the_respondent_eligible == .
 
 gen country = "Ethiopia"
 		
