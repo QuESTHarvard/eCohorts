@@ -60,12 +60,14 @@ drop redcap_repeat_instrument-redcap_data_access_group m2_attempt_date-m2_comple
 			ttest anc1tq, by(anyrisk)
 			ttest anc1counsel, by(anyrisk)
 			ttest m1_603, by(anyrisk)
+			ta anc1ultrasound anyrisk, chi2 col
 			ta specialist_hosp anyrisk, chi2 col
 			
 	* Care quality by danger signs
 			ttest anc1tq, by(danger)
 			ttest anc1counsel, by(danger)
 			ttest m1_603, by(danger)
+			ta anc1ultrasound dangersigns, chi2 col
 			ta specialist_hosp danger, chi2 col
 			
 * CASCADES: CONDITIONS IDENTIFIED BY E-COHORT
@@ -133,6 +135,9 @@ drop redcap_repeat_instrument-redcap_data_access_group m2_attempt_date-m2_comple
 			ta m1_1011f if neodeath==1
 			ta specialist_hosp if neodeath==1
 	
+	* USER EXPERIENCE
+	tabstat vgm1_605a vgm1_605b vgm1_605c vgm1_605d vgm1_605e vgm1_605f ///
+			vgm1_605g vgm1_605h vgm1_605i vgm1_605j vgm1_605k , stat(mean count) col(stat)
 	* COST OF VISIT
 	
 	su registration
