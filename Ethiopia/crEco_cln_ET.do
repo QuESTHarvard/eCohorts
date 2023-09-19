@@ -132,19 +132,19 @@ gen country = "Ethiopia"
 		    what_is_your_house_num_515d could_you_please_describe_516 is_this_a_temporary_reside_517 ///
 			until_when_will_you_be_at_518  ///
 			where_will_your_district_519a where_will_your_kebele_519b where_will_your_village_519c) ///
-			(m1_514b m1_515a_town m1_515b_zone m1_515c_kebele ///
-			m1_515d_house m1_516 m1_517 m1_518 m1_519a m1_519b m1_519c)
+			(m1_514b m1_515a_town m1_515b_zone m1_515c_ward ///
+			m1_515d_house m1_516 m1_517 m1_518 m1_519_district m1_519_ward m1_519_village)
 	
 	rename (i_would_like_to_know_how_601 how_likely_are_you_to_reco_602	how_long_in_minutes_did_603 ///
 	        how_long_in_hours_or_minut_604 eth_1_6_1_do_you_know_how_lo eth_1_6_2_how_long_is_your) ///
-			(m1_601 m1_602 m1_603 m1_604 m1_604b m1_604c) 
+			(m1_601 m1_602 m1_603 m1_604 m1_604b_et m1_604c_et) 
 			
 	rename (thinking_about_the_visit_605 thinking_about_the_visit_605b thinking_about_the_visit_605c ///
 	        thinking_about_the_visit_605d thinking_about_the_visit_605e thinking_about_the_visit_605f ///
 			thinking_about_the_visit_605g thinking_about_the_visit_605h thinking_about_the_visit_605i ///
 			thinking_about_the_visit_605j thinking_about_the_visit_605k) ///
 	        (m1_605a m1_605b m1_605c m1_605d m1_605e m1_605f m1_605g m1_605h ///
-			m1_605i m1_605j m1_605k)
+			m1_605i_et m1_605j_et m1_605k_et)
 			
 	rename (measure_your_blood_pressure_700	measure_your_weight_701 measure_your_height_702 ///
 	        measure_your_upper_arm_703 measure_heart_rate_704 take_urine_sample_705 take_blood_drop_706 ///
@@ -160,6 +160,8 @@ gen country = "Ethiopia"
 	rename (should_come_back_724a when_did_he_tell_you_724b to_see_gynecologist_724c to_see_mental_health_provider_72 to_go_to_hospital_724e to_go_for_urine_test_724f go_to_blood_test_724g go_to_do_hiv_test_724h go_to_do_ultrasound_test_724i) (m1_724a m1_724b m1_724c m1_724d m1_724e m1_724f m1_724g m1_724h m1_724i)
 	
 	rename (estimated_date_for_delivery_801	 how_many_months_weeks_803 calculate_gestational_age_804 how_many_babies_you_preg_805 ask_your_last_period_806 when_you_got_pregnant_807) (m1_801 m1_803 m1_804 m1_805 m1_806 m1_807)
+	
+	rename (m1_802b m1_802c m1_802d) (m1_802b_et m1_802c_et m1_802d_et)
 	
 	rename (there_are_many_reasons_why_808__ v204 v205 v206 v207 v208 v209 v210 v211 v212 v213 v214 v215 v216 v217) ///
 		   (m1_808_0_et m1_808_1_et m1_808_2_et m1_808_3_et m1_808_4_et m1_808_5_et m1_808_6_et m1_808_7_et m1_808_8_et ///
@@ -338,7 +340,7 @@ label values m1_517 residence
 	 
      * Label values for variables with Likert values 
 	   label values m1_201 m1_301 m1_601 likert 
-	   label values m1_605a m1_605b m1_605c m1_605d m1_605e m1_605f m1_605g m1_605h m1_605i m1_605j m1_605k likert
+	   label values m1_605a m1_605b m1_605c m1_605d m1_605e m1_605f m1_605g m1_605h m1_605i_et m1_605j_et m1_605k_et likert
 	   	 
    * Label Yes/No 
 	 label define YN 1 "Yes" 0 "No" 3 "not applicable" 98 "DK" 99 "RF" 
@@ -355,7 +357,7 @@ label values m1_517 residence
 	 label values m1_203 YN2
    	 label values m1_202a m1_202b m1_202c m1_202d m1_202e m1_202f m1_202g YN
 	 label values m1_724a m1_724c m1_724d m1_724e m1_724f m1_724g m1_724h m1_724i YN
-	 label values m1_801 m1_802b YN
+	 label values m1_801 m1_802b_et YN
 	 label values m1_814a m1_814b m1_814c m1_814d m1_814e m1_814f m1_814g m1_814h m1_814i YN
 	 label values m1_1004 m1_1005 m1_1006 m1_1_10_et m1_1007 m1_1008 m1_1010 YN
 	 label values m1_1011a m1_1011b m1_1011c m1_1011d m1_1011e m1_1011f YN
@@ -970,7 +972,7 @@ label values m2_complete m2_complete
 		* Need to figure out a way to clean up string "text" only vars that have numeric entries (ex. 803)
 
 	** MODULE 1:
-	recode mobile_phone kebele_malaria kebele_intworm m1_201 m1_202a m1_202b m1_202c m1_202d m1_202e m1_202f m1_202g m1_203 m1_204 m1_205a m1_205b m1_205c m1_205d m1_205e phq9a phq9b phq9c phq9d phq9e phq9f phq9g phq9h phq9i m1_301 m1_302 m1_303 m1_304 m1_305a m1_305b m1_401 m1_404 m1_405 m1_501 m1_503 m1_504 m1_505 m1_506 m1_507 m1_601 m1_602 m1_605a m1_605b m1_605c m1_605d m1_605e m1_605f m1_605g m1_605h m1_605i m1_605j m1_605k m1_700 m1_701 m1_702 m1_703 m1_704 m1_705 m1_706 m1_707 m1_708a m1_708b m1_708c m1_708d m1_708e m1_708f m1_709a m1_709b m1_710a m1_710b m1_710c m1_711a m1_711b m1_712 m1_713a m1_713b m1_713c m1_713d m1_713e m1_713f m1_713g m1_713h m1_713i m1_714a m1_714b m1_716a m1_716b m1_716c m1_716d m1_716e m1_717 m1_718 m1_719 m1_720 m1_721 m1_722 m1_723 m1_724a m1_724c m1_724d m1_724e m1_724f m1_724g m1_724h m1_724i m1_801 m1_805 m1_806 m1_807 m1_810a m1_810b m1_813a m1_813b m1_813c m1_813d m1_813e m1_8a_et m1_8b_et m1_8c_et m1_8d_et m1_8e_et m1_8f_et m1_8g_et m1_2_8_et m1_814a m1_814b m1_814c m1_814d m1_814e m1_814f m1_814g m1_814h m1_814i m1_816 m1_901 m1_902 m1_903 m1_904 m1_905 m1_907 m1_1004 m1_1005 m1_1006 m1_1_10_et m1_1007 m1_1008 m1_1010 m1_1011a m1_1011b m1_1011c m1_1011d m1_1011e m1_1011f m1_1101 m1_1103 m1_1105 m1_1201 m1_1202 m1_1203 m1_1204 m1_1205 m1_1206 m1_1207 m1_1208 m1_1209 m1_1210 m1_1211 m1_1212 m1_1213 m1_1214 m1_1215 m1_1216 m1_1217 m1_1221 m1_1222 m1_1223 (99 = .r)
+	recode mobile_phone kebele_malaria kebele_intworm m1_201 m1_202a m1_202b m1_202c m1_202d m1_202e m1_202f m1_202g m1_203 m1_204 m1_205a m1_205b m1_205c m1_205d m1_205e phq9a phq9b phq9c phq9d phq9e phq9f phq9g phq9h phq9i m1_301 m1_302 m1_303 m1_304 m1_305a m1_305b m1_401 m1_404 m1_405 m1_501 m1_503 m1_504 m1_505 m1_506 m1_507 m1_601 m1_602 m1_605a m1_605b m1_605c m1_605d m1_605e m1_605f m1_605g m1_605h m1_605i_et m1_605j_et m1_605k_et m1_700 m1_701 m1_702 m1_703 m1_704 m1_705 m1_706 m1_707 m1_708a m1_708b m1_708c m1_708d m1_708e m1_708f m1_709a m1_709b m1_710a m1_710b m1_710c m1_711a m1_711b m1_712 m1_713a m1_713b m1_713c m1_713d m1_713e m1_713f m1_713g m1_713h m1_713i m1_714a m1_714b m1_716a m1_716b m1_716c m1_716d m1_716e m1_717 m1_718 m1_719 m1_720 m1_721 m1_722 m1_723 m1_724a m1_724c m1_724d m1_724e m1_724f m1_724g m1_724h m1_724i m1_801 m1_805 m1_806 m1_807 m1_810a m1_810b m1_813a m1_813b m1_813c m1_813d m1_813e m1_8a_et m1_8b_et m1_8c_et m1_8d_et m1_8e_et m1_8f_et m1_8g_et m1_2_8_et m1_814a m1_814b m1_814c m1_814d m1_814e m1_814f m1_814g m1_814h m1_814i m1_816 m1_901 m1_902 m1_903 m1_904 m1_905 m1_907 m1_1004 m1_1005 m1_1006 m1_1_10_et m1_1007 m1_1008 m1_1010 m1_1011a m1_1011b m1_1011c m1_1011d m1_1011e m1_1011f m1_1101 m1_1103 m1_1105 m1_1201 m1_1202 m1_1203 m1_1204 m1_1205 m1_1206 m1_1207 m1_1208 m1_1209 m1_1210 m1_1211 m1_1212 m1_1213 m1_1214 m1_1215 m1_1216 m1_1217 m1_1221 m1_1222 m1_1223 (99 = .r)
 
 	recode m1_401 m1_404 m1_501 m1_506 m1_507 m1_509b m1_510b m1_511 m1_512 m1_700 m1_701 m1_702 m1_703 m1_704 m1_705 m1_706 m1_707 m1_708a m1_708b m1_708c m1_708d m1_708e m1_708f m1_709a m1_709b m1_710a m1_710b m1_710c m1_711a m1_711b m1_712 m1_713a m1_713b m1_713c m1_713d m1_713e m1_713f m1_713g m1_713h m1_713i m1_714a m1_714b m1_716a m1_716b m1_716c m1_716d m1_716e m1_717 m1_718 m1_719 m1_720 m1_721 m1_722 m1_723 m1_724a m1_724c m1_724d m1_724e m1_724f m1_724g m1_724h m1_724i m1_801 m1_805 m1_806 m1_807 m1_809 m1_810a m1_810b m1_811 m1_812a m1_813a m1_813b m1_813c m1_813d m1_813e m1_8a_et m1_8b_et m1_8c_et m1_8d_et m1_8e_et m1_8f_et m1_8g_et m1_2_8_et m1_814a m1_814b m1_814c m1_814d m1_814e m1_814f m1_814g m1_814h m1_814i m1_816 m1_901 m1_902 m1_903 m1_904 m1_905 m1_907 m1_1004 m1_1005 m1_1006 m1_1_10_et m1_1007 m1_1008 m1_1010 m1_1011a m1_1011b m1_1011c m1_1011d m1_1011e m1_1011f m1_1101 m1_1105 m1_1201 m1_1202 m1_1203 m1_1204 m1_1205 m1_1206 m1_1207 m1_1208 m1_1209 m1_1210 m1_1211 m1_1212 m1_1213 m1_1214 m1_1215 m1_1216 m1_1218a m1_1218b m1_1218c m1_1218d m1_1218e m1_1218f m1_1221 m1_1223 m1_804 (98 = .d)
 
@@ -1067,7 +1069,7 @@ recode m1_724h (. = .a) if m1_708a == 1 | m1_708a == . | m1_708a == .d | m1_708a
 recode m1_724i (. = .a) if m1_712 == 1 | m1_712 == . | m1_712 == .d | m1_712 == .r
 
 * SS: double check this skip pattern
-recode m1_804 (. = .a) if (m1_801 == 0 | m1_801 == . | m1_801 == .d | m1_801 == .r) & (m1_802b == 0 | m1_802b == .) & (m1_803 == "98" |  m1_803 == "Dk" | m1_803 == "") 
+recode m1_804 (. = .a) if (m1_801 == 0 | m1_801 == . | m1_801 == .d | m1_801 == .r) & (m1_802b_et == 0 | m1_802b_et == .) & (m1_803 == "98" |  m1_803 == "Dk" | m1_803 == "") 
 
 recode m1_808_0_et (0 = .a) if m1_804 == 1 | m1_804 == . | m1_804 == .a | m1_804 == .d
 recode m1_808_1_et (0 = .a) if m1_804 == 1 | m1_804 == . | m1_804 == .a | m1_804 == .d
@@ -1899,15 +1901,15 @@ lab var m1_515d "515d. What is your village name/block"
 lab var m1_516 "516. Could you please describe directions to your residence? Please give us enough detail so that a data collection team member could find your residence if we needed to ask you some follow up questions"
 lab var m1_517 "517. Is this a temporary residence or a permanent residence?"
 lab var m1_518 "518. Until when will you be at this residence?"
-lab var m1_519a "519a. Where will your district be after this date "
-lab var m1_519b "519b. Where will your kebele be after this date"
-lab var m1_519c "519c. Where will your village be after this date"
+lab var m1_519_district "519a. Where will your district be after this date?"
+lab var m1_519_ward "519b. Where will your kebele be after this date"
+lab var m1_519_village "519c. Where will your village be after this date"
 lab var m1_601 "601. Overall how would you rate the quality of care you received today?"
 lab var m1_602 "602. How likely are you to recommend this facility or provider to a family member or friend to receive care for their pregnancy?"
 lab var m1_603 "603. How long in minutes did you spend with the health provider today?"
 lab var m1_604 "604. How long in minutes did you wait between the time you arrived at this facility and the time you were able to see a provider for the consultation?"
-lab var m1_604b "Eth-1-6-1. How long in hours did you spend at this facility today for all aspects of your care, including wait time, the consultation, and any other components of your care today?"
-lab var m1_604c "Eth-1-6.2. How long in hours did you spend at this facility today for all aspects of your care, including wait time, the consultation, and any other components of your care today?"
+lab var m1_604b_et "Eth-1-6-1. How long in hours did you spend at this facility today for all aspects of your care, including wait time, the consultation, and any other components of your care today?"
+lab var m1_604c_et "Eth-1-6.2. How long in hours did you spend at this facility today for all aspects of your care, including wait time, the consultation, and any other components of your care today?"
 lab var m1_605a "605a. How would you rate the knowledge and skills of your provider?"
 lab var m1_605b "605b. How would you rate the equipment and supplies that the provider had available such as medical equipment or access to lab?"
 lab var m1_605c "605c. How would you rate the level of respect the provider showed you?"
@@ -1916,9 +1918,9 @@ lab var m1_605e "605e. How would you rate the degree to which the provider invol
 lab var m1_605f "605f. How would you rate the amount of time the provider spent with you?"
 lab var m1_605g "605g. How would you rate the amount of time you waited before being seen?"
 lab var m1_605h "605h. How would you rate the courtesy and helpfulness of the healthcare facility staff, other than your provider?"
-lab var m1_605i "605i. How would you rate the confidentiality of care or diagnosis?"
-lab var m1_605j "605j. How would you rate the privacy (Auditory or visual)?"
-lab var m1_605k "605k. How would you rate the affordability of charge or bill to the service?"
+lab var m1_605i_et "605i. How would you rate the confidentiality of care or diagnosis?"
+lab var m1_605j_et "605j. How would you rate the privacy (Auditory or visual)?"
+lab var m1_605k_et "605k. How would you rate the affordability of charge or bill to the service?"
 lab var m1_700 "700. Measure your blood pressure?"
 lab var m1_701 "701. Measure your weight?"
 lab var m1_702 "702. Measure your height?"
@@ -1979,9 +1981,9 @@ lab var m1_724h "724h. To go somewhere else to do an HIV test such as a lab or a
 lab var m1_724i "724i. Were you told to go somewhere else to do an ultrasound such as a hospital or another health facility?"
 lab var m1_801 "801. Did the healthcare provider tell you the estimated date of delivery, or not?"
 lab var m1_802a "802a. What is the estimated date of delivery the provider told you?"
-lab var m1_802b "802b. Do you know your last normal menstrual period?"
-lab var m1_802c "802c. What is the date of your last normal menstrual period"
-lab var m1_802d "802d. Gestational age in weeks based on LNMP"
+lab var m1_802b_et "802b. Do you know your last normal menstrual period?"
+lab var m1_802c_et "802c. What is the date of your last normal menstrual period"
+lab var m1_802d_et "802d. Gestational age in weeks based on LNMP"
 lab var m1_803 "803. How many weeks pregnant do you think you are?"
 lab var m1_804 "804. Interviewer calculates the gestational age in trimester based on Q802 (estimated due date) or on Q803 (self-reported number of months pregnant)."
 lab var m1_805 "805. How many babies are you pregnant with?"
