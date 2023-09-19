@@ -2481,7 +2481,10 @@ label variable m2_complete "Complete?"
 	* STEP SIX: SAVE DATA TO RECODED FOLDER
 	* note: as of 7-27 we are dropping M3-M5 data until it is cleaned
 	
-drop iic_3-module_5_end_line_facetoface_sur
+* drop unncessary vars and de-identify dataset
+drop iic_3-module_5_end_line_facetoface_sur first_name family_name phone_number m1_513b ///
+     m1_513c m1_513b_2 m1_513d m1_513e_name m1_513e m1_513f_name m1_513f m1_513g_name ///
+	 m1_513g m1_513h_name m1_513h m1_513i_name m1_513i
 
 
 save "$et_data_final/eco_m1m2_et.dta", replace
