@@ -8,8 +8,9 @@
 * Import Data 
 clear all 
 
-import excel "/Users/shs8688/Dropbox (Harvard University)/SPH-Kruk Team/QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data/South Africa/01 raw data/27Jul2023_interimdata.xlsx", sheet("MNH_Module_1_Baseline 17Jul2023") firstrow
- 
+import excel "/Users/shs8688/Dropbox (Harvard University)/SPH-Kruk Team/QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data/South Africa/01 raw data/14Sep2023_interimdata.xlsx", sheet("MNH_Module_1_Baseline 17Jul2023") firstrow
+
+/*
 drop if CRHID == "9999998" | CRHID == "EUB_001" | CRHID == "EUB_002" | CRHID == "MPH_001" | CRHID == "MPH_002" | ///
 		CRHID == "NEL_001" | CRHID == "NOK_001" | CRHID == "NOK_002" | CRHID == "NWE_001" | CRHID == "NWE_002" | ///
 		CRHID == "QEE_001" | CRHID == "QEE_002" | CRHID == "QEE_003" | CRHID == "QEE_005" | CRHID == "QEE_006" | ///
@@ -28,7 +29,7 @@ drop if CRHID == "9999998" | CRHID == "EUB_001" | CRHID == "EUB_002" | CRHID == 
 		CRHID == "QEE_008" | CRHID == "BXE_001" | CRHID == "BXE_005" | CRHID == "BXE_006" | CRHID == "BXE_008" | ///
 		CRHID == "QEE_053" | CRHID == "TOK_007" | CRHID == "BNE_033" | CRHID == "BXE_035" | CRHID == ""  
 
-/*			 
+			 
 * List of IDs to drop
 local ids_to_drop BNE_013 QEE_008 BXE_001 BXE_005 BXE_006 BXE_008 9999998 9999998 EUB_001 EUB_002 MPH_001 MPH_002 NEL_001 NOK_001 ///
 	  NOK_002 NWE_001 NWE_002 9999998 9999998 QEE_001 QEE_002 QEE_003 QEE_005 QEE_006 QEE_009 QEE_010 QEE_011 RCH_001 RCH_002 TOK_001 ///
@@ -45,10 +46,14 @@ local ids_to_drop BNE_013 QEE_008 BXE_001 BXE_005 BXE_006 BXE_008 9999998 999999
 drop if inlist(CRHID, `ids_to_drop')
 */
 
-
+* keeping eligible participants:
+keep if Eligible == "Yes" // 163 obs dropped
 keep if MOD1_ELIGIBILITY_B7 == 1
 
 gen country = "South Africa"
+
+* De-identify dataset:
+* MOD1_Identification_105, MOD1_Demogr_515, MOD1_Demogr_516, MOD1_Demogr_519 already dropped in this dataset
 
 *------------------------------------------------------------------------------*
 	* STEPS: 
@@ -76,8 +81,8 @@ rename (MOD1_ELIGIBILITY_B1 MOD1_ELIGIBILITY_B2 MOD1_ELIGIBILITY_B3_B MOD1_ELIGI
 rename (MOD1_ELIGIBILITY_B4 MOD1_ELIGIBILITY_B5 MOD1_ELIGIBILITY_B6 MOD1_ELIGIBILITY_B7) ///
 	   (zone_live b5anc b6anc_first b7eligible)
 
-rename (CRHID MOD1_Identification_104 MOD1_Identification_105 MOD1_Identification_106) ///
-		(respondentid mobile_phone phone_number flash)
+rename (CRHID MOD1_Identification_104 MOD1_Identification_106) ///
+		(respondentid mobile_phone flash)
 		
 rename (MOD1_Health_Profile_201 MOD1_Health_Profile_202a MOD1_Health_Profile_202b ///
 		MOD1_Health_Profile_202c MOD1_Health_Profile_202d MOD1_Health_Profile_202e) ///
@@ -105,9 +110,9 @@ rename (MOD1_Demogr_502 MOD1_Demogr_503 MOD1_Demogr_504 MOD1_Demogr_505 MOD1_Dem
 		MOD1_Demogr_510b MOD1_Demogr_511 MOD1_Demogr_512) (m1_502 m1_503 m1_504 m1_505 m1_506 m1_506_other m1_507 ///
 		m1_507_other m1_508 m1_509a m1_509b m1_510a m1_510b m1_511 m1_512)
 		
-rename (MOD1_Demogr_513a MOD1_Demogr_514a MOD1_Demogr_515) (m1_513a_za m1_514a m1_515_address)	
+rename (MOD1_Demogr_513a MOD1_Demogr_514a) (m1_513a_za m1_514a)	
 		
-rename (MOD1_Demogr_516 MOD1_Demogr_517 MOD1_Demogr_518 MOD1_Demogr_519) (m1_516 m1_517 m1_518 m1_519a) 		
+rename (MOD1_Demogr_517 MOD1_Demogr_518) (m1_517 m1_518) 		
 rename (MOD1_User_Exp_601 MOD1_User_Exp_602 MOD1_User_Exp_603 MOD1_User_Exp_604) (m1_601 m1_602 m1_603 m1_604)		
 
 rename (MOD1_User_Exp_605a MOD1_User_Exp_605b MOD1_User_Exp_605c MOD1_User_Exp_605d MOD1_User_Exp_605e MOD1_User_Exp_605f MOD1_User_Exp_605g MOD1_User_Exp_605h) (m1_605a m1_605b m1_605c m1_605d m1_605e ///
@@ -192,6 +197,8 @@ rename (MOD1Physical_Assessment_1306 MOD1_Physical_Assessment_1307 MOD1_Physical
 recode m1_714d (2002 = 21) if m1_714d == 2002
 recode m1_714d (2017 = 6) if m1_714d == 2017
 
+replace m1_714e = 17 if m1_714e == 2006
+replace m1_714e = 15 if m1_714e == 2008
 replace m1_714e = 14 if m1_714e == 2009
 replace m1_714e = 12 if m1_714e == 2011
 replace m1_714e = 11 if m1_714e == 2012
@@ -207,12 +214,11 @@ replace m1_714e = 1 if m1_714e == 2022
 
 replace m1_604 = "." if m1_604 == ""
 replace m1_604 = "1" if m1_604 == "1 hour"
-encode m1_604, generate(recm1_604)
+destring(m1_604), generate(recm1_604)
 
 replace facility = "TOK" if facility == "ROK"
 
 replace m1_909_za = "." if m1_909_za == ""
-
 
 *===============================================================================
 	
@@ -609,7 +615,7 @@ recode b6anc_first (. = .a) if b5anc== 2
 *recode b6anc_first_conf (.a = .a) if b5anc== 2 /// not in dataset
 *recode continuecare (. = .a) if b6anc_first_conf ==2 /// not in dataset
 recode flash (. 9999998 = .a) if mobile_phone == 0 | mobile_phone == . 
-replace phone_number = ".a" if mobile_phone == 0 | mobile_phone == . 
+*replace phone_number = ".a" if mobile_phone == 0 | mobile_phone == . 
 
 ** SS: 401 other should be a string
 replace m1_401_other = .a if m1_401 != 96
@@ -628,9 +634,9 @@ replace m1_507_other = .a if m1_507 != 96
 recode m1_509b (. 9999998 = .a) if m1_509a == 0 | m1_509a == .
 recode m1_510b (. 9999998 = .a) if m1_510a == 0 | m1_510a == .
 
-recode m1_517 (. = .a) if m1_516 == "." | m1_516 == "9999998" | m1_516 == ""
+*recode m1_517 (. = .a) if m1_516 == "." | m1_516 == "9999998" | m1_516 == ""
 recode m1_518 (. 9978082 = .a) if m1_517 == 2 | m1_517 == . | m1_517 == .a
-replace m1_519a = ".a" if m1_517 == 2 | m1_517 == . | m1_517 == .a
+*replace m1_519a = ".a" if m1_517 == 2 | m1_517 == . | m1_517 == .a
 
 * confirm how to add skip patterns here since there are multiple answers seperated by a comma
 * also 513b-513i are not in the dataset
@@ -752,7 +758,7 @@ replace m1_1202_other = ".a" if m1_1202 != 96
 
 replace m1_1208_other = .a if m1_1208 != 96	
 
-replace m1_1209_other = .a if m1_1209 != 96	
+replace m1_1209_other = ".a" if m1_1209 != 96	
 
 replace m1_1210_other = ".a" if m1_1210 != 96	
 
@@ -804,7 +810,7 @@ recode m1_1309 (. 9999998 = .a) if m1_1308 == 0 | m1_1308 == . | m1_1308 == .a
 * recoding to make "9999998" into "."
 
 replace flash = . if flash == 9999998
-replace phone_number = "." if phone_number == "9999998"
+*replace phone_number = "." if phone_number == "9999998"
 replace m1_401_other = . if m1_401_other == 9999998
 replace m1_405_other = "." if m1_405_other == "9999998"
 replace m1_501_other = "." if m1_501_other == "9999998"
@@ -826,12 +832,12 @@ replace m1_512 = . if m1_512 == 9999998
 replace m1_513a_za = "." if m1_513a_za == ""
 replace m1_513a_za = "." if m1_513a_za == "9999998"
 
-* SS: this coud change once we figure out how to use checkbox data. Technically women with a personal phone wouldn't have been asked this question
+* SS: this could change once we figure out how to use checkbox data. Technically women with a personal phone wouldn't have been asked this question
 replace m1_514a = . if m1_514a == 9999998 
-replace m1_515_address = "." if m1_515_address == "9999998"
-replace m1_516 = "." if m1_516 == "9999998"
+*replace m1_515_address = "." if m1_515_address == "9999998"
+*replace m1_516 = "." if m1_516 == "9999998"
 replace m1_517 = . if m1_517 == 9999998
-replace m1_519a = ".a" if m1_519a == "9999998"
+*replace m1_519a = ".a" if m1_519a == "9999998"
 replace m1_601 = . if m1_601 == 9999998
 replace m1_602 = . if m1_602 == 9999998
 replace m1_603 = . if m1_603 == 9999998
@@ -906,8 +912,8 @@ replace m1_720 = . if m1_720 == 9999998
 replace m1_721 = . if m1_721 == 9999998
 replace m1_722 = . if m1_722 == 9999998
 
-* SS: due. skip patterns, only people who answered "yes" to 204 were asked 723… but nearly everyone has 9999998 as an answer 
-*replace m1_723 = . if m1_723 == 9999998
+* SS: due to skip patterns, only people who answered "yes" to 204 were asked 723… but nearly everyone has 9999998 as an answer 
+replace m1_723 = . if m1_723 == 9999998
 
 replace m1_724a = . if m1_724a == 9999998
 replace m1_724b = . if m1_724b == 9999998
@@ -926,8 +932,8 @@ replace m1_805 = . if m1_805 == 9999998
 replace m1_806 = . if m1_806 == 9999998
 replace m1_807 = . if m1_807 == 9999998
 
-* SS: N=306 peeople in 2nd and 3rd trimester have 9999998 in data for 808
-*replace m1_808 = . if m1_808 == 9999998
+* SS: N=306 people in 2nd and 3rd trimester have 9999998 in data for 808
+replace m1_808 = . if m1_808 == 9999998
 
 replace m1_808_other = "." if m1_808_other == "9999998"
 replace m1_809 = . if m1_809 == 9999998
@@ -950,8 +956,8 @@ replace m1_815 = . if m1_815 == 9999998
 replace m1_815_other = "." if m1_815_other == "9999998"
 replace m1_815_other = "." if m1_815_other == "9999999"
 
-* SS: N=400 people with no symptoms reported "9999998"
-*replace m1_816 = . if m1_816 == 9999998
+* SS: N=459 people with no symptoms reported "9999998"
+replace m1_816 = . if m1_816 == 9999998
 
 replace m1_901 = . if m1_901 == 9999998
 replace m1_902 = . if m1_902 == 9999998
@@ -996,7 +1002,7 @@ replace m1_1207 = . if m1_1207 == 9999998
 replace m1_1208 = . if m1_1208 == 9999998
 replace m1_1208_other = . if m1_1208_other == 9999998
 replace m1_1209 = . if m1_1209 == 9999998
-replace m1_1209_other = . if m1_1209_other == 9999998
+replace m1_1209_other = "." if m1_1209_other == "9999998"
 replace m1_1210 = . if m1_1210 == 9999998
 replace m1_1210_other = "." if m1_1210_other == "9999998"
 replace m1_1211 = . if m1_1211 == 9999998
@@ -1064,7 +1070,7 @@ lab var b7eligible "B7. Is the respondent eligible to participate in the study A
 *lab var family_name "102. What is your family name?"
 lab var respondentid "103. Assign respondent ID"
 lab var mobile_phone "104. Do you have a mobile phone with you today?"
-lab var phone_number "105. What is your phone number?"
+*lab var phone_number "105. What is your phone number?"
 lab var flash "106. Can I 'flash' this number now to make sure I have noted it correctly?"
 lab var m1_201 "201. In general, how would you rate your overall health?"
 lab var m1_202a "202.a. BEFORE you got pregnant, did you know that you had Diabetes?"
@@ -1121,11 +1127,11 @@ lab var m1_511 "511. When children have diarrhea, do you think that they should 
 lab var m1_512 "512. Is smoke from a wood burning traditional stove good for health, harmful for health or do you think it doesn't really matter?"
 lab var m1_513a_za "513a. What phone numbers can we use to reach you in the coming months?"
 lab var m1_514a "514a. We would like you to be able to participate in this study. We can give you a mobile phone for you to take home so that we can reach you. Would you like to receive a mobile phone?"
-lab var m1_515_address "515. Can you please tell me where you live? What is your address?"
-lab var m1_516 "516. Could you please describe directions to your residence? Please give us enough detail so that a data collection team member could find your residence if we needed to ask you some follow up questions"
+*lab var m1_515_address "515. Can you please tell me where you live? What is your address?"
+*lab var m1_516 "516. Could you please describe directions to your residence? Please give us enough detail so that a data collection team member could find your residence if we needed to ask you some follow up questions"
 lab var m1_517 "517. Is this a temporary residence or a permanent residence?"
 lab var m1_518 "518. Until when will you be at this residence?"
-lab var m1_519a "519a. Where will your district be after this date "
+*lab var m1_519a "519a. Where will your district be after this date "
 lab var m1_601 "601. Overall how would you rate the quality of care you received today?"
 lab var m1_602 "602. How likely are you to recommend this facility or provider to a family member or friend to receive care for their pregnancy?"
 lab var m1_603 "603. How long in minutes did you spend with the health provider today?"
@@ -1324,7 +1330,7 @@ lab var m1_1401 "1401. What period of the day is most convenient for you to answ
 drop xxx RESPONSE_Checked  
 
 order m1_*, sequential
-order country study_site study_site_sd facility interviewer_id date_m1 pre_screening_num_za permission care_self enrollage_cat enrollage zone_live b5anc b6anc_first b7eligible respondentid mobile_phone phone_number flash
+order country study_site study_site_sd facility interviewer_id date_m1 pre_screening_num_za permission care_self enrollage_cat enrollage zone_live b5anc b6anc_first b7eligible respondentid mobile_phone flash
 
 order phq9a phq9b phq9c phq9d phq9e phq9f phq9g phq9h phq9i, after(m1_205e)
 
