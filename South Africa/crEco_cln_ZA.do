@@ -110,7 +110,7 @@ rename (MOD1_Demogr_502 MOD1_Demogr_503 MOD1_Demogr_504 MOD1_Demogr_505 MOD1_Dem
 		MOD1_Demogr_510b MOD1_Demogr_511 MOD1_Demogr_512) (m1_502 m1_503 m1_504 m1_505 m1_506 m1_506_other m1_507 ///
 		m1_507_other m1_508 m1_509a m1_509b m1_510a m1_510b m1_511 m1_512)
 		
-rename (MOD1_Demogr_513a MOD1_Demogr_514a) (m1_513a_za m1_514a)	
+rename (MOD1_Demogr_513a MOD1_Demogr_514a) (m1_513a m1_514a)	
 		
 rename (MOD1_Demogr_517 MOD1_Demogr_518) (m1_517 m1_518) 		
 rename (MOD1_User_Exp_601 MOD1_User_Exp_602 MOD1_User_Exp_603 MOD1_User_Exp_604) (m1_601 m1_602 m1_603 m1_604)		
@@ -133,7 +133,7 @@ rename 	(MOD1_Cont_Care_713b MOD1_Cont_Care_713c MOD1_Cont_Care_713e MOD1_Cont_C
 		m1_713c m1_713d m1_713e m1_713f m1_713g m1_713h m1_713i)
 		
 rename (MOD1_Cont_Care_713h MOD1_Cont_Care_713l MOD1_Cont_Care_714a MOD1_Cont_Care_714b MOD1_Cont_Care_714c ///
-		MOD1_Cont_Care_714d MOD1_Cont_Care_714e) (m1_713m_za m1_713n_za m1_714a m1_714b m1_714c m1_714d m1_714e)	
+		MOD1_Cont_Care_714d MOD1_Cont_Care_714e) (m1_713k m1_713l m1_714a m1_714b m1_714c m1_714d m1_714e)	
 	
 rename (MOD1_Cont_Care_715 MOD1_Cont_Care_716a MOD1_Cont_Care_716b MOD1_Cont_Care_716c MOD1_Cont_Care_716d ///
 		MOD1_Cont_Care_716e MOD1_Cont_Care_717 MOD1_Cont_Care_718 MOD1_Cont_Care_719 MOD1_Cont_Care_720 MOD1_Cont_Care_721 ///
@@ -178,9 +178,9 @@ rename (MOD1_Econ_Status_1208 MOD1_Econ_Status_1208_Other MOD1_Econ_Status_1209 
 		m1_1210_other m1_1211 m1_1211_other m1_1212 m1_1213 m1_1214 m1_1215 m1_1216a)		
 
 rename (MOD1_Econ_Status_1217 MOD1_Econ_Status_1218A MOD1_Econ_Status_1218B MOD1_Econ_Status_1218C MOD1_Econ_Status_1218D  ///
-		MOD1_Econ_Status_1218E MOD1_Econ_Status_1218F) (m1_1217 m1_1218a_1 m1_1218b_1 m1_1218c_1 m1_1218d_1 m1_1218e_1 m1_1218_za)		
+		MOD1_Econ_Status_1218E MOD1_Econ_Status_1218F) (m1_1217 m1_1218a_1 m1_1218b_1 m1_1218c_1 m1_1218d_1 m1_1218e_1 m1_1218f_other)		
 
-rename (MOD1_Econ_Status_1218f_Other_Amo MOD1_Econ_Status_1218G_TOTAL MOD1_Econ_Status__1219) (m1_1218g m1_1218g_za m1_1219)		
+rename (MOD1_Econ_Status_1218f_Other_Amo MOD1_Econ_Status_1218G_TOTAL MOD1_Econ_Status__1219) (m1_1218f_1 m1_1218g m1_1219)		
 
 rename (MOD1_Econ_Status_1220 MOD1_Econ_Status_1220_Other MOD1_Econ_Status_1221 MOD1_Econ_Status_1222 MOD1_Econ_Status_1223 ///
 		MOD1_Physical_Assessment_1301 MOD1_Physical_Assessment_1302) (m1_1220 m1_1220_other m1_1221 m1_1222 m1_1223 height_cm weight_kg)
@@ -429,7 +429,7 @@ label values m1_711b bdsugartest
 label define meds 1 "Provider gave it directly" ///
 				  2 "Provider gave a prescription or told you to get it somewhere else" ///
 				  3 "Neither" 98 "DK" 99 "NR/RF" 
-label values m1_713a m1_713b m1_713c m1_713d m1_713e m1_713f m1_713g m1_713h m1_713i m1_713m_za m1_713n_za meds
+label values m1_713a m1_713b m1_713c m1_713d m1_713e m1_713f m1_713g m1_713h m1_713i m1_713k m1_713l meds
 
 label define itn 1 "Yes" 0 "No" 2 "Already have one"
 label values m1_715 itn
@@ -564,7 +564,7 @@ ren rec* *
 
 recode m1_404 m1_506 m1_507  m1_700 m1_701 m1_702 m1_703 m1_705 m1_706 m1_707 m1_708a m1_708b m1_708c ///
 	  m1_708d m1_708e m1_708f m1_709a m1_710a m1_710b m1_710c m1_711a m1_711b m1_712 m1_713a m1_713c ///
-	  m1_713d m1_713e m1_713f m1_713g m1_713h m1_713i m1_713m_za m1_713n_za m1_714a m1_714b m1_714c m1_716a m1_716b ///
+	  m1_713d m1_713e m1_713f m1_713g m1_713h m1_713i m1_713k m1_713l m1_714a m1_714b m1_714c m1_716a m1_716b ///
 	  m1_716c m1_716d m1_716e m1_717 m1_718 m1_719 m1_720 m1_721 m1_722 m1_723 m1_724a m1_724c m1_724d ///
 	  m1_724e m1_724f m1_724g m1_724h m1_724i m1_801 m1_803 m1_805 m1_806 m1_809 m1_810a m1_811 m1_812a m1_812b  ///
 	  m1_813a m1_813b m1_814a m1_814b m1_814c m1_814d m1_814e m1_814f m1_814g m1_814h m1_815 m1_816 m1_901 ///
@@ -578,7 +578,7 @@ recode mobile_phone m1_201 m1_202a m1_202b m1_202c m1_202d m1_202e m1_204 m1_205
 	   m1_506 m1_507 m1_601 m1_602 m1_605a m1_605b m1_605c m1_605d m1_605e m1_605f m1_605g m1_605h ///
 	   m1_700 m1_701 m1_702 m1_703 m1_704 m1_705 m1_706 m1_707 m1_708a m1_708b m1_708c m1_708d m1_708e ///
 	   m1_708f m1_709a m1_709b m1_710a m1_710b m1_710c m1_711a m1_711b m1_712 m1_713a m1_713c m1_713d ///
-	   m1_713e m1_713f m1_713g m1_713h m1_713i m1_713m_za m1_713n_za m1_714a m1_714b m1_716a m1_716b ///
+	   m1_713e m1_713f m1_713g m1_713h m1_713i m1_713k m1_713l m1_714a m1_714b m1_716a m1_716b ///
 	   m1_716c m1_716d m1_716e m1_717 m1_718 m1_719 m1_720 m1_721 m1_722 m1_723 m1_724a m1_724c m1_724d ///
 	   m1_724e m1_724f m1_724g m1_724h m1_724i m1_803 m1_805 m1_807 m1_808 m1_810a m1_812b m1_813a m1_813b ///
 	   m1_814a m1_814b m1_814c m1_814d m1_814e m1_814f m1_814g m1_814h m1_815 m1_816 m1_901 m1_902 m1_905 ///
@@ -640,10 +640,10 @@ recode m1_518 (. 9978082 = .a) if m1_517 == 2 | m1_517 == . | m1_517 == .a
 
 * confirm how to add skip patterns here since there are multiple answers seperated by a comma
 * also 513b-513i are not in the dataset
-*recode m1_513b m1_513c m1_513d m1_513e m1_513f m1_513g m1_513h m1_513i if m1_513a_za == . 
+*recode m1_513b m1_513c m1_513d m1_513e m1_513f m1_513g m1_513h m1_513i if m1_513a == . 
 
 * SS: it looks like this question is asked to women with no personal phone mq_513a_za>2 but this is a checkbox var
-*recode m1_514a (. = .a) if m1_513a_za == "." 
+*recode m1_514a (. = .a) if m1_513a == "." 
 	   	   
 recode m1_708b (. 9999998 = .a) if m1_708a == . | m1_708a == 0 | m1_708a == .d | m1_708a == .r
 recode m1_708c (. 9999998 = .a) if m1_708b	== 2 | m1_708b == . |	m1_708b == .d | m1_708b == .a | m1_708b == .r
@@ -774,20 +774,20 @@ recode m1_1218d_1 (. 9999998 = .a) if m1_1217 == 0 | m1_1217 == .
 
 recode m1_1218e_1 (. 9999998 = .a) if m1_1217 == 0 | m1_1217 == . 
 
-recode m1_1218_za (. 9999998 = .a) if m1_1217 == 0 | m1_1217 == .
+recode m1_1218f_other (. 9999998 = .a) if m1_1217 == 0 | m1_1217 == .
 
-recode m1_1218g (. 9999998= .a) if m1_1217 == 0 | m1_1217 == . 
+recode m1_1218f_1 (. 9999998= .a) if m1_1217 == 0 | m1_1217 == . 
 
-recode m1_1218g_za (. 9999998 = .a) if m1_1217 == 0 | m1_1217 == . 
+recode m1_1218g (. 9999998 = .a) if m1_1217 == 0 | m1_1217 == . 
 
 recode m1_1219 (. 9999998 = .a) if (m1_1218a_1 == .a | m1_1218a_1 == .) & ///
 						   (m1_1218b_1 == .a | m1_1218b_1 == .) & ///
 						   (m1_1218c_1 ==.a | m1_1218c_1 == .) & ///
 						   (m1_1218d_1 == .a | m1_1218c_1 == .) & ///
 						   (m1_1218e_1 == .a | m1_1218e_1 == .) & ///
-						   (m1_1218_za == .a | m1_1218_za == .) & ///
-						   (m1_1218g == .a | m1_1218g == .) & ///
-						   (m1_1218g_za == .a | m1_1218g_za ==.)
+						   (m1_1218f_other == .a | m1_1218f_other == .) & ///
+						   (m1_1218f_1 == .a | m1_1218f_1 == .) & ///
+						   (m1_1218g == .a | m1_1218g ==.)
     
 recode m1_1220 (. 9999998 = .a) if m1_1217 == 0 | m1_1217 == . | m1_1217 == .r
 
@@ -829,8 +829,8 @@ replace m1_510a = . if m1_510a == 9999998
 replace m1_510b = . if m1_510b == 9999998
 replace m1_511 = . if m1_511 == 9999998
 replace m1_512 = . if m1_512 == 9999998
-replace m1_513a_za = "." if m1_513a_za == ""
-replace m1_513a_za = "." if m1_513a_za == "9999998"
+replace m1_513a = "." if m1_513a == ""
+replace m1_513a = "." if m1_513a == "9999998"
 
 * SS: this could change once we figure out how to use checkbox data. Technically women with a personal phone wouldn't have been asked this question
 replace m1_514a = . if m1_514a == 9999998 
@@ -873,7 +873,7 @@ replace m1_711a = . if m1_711a == 9999998
 replace m1_711b = . if m1_711b == 9999998
 replace m1_712 = . if m1_712 == 9999998
 replace m1_713a = . if m1_713a == 9999998
-replace m1_713_za = . if m1_713_za == 9999998
+replace m1_713_za_in = . if m1_713_za_in == 9999998
 replace m1_713b = . if m1_713b == 9999998
 replace m1_713c = . if m1_713c == 9999998
 replace m1_713d = . if m1_713d == 9999998
@@ -881,8 +881,8 @@ replace m1_713e = . if m1_713e == 9999998
 replace m1_713f = . if m1_713f == 9999998
 replace m1_713h = . if m1_713h == 9999998
 replace m1_713i = . if m1_713i == 9999998
-replace m1_713n_za = . if m1_713n_za == 9999998
-replace m1_713m_za = . if m1_713m_za == 9999998
+replace m1_713l = . if m1_713l == 9999998
+replace m1_713k = . if m1_713k == 9999998
 replace m1_713g = . if m1_713g == 9999998
 replace m1_714a = . if m1_714a == 9999998
 replace m1_714b = . if m1_714b == 9999998
@@ -1018,9 +1018,9 @@ replace m1_1218b_1 = . if m1_1218b_1 == 9999998
 replace m1_1218c_1 = . if m1_1218c_1 == 9999998
 replace m1_1218d_1 = . if m1_1218d_1 == 9999998
 replace m1_1218e_1 = . if m1_1218e_1 == 9999998
-replace m1_1218_za = . if m1_1218_za == 9999998
+replace m1_1218f_other = . if m1_1218f_other == 9999998
+replace m1_1218f_1 = . if m1_1218f_1 == 9999998
 replace m1_1218g = . if m1_1218g == 9999998
-replace m1_1218g_za = . if m1_1218g_za == 9999998
 replace m1_1219 = . if m1_1219 == 9999998
 replace m1_1220 = . if m1_1220 == 9999998
 replace m1_1220_other = "." if m1_1220_other == "9999998"
@@ -1125,7 +1125,7 @@ lab var m1_510a "510a. Have you ever heard of an illness called tuberculosis or 
 lab var m1_510b "510b. Do you think that TB can be treated using herbal or traditional medicine made from plants?"
 lab var m1_511 "511. When children have diarrhea, do you think that they should be given less to drink than usual, more to drink than usual, about the same or it doesn't matter?"
 lab var m1_512 "512. Is smoke from a wood burning traditional stove good for health, harmful for health or do you think it doesn't really matter?"
-lab var m1_513a_za "513a. What phone numbers can we use to reach you in the coming months?"
+lab var m1_513a "513a. What phone numbers can we use to reach you in the coming months?"
 lab var m1_514a "514a. We would like you to be able to participate in this study. We can give you a mobile phone for you to take home so that we can reach you. Would you like to receive a mobile phone?"
 *lab var m1_515_address "515. Can you please tell me where you live? What is your address?"
 *lab var m1_516 "516. Could you please describe directions to your residence? Please give us enough detail so that a data collection team member could find your residence if we needed to ask you some follow up questions"
@@ -1167,17 +1167,17 @@ lab var m1_711a "711a. Did they do a blood sugar test for diabetes?"
 lab var m1_711b "711b. Do you know the result of your blood sugar test?"
 lab var m1_712 "712. Did they do an ultrasound (that is, when a probe is moved on your belly to produce a video of the baby on a screen)"
 lab var m1_713a "713a_1. Iron and folic acid pills?"
-lab var m1_713_za "713b: Iron injection"
+lab var m1_713_za_in "713b: Iron injection"
 lab var m1_713b "713b_1. Calcium pills?"
 lab var m1_713c "713c_1. The food supplement like Super Cereal or Plumpynut?"
 lab var m1_713d "713d_1. Medicine for intestinal worms?"
 lab var m1_713e "713e_1. Medicine for malaria (endemic only)?"
-lab var m1_713m_za "713h: Medicine for HIV"
+lab var m1_713k "713h: Medicine for HIV"
 lab var m1_713f "713f_1. Medicine for your emotions, nerves, or mental health?"
 lab var m1_713g "713g_1. Multivitamins?"
 lab var m1_713h "713h_1. Medicine for hypertension?"
 lab var m1_713i "713i_1. Medicine for diabetes, including injections of insulin?"
-lab var m1_713n_za "713l: Antibiotics for an infection"
+lab var m1_713l "713l: Antibiotics for an infection"
 lab var m1_714a "714a. During the visit today, were you given an injection in the arm to prevent the baby from getting tetanus, that is, convulsions after birth?"
 lab var m1_714b "714b. At any time BEFORE the visit today, did you receive any tetanus injections?"
 lab var m1_714c "714c. Before today, how many times did you receive a tetanus injection?"
@@ -1292,9 +1292,9 @@ lab var m1_1218b_1 "1218b.1. How much money do you spent for medicine/vaccines (
 lab var m1_1218c_1 "1218c.1. How much money have you spent on Test/investigations (x-ray, lab etc.)?"
 lab var m1_1218d_1 "1218d.1. How much money have you spent for transport (round trip) including that of person accompanying you?"
 lab var m1_1218e_1 "1218e.1. How much money have you spent on food and accommodation including that of the person accompanying you?"
-lab var m1_1218_za "1218f: Other (specify)"
-lab var m1_1218g "1218f: If other, please specify - Amount"
-lab var m1_1218g_za "1218g: Total Spent"
+lab var m1_1218f_other "1218f: Other (specify)"
+lab var m1_1218f_1 "1218f: If other, please specify - Amount"
+lab var m1_1218g "1218g: Total Spent"
 lab var m1_1219 "Total amount spent"
 lab var m1_1220 "1220: Which of the following financial sources did your household use to pay for this?"
 lab var m1_1220_other "1220_Other. Specify other financial source for household use to pay for this"
