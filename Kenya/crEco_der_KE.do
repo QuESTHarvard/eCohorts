@@ -109,9 +109,106 @@ u "$user/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuES
 			recode `v' (3=0) (2=1)
 			}
 			
-			
 			* Instructions and advanced care
 			egen specialist_hosp= rowmax(m1_724e m1_724c) 
+*------------------------------------------------------------------------------*	
+	* SECTION 8: CURRENT PREGNANCY
+			/* Gestational age at ANC1
+			Here we should recalculate the GA based on LMP (m1_802c and self-report m1_803 */
+			
+			egen dangersigns = rowmax(m1_814a m1_814b m1_814c m1_814d m1_814e m1_814f m1_814g)
+*------------------------------------------------------------------------------*	
+	* SECTION 9: RISKY HEALTH BEHAVIOR
+			recode  m1_901 (1/2=1) (3=0) (4=.)
+			recode m1_903  (1/2=1) (3=0) (4=.)
+			egen risk_health = rowmax( m1_901  m1_903  m1_905)
+			egen stop_risk = rowmax( m1_902  m1_904  m1_907)
+*------------------------------------------------------------------------------*	
+	* SECTION 10: OBSTETRIC HISTORY
+			gen nbpreviouspreg = m1_1001-1 // nb of pregnancies including current minus current pregnancy
+			gen pregloss = nbpreviouspreg-m1_1002 // nb previous pregnancies not including current minus previous births
+			
+			gen stillbirths = m1_1002 - m1_1003 // nb of deliveries/births minus live births
+			replace stillbirths = 1 if stillbirths>1 & stillbirths<.
+*------------------------------------------------------------------------------*	
+	* SECTION 12: ECONOMIC STATUS AND OUTCOMES
+			/*Asset variables
+			* I used the WFP's approach to create the wealth index
+			// the link can be found here https://docs.wfp.org/api/documents/WFP-0000022418/download/ 
+
+			pca safewater bankacc car motorbik bicycle roof wallmat floormat fuel refrig phone telev radio electr toilet  // most are pro-urban variables
+			predict wealthindex
+			xtile quintile = wealthindex, nq(5)
+			tab quintile */
+			
+			gen registration_cost= m1_1218a_1 // registration
+			replace registration = . if registr==0
+			gen med_vax_cost =  m1_1218b_1 // med or vax
+			replace med_vax_cost = . if med_vax_cost==0
+			gen labtest_cost =  m1_1218c_1 // lab tests
+			replace labtest_cost= . if labtest_cost==0
+			egen indirect_cost = rowtotal (m1_1218d_1 m1_1218e_1 m1_1218f_1 )
+			replace indirect = . if indirect==0
+*------------------------------------------------------------------------------*	
+	* SECTION 13: HEALTH ASSESSMENTS AT BASELINE
+
+			* High blood pressure (HBP)
+			egen systolic_bp= rowmean(bp_time_1_systolic bp_time_2_systolic bp_time_3_systolic)
+			egen diastolic_bp= rowmean(bp_time_1_diastolic bp_time_2_diastolic bp_time_3_diastolic)
+			gen systolic_high = 1 if systolic_bp >=140 & systolic_bp <.
+			replace systolic_high = 0 if systolic_bp<140
+			gen diastolic_high = 1 if diastolic_bp>=90 & diastolic_bp<.
+			replace diastolic_high=0 if diastolic_high <90
+			egen HBP= rowmax (systolic_high diastolic_high)
+			drop systolic* diastolic*
+			
+			* Anemia 
+			gen Hb= m1_1309 // test done by E-Cohort data collector
+			gen Hb_card= m1_1307 // hemoglobin value taken from the card
+			replace Hb = Hb_card if Hb==.a // use the card value if the test wasn't done
+				// Reference value of 10 from: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8990104/
+			gen anemic= 1 if Hb<10
+			replace anemic=0 if Hb>=10 & Hb<. 
+			drop Hb*
+			
+			* BMI 
+			gen height_m = height_cm/100
+			gen BMI = weight_kg / (height_m^2)
+			gen low_BMI= 1 if BMI<18.5 
+			replace low_BMI = 0 if BMI>=18.5 & BMI<.
+
+			
+			
+			
+*------------------------------------------------------------------------------*	
+* Labelling new variables 
+	lab var phq9_cat "PHQ9 Depression level Based on sum of all 9 items"
+	lab var anc1bp "Blood pressure taken at ANC1"
+	lab var anc1weight "Weight taken at ANC1"
+	lab var anc1height "Height measured at ANC1"
+	lab var anc1bmi "Both Weight and Height measured at ANC1"
+	lab var anc1muac "Upper arm measured at ANC1"
+	lab var anc1urine "Urine test done at ANC1"
+	lab var anc1blood "Blood test done at ANC1 (finger prick or blood draw)"
+	lab var anc1hiv_test "HIV test done at ANC1"
+	lab var anc1syphilis_test "Syphilis test done at ANC1"
+	lab var anc1ultrasound "Ultrasound done at ANC1"
+	lab var anc1food_supp "Received food supplement directly or a prescription at ANC1"
+	lab var anc1ifa "Received iron and folic acid pills directly or a prescription at ANC1"
+	lab var anc1tq "Technical quality score 1st ANC"
+	lab var counsel_nutri "Counselled about proper nutrition at ANC1"
+	lab var counsel_exer "Counselled about exercise at ANC1"
+	lab var counsel_complic  "Counselled about signs of pregnancy complications"
+	lab var counsel_birthplan "Counselled on birth plan at ANC1"
+	lab var anc1counsel "Counselling quality score 1st ANC"
+	lab var specialist_hosp  "Told to go see a specialist or to go to hospital for ANC"
+	lab var dangersigns "Experienced at least one danger sign so far in pregnancy"
+	lab var pregloss "Number of pregnancy losses (Nb pregnancies > Nb births)"
+	lab var HBP "High blood pressure at 1st ANC"
+	lab var anemic "Anemic (Hb <10.0)"
+	lab var height_m "Height in meters"
+	lab var BMI "Body mass index"
+	lab var low_BMI "BMI below 18.5 (low)"
 								 
 save "$user/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data/Kenya/02 recoded data/eco_m1_ke_der.dta", replace
 	
