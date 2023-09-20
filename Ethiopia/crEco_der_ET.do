@@ -8,7 +8,6 @@
 
 */
 
-***************************** Deriving variables *******************************
 
 *u "$et_data_final/eco_m1m2_et.dta", clear
 
@@ -56,10 +55,7 @@ u "$user/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuES
 			lab def educ_cat 1 "None or some primary" 2 "Completed primary or some secondary" ///
 							 3 "Completed secondary or higher"	 
 			lab val educ_cat educ_cat
-	
-	
-				
-			
+
 *------------------------------------------------------------------------------*	
 	* SECTION 6: USER EXPERIENCE
 			foreach v in m1_601 m1_605a m1_605b m1_605c m1_605d m1_605e m1_605f ///
