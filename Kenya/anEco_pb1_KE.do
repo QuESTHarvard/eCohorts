@@ -59,7 +59,10 @@ ta specialist_hosp if facility_lvl!=2 & facility!="Kalimoni mission hospital" & 
 ta specialist_hosp anyrisk if facility_lvl!=2 & facility!="Kalimoni mission hospital" & ///
 					 facility!="Mercylite hospital" & facility!="Our Lady of Lourdes Mutomo Hospital" & ///
 					 facility!="Muthale Mission Hospital", col chi2
-	
+					 
+ta specialist_hosp dangersign if facility_lvl!=2 & facility!="Kalimoni mission hospital" & ///
+					 facility!="Mercylite hospital" & facility!="Our Lady of Lourdes Mutomo Hospital" & ///
+					 facility!="Muthale Mission Hospital", col chi2
 * COST OF 1st ANC VISIT
 	ta m1_1217 // any $ spent
 	su m1_1218_total_ke if m1_1218_total_ke!=0
@@ -67,6 +70,7 @@ ta specialist_hosp anyrisk if facility_lvl!=2 & facility!="Kalimoni mission hosp
 	su med
 	su lab
 	su indirect	
+	
 * CONFIDENCE
 
 *COMPETENT SYSTEMS: DANGER SIGNS
@@ -78,9 +82,6 @@ ta specialist_hosp anyrisk if facility_lvl!=2 & facility!="Kalimoni mission hosp
 			ttest m1_603, by(dangersign)
 			tabstat anc1ultrasound, by(dangersign) stat(mean sd count)
 			ta anc1ultrasound dangersign, col chi2
-
-			tabstat anc1ux, by(facility_lvl) stat(mean sd count)
-			ta vgm1_601 facility_lvl, col
 
 * CASCADES
 	* Malnutrition
@@ -134,4 +135,17 @@ ta specialist_hosp anyrisk if facility_lvl!=2 & facility!="Kalimoni mission hosp
 			ta  neodeath // previous neonatal death
 			ta m1_1011f if neodeath==1
 			ta specialist_hosp if neodeath==1
+			
+						
+* USER EXPERIENCE
+			tabstat anc1ux, by(facility_lvl) stat(mean sd count)
+			tabstat anc1ux, by(educ_cat) stat(mean sd count)
+			tabstat vgm1_605a vgm1_605b vgm1_605c vgm1_605d vgm1_605e vgm1_605f ///
+			vgm1_605g vgm1_605h  , stat(mean count) col(stat)
 
+
+			
+			
+			
+			
+			
