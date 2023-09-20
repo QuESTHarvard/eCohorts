@@ -63,7 +63,7 @@ u "$user/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuES
 				recode `v' (2=1) (3/5=0), gen(vg`v')
 			}
 			egen anc1ux=rowmean(vgm1_605a-vgm1_605h) // this is different than ETH!
-			drop vgm1_605a-vgm1_605h
+			
 *------------------------------------------------------------------------------*	
 	* SECTION 7: VISIT TODAY: CONTENT OF CARE
 	
@@ -130,6 +130,10 @@ u "$user/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuES
 			
 			gen stillbirths = m1_1002 - m1_1003 // nb of deliveries/births minus live births
 			replace stillbirths = 1 if stillbirths>1 & stillbirths<.
+*------------------------------------------------------------------------------*	
+	* SECTION 11: IPV
+	
+	egen physical_verbal = rowmax(m1_1101 m1_1103)
 *------------------------------------------------------------------------------*	
 	* SECTION 12: ECONOMIC STATUS AND OUTCOMES
 			/*Asset variables
