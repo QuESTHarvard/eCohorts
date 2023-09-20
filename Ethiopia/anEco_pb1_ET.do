@@ -7,11 +7,10 @@ u "$user/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuES
 
 * This should be removed after Shalom addresses it:
 drop in 1/6 // drop the test records
-
-
 * Keep M1 only
 drop redcap_repeat_instrument-redcap_data_access_group m2_attempt_date-m2_complete 
-*
+
+
 * QUALITY OF ANC1
 	* By facility type
 			tabstat anc1tq, by(facility_lvl) stat(mean sd count)
