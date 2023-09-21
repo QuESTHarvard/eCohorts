@@ -169,6 +169,9 @@ rename (preferred_language preferred_language_1 preferred_language_2 preferred_l
 *===============================================================================
 	
 	* STEP TWO: ADD VALUE LABELS (NA in KENYA)
+	
+	label define q515_2 20 "Kitui East", modify
+	label define q519_2 20 "Kitui East", modify
 
 *===============================================================================
 * Generate new vars (KE only:
@@ -280,6 +283,8 @@ replace m1_507_other = ".a" if m1_507 != -96
 recode m1_509b (.  = .a) if m1_509a == 0 | m1_509a == . | m1_509a == .r
 recode m1_510b (.  = .a) if m1_510a == 0 | m1_510a == . | m1_510a == .r
 
+recode m1_513c (. = .a) if m1_513a_2 != 1
+ 
 * SS: confirm what is the skip pattern for m1_513c? Is there one?
 recode m1_514a (. = .a) if m1_513c != .
 recode m1_514b (. = .a) if m1_514a == . | m1_514a == .a
@@ -335,7 +340,8 @@ recode m1_802a (. = .a) if m1_801 == . | m1_801 ==0 | m1_801 ==.a | m1_801 ==.d 
 
 recode m1_802_ke (. = .a) if m1_801 == . | m1_801 == 0 | m1_801 == .a | m1_801 == .d | m1_801 == .r
 
-* Confirm that some people are just missing this data:
+* 9/15: Laura confirmed : For edd_chart, there is no skip pattern. It´s asked to all respondents. However, it was added during the survey (you can check the variable "formdef_version" and you´ll notice that edd_chart is only missing for the form versions 2307030539 (July 3rd, 2023, 05:39am) and earlier), and is therefore missing for the earlier submissions. 
+
 recode edd_chart_ke (. = .a) if m1_801 == . | m1_801 == 0 | m1_801 == .a | m1_801 == .d | m1_801 == .r
 
 recode m1_803 (. = .a) if m1_801 == 1 | m1_801 == . | m1_801 == .d
@@ -434,12 +440,12 @@ recode m1_1105 (.  = .a) if (m1_1103 == 0 | m1_1103 == . | m1_1103 == .d)
 
 replace m1_1201_other = ".a" if m1_1201 != -96	
 
-* where is the "other value"
+* where is the "other value"- doesn't exist in dataset because no one selected other, will drop
 *replace m1_1202_other = ".a" if m1_1202 != 96	
 
 replace m1_1208_other = ".a" if m1_1208 != -96	
 
-* where is the "other value"
+* where is the "other value" - doesn't exist in dataset because no one selected other, will drop
 *replace m1_1209_other = ".a" if m1_1209 != 96	
 
 replace m1_1210_other = ".a" if m1_1210 != -96	
@@ -454,7 +460,10 @@ replace m1_clinic_cost_ke = .a if m1_1217 == 0 | m1_1217 == .
 
 replace m1_1218f_other = ".a" if m1_1218f == 0 | m1_1218f == .a | m1_1218f == .
 
-replace m1_1218_total_ke = .a if m1_1217 == 0 | m1_1217 == .
+recode m1_1218_total_ke (. = .a) if m1_1217 == 0 | m1_1217 == .
+
+* delete after drop:
+*replace m1_1218g = ".a" if m1_1217 == 0 | m1_1217 == .
 
 recode m1_1219 (.  = .a) if (m1_1218_ke == .a) & ///
 						   (m1_1218a_1 == .a | m1_1218a_1 ==.) & ///
@@ -465,9 +474,10 @@ recode m1_1219 (.  = .a) if (m1_1218_ke == .a) & ///
 						   (m1_1218f_1 == .a | m1_1218f_1 == .) & ///
 						   (m1_clinic_cost_ke == .a)
 
-replace m1_1218_other_total_ke = .a if m1_1217 == 0 | m1_1217 == .
+* delete after drop:						   
+*replace m1_other_costs_ke = ".a" if m1_1217 == 0 | m1_1217 == .
 
-replace m1_1218_other_total_ke = .a if m1_1217 == 0 | m1_1217 == . 						   
+recode m1_1218_other_total_ke (. = .a) if m1_1217 == 0 | m1_1217 == . 						   
 						   
 recode m1_1220 (.  = .a) if m1_1217 == 0 | m1_1217 == . 
 
@@ -906,8 +916,8 @@ drop username time_start_full time_start time_start_v2 deviceid	today_date today
 	 q814d_calc_e q814e_calc_e q814f_calc_e q814g_calc_e q814h_calc_e q814_calc_e q814a_calc_ki ///
 	 q814b_calc_ki q814c_calc_ki q814d_calc_ki q814e_calc_ki q814f_calc_ki q814g_calc_ki q814h_calc_ki ///
 	 q814_calc_ki q814a_calc_ka q814b_calc_ka q814c_calc_ka q814e_calc_ka q814g_calc_ka q814h_calc_ka ///
-	 q814d_calc_ka q814f_calc_ka ///
-	 q814_calc_ka device_date_ke date_survey_baseline county_eligibility_oth a5 key formdef_version
+	 q814d_calc_ka q814f_calc_ka q814_calc_ka device_date_ke date_survey_baseline county_eligibility_oth ///
+	 a5 key formdef_version m1_1202_other m1_1209_other
 
 order m1_*, sequential
 order country interviewer_id date_m1 m1_start_time study_site facility ///
