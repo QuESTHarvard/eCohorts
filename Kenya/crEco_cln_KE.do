@@ -55,7 +55,7 @@ rename (q203_0 q203_1 q203_2 q203_3 q203_4 q203_5 q203_6 q203_7 q203_8 q203_9 //
 		q203_10 q203_11 q203_12 q203_13 q203_14 q203__96 q203_oth) (m1_203a_ke ///
 		m1_203b_ke m1_203c_ke m1_203d_ke m1_203e_ke m1_203f_ke m1_203g_ke m1_203h_ke ///
 		m1_203i_ke m1_203j_ke m1_203k_ke m1_203l_ke m1_203m_ke m1_203n_ke m1_203o_ke ///
-		m1_203_96_ke m1_203_other_ke)
+		m1_203_96_ke m1_203_other)
 rename (q204 q205a q205b q205c q205d q205e) (m1_204 m1_205a m1_205b m1_205c m1_205d m1_205e)	
 rename (q206a q206b q206c q206d q206e q206f q206g q206h q206i q207 q301 q302 q303 ///
 		q304) (phq9a phq9b phq9c phq9d phq9e phq9f phq9g phq9h phq9i m1_207 m1_301 ///
@@ -277,7 +277,7 @@ recode m1_204 (. = .a) if (m1_203a_ke == 0 | m1_203a_ke == .) & ///
 				   (m1_203_96_ke == 0 | m1_203_96_ke == .) 
 */
 				   
-replace m1_203_other_ke = ".a" if m1_203_96_ke != 1
+replace m1_203_other = ".a" if m1_203_96_ke != 1
 
 replace m1_401_other = ".a" if m1_401_96_ke != 1 
 replace m1_405_other = ".a" if m1_405 != -96
@@ -561,7 +561,7 @@ lab var m1_203m_ke "203m. KE only: Kidney failure"
 lab var m1_203n_ke "203n. KE only: Asthma"
 lab var m1_203o_ke "203o. KE only: Chronic obstructive pulmonary disease (COPD)"
 lab var m1_203_96_ke "203. KE only: Other, specify"
-lab var m1_203_other_ke "203_Other. KE only: Other major health problems"
+lab var m1_203_other "203_Other. KE only: Other major health problems"
 lab var m1_204 "204. Are you currently taking any medications?"
 lab var m1_205a "205a. I am going to read three statements about your mobility, by which I mean your ability to walk around. Please indicate which statement best describe your own health state today?"
 lab var m1_205b "205b. I am now going to read three statements regarding your ability to self-care, by which I mean whether you can wash and dress yourself without assistance. Please indicate which statement best describe your own health state today"
