@@ -42,7 +42,6 @@ drop q101 q102 q105 q513b q513d q513e_1 q513e_2 q513f_1 q513f_2 q513g_1 q513g_2 
 rename duration interview_length
 rename a1 interviewer_id
 rename a4 study_site
-rename facility_name facility 
 rename b1 permission
 rename (b2 b3) (care_self enrollage)
 rename (b4 b4_oth b5 b6) (zone_live zone_live_other b5anc b6anc_first)
@@ -56,7 +55,7 @@ rename (q203_0 q203_1 q203_2 q203_3 q203_4 q203_5 q203_6 q203_7 q203_8 q203_9 //
 		q203_10 q203_11 q203_12 q203_13 q203_14 q203__96 q203_oth) (m1_203a_ke ///
 		m1_203b_ke m1_203c_ke m1_203d_ke m1_203e_ke m1_203f_ke m1_203g_ke m1_203h_ke ///
 		m1_203i_ke m1_203j_ke m1_203k_ke m1_203l_ke m1_203m_ke m1_203n_ke m1_203o_ke ///
-		m1_203_96_ke m1_203_other_ke)
+		m1_203_96_ke m1_203_other)
 rename (q204 q205a q205b q205c q205d q205e) (m1_204 m1_205a m1_205b m1_205c m1_205d m1_205e)	
 rename (q206a q206b q206c q206d q206e q206f q206g q206h q206i q207 q301 q302 q303 ///
 		q304) (phq9a phq9b phq9c phq9d phq9e phq9f phq9g phq9h phq9i m1_207 m1_301 ///
@@ -170,6 +169,23 @@ rename (preferred_language preferred_language_1 preferred_language_2 preferred_l
 	
 	* STEP TWO: ADD VALUE LABELS (NA in KENYA)
 	
+	encode facility_name, generate(facility)
+	/*
+	label def facility 1 "Githunguri health centre" 2 "Igegania sub district hospital" ///
+					   3 "Ikutha Sub County Hospital" 4 "Kalimoni mission hospital" ///
+					   5 "Katse Health Centre" 6 "Kauwi Sub County Hospital" ///
+					   7 "Kiambu County referral hospital" 8 "Kisasi Health Centre (Kitui Rural)" ///
+					   9 "Kitui County Referral Hospital" 10 "Makongeni dispensary" ///
+					   11 "Mercylite hospital" 12 "Mulango (AIC) Health Centre" ///
+					   13 "Muthale Mission Hospital" 14 "Neema Hospital" 15 "Ngomeni Health Centre" ///
+					   16 "Nuu Sub County Hospital" 17 "Our Lady of Lourdes Mutomo Hospital" ///
+					   18 "Plainsview nursing home" 19 "St. Teresas Nursing Home" ///
+					   20 "Waita Health Centre" 21 "Wangige Sub-County Hospital",modify	
+	label define facility facility				   
+ 	*/
+	
+	label define b4 19 "Mwingi West" 20 "Kitui East", modify
+	
 	label define q515_2 20 "Kitui East", modify
 	label define q519_2 20 "Kitui East", modify
 
@@ -261,7 +277,7 @@ recode m1_204 (. = .a) if (m1_203a_ke == 0 | m1_203a_ke == .) & ///
 				   (m1_203_96_ke == 0 | m1_203_96_ke == .) 
 */
 				   
-replace m1_203_other_ke = ".a" if m1_203_96_ke != 1
+replace m1_203_other = ".a" if m1_203_96_ke != 1
 
 replace m1_401_other = ".a" if m1_401_96_ke != 1 
 replace m1_405_other = ".a" if m1_405 != -96
@@ -511,7 +527,8 @@ lab var facility "A5. Facility name"
 lab var permission "B1. May we have your permission to explain why we are here today, and to ask some questions?"
 lab var care_self "B2. Are you here today to receive care for yourself or someone else?"
 lab var enrollage "B3. How old are you?"
-lab var zone_live "B4. In which zone/district/ sub city are you living?"
+lab var zone_live "B4. In which zone/district/sub city are you living?"
+lab var zone_live_other "B4_Other. Other zone/district/subcity"
 lab var b5anc "B5. By that I mean care related to a pregnancy?"
 lab var b6anc_first "B6. Is this the first time you've come to a health facility to talk to a healthcare provider about this pregnancy?"
 lab var b7eligible "B7. Is the respondent eligible to participate in the study AND signed a consent form?"
@@ -544,7 +561,7 @@ lab var m1_203m_ke "203m. KE only: Kidney failure"
 lab var m1_203n_ke "203n. KE only: Asthma"
 lab var m1_203o_ke "203o. KE only: Chronic obstructive pulmonary disease (COPD)"
 lab var m1_203_96_ke "203. KE only: Other, specify"
-lab var m1_203_other_ke "203_Other. KE only: Other major health problems"
+lab var m1_203_other "203_Other. KE only: Other major health problems"
 lab var m1_204 "204. Are you currently taking any medications?"
 lab var m1_205a "205a. I am going to read three statements about your mobility, by which I mean your ability to walk around. Please indicate which statement best describe your own health state today?"
 lab var m1_205b "205b. I am now going to read three statements regarding your ability to self-care, by which I mean whether you can wash and dress yourself without assistance. Please indicate which statement best describe your own health state today"
