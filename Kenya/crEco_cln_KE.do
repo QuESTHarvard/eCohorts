@@ -42,7 +42,6 @@ drop q101 q102 q105 q513b q513d q513e_1 q513e_2 q513f_1 q513f_2 q513g_1 q513g_2 
 rename duration interview_length
 rename a1 interviewer_id
 rename a4 study_site
-rename facility_name facility 
 rename b1 permission
 rename (b2 b3) (care_self enrollage)
 rename (b4 b4_oth b5 b6) (zone_live zone_live_other b5anc b6anc_first)
@@ -169,6 +168,23 @@ rename (preferred_language preferred_language_1 preferred_language_2 preferred_l
 *===============================================================================
 	
 	* STEP TWO: ADD VALUE LABELS (NA in KENYA)
+	
+	encode facility_name, generate(facility)
+	/*
+	label def facility 1 "Githunguri health centre" 2 "Igegania sub district hospital" ///
+					   3 "Ikutha Sub County Hospital" 4 "Kalimoni mission hospital" ///
+					   5 "Katse Health Centre" 6 "Kauwi Sub County Hospital" ///
+					   7 "Kiambu County referral hospital" 8 "Kisasi Health Centre (Kitui Rural)" ///
+					   9 "Kitui County Referral Hospital" 10 "Makongeni dispensary" ///
+					   11 "Mercylite hospital" 12 "Mulango (AIC) Health Centre" ///
+					   13 "Muthale Mission Hospital" 14 "Neema Hospital" 15 "Ngomeni Health Centre" ///
+					   16 "Nuu Sub County Hospital" 17 "Our Lady of Lourdes Mutomo Hospital" ///
+					   18 "Plainsview nursing home" 19 "St. Teresas Nursing Home" ///
+					   20 "Waita Health Centre" 21 "Wangige Sub-County Hospital",modify	
+	label define facility facility				   
+ 	*/
+	
+	label define b4 19 "Mwingi West" 20 "Kitui East", modify
 	
 	label define q515_2 20 "Kitui East", modify
 	label define q519_2 20 "Kitui East", modify
@@ -511,7 +527,8 @@ lab var facility "A5. Facility name"
 lab var permission "B1. May we have your permission to explain why we are here today, and to ask some questions?"
 lab var care_self "B2. Are you here today to receive care for yourself or someone else?"
 lab var enrollage "B3. How old are you?"
-lab var zone_live "B4. In which zone/district/ sub city are you living?"
+lab var zone_live "B4. In which zone/district/sub city are you living?"
+lab var zone_live_other "B4_Other. Other zone/district/subcity"
 lab var b5anc "B5. By that I mean care related to a pregnancy?"
 lab var b6anc_first "B6. Is this the first time you've come to a health facility to talk to a healthcare provider about this pregnancy?"
 lab var b7eligible "B7. Is the respondent eligible to participate in the study AND signed a consent form?"

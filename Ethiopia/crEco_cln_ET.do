@@ -52,11 +52,11 @@ gen country = "Ethiopia"
     
 	* MODULE 1:
 	
-	rename (record_id redcap_event_name) (redcap_record_id event)
+	rename record_id redcap_record_id
 	rename (study_id interviewer_id date_of_interview_m1 time_of_interview_m1) ///
 	       (study_id interviewer_id date_m1 m1_start_time)
-	rename study_site_a4 woreda
-	rename other_study_site_a4 woreda_other
+	rename study_site_a4 study_site
+	rename other_study_site_a4 study_site_sd
 	rename facility_name_a5 facility
 	rename other_facility_name facility_other
 	rename facility_type_a6 facility_type
@@ -270,11 +270,12 @@ gen country = "Ethiopia"
 
 	** MODULE 1:
 * Label study site values 
+
 label define woreda 1 "Adama special district (town)" 2 "Dugda" 3 "Bora" 4 "Adami Tulu Jido Kombolcha" 5 "Olenchiti" 6 "Adama" 7 "Lume" 96 "Other, specify" 
-label values woreda woreda
+label values study_site woreda
 label define site 1 "Adama" 2 "East Shewa"
 
-generate site = woreda 
+generate site = study_site 
 recode site (1 = 1) ///
             (2 3 4 5 6 7 96 = 2)
 label values site site 
@@ -296,9 +297,18 @@ label define strata 1 "Public Primary" 2 "Public Secondary" 3 "Private Primary" 
 label define FacilityTypeLabel 1 "General Hospital" 2 "Primary Hospital" 3 "Health center" 4 "MCH Specialty Clinic/Center" 5 "Primary clinic" 
 label values facility_type FacilityTypeLabel 
 
+recode zone_live (96 = 9)
+label define zone_live 1 "Adama special district (town)"  2	"Dugda" 3 "Bora" ///
+					   4 "Adami Tulu Jido Kombolcha"  5	"Olenchiti" 6 "Adama" ///
+					   7 "Lume" 8 "Another district in East Shewa zone" 9 "Outside of East Shewa and Adama town"
+label values zone_live zone_live					   
+
 label define reason_anc 1 "Low cost" 2 "Short distance" 3 "Short waiting time" 4 "Good healthcare provider skills" 5 "Staff shows respect" 6 "Medicines and equipment are available" 7 "Cleaner facility" 8 "Only facility available" 9 "covered by CBHI" 10 "Were referred or told to use this provider" 11 "Covered by other insurance" 96 "Other, specify" 99 "NR/RF" 
 label values m1_405 reason_anc
 
+recode flash (4 = 1) (5 = 2)
+*label define flash 1 "Flash successful" 2 "Flash unsuccessful" 3 "Respondent did not give permission for flash"
+label values flash flash
 
 * Demographic value labels 
 label define language 1 "Oromiffa" 2 "Amharegna" 3 "Somaligna" 4 "Tigrigna" 5 "Sidamigna" 6 "Wolaytigna" 7 "Gurage" 8 "Afar" 9 "Hadiyya" 10 "Gamogna" 11 "Gedeo" 12 "Kafa" 96 "Other, specify" 98 "DK" 99 "NR/RF" 
@@ -343,15 +353,19 @@ label values m1_517 residence
 	   label values m1_605a m1_605b m1_605c m1_605d m1_605e m1_605f m1_605g m1_605h m1_605i_et m1_605j_et m1_605k_et likert
 	   	 
    * Label Yes/No 
-	 label define YN 1 "Yes" 0 "No" 3 "not applicable" 98 "DK" 99 "RF" 
+	 label define YN 1 "Yes" 0 "No" 3 "Not applicable" 98 "DK" 99 "RF" 
 	 label define YN2 1 "Yes" 2 "No" 98 "DK" 99 "RF" 
 	 label values m1_716a m1_716b m1_716c m1_716d m1_716e YN
    	 label values m1_717 m1_718 m1_719 m1_720 m1_721 m1_722 m1_723 YN 
 	 label values m1_813a m1_813b m1_813c m1_813d m1_813e YN
 	 label values m1_904 m1_905 m1_907 YN
+	 label values permission YN
+	 label values b5anc b6anc_first b6anc_first_conf continuecare YN2
+	 label values mobile_phone YN
+	 label values kebele_intworm kebele_malaria YN
 
 	 	 
-	 * Label values for varaiables with Yes / No responses 
+	 * Label values for variables with Yes / No responses 
 	 label values m1_502 m1_509a m1_509b m1_510a m1_510b m1_514a YN 
 	 label values m1_204 YN
 	 label values m1_203 YN2
@@ -972,14 +986,14 @@ label values m2_complete m2_complete
 		* Need to figure out a way to clean up string "text" only vars that have numeric entries (ex. 803)
 
 	** MODULE 1:
-	recode mobile_phone kebele_malaria kebele_intworm m1_201 m1_202a m1_202b m1_202c m1_202d m1_202e m1_202f m1_202g m1_203 m1_204 m1_205a m1_205b m1_205c m1_205d m1_205e phq9a phq9b phq9c phq9d phq9e phq9f phq9g phq9h phq9i m1_301 m1_302 m1_303 m1_304 m1_305a m1_305b m1_401 m1_404 m1_405 m1_501 m1_503 m1_504 m1_505 m1_506 m1_507 m1_601 m1_602 m1_605a m1_605b m1_605c m1_605d m1_605e m1_605f m1_605g m1_605h m1_605i_et m1_605j_et m1_605k_et m1_700 m1_701 m1_702 m1_703 m1_704 m1_705 m1_706 m1_707 m1_708a m1_708b m1_708c m1_708d m1_708e m1_708f m1_709a m1_709b m1_710a m1_710b m1_710c m1_711a m1_711b m1_712 m1_713a m1_713b m1_713c m1_713d m1_713e m1_713f m1_713g m1_713h m1_713i m1_714a m1_714b m1_716a m1_716b m1_716c m1_716d m1_716e m1_717 m1_718 m1_719 m1_720 m1_721 m1_722 m1_723 m1_724a m1_724c m1_724d m1_724e m1_724f m1_724g m1_724h m1_724i m1_801 m1_805 m1_806 m1_807 m1_810a m1_810b m1_813a m1_813b m1_813c m1_813d m1_813e m1_8a_et m1_8b_et m1_8c_et m1_8d_et m1_8e_et m1_8f_et m1_8g_et m1_2_8_et m1_814a m1_814b m1_814c m1_814d m1_814e m1_814f m1_814g m1_814h m1_814i m1_816 m1_901 m1_902 m1_903 m1_904 m1_905 m1_907 m1_1004 m1_1005 m1_1006 m1_1_10_et m1_1007 m1_1008 m1_1010 m1_1011a m1_1011b m1_1011c m1_1011d m1_1011e m1_1011f m1_1101 m1_1103 m1_1105 m1_1201 m1_1202 m1_1203 m1_1204 m1_1205 m1_1206 m1_1207 m1_1208 m1_1209 m1_1210 m1_1211 m1_1212 m1_1213 m1_1214 m1_1215 m1_1216 m1_1217 m1_1221 m1_1222 m1_1223 (99 = .r)
+	recode mobile_phone kebele_malaria kebele_intworm m1_201 m1_202a m1_202b m1_202c m1_202d m1_202e m1_202f m1_202g m1_203 m1_204 m1_205a m1_205b m1_205c m1_205d m1_205e phq9a phq9b phq9c phq9d phq9e phq9f phq9g phq9h phq9i m1_301 m1_302 m1_303 m1_304 m1_305a m1_305b m1_401 m1_404 m1_405 m1_501 m1_503 m1_504 m1_505 m1_506 m1_507 m1_601 m1_602 m1_605a m1_605b m1_605c m1_605d m1_605e m1_605f m1_605g m1_605h m1_605i_et m1_605j_et m1_605k_et m1_700 m1_701 m1_702 m1_703 m1_704 m1_705 m1_706 m1_707 m1_708a m1_708b m1_708c m1_708d m1_708e m1_708f m1_709a m1_709b m1_710a m1_710b m1_710c m1_711a m1_711b m1_712 m1_713a m1_713b m1_713c m1_713d m1_713e m1_713f m1_713g m1_713h m1_713i m1_714a m1_714b m1_716a m1_716b m1_716c m1_716d m1_716e m1_717 m1_718 m1_719 m1_720 m1_721 m1_722 m1_723 m1_724a m1_724c m1_724d m1_724e m1_724f m1_724g m1_724h m1_724i m1_801 m1_805 m1_806 m1_807 m1_810a m1_810b m1_813a m1_813b m1_813c m1_813d m1_813e m1_8a_et m1_8b_et m1_8c_et m1_8d_et m1_8e_et m1_8f_et m1_8g_et m1_2_8_et m1_814a m1_814b m1_814c m1_814d m1_814e m1_814f m1_814g m1_814h m1_814i m1_816 m1_901 m1_902 m1_903 m1_904 m1_905 m1_907 m1_1004 m1_1005 m1_1006 m1_1_10_et m1_1007 m1_1008 m1_1010 m1_1011a m1_1011b m1_1011c m1_1011d m1_1011e m1_1011f m1_1101 m1_1103 m1_1105 m1_1201 m1_1202 m1_1203 m1_1204 m1_1205 m1_1206 m1_1207 m1_1208 m1_1209 m1_1210 m1_1211 m1_1212 m1_1213 m1_1214 m1_1215 m1_1216 m1_1217 m1_1221 m1_1222 m1_1223 mobile_phone (99 = .r)
 
 	recode m1_401 m1_404 m1_501 m1_506 m1_507 m1_509b m1_510b m1_511 m1_512 m1_700 m1_701 m1_702 m1_703 m1_704 m1_705 m1_706 m1_707 m1_708a m1_708b m1_708c m1_708d m1_708e m1_708f m1_709a m1_709b m1_710a m1_710b m1_710c m1_711a m1_711b m1_712 m1_713a m1_713b m1_713c m1_713d m1_713e m1_713f m1_713g m1_713h m1_713i m1_714a m1_714b m1_716a m1_716b m1_716c m1_716d m1_716e m1_717 m1_718 m1_719 m1_720 m1_721 m1_722 m1_723 m1_724a m1_724c m1_724d m1_724e m1_724f m1_724g m1_724h m1_724i m1_801 m1_805 m1_806 m1_807 m1_809 m1_810a m1_810b m1_811 m1_812a m1_813a m1_813b m1_813c m1_813d m1_813e m1_8a_et m1_8b_et m1_8c_et m1_8d_et m1_8e_et m1_8f_et m1_8g_et m1_2_8_et m1_814a m1_814b m1_814c m1_814d m1_814e m1_814f m1_814g m1_814h m1_814i m1_816 m1_901 m1_902 m1_903 m1_904 m1_905 m1_907 m1_1004 m1_1005 m1_1006 m1_1_10_et m1_1007 m1_1008 m1_1010 m1_1011a m1_1011b m1_1011c m1_1011d m1_1011e m1_1011f m1_1101 m1_1105 m1_1201 m1_1202 m1_1203 m1_1204 m1_1205 m1_1206 m1_1207 m1_1208 m1_1209 m1_1210 m1_1211 m1_1212 m1_1213 m1_1214 m1_1215 m1_1216 m1_1218a m1_1218b m1_1218c m1_1218d m1_1218e m1_1218f m1_1221 m1_1223 m1_804 (98 = .d)
 
 	** MODULE 2:
 	recode m2_301 m2_203a m2_203b m2_203c m2_203d m2_203e m2_203f m2_203g m2_203h m2_203i m2_204a m2_204b m2_204c m2_204d m2_204e m2_204f m2_204g m2_204h m2_204i m2_205c m2_205d m2_205e m2_205f m2_205g m2_205h m2_205i m2_206 m2_207 m2_208 m2_301 m2_303a m2_303b m2_303c m2_303d m2_303e m2_305 m2_306 m2_308 m2_309 m2_311 m2_312 m2_314 m2_315 m2_317 m2_318 m2_321 m2_401 m2_402 m2_403 m2_404 m2_405 m2_501a m2_501b m2_501c m2_501d m2_501e m2_501f m2_501g m2_502 m2_503a m2_503b m2_503c m2_503d m2_503e m2_503f m2_504 m2_505a m2_505b m2_505c m2_505d m2_505e m2_505f m2_506a m2_506b m2_506c m2_506d m2_507 m2_508a m2_508b_number m2_508c m2_509a m2_509b m2_509c m2_601a m2_601b m2_601c m2_601d m2_601e m2_601f m2_601g m2_601h m2_601i m2_601j m2_601k m2_601l m2_601m m2_601n m2_602a m2_603 m2_604 m2_701 m2_702a m2_702b m2_702c m2_702d m2_702e m2_704 (99 = .r)
 	
-	recode m2_201 m2_203a m2_203b m2_203c m2_203d m2_203e m2_203f m2_203g m2_203h m2_203i m2_204a m2_204b m2_204c m2_204d m2_204e m2_204f m2_204g m2_204h m2_204i m2_206 m2_207 m2_208 m2_301 m2_303a m2_303b m2_303c m2_303d m2_303e m2_305 m2_306 m2_308 m2_309 m2_311 m2_312 m2_314 m2_315 m2_317 m2_318 m2_321 m2_401 m2_402 m2_403 m2_404 m2_405 m2_501a m2_501b m2_501c m2_501d m2_501e m2_501f m2_501g m2_502 m2_503a m2_503b m2_503c m2_503d m2_503e m2_503f m2_504 m2_505a m2_505b m2_505c m2_505d m2_505e m2_505f m2_506a m2_506b m2_506c m2_506d m2_507 m2_508a m2_508b_number m2_508c m2_509a m2_509b m2_509c m2_601a m2_601b m2_601c m2_601d m2_601e m2_601f m2_601g m2_601h m2_601i m2_601j m2_601k m2_601l m2_601m m2_601n m2_602a m2_603 m2_604 m2_701 m2_702a m2_702b m2_702c m2_702d m2_702e m2_704 (98 = .d)
+	recode m2_201 m2_203a m2_203b m2_203c m2_203d m2_203e m2_203f m2_203g m2_203h m2_203i m2_204a m2_204b m2_204c m2_204d m2_204e m2_204f m2_204g m2_204h m2_204i m2_206 m2_207 m2_208 m2_301 m2_303a m2_303b m2_303c m2_303d m2_303e m2_305 m2_306 m2_308 m2_309 m2_311 m2_312 m2_314 m2_315 m2_317 m2_318 m2_321 m2_401 m2_402 m2_403 m2_404 m2_405 m2_501a m2_501b m2_501c m2_501d m2_501e m2_501f m2_501g m2_502 m2_503a m2_503b m2_503c m2_503d m2_503e m2_503f m2_504 m2_505a m2_505b m2_505c m2_505d m2_505e m2_505f m2_506a m2_506b m2_506c m2_506d m2_507 m2_508a m2_508b_number m2_508c m2_509a m2_509b m2_509c m2_601a m2_601b m2_601c m2_601d m2_601e m2_601f m2_601g m2_601h m2_601i m2_601j m2_601k m2_601l m2_601m m2_601n m2_602a m2_603 m2_604 m2_701 m2_702a m2_702b m2_702c m2_702d m2_702e m2_704 kebele_malaria kebele_intworm  (98 = .d)
 
 * Recode missing values to NA for questions respondents would not have been asked 
 * due to skip patterns
@@ -1784,11 +1798,11 @@ ren rec* *
 *===============================================================================					   
 	
 	* STEP FOUR: LABELING VARIABLES
-label variable redcap_record_id "Record ID"
-label variable event "Event Name"
-label variable redcap_repeat_instrument "Repeat Instrument"
-label variable redcap_repeat_instance "Repeat Instance"
-label variable redcap_data_access_group "Data Access Group"
+label variable redcap_record_id "Redcap Record ID"
+label variable redcap_event_name "Redcap Event Name"
+label variable redcap_repeat_instrument "Redcap Repeat Instrument"
+label variable redcap_repeat_instance "Redcap Repeat Instance"
+label variable redcap_data_access_group "Redcap Data Access Group"
 label variable study_id "Study ID"
 label variable interviewer_id "Interviewer ID"
 
@@ -1796,8 +1810,8 @@ label variable interviewer_id "Interviewer ID"
 
 lab var date_m1 "A2. Date of interview"
 lab var m1_start_time "A3. Time of interview"
-lab var woreda "A4. Study site"
-lab var woreda_other "A4_Other. Specify other study site"
+lab var study_site "A4. Study site"
+lab var study_site_sd "A4_Other. Specify other study site"
 lab var facility "A5. Facility name"
 lab var facility_other "A5_Other. Specify other facility name"
 lab var facility_type "A5. Facility type"
@@ -1817,16 +1831,16 @@ lab var respondentid "103. Assign respondent ID"
 lab var mobile_phone "104. Do you have a mobile phone with you today?"
 lab var phone_number "105. What is your phone number?"
 lab var flash "106. Can I 'flash' this number now to make sure I have noted it correctly?"
-lab var kebele_malaria "Eth-1-1 Interviewer check whether the area that the woman living is malarias or not? "
+lab var kebele_malaria "Eth-1-1 Interviewer check whether the area that the woman living is malarias or not?"
 lab var kebele_intworm "Eth-2-1. Interviewer check whether the area that the woman living is endemic for intestinal worm or not?"
 lab var m1_201 "201. In general, how would you rate your overall health?"
-lab var m1_202a "202.a. BEFORE you got pregnant, did you know that you had Diabetes?"
-lab var m1_202b "202.b. BEFORE you got pregnant, did you know that you had High blood pressure or hypertension?"
-lab var m1_202c "202.c. BEFORE you got pregnant, did you know that you had a cardiac disease or problem with your heart?"
-lab var m1_202d "202.d BEFORE you got pregnant, did you know that you had A mental health disorder such as depression, anxiety, bipolar disorder, or schizophrenia?"
-lab var m1_202e "202.e BEFORE you got pregnant, did you know that you had HIV?"
+lab var m1_202a "202a. BEFORE you got pregnant, did you know that you had Diabetes?"
+lab var m1_202b "202b. BEFORE you got pregnant, did you know that you had High blood pressure or hypertension?"
+lab var m1_202c "202c. BEFORE you got pregnant, did you know that you had a cardiac disease or problem with your heart?"
+lab var m1_202d "202d. BEFORE you got pregnant, did you know that you had A mental health disorder such as depression, anxiety, bipolar disorder, or schizophrenia?"
+lab var m1_202e "202e. BEFORE you got pregnant, did you know that you had HIV?"
 lab var m1_202f "202f. BEFORE you got pregnant, did you know that you had Hepatitis B?"
-lab var m1_202g "202g. BEFORE you got pregnant, did you know that you had Renal disorder? "
+lab var m1_202g "202g. BEFORE you got pregnant, did you know that you had Renal disorder?"
 lab var m1_203 "203. Before you got pregnant, were you diagnosed with any other major health problems?"
 lab var m1_203_other "203_Other. Specify the diagnosis health problem"
 lab var m1_204 "204. Are you currently taking any medications?"
@@ -2483,8 +2497,8 @@ label variable m2_complete "Complete?"
 	
 * drop unncessary vars and de-identify dataset
 drop iic_3-module_5_end_line_facetoface_sur first_name family_name phone_number m1_513b ///
-     m1_513c m1_513b_2 m1_513d m1_513e_name m1_513e m1_513f_name m1_513f m1_513g_name ///
-	 m1_513g m1_513h_name m1_513h m1_513i_name m1_513i
+     m1_513c m1_513d m1_513e m1_513f ///
+	 m1_513g m1_513h m1_513i
 
 
 save "$et_data_final/eco_m1m2_et.dta", replace

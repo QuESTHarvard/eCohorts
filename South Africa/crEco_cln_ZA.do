@@ -295,7 +295,6 @@ label values m1_605a m1_605b m1_605c m1_605d m1_605e m1_605f m1_605g m1_605h lik
 	 label define YN2 1 "Yes" 0 "No" 
 	 label define YN3 1 "Yes" 0 "No" 3 "Don't Know"
 	 label define YN4 1 "Yes" 0 "No" 99 "Don't Know"
-	 label define YN5 1 "Yes" 2 "No" 98 "Don't Know" 99 "NR/RF"
 	 
 	 label values m1_202a m1_202b m1_202c m1_202d m1_202e m1_204 YN
 	 label values m1_502 m1_509a m1_510a m1_514a YN2 
@@ -312,7 +311,6 @@ label values m1_605a m1_605b m1_605c m1_605d m1_605e m1_605f m1_605g m1_605h lik
 	 label values m1_813a m1_813b m1_816 YN
 	 label values m1_814a m1_814b m1_814c m1_814d m1_814e m1_814f m1_814g m1_814h YN
 	 label values m1_905 m1_907 YN
-	 label values m1_902 m1_704 YN5
 
 	 label values m1_1004 m1_1005 m1_1006 m1_1007 m1_1008 m1_1010 YN
 	 label values m1_1011a m1_1011b m1_1011c m1_1011d m1_1011e m1_1011f YN
@@ -418,6 +416,9 @@ label values m1_517 residence
 label define test_result 1 "Positive" 2 "Negative" 98 "DK" 99 "RF" 
 label values m1_708b m1_710b test_result
 
+recode m1_704 (2 = 0)
+lab values m1_704 YN
+
 label define m1_710c 1 "Provider gave it directly" ///
 					 2 "Provider gave a prescription or told you to get it somewhere else" ///
 					 3 "Neither" 98 "Don't Know" 88 "NR/RF"
@@ -441,7 +442,8 @@ label define numbabies 1 "One baby" 2 "Two babies (twins)" ///
 					   3 "Three or more babies (triplets or higher)" 98 "DK" 99 "NR/RF"
 label values m1_805 numbabies 
 
-label define m1_807 1 "Yes" 2 "No" 99 "NR/RF"
+recode m1_807 (2 = 0)
+label define m1_807 1 "Yes" 0 "No" 99 "NR/RF"
 label values m1_807 m1_807
 
 label define m1_808 0 "Didn't realize you were pregnant" 1 "Tried to come earlier and were sent away" ///
@@ -480,7 +482,10 @@ label define m1_815 1 "Nothing, we did not discuss this" ///
 label values m1_815 m1_815
 					
 label define smokeamt 1 "Every day" 2 "Some days" 3 "Not at all" 98 "DK" 99 "NR/RF" 
-label values m1_901 smokeamt					
+label values m1_901 smokeamt	
+
+recode m1_902 (2 = 0)
+lab values m1_902 YN				
 
 * confirm value "12"					
 label define m1_1102 1 "Current husband/partner" 2 "Mother/Father" 3 "Step-mother" ///
@@ -1061,7 +1066,7 @@ lab var study_site_sd "A4_Other. Specify other study site"
 lab var permission "B1. May we have your permission to explain why we are here today, and to ask some questions?"
 lab var care_self "B2. Are you here today to receive care for yourself or someone else?"
 lab var enrollage "B3. How old are you?"
-lab var enrollage_cat "B3.A: Are you 15 years or older?"
+lab var enrollage_cat "B3a. Are you 15 years or older?"
 lab var zone_live "B4. In which zone/district/ sub city are you living?"
 lab var b5anc "B5. By that I mean care related to a pregnancy?"
 lab var b6anc_first "B6. Is this the first time you've come to a health facility to talk to a healthcare provider about this pregnancy?"
