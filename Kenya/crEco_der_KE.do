@@ -1,35 +1,38 @@
 * MNH: ECohorts derived variable creation (Ethiopia)
-* Date of last update: August 2023
-* S Sabwa, K Wright, C Arsenault
+* Date of last update: September 2023
+* C Arsenault, S Sabwa, K Wright
 
 /*
 
-	This file creates derived variables for analysis from the MNH ECohorts Ethiopia dataset. 
+	This file creates derived variables for analysis from the MNH ECohorts Kenya dataset. 
 
 */
+*u "$ke_data_final/eco_m1_ke.dta", clear
+u "$user/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data/Kenya/02 recoded data/eco_m1_ke.dta", clear
 
-
-*u "$et_data_final/eco_m1m2_et.dta", clear
-
-u "$user/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data/Ethiopia/02 recoded data/eco_m1m2_et.dta", clear
 *------------------------------------------------------------------------------*
 * MODULE 1
 *------------------------------------------------------------------------------*
 	* SECTION A: META DATA
+	gen facility_lvl = 1 if facility=="Githunguri health centre" ///
+		| facility=="Wangige Sub-County Hospital" | facility=="Makongeni dispensary" ///
+		| facility=="Nuu Sub County Hospital" | facility=="Waita Health Centre" ///
+		| facility=="Katse Health Centre" |  facility=="Ngomeni Health Centre" ///
+		| facility=="Ikutha Sub County Hospital" | facility=="Kisasi Health Centre (Kitui Rural)" 
+		
+	replace facility_lvl = 2 if facility=="Igegania sub district hospital" ///
+			| facility=="Kiambu County referral hospital" ///
+			| facility=="Kitui County Referral Hospital" ///
+			| facility=="Kauwi Sub County Hospital"
+			
+	replace facility_lvl=3 if facility=="Plainsview nursing home" ///
+	| facility=="St. Teresas Nursing Home" | facility=="Kalimoni mission hospital" ///
+	| facility=="Mercylite hospital" | facility=="Mulango (AIC) Health Centre" ///
+	| facility=="Neema Hospital" | facility=="Our Lady of Lourdes Mutomo Hospital" ///
+	| facility=="Muthale Mission Hospital"
 	
-			gen facility_own = facility
-			recode facility_own (2/11 14 16/19 =1) ///
-							    (1 13 15 20 21 22 96 =2)
-			
-			lab def facility_own 1 "Public" 2 "Private"
-			lab val facility_own facility_own 
-			
-			gen facility_lvl = facility 
-			recode facility_lvl (2/6 8/12 14 16 17 19  =1) (7 18 =2) ///
-								(1 13 15 20 21 22 96 =3) 
-			
-			lab def facility_lvl 1"Primary" 2 "Secondary" 3 "Private"
-			lab val facility_lvl facility_lvl
+	lab def facility_lvl 1"Public primary" 2"Public secondary" 3"Private"
+	lab val facility_lvl facility_lvl
 *------------------------------------------------------------------------------*	
 	* SECTION 2: HEALTH PROFILE
 	
@@ -41,34 +44,26 @@ u "$user/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuES
 
 			egen phq2_cat= rowtotal(phq9a phq9b)
 			recode phq2_cat (0/2=0) (3/6=1)
-			
 *------------------------------------------------------------------------------*	
 	* SECTION 3: CONFIDENCE AND TRUST HEALTH SYSTEM
-			recode m1_302 (98=.)
+			recode m1_302 (999=.)
 	
 *------------------------------------------------------------------------------*	
 	* SECTION 5: BASIC DEMOGRAPHICS
-	
 			gen educ_cat=m1_503
 			replace educ_cat = 1 if m1_502==0
-			recode educ_cat (3=2) (4/5=3)
+			recode educ_cat (3=2) (4=3) (5=4)
 			lab def educ_cat 1 "None or some primary" 2 "Completed primary or some secondary" ///
-							 3 "Completed secondary or higher"	 
+							 3 "Completed secondary" 4"Higher education"	 
 			lab val educ_cat educ_cat
-
 *------------------------------------------------------------------------------*	
 	* SECTION 6: USER EXPERIENCE
 			foreach v in m1_601 m1_605a m1_605b m1_605c m1_605d m1_605e m1_605f ///
-			             m1_605g m1_605h m1_605i m1_605j m1_605k {
+			             m1_605g m1_605h {
 				recode `v' (2=1) (3/5=0), gen(vg`v')
 			}
-			egen anc1ux=rowmean(vgm1_605a-vgm1_605k)
-			drop vgm1_605a-vgm1_605k
+			egen anc1ux=rowmean(vgm1_605a-vgm1_605h) // this is different than ETH!
 			
-			foreach v in m1_605a m1_605b m1_605c m1_605d m1_605e m1_605f ///
-			             m1_605g m1_605h m1_605i m1_605j m1_605k {
-						 	recode `v' (4/5=1) (1/3=0), gen(fpoor`v')
-						 }
 *------------------------------------------------------------------------------*	
 	* SECTION 7: VISIT TODAY: CONTENT OF CARE
 	
@@ -94,7 +89,7 @@ u "$user/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuES
 
 			egen anc1tq = rowmean(anc1bp anc1weight anc1height anc1muac anc1fetal_hr anc1urine ///
 								 anc1blood anc1ultrasound anc1ifa anc1tt ) // 10 items
-								  
+								 
 			* Counselling at first ANC visit
 			gen counsel_nutri =  m1_716a  
 			gen counsel_exer=  m1_716b
@@ -103,8 +98,7 @@ u "$user/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuES
 			gen counsel_birthplan =  m1_809
 			egen anc1counsel = rowmean(counsel_nutri counsel_exer counsel_complic ///
 								counsel_comeback counsel_birthplan)
-								
-						
+										
 			* Q713 Other treatments/medicine at first ANC visit 
 			gen anc1food_supp = m1_713c
 			gen anc1mental_health_drug = m1_713f
@@ -115,7 +109,6 @@ u "$user/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuES
 			recode `v' (3=0) (2=1)
 			}
 			
-			
 			* Instructions and advanced care
 			egen specialist_hosp= rowmax(m1_724e m1_724c) 
 *------------------------------------------------------------------------------*	
@@ -123,24 +116,24 @@ u "$user/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuES
 			/* Gestational age at ANC1
 			Here we should recalculate the GA based on LMP (m1_802c and self-report m1_803 */
 			
-			
 			egen dangersigns = rowmax(m1_814a m1_814b m1_814c m1_814d m1_814e m1_814f m1_814g)
 *------------------------------------------------------------------------------*	
 	* SECTION 9: RISKY HEALTH BEHAVIOR
-			recode  m1_901 (1/2=1) (3=0)
-			recode m1_903  (1/2=1) (3=0)
+			recode  m1_901 (1/2=1) (3=0) (4=.)
+			recode m1_903  (1/2=1) (3=0) (4=.)
 			egen risk_health = rowmax( m1_901  m1_903  m1_905)
 			egen stop_risk = rowmax( m1_902  m1_904  m1_907)
 *------------------------------------------------------------------------------*	
 	* SECTION 10: OBSTETRIC HISTORY
 			gen nbpreviouspreg = m1_1001-1 // nb of pregnancies including current minus current pregnancy
 			gen pregloss = nbpreviouspreg-m1_1002 // nb previous pregnancies not including current minus previous births
-			replace pregloss =. if pregloss<0 // 6 women had more births than pregnancies
 			
 			gen stillbirths = m1_1002 - m1_1003 // nb of deliveries/births minus live births
-			replace stillbirths=. if stillbirths<0 // 6 women had more livebirths than pregnancies
 			replace stillbirths = 1 if stillbirths>1 & stillbirths<.
-			
+*------------------------------------------------------------------------------*	
+	* SECTION 11: IPV
+	
+	egen physical_verbal = rowmax(m1_1101 m1_1103)
 *------------------------------------------------------------------------------*	
 	* SECTION 12: ECONOMIC STATUS AND OUTCOMES
 			/*Asset variables
@@ -176,17 +169,11 @@ u "$user/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuES
 			* Anemia 
 			gen Hb= m1_1309 // test done by E-Cohort data collector
 			gen Hb_card= m1_1307 // hemoglobin value taken from the card
-				replace Hb_card=11.3 if Hb_card==113
 			replace Hb = Hb_card if Hb==.a // use the card value if the test wasn't done
 				// Reference value of 10 from: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8990104/
 			gen anemic= 1 if Hb<10
 			replace anemic=0 if Hb>=10 & Hb<. 
 			drop Hb*
-			
-			* MUAC
-			recode muac (999=.)
-			gen malnutrition = 1 if muac<23
-			replace malnutrition = 0 if muac>=23 & muac<.
 			
 			* BMI 
 			gen height_m = height_cm/100
@@ -199,7 +186,6 @@ u "$user/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuES
 			
 *------------------------------------------------------------------------------*	
 * Labelling new variables 
-	lab var facility_own "Facility ownership"
 	lab var phq9_cat "PHQ9 Depression level Based on sum of all 9 items"
 	lab var anc1bp "Blood pressure taken at ANC1"
 	lab var anc1weight "Weight taken at ANC1"
@@ -225,9 +211,8 @@ u "$user/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuES
 	lab var HBP "High blood pressure at 1st ANC"
 	lab var anemic "Anemic (Hb <10.0)"
 	lab var height_m "Height in meters"
-	lab var malnutrition "Acute malnutrition MUAC<23"
 	lab var BMI "Body mass index"
 	lab var low_BMI "BMI below 18.5 (low)"
+								 
+save "$user/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data/Kenya/02 recoded data/eco_m1_ke_der.dta", replace
 	
-	
-save "$user/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data/Ethiopia/02 recoded data/eco_m1m2_et_der.dta", replace
