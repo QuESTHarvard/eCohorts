@@ -1,6 +1,6 @@
 * Kenya ECohort Baseline Data - Analyses for Policy Brief 
 * Created by C. Arsenault 
-* Updated: September 19, 2023
+* Created: September 19, 2023
 
 
 u "$user/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data/Kenya/02 recoded data/eco_m1_ke_der.dta", clear
@@ -72,7 +72,7 @@ ta specialist_hosp dangersign if facility_lvl!=2 & facility!="Kalimoni mission h
 	su indirect	
 	
 * CONFIDENCE
-
+		ta m1_302
 *COMPETENT SYSTEMS: DANGER SIGNS
 			tabstat anc1tq, by(dangersign) stat(mean sd count)
 			ttest anc1tq, by(dangersign)
