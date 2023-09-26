@@ -1,14 +1,17 @@
-* Kenya ECohort Baseline Data - Analyses for Policy Brief 
+* South Africa ECohort Baseline Data - Analyses for Policy Brief 
 * Created by C. Arsenault 
-* Created: September 19, 2023
+* Created: September 21, 2023
 
 
-u "$user/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data/Kenya/02 recoded data/eco_m1_ke_der.dta", clear
+u  "$user/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data/South Africa/02 recoded data/eco_m1_za_der.dta", clear
+
 
 * QUALITY OF ANC1
 	* By facility type
-			tabstat anc1tq, by(facility_lvl) stat(mean sd count)
-			tabstat anc1counsel, by(facility_lvl) stat(mean sd count)
+			tabstat anc1tq, by(study_site_sd) stat(mean sd count)
+			ttest anc1tq , by(study_site_sd)
+			tabstat anc1counsel, by(study_site_sd) stat(mean sd count)
+			ttest anc1counsel , by(study_site_sd)
 	* By education level 
 			tabstat anc1tq, by(educ_cat) stat(mean sd count)
 			tabstat anc1counsel, by(educ_cat) stat(mean sd count)
@@ -17,7 +20,8 @@ u "$user/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuES
 				    anc1ultrasound anc1ifa anc1tt counsel_nutri counsel_exer ///
 					counsel_complic counsel_comeback counsel_birthplan, ///
 					stat(mean count) col(stat)	
-			
+					
+			ta m1_801 // given a due date
 			ta risk_health
 			ta stop_risk
 			ta m1_1105 if physical_verbal==1
@@ -25,9 +29,7 @@ u "$user/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuES
 * GENERAL RISK FACTORS
 	gen aged18 = enrollage<18
 	gen aged35 = enrollage>35
-	egen chronic = rowmax(m1_202a m1_202b m1_202c m1_202d m1_202e  m1_203c_ke ///
-		m1_203d_ke m1_203e_ke m1_203f_ke m1_203g_ke m1_203h_ke m1_203i_ke ///
-		m1_203j_ke m1_203k_ke m1_203l_ke m1_203m_ke m1_203n_ke m1_203o_ke )
+	egen chronic = rowmax(m1_202a m1_202b m1_202c m1_202d m1_202e other_major_hp )
 	egen general_risk = rowmax(aged18 aged35 chronic HBP anemic)
 	
 * OBSTETRIC RISK FACTORS
@@ -47,32 +49,24 @@ u "$user/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuES
 			tabstat anc1counsel, by(anyrisk) stat(mean sd count)
 			ttest anc1tq, by(anyrisk)
 			ttest anc1counsel, by(anyrisk)
+			
 			tabstat m1_603, by(anyrisk) stat(mean sd count)
 			ttest m1_603, by(anyrisk)
 			tabstat anc1ultrasound, by(anyrisk) stat(mean sd count)
 			
 * REFERRAL CARE
-ta specialist_hosp if facility_lvl!=2 & facility!="Kalimoni mission hospital" & ///
-					 facility!="Mercylite hospital" & facility!="Our Lady of Lourdes Mutomo Hospital" & ///
-					 facility!="Muthale Mission Hospital"
+			ta specialist_hosp
+			ta specialist_hosp anyrisk, col chi2
 			
-ta specialist_hosp anyrisk if facility_lvl!=2 & facility!="Kalimoni mission hospital" & ///
-					 facility!="Mercylite hospital" & facility!="Our Lady of Lourdes Mutomo Hospital" & ///
-					 facility!="Muthale Mission Hospital", col chi2
-					 
-ta specialist_hosp dangersign if facility_lvl!=2 & facility!="Kalimoni mission hospital" & ///
-					 facility!="Mercylite hospital" & facility!="Our Lady of Lourdes Mutomo Hospital" & ///
-					 facility!="Muthale Mission Hospital", col chi2
-* COST OF 1st ANC VISIT
-	ta m1_1217 // any $ spent
-	su m1_1218_total_ke if m1_1218_total_ke!=0
-	su registration
-	su med
-	su lab
-	su indirect	
-	
+* ECONOMIC OUTCOMES
+			ta m1_1217 // any $ spent
+			su m1_1218g_za
+			su registration
+			su med
+			su lab
+			su indirect	
 * CONFIDENCE
-		ta m1_302
+			ta m1_302
 *COMPETENT SYSTEMS: DANGER SIGNS
 			tabstat anc1tq, by(dangersign) stat(mean sd count)
 			ttest anc1tq, by(dangersign)
@@ -82,11 +76,10 @@ ta specialist_hosp dangersign if facility_lvl!=2 & facility!="Kalimoni mission h
 			ttest m1_603, by(dangersign)
 			tabstat anc1ultrasound, by(dangersign) stat(mean sd count)
 			ta anc1ultrasound dangersign, col chi2
-
 * CASCADES
 	* Malnutrition
 	egen screen_mal = rowmax(anc1muac anc1bmi)
-			ta low_BMI // 46
+			ta low_BMI // 55
 			ta screen_mal if low_BMI==1
 			ta counsel_nutri if low_BMI==1
 			ta anc1food if low_BMI==1	
@@ -97,7 +90,7 @@ ta specialist_hosp dangersign if facility_lvl!=2 & facility!="Kalimoni mission h
 	* Depression
 	recode phq9_cat (1=0) (2/5=1), gen(depression)
 	egen depression_tx=rowmax(m1_724d anc1mental_health_drug)
-			ta depression /198
+			ta depression //198
 			ta m1_716c if depression==1 // discussed anxiety or depression		
 			ta depression_tx if depression==1
 			
@@ -135,17 +128,20 @@ ta specialist_hosp dangersign if facility_lvl!=2 & facility!="Kalimoni mission h
 			ta  neodeath // previous neonatal death
 			ta m1_1011f if neodeath==1
 			ta specialist_hosp if neodeath==1
+
+* HIV CASCADE
+			ta m1_202e
+			ta m1_722 if m1_202e==1
+			ta m1_709a if m1_202e==1 
+			ta m1_709b if m1_202e==1 
+			ta anc1hiv if m1_202e==1 
 			
-						
 * USER EXPERIENCE
-			tabstat anc1ux, by(facility_lvl) stat(mean sd count)
+			ta vgm1_601
+			tabstat anc1ux, by(study_site_sd) stat(mean sd count)
 			tabstat anc1ux, by(educ_cat) stat(mean sd count)
 			tabstat vgm1_605a vgm1_605b vgm1_605c vgm1_605d vgm1_605e vgm1_605f ///
 			vgm1_605g vgm1_605h  , stat(mean count) col(stat)
 
 
-			
-			
-			
-			
-			
+
