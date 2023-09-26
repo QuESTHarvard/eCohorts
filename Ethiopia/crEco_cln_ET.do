@@ -440,7 +440,7 @@ label values m1_517 residence
 	label values m1_711b bdsugartest
 	label values m1_708a YN 
     label values m1_711a YN
-    label values m1_710a m1_710b YN
+    label values m1_710a YN
 	label values m1_708a m1_708c m1_708d m1_708e m1_708f m1_709a m1_709b YN
     label values m1_714a m1_714b YN 
 	
