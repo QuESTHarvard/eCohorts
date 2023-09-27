@@ -218,7 +218,17 @@ destring(m1_604), generate(recm1_604)
 
 replace facility = "TOK" if facility == "ROK"
 
+replace m1_802a = "12/13/2023" if m1_802a == "12-/13/2023"
+replace m1_802a = ".d" if m1_802a == "98"
+
 replace m1_909_za = "." if m1_909_za == ""
+
+
+gen recm1_802a = date(m1_802a, "MDY")
+format recm1_802a %td
+format date_m1 %td
+
+drop if recm1_802a < date_m1
 
 *===============================================================================
 	
@@ -432,6 +442,9 @@ label define meds 1 "Provider gave it directly" ///
 				  3 "Neither" 98 "DK" 99 "NR/RF" 
 label values m1_713a m1_713b m1_713c m1_713d m1_713e m1_713f m1_713g m1_713h m1_713i m1_713k m1_713l meds
 
+lab def m1_713_za_in 0 "Provider gave it directly" 1 "Provider gave a prescription or told you to get it somewhere else" 2 "Neither" 3 "Don't know" 4 "NR/RF"
+lab var m1_713_za_in m1_713_za_in
+
 label define itn 1 "Yes" 0 "No" 2 "Already have one"
 label values m1_715 itn
 
@@ -555,7 +568,7 @@ label values m1_1401 m1_1401
 *------------------------------------------------------------------------------*
 * drop variables after recoding/renaming
 
-drop study_site study_site_sd facility m1_604
+drop study_site study_site_sd facility m1_604 m1_802a
 ren rec* *
 
 *===============================================================================
@@ -678,8 +691,8 @@ recode m1_724f (. 9999998 = .a) if m1_705 == 1 | m1_705 == .
 recode m1_724g (. 9999998 = .a) if  m1_707 == 1 | m1_707 == . 
 recode m1_724h (. 9999998 = .a) if m1_708a == 1 | m1_708a == . 
 recode m1_724i (. 9999998 = .a) if m1_712 == 1 | m1_712 == . | m1_712 == .d
-replace m1_802a = ".a" if m1_801 == . | m1_801 ==0 | m1_801 ==.a | m1_801 ==.d
-recode m1_804 (. 9999998 = .a) if (m1_801 == 0 | m1_801 == . | m1_801 == .d) & (m1_802a == "." | m1_802a == "" | m1_802a == ".a") & (m1_803 == . | m1_803 == .d | m1_803 == .r)
+replace m1_802a = .a if m1_801 == . | m1_801 ==0 | m1_801 ==.a | m1_801 ==.d
+recode m1_804 (. 9999998 = .a) if (m1_801 == 0 | m1_801 == . | m1_801 == .d) & (m1_802a == . | m1_802a == .a) & (m1_803 == . | m1_803 == .d | m1_803 == .r)
 recode m1_808 (. 9999998 = .a) if m1_804 == 1 | m1_804 == . | m1_804 == .a 
 replace m1_808_other = ".a" if m1_808 != 96	
 replace m1_810b = ".a" if m1_810a == 1 | m1_810a == 2 | m1_810a == .d | m1_810a == .
@@ -930,7 +943,7 @@ replace m1_724g = . if m1_724g == 9999998
 replace m1_724h = . if m1_724h == 9999998
 replace m1_724i = . if m1_724i == 9999998
 replace m1_801 = . if m1_801 == 9999998
-replace m1_802a = "." if m1_802a == "9999998"
+replace m1_802a = . if m1_802a == 9999998
 replace m1_803 = . if m1_803 == 9999998
 replace m1_804 = . if m1_804 == 9999998
 replace m1_805 = . if m1_805 == 9999998
@@ -1183,6 +1196,7 @@ lab var m1_713g "713g_1. Multivitamins?"
 lab var m1_713h "713h_1. Medicine for hypertension?"
 lab var m1_713i "713i_1. Medicine for diabetes, including injections of insulin?"
 lab var m1_713l "713l: Antibiotics for an infection"
+lab var m1_713_za_in "713b: Iron injection"
 lab var m1_714a "714a. During the visit today, were you given an injection in the arm to prevent the baby from getting tetanus, that is, convulsions after birth?"
 lab var m1_714b "714b. At any time BEFORE the visit today, did you receive any tetanus injections?"
 lab var m1_714c "714c. Before today, how many times did you receive a tetanus injection?"

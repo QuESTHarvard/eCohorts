@@ -7,9 +7,8 @@
 	This file creates derived variables for analysis from the MNH ECohorts South Africa (KZN) dataset. 
 
 */
-*u "$za_data_final/eco_m1_za.dta", clear
-
-u "$user/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data/South Africa/02 recoded data/eco_m1_za.dta", clear
+u "$za_data_final/eco_m1_za.dta", clear
+*u "$user/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data/South Africa/02 recoded data/eco_m1_za.dta", clear
 
 
 *------------------------------------------------------------------------------*
@@ -109,6 +108,15 @@ u "$user/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuES
 			Here we should recalculate the GA based on LMP (m1_802c and self-report m1_803 */
 			
 			egen dangersigns = rowmax(m1_814a m1_814b m1_814c m1_814d m1_814e m1_814f m1_814g)
+			
+		    gen ga_edd = 40-((m1_802a - date_m1)/7)
+			gen ga = trunc(ga_edd)
+			replace ga = m1_803 if ga==.
+			
+			drop if ga <0
+			gen trimester = ga
+			recode trimester 0/12 = 1 13/27 = 2 28/40 = 3
+			
 *------------------------------------------------------------------------------*	
 	* SECTION 9: RISKY HEALTH BEHAVIOR
 			recode  m1_901 (1/2=1) (3=0) (4=.)
@@ -208,5 +216,5 @@ u "$user/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuES
 	lab var BMI "Body mass index"
 	lab var low_BMI "BMI below 18.5 (low)"
 								 
-save "$user/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data/South Africa/02 recoded data/eco_m1_za_der.dta", replace
+save "$za_data_final/eco_m1_za_der.dta", replace
 	

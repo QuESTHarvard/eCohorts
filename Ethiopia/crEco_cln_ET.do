@@ -1800,6 +1800,8 @@ ren rec* *
 	
 	* STEP FOUR: LABELING VARIABLES
 label variable country "Country"
+label variable site "Study site - adama/east shewa" 
+label variable sampstrata "Facility type and level"
 label variable redcap_record_id "Redcap Record ID"
 label variable redcap_event_name "Redcap Event Name"
 label variable redcap_repeat_instrument "Redcap Repeat Instrument"
@@ -2506,7 +2508,7 @@ drop iic_3-module_5_end_line_facetoface_sur first_name family_name phone_number 
 	 
 
 order m1_* m2_*, sequential
-order country site samp strata study_site study_site_sd facility interviewer_id date_m1 permission ////
+order country site sampstrata study_site study_site_sd facility interviewer_id date_m1 permission ////
 	  care_self enrollage zone_live b5anc b6anc_first b7eligible respondentid mobile_phone flash
 
 order phq9a phq9b phq9c phq9d phq9e phq9f phq9g phq9h phq9i, after(m1_205e)

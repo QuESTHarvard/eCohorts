@@ -200,6 +200,10 @@ egen m1_1218_total_ke = rowtotal(m1_clinic_cost_ke m1_1218a_1 m1_1218b_1 m1_1218
 
 drop m1_1218g m1_other_costs_ke
 
+destring (gest_age_baseline_ke),replace
+
+drop if gest_age_baseline_ke == -33 | gest_age_baseline_ke == -12 | gest_age_baseline_ke == -6 | gest_age_baseline_ke == -2
+
 *===============================================================================
 		
 	*STEP THREE: RECODING MISSING VALUES 
@@ -362,7 +366,7 @@ recode edd_chart_ke (. = .a) if m1_801 == . | m1_801 == 0 | m1_801 == .a | m1_80
 
 recode m1_803 (. = .a) if m1_801 == 1 | m1_801 == . | m1_801 == .d
 
-replace gest_age_baseline_ke = ".a" if edd_chart_ke == 0 | edd_chart_ke == . | edd_chart_ke == .a
+*replace gest_age_baseline_ke = ".a" if edd_chart_ke == 0 | edd_chart_ke == . | edd_chart_ke == .a
 
 recode m1_804 (.  = .a) if (m1_801 == 0 | m1_801 == . | m1_801 == .d) & (m1_802a == . | m1_802a == .a) & (m1_803 == . | m1_803 == .d | m1_803 == .r)
 recode m1_808 (.  = .a) if m1_804 == 1 | m1_804 == . | m1_804 == .a 
