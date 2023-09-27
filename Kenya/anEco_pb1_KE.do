@@ -12,12 +12,15 @@ u "$user/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuES
 	* By education level 
 			tabstat anc1tq, by(educ_cat) stat(mean sd count)
 			tabstat anc1counsel, by(educ_cat) stat(mean sd count)
+	* By study site
+			tabstat anc1tq, by(study_site) stat(mean sd count)
+			tabstat anc1counsel, by(study_site) stat(mean sd count)
 	* Items done the least
 			tabstat anc1bp anc1muac anc1bmi anc1fetal_hr anc1urine anc1blood ///
 				    anc1ultrasound anc1ifa anc1tt counsel_nutri counsel_exer ///
 					counsel_complic counsel_comeback counsel_birthplan, ///
 					stat(mean count) col(stat)	
-			
+			ta anc1ultrasound if trimester==3
 			ta risk_health
 			ta stop_risk
 			ta m1_1105 if physical_verbal==1

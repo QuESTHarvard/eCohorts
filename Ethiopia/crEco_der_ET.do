@@ -8,7 +8,6 @@
 
 */
 
-
 *u "$et_data_final/eco_m1m2_et.dta", clear
 
 u "$user/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data/Ethiopia/02 recoded data/eco_m1m2_et.dta", clear
@@ -17,6 +16,10 @@ u "$user/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuES
 *------------------------------------------------------------------------------*
 	* SECTION A: META DATA
 	
+			recode study_site (2/7=2), gen(site)
+			lab def site 1 "Adama Town" 2"East Shewa Zone"
+			lab val site site
+			
 			gen facility_own = facility
 			recode facility_own (2/11 14 16/19 =1) ///
 							    (1 13 15 20 21 22 96 =2)
