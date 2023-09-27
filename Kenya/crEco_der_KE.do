@@ -7,29 +7,28 @@
 	This file creates derived variables for analysis from the MNH ECohorts Kenya dataset. 
 
 */
-*u "$ke_data_final/eco_m1_ke.dta", clear
-u "$user/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data/Kenya/02 recoded data/eco_m1_ke.dta", clear
+u "$ke_data_final/eco_m1_ke.dta", clear
 
 *------------------------------------------------------------------------------*
 * MODULE 1
 *------------------------------------------------------------------------------*
 	* SECTION A: META DATA
-	gen facility_lvl = 1 if facility=="Githunguri health centre" ///
-		| facility=="Wangige Sub-County Hospital" | facility=="Makongeni dispensary" ///
-		| facility=="Nuu Sub County Hospital" | facility=="Waita Health Centre" ///
-		| facility=="Katse Health Centre" |  facility=="Ngomeni Health Centre" ///
-		| facility=="Ikutha Sub County Hospital" | facility=="Kisasi Health Centre (Kitui Rural)" 
+	gen facility_lvl = 1 if facility==1 ///
+		| facility==21 | facility==10 ///
+		| facility==16 | facility==20 ///
+		| facility==5 |  facility==15 ///
+		| facility==3 | facility==8 
 		
-	replace facility_lvl = 2 if facility=="Igegania sub district hospital" ///
-			| facility=="Kiambu County referral hospital" ///
-			| facility=="Kitui County Referral Hospital" ///
-			| facility=="Kauwi Sub County Hospital"
+	replace facility_lvl = 2 if facility==2 ///
+			| facility==7 ///
+			| facility==9 ///
+			| facility==6
 			
-	replace facility_lvl=3 if facility=="Plainsview nursing home" ///
-	| facility=="St. Teresas Nursing Home" | facility=="Kalimoni mission hospital" ///
-	| facility=="Mercylite hospital" | facility=="Mulango (AIC) Health Centre" ///
-	| facility=="Neema Hospital" | facility=="Our Lady of Lourdes Mutomo Hospital" ///
-	| facility=="Muthale Mission Hospital"
+	replace facility_lvl=3 if facility==18 ///
+	| facility==19 | facility==4 ///
+	| facility==11 | facility==12 ///
+	| facility==14 | facility==17 ///
+	| facility==13
 	
 	lab def facility_lvl 1"Public primary" 2"Public secondary" 3"Private"
 	lab val facility_lvl facility_lvl
@@ -117,6 +116,13 @@ u "$user/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuES
 			Here we should recalculate the GA based on LMP (m1_802c and self-report m1_803 */
 			
 			egen dangersigns = rowmax(m1_814a m1_814b m1_814c m1_814d m1_814e m1_814f m1_814g)
+			
+
+		gen ga = gest_age_baseline_ke
+		replace ga = m1_803 if ga == . 
+		gen trimester = ga
+		recode trimester 0/12 = 1 13/27 = 2 28/40 = 3
+			
 *------------------------------------------------------------------------------*	
 	* SECTION 9: RISKY HEALTH BEHAVIOR
 			recode  m1_901 (1/2=1) (3=0) (4=.)
@@ -214,5 +220,5 @@ u "$user/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuES
 	lab var BMI "Body mass index"
 	lab var low_BMI "BMI below 18.5 (low)"
 								 
-save "$user/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data/Kenya/02 recoded data/eco_m1_ke_der.dta", replace
+save "$ke_data_final/eco_m1_ke_der.dta", replace
 	
