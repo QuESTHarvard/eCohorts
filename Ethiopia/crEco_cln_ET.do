@@ -1799,6 +1799,9 @@ ren rec* *
 *===============================================================================					   
 	
 	* STEP FOUR: LABELING VARIABLES
+label variable country "Country"
+label variable site "Study site - adama/east shewa" 
+label variable sampstrata "Facility type and level"
 label variable redcap_record_id "Redcap Record ID"
 label variable redcap_event_name "Redcap Event Name"
 label variable redcap_repeat_instrument "Redcap Repeat Instrument"
@@ -2498,8 +2501,18 @@ label variable m2_complete "Complete?"
 	
 * drop unncessary vars and de-identify dataset
 drop iic_3-module_5_end_line_facetoface_sur first_name family_name phone_number m1_513b ///
-     m1_513c m1_513d m1_513e m1_513f ///
-	 m1_513g m1_513h m1_513i
+     m1_513c m1_513d m1_513e m1_513f m1_513g m1_513h m1_513i q1501 age gravid lmp edd para ///
+	 number_of_children_alive previous_stillbirth history_of_3 birthweight2500 birthweight4000 ///
+	 last_pregnancy previous_survey diagnosed age_less_than_16_years-maternal_integrated_cards_comple ///
+	 m1_714d date
+	 
+
+order m1_* m2_*, sequential
+order country site sampstrata study_site study_site_sd facility interviewer_id date_m1 permission ////
+	  care_self enrollage zone_live b5anc b6anc_first b7eligible respondentid mobile_phone flash
+
+order phq9a phq9b phq9c phq9d phq9e phq9f phq9g phq9h phq9i, after(m1_205e)
+	 
 
 
 save "$et_data_final/eco_m1m2_et.dta", replace
