@@ -119,11 +119,11 @@ u "$user/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuES
 			egen dangersigns = rowmax(m1_814a m1_814b m1_814c m1_814d m1_814e m1_814f m1_814g)
 			
 
-		gen ga = gest_age_baseline_ke
-		replace ga = m1_803 if ga == . 
-		gen trimester = ga
-		recode trimester 0/12 = 1 13/27 = 2 28/40 = 3
-		replace trimester = m1_804 if trimester ==.a | trimester==.d
+			gen ga = gest_age_baseline_ke
+			replace ga = m1_803 if ga == . 
+			gen trimester = ga
+			recode trimester 0/12 = 1 13/27 = 2 28/40 = 3
+			replace trimester = m1_804 if trimester ==.a | trimester==.d
 			
 *------------------------------------------------------------------------------*	
 	* SECTION 9: RISKY HEALTH BEHAVIOR
