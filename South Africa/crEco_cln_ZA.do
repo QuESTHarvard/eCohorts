@@ -48,6 +48,7 @@ drop if inlist(CRHID, `ids_to_drop')
 
 * keeping eligible participants:
 keep if Eligible == "Yes" // 163 obs dropped
+drop if MOD1_ELIGIBILITY_B3_B == 14 // per Gloria 9-22-23 email: dropping 14 year old who did not meet eligibility criteria
 keep if MOD1_ELIGIBILITY_B7 == 1
 
 gen country = "South Africa"
