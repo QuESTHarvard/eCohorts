@@ -5,11 +5,9 @@
 
 u "$user/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data/Ethiopia/02 recoded data/eco_m1m2_et_der.dta", clear
 
-* This should be removed after Shalom addresses it:
-drop in 1/6 // drop the test records
 * Keep M1 only
-drop redcap_repeat_instrument-redcap_data_access_group m2_attempt_date-m2_complete 
-
+drop redcap_repeat_instrument-redcap_data_access_group m2_attempt_date-maternal_integrated_cards_comple
+keep if b7eligible==1  & m1_complete==2
 
 * QUALITY OF ANC1
 	* By facility type
@@ -26,19 +24,23 @@ drop redcap_repeat_instrument-redcap_data_access_group m2_attempt_date-m2_comple
 			tabstat anc1ux, by(educ_cat) stat(mean sd count)
 			ta vgm1_601 educ_cat,  col
 			ta anc1ultrasound educ_cat, col
+			
+	* By site
+			tabstat anc1tq, by(site) stat(mean sd count)
+			tabstat anc1counsel, by(site) stat(mean sd count)
 	* Items done the least
 			tabstat anc1bp anc1muac anc1bmi anc1fetal_hr anc1urine anc1blood ///
 				    anc1ultrasound anc1ifa anc1tt counsel_nutri counsel_exer ///
 					counsel_complic counsel_comeback counsel_birthplan, ///
 					stat(mean count) col(stat)
-					
+		
 			tabstat fpoor*, stat(mean count) col(stat)
 			
 * GENERAL RISK FACTORS
 	gen aged18 = enrollage<18
 	gen aged35 = enrollage>35
-	recode m1_203 (2=0)
-	egen chronic = rowmax(m1_202a m1_202b m1_202c m1_202d m1_202e m1_202f_et m1_202g_et m1_203)
+	
+	egen chronic = rowmax(m1_202a m1_202b m1_202c m1_202d m1_202e m1_202f_et m1_202g_et m1_203_et)
 	egen general_risk = rowmax(aged18 aged35 chronic HBP anemic)
 	
 * OBSTETRIC RISK FACTORS

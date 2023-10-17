@@ -7,8 +7,9 @@
 	This file creates derived variables for analysis from the MNH ECohorts Kenya dataset. 
 
 */
-u "$ke_data_final/eco_m1_ke.dta", clear
+*u "$ke_data_final/eco_m1_ke.dta", clear
 
+u "$user/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data/Kenya/02 recoded data/eco_m1_ke.dta", clear
 *------------------------------------------------------------------------------*
 * MODULE 1
 *------------------------------------------------------------------------------*
@@ -118,10 +119,11 @@ u "$ke_data_final/eco_m1_ke.dta", clear
 			egen dangersigns = rowmax(m1_814a m1_814b m1_814c m1_814d m1_814e m1_814f m1_814g)
 			
 
-		gen ga = gest_age_baseline_ke
-		replace ga = m1_803 if ga == . 
-		gen trimester = ga
-		recode trimester 0/12 = 1 13/27 = 2 28/40 = 3
+			gen ga = gest_age_baseline_ke
+			replace ga = m1_803 if ga == . 
+			gen trimester = ga
+			recode trimester 0/12 = 1 13/27 = 2 28/40 = 3
+			replace trimester = m1_804 if trimester ==.a | trimester==.d
 			
 *------------------------------------------------------------------------------*	
 	* SECTION 9: RISKY HEALTH BEHAVIOR
@@ -220,5 +222,6 @@ u "$ke_data_final/eco_m1_ke.dta", clear
 	lab var BMI "Body mass index"
 	lab var low_BMI "BMI below 18.5 (low)"
 								 
-save "$ke_data_final/eco_m1_ke_der.dta", replace
-	
+* save "$ke_data_final/eco_m1_ke_der.dta", replace
+
+save "$user/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data/Kenya/02 recoded data/eco_m1_ke_der.dta", replace
