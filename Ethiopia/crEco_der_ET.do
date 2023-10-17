@@ -95,7 +95,7 @@ u "$user/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuES
 			recode anc1ifa (2=1) (3=0)
 			gen anc1tt = m1_714a
 
-			egen anc1tq = rowmean(anc1bp anc1weight anc1height anc1muac anc1fetal_hr anc1urine ///
+			*egen anc1tq = rowmean(anc1bp anc1weight anc1height anc1muac anc1fetal_hr anc1urine ///
 								 anc1blood anc1ultrasound anc1ifa anc1tt ) // 10 items
 								  
 			* Counselling at first ANC visit
@@ -181,9 +181,9 @@ u "$user/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuES
 			gen Hb_card= m1_1307 // hemoglobin value taken from the card
 				replace Hb_card=11.3 if Hb_card==113
 			replace Hb = Hb_card if Hb==.a // use the card value if the test wasn't done
-				// Reference value of 10 from: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8990104/
-			gen anemic= 1 if Hb<10
-			replace anemic=0 if Hb>=10 & Hb<. 
+				// Reference value of 11 from: 2022 Ethiopian ANC guidelines
+			gen anemic= 1 if Hb<12
+			replace anemic=0 if Hb>=11 & Hb<. 
 			drop Hb*
 			
 			* MUAC
