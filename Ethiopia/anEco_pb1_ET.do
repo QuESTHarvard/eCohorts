@@ -14,7 +14,10 @@ keep if b7eligible==1  & m1_complete==2 //SS: keeping this here only because we 
 	* By site
 	mean enrollage, over(site)
 	tab m1_503 site,col
-
+	mean ga, over(site)
+	tab m1_1001 site, col
+	tab m1_501 site, col
+	tab m1_1207 site, col
 
 * QUALITY OF ANC1
 	* By facility type
