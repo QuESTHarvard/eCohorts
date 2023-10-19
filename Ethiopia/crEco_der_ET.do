@@ -8,17 +8,20 @@
 
 */
 
-*u "$et_data_final/eco_m1m2_et.dta", clear
+u "$et_data_final/eco_m1m2_et.dta", clear
+*u "$user/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data/Ethiopia/02 recoded data/eco_m1m2_et.dta", clear
 
-u "$user/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data/Ethiopia/02 recoded data/eco_m1m2_et.dta", clear
+
 *------------------------------------------------------------------------------*
 * MODULE 1
 *------------------------------------------------------------------------------*
 	* SECTION A: META DATA
-	
+			
+			/* SS - this was already created in cleaning file
 			recode study_site (2/7=2), gen(site)
 			lab def site 1 "Adama Town" 2"East Shewa Zone"
 			lab val site site
+			*/
 			
 			gen facility_own = facility
 			recode facility_own (2/11 14 16/19 =1) ///
@@ -126,8 +129,20 @@ u "$user/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuES
 			/* Gestational age at ANC1
 			Here we should recalculate the GA based on LMP (m1_802c and self-report m1_803 */
 			
-			
 			egen dangersigns = rowmax(m1_814a m1_814b m1_814c m1_814d m1_814e m1_814f m1_814g)
+				
+			*calculating GA - confirm with Catherine/Kate: 
+			
+			*this part needs to go into cleaning file - remove once that file is updated
+			replace m1_803 = ".d" if m1_803 == "Dk" | m1_803 == "98"
+			replace m1_803 = "." if m1_803 == ""
+			encode m1_803, generate(recm1_803)
+			drop m1_803
+			ren rec* *
+			
+			gen ga = m1_802d_et 
+			replace ga = m1_803 if ga == .
+			
 *------------------------------------------------------------------------------*	
 	* SECTION 9: RISKY HEALTH BEHAVIOR
 			recode  m1_901 (1/2=1) (3=0)
@@ -216,7 +231,7 @@ u "$user/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuES
 	lab var anc1ultrasound "Ultrasound done at ANC1"
 	lab var anc1food_supp "Received food supplement directly or a prescription at ANC1"
 	lab var anc1ifa "Received iron and folic acid pills directly or a prescription at ANC1"
-	lab var anc1tq "Technical quality score 1st ANC"
+	*lab var anc1tq "Technical quality score 1st ANC"
 	lab var counsel_nutri "Counselled about proper nutrition at ANC1"
 	lab var counsel_exer "Counselled about exercise at ANC1"
 	lab var counsel_complic  "Counselled about signs of pregnancy complications"
@@ -233,4 +248,4 @@ u "$user/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuES
 	lab var low_BMI "BMI below 18.5 (low)"
 	
 	
-save "$user/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data/Ethiopia/02 recoded data/eco_m1m2_et_der.dta", replace
+save "$et_data_final/eco_m1m2_et_der.dta", replace
