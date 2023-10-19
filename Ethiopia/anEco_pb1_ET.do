@@ -6,7 +6,7 @@
 u "$et_data_final/eco_m1m2_et_der.dta", clear
 
 * Keep M1 only
-drop redcap_repeat_instrument-redcap_data_access_group m2_attempt_date-maternal_integrated_cards_comple
+keep if redcap_event_name  == "module_1_arm_1"
 keep if b7eligible==1  & m1_complete==2 //SS: keeping this here only because we are not filtering out incomplete M1 surveys in the cleaning file
 
 

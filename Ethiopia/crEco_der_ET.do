@@ -98,7 +98,7 @@ u "$et_data_final/eco_m1m2_et.dta", clear
 			recode anc1ifa (2=1) (3=0)
 			gen anc1tt = m1_714a
 
-			*egen anc1tq = rowmean(anc1bp anc1weight anc1height anc1muac anc1fetal_hr anc1urine ///
+			egen anc1tq = rowmean(anc1bp anc1weight anc1height anc1muac anc1fetal_hr anc1urine ///
 								 anc1blood anc1ultrasound anc1ifa anc1tt ) // 10 items
 								  
 			* Counselling at first ANC visit
@@ -145,7 +145,7 @@ u "$et_data_final/eco_m1m2_et.dta", clear
 			
 *------------------------------------------------------------------------------*	
 	* SECTION 9: RISKY HEALTH BEHAVIOR
-			recode  m1_901 (1/2=1) (3=0)
+			recode m1_901 (1/2=1) (3=0)
 			recode m1_903  (1/2=1) (3=0)
 			egen risk_health = rowmax( m1_901  m1_903  m1_905)
 			egen stop_risk = rowmax( m1_902  m1_904  m1_907)
@@ -231,7 +231,7 @@ u "$et_data_final/eco_m1m2_et.dta", clear
 	lab var anc1ultrasound "Ultrasound done at ANC1"
 	lab var anc1food_supp "Received food supplement directly or a prescription at ANC1"
 	lab var anc1ifa "Received iron and folic acid pills directly or a prescription at ANC1"
-	*lab var anc1tq "Technical quality score 1st ANC"
+	lab var anc1tq "Technical quality score 1st ANC"
 	lab var counsel_nutri "Counselled about proper nutrition at ANC1"
 	lab var counsel_exer "Counselled about exercise at ANC1"
 	lab var counsel_complic  "Counselled about signs of pregnancy complications"
