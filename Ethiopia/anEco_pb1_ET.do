@@ -81,6 +81,30 @@ keep if b7eligible==1  & m1_complete==2 //SS: keeping this here only because we 
 			ta anc1ultrasound dangersigns, chi2 col
 			ta specialist_hosp danger, chi2 col
 			
+* REFERRAL OF CARE: ??
+
+* COST OF 1st ANC VISIT
+	ta m1_1217 // any $ spent
+	su registration_cost
+	su med_vax_cost
+	su labtest_cost
+	su indirect_cost	
+			
+	
+* CONFIDENCE
+		ta m1_302			
+		
+* COMPETENT SYSTEMS: DANGER SIGNS
+			tabstat anc1tq, by(dangersign) stat(mean sd count)
+			ttest anc1tq, by(dangersign)
+			tabstat anc1counsel, by(dangersign) stat(mean sd count)
+			ttest anc1counsel, by(dangersign)
+			tabstat m1_603, by(dangersign) stat(mean sd count)
+			ttest m1_603, by(dangersign)
+			tabstat anc1ultrasound, by(dangersign) stat(mean sd count)
+			ta anc1ultrasound dangersign, col chi2
+		
+			
 * CASCADES: CONDITIONS IDENTIFIED BY E-COHORT
 	* Malnutrition
 	egen screen_mal = rowmax(anc1muac anc1bmi)
@@ -149,16 +173,7 @@ keep if b7eligible==1  & m1_complete==2 //SS: keeping this here only because we 
 	* USER EXPERIENCE
 	tabstat vgm1_605a vgm1_605b vgm1_605c vgm1_605d vgm1_605e vgm1_605f ///
 			vgm1_605g vgm1_605h vgm1_605i vgm1_605j vgm1_605k , stat(mean count) col(stat)
-	* COST OF VISIT
-	
-	su registration
-	su med
-	su lab
-	su indirect
-	foreach v in registration med_vax labtest indirect {
-		egen tot`v'= sum(`v')
-	}
-	
+
 	
 	lab var aged18 "Aged less than 19"
 	lab var aged40 "Aged more than 40"
@@ -175,6 +190,3 @@ keep if b7eligible==1  & m1_complete==2 //SS: keeping this here only because we 
 	lab var exer_nutri "Counselled on both nutrition and exercise at ANC1"
 	
 	
-	
-	
-
