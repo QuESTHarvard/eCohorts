@@ -128,7 +128,7 @@ rename (q1216 q1217 q1218 clinic_cost q1218a q1218b q1218c q1218d q1218e q1218f_
 		m1_1218f_other m1_1218f m1_1218f_1 m1_1219 m1_other_costs_ke m1_1220)
 rename (q1220_oth q1221 q1222 q1222_oth q1223) (m1_1220_other m1_1221 m1_1222 ///
 		m1_1222_other m1_1223)	
-rename (q513a q513a_0 q513a_1 q513a_2 q513a_3 q513a_4 q513a_5 q513a_6 q513a__96) ///
+rename (q513a q513a_1 q513a_2 q513a_3 q513a_4 q513a_5 q513a_6 q513a__96 q513a_0) ///
 		(m1_513a m1_513a_1 m1_513a_2 m1_513a_3 m1_513a_4 m1_513a_5 m1_513a_6 ///
 		m1_513a_7 m1_513a_8)		
 rename q513c m1_513c

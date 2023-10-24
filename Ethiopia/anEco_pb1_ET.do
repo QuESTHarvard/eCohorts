@@ -3,11 +3,21 @@
 * Updated: July 27 2023
 
 
-u "$user/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data/Ethiopia/02 recoded data/eco_m1m2_et_der.dta", clear
+u "$et_data_final/eco_m1m2_et_der.dta", clear
 
 * Keep M1 only
-drop redcap_repeat_instrument-redcap_data_access_group m2_attempt_date-maternal_integrated_cards_comple
-keep if b7eligible==1  & m1_complete==2
+keep if redcap_event_name  == "module_1_arm_1"
+keep if b7eligible==1  & m1_complete==2 //SS: keeping this here only because we are not filtering out incomplete M1 surveys in the cleaning file
+
+
+* SETTING AND DEMOGRAPHICS OF WOMEN ENROLLED
+	* By site
+	mean enrollage, over(site)
+	tab m1_503 site,col
+	mean ga, over(site)
+	tab m1_1001 site, col
+	tab m1_501 site, col
+	tab m1_1207 site, col
 
 * QUALITY OF ANC1
 	* By facility type
@@ -70,6 +80,30 @@ keep if b7eligible==1  & m1_complete==2
 			ttest m1_603, by(danger)
 			ta anc1ultrasound dangersigns, chi2 col
 			ta specialist_hosp danger, chi2 col
+			
+* REFERRAL OF CARE: ??
+
+* COST OF 1st ANC VISIT
+	ta m1_1217 // any $ spent
+	su registration_cost
+	su med_vax_cost
+	su labtest_cost
+	su indirect_cost	
+			
+	
+* CONFIDENCE
+		ta m1_302			
+		
+* COMPETENT SYSTEMS: DANGER SIGNS
+			tabstat anc1tq, by(dangersign) stat(mean sd count)
+			ttest anc1tq, by(dangersign)
+			tabstat anc1counsel, by(dangersign) stat(mean sd count)
+			ttest anc1counsel, by(dangersign)
+			tabstat m1_603, by(dangersign) stat(mean sd count)
+			ttest m1_603, by(dangersign)
+			tabstat anc1ultrasound, by(dangersign) stat(mean sd count)
+			ta anc1ultrasound dangersign, col chi2
+		
 			
 * CASCADES: CONDITIONS IDENTIFIED BY E-COHORT
 	* Malnutrition
@@ -139,16 +173,7 @@ keep if b7eligible==1  & m1_complete==2
 	* USER EXPERIENCE
 	tabstat vgm1_605a vgm1_605b vgm1_605c vgm1_605d vgm1_605e vgm1_605f ///
 			vgm1_605g vgm1_605h vgm1_605i vgm1_605j vgm1_605k , stat(mean count) col(stat)
-	* COST OF VISIT
-	
-	su registration
-	su med
-	su lab
-	su indirect
-	foreach v in registration med_vax labtest indirect {
-		egen tot`v'= sum(`v')
-	}
-	
+
 	
 	lab var aged18 "Aged less than 19"
 	lab var aged40 "Aged more than 40"
@@ -165,6 +190,3 @@ keep if b7eligible==1  & m1_complete==2
 	lab var exer_nutri "Counselled on both nutrition and exercise at ANC1"
 	
 	
-	
-	
-

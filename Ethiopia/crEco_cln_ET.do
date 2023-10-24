@@ -1068,7 +1068,6 @@ replace m1_714d = "2.7" if m1_714d == "2yr and 8 month"
 replace m1_714d = "3" if m1_714d == "3 years"
 replace m1_714d = "0" if m1_714d == "3week"
 encode m1_714d, generate(recm1_714d)
-
 recode m1_714e (. = .a) if m1_714c == . | m1_714c == .r
 
 recode m1_718 (. = .a) if m1_202a == 0 | m1_202a == .
@@ -1082,6 +1081,10 @@ recode m1_724f (. = .a) if m1_705 == 1 | m1_705 == . | m1_705 == .d | m1_705 == 
 recode m1_724g (. = .a) if  m1_707 == 1 | m1_707 == . | m1_707 == .d | m1_707 == .r
 recode m1_724h (. = .a) if m1_708a == 1 | m1_708a == . | m1_708a == .d | m1_708a == .r
 recode m1_724i (. = .a) if m1_712 == 1 | m1_712 == . | m1_712 == .d | m1_712 == .r
+
+replace m1_803 = ".d" if m1_803 == "Dk" | m1_803 == "98"
+replace m1_803 = "." if m1_803 == ""
+encode m1_803, generate(recm1_803)
 
 * SS: double check this skip pattern
 recode m1_804 (. = .a) if (m1_801 == 0 | m1_801 == . | m1_801 == .d | m1_801 == .r) & (m1_802b_et == 0 | m1_802b_et == .) & (m1_803 == "98" |  m1_803 == "Dk" | m1_803 == "") 
@@ -1793,7 +1796,7 @@ recode m2_endstatus (. = .a) if m2_endtime == ""
 *------------------------------------------------------------------------------*
 * drop variables after recoding/renaming
 
-drop m1_714d
+drop m1_714d m1_803
 ren rec* *
 
 *===============================================================================					   

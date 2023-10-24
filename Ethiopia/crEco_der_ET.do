@@ -8,17 +8,20 @@
 
 */
 
-*u "$et_data_final/eco_m1m2_et.dta", clear
+u "$et_data_final/eco_m1m2_et.dta", clear
+*u "$user/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data/Ethiopia/02 recoded data/eco_m1m2_et.dta", clear
 
-u "$user/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data/Ethiopia/02 recoded data/eco_m1m2_et.dta", clear
+
 *------------------------------------------------------------------------------*
 * MODULE 1
 *------------------------------------------------------------------------------*
 	* SECTION A: META DATA
-	
+			
+			/* SS - this was already created in cleaning file
 			recode study_site (2/7=2), gen(site)
 			lab def site 1 "Adama Town" 2"East Shewa Zone"
 			lab val site site
+			*/
 			
 			gen facility_own = facility
 			recode facility_own (2/11 14 16/19 =1) ///
@@ -95,7 +98,7 @@ u "$user/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuES
 			recode anc1ifa (2=1) (3=0)
 			gen anc1tt = m1_714a
 
-			*egen anc1tq = rowmean(anc1bp anc1weight anc1height anc1muac anc1fetal_hr anc1urine ///
+			egen anc1tq = rowmean(anc1bp anc1weight anc1height anc1muac anc1fetal_hr anc1urine ///
 								 anc1blood anc1ultrasound anc1ifa anc1tt ) // 10 items
 								  
 			* Counselling at first ANC visit
@@ -126,11 +129,23 @@ u "$user/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuES
 			/* Gestational age at ANC1
 			Here we should recalculate the GA based on LMP (m1_802c and self-report m1_803 */
 			
-			
 			egen dangersigns = rowmax(m1_814a m1_814b m1_814c m1_814d m1_814e m1_814f m1_814g)
+				
+			*calculating GA - confirm with Catherine/Kate: 
+			
+			*this part needs to go into cleaning file - remove once that file is updated
+			replace m1_803 = ".d" if m1_803 == "Dk" | m1_803 == "98"
+			replace m1_803 = "." if m1_803 == ""
+			encode m1_803, generate(recm1_803)
+			drop m1_803
+			ren rec* *
+			
+			gen ga = m1_802d_et 
+			replace ga = m1_803 if ga == .
+			
 *------------------------------------------------------------------------------*	
 	* SECTION 9: RISKY HEALTH BEHAVIOR
-			recode  m1_901 (1/2=1) (3=0)
+			recode m1_901 (1/2=1) (3=0)
 			recode m1_903  (1/2=1) (3=0)
 			egen risk_health = rowmax( m1_901  m1_903  m1_905)
 			egen stop_risk = rowmax( m1_902  m1_904  m1_907)
@@ -233,4 +248,4 @@ u "$user/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuES
 	lab var low_BMI "BMI below 18.5 (low)"
 	
 	
-save "$user/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data/Ethiopia/02 recoded data/eco_m1m2_et_der.dta", replace
+save "$et_data_final/eco_m1m2_et_der.dta", replace
