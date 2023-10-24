@@ -8,7 +8,7 @@
 * Import Data 
 clear all 
 
-*--------------------DATA FILE (update with path to dataset/file name):
+*--------------------DATA FILE:
 import delimited using "$et_data/17Aug2023.csv", clear
 *---------------------
 

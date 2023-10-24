@@ -69,7 +69,7 @@ u "$et_data_final/eco_m1m2_et.dta", clear
 				recode `v' (2=1) (3/5=0), gen(vg`v')
 			}
 			egen anc1ux=rowmean(vgm1_605a-vgm1_605k)
-			drop vgm1_605a-vgm1_605k
+			*drop vgm1_605a-vgm1_605k
 			
 			foreach v in m1_605a m1_605b m1_605c m1_605d m1_605e m1_605f ///
 			             m1_605g m1_605h m1_605i m1_605j m1_605k {
