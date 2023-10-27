@@ -86,7 +86,14 @@ u "$user/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuES
 			gen anc1ifa =  m1_713a
 			recode anc1ifa (2=1) (3=0)
 			gen anc1tt = m1_714a
-
+			gen anc1calcium = m1_713b
+			recode anc1calcium (2=1) (3=0)
+			gen anc1deworm= m1_713d
+			recode anc1deworm (2=1) (3=0)
+			recode m1_715 (2=1), gen(anc1itn)
+			gen anc1depression = m1_716c
+			gen anc1malaria_proph =  m1_713e
+			recode anc1malaria_proph (2=1) (3=0)
 			egen anc1tq = rowmean(anc1bp anc1weight anc1height anc1muac anc1fetal_hr anc1urine ///
 								 anc1blood anc1ultrasound anc1ifa anc1tt ) // 10 items
 								 
