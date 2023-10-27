@@ -11,7 +11,6 @@
 u "$et_data_final/eco_m1m2_et.dta", clear
 *u "$user/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data/Ethiopia/02 recoded data/eco_m1m2_et.dta", clear
 
-
 *------------------------------------------------------------------------------*
 * MODULE 1
 *------------------------------------------------------------------------------*
@@ -97,6 +96,12 @@ u "$et_data_final/eco_m1m2_et.dta", clear
 			gen anc1ifa =  m1_713a
 			recode anc1ifa (2=1) (3=0)
 			gen anc1tt = m1_714a
+			gen anc1calcium = m1_713b
+			recode anc1calcium (2=1) (3=0)
+			gen anc1deworm= m1_713d
+			recode anc1deworm (2=1) (3=0)
+			recode m1_715 (2=1), gen(anc1itn)
+			gen anc1depression = m1_716c
 
 			egen anc1tq = rowmean(anc1bp anc1weight anc1height anc1muac anc1fetal_hr anc1urine ///
 								 anc1blood anc1ultrasound anc1ifa anc1tt ) // 10 items
@@ -129,8 +134,6 @@ u "$et_data_final/eco_m1m2_et.dta", clear
 			/* Gestational age at ANC1
 			Here we should recalculate the GA based on LMP (m1_802c and self-report m1_803 */
 			
-			egen dangersigns = rowmax(m1_814a m1_814b m1_814c m1_814d m1_814e m1_814f m1_814g)
-				
 			*calculating GA - confirm with Catherine/Kate: 
 			
 			*this part needs to go into cleaning file - remove once that file is updated
@@ -143,6 +146,17 @@ u "$et_data_final/eco_m1m2_et.dta", clear
 			gen ga = m1_802d_et 
 			replace ga = m1_803 if ga == .
 			
+			* Reports danger signs
+			egen dangersigns = rowmax(m1_814a m1_814b m1_814c m1_814d m1_814e m1_814f m1_814g)
+			
+			* Asked about LMP
+			gen anc1lmp= m1_806
+			
+			* Screened for danger signs 
+			egen anc1danger_screen = rowmax(m1_815_1-m1_815_96)
+			replace anc1danger_screen = 0 if m1_815_other=="I told her the problem but she said nothing"
+			replace anc1danger_screen= 0 if  m1_815_0==1 // did not discuss the danger sign 
+			replace anc1danger_screen =  m1_816 if anc1danger_screen==.a | anc1danger_screen==.
 *------------------------------------------------------------------------------*	
 	* SECTION 9: RISKY HEALTH BEHAVIOR
 			recode m1_901 (1/2=1) (3=0)
