@@ -86,7 +86,14 @@ u "$user/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuES
 			gen anc1ifa =  m1_713a
 			recode anc1ifa (2=1) (3=0)
 			gen anc1tt = m1_714a
-
+			gen anc1calcium = m1_713b
+			recode anc1calcium (2=1) (3=0)
+			gen anc1deworm= m1_713d
+			recode anc1deworm (2=1) (3=0)
+			recode m1_715 (2=1), gen(anc1itn)
+			gen anc1depression = m1_716c
+			gen anc1malaria_proph =  m1_713e
+			recode anc1malaria_proph (2=1) (3=0)
 			egen anc1tq = rowmean(anc1bp anc1weight anc1height anc1muac anc1fetal_hr anc1urine ///
 								 anc1blood anc1ultrasound anc1ifa anc1tt ) // 10 items
 								 
@@ -118,13 +125,21 @@ u "$user/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuES
 			
 			egen dangersigns = rowmax(m1_814a m1_814b m1_814c m1_814d m1_814e m1_814f m1_814g)
 			
-
 			gen ga = gest_age_baseline_ke
 			replace ga = m1_803 if ga == . 
 			gen trimester = ga
 			recode trimester 0/12 = 1 13/27 = 2 28/40 = 3
 			replace trimester = m1_804 if trimester ==.a | trimester==.d
 			
+			* Asked about LMP
+			gen anc1lmp= m1_806
+			
+			/* Screened for danger signs 
+			egen anc1danger_screen = rowmax(m1_815_1-m1_815_96)
+			replace anc1danger_screen = 0 if m1_815_other=="Didn't discuss because it happened twice only." ///
+			| m1_815_other=="Never informed the care provider" | m1_815_other=="No response given by the nurse"
+			replace anc1danger_screen= 0 if  m1_815_0==1 // did not discuss the danger sign 
+			replace anc1danger_screen =  m1_816 if anc1danger_screen==.a | anc1danger_screen==. */
 *------------------------------------------------------------------------------*	
 	* SECTION 9: RISKY HEALTH BEHAVIOR
 			recode  m1_901 (1/2=1) (3=0) (4=.)
