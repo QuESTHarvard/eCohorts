@@ -18,6 +18,17 @@ keep if b7eligible==1  & m1_complete==2 //SS: keeping this here only because we 
 	tab m1_1001 site, col
 	tab m1_501 site, col
 	tab m1_1207 site, col
+	
+recode sampstrata (3 4 = 3), gen(sampstrata2)
+tab sampstrata2,m
+tab sampstrata2,m
+
+lab def sampstrata2 1 "Public Primary" 2 "Public Secondary" 3 "Private",add
+lab val sampstrata2 sampstrata2
+
+lab var sampstrata2 "Facility type"
+
+tab sampstrata2 site, col
 
 * QUALITY OF ANC1
 	* By facility type
@@ -71,17 +82,18 @@ keep if b7eligible==1  & m1_complete==2 //SS: keeping this here only because we 
 			ttest anc1tq, by(anyrisk)
 			ttest anc1counsel, by(anyrisk)
 			ttest m1_603, by(anyrisk)
-			ta anc1ultrasound anyrisk, chi2 col
-			ta specialist_hosp anyrisk, chi2 col
+			ta anc1ultrasound anyrisk, col
+			ta specialist_hosp anyrisk, col
 			
 	* Care quality by danger signs
 			ttest anc1tq, by(danger)
 			ttest anc1counsel, by(danger)
 			ttest m1_603, by(danger)
-			ta anc1ultrasound dangersigns, chi2 col
-			ta specialist_hosp danger, chi2 col
+			ta anc1ultrasound dangersigns, col
+			ta specialist_hosp danger, col
 			
-* REFERRAL OF CARE: ??
+* REFERRAL OF CARE:
+	tab specialist_hosp
 
 * COST OF 1st ANC VISIT
 	ta m1_1217 // any $ spent
@@ -89,8 +101,7 @@ keep if b7eligible==1  & m1_complete==2 //SS: keeping this here only because we 
 	su med_vax_cost
 	su labtest_cost
 	su indirect_cost	
-			
-	
+				
 * CONFIDENCE
 		ta m1_302			
 		
