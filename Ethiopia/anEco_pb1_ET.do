@@ -12,40 +12,27 @@ keep if b7eligible==1  & m1_complete==2 //SS: keeping this here only because we 
 
 * SETTING AND DEMOGRAPHICS OF WOMEN ENROLLED
 	* By site
+	tab facility_lvl site, col
 	mean enrollage, over(site)
-	tab m1_503 site,col
+	tab educ_cat site, col
 	mean ga, over(site)
 	tab m1_1001 site, col
 	tab m1_501 site, col
 	tab m1_1207 site, col
 	
-recode sampstrata (3 4 = 3), gen(sampstrata2)
-tab sampstrata2,m
-tab sampstrata2,m
-
-lab def sampstrata2 1 "Public Primary" 2 "Public Secondary" 3 "Private",add
-lab val sampstrata2 sampstrata2
-
-lab var sampstrata2 "Facility type"
-
-tab sampstrata2 site, col
-
 * QUALITY OF ANC1
 	* By facility type
 			tabstat anc1tq, by(facility_lvl) stat(mean sd count)
 			tabstat anc1counsel, by(facility_lvl) stat(mean sd count)
 			tabstat m1_603, by(facility_lvl) stat(mean sd count)
-			tabstat anc1ux, by(facility_lvl) stat(mean sd count)
 			ta vgm1_601 facility_lvl, col
 			
 	* By education level 
 			tabstat anc1tq, by(educ_cat) stat(mean sd count)
 			tabstat anc1counsel, by(educ_cat) stat(mean sd count)
 			tabstat m1_603, by(educ_cat) stat(mean sd count)
-			tabstat anc1ux, by(educ_cat) stat(mean sd count)
 			ta vgm1_601 educ_cat,  col
-			ta anc1ultrasound educ_cat, col
-			
+			ta anc1ultrasound educ_cat, col	
 	* By site
 			tabstat anc1tq, by(site) stat(mean sd count)
 			tabstat anc1counsel, by(site) stat(mean sd count)
@@ -76,31 +63,35 @@ tab sampstrata2 site, col
 	
 			tab1 general_risk obst_risk anyrisk
 			
-	
 * COMPETENT SYSTEMS
 	* Care quality by level of risk
 			ttest anc1tq, by(anyrisk)
 			ttest anc1counsel, by(anyrisk)
 			ttest m1_603, by(anyrisk)
 			ta anc1ultrasound anyrisk, col
-			ta specialist_hosp anyrisk, col
+			ta specialist_hosp anyrisk, col chi2
 			
 	* Care quality by danger signs
 			ttest anc1tq, by(danger)
 			ttest anc1counsel, by(danger)
 			ttest m1_603, by(danger)
 			ta anc1ultrasound dangersigns, col
-			ta specialist_hosp danger, col
+			ta specialist_hosp danger, col chi2
 			
 * REFERRAL OF CARE:
 	tab specialist_hosp
+	ta specialist_hosp anyrisk
 
 * COST OF 1st ANC VISIT
 	ta m1_1217 // any $ spent
-	su registration_cost
-	su med_vax_cost
-	su labtest_cost
-	su indirect_cost	
+	egen totalcost= rowtotal(m1_1218a_1 m1_1218b_1 m1_1218c_1 m1_1218d_1 m1_1218e_1 m1_1218f_1)
+	replace totalcost=. if totalcost==0
+	
+	su m1_1219
+	replace registration_cost = 0 if registration_cost==.a & m1_1219>0 & m1_1219<.
+	replace med_vax_cost= 0 if med_vax_cost==.a & m1_1219>0 & m1_1219<.
+	replace labtest_cost= 0 if labtest_cost==.a & m1_1219>0 & m1_1219<.
+	replace indirect_cost= 0 if indirect_cost==. & m1_1219>0 & m1_1219<.
 				
 * CONFIDENCE
 		ta m1_302			
@@ -114,8 +105,7 @@ tab sampstrata2 site, col
 			ttest m1_603, by(dangersign)
 			tabstat anc1ultrasound, by(dangersign) stat(mean sd count)
 			ta anc1ultrasound dangersign, col chi2
-		
-			
+				
 * CASCADES: CONDITIONS IDENTIFIED BY E-COHORT
 	* Malnutrition
 	egen screen_mal = rowmax(anc1muac anc1bmi)
@@ -126,42 +116,38 @@ tab sampstrata2 site, col
 	*Depression	
 	recode phq9_cat (1=0) (2/5=1), gen(depression)
 	egen depression_tx=rowmax(m1_724d anc1mental_health_drug)
-			ta depression
+			ta depression // 247
 			ta m1_716c if depression==1 // discussed anxiety or depression		
 			ta depression_tx if depression==1
 	* Anemia
-			ta anemic // 19
+			ta anemic // 100
 			ta anc1blood if anemic==1
 			ta anc1ifa if anemic==1
-	* Hypertension
+	
+	/* Hypertension
 	egen exer_nutri=rowmax(counsel_nutri counsel_exer)
 			ta HBP	
 			ta anc1bp if HBP==1
 			ta exer_nutri if HBP==1
 			ta anc1hypertension if HBP==1 // missing for all but 1. incorrect programming in RedCAP
-			ta specialist_hosp if HBP==1
+			ta specialist_hosp if HBP==1 */
 			
-			ta m1_202b // previously diagnosed with HBP
-			ta anc1bp if m1_202b==1
-			ta m1_719 if m1_202b==1
-			ta anc1hypertension if m1_202b==1
 			
-	*CASCADES: CONDITIONS SELF REPORTED
+	*CASCADES: CHRONIC CONDITIONS SELF REPORTED (removing HIV because ETH did not collect info on HIV med)
 	egen diabetes_tx = rowmax(anc1diabetes specialist_hosp )
-	egen hypertension_tx = rowmax(anc1hypertension specialist_hosp)
-			tab1 m1_202a m1_202b m1_202c m1_202d m1_202e
-			ta m1_718 if m1_202a==1
-			ta m1_719 if m1_202b==1
-			ta m1_720 if m1_202c==1
-			ta m1_721 if m1_202d==1
-			ta m1_722 if m1_202e==1
+	egen hypertension_tx = rowmax(anc1hypertension specialist_hosp)	
+			tab1 m1_202a m1_202b m1_202c m1_202d  m1_202e // 34 women with at least 1 condition
+			ta m1_718 if m1_202a==1 // discussed diabetes
+			ta m1_719 if m1_202b==1 // disccused HTN
+			ta m1_720 if m1_202c==1 // disccused cardiac problem
+			ta m1_721 if m1_202d==1 // disccused mental health problem
 			ta diabetes_tx if m1_202a==1
 			ta hypertension_tx if m1_202b==1
 			ta specialist_hosp if m1_202c==1
 			ta depression_tx if m1_202d==1
-	
+			
 	* CASCADES:OBSTETRIC RISK FACTORS
-			ta m1_1004 // nb late miscarriages
+			ta m1_1004 // 51 late miscarriages
 			ta m1_1011b if m1_1004==1
 			ta specialist_hosp if m1_1004==1
 			
@@ -185,6 +171,8 @@ tab sampstrata2 site, col
 	tabstat vgm1_605a vgm1_605b vgm1_605c vgm1_605d vgm1_605e vgm1_605f ///
 			vgm1_605g vgm1_605h vgm1_605i vgm1_605j vgm1_605k , stat(mean count) col(stat)
 
+	tabstat anc1ux, by(facility_lvl) stat(mean sd count)
+	tabstat anc1ux, by(educ_cat) stat(mean sd count)
 	
 	lab var aged18 "Aged less than 19"
 	lab var aged40 "Aged more than 40"
