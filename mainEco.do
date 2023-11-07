@@ -21,37 +21,37 @@ set more off
 macro drop _all
 
 * Setting user globals 
-global user "/Users/shs8688"
-*global user "/Users/catherine.arsenault"
+*global user "/Users/shs8688/Dropbox (Harvard University)/SPH-Kruk Team/QuEST Network/"
+global user "/Users/catherine.arsenault/Dropbox/SPH Kruk QuEST Network/"
 *global user "/Users/katedwright"
 
 ********************************************************************************
 * Setting file path globals for raw data
 	*ETHIOPIA:
-	global et_data "$user/Dropbox (Harvard University)/SPH-Kruk Team/QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data/Ethiopia/01 raw data"
+	global et_data "$user/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data/Ethiopia/01 raw data"
 	
 	*KENYA:
-	global ke_data "$user/Dropbox (Harvard University)/SPH-Kruk Team/QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data/Kenya/01 raw data"
+	global ke_data "$user/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data/Kenya/01 raw data"
 	
 	*SOUTH AFRICA:
-	global za_data "$user/Dropbox (Harvard University)/SPH-Kruk Team/QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data/South Africa/01 raw data"
+	global za_data "$user/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data/South Africa/01 raw data"
 	
 	*INDIA:
-	global in_data "$user/Dropbox (Harvard University)/SPH-Kruk Team/QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data/India/01 raw data"
+	global in_data "$user/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data/India/01 raw data"
 	
 ********************************************************************************	
 * Path to recoded data folders:
 	*ETHIOPIA:
-	global et_data_final "$user/Dropbox (Harvard University)/SPH-Kruk Team/QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data/Ethiopia/02 recoded data"
-	
+	global et_data_final "$user/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data/Ethiopia/02 recoded data"
+
 	*KENYA:
-	global ke_data_final "$user/Dropbox (Harvard University)/SPH-Kruk Team/QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data/Kenya/02 recoded data"
+	global ke_data_final "$user/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data/Kenya/02 recoded data"
 	
 	*SOUTH AFRICA:
-	global za_data_final "$user/Dropbox (Harvard University)/SPH-Kruk Team/QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data/South Africa/02 recoded data"
+	global za_data_final "$user/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data/South Africa/02 recoded data"
 	
 	*INDIA:
-	global in_data_final "$user/Dropbox (Harvard University)/SPH-Kruk Team/QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data/India/02 recoded data"
+	global in_data_final "$user/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data/India/02 recoded data"
 	
 ********************************************************************************
 

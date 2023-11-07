@@ -4,7 +4,7 @@
 
 
 u "$et_data_final/eco_m1m2_et_der.dta", clear
-
+u 
 * Keep M1 only
 keep if redcap_event_name  == "module_1_arm_1"
 keep if b7eligible==1  & m1_complete==2 //SS: keeping this here only because we are not filtering out incomplete M1 surveys in the cleaning file
@@ -36,7 +36,7 @@ keep if b7eligible==1  & m1_complete==2 //SS: keeping this here only because we 
 	* By site
 			tabstat anc1tq, by(site) stat(mean sd count)
 			tabstat anc1counsel, by(site) stat(mean sd count)
-	* Items done the least
+	* Items done most
 			tabstat anc1bp anc1muac anc1bmi anc1fetal_hr anc1urine anc1blood ///
 				    anc1ultrasound anc1ifa anc1tt counsel_nutri counsel_exer ///
 					counsel_complic counsel_comeback counsel_birthplan, ///
@@ -75,7 +75,7 @@ keep if b7eligible==1  & m1_complete==2 //SS: keeping this here only because we 
 			ttest anc1tq, by(danger)
 			ttest anc1counsel, by(danger)
 			ttest m1_603, by(danger)
-			ta anc1ultrasound dangersigns, col
+			ta anc1ultrasound dangersigns, col chi2
 			ta specialist_hosp danger, col chi2
 			
 * REFERRAL OF CARE:
@@ -95,16 +95,6 @@ keep if b7eligible==1  & m1_complete==2 //SS: keeping this here only because we 
 				
 * CONFIDENCE
 		ta m1_302			
-		
-* COMPETENT SYSTEMS: DANGER SIGNS
-			tabstat anc1tq, by(dangersign) stat(mean sd count)
-			ttest anc1tq, by(dangersign)
-			tabstat anc1counsel, by(dangersign) stat(mean sd count)
-			ttest anc1counsel, by(dangersign)
-			tabstat m1_603, by(dangersign) stat(mean sd count)
-			ttest m1_603, by(dangersign)
-			tabstat anc1ultrasound, by(dangersign) stat(mean sd count)
-			ta anc1ultrasound dangersign, col chi2
 				
 * CASCADES: CONDITIONS IDENTIFIED BY E-COHORT
 	* Malnutrition
