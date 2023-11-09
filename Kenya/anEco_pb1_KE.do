@@ -5,6 +5,17 @@
 
 u "$user/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data/Kenya/02 recoded data/eco_m1_ke_der.dta", clear
 
+* SETTING AND DEMOGRAPHICS OF WOMEN ENROLLED
+	* By site
+	tab facility_lvl site, col
+	mean enrollage, over(site)
+	tab educ_cat site, col
+	mean ga, over(site)
+	tab m1_1001 site, col
+	tab m1_501 site, col
+	tab m1_1207 site, col
+
+	
 * QUALITY OF ANC1
 	* By facility type
 			tabstat anc1tq, by(facility_lvl) stat(mean sd count)
