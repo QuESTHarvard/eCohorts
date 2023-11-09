@@ -8,7 +8,7 @@
 * Import Data 
 clear all 
 
-import excel "/Users/shs8688/Dropbox (Harvard University)/SPH-Kruk Team/QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data/South Africa/01 raw data/14Sep2023_interimdata.xlsx", sheet("MNH_Module_1_Baseline 17Jul2023") firstrow
+import excel "$user/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data/South Africa/01 raw data/14Sep2023_interimdata.xlsx", sheet("MNH_Module_1_Baseline 17Jul2023") firstrow
 
 /*
 drop if CRHID == "9999998" | CRHID == "EUB_001" | CRHID == "EUB_002" | CRHID == "MPH_001" | CRHID == "MPH_002" | ///
@@ -230,6 +230,15 @@ format recm1_802a %td
 format date_m1 %td
 
 drop if recm1_802a < date_m1
+
+* Fixing hemoglobin levels
+replace m1_1307 =  m1_1307/10 if m1_1307>=44 & m1_1307<=215
+replace m1_1307=. if m1_1307==891
+replace m1_1307= m1_1307/100 if m1_1307>=1111 & m1_1307<=1246
+
+replace m1_1309=. if m1_1309==0
+replace m1_1309 =  m1_1309/10 if m1_1309>=37 & m1_1309<=215
+replace m1_1309 =  m1_1309/100 if m1_1309==1226
 
 *===============================================================================
 	

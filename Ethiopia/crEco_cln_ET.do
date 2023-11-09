@@ -2504,10 +2504,12 @@ label variable m2_complete "Complete?"
 	
 * drop unncessary vars and de-identify dataset
 drop iic_3-module_5_end_line_facetoface_sur first_name family_name phone_number m1_513b ///
-     m1_513c m1_513d m1_513e m1_513f m1_513g m1_513h m1_513i q1501 age gravid lmp edd para ///
+     m1_513c m1_513d m1_513e m1_513f m1_513g m1_513h m1_513i m1_514b m1_515a_town ///
+	 m1_515b_zone m1_515c_ward m1_515d_house m1_516 m1_517 m1_518 m1_519_district ///
+	 m1_519_village m1_519_wardq1501 age gravid lmp edd para ///
 	 number_of_children_alive previous_stillbirth history_of_3 birthweight2500 birthweight4000 ///
 	 last_pregnancy previous_survey diagnosed age_less_than_16_years-maternal_integrated_cards_comple ///
-	 m1_714d date
+	 m1_714d date 
 	 
 
 order m1_* m2_*, sequential
