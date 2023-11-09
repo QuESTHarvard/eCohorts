@@ -107,7 +107,7 @@ u "$za_data_final/eco_m1_za.dta", clear
 			/* Gestational age at ANC1
 			Here we should recalculate the GA based on LMP (m1_802c and self-report m1_803 */
 			
-			egen dangersigns = rowmax(m1_814a m1_814b m1_814c m1_814d m1_814e m1_814f m1_814g)
+			egen dangersigns = rowmax(m1_814a m1_814b m1_814c m1_814d  m1_814f m1_814g)
 			
 		    gen ga_edd = 40-((m1_802a - date_m1)/7)
 			gen ga = trunc(ga_edd)
@@ -171,11 +171,13 @@ u "$za_data_final/eco_m1_za.dta", clear
 			* Anemia 
 			gen Hb= m1_1309 // test done by E-Cohort data collector
 			gen Hb_card= m1_1307 // hemoglobin value taken from the card
-			replace Hb = Hb_card if Hb==.a // use the card value if the test wasn't done
-				// Reference value of 10 from: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8990104/
-			gen anemic= 1 if Hb<10
-			replace anemic=0 if Hb>=10 & Hb<. 
-			drop Hb*
+
+			replace Hb = Hb_card if Hb==.a | Hb==. // use the card value if the test wasn't done
+				// Reference value of 11 from: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8990104/
+			gen anemic= 0 if Hb>=11 & Hb<. 
+			replace anemic=1 if Hb<11
+			drop Hb_card
+
 			
 			* BMI 
 			gen height_m = height_cm/100
