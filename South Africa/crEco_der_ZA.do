@@ -8,8 +8,6 @@
 
 */
 u "$za_data_final/eco_m1_za.dta", clear
-*u "$user/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data/South Africa/02 recoded data/eco_m1_za.dta", clear
-
 
 *------------------------------------------------------------------------------*
 * MODULE 1
@@ -72,10 +70,11 @@ u "$za_data_final/eco_m1_za.dta", clear
 			gen anc1syphilis_test = m1_710a
 			gen anc1blood_sugar_test = m1_711a
 			gen anc1ultrasound = m1_712
-			gen anc1ifa =  m1_713a
-			recode anc1ifa (2=1) (3=0)
+			recode  m1_713a (2=1) (3=0), gen(anc1ifa)
+			recode m1_713b (2=1) (3=0) (98 .d =0), gen(anc1calcium)
 			gen anc1tt = m1_714a
-
+			gen anc1depression = m1_716c
+			gen anc1edd =  m1_801
 			egen anc1tq = rowmean(anc1bp anc1weight anc1height anc1muac anc1fetal_hr anc1urine ///
 								 anc1blood anc1ultrasound anc1ifa anc1tt ) // 10 items
 								 
@@ -113,10 +112,17 @@ u "$za_data_final/eco_m1_za.dta", clear
 			gen ga = trunc(ga_edd)
 			replace ga = m1_803 if ga==.
 			
-			drop if ga <0
+			replace ga=. if ga <0
 			gen trimester = ga
-			recode trimester 0/12 = 1 13/27 = 2 28/40 = 3
+			recode trimester 0/12 = 1 13/26 = 2 27/42 = 3
 			
+			* Asked about LMP
+			gen anc1lmp= m1_806
+			
+			* Screened for danger signs 
+			recode m1_815 (1=0) (2/96=1) (.a .d .r=.) , gen(anc1danger_screen)
+			replace anc1danger_screen = 0 if m1_815_other=="She told the nurse that she bleeds and the nurse said there is no such thing"
+		
 *------------------------------------------------------------------------------*	
 	* SECTION 9: RISKY HEALTH BEHAVIOR
 			recode  m1_901 (1/2=1) (3=0) (4=.)
@@ -171,11 +177,23 @@ u "$za_data_final/eco_m1_za.dta", clear
 			* Anemia 
 			gen Hb= m1_1309 // test done by E-Cohort data collector
 			gen Hb_card= m1_1307 // hemoglobin value taken from the card
+<<<<<<< Updated upstream
 			replace Hb = Hb_card if Hb==.a // use the card value if the test wasn't done
 				// Reference value of 10 from: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8990104/
 			gen anemic= 1 if Hb<10
 			replace anemic=0 if Hb>=10 & Hb<. 
 			drop Hb*
+=======
+
+			replace Hb = Hb_card if Hb==.a | Hb==. // use the card value if the test wasn't done
+				// Reference value of 11 from: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8990104/
+			gen anemic= 0 if Hb>=11 & Hb<. 
+			replace anemic=1 if Hb<11
+
+			drop Hb_card
+
+
+>>>>>>> Stashed changes
 			
 			* BMI 
 			gen height_m = height_cm/100
@@ -211,7 +229,7 @@ u "$za_data_final/eco_m1_za.dta", clear
 	lab var dangersigns "Experienced at least one danger sign so far in pregnancy"
 	lab var pregloss "Number of pregnancy losses (Nb pregnancies > Nb births)"
 	lab var HBP "High blood pressure at 1st ANC"
-	lab var anemic "Anemic (Hb <10.0)"
+	lab var anemic "Anemic (Hb <11.0)"
 	lab var height_m "Height in meters"
 	lab var BMI "Body mass index"
 	lab var low_BMI "BMI below 18.5 (low)"

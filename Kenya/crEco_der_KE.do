@@ -7,9 +7,9 @@
 	This file creates derived variables for analysis from the MNH ECohorts Kenya dataset. 
 
 */
-*u "$ke_data_final/eco_m1_ke.dta", clear
 
-u "$user/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data/Kenya/02 recoded data/eco_m1_ke.dta", clear
+u "$ke_data_final/eco_m1_ke.dta", clear
+
 *------------------------------------------------------------------------------*
 * MODULE 1
 *------------------------------------------------------------------------------*
@@ -94,6 +94,7 @@ u "$user/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuES
 			gen anc1depression = m1_716c
 			gen anc1malaria_proph =  m1_713e
 			recode anc1malaria_proph (2=1) (3=0)
+			gen anc1edd =  m1_801
 			egen anc1tq = rowmean(anc1bp anc1weight anc1height anc1muac anc1fetal_hr anc1urine ///
 								 anc1blood anc1ultrasound anc1ifa anc1tt ) // 10 items
 								 
@@ -127,18 +128,21 @@ u "$user/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuES
 			
 			gen ga = gest_age_baseline_ke
 			replace ga = m1_803 if ga == . 
+			
 			gen trimester = ga
-			recode trimester 0/12 = 1 13/27 = 2 28/40 = 3
+			recode trimester 0/12 = 1 13/26 = 2 27/42 = 3
 			replace trimester = m1_804 if trimester ==.a | trimester==.d
 			
 			* Asked about LMP
 			gen anc1lmp= m1_806
 			
 			/* Screened for danger signs 
-			egen anc1danger_screen = rowmax(m1_815_1-m1_815_96)
+			egen anc1danger_screen = rowmax(m1_815_2-m1_815_96) // addressed the issue
+			replace anc1danger_screen= 0 if m1_815_1 ==1 | m1_815_98==1  | m1_815_99==1 // didn't discuss
+			
 			replace anc1danger_screen = 0 if m1_815_other=="Didn't discuss because it happened twice only." ///
 			| m1_815_other=="Never informed the care provider" | m1_815_other=="No response given by the nurse"
-			replace anc1danger_screen= 0 if  m1_815_0==1 // did not discuss the danger sign 
+			
 			replace anc1danger_screen =  m1_816 if anc1danger_screen==.a | anc1danger_screen==. */
 *------------------------------------------------------------------------------*	
 	* SECTION 9: RISKY HEALTH BEHAVIOR
@@ -193,10 +197,21 @@ u "$user/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuES
 			gen Hb= m1_1309 // test done by E-Cohort data collector
 			gen Hb_card= m1_1307 // hemoglobin value taken from the card
 			replace Hb = Hb_card if Hb==.a // use the card value if the test wasn't done
+<<<<<<< Updated upstream
 				// Reference value of 10 from: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8990104/
 			gen anemic= 1 if Hb<10
 			replace anemic=0 if Hb>=10 & Hb<. 
 			drop Hb*
+=======
+
+
+			// Reference value of 11 from Ethiopian 2022 guidelines. Should check if relevant in KE
+			gen anemic= 0 if Hb>=11 & Hb<. 
+			replace anemic=1 if Hb<11
+			drop Hb_card
+
+			
+>>>>>>> Stashed changes
 			
 			* BMI 
 			gen height_m = height_cm/100
@@ -232,11 +247,9 @@ u "$user/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuES
 	lab var dangersigns "Experienced at least one danger sign so far in pregnancy"
 	lab var pregloss "Number of pregnancy losses (Nb pregnancies > Nb births)"
 	lab var HBP "High blood pressure at 1st ANC"
-	lab var anemic "Anemic (Hb <10.0)"
+	lab var anemic "Anemic (Hb <11.0)"
 	lab var height_m "Height in meters"
 	lab var BMI "Body mass index"
 	lab var low_BMI "BMI below 18.5 (low)"
 								 
-* save "$ke_data_final/eco_m1_ke_der.dta", replace
-
-save "$user/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data/Kenya/02 recoded data/eco_m1_ke_der.dta", replace
+ save "$ke_data_final/eco_m1_ke_der.dta", replace
