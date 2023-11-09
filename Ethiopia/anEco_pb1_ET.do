@@ -52,7 +52,7 @@ keep if b7eligible==1  & m1_complete==2 //SS: keeping this here only because we 
 	egen general_risk = rowmax(aged18 aged35 chronic HBP anemic)
 	
 * OBSTETRIC RISK FACTORS
-	gen multi= m1_805>1 & m1_805<.
+	gen multiple= m1_805>1 & m1_805<.
 	gen neodeath = m1_1010 ==1
 	gen preterm = m1_1005 ==1
 	gen PPH=m1_1006==1
