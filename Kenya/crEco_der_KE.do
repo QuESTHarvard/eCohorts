@@ -197,12 +197,7 @@ u "$ke_data_final/eco_m1_ke.dta", clear
 			gen Hb= m1_1309 // test done by E-Cohort data collector
 			gen Hb_card= m1_1307 // hemoglobin value taken from the card
 			replace Hb = Hb_card if Hb==.a // use the card value if the test wasn't done
-<<<<<<< Updated upstream
-				// Reference value of 10 from: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8990104/
-			gen anemic= 1 if Hb<10
-			replace anemic=0 if Hb>=10 & Hb<. 
-			drop Hb*
-=======
+
 
 
 			// Reference value of 11 from Ethiopian 2022 guidelines. Should check if relevant in KE
@@ -211,7 +206,6 @@ u "$ke_data_final/eco_m1_ke.dta", clear
 			drop Hb_card
 
 			
->>>>>>> Stashed changes
 			
 			* BMI 
 			gen height_m = height_cm/100
