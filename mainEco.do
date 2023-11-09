@@ -10,7 +10,7 @@
 	Countries included: Ethiopia, Kenya, South Africa
 	
 */
-* Test2
+
 * Setting up files and macros
 ********************************************************************************
 * global 
