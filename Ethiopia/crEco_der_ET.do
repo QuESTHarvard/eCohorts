@@ -8,8 +8,7 @@
 
 */
 
-*u "$et_data_final/eco_m1m2_et.dta", clear
-u "$user/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data/Ethiopia/02 recoded data/eco_m1m2_et.dta", clear
+u "$et_data_final/eco_m1m2_et.dta", clear
 
 *------------------------------------------------------------------------------*
 * MODULE 1
@@ -96,12 +95,11 @@ u "$user/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuES
 			gen anc1ifa =  m1_713a
 			recode anc1ifa (2=1) (3=0)
 			gen anc1tt = m1_714a
-			gen anc1calcium = m1_713b
-			recode anc1calcium (2=1) (3=0)
-			gen anc1deworm= m1_713d
-			recode anc1deworm (2=1) (3=0)
-			recode m1_715 (2=1), gen(anc1itn)
+			recode m1_713b (2=1) (3=0), gen(anc1calcium)
+			recode m1_713d (2=1) (3=0), gen(anc1deworm)
+			recode m1_715 (2=.), gen(anc1itn) // ITN provision, among women who dont already have one, in kebele with malaria
 			gen anc1depression = m1_716c
+			gen anc1edd =  m1_801
 
 			egen anc1tq = rowmean(anc1bp anc1weight anc1height anc1muac anc1fetal_hr anc1urine ///
 								 anc1blood anc1ultrasound anc1ifa anc1tt ) // 10 items
@@ -144,16 +142,20 @@ u "$user/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuES
 			ren rec* *
 			
 			gen ga = m1_802d_et 
-			replace ga = m1_803 if ga == .
+			replace ga = m1_803 if ga == . // ga based reported LMP or self report of weeks pregnant 
+			
+			recode ga (1/12.99999 = 1) (13/26.99999= 2) (27/50=3), gen(trimester)
+			lab def trimester 1"1st trimester 0-12wks" 2"2nd trimester 13-26 wks" 3 "3rd trimester 27-42 wks"
+			lab val trimester trimester
 			
 			* Reports danger signs
-			egen dangersigns = rowmax(m1_814a m1_814b m1_814c m1_814d m1_814e m1_814f m1_814g)
+			egen dangersigns = rowmax(m1_814a m1_814b m1_814c m1_814d  m1_814f m1_814g)
 			
 			* Asked about LMP
 			gen anc1lmp= m1_806
 			
 			* Screened for danger signs 
-			egen anc1danger_screen = rowmax(m1_815_1-m1_815_96)
+			egen anc1danger_screen = rowmax(m1_815_1-m1_815_96) 
 			replace anc1danger_screen = 0 if m1_815_other=="I told her the problem but she said nothing"
 			replace anc1danger_screen= 0 if  m1_815_0==1 // did not discuss the danger sign 
 			replace anc1danger_screen =  m1_816 if anc1danger_screen==.a | anc1danger_screen==.
@@ -175,11 +177,26 @@ u "$user/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuES
 			
 *------------------------------------------------------------------------------*	
 	* SECTION 12: ECONOMIC STATUS AND OUTCOMES
-			/*Asset variables
+			*Asset variables
+			
+			recode  m1_1201 (2 4 6 96=0) (3=1), gen(safewater) // 96 is Roto tanks or tanker 
+			recode  m1_1202 (2=1) (3=0), gen(toilet)
+			lab def san 1"Improved" 0"Unimproved"
+			lab val safewater toilet san 
+			
+			gen electr = m1_1203
+			gen radio = m1_1204
+			gen tv = m1_1205
+			gen phone = m1_1206
+			gen refrig = m1_1207
+			recode m1_1208 (3=1) (4/5=0), gen(fuel) // electricity, kerosene (improved) charcoal wood (unimproved)
+			rec m1_1208 
+			
+			
 			* I used the WFP's approach to create the wealth index
 			// the link can be found here https://docs.wfp.org/api/documents/WFP-0000022418/download/ 
 
-			pca safewater bankacc car motorbik bicycle roof wallmat floormat fuel refrig phone telev radio electr toilet  // most are pro-urban variables
+			pca safewater toilet electr radio tv phone refrig fuel bankacc car motorbik bicycle roof wallmat floormat    // most are pro-urban variables
 			predict wealthindex
 			xtile quintile = wealthindex, nq(5)
 			tab quintile */
@@ -210,10 +227,10 @@ u "$user/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuES
 			gen Hb_card= m1_1307 // hemoglobin value taken from the card
 				replace Hb_card=11.3 if Hb_card==113
 			replace Hb = Hb_card if Hb==.a // use the card value if the test wasn't done
-				// Reference value of 11 from: 2022 Ethiopian ANC guidelines
-			gen anemic= 1 if Hb<12
-			replace anemic=0 if Hb>=11 & Hb<. 
-			drop Hb*
+				// Reference value of 11 from: 2022 Ethiopian ANC guidelines ≥ 11 gm/dl is normal.
+			gen anemic= 0 if Hb>=11 & Hb<. 
+			replace anemic=1 if Hb<11
+			drop Hb_card
 			
 			* MUAC
 			recode muac (999=.)
@@ -255,7 +272,7 @@ u "$user/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuES
 	lab var dangersigns "Experienced at least one danger sign so far in pregnancy"
 	lab var pregloss "Number of pregnancy losses (Nb pregnancies > Nb births)"
 	lab var HBP "High blood pressure at 1st ANC"
-	lab var anemic "Anemic (Hb <10.0)"
+	lab var anemic "Anemic (Hb <11.0)"
 	lab var height_m "Height in meters"
 	lab var malnutrition "Acute malnutrition MUAC<23"
 	lab var BMI "Body mass index"
