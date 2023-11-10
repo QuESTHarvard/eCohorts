@@ -3,7 +3,8 @@
 * Created: September 19, 2023
 
 
-u "$user/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data/Kenya/02 recoded data/eco_m1_ke_der.dta", clear
+u "$ke_data_final/eco_m1_ke.dta", clear
+
 
 * SETTING AND DEMOGRAPHICS OF WOMEN ENROLLED
 	* By site
