@@ -2,7 +2,7 @@
 * Created by C. Arsenault 
 * Created: September 19, 2023
 
-
+*Test code
 u "$user/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data/Kenya/02 recoded data/eco_m1_ke_der.dta", clear
 
 * QUALITY OF ANC1
