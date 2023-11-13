@@ -78,8 +78,3 @@ run "$github/Kenya/crEco_cln_KE.do"
 	* policy briefs
 	run "$github/Ethiopia/anEco_pb1_ET.do"
 	 
-	
- 
-
-
-
