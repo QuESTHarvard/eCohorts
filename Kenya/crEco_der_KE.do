@@ -96,7 +96,7 @@ u "$ke_data_final/eco_m1_ke.dta", clear
 			recode anc1malaria_proph (2=1) (3=0)
 			gen anc1edd =  m1_801
 			egen anc1tq = rowmean(anc1bp anc1weight anc1height anc1muac anc1fetal_hr anc1urine ///
-								 anc1blood anc1ultrasound anc1ifa anc1tt ) // 10 items
+								 anc1blood anc1ifa anc1tt ) // 9 items - removed ultrasound
 								 
 			* Counselling at first ANC visit
 			gen counsel_nutri =  m1_716a  
