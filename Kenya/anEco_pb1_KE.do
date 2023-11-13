@@ -3,7 +3,11 @@
 * Created: September 19, 2023
 
 
+*Test code
+
+
 u "$ke_data_final/eco_m1_ke.dta", clear
+
 
 
 * SETTING AND DEMOGRAPHICS OF WOMEN ENROLLED
