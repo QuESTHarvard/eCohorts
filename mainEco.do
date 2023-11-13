@@ -21,8 +21,8 @@ set more off
 macro drop _all
 
 * Setting user globals 
-*global user "/Users/shs8688/Dropbox (Harvard University)/SPH-Kruk Team/QuEST Network/"
-global user "/Users/catherine.arsenault/Dropbox/SPH Kruk QuEST Network/"
+global user "/Users/shs8688/Dropbox (Harvard University)/SPH-Kruk Team/QuEST Network/"
+*global user "/Users/catherine.arsenault/Dropbox/SPH Kruk QuEST Network/"
 *global user "/Users/katedwright"
 
 ********************************************************************************

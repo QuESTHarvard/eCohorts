@@ -3,21 +3,21 @@
 * Created: September 19, 2023
 
 
-u "$ke_data_final/eco_m1_ke.dta", clear
-
+u "$ke_data_final/eco_m1_ke_der.dta", clear
 
 * SETTING AND DEMOGRAPHICS OF WOMEN ENROLLED
 	* By site
-	tab facility_lvl site, col
-	mean enrollage, over(site)
-	tab educ_cat site, col
-	mean ga, over(site)
-	tab m1_1001 site, col
-	tab m1_501 site, col
-	tab m1_1207 site, col
+	tab facility_lvl study_site, col
+	mean enrollage, over(study_site)
+	tab educ_cat study_site, col
+	mean ga, over(study_site)
+	tab m1_1001 study_site, col
+	tab m1_501 study_site, col
+	tab m1_1207 study_site, col
 
-	
 * QUALITY OF ANC1
+	* Overall
+	
 	* By facility type
 			tabstat anc1tq, by(facility_lvl) stat(mean sd count)
 			tabstat anc1counsel, by(facility_lvl) stat(mean sd count)
@@ -32,7 +32,7 @@ u "$ke_data_final/eco_m1_ke.dta", clear
 				    anc1ultrasound anc1ifa anc1tt counsel_nutri counsel_exer ///
 					counsel_complic counsel_comeback counsel_birthplan, ///
 					stat(mean count) col(stat)	
-			ta anc1ultrasound if trimester==3
+			*ta anc1ultrasound if trimester==3
 			ta risk_health
 			ta stop_risk
 			ta m1_1105 if physical_verbal==1
@@ -56,65 +56,69 @@ u "$ke_data_final/eco_m1_ke.dta", clear
 	egen anyrisk = rowmax (general_risk obst_risk)
 	
 			tab1 general_risk obst_risk anyrisk	
-			
-* COMPETENT SYSTEMS: RISK FACTORS 
-			tabstat anc1tq, by(anyrisk) stat(mean sd count)
-			tabstat anc1counsel, by(anyrisk) stat(mean sd count)
-			ttest anc1tq, by(anyrisk)
-			ttest anc1counsel, by(anyrisk)
-			tabstat m1_603, by(anyrisk) stat(mean sd count)
-			ttest m1_603, by(anyrisk)
-			tabstat anc1ultrasound, by(anyrisk) stat(mean sd count)
-			
+				
 * REFERRAL CARE
-ta specialist_hosp if facility_lvl!=2 & facility!="Kalimoni mission hospital" & ///
-					 facility!="Mercylite hospital" & facility!="Our Lady of Lourdes Mutomo Hospital" & ///
-					 facility!="Muthale Mission Hospital"
+ta specialist_hosp if facility_lvl!=2 & facility!=4 & /// "Kalimoni mission hospital"
+					 facility!= 11 & ///"Mercylite hospital"
+					 facility!= 17 & ///"Our Lady of Lourdes Mutomo Hospital" 
+					 facility!= 13 //"Muthale Mission Hospital"
 			
-ta specialist_hosp anyrisk if facility_lvl!=2 & facility!="Kalimoni mission hospital" & ///
-					 facility!="Mercylite hospital" & facility!="Our Lady of Lourdes Mutomo Hospital" & ///
-					 facility!="Muthale Mission Hospital", col chi2
+ta specialist_hosp anyrisk if facility_lvl!=2 & facility!=4 & /// "Kalimoni mission hospital"
+					 facility!= 11 & ///"Mercylite hospital"
+					 facility!= 17 & ///"Our Lady of Lourdes Mutomo Hospital" 
+					 facility!= 13, col chi2 //"Muthale Mission Hospital"
 					 
-ta specialist_hosp dangersign if facility_lvl!=2 & facility!="Kalimoni mission hospital" & ///
-					 facility!="Mercylite hospital" & facility!="Our Lady of Lourdes Mutomo Hospital" & ///
-					 facility!="Muthale Mission Hospital", col chi2
+ta specialist_hosp dangersign if facility_lvl!=2 & facility!=4 & /// "Kalimoni mission hospital"
+					 facility!= 11 & ///"Mercylite hospital"
+					 facility!= 17 & ///"Our Lady of Lourdes Mutomo Hospital" 
+					 facility!= 13, col chi2 //"Muthale Mission Hospital"
+
+* ECONOMIC OUTCOMES
+	ta m1_1221
+	ta m1_1222 
+	ta m1_1217			 
+					 
 * COST OF 1st ANC VISIT
-	ta m1_1217 // any $ spent
 	su m1_1218_total_ke if m1_1218_total_ke!=0
-	su registration
-	su med
-	su lab
-	su indirect	
+	
+	replace registration = 0 if registration==.a & m1_1218_total_ke >0 & m1_1218_total_ke <.
+	replace med = 0 if med ==.a & m1_1218_total_ke >0 & m1_1218_total_ke <.
+	replace lab = 0 if lab ==.a & m1_1218_total_ke >0 & m1_1218_total_ke <.
+	replace indirect = 0 if indirect ==. & m1_1218_total_ke >0 & m1_1218_total_ke <.
+	
+	su registration if m1_1218_total_ke!=0
+	su med if m1_1218_total_ke!=0
+	su lab if m1_1218_total_ke!=0
+	su indirect	if m1_1218_total_ke!=0
 	
 * CONFIDENCE
 		ta m1_302
+
+* COMPETENT SYSTEMS: RISK FACTORS 
+			tabstat anc1tq, by(anyrisk) stat(mean sd count)
+			tabstat anc1counsel, by(anyrisk) stat(mean sd count)
+			tabstat m1_603, by(anyrisk) stat(mean sd count)
+			tabstat anc1ultrasound, by(anyrisk) stat(mean sd count)		
+		
 *COMPETENT SYSTEMS: DANGER SIGNS
 			tabstat anc1tq, by(dangersign) stat(mean sd count)
-			ttest anc1tq, by(dangersign)
 			tabstat anc1counsel, by(dangersign) stat(mean sd count)
-			ttest anc1counsel, by(dangersign)
 			tabstat m1_603, by(dangersign) stat(mean sd count)
-			ttest m1_603, by(dangersign)
 			tabstat anc1ultrasound, by(dangersign) stat(mean sd count)
 			ta anc1ultrasound dangersign, col chi2
 
 * CASCADES
-	* Malnutrition
-	egen screen_mal = rowmax(anc1muac anc1bmi)
-			ta low_BMI // 46
-			ta screen_mal if low_BMI==1
-			ta counsel_nutri if low_BMI==1
-			ta anc1food if low_BMI==1	
 	* Anemia
-			ta anemic // 95
+			ta anemic // 273
 			ta anc1blood if anemic==1
 			ta anc1ifa if anemic==1
+			
 	* Depression
 	recode phq9_cat (1=0) (2/5=1), gen(depression)
 	egen depression_tx=rowmax(m1_724d anc1mental_health_drug)
-			ta depression /198
+			ta depression // 196
 			ta m1_716c if depression==1 // discussed anxiety or depression		
-			ta depression_tx if depression==1
+			ta depression_tx if depression==1	
 			
 	*Prior chronic conditions
 	egen diabetes_tx = rowmax(anc1diabetes specialist_hosp )
@@ -149,9 +153,16 @@ ta specialist_hosp dangersign if facility_lvl!=2 & facility!="Kalimoni mission h
 			
 			ta  neodeath // previous neonatal death
 			ta m1_1011f if neodeath==1
-			ta specialist_hosp if neodeath==1
-			
-						
+			ta specialist_hosp if neodeath==1			
+	
+	* Malnutrition
+	egen screen_mal = rowmax(anc1muac anc1bmi)
+			ta low_BMI // 46
+			ta screen_mal if low_BMI==1
+			ta counsel_nutri if low_BMI==1
+			ta anc1food if low_BMI==1	
+	
+					
 * USER EXPERIENCE
 			tabstat anc1ux, by(facility_lvl) stat(mean sd count)
 			tabstat anc1ux, by(educ_cat) stat(mean sd count)
