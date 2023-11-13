@@ -1,6 +1,7 @@
 * Ethiopia ECohort M1 data analysis 
 * The following code generates a megatable for all data included in the baseline module 
 * Created by K. Wright, C. Arsenault, and S. Sabwa 
+* Edit by Luis Garcia
 
 *------------------------------------------------------------------------------*
 
