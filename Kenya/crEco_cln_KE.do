@@ -947,6 +947,7 @@ order country interviewer_id date_m1 m1_start_time study_site facility ///
 
 order phq9a phq9b phq9c phq9d phq9e phq9f phq9g phq9h phq9i, after(m1_205e)
 order edd_chart_ke edd gest_age_baseline_ke, after(m1_803)
+order m1_1218_ke, after(m1_1218c_1)
 *order m1_clinic_cost_ke, after(m1_1218_ke)
 order m1_1218_other_total_ke, after(m1_1218f_1)
 order m1_1218_total_ke, after(m1_1218_other_total_ke)
