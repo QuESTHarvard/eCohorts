@@ -15,7 +15,7 @@ u "$ke_data_final/eco_m1_ke_der.dta", clear
 	mean ga, over(study_site)
 	tab m1_1001 study_site, col
 	tab m1_501 study_site, col
-	tab m1_1207 study_site, col
+	tab m1_1205 study_site, col
 
 * QUALITY OF ANC1
 	* By facility type
