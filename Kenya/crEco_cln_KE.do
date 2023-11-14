@@ -190,15 +190,14 @@ rename (preferred_language preferred_language_1 preferred_language_2 preferred_l
 	label define q519_2 20 "Kitui East", modify
 
 *===============================================================================
-* Generate new vars (KE only:
+* Generate new vars (KE only):
 
 destring (m1_clinic_cost_ke),replace
 
 egen m1_1218_other_total_ke = rowtotal(m1_1218d_1 m1_1218e_1 m1_1218f_1) 
-egen m1_1218_total_ke = rowtotal(m1_clinic_cost_ke m1_1218a_1 m1_1218b_1 m1_1218c_1 m1_1218_other_total_ke) 	
+egen m1_1218_total_ke = rowtotal(m1_clinic_cost_ke m1_1218_other_total_ke) 	
 	
-
-drop m1_1218g m1_other_costs_ke
+drop m1_1218g m1_other_costs_ke m1_clinic_cost_ke
 
 destring (gest_age_baseline_ke),replace
 
@@ -476,7 +475,7 @@ recode m1_1218_ke m1_1218a_1 m1_1218b_1 m1_1218c_1 m1_1218d_1 m1_1218e_1 m1_1218
 
 replace m1_1218_total_ke = .a if m1_1217 == 0 | m1_1217 == .
 
-replace m1_clinic_cost_ke = .a if m1_1217 == 0 | m1_1217 == .
+*replace m1_clinic_cost_ke = .a if m1_1217 == 0 | m1_1217 == .
 
 replace m1_1218f_other = ".a" if m1_1218f == 0 | m1_1218f == .a | m1_1218f == .
 
@@ -491,8 +490,8 @@ recode m1_1219 (.  = .a) if (m1_1218_ke == .a) & ///
 						   (m1_1218c_1 == .a | m1_1218c_1 == .) & ///
 						   (m1_1218d_1 == .a | m1_1218c_1 == .) & ///
 						   (m1_1218e_1 == .a | m1_1218e_1 == .) & ///
-						   (m1_1218f_1 == .a | m1_1218f_1 == .) & ///
-						   (m1_clinic_cost_ke == .a)
+						   (m1_1218f_1 == .a | m1_1218f_1 == .) // & 
+						   *(m1_clinic_cost_ke == .a)
 
 * delete after drop:						   
 *replace m1_other_costs_ke = ".a" if m1_1217 == 0 | m1_1217 == .
@@ -864,7 +863,7 @@ lab var m1_1214 "1214. Does any member of your household own a car or truck?"
 lab var m1_1215 "1215. Does any member of your household have a bank account?"
 lab var m1_1216b "1216: How many meals does your household usually have per day?"
 lab var m1_1217 "1217. Did you pay money out of your pocket for this visit, including for the consultation or other indirect costs like your transport to the facility?"
-lab var m1_clinic_cost_ke "1218. KE only: Total clinic costs"
+*lab var m1_clinic_cost_ke "1218. KE only: Total clinic costs"
 lab var m1_1218_ke "1218. KE only: How much (in Ksh.) in total did you spend at the clinic?"
 lab var m1_1218a_1 "1218a. How much money did you spend on Registration / Consultation?"
 lab var m1_1218b_1 "1218b. How much money do you spent for medicine/vaccines (including outside purchase)"
@@ -948,7 +947,8 @@ order country interviewer_id date_m1 m1_start_time study_site facility ///
 
 order phq9a phq9b phq9c phq9d phq9e phq9f phq9g phq9h phq9i, after(m1_205e)
 order edd_chart_ke edd gest_age_baseline_ke, after(m1_803)
-order m1_clinic_cost_ke, after(m1_1218_ke)
+order m1_1218_ke, after(m1_1218c_1)
+*order m1_clinic_cost_ke, after(m1_1218_ke)
 order m1_1218_other_total_ke, after(m1_1218f_1)
 order m1_1218_total_ke, after(m1_1218_other_total_ke)
 
