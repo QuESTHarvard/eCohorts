@@ -86,10 +86,16 @@ ta specialist_hosp dangersign if facility_lvl!=2 & facility!=4 & /// "Kalimoni m
 	ta m1_1217			 
 					 
 * COST OF 1st ANC VISIT
-	su m1_1218_total_ke if m1_1218_total_ke!=0
+	sum m1_1218_total_ke
+
+	egen totalcost= rowtotal(m1_1218a_1 m1_1218b_1 m1_1218c_1 m1_1218d_1 m1_1218e_1 m1_1218f_1)
+	replace totalcost=. if totalcost==0
+	
+	sum totalcost
 	
 	replace registration = 0 if registration==.a & m1_1218_total_ke >0 & m1_1218_total_ke <.
 	replace med = 0 if med ==.a & m1_1218_total_ke >0 & m1_1218_total_ke <.
+	* even with: mean med if totalcost !=0 & (med !=0 | med <.), I'm still getting the same number
 	replace lab = 0 if lab ==.a & m1_1218_total_ke >0 & m1_1218_total_ke <.
 	replace indirect = 0 if indirect ==. & m1_1218_total_ke >0 & m1_1218_total_ke <.
 	
@@ -97,6 +103,7 @@ ta specialist_hosp dangersign if facility_lvl!=2 & facility!=4 & /// "Kalimoni m
 	su med if m1_1218_total_ke!=0
 	su lab if m1_1218_total_ke!=0
 	su indirect	if m1_1218_total_ke!=0
+
 	
 * CONFIDENCE
 		ta m1_302
