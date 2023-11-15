@@ -3,9 +3,7 @@
 * Created: September 19, 2023
 
 
-
 u "$ke_data_final/eco_m1_ke_der.dta", clear
-
 
 * SETTING AND DEMOGRAPHICS OF WOMEN ENROLLED
 	* By site
@@ -29,20 +27,15 @@ u "$ke_data_final/eco_m1_ke_der.dta", clear
 			tabstat anc1counsel, by(study_site) stat(mean sd count)
 	* Items done the least
 			tabstat anc1bp anc1muac anc1bmi anc1fetal_hr anc1urine anc1blood ///
-				    anc1ultrasound anc1ifa anc1tt counsel_nutri counsel_exer ///
+					anc1ifa anc1tt counsel_nutri counsel_exer ///
 					counsel_complic counsel_comeback counsel_birthplan, ///
 					stat(mean count) col(stat)	
-			*ta anc1ultrasound if trimester==3
+			ta anc1ultrasound if trimester==3
 			ta risk_health
 			ta stop_risk
-			ta m1_1105 if physical_verbal==1
+			*ta m1_1105 if physical_verbal==1
 	*Other
-			tab m1_801
-			tab m1_901
-			tab m1_904
-			tab m1_905
-			tab m1_907
-			tab m1_1105
+			tab m1_801 //given EDD
 			
 * GENERAL RISK FACTORS
 	gen aged18 = enrollage<18
@@ -74,16 +67,11 @@ ta specialist_hosp anyrisk if facility_lvl!=2 & facility!=4 & /// "Kalimoni miss
 					 facility!= 11 & ///"Mercylite hospital"
 					 facility!= 17 & ///"Our Lady of Lourdes Mutomo Hospital" 
 					 facility!= 13, col chi2 //"Muthale Mission Hospital"
-					 
-ta specialist_hosp dangersign if facility_lvl!=2 & facility!=4 & /// "Kalimoni mission hospital"
-					 facility!= 11 & ///"Mercylite hospital"
-					 facility!= 17 & ///"Our Lady of Lourdes Mutomo Hospital" 
-					 facility!= 13, col chi2 //"Muthale Mission Hospital"
-
+					
 * ECONOMIC OUTCOMES
 	ta m1_1221
 	ta m1_1222 
-	ta m1_1217			 
+	ta m1_1217	// spent money oop		 
 					 
 * COST OF 1st ANC VISIT
 	sum m1_1218_total_ke
@@ -93,33 +81,38 @@ ta specialist_hosp dangersign if facility_lvl!=2 & facility!=4 & /// "Kalimoni m
 	
 	sum totalcost
 	
-	replace registration = 0 if registration==.a & m1_1218_total_ke >0 & m1_1218_total_ke <.
-	replace med = 0 if med ==.a & m1_1218_total_ke >0 & m1_1218_total_ke <.
-	* even with: mean med if totalcost !=0 & (med !=0 | med <.), I'm still getting the same number
-	replace lab = 0 if lab ==.a & m1_1218_total_ke >0 & m1_1218_total_ke <.
+	replace registration = 0 if (regist==.a | regist==.) & m1_1218_total_ke >0 & m1_1218_total_ke <.
+	replace med = 0 if (med ==.a | med==.) & m1_1218_total_ke >0 & m1_1218_total_ke <.
+	replace lab = 0 if (lab ==.a |lab==.) & m1_1218_total_ke >0 & m1_1218_total_ke <.
 	replace indirect = 0 if indirect ==. & m1_1218_total_ke >0 & m1_1218_total_ke <.
-	
-	su registration if m1_1218_total_ke!=0
-	su med if m1_1218_total_ke!=0
-	su lab if m1_1218_total_ke!=0
-	su indirect	if m1_1218_total_ke!=0
-
+	tabstat totalcost registration_cost med_vax_cost labtest_cost indirect_cost, ///
+	stat(mean count) col(stat)
 	
 * CONFIDENCE
 		ta m1_302
 
 * COMPETENT SYSTEMS: RISK FACTORS 
 			tabstat anc1tq, by(anyrisk) stat(mean sd count)
+				ttest anc1tq, by(anyrisk)
 			tabstat anc1counsel, by(anyrisk) stat(mean sd count)
+				ttest anc1counsel , by(anyrisk)
 			tabstat m1_603, by(anyrisk) stat(mean sd count)
 			tabstat anc1ultrasound, by(anyrisk) stat(mean sd count)		
 		
 *COMPETENT SYSTEMS: DANGER SIGNS
 			tabstat anc1tq, by(dangersign) stat(mean sd count)
+				ttest anc1tq, by(dangersign)
 			tabstat anc1counsel, by(dangersign) stat(mean sd count)
+				ttest anc1counsel, by(dangersign)
 			tabstat m1_603, by(dangersign) stat(mean sd count)
+				ttest m1_603, by(dangersign)
 			tabstat anc1ultrasound, by(dangersign) stat(mean sd count)
 			ta anc1ultrasound dangersign, col chi2
+			
+ta specialist_hosp dangersign if facility_lvl!=2 & facility!=4 & /// "Kalimoni mission hospital"
+					 facility!= 11 & ///"Mercylite hospital"
+					 facility!= 17 & ///"Our Lady of Lourdes Mutomo Hospital" 
+					 facility!= 13, col chi2 //"Muthale Mission Hospital"
 
 * CASCADES
 	* Anemia
