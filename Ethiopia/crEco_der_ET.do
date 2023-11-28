@@ -3,7 +3,6 @@
 * S Sabwa, K Wright, C Arsenault
 
 /*
-
 	This file creates derived variables for analysis from the MNH ECohorts Ethiopia dataset. 
 
 */
@@ -193,10 +192,10 @@ u "$et_data_final/eco_m1m2_et.dta", clear
 			rec m1_1208 
 			
 			
-			* I used the WFP's approach to create the wealth index
+			/* I used the WFP's approach to create the wealth index
 			// the link can be found here https://docs.wfp.org/api/documents/WFP-0000022418/download/ 
 
-			pca safewater toilet electr radio tv phone refrig fuel bankacc car motorbik bicycle roof wallmat floormat    // most are pro-urban variables
+			pca safewater toilet electr radio tv phone refrig fuel bankacc car motorbik bicycle roof wallmat floormat // most are pro-urban variables
 			predict wealthindex
 			xtile quintile = wealthindex, nq(5)
 			tab quintile */
@@ -243,9 +242,7 @@ u "$et_data_final/eco_m1m2_et.dta", clear
 			gen low_BMI= 1 if BMI<18.5 
 			replace low_BMI = 0 if BMI>=18.5 & BMI<.
 
-			
-			
-			
+
 *------------------------------------------------------------------------------*	
 * Labelling new variables 
 	lab var facility_own "Facility ownership"

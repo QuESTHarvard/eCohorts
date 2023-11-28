@@ -3,10 +3,10 @@
 * Ethiopia
 u "$user/$analysis/ETtmp.dta", clear
 
-global qualvarsET anc1bp anc1weight anc1height anc1muac anc1blood anc1urine anc1ultrasound ///
-		anc1lmp anc1depression anc1danger_screen counsel_nutri counsel_exer ///
-		counsel_complic counsel_birthplan anc1edd counsel_comeback anc1ifa anc1calcium ///
-		anc1deworm anc1tt anc1itn
+global qualvarsET anc1bp anc1weight anc1height anc1muac anc1blood ///
+		anc1urine ultrasound anc1lmp anc1depression anc1danger_screen ///
+		counsel_nutri counsel_exer counsel_complic counsel_birthplan edd ///
+		counsel_comeback anc1ifa calcium deworm tt anc1itn
 		
 		tabstat  $qualvarsET if site==2, stat(mean count) col(stat) // East Shewa
 		tabstat  $qualvarsET if site==1, stat(mean count) col(stat) // Adama
