@@ -4,7 +4,8 @@ global analysis "Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH E-Coh
 global data "Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data"
 
 *------------------------------------------------------------------------------*
-* Ethiopia
+* ETHIOPIA
+
 u "$user/$data/Ethiopia/02 recoded data/eco_m1m2_et_der.dta", clear	
 	keep if b7eligible==1  & m1_complete==2 // keep baseline data only
 	
@@ -43,8 +44,10 @@ u "$user/$data/Ethiopia/02 recoded data/eco_m1m2_et_der.dta", clear
 	egen complic = rowmax(stillbirth neodeath preterm PPH)
 	
 save "$user/$analysis/ETtmp.dta", replace
+
 *------------------------------------------------------------------------------*		
-* Kenya
+* KENYA
+
 u "$user/$data/Kenya/02 recoded data/eco_m1_ke_der.dta", clear
 		rename study_site site
 * ANC quality
@@ -82,8 +85,10 @@ u "$user/$data/Kenya/02 recoded data/eco_m1_ke_der.dta", clear
 		egen complic = rowmax(stillbirth neodeath preterm PPH)
 	
 save "$user/$analysis/KEtmp.dta", replace
+
 *------------------------------------------------------------------------------*	
-* South Africa
+* SOUTH AFRICA 
+
 u  "$user/$data/South Africa/02 recoded data/eco_m1_za_der.dta", clear
 		rename  study_site_sd site
 * ANC quality

@@ -54,9 +54,9 @@ u "$et_data_final/eco_m1m2_et.dta", clear
 	
 			gen educ_cat=m1_503
 			replace educ_cat = 1 if m1_502==0
-			recode educ_cat (3=2) (4/5=3)
-			lab def educ_cat 1 "None or some primary" 2 "Completed primary or some secondary" ///
-							 3 "Completed secondary or higher"	 
+			recode educ_cat (3=2) (4=3) (5=4)
+			lab def educ_cat 1 "No education or some primary" 2 "Complete primary" 3 "Complete secondary" ///
+							 4 "Higher education"	 
 			lab val educ_cat educ_cat
 
 *------------------------------------------------------------------------------*	
@@ -189,7 +189,7 @@ u "$et_data_final/eco_m1m2_et.dta", clear
 			gen phone = m1_1206
 			gen refrig = m1_1207
 			recode m1_1208 (3=1) (4/5=0), gen(fuel) // electricity, kerosene (improved) charcoal wood (unimproved)
-			rec m1_1208 
+			
 			
 			
 			/* I used the WFP's approach to create the wealth index
@@ -227,8 +227,10 @@ u "$et_data_final/eco_m1m2_et.dta", clear
 				replace Hb_card=11.3 if Hb_card==113
 			replace Hb = Hb_card if Hb==.a // use the card value if the test wasn't done
 				// Reference value of 11 from: 2022 Ethiopian ANC guidelines ≥ 11 gm/dl is normal.
-			gen anemic= 0 if Hb>=11 & Hb<. 
-			replace anemic=1 if Hb<11
+			gen anemic_11= 0 if Hb>=11 & Hb<. 
+			replace anemic_11=1 if Hb<11
+			gen anemic_12= 0 if Hb>=12 & Hb<. 
+			replace anemic_12=1 if Hb<12
 			drop Hb_card
 			
 			* MUAC
@@ -269,7 +271,8 @@ u "$et_data_final/eco_m1m2_et.dta", clear
 	lab var dangersigns "Experienced at least one danger sign so far in pregnancy"
 	lab var pregloss "Number of pregnancy losses (Nb pregnancies > Nb births)"
 	lab var HBP "High blood pressure at 1st ANC"
-	lab var anemic "Anemic (Hb <11.0)"
+	lab var anemic_11 "Anemic (Hb <11.0)"
+	lab var anemic_12 "Anemic (Hb <12.0)"
 	lab var height_m "Height in meters"
 	lab var malnutrition "Acute malnutrition MUAC<23"
 	lab var BMI "Body mass index"

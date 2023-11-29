@@ -39,9 +39,10 @@ u "$za_data_final/eco_m1_za.dta", clear
 *------------------------------------------------------------------------------*	
 	* SECTION 5: BASIC DEMOGRAPHICS
 			gen educ_cat=m1_503
+			replace educ_cat = 1 if m1_502==0
 			recode educ_cat (3=2) (4=3) (5=4)
-			lab def educ_cat 1 "Some primary" 2 "Completed primary or some secondary" ///
-							 3 "Completed secondary" 4"Higher education"	 
+			lab def educ_cat 1 "No education or some primary" 2 "Complete primary" 3 "Complete secondary" ///
+							 4 "Higher education"	 
 			lab val educ_cat educ_cat
 *------------------------------------------------------------------------------*	
 	* SECTION 6: USER EXPERIENCE

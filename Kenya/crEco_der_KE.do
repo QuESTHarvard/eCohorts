@@ -3,9 +3,7 @@
 * C Arsenault, S Sabwa, K Wright
 
 /*
-
 	This file creates derived variables for analysis from the MNH ECohorts Kenya dataset. 
-
 */
 
 u "$ke_data_final/eco_m1_ke.dta", clear
@@ -53,8 +51,8 @@ u "$ke_data_final/eco_m1_ke.dta", clear
 			gen educ_cat=m1_503
 			replace educ_cat = 1 if m1_502==0
 			recode educ_cat (3=2) (4=3) (5=4)
-			lab def educ_cat 1 "None or some primary" 2 "Completed primary or some secondary" ///
-							 3 "Completed secondary" 4"Higher education"	 
+			lab def educ_cat 1 "No education or some primary" 2 "Complete primary" 3 "Complete secondary" ///
+							 4 "Higher education"	 
 			lab val educ_cat educ_cat
 *------------------------------------------------------------------------------*	
 	* SECTION 6: USER EXPERIENCE
@@ -199,14 +197,11 @@ u "$ke_data_final/eco_m1_ke.dta", clear
 			replace Hb = Hb_card if Hb==.a // use the card value if the test wasn't done
 
 
-
 			// Reference value of 11 from Ethiopian 2022 guidelines. Should check if relevant in KE
-			gen anemic= 0 if Hb>=11 & Hb<. 
 			gen anemic= 0 if Hb>=11 & Hb<. 
 			replace anemic=1 if Hb<11
 			drop Hb_card
 
-			
 			
 			* BMI 
 			gen height_m = height_cm/100
