@@ -28,14 +28,20 @@ global qualvarsET anc1bp anc1weight anc1height anc1muac anc1blood ///
 		
 		* Figure 1
 		table chronic, stat(mean anc1qual)
+			ttest anc1qual, by(chronic)
 		table anemic, stat(mean anc1qual)
+			ttest anc1qual, by(anemic)
 		table maln_underw, stat(mean anc1qual)
+			ttest anc1qual, by(maln_underw)
 		table dangersigns, stat(mean anc1qual)
+			ttest anc1qual, by(dangersigns)
 		table cesa, stat(mean anc1qual)
+			ttest anc1qual, by(cesa)
 		table complic, stat(mean anc1qual)
+			ttest anc1qual, by(complic)
 		/*reg anc1qual chronic
 		margins, at(chronic=(0 1)) post
-		lincom (_b[2._at] - _b[1._at])*.
+		lincom (_b[2._at] - _b[1._at])*/
 		
 *------------------------------------------------------------------------------*	
 * Kenya
@@ -60,6 +66,20 @@ global qualvarsKE anc1bp anc1weight anc1height anc1muac anc1blood ///
 		
 		tabstat  $riskfactors if site==2, stat(mean count) col(stat) // Kitui
 		tabstat  $riskfactors if site==1, stat(mean count) col(stat) // Kiambu
+		
+		* Figure 1
+		table chronic, stat(mean anc1qual)
+			ttest anc1qual, by(chronic)
+		table anemic, stat(mean anc1qual)
+			ttest anc1qual, by(anemic)
+		table maln_underw, stat(mean anc1qual)
+			ttest anc1qual, by(maln_underw)
+		table dangersigns, stat(mean anc1qual)
+			ttest anc1qual, by(dangersigns)
+		table cesa, stat(mean anc1qual)
+			ttest anc1qual, by(cesa)
+		table complic, stat(mean anc1qual)
+			ttest anc1qual, by(complic)
 *------------------------------------------------------------------------------*		
 * ZAF
 u "$user/$analysis/ZAtmp.dta", clear 
@@ -81,4 +101,21 @@ global qualvarsZA anc1bp anc1weight anc1height anc1muac anc1blood ///
 		
 		tabstat $riskfactors if site==2, stat(mean count) col(stat) // Nongoma
 		tabstat $riskfactors if site==1, stat(mean count) col(stat) // uMhlathuze
+		
+		* Figure 1
+		table chronic, stat(mean anc1qual)
+			ttest anc1qual, by(chronic)
+		table anemic, stat(mean anc1qual)
+			ttest anc1qual, by(anemic)
+		table maln_underw, stat(mean anc1qual)
+			ttest anc1qual, by(maln_underw)
+		table dangersigns, stat(mean anc1qual)
+			ttest anc1qual, by(dangersigns)
+		table cesa, stat(mean anc1qual)
+			ttest anc1qual, by(cesa)
+		table complic, stat(mean anc1qual)
+			ttest anc1qual, by(complic)
+			
+		table quintile, stat(mean anc1qual)
+		table educ, stat(mean anc1qual)
 		

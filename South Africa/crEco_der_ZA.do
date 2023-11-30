@@ -178,7 +178,7 @@ u "$za_data_final/eco_m1_za.dta", clear
 			pca  electr radio tv  refrig bankacc car 
 			estat kmo
 			predict wealthindex
-			xtile quintile = wealthindex, nq(3)
+			xtile quintile = wealthindex, nq(4)
 			
 			gen registration_cost= m1_1218a_1 // registration
 			replace registration = . if registr==0
@@ -213,9 +213,6 @@ u "$za_data_final/eco_m1_za.dta", clear
 
 			drop Hb_card
 
-
-
-			
 			* BMI 
 			gen height_m = height_cm/100
 			gen BMI = weight_kg / (height_m^2)

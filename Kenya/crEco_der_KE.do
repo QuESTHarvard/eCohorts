@@ -192,7 +192,7 @@ u "$ke_data_final/eco_m1_ke.dta", clear
 			// the link can be found here https://docs.wfp.org/api/documents/WFP-0000022418/download/ 
 			pca safewater toilet electr radio tv phone refrig fuel bankacc car ///
 			motorbik bicycle roof wall floor
-			estat kmo
+			estat kmo // all above 50
 			predict wealthindex
 			xtile quintile = wealthindex, nq(5)
 			
