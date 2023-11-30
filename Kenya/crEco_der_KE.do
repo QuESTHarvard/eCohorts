@@ -54,6 +54,8 @@ u "$ke_data_final/eco_m1_ke.dta", clear
 			lab def educ_cat 1 "No education or some primary" 2 "Complete primary" 3 "Complete secondary" ///
 							 4 "Higher education"	 
 			lab val educ_cat educ_cat
+			
+			recode m1_505 (1/4=0) (5/6=1), gen(marriedp) 
 *------------------------------------------------------------------------------*	
 	* SECTION 6: USER EXPERIENCE
 			foreach v in m1_601 m1_605a m1_605b m1_605c m1_605d m1_605e m1_605f ///
@@ -134,6 +136,8 @@ u "$ke_data_final/eco_m1_ke.dta", clear
 			* Asked about LMP
 			gen anc1lmp= m1_806
 			
+			gen preg_intent = m1_807
+			
 			/* Screened for danger signs 
 			egen anc1danger_screen = rowmax(m1_815_2-m1_815_96) // addressed the issue
 			replace anc1danger_screen= 0 if m1_815_1 ==1 | m1_815_98==1  | m1_815_99==1 // didn't discuss
@@ -150,6 +154,9 @@ u "$ke_data_final/eco_m1_ke.dta", clear
 			egen stop_risk = rowmax( m1_902  m1_904  m1_907)
 *------------------------------------------------------------------------------*	
 	* SECTION 10: OBSTETRIC HISTORY
+			gen gravidity = m1_1001
+			gen primipara=  m1_1001==1 // first pregnancy
+			replace primipara = 1 if  m1_1002==0  // never gave birth
 			gen nbpreviouspreg = m1_1001-1 // nb of pregnancies including current minus current pregnancy
 			gen pregloss = nbpreviouspreg-m1_1002 // nb previous pregnancies not including current minus previous births
 			
@@ -161,14 +168,33 @@ u "$ke_data_final/eco_m1_ke.dta", clear
 	egen physical_verbal = rowmax(m1_1101 m1_1103)
 *------------------------------------------------------------------------------*	
 	* SECTION 12: ECONOMIC STATUS AND OUTCOMES
-			/*Asset variables
+			*Asset variables
+			recode  m1_1201 (2 4 6 7 -96 =0) (1 3 5  =1), gen(safewater) // piped,covered well, boreholes, rainwater (improved) open well, surface water, bottled water, river (unimproved) 
+			recode  m1_1202 (2=1) (3=0), gen(toilet)
+			gen electr = m1_1203
+			gen radio = m1_1204
+			gen tv = m1_1205
+			gen phone = m1_1206
+			gen refrig = m1_1207
+			recode m1_1208 (1/3 -96=1) (4/5=0), gen(fuel) // electricity, gas, koko, kerosene (improved) charcoal wood (unimproved)
+			gen bicycle =  m1_1212 
+			gen motorbik = m1_1213
+			gen car = m1_1214 
+			gen bankacc = m1_1215
+			recode m1_1209 (96 1=0) (2/3=1), gen(floor) // Earth, dung (unimproved) wood planks, palm, polished wood and tiles (improved)
+			recode m1_1210 (1 2 5=0) (3/4 6/8=1) (-96=0), gen(wall) // Grass, timber, poles, mud  (unimproved) bricks, cement, stones (improved)
+			replace wall=1 if m1_1210_other=="Cement and baked briks" | m1_1210_other=="Iron sheets"
+			recode m1_1211 (1/2 -96=0) (3/5=1), gen(roof)  // Iron sheets, Tiles, Concrete (improved) grass, leaves, mud, no roof (unimproved)
+			replace roof=1 if m1_1211_other=="Iron sheets with a ceiling" | m1_1211_other=="Bricks"
+			lab def imp 1"Improved" 0"Unimproved"
+			lab val safewater toilet fuel floor wall roof imp
 			* I used the WFP's approach to create the wealth index
 			// the link can be found here https://docs.wfp.org/api/documents/WFP-0000022418/download/ 
-
-			pca safewater bankacc car motorbik bicycle roof wallmat floormat fuel refrig phone telev radio electr toilet  // most are pro-urban variables
+			pca safewater toilet electr radio tv phone refrig fuel bankacc car ///
+			motorbik bicycle roof wall floor
+			estat kmo
 			predict wealthindex
 			xtile quintile = wealthindex, nq(5)
-			tab quintile */
 			
 			gen registration_cost= m1_1218a_1 // registration
 				replace registration = . if registr==0
