@@ -852,7 +852,7 @@ lab var m0_815_nov_et "M0-815.11. Number of early neonatal death (first 24 hours
 lab var m0_815_dec_et "M0-815.12. Number of early neonatal death (first 24 hours) for December"
 
 
-
+save "$et_data_final/eco_m0_et.dta", replace
 
 
 
