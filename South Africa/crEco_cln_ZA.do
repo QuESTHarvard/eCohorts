@@ -8,7 +8,13 @@
 * Import Data 
 clear all 
 
-import excel "$user/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data/South Africa/01 raw data/14Sep2023_interimdata.xlsx", sheet("MNH_Module_1_Baseline 17Jul2023") firstrow
+import excel "$za_data/SA MOD-1 - 28Nov2023_updated.xlsx", sheet("MNH_Module_1_Baseline") firstrow
+
+
+* Notes from original excel:
+	*9999998 = Not applicable
+	*5555555 = Did not meet the eligibility criteria
+	*Blank = Missing value/Incomplete interview
 
 /*
 drop if CRHID == "9999998" | CRHID == "EUB_001" | CRHID == "EUB_002" | CRHID == "MPH_001" | CRHID == "MPH_002" | ///
