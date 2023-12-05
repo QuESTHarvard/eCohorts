@@ -201,23 +201,27 @@ rename (MOD1Physical_Assessment_1306 MOD1_Physical_Assessment_1307 MOD1_Physical
 		MOD1_Next_Call_1401) (m1_1306 m1_1307 m1_1308 m1_1309 m1_1401)		
 		
 * Fix variables:
-recode m1_714d (2002 = 21) if m1_714d == 2002
-recode m1_714d (2017 = 6) if m1_714d == 2017
+replace m1_714d = "21" if m1_714d == "2002"
+replace m1_714d = "6" if m1_714d == "2017"
+destring(m1_714d), generate(recm1_714d)
 
-replace m1_714e = 17 if m1_714e == 2006
-replace m1_714e = 15 if m1_714e == 2008
-replace m1_714e = 14 if m1_714e == 2009
-replace m1_714e = 12 if m1_714e == 2011
-replace m1_714e = 11 if m1_714e == 2012
-replace m1_714e = 9 if m1_714e == 2014
-replace m1_714e = 8 if m1_714e == 2015
-replace m1_714e = 7 if m1_714e == 2016
-replace m1_714e = 6 if m1_714e == 2017
-replace m1_714e = 5 if m1_714e == 2018
-replace m1_714e = 4 if m1_714e == 2019
-replace m1_714e = 3 if m1_714e == 2020
-replace m1_714e = 2 if m1_714e == 2021
-replace m1_714e = 1 if m1_714e == 2022
+destring(m1_714c), generate(recm1_714c)
+
+replace m1_714e = "17" if m1_714e == "2006"
+replace m1_714e = "15" if m1_714e == "2008"
+replace m1_714e = "14" if m1_714e == "2009"
+replace m1_714e = "12" if m1_714e == "2011"
+replace m1_714e = "11" if m1_714e == "2012"
+replace m1_714e = "9" if m1_714e == "2014"
+replace m1_714e = "8" if m1_714e == "2015"
+replace m1_714e = "7" if m1_714e == "2016"
+replace m1_714e = "6" if m1_714e == "2017"
+replace m1_714e = "5" if m1_714e == "2018"
+replace m1_714e = "4" if m1_714e == "2019"
+replace m1_714e = "3" if m1_714e == "2020"
+replace m1_714e = "2" if m1_714e == "2021"
+replace m1_714e = "1" if m1_714e == "2022"
+destring(m1_714e), generate(recm1_714e)
 
 replace m1_604 = "." if m1_604 == ""
 replace m1_604 = "1" if m1_604 == "1 hour"
@@ -245,6 +249,9 @@ replace m1_1307= m1_1307/100 if m1_1307>=1111 & m1_1307<=1246
 replace m1_1309=. if m1_1309==0
 replace m1_1309 =  m1_1309/10 if m1_1309>=37 & m1_1309<=215
 replace m1_1309 =  m1_1309/100 if m1_1309==1226
+
+replace m1_723 = ".a" if m1_723 == "NA"
+destring(m1_723), generate(recm1_723)
 
 *===============================================================================
 	
@@ -331,7 +338,7 @@ label values m1_605a m1_605b m1_605c m1_605d m1_605e m1_605f m1_605g m1_605h lik
 	 label values m1_708c m1_708d m1_708e m1_708f m1_709a m1_709b m1_710a YN 
 	 label values m1_711a m1_712 m1_714a m1_714b YN 
 	 label values m1_716a m1_716b m1_716c m1_716d m1_716e YN
-   	 label values m1_717 m1_718 m1_719 m1_720 m1_721 m1_722 m1_723 YN 
+   	 label values m1_717 m1_718 m1_719 m1_720 m1_721 m1_722 recm1_723 YN 
 	 label values m1_724a m1_724c m1_724d m1_724e m1_724f m1_724g m1_724h m1_724i YN
 	 label values m1_801 m1_806 m1_809 m1_811 m1_812a YN
 	 label values m1_813a m1_813b m1_816 YN
@@ -584,7 +591,7 @@ label values m1_1401 m1_1401
 *------------------------------------------------------------------------------*
 * drop variables after recoding/renaming
 
-drop study_site study_site_sd facility m1_604 m1_802a
+drop study_site study_site_sd facility m1_604 m1_802a m1_714c m1_714d m1_714e m1_723
 ren rec* *
 
 *===============================================================================
@@ -596,7 +603,7 @@ ren rec* *
 
 	** MODULE 1:
 
-recode m1_404 m1_506 m1_507  m1_700 m1_701 m1_702 m1_703 m1_705 m1_706 m1_707 m1_708a m1_708b m1_708c ///
+recode m1_404 m1_506 m1_507 m1_700 m1_701 m1_702 m1_703 m1_705 m1_706 m1_707 m1_708a m1_708b m1_708c ///
 	  m1_708d m1_708e m1_708f m1_709a m1_710a m1_710b m1_710c m1_711a m1_711b m1_712 m1_713a m1_713c ///
 	  m1_713d m1_713e m1_713f m1_713g m1_713h m1_713i m1_713k m1_713l m1_714a m1_714b m1_714c m1_716a m1_716b ///
 	  m1_716c m1_716d m1_716e m1_717 m1_718 m1_719 m1_720 m1_721 m1_722 m1_723 m1_724a m1_724c m1_724d ///
@@ -1362,7 +1369,6 @@ lab var m1_1401 "1401. What period of the day is most convenient for you to answ
 
 	* STEP SIX: SAVE DATA TO RECODED FOLDER
 	
-drop xxx RESPONSE_Checked  
 
 order m1_*, sequential
 order country study_site study_site_sd facility interviewer_id date_m1 pre_screening_num_za permission care_self enrollage_cat enrollage zone_live b5anc b6anc_first b7eligible respondentid mobile_phone flash
