@@ -1005,7 +1005,7 @@ replace m1_902 = . if m1_902 == 9999998
 replace m1_905 = . if m1_905 == 9999998
 replace m1_906 = . if m1_906 == 9999998
 replace m1_907 = . if m1_907 == 9999998
-replace m1_908_za = . if m1_908_za == 9999998
+replace m1_908_za = . if m1_908_za == 9999998 | m1_908_za == 99999998
 replace m1_909_za = "." if m1_909_za == "9999998"
 replace m1_910_za = "." if m1_910_za == "9999998"
 replace m1_1001 = . if m1_1001 == 9999998
@@ -1374,6 +1374,8 @@ order m1_*, sequential
 order country study_site study_site_sd facility interviewer_id date_m1 pre_screening_num_za permission care_self enrollage_cat enrollage zone_live b5anc b6anc_first b7eligible respondentid mobile_phone flash
 
 order phq9a phq9b phq9c phq9d phq9e phq9f phq9g phq9h phq9i, after(m1_205e)
+
+order height_cm weight_kg bp_time_1_systolic bp_time_1_diastolic time_1_pulse_rate bp_time_2_systolic bp_time_2_diastolic time_2_pulse_rate bp_time_3_systolic bp_time_3_diastolic pulse_rate_time_3, after(m1_1223)
 
 save "$za_data_final/eco_m1_za.dta", replace
 	
