@@ -17,7 +17,6 @@ u "$et_data_final/eco_m1m2_et.dta", clear
 			gen facility_own = facility
 			recode facility_own (2/11 14 16/19 =1) ///
 							    (1 13 15 20 21 22 96 =2)
-			
 			lab def facility_own 1 "Public" 2 "Private"
 			lab val facility_own facility_own 
 			

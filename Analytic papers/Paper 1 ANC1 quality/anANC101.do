@@ -1,10 +1,4 @@
 
-
-global demog educ_cat primipara preg_intent trimester marriedp quintile
-		
-global riskfactors chronic anemic maln_underw ///
-		dangersigns cesa complic
-		
 * Ethiopia
 u "$user/$analysis/ETtmp.dta", clear
 
@@ -17,15 +11,13 @@ global qualvarsET anc1bp anc1weight anc1height anc1muac anc1blood ///
 		tabstat  $qualvarsET if site==1, stat(mean count) col(stat) // Adama
 		tabstat anc1qual, by(site) stat(mean sd )
 		tabstat timespent, by(site) stat(mean sd )
+				
+		summtab , contvars(enrollage) catvars(second quintile minority marriedp ///
+		primipara preg_intent trimester ) mean by(site) excel ///
+		excelname(Table2) sheetname(ETH_demog) replace 
 		
-		su enrollage gravidity if site==2
-		su enrollage gravidity if site==1
-		
-		tab1 $demog if site==2
-		tab1 $demog if site==1
-
-		tabstat $riskfactors if site==2, stat(mean count) col(stat) // East Shewa
-		tabstat $riskfactors if site==1, stat(mean count) col(stat) // Adama
+		summtab, catvars(chronic anemic maln_underw dangersigns cesa complic) mean by(site) excel ///
+		excelname(Table2) sheetname(ETH_risk) replace 
 		
 		* Figure 1
 		ttest anc1qual, by(chronic)
@@ -62,15 +54,12 @@ global qualvarsKE anc1bp anc1weight anc1height anc1muac anc1blood ///
 		tabstat anc1qual, by(site) stat(mean sd)
 		tabstat timespent, by(site) stat(mean sd)
 		
-		su enrollage gravidity if site==2 // Kitui
-		su enrollage gravidity if site==1 // Kiambu
+		summtab , contvars(enrollage) catvars(second quintile minority marriedp ///
+		primipara preg_intent trimester ) mean by(site) excel ///
+		excelname(Table2) sheetname(KE_demog) replace 
 		
-		
-		tab1 $demog if site==2 // Kitui
-		tab1 $demog if site==1 // Kiambu
-		
-		tabstat  $riskfactors if site==2, stat(mean count) col(stat) // Kitui
-		tabstat  $riskfactors if site==1, stat(mean count) col(stat) // Kiambu
+		summtab, catvars(chronic anemic maln_underw dangersigns cesa complic) mean by(site) excel ///
+		excelname(Table2) sheetname(KE_risk) replace 
 		
 		* Figure 1
 		ttest anc1qual, by(chronic)
@@ -100,14 +89,12 @@ global qualvarsZA anc1bp anc1weight anc1height anc1muac anc1blood ///
 		tabstat anc1qual, by(site) stat(mean sd)
 		tabstat timespent, by(site) stat(mean sd)
 		
-		su enrollage gravidity if site==2 // Nongoma
-		su enrollage gravidity if site==1 // uMhlathuze
+		summtab , contvars(enrollage) catvars(second quintile minority marriedp ///
+		primipara preg_intent trimester ) mean by(site) excel ///
+		excelname(Table2) sheetname(ZA_demog) replace 
 		
-		tab1 $demog if site==2 // Nongoma
-		tab1 $demog if site==1  // uMhlathuze
-		
-		tabstat $riskfactors if site==2, stat(mean count) col(stat) // Nongoma
-		tabstat $riskfactors if site==1, stat(mean count) col(stat) // uMhlathuze
+		summtab, catvars(chronic anemic maln_underw dangersigns cesa complic) mean by(site) excel ///
+		excelname(Table2) sheetname(ZA_risk) replace 
 		
 		* Figure 1
 		ttest anc1qual, by(chronic)

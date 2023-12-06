@@ -45,6 +45,11 @@ u "$user/$data/Ethiopia/02 recoded data/eco_m1m2_et_der.dta", clear
 	gen PPH=m1_1006==1
 	egen complic = rowmax(stillbirth neodeath preterm PPH)
 	
+* Demographics
+	gen second=educ_cat>=3
+	gen minority= m1_507
+	recode minority (1 2 4=0) (3 5 96=1) // protestants, indigenous & other
+	
 save "$user/$analysis/ETtmp.dta", replace
 
 *------------------------------------------------------------------------------*		
@@ -87,7 +92,10 @@ u "$user/$data/Kenya/02 recoded data/eco_m1_ke_der.dta", clear
 		gen preterm = m1_1005 ==1
 		gen PPH=m1_1006==1
 		egen complic = rowmax(stillbirth neodeath preterm PPH)
-	
+* Demographics
+		gen second=educ_cat>=3
+		gen minority = m1_501
+		recode minority (4 =1) (-96 1 2 3 5/9=0) //  kikamba vs other
 save "$user/$analysis/KEtmp.dta", replace
 
 *------------------------------------------------------------------------------*	
@@ -128,5 +136,9 @@ u  "$user/$data/South Africa/02 recoded data/eco_m1_za_der.dta", clear
 		gen preterm = m1_1005 ==1
 		gen PPH=m1_1006==1
 		egen complic = rowmax(stillbirth neodeath preterm PPH)
+* Demographics
+		gen second=educ_cat>=3
+		gen minority = m1_507
+		recode minority (5=1) (1 3 6=0) // African religion vs christian and other
 	
 save "$user/$analysis/ZAtmp.dta", replace

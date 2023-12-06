@@ -175,7 +175,7 @@ u "$za_data_final/eco_m1_za.dta", clear
 			pca safewater toilet electr radio tv phone refrig fuel bankacc car ///
 			motorbik bicycle roof wall floor
 			estat kmo // remove vars below 60
-			pca  electr radio tv  refrig bankacc car 
+			pca  electr radio tv  refrig  car 
 			estat kmo
 			predict wealthindex
 			xtile quintile = wealthindex, nq(4)

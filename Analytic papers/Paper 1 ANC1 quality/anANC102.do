@@ -28,37 +28,44 @@ global data "Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts 
 		
 		
 		graph dot (mean) anc1qual, over(chronic) asyvars over(site, label(labsize(medsmall))) ///
-		graphregion(color(white)) ytitle("ANC1 quality index") ysc(range(0 1)) ylabel(0 (0.1) 1) ///
-		subtitle("Women with chronic illnesses") legend(label(1 "No chronic illness") ///
-		label(2 "At least one chronic illness")) legend(size(small) rows(2)) ///
+		graphregion(color(white)) ytitle("ANC1 quality index") ysc(range(0 1)) ///
+		ylabel(0 (0.1) 1) marker(1, msymbol(O) msize(large) mc(gs3)) marker(2, msymbol(D) msize(large) mc(gs12)) ///
+		subtitle("Women with chronic illnesses") legend(label(1 "No") ///
+		label(2 "Yes")) legend(size(small) rows(2)) ///
 		saving("$user/$analysis/Graphs/chronic.gph", replace) 
 		
 		graph dot (mean) anc1qual, over(anemic) asyvars over(site, label(labsize(medsmall))) ///
-		graphregion(color(white)) ytitle("ANC1 quality index") ysc(range(0 1)) ylabel(0 (0.1) 1) ///
-		subtitle("Women with mild to severe anemia") legend(label(1 "Not anemic") label(2 "Anemic")) ///
+		graphregion(color(white)) ytitle("ANC1 quality index") ysc(range(0 1)) ///
+		ylabel(0 (0.1) 1)marker(1, msymbol(O) msize(large) mc(gs3)) marker(2, msymbol(D) msize(large) mc(gs12)) ///
+		subtitle("Women with mild to severe anemia (hemoglobin level <11g/dL)") legend(label(1 "No") label(2 "Yes")) ///
 		saving("$user/$analysis/Graphs/anemic.gph", replace)
 		
 		graph dot (mean) anc1qual, over(maln_underw) asyvars over(site, label(labsize(medsmall))) ///
 		graphregion(color(white)) ytitle("ANC1 quality index") ysc(range(0 1)) ylabel(0 (0.1) 1) ///
-		subtitle("Undernourished women") legend(label(1 "Normal weight") label(2 "Underweight")) ///
+		marker(1, msymbol(O) msize(large) mc(gs3)) marker(2, msymbol(D) msize(large) mc(gs12)) ///
+		subtitle("Undernourished women") legend(label(1 "No") label(2 "Yes")) ///
 		saving("$user/$analysis/Graphs/undernou.gph", replace)
 		
 		graph dot (mean) anc1qual, over(dangersigns) asyvars over(site, label(labsize(medsmall))) ///
 		graphregion(color(white)) ytitle("ANC1 quality index") ysc(range(0 1)) ylabel(0 (0.1) 1) ///
-		subtitle("Undernourished women") legend(label(1 "No danger sign") label(2 "At least 1 danger sign")) ///
+		marker(1, msymbol(O) msize(large) mc(gs3)) marker(2, msymbol(D) msize(large) mc(gs12)) ///
+		subtitle("Women reporting danger signs") legend(label(1 "No") label(2 "Yes")) ///
 		saving("$user/$analysis/Graphs/danger.gph", replace)
 		
 		graph dot (mean) anc1qual, over(cesa) asyvars over(site, label(labsize(medsmall))) ///
 		graphregion(color(white)) ytitle("ANC1 quality index") ysc(range(0 1)) ylabel(0 (0.1) 1) ///
-		subtitle("Undernourished women") legend(label(1 "No previous caesarian") label(2 "Previous caesarian")) ///
-		saving("$user/$analysis/Graphs/ceaa.gph", replace)
+		marker(1, msymbol(O) msize(large) mc(gs3)) marker(2, msymbol(D) msize(large) mc(gs12)) ///
+		subtitle("Women with previous c-section") legend(label(1 "No") label(2 "Yes")) ///
+		saving("$user/$analysis/Graphs/cesa.gph", replace)
 		
 		graph dot (mean) anc1qual, over(complic) asyvars over(site, label(labsize(medsmall))) ///
 		graphregion(color(white)) ytitle("ANC1 quality index") ysc(range(0 1)) ylabel(0 (0.1) 1) ///
-		subtitle("Undernourished women") legend(label(1 "No previous complication") label(2 "At least 1 previous complication")) ///
+		marker(1, msymbol(O) msize(large) mc(gs3)) marker(2, msymbol(D) msize(large) mc(gs12)) ///
+		subtitle("Women with previous obstetric complications") ///
+		legend(label(1 "No") label(2 "Yes")) ///
 		saving("$user/$analysis/Graphs/complic.gph", replace)
 	
-		graph dot (mean) anc1qual, over(facility) asyvars over(site, label(labsize(medsmall))) ///
+		/*graph dot (mean) anc1qual, over(facility) asyvars over(site, label(labsize(medsmall))) ///
 		graphregion(color(white)) ytitle("ANC1 quality index") ysc(range(0 1)) ylabel(0 (0.1) 1) ///
 		subtitle("Undernourished women") legend(label(1 "Public primary") label(2 "Public secondary") ///
 		label(3 "Private")) saving("$user/$analysis/Graphs/facility_lvl.gph", replace)
