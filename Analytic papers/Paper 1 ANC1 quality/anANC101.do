@@ -15,7 +15,8 @@ global qualvarsET anc1bp anc1weight anc1height anc1muac anc1blood ///
 		
 		tabstat  $qualvarsET if site==2, stat(mean count) col(stat) // East Shewa
 		tabstat  $qualvarsET if site==1, stat(mean count) col(stat) // Adama
-		tabstat anc1qual, by(site) stat(mean min max )
+		tabstat anc1qual, by(site) stat(mean sd )
+		tabstat timespent, by(site) stat(mean sd )
 		
 		su enrollage gravidity if site==2
 		su enrollage gravidity if site==1
@@ -27,18 +28,21 @@ global qualvarsET anc1bp anc1weight anc1height anc1muac anc1blood ///
 		tabstat $riskfactors if site==1, stat(mean count) col(stat) // Adama
 		
 		* Figure 1
-		table chronic, stat(mean anc1qual)
-			ttest anc1qual, by(chronic)
-		table anemic, stat(mean anc1qual)
-			ttest anc1qual, by(anemic)
-		table maln_underw, stat(mean anc1qual)
-			ttest anc1qual, by(maln_underw)
-		table dangersigns, stat(mean anc1qual)
-			ttest anc1qual, by(dangersigns)
-		table cesa, stat(mean anc1qual)
-			ttest anc1qual, by(cesa)
-		table complic, stat(mean anc1qual)
-			ttest anc1qual, by(complic)
+		ttest anc1qual, by(chronic)
+		ttest anc1qual, by(anemic)
+		ttest anc1qual, by(maln_underw)
+		ttest anc1qual, by(dangersigns)
+		ttest anc1qual, by(cesa)
+		ttest anc1qual, by(complic)
+				
+		ttest timespent, by(chronic)
+		ttest timespent, by(anemic)
+		ttest timespent, by(maln_underw)
+		ttest timespent, by(dangersigns)
+		ttest timespent, by(cesa)
+		ttest timespent, by(complic)
+
+	
 		/*reg anc1qual chronic
 		margins, at(chronic=(0 1)) post
 		lincom (_b[2._at] - _b[1._at])*/
@@ -55,7 +59,8 @@ global qualvarsKE anc1bp anc1weight anc1height anc1muac anc1blood ///
 		
 		tabstat  $qualvarsKE if site==2, stat(mean count) col(stat) // Kitui
 		tabstat  $qualvarsKE if site==1, stat(mean count) col(stat) // Kiambu
-		tabstat anc1qual, by(site) stat(mean min max)
+		tabstat anc1qual, by(site) stat(mean sd)
+		tabstat timespent, by(site) stat(mean sd)
 		
 		su enrollage gravidity if site==2 // Kitui
 		su enrollage gravidity if site==1 // Kiambu
@@ -68,18 +73,19 @@ global qualvarsKE anc1bp anc1weight anc1height anc1muac anc1blood ///
 		tabstat  $riskfactors if site==1, stat(mean count) col(stat) // Kiambu
 		
 		* Figure 1
-		table chronic, stat(mean anc1qual)
-			ttest anc1qual, by(chronic)
-		table anemic, stat(mean anc1qual)
-			ttest anc1qual, by(anemic)
-		table maln_underw, stat(mean anc1qual)
-			ttest anc1qual, by(maln_underw)
-		table dangersigns, stat(mean anc1qual)
-			ttest anc1qual, by(dangersigns)
-		table cesa, stat(mean anc1qual)
-			ttest anc1qual, by(cesa)
-		table complic, stat(mean anc1qual)
-			ttest anc1qual, by(complic)
+		ttest anc1qual, by(chronic)
+		ttest anc1qual, by(anemic)
+		ttest anc1qual, by(maln_underw)
+		ttest anc1qual, by(dangersigns)
+		ttest anc1qual, by(cesa)
+		ttest anc1qual, by(complic)
+				
+		ttest timespent, by(chronic)
+		ttest timespent, by(anemic)
+		ttest timespent, by(maln_underw)
+		ttest timespent, by(dangersigns)
+		ttest timespent, by(cesa)
+		ttest timespent, by(complic)
 *------------------------------------------------------------------------------*		
 * ZAF
 u "$user/$analysis/ZAtmp.dta", clear 
@@ -91,7 +97,8 @@ global qualvarsZA anc1bp anc1weight anc1height anc1muac anc1blood ///
 		
 		tabstat  $qualvarsZA if site==2, stat(mean count) col(stat) // Nongoma
 		tabstat  $qualvarsZA if site==1, stat(mean count) col(stat) // uMhlathuze
-		tabstat anc1qual, by(site) stat(mean min max)
+		tabstat anc1qual, by(site) stat(mean sd)
+		tabstat timespent, by(site) stat(mean sd)
 		
 		su enrollage gravidity if site==2 // Nongoma
 		su enrollage gravidity if site==1 // uMhlathuze
@@ -103,18 +110,19 @@ global qualvarsZA anc1bp anc1weight anc1height anc1muac anc1blood ///
 		tabstat $riskfactors if site==1, stat(mean count) col(stat) // uMhlathuze
 		
 		* Figure 1
-		table chronic, stat(mean anc1qual)
-			ttest anc1qual, by(chronic)
-		table anemic, stat(mean anc1qual)
-			ttest anc1qual, by(anemic)
-		table maln_underw, stat(mean anc1qual)
-			ttest anc1qual, by(maln_underw)
-		table dangersigns, stat(mean anc1qual)
-			ttest anc1qual, by(dangersigns)
-		table cesa, stat(mean anc1qual)
-			ttest anc1qual, by(cesa)
-		table complic, stat(mean anc1qual)
-			ttest anc1qual, by(complic)
+		ttest anc1qual, by(chronic)
+		ttest anc1qual, by(anemic)
+		ttest anc1qual, by(maln_underw)
+		ttest anc1qual, by(dangersigns)
+		ttest anc1qual, by(cesa)
+		ttest anc1qual, by(complic)
+		
+		ttest timespent, by(chronic)
+		ttest timespent, by(anemic)
+		ttest timespent, by(maln_underw)
+		ttest timespent, by(dangersigns)
+		ttest timespent, by(cesa)
+		ttest timespent, by(complic)
 			
 		table quintile, stat(mean anc1qual)
 		table educ, stat(mean anc1qual)

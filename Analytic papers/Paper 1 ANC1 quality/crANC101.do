@@ -24,7 +24,9 @@ u "$user/$data/Ethiopia/02 recoded data/eco_m1m2_et_der.dta", clear
 		anc1urine ultrasound anc1lmp anc1depression anc1danger_screen ///
 		counsel_nutri counsel_exer counsel_complic counsel_birthplan edd ///
 		counsel_comeback anc1ifa calcium deworm tt anc1itn)
-		
+	
+	rename m1_603 timespent
+	
 * Medical risk factors
 	egen chronic = rowmax(m1_202a m1_202b m1_202c m1_202d m1_202e  m1_202g_et m1_203_et)
 	replace chronic = 0 if m1_203_other=="Anemia" | m1_203_other=="Chronic Sinusitis and tonsil" ///
@@ -33,7 +35,7 @@ u "$user/$data/Ethiopia/02 recoded data/eco_m1m2_et_der.dta", clear
 	| m1_203_other=="Sinusitis" | m1_203_other=="gastric"
 	replace chronic=1 if HBP==1
 	rename malnutrition maln_underw
-
+	rename anemic_11 anemic
 * Obstetric risk factors
 	gen multiple= m1_805 >1 &  m1_805<.
 	gen cesa= m1_1007==1
@@ -65,6 +67,8 @@ u "$user/$data/Kenya/02 recoded data/eco_m1_ke_der.dta", clear
 		counsel_nutri counsel_exer counsel_complic counsel_birthplan edd2 ///
 		counsel_comeback anc1ifa deworm tt anc1itn)
 		
+		rename m1_603 timespent
+		
 *Medical risk factors
 		egen chronic= rowmax(m1_202a m1_202b m1_202c m1_202d m1_202e m1_203c_ke ///
 		m1_203d_ke m1_203e_ke m1_203f_ke m1_203g_ke m1_203h_ke m1_203i_ke ///
@@ -90,7 +94,7 @@ save "$user/$analysis/KEtmp.dta", replace
 * SOUTH AFRICA 
 
 u  "$user/$data/South Africa/02 recoded data/eco_m1_za_der.dta", clear
-									      
+		drop if respondent =="NEL_045"	// missing entire sections 7 and 8		 				      
 		rename  study_site_sd site
 * ANC quality
 		gen edd = anc1edd if trimester>1
@@ -105,6 +109,8 @@ u  "$user/$data/South Africa/02 recoded data/eco_m1_za_der.dta", clear
 		anc1urine anc1lmp anc1depression anc1danger_screen ///
 		counsel_nutri counsel_exer counsel_complic counsel_birthplan edd ///
 		counsel_comeback anc1ifa calcium tt )
+		
+		rename m1_603 timespent
 		
 * Medical risk factors
 		egen chronic= rowmax(m1_202a m1_202b m1_202c m1_202d m1_202e)
