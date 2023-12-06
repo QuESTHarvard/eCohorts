@@ -10,7 +10,7 @@ clear all
 
 *--------------------DATA FILE:
 
-import delimited using "$et_data/Archive/M0_ET_final.csv", clear
+import delimited using "$et_data/M0_ET_final.csv", clear
 
 *------------------------------------------------------------------------------*
 	* STEPS: 
