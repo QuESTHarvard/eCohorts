@@ -6,9 +6,11 @@ Shalom Sabwa, Kate Wright, Catherine Arsenault
 **This repository contains the .do files used to process and analyze data from the MNH: eCohorts.** 
 
 ## About the survey: 
-The MNH E-Cohort data was fielded starting May 2023 in eight sites in Ethiopia, Kenya, India and South Africa. The original E-Cohort survey instruments consist of five modules and are available in the shared Dropbox folder (though some country-specific adaptations may have been included).
+The MNH E-Cohort data was fielded starting April 2023 in eight sites in Ethiopia, Kenya, India and South Africa. The original E-Cohort survey instruments consist of six modules and are available in the shared Dropbox folder (though some country-specific adaptations may have been included).
 
-The five modules consist of:
+The six modules consist of:
+- Module 0 (M0) is a brief health facility assessment in the facilities where women are enrolled.
+  
 - Module 1 (M1) is the baseline in-person recruitment module conducted during the first antenatal care visit.
 
 - Module 2 (M2) is the monthly phone survey follow-up during pregnancy. This is the only module that may be repeated multiple times.
