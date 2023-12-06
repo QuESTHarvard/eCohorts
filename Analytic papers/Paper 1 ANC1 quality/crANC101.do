@@ -35,7 +35,7 @@ u "$user/$data/Ethiopia/02 recoded data/eco_m1m2_et_der.dta", clear
 	| m1_203_other=="Sinusitis" | m1_203_other=="gastric"
 	replace chronic=1 if HBP==1
 	rename malnutrition maln_underw
-
+	rename anemic_11 anemic
 * Obstetric risk factors
 	gen multiple= m1_805 >1 &  m1_805<.
 	gen cesa= m1_1007==1
@@ -94,7 +94,7 @@ save "$user/$analysis/KEtmp.dta", replace
 * SOUTH AFRICA 
 
 u  "$user/$data/South Africa/02 recoded data/eco_m1_za_der.dta", clear
-									      
+		drop if respondent =="NEL_045"	// missing entire sections 7 and 8		 				      
 		rename  study_site_sd site
 * ANC quality
 		gen edd = anc1edd if trimester>1
