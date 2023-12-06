@@ -24,7 +24,9 @@ u "$user/$data/Ethiopia/02 recoded data/eco_m1m2_et_der.dta", clear
 		anc1urine ultrasound anc1lmp anc1depression anc1danger_screen ///
 		counsel_nutri counsel_exer counsel_complic counsel_birthplan edd ///
 		counsel_comeback anc1ifa calcium deworm tt anc1itn)
-		
+	
+	rename m1_603 timespent
+	
 * Medical risk factors
 	egen chronic = rowmax(m1_202a m1_202b m1_202c m1_202d m1_202e  m1_202g_et m1_203_et)
 	replace chronic = 0 if m1_203_other=="Anemia" | m1_203_other=="Chronic Sinusitis and tonsil" ///
@@ -64,6 +66,8 @@ u "$user/$data/Kenya/02 recoded data/eco_m1_ke_der.dta", clear
 		anc1urine ultrasound anc1lmp anc1depression  ///
 		counsel_nutri counsel_exer counsel_complic counsel_birthplan edd2 ///
 		counsel_comeback anc1ifa deworm tt anc1itn)
+		
+		rename m1_603 timespent
 		
 *Medical risk factors
 		egen chronic= rowmax(m1_202a m1_202b m1_202c m1_202d m1_202e m1_203c_ke ///
@@ -105,6 +109,8 @@ u  "$user/$data/South Africa/02 recoded data/eco_m1_za_der.dta", clear
 		anc1urine anc1lmp anc1depression anc1danger_screen ///
 		counsel_nutri counsel_exer counsel_complic counsel_birthplan edd ///
 		counsel_comeback anc1ifa calcium tt )
+		
+		rename m1_603 timespent
 		
 * Medical risk factors
 		egen chronic= rowmax(m1_202a m1_202b m1_202c m1_202d m1_202e)
