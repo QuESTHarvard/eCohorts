@@ -171,7 +171,7 @@ u "$et_data_final/eco_m1m2_et.dta", clear
 	* SECTION 12: ECONOMIC STATUS AND OUTCOMES
 			*Asset variables
 			recode  m1_1201 (2 4 6 96=0) (3=1), gen(safewater) // 96 is Roto tanks or tanker 
-			recode  m1_1202 (2=1) (3=0), gen(toilet)
+			recode  m1_1202 (2=1) (3=0), gen(toilet) // flush/ pour flush toilet and pit laterine =improved 
 			gen electr = m1_1203
 			gen radio = m1_1204
 			gen tv = m1_1205
@@ -272,6 +272,7 @@ u "$et_data_final/eco_m1m2_et.dta", clear
 	lab var malnutrition "Acute malnutrition MUAC<23"
 	lab var BMI "Body mass index"
 	lab var low_BMI "BMI below 18.5 (low)"
-	
+
+	order facility_own facility_lvl, after(facility)
 	
 save "$et_data_final/eco_m1m2_et_der.dta", replace

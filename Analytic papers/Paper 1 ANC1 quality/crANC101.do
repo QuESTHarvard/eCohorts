@@ -50,6 +50,11 @@ u "$user/$data/Ethiopia/02 recoded data/eco_m1m2_et_der.dta", clear
 	gen minority= m1_507
 	recode minority (1 2 4=0) (3 5 96=1) // protestants, indigenous & other
 	
+* Facility types
+	gen private= facility_lvl==3
+	gen primary= facility_lvl==1
+
+	
 save "$user/$analysis/ETtmp.dta", replace
 
 *------------------------------------------------------------------------------*		
@@ -57,6 +62,7 @@ save "$user/$analysis/ETtmp.dta", replace
 
 u "$user/$data/Kenya/02 recoded data/eco_m1_ke_der.dta", clear
 		rename study_site site
+		egen tag=tag(facility)
 * ANC quality
 		gen ultrasound = anc1ultrasound if trimester>2
 		gen edd2 = anc1edd if trimester>1
@@ -96,6 +102,10 @@ u "$user/$data/Kenya/02 recoded data/eco_m1_ke_der.dta", clear
 		gen second=educ_cat>=3
 		gen minority = m1_501
 		recode minority (4 =1) (-96 1 2 3 5/9=0) //  kikamba vs other
+		
+* Facility types
+	gen private= facility_lvl==3
+	gen primary= facility_lvl==1
 save "$user/$analysis/KEtmp.dta", replace
 
 *------------------------------------------------------------------------------*	
@@ -140,5 +150,9 @@ u  "$user/$data/South Africa/02 recoded data/eco_m1_za_der.dta", clear
 		gen second=educ_cat>=3
 		gen minority = m1_507
 		recode minority (5=1) (1 3 6=0) // African religion vs christian and other
+* Facility types
+	gen private= 0
+	gen primary=1
+	gen facility_lvl=1
 	
 save "$user/$analysis/ZAtmp.dta", replace
