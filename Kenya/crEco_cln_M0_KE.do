@@ -8,7 +8,8 @@
 clear all  
 
 *--------------------DATA FILE:
-import delimited using "$ke_data/Module 0/MNHECOHORTSModule0Fa_DATA_2023-10-11_1541.csv", clear
+import excel using "$ke_data/Module 0/MNHECOHORTSModule0Fa_DATA_2023-12-07_1419 updated.xlsx", firstrow clear //new data sent DEC 7 2023
+
 *import delimited "C:\Users\wench\Desktop\ECohort study\cleaning dataset\KenyaM0\MNHECOHORTSModule0Fa_DATA_2023-10-11_1541", clear
 
 *------------------------------------------------------------------------------*
@@ -30,7 +31,7 @@ rename (facility_kiambu facility_kitui) (m0_facility_kiambu_ke m0_facility_kitui
 rename (catchment_area catchment_pop) (m0_a13 m0_a14)
 
 egen facility=rowmax(m0_facility_kiambu_ke m0_facility_kitui_ke)
-replace facility=21 if facility==9 & m0_a4_site==1 //
+replace facility=21 if facility==9 & m0_a4_site==1 // Kiambu facility 9 is St. Teresas Nursing Home
 recode facility 1=7 2=2 3=1 4=21 5=10 6=4 7=11 8=18 9=6 10=9 11=8 12=15 13=16 ///
                 14=20 15=5 16=13 17=17 18=14 19=12 20=3 21=19
 
@@ -129,11 +130,23 @@ lab var m0_114b "M0-114b. Lab tech: Part time?"
 lab var m0_114c "M0-114c. Lab tech: How many vacancies are there?"
 lab var m0_114d "M0-114d. Lab tech: How many currently provide obsetric and newborn care"
 
-* need to label m0_famphy_a_ke m0_famphy_b_ke m0_famphy_c_ke m0_famphy_d_ke
-*               m0_nutritionist_a_ke m0_nutritionist_b_ke m0_nutritionist_c_ke m0_nutritionist_d_ke
-*               m0_mointern_a_ke m0_cointern_b_ke
-*               m0_rad_a_ke m0_rad_b_ke m0_rad_c_ke m0_rad_d_ke
-* (could not find labeling in the codebook)
+lab var m0_famphy_a_ke "KE-specific: Family physicians: How many are currently assigned, employed, or seconded? "
+lab var m0_famphy_b_ke "KE-specific: Family physicians: Part time?"
+lab var m0_famphy_c_ke "KE-specific: Family physicians: How many vacancies are there?"
+lab var m0_famphy_d_ke "KE-specific: Family physicians: How many currently provide obsetric and newborn care"
+
+lab var m0_nutritionist_a_ke "KE-specific: Nutritionists: How many are currently assigned, employed, or seconded? "
+lab var m0_nutritionist_b_ke "KE-specific: Nutritionists: Part time?"
+lab var m0_nutritionist_c_ke "KE-specific: Nutritionists: How many vacancies are there?"
+lab var m0_nutritionist_d_ke "KE-specific: Nutritionists: How many currently provide obsetric and newborn care"
+  
+lab var m0_rad_a_ke "KE-specific: Radiologists: How many are currently assigned, employed, or seconded? "
+lab var m0_rad_b_ke "KE-specific: Radiologists: Part time?"
+lab var m0_rad_c_ke "KE-specific: Radiologists: How many vacancies are there?"
+lab var m0_rad_d_ke "KE-specific: Radiologists: How many currently provide obsetric and newborn care"
+
+* Need to label vars: m0_mointern_a_ke m0_cointern_b_ke
+*  (could not find labeling in the codebook)
  
 *label var m0_115 "M0-115. Physically present Monday-Friday during the day"
 *label var m0_116 "M0-116. On call Monday-Friday during the day"
@@ -564,6 +577,7 @@ lab val facility facility
 
 order m0_*, sequential
 order m0_a4_site facility 
+order m0_famphy_a_ke-m0_rad_d_ke, after(m0_114d) 
 
 * STEP THREE: RECODING MISSING VALUES
 
