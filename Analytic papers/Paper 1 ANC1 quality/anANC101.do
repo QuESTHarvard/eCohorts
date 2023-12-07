@@ -1,4 +1,5 @@
 
+cd "$user/$analysis"
 * Ethiopia
 u "$user/$analysis/ETtmp.dta", clear
 
@@ -48,12 +49,14 @@ global qualvarsKE anc1bp anc1weight anc1height anc1muac anc1blood ///
 		anc1urine ultrasound anc1lmp anc1depression  ///
 		counsel_nutri counsel_exer counsel_complic counsel_birthplan edd2 ///
 		counsel_comeback anc1ifa deworm tt anc1itn
-		
+	
+	* Table 1 ANC quality 
 		tabstat  $qualvarsKE if site==2, stat(mean count) col(stat) // Kitui
 		tabstat  $qualvarsKE if site==1, stat(mean count) col(stat) // Kiambu
 		tabstat anc1qual, by(site) stat(mean sd)
 		tabstat timespent, by(site) stat(mean sd)
-		
+	
+	* Table 2 Demog & health 
 		summtab , contvars(enrollage) catvars(second quintile minority marriedp ///
 		primipara preg_intent trimester ) mean by(site) excel ///
 		excelname(Table2) sheetname(KE_demog) replace 
@@ -61,6 +64,11 @@ global qualvarsKE anc1bp anc1weight anc1height anc1muac anc1blood ///
 		summtab, catvars(chronic anemic maln_underw dangersigns cesa complic) mean by(site) excel ///
 		excelname(Table2) sheetname(KE_risk) replace 
 		
+	* Table 3 Facility type
+		summtab if tag==1, catvars(private primary doc_ft) contvars (sri_basicamenities ///
+		sri_equip sri_diag total_staff beds) mean by(site) excel ///
+		excelname(Table3) sheetname(KE) replace 
+	
 		* Figure 1
 		ttest anc1qual, by(chronic)
 		ttest anc1qual, by(anemic)
@@ -75,6 +83,9 @@ global qualvarsKE anc1bp anc1weight anc1height anc1muac anc1blood ///
 		ttest timespent, by(dangersigns)
 		ttest timespent, by(cesa)
 		ttest timespent, by(complic)
+		
+		scatter anc1qual sri_score
+		
 *------------------------------------------------------------------------------*		
 * ZAF
 u "$user/$analysis/ZAtmp.dta", clear 

@@ -21,13 +21,18 @@ import delimited using "$ke_data/Module 0/MNHECOHORTSModule0Fa_DATA_2023-10-11_1
 		* STEP SIX: SAVE DATA
 
 *------------------------------------------------------------------------------*
+	* STEP ONE: RENAME VARIABLES
 
-	* STEP ONE: RENAME VARAIBLES
 * Meta data 
 rename (latitude longitude) (m0_latitude m0_longitude)
 rename (date_time county_name interviewer_name) (m0_datetime_ke m0_a4_site m0_id)
 rename (facility_kiambu facility_kitui) (m0_facility_kiambu_ke m0_facility_kitui_ke)
 rename (catchment_area catchment_pop) (m0_a13 m0_a14)
+
+egen facility=rowmax(m0_facility_kiambu_ke m0_facility_kitui_ke)
+replace facility=21 if facility==9 & m0_a4_site==1 //
+recode facility 1=7 2=2 3=1 4=21 5=10 6=4 7=11 8=18 9=6 10=9 11=8 12=15 13=16 ///
+                14=20 15=5 16=13 17=17 18=14 19=12 20=3 21=19
 
 lab var m0_latitude "Latitude"
 lab var m0_longitude "Longitude"		
@@ -142,7 +147,7 @@ lab var m0_114d "M0-114d. Lab tech: How many currently provide obsetric and newb
 * 2. Basic amenities 
 rename (beds_total beds_obs beds_del labor_space post_del_space elec_grid elec_intrptn gen_solar) ///
 	   (m0_201 m0_202 m0_203 m0_204 m0_205 m0_206 m0_207 m0_208)
-
+		
 rename (other_elec_src___1 other_elec_src___2 other_elec_src___3 other_elec_src___4 other_elec_src___98 other_elec) ///
        (m0_209a_et m0_209b_et m0_209c_et m0_209d_et m0_209e_et m0_209_other)  
 	   
@@ -538,5 +543,41 @@ rename (add_comments facility_case_summary_complete) (m0_additionalcomments_ke m
 lab var m0_additionalcomments_ke "M0-additionalcomments-ke. Additional comments and observations"
 lab var m0_complete_et "M0-complete-et. Complete?"
 
+* STEP TW0: ADD VALUE LABELS
+
+lab def m0_a4_site 1"Kiambu" 2"Kitui"
+lab val m0_a4_site m0_a4_site
+
+lab def facility 1"Githunguri health centre" 2"Igegania sub district hospital" 3"Ikutha Sub County Hospital" ///
+				 4"Kalimoni mission hospital" 5"Katse Health Centre" 6"Kauwi Sub County Hospital" ///
+				 7"Kiambu County referral hospital" 8"Kisasi Health Centre (Kitui Rural)" ///
+				 9"Kitui County Referral Hospital" 10"Makongeni dispensary" 11"Mercylite hospital" ///
+				 12"Mulango (AIC) Health Centre" 13"Muthale Mission Hospital" 14"Neema Hospital" ///
+				 15"Ngomeni Health Centre" 16"Nuu Sub County Hospital" 17"Our Lady of Lourdes Mutomo Hospital" ///
+				 18 "Plainsview nursing home" 19 "St. Teresas Nursing Home" 20"Waita Health Centre" ///
+				 21 "Wangige Sub-County Hospital"
+lab val facility facility
+
+
+
+* STEP FIVE: ORDER VARIABLES
+
+order m0_*, sequential
+order m0_a4_site facility 
+
+* STEP THREE: RECODING MISSING VALUES
+
+foreach v in  m0_101a m0_101b m0_101c m0_101d m0_102a m0_102b m0_102c m0_102d m0_103a ///
+	m0_103b m0_103c m0_103d m0_104a m0_104b m0_104c m0_104d m0_105a m0_105b m0_105c m0_105d ///
+	m0_106a m0_106b m0_106c m0_106d m0_108a m0_108b m0_108c m0_108d m0_109a m0_109b m0_109c ///
+	m0_109d m0_110a m0_110b m0_110c m0_110d m0_111a m0_111b m0_111c m0_111d m0_112a m0_112b ///
+	m0_112c m0_112d m0_113a m0_113b m0_113c m0_113d m0_114a m0_114b m0_114c m0_114d m0_201 ///
+	m0_202 m0_203 {
+	recode `v' 999=.
+}
+
+replace m0_201 = m0_202 + m0_203 if m0_201==. // beds total was missing in 1 facility 
+
 save "$ke_data_final/eco_m0_ke.dta", replace
+
 		
