@@ -2,7 +2,6 @@
 * Created by S. Sabwa
 * Updated: Oct 24 2023 
 
-
 *------------------------------------------------------------------------------*
 
 * Import Data 
@@ -11,14 +10,21 @@ clear all
 *--------------------DATA FILE:
 
 import delimited using "$et_data/M0_ET_final.csv", clear
+keep if  a5_facility_name_m0==96 // St Francis
+save "$et_data_final/eco_m0_et.dta", replace
+
+import delimited using "$et_data/Module0Report_DATA_2023-04-03_0740_Full_Dec.07csv.csv", clear
+drop if nameoffacility=="Catholic Church Primary Clinic"
+append using "$et_data_final/eco_m0_et.dta", force
+
 
 *------------------------------------------------------------------------------*
 	* STEPS: 
 		* STEP ONE: RENAME VARIABLES (starts at: line 29)
-		* STEP TW0: ADD VALUE LABELS (starts at: line 214)
-		* STEP THREE: RECODING MISSING VALUES (starts at: line 903)
-		* STEP FOUR: LABELING VARIABLES (starts at: line 1688)
-		* STEP FIVE: ORDER VARIABLES (starts at: line 2379)
+		* STEP TW0: ADD VALUE LABELS (starts at: )
+		* STEP THREE: RECODING MISSING VALUES (starts at: )
+		* STEP FOUR: LABELING VARIABLES (starts at: )
+		* STEP FIVE: ORDER VARIABLES (starts at: )
 		* STEP SIX: SAVE DATA
 
 *------------------------------------------------------------------------------*
@@ -34,7 +40,7 @@ rename (a1_date_time_of_interview_m0 a2_region_name_m0 a3_zone_sub_city_name_m0 
 		m0_a4_woreda_et_oth m0_id)
 
 rename (a5_facility_name_m0 specify_the_facility_name_m0) (m0_a5_fac m0_a5_fac_oth)
-
+		
 rename (a6_facility_type_m0 a8_facility_ownership_m0 specify_facility_ownership_m0 a9_urban_rural_m0 ///
 		a13_does_this_facility_hav_m0 a14_how_many_people_are_m0) (m0_a6_fac_type m0_a8_fac_own ///
 		m0_a8_fac_own_oth m0_a9_urban m0_a13 m0_a14)
@@ -201,8 +207,6 @@ rename (blood_glucose_tests_using_426 haemoglobin_testing_427 general_microscopy
 rename (x_ray_machine_432 ultrasound_equipment_433 ct_scan_434 ecg_435 does_this_facility_ever_501 to_which_facility_does_thi) ///
 	   (m0_432 m0_433 m0_434 m0_435 m0_501 m0_502)
 	   
-
-
 rename (what_strategies_does_503___1 what_strategies_does_503___2 what_strategies_does_503___3 what_strategies_does_503___4 ///
 		what_strategies_does_503___5 what_strategies_does_503___6 after_this_facility_refers_504 does_this_facility_have_505 ///
 		does_this_facility_ever_506 is_there_a_system_for_507 does_this_facility_have_508 eth_1_5_does_the_maternal ///
@@ -307,9 +311,19 @@ rename (january_instrumental_deliveries february_instrumental_deliveries march_i
 		m0_814_dec_et m0_815_jan_et m0_815_feb_et m0_815_mar_et m0_815_apr_et m0_815_may_et m0_815_jun_et ///
 		m0_815_jul_et m0_815_aug_et m0_815_sep_et m0_815_oct_et m0_815_nov_et m0_815_dec_et m0_complete_et)
 
-		                  
+* STEP TWO: ADD VALUE LABELS		                  
+gen facility = m0_a5_fac
+lab def facility 1"Meki Catholic Primary Clinic (01)" 2"Bote Health Center (02)" ///
+	3"Meki Health Center (03)" 4"Adami Tulu Health Center (04)" 5"Bulbula Health Center (05)" ///
+	6"Dubisa Health Center (06)" 7"Olenchiti Primary Hospital (07)" 8"Awash Malkasa Health Center (08)" ///
+	9"koka Health Center (09)" 10"Biyo Health Center (10)" 11"Ejersa Health Center (11)" ///
+	13"Noh Primary Clinic (13)" 14"Adama Health Center (14)" 15"Family Guidance Nazret Specialty Clinic" ///
+	16"Biftu (16)" 17"Bokushenen (17)" 18"Adama Teaching Hospital (18)" 19"Hawas (19)" ///
+	20"Medhanialem Hospital (20)" 21"Sister Aklisiya Hospital (21)" 22"Marie stopes Specialty Clinic (22)" 96"St. Francis Catholic Health Center (23)"
+lab val facility facility 
 
 
+* STEP FOUR: LABELING VARIABLES
 lab var m0_101a "M0-101a. Medical doctor: How many are currently assigned, employed, or seconded?"
 lab var m0_101b "M0-101b. Medical doctor: Part time?"
 lab var m0_101c "M0-101c. Medical doctor: How many vacancies are there?"
@@ -823,7 +837,7 @@ lab var m0_815_nov_et "M0-815.11. Number of early neonatal death (first 24 hours
 lab var m0_815_dec_et "M0-815.12. Number of early neonatal death (first 24 hours) for December"
 
 
-*save "$et_data_final/eco_m0_et.dta", replace
+save "$et_data_final/eco_m0_et.dta", replace
 
 
 
