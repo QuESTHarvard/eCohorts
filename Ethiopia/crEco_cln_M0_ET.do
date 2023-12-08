@@ -29,7 +29,7 @@ append using "$et_data_final/eco_m0_et.dta", force
 
 *------------------------------------------------------------------------------*
 
-drop a10_name_of_the_person_m0 a11_landline_phone_number_m0 a12_personal_phone_of_the_m0
+drop a10_name_of_the_person_m0 a11_landline_phone_number_m0 a12_personal_phone_of_the_m0 nameoffacility
 
 	* STEP ONE: RENAME VARAIBLES
  
@@ -324,6 +324,7 @@ lab val facility facility
 
 
 * STEP FOUR: LABELING VARIABLES
+lab var facility "Facility name and ID"
 lab var m0_101a "M0-101a. Medical doctor: How many are currently assigned, employed, or seconded?"
 lab var m0_101b "M0-101b. Medical doctor: Part time?"
 lab var m0_101c "M0-101c. Medical doctor: How many vacancies are there?"
@@ -384,10 +385,10 @@ lab var m0_112b "M0-112b. Health officer: Part time?"
 lab var m0_112c "M0-112c. Health officer: How many vacancies are there?"
 lab var m0_112d "M0-112d. Health officer: How many currently provide obsetric and newborn care"
 
-lab var m0_113a "M0-113a. Anesthesiologist: How many are currently assigned, employed, or seconded?"
-lab var m0_113b "M0-113b. Anesthesiologist: Part time?"
-lab var m0_113c "M0-113c. Anesthesiologist: How many vacancies are there?"
-lab var m0_113d "M0-113d. Anesthesiologist: How many currently provide obsetric and newborn care"
+lab var m0_113a "M0-113a. Anesthetist: How many are currently assigned, employed, or seconded?"
+lab var m0_113b "M0-113b. Anesthetist: Part time?"
+lab var m0_113c "M0-113c. Anesthetist: How many vacancies are there?"
+lab var m0_113d "M0-113d. Anesthetist: How many currently provide obsetric and newborn care"
 
 lab var m0_114a "M0-114a. Lab tech: How many are currently assigned, employed, or seconded?"
 lab var m0_114b "M0-114b. Lab tech: Part time?"
@@ -835,6 +836,13 @@ lab var m0_815_sep_et "M0-815.9. Number of early neonatal death (first 24 hours)
 lab var m0_815_oct_et "M0-815.10. Number of early neonatal death (first 24 hours) for October"
 lab var m0_815_nov_et "M0-815.11. Number of early neonatal death (first 24 hours) for November"
 lab var m0_815_dec_et "M0-815.12. Number of early neonatal death (first 24 hours) for December"
+
+* STEP FIVE: ORDER VARIABLES
+
+order m0_*, sequential
+order record_id redcap_event_name m0_a1_date m0_a2_site m0_a3_subsite m0_a4_woreda_et m0_a4_woreda_et_oth m0_a5_fac facility
+
+* STEP THREE: RECODING MISSING VALUES
 
 
 save "$et_data_final/eco_m0_et.dta", replace
