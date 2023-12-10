@@ -3,6 +3,18 @@ global user "/Users/catherine.arsenault"
 global analysis "Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH E-Cohorts-internal/Analyses/Manuscripts/Paper 1 ANC1 quality"
 global data "Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data"
 
+* COUNTRY-SPECIFIC REGRESSIONS
+*------------------------------------------------------------------------------*
+	global demog enrollage second quintile minority marriedp primipara preg_intent firsttrim
+	global health_needs chronic anemic maln_underw dangersigns cesa complic
+	global facility private facsecond sri_basic sri_equip sri_diag total_staff ftdoc beds 
+	
+* ETHIOPIA
+	u "$user/$analysis/ETtmp.dta", clear
+		keep site anc1qual facility tag $demog $health_needs $facility anc_vol_staff_onc
+		
+		
+
 * REGRESSIONS
 *------------------------------------------------------------------------------*
 	global demog enrollage second quintile minority marriedp primipara preg_intent firsttrim
@@ -35,12 +47,10 @@ global data "Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts 
 		lab def site 1 "East Shewa" 2 "Adama Town" 3"Kitui" 4 "Kiambu"  5 "Nongoma" 6 "uMhlathuze"
 		lab val site site
 		
-	/*mixed enrollage second quintile minority marriedp primipara preg_intent ///
-		 chronic anemic maln_underw dangersigns cesa complic ///
-		trimester private primary doc_ft sri_basic sri_equip sri_diag total_staff beds i.site || facility: */
-	
+
 	* Full model
-	qui mixed anc1qual $demog $health_needs $visit $facility i.site || facility: , vce(robust)
+	qui mixed anc1qual enrollage second i.quintile minority marriedp primipara preg_intent firsttrim /// 
+					   $health_needs $facility i.site || facility: , vce(robust)
 	
 	* Null model with no covariates
 	mixed anc1qual || facility:  if e(sample) ==1, vce(robust)
