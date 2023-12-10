@@ -1,26 +1,32 @@
 
-cd "$user/$analysis"
+
 * Ethiopia
 u "$user/$analysis/ETtmp.dta", clear
-
+cd "$user/$analysis"
 global qualvarsET anc1bp anc1weight anc1height anc1muac anc1blood ///
 		anc1urine ultrasound anc1lmp anc1depression anc1danger_screen ///
 		counsel_nutri counsel_exer counsel_complic counsel_birthplan edd ///
 		counsel_comeback anc1ifa calcium deworm tt anc1itn
-		
+	* Table 1 ANC quality	
 		tabstat  $qualvarsET if site==2, stat(mean count) col(stat) // East Shewa
 		tabstat  $qualvarsET if site==1, stat(mean count) col(stat) // Adama
 		tabstat anc1qual, by(site) stat(mean sd )
 		tabstat timespent, by(site) stat(mean sd )
-				
+		
+	* Table 2 Demog & health 		
 		summtab , contvars(enrollage) catvars(second quintile minority marriedp ///
 		primipara preg_intent trimester ) mean by(site) excel ///
 		excelname(Table2) sheetname(ETH_demog) replace 
-		
+	
 		summtab, catvars(chronic anemic maln_underw dangersigns cesa complic) mean by(site) excel ///
 		excelname(Table2) sheetname(ETH_risk) replace 
-		
-		* Figure 1
+	
+	* Table 3 Facility characteristics
+		summtab if tag==1, catvars(private facsecond ftdoc) contvars (sri_basicamenities ///
+		sri_equip sri_diag total_staff anc_mont anc_vol_staff_onc beds) mean by(site) excel ///
+		excelname(Table3) sheetname(ET) replace 
+	
+	* Figure 1
 		ttest anc1qual, by(chronic)
 		ttest anc1qual, by(anemic)
 		ttest anc1qual, by(maln_underw)
@@ -44,7 +50,7 @@ global qualvarsET anc1bp anc1weight anc1height anc1muac anc1blood ///
 * Kenya
 
 u "$user/$analysis/KEtmp.dta", clear
-
+cd "$user/$analysis"
 global qualvarsKE anc1bp anc1weight anc1height anc1muac anc1blood ///
 		anc1urine ultrasound anc1lmp anc1depression  ///
 		counsel_nutri counsel_exer counsel_complic counsel_birthplan edd2 ///
@@ -64,9 +70,9 @@ global qualvarsKE anc1bp anc1weight anc1height anc1muac anc1blood ///
 		summtab, catvars(chronic anemic maln_underw dangersigns cesa complic) mean by(site) excel ///
 		excelname(Table2) sheetname(KE_risk) replace 
 		
-	* Table 3 Facility type
-		summtab if tag==1, catvars(private primary doc_ft) contvars (sri_basicamenities ///
-		sri_equip sri_diag total_staff beds) mean by(site) excel ///
+	* Table 3 Facility characteristics
+		summtab if tag==1, catvars(private facsecond ftdoc) contvars (sri_basicamenities ///
+		sri_equip sri_diag total_staff anc_mont anc_vol_staff_onc beds) mean by(site) excel ///
 		excelname(Table3) sheetname(KE) replace 
 	
 		* Figure 1
@@ -89,7 +95,7 @@ global qualvarsKE anc1bp anc1weight anc1height anc1muac anc1blood ///
 *------------------------------------------------------------------------------*		
 * ZAF
 u "$user/$analysis/ZAtmp.dta", clear 
-
+cd "$user/$analysis"
 global qualvarsZA anc1bp anc1weight anc1height anc1muac anc1blood ///
 		anc1urine anc1lmp anc1depression anc1danger_screen ///
 		counsel_nutri counsel_exer counsel_complic counsel_birthplan edd ///
@@ -107,6 +113,11 @@ global qualvarsZA anc1bp anc1weight anc1height anc1muac anc1blood ///
 		summtab, catvars(chronic anemic maln_underw dangersigns cesa complic) mean by(site) excel ///
 		excelname(Table2) sheetname(ZA_risk) replace 
 		
+		* Table 3 Facility characteristics
+		summtab if tag==1, catvars(private facsecond ftdoc) contvars (sri_basicamenities ///
+		sri_equip sri_diag total_staff  beds) mean by(site) excel ///
+		excelname(Table3) sheetname(ZA) replace 
+
 		* Figure 1
 		ttest anc1qual, by(chronic)
 		ttest anc1qual, by(anemic)

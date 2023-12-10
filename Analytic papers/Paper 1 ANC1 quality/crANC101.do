@@ -8,7 +8,7 @@ global data "Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts 
 
 u "$user/$data/Ethiopia/02 recoded data/eco_m1m2_et_der.dta", clear	
 	keep if b7eligible==1  & m1_complete==2 // keep baseline data only
-	
+	egen tag=tag(facility)
 * ANC quality
 	gen ultrasound = anc1ultrasound if trimester>2
 	gen edd = anc1edd if trimester>1
@@ -49,11 +49,7 @@ u "$user/$data/Ethiopia/02 recoded data/eco_m1m2_et_der.dta", clear
 	gen second=educ_cat>=3
 	gen minority= m1_507
 	recode minority (1 2 4=0) (3 5 96=1) // protestants, indigenous & other
-	
-* Facility types
-	gen private= facility_lvl==3
-	gen primary= facility_lvl==1
-
+	gen firsttrim= trimester==1
 	
 save "$user/$analysis/ETtmp.dta", replace
 
@@ -102,10 +98,7 @@ u "$user/$data/Kenya/02 recoded data/eco_m1_ke_der.dta", clear
 		gen second=educ_cat>=3
 		gen minority = m1_501
 		recode minority (4 =1) (-96 1 2 3 5/9=0) //  kikamba vs other
-		
-* Facility types
-	gen private= facility_lvl==3
-	gen primary= facility_lvl==1
+		gen firsttrim= trimester==1
 save "$user/$analysis/KEtmp.dta", replace
 
 *------------------------------------------------------------------------------*	
@@ -114,6 +107,7 @@ save "$user/$analysis/KEtmp.dta", replace
 u  "$user/$data/South Africa/02 recoded data/eco_m1_za_der.dta", clear
 		drop if respondent =="NEL_045"	// missing entire sections 7 and 8		 				      
 		rename  study_site_sd site
+		egen tag=tag(facility)
 * ANC quality
 		gen edd = anc1edd if trimester>1
 		gen calcium = anc1calcium if trimester>1
@@ -150,9 +144,9 @@ u  "$user/$data/South Africa/02 recoded data/eco_m1_za_der.dta", clear
 		gen second=educ_cat>=3
 		gen minority = m1_507
 		recode minority (5=1) (1 3 6=0) // African religion vs christian and other
+		gen firsttrim= trimester==1
 * Facility types
-	gen private= 0
-	gen primary=1
-	gen facility_lvl=1
+	gen private=0
+	gen facsecond=0
 	
 save "$user/$analysis/ZAtmp.dta", replace

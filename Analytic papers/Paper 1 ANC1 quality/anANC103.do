@@ -2,34 +2,36 @@
 global user "/Users/catherine.arsenault"
 global analysis "Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH E-Cohorts-internal/Analyses/Manuscripts/Paper 1 ANC1 quality"
 global data "Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data"
-	
-	global demog enrollage second quintile minority marriedp primipara preg_intent trimester
+
+* REGRESSIONS
+*------------------------------------------------------------------------------*
+	global demog enrollage second quintile minority marriedp primipara preg_intent firsttrim
 	global health_needs chronic anemic maln_underw dangersigns cesa complic
-	global facility private primary 
+	global facility private facsecond sri_basic sri_equip sri_diag total_staff ftdoc beds 
 	
 * Appending datasets
 	u "$user/$analysis/ETtmp.dta", clear
-		keep site anc1qual facility facility_lvl $demog $health_needs $facility
+		keep site anc1qual facility tag $demog $health_needs $facility anc_vol_staff_onc
 		recode site 2=1 1=2
-		recode facility 96=23
+		recode facility 13=12 14=13 15=14 16=15 17=16 18=17 19=18 20=19 21=20 22=21 96=22
+		lab drop facility
 		save "$user/$analysis/4cos.dta", replace
 		
 	u "$user/$analysis/KEtmp.dta", clear
-		keep site anc1qual  facility facility_lvl $demog $health_needs $facility  doc_ft sri_basic sri_equip sri_diag total_staff beds
+		keep site anc1qual  facility tag  $demog $health_needs $facility  anc_vol_staff_onc
 		recode site 1=4 2=3
 		replace facility= facility+22
 		append using "$user/$analysis/4cos.dta"
 		save "$user/$analysis/4cos.dta", replace
 		
 	u "$user/$analysis/ZAtmp.dta", clear 
-		keep site anc1qual anc1qual  facility facility_lvl $demog $health_needs $facility
+		keep site anc1qual facility tag $demog $health_needs $facility
 		recode site 1=6 2=5
 		replace facility= facility+43
 		append using "$user/$analysis/4cos.dta"
 		save "$user/$analysis/4cos.dta", replace
 		
-		
-	
+
 		lab def site 1 "East Shewa" 2 "Adama Town" 3"Kitui" 4 "Kiambu"  5 "Nongoma" 6 "uMhlathuze"
 		lab val site site
 		
