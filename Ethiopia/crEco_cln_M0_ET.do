@@ -1,5 +1,5 @@
 * Ethiopia ECohort Data Cleaning File 
-* Created by S. Sabwa
+* Created by S. Sabwa & N. Kapoor
 * Updated: Oct 24 2023 
 
 *------------------------------------------------------------------------------*
@@ -10,13 +10,12 @@ clear all
 *--------------------DATA FILE:
 
 import delimited using "$et_data/M0_ET_final.csv", clear
-keep if  a5_facility_name_m0==96 // St Francis
+keep if  a5_facility_name_m0==96 // St Francis 
 save "$et_data_final/eco_m0_et.dta", replace
 
 import delimited using "$et_data/Module0Report_DATA_2023-04-03_0740_Full_Dec.07csv.csv", clear
-drop if nameoffacility=="Catholic Church Primary Clinic"
+drop if nameoffacility=="Catholic Church Primary Clinic" // no women recruited
 append using "$et_data_final/eco_m0_et.dta", force
-
 
 *------------------------------------------------------------------------------*
 	* STEPS: 
@@ -29,7 +28,7 @@ append using "$et_data_final/eco_m0_et.dta", force
 
 *------------------------------------------------------------------------------*
 
-drop a10_name_of_the_person_m0 a11_landline_phone_number_m0 a12_personal_phone_of_the_m0 nameoffacility
+drop a10_name_of_the_person_m0 a11_landline_phone_number_m0 a12_personal_phone_of_the_m0 nameoffacility specify_facility_ownership_m0 
 
 	* STEP ONE: RENAME VARAIBLES
  
@@ -41,9 +40,9 @@ rename (a1_date_time_of_interview_m0 a2_region_name_m0 a3_zone_sub_city_name_m0 
 
 rename (a5_facility_name_m0 specify_the_facility_name_m0) (m0_a5_fac m0_a5_fac_oth)
 		
-rename (a6_facility_type_m0 a8_facility_ownership_m0 specify_facility_ownership_m0 a9_urban_rural_m0 ///
+rename (a6_facility_type_m0 a8_facility_ownership_m0 a9_urban_rural_m0 ///
 		a13_does_this_facility_hav_m0 a14_how_many_people_are_m0) (m0_a6_fac_type m0_a8_fac_own ///
-		m0_a8_fac_own_oth m0_a9_urban m0_a13 m0_a14)
+		m0_a9_urban m0_a13 m0_a14)
 		
 * NOTE - in the main M0 tool on dropbox, numbering is off for A4-A8 (there's duplicate A4-A6), and differs from Ethiopia tool
 * Because of the issues in the main tool, I used the numbering in the Ethiopia tool for var names
@@ -61,7 +60,6 @@ lab var m0_a5_fac "M0-A5. Facility name"
 lab var m0_a5_fac_oth "M0-A5. Facility name (other)"
 lab var m0_a6_fac_type "M0-6. Facility type"
 lab var m0_a8_fac_own "M0-A8. Facilility ownership"
-lab var m0_a8_fac_own_oth "M0-A8. Facilility ownership (other)"
 lab var m0_a9_urban "M0-A9. Urban/rural"
 lab var m0_a13 "M0-A13. Does this facility have a specified catchment area?"
 lab var m0_a14 "M0-A14. How many people are supposed to be in the catchment area for this fac..?"
@@ -312,16 +310,22 @@ rename (january_instrumental_deliveries february_instrumental_deliveries march_i
 		m0_815_jul_et m0_815_aug_et m0_815_sep_et m0_815_oct_et m0_815_nov_et m0_815_dec_et m0_complete_et)
 
 * STEP TWO: ADD VALUE LABELS		                  
-gen facility = m0_a5_fac
-lab def facility 1"Meki Catholic Primary Clinic (01)" 2"Bote Health Center (02)" ///
+	gen facility = m0_a5_fac
+
+	lab def facility 1"Meki Catholic Primary Clinic (01)" 2"Bote Health Center (02)" ///
 	3"Meki Health Center (03)" 4"Adami Tulu Health Center (04)" 5"Bulbula Health Center (05)" ///
 	6"Dubisa Health Center (06)" 7"Olenchiti Primary Hospital (07)" 8"Awash Malkasa Health Center (08)" ///
 	9"koka Health Center (09)" 10"Biyo Health Center (10)" 11"Ejersa Health Center (11)" ///
 	13"Noh Primary Clinic (13)" 14"Adama Health Center (14)" 15"Family Guidance Nazret Specialty Clinic" ///
 	16"Biftu (16)" 17"Bokushenen (17)" 18"Adama Teaching Hospital (18)" 19"Hawas (19)" ///
 	20"Medhanialem Hospital (20)" 21"Sister Aklisiya Hospital (21)" 22"Marie stopes Specialty Clinic (22)" 96"St. Francis Catholic Health Center (23)"
-lab val facility facility 
+	lab val facility facility 
+	
+	lab def  m0_a8_fac_own 1"GOVERNMENT/PUBLIC" 2"NGO/NOT-FOR-PROFIT" 3"PRIVATE-FOR-PROFIT" 4"MISSION/FAITH-BASED"
+	lab val m0_a8_fac_own m0_a8_fac_own
 
+	lab def m0_a6_fac_type 1"General hospital" 2"Primary hospital" 3"Health center" 4"MCH Specialty Clinic/Center" 
+	lab val m0_a6_fac_type m0_a6_fac_type
 
 * STEP FOUR: LABELING VARIABLES
 lab var facility "Facility name and ID"
@@ -642,18 +646,18 @@ lab var m0_705 "M0-705.Is a labor and delivery ward register used at this facili
 lab var m0_706 "M0-706. Does this facility have a designated person, such as a data manager or Health Information Technologist, who is responsible for MNH services data?"
 lab var m0_707 "M0-705.Is a labor and delivery ward register used at this facility?"
 
-lab var m0_801_jan "M0-801.1. Number of antenatal care visits (all visits) for January"
-lab var m0_801_feb "M0-801.2. Number of antenatal care visits (all visits) for February"
-lab var m0_801_mar "M0-801.3. Number of antenatal care visits (all visits) for March"
-lab var m0_801_apr "M0-801.4. Number of antenatal care visits (all visits) for April"
-lab var m0_801_may "M0-801.5. Number of antenatal care visits (all visits) for May"
-lab var m0_801_jun "M0-801.6. Number of antenatal care visits (all visits) for June"
-lab var m0_801_jul "M0-801.7. Number of antenatal care visits (all visits) for July"
-lab var m0_801_aug "M0-801.8. Number of antenatal care visits (all visits) for August"
-lab var m0_801_sep "M0-801.9. Number of antenatal care visits (all visits) for September"
-lab var m0_801_oct "M0-801.10. Number of antenatal care visits (all visits) for October"
-lab var m0_801_nov "M0-801.11. Number of antenatal care visits (all visits) for November"
-lab var m0_801_dec "M0-801.12. Number of antenatal care visits (all visits) for December"
+lab var m0_801_jan "M0-801.1. Number of antenatal care visits (repeat visits) for January"
+lab var m0_801_feb "M0-801.2. Number of antenatal care visits (repeat visits) for February"
+lab var m0_801_mar "M0-801.3. Number of antenatal care visits (repeat visits) for March"
+lab var m0_801_apr "M0-801.4. Number of antenatal care visits (repeatvisits) for April"
+lab var m0_801_may "M0-801.5. Number of antenatal care visits (repeat visits) for May"
+lab var m0_801_jun "M0-801.6. Number of antenatal care visits (repeat visits) for June"
+lab var m0_801_jul "M0-801.7. Number of antenatal care visits (repeat visits) for July"
+lab var m0_801_aug "M0-801.8. Number of antenatal care visits (repeat visits) for August"
+lab var m0_801_sep "M0-801.9. Number of antenatal care visits (repeat visits) for September"
+lab var m0_801_oct "M0-801.10. Number of antenatal care visits (repeat visits) for October"
+lab var m0_801_nov "M0-801.11. Number of antenatal care visits (repeat visits) for November"
+lab var m0_801_dec "M0-801.12. Number of antenatal care visits (repeat visits) for December"
 
 lab var m0_802_jan "M0-802.1 Number of first antenatal care visits for January"
 lab var m0_802_feb "M0-802.2 Number of first antenatal care visits for February "
@@ -840,7 +844,8 @@ lab var m0_815_dec_et "M0-815.12. Number of early neonatal death (first 24 hours
 * STEP FIVE: ORDER VARIABLES
 
 order m0_*, sequential
-order record_id redcap_event_name m0_a1_date m0_a2_site m0_a3_subsite m0_a4_woreda_et m0_a4_woreda_et_oth m0_a5_fac facility
+order record_id redcap_event_name m0_a1_date m0_a2_site m0_a3_subsite m0_a4_woreda_et m0_a4_woreda_et_oth m0_a5_fac facility ///
+m0_a5_fac_oth m0_a6_fac_type m0_a6a_lat m0_a6b_long m0_a6c_alt m0_a8_fac_own m0_a9_urban m0_a13 m0_a14 m0_complete_et m0_id nameofdc redcap_data_access_group
 
 * STEP THREE: RECODING MISSING VALUES
 

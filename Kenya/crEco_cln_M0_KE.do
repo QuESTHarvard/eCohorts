@@ -571,12 +571,21 @@ lab def facility 1"Githunguri health centre" 2"Igegania sub district hospital" 3
 				 21 "Wangige Sub-County Hospital"
 lab val facility facility
 
+gen m0_facility_own = facility 
+recode m0_facility_own (18 19 12 14 4 11 17 13 = 2) (1	21	10	16	20	5	15	3	8	2	7	9	6 = 1)
+lab def m0_facility_own  1"Public" 2"Private"
+lab val m0_facility_own  m0_facility_own 
+
+gen m0_facility_type = facility 
+recode m0_facility_type (18	19	12	14	1	21	10	16	20	5	15	3	8=1) (4	11	17	13	2	7	9	6=2)
+lab def m0_facility_type 1"Primary" 2"Secondary"
+lab val m0_facility_type m0_facility_type 
 
 
 * STEP FIVE: ORDER VARIABLES
 
 order m0_*, sequential
-order m0_a4_site facility 
+order m0_a4_site facility m0_facility_own m0_facility_type 
 order m0_famphy_a_ke-m0_rad_d_ke, after(m0_114d) 
 
 * STEP THREE: RECODING MISSING VALUES
