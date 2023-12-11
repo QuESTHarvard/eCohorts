@@ -2,14 +2,14 @@
 * Created by K. Wright, S. Sabwa, C. Arsenault 
 * Updated: July 24 2023 
 
-
 *------------------------------------------------------------------------------*
 
 * Import Data 
 clear all 
 
 *--------------------DATA FILE:
-import delimited using "$et_data/17Aug2023.csv", clear
+import delimited using "$et_data/8Dec2023.csv", clear
+
 *---------------------
 
 drop if record_id == "1" | record_id == "2" | record_id == "3" | ///
