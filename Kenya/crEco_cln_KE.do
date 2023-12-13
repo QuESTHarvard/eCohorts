@@ -25,6 +25,16 @@ drop q101 q102 q105 q513b q513d q513e_1 q513e_2 q513f_1 q513f_2 q513g_1 q513g_2 
 	 max_sound_level sd_sound_level pct_sound_between0_60 pct_sound_above80 ///
 	 pct_conversation subscriberid simid enum_name 
 
+*------------------------------------------------------------------------------*	 
+	 
+* Append module 2:
+
+append using "/Users/shs8688/Dropbox (Harvard University)/SPH-Kruk Team/QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data/Kenya/01 raw data/Module 2/KEMRI_Module_2_ANC_period.dta", force
+
+gen module = .
+replace module = 1 if a4 !=.
+replace module = 2 if attempts != .
+
 *------------------------------------------------------------------------------*
 	* STEPS: 
 		* STEP ONE: RENAME VARIABLES (starts at: line 28)
@@ -47,7 +57,7 @@ rename (b2 b3) (care_self enrollage)
 rename (b4 b4_oth b5 b6) (zone_live zone_live_other b5anc b6anc_first)
 rename a2 device_date_ke
 rename consent b7eligible
-rename (q103 q104 q106) (respondentid mobile_phone flash)
+rename (q_104 q104 q106) (respondentid mobile_phone flash)
 rename q201 m1_201
 rename (q202a q202b q202c q202d q202e) (m1_202a m1_202b m1_202c m1_202d m1_202e)
 rename q203 m1_203
@@ -940,7 +950,7 @@ drop username time_start_full time_start time_start_v2 deviceid	today_date today
 	 a5 key formdef_version m1_1202_other m1_1209_other
 
 order m1_*, sequential
-order country interviewer_id date_m1 m1_start_time study_site facility ///
+order country module interviewer_id date_m1 m1_start_time study_site facility ///
       permission care_self enrollage dob ///
 	  zone_live zone_live_other b5anc b6anc_first b7eligible noconsent_why_ke ///
 	  respondentid mobile_phone flash
@@ -951,6 +961,7 @@ order m1_1218_ke, after(m1_1218c_1)
 *order m1_clinic_cost_ke, after(m1_1218_ke)
 order m1_1218_other_total_ke, after(m1_1218f_1)
 order m1_1218_total_ke, after(m1_1218_other_total_ke)
+
 
 *===============================================================================
 	* STEP SIX: SAVE DATA TO RECODED FOLDER
