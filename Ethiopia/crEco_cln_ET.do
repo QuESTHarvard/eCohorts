@@ -1168,6 +1168,41 @@ recode m1_808_99_et (0 = .a) if m1_804 == 1 | m1_804 == . | m1_804 == .a | m1_80
 * SS: Fix in redcap to add this skip pattern
 recode m1_812b_0_et (. = .a) (0 = .a) if m1_812a == 0 | m1_812a ==. | m1_812a == .d 
 
+recode m1_812b_1 (0 = .a) if m1_812b_0_et == 1 | m1_812b_0_et == 98 | m1_812b_0_et == 99
+recode m1_812b_1 (0 = .) if m1_812b_0_et == 0
+
+recode m1_812b_2 (0 = .a) if m1_812b_0_et == 1 | m1_812b_0_et == 98 | m1_812b_0_et == 99
+recode m1_812b_2 (0 = .) if m1_812b_0_et == 0
+
+recode m1_812b_3 (0 = .a) if m1_812b_0_et == 1 | m1_812b_0_et == 98 | m1_812b_0_et == 99
+recode m1_812b_3 (0 = .) if m1_812b_0_et == 0
+
+recode m1_812b_4 (0 = .a) if m1_812b_0_et == 1 | m1_812b_0_et == 98 | m1_812b_0_et == 99
+recode m1_812b_4 (0 = .) if m1_812b_0_et == 0
+
+recode m1_812b_5 (0 = .a) if m1_812b_0_et == 1 | m1_812b_0_et == 98 | m1_812b_0_et == 99
+recode m1_812b_5 (0 = .) if m1_812b_0_et == 0
+
+recode m1_812b_96 (0 = .a) if m1_812b_0_et == 1 | m1_812b_0_et == 98 | m1_812b_0_et == 99
+recode m1_812b_96 (0 = .) if m1_812b_0_et == 0
+
+recode m1_812b_98 (0 = .a) if m1_812b_0_et == 1 | m1_812b_0_et == 98 | m1_812b_0_et == 99
+recode m1_812b_98 (0 = .) if m1_812b_0_et == 0
+
+recode m1_812b_99 (0 = .a) if m1_812b_0_et == 1 | m1_812b_0_et == 98 | m1_812b_0_et == 99
+recode m1_812b_99 (0 = .) if m1_812b_0_et == 0
+
+recode m1_812b_998_et (0 = .a) if m1_812b_0_et == 1 | m1_812b_0_et == 98 | m1_812b_0_et == 99
+recode m1_812b_998_et (0 = .) if m1_812b_0_et == 0
+
+recode m1_812b_999_et (0 = .a) if m1_812b_0_et == 1 | m1_812b_0_et == 98 | m1_812b_0_et == 99
+recode m1_812b_999_et (0 = .) if m1_812b_0_et == 0
+
+recode m1_812b_888_et (0 = .a) if m1_812b_0_et == 1 | m1_812b_0_et == 98 | m1_812b_0_et == 99
+recode m1_812b_888_et (0 = .) if m1_812b_0_et == 0
+
+replace m1_812b_other = ".a" if m1_812b_96 !=1
+
 recode m1_813e (. = .a) if (m1_813a == 0 | m1_813a == .d | m1_813a == .r) & (m1_813b == 0 | ///
 	   m1_813b == .d | m1_813b == .r) & (m1_813c == 0 | m1_813c == .d | m1_813c == .r) & ///
 	   (m1_813d == 0 | m1_813d == .d | m1_813d == .r)
@@ -1965,6 +2000,9 @@ lab var m1_513a_5 "513a. What phone numbers can we use to reach you in the comin
 lab var m1_513a_6 "513a. What phone numbers can we use to reach you in the coming months? / Friend or other family member phone 2"
 lab var m1_513a_7 "513a. What phone numbers can we use to reach you in the coming months? / Other phone"
 lab var m1_513a_8 "513a. What phone numbers can we use to reach you in the coming months? / Does not have any phone numbers"
+lab var m1_513a_999 "513a. Unknown"
+lab var m1_513a_998 "513a. Refuse to answer"
+lab var m1_513a_888 "513a. No information"
 lab var m1_513b "513b. Primary personal phone number"
 lab var m1_513c "513c. Can I flash this number now to make sure I have noted it correctly?"
 lab var m1_513d "513d. Secondary personal phone number"
@@ -2085,6 +2123,9 @@ lab var m1_808_11_et "808. Fear of discovering serious problems"
 lab var m1_808_12_et "808. Do not know advantage of early coming"
 lab var m1_808_96_et "808. Other, specify"
 lab var m1_808_99_et "808. NR/RF"
+lab var m1_808_888_et "808. Unknown"
+lab var m1_808_998_et "808. Refuse to answer"
+lab var m1_808_999_et "808. No information"
 lab var m1_808_other "808_Other. Specify other reason not to receive care earlier in your pregnancy."
 lab var m1_809 "809. During the visit today, did you and the provider discuss your birth plan?"
 lab var m1_810a "810a. Where do you plan to give birth?"
@@ -2101,6 +2142,9 @@ lab var m1_812b_5 "812b. Because I have health problems"
 lab var m1_812b_96 "812b. Other, specify"
 lab var m1_812b_98 "812b. DK"
 lab var m1_812b_99 "812b. NR/RF"
+lab var m1_812b_888_et "812b. Unknown"
+lab var m1_812b_998_et "812b. Refuse to answer"
+lab var m1_812b_999_et "812b. No information"
 lab var m1_812b_other "812_Other. Specify other reason for C-section"
 lab var m1_813a "813a. Some women experience common health problems during pregnancy. Did you experience nausea in your pregnancy so far, or not?"
 lab var m1_813b "813b. Some women experience common health problems during pregnancy. Did you experience heartburn in your pregnancy so far, or not?"
