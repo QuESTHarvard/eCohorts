@@ -2610,7 +2610,7 @@ order height_cm weight_kg bp_time_1_systolic bp_time_1_diastolic time_1_pulse_ra
 order phq9a phq9b phq9c phq9d phq9e phq9f phq9g phq9h phq9i, after(m1_205e)
 
 order redcap_record_id study_id interviewer_name_a7 redcap_event_name redcap_repeat_instrument redcap_repeat_instance redcap_data_access_group date_m1 m1_start_time country site study_site study_site_sd facility facility_other sampstrata facility_type permission care_self  site sampstrata study_site study_site_sd facility interviewer_id date_m1 m1_start_time permission ////
-	  care_self enrollage zone_live b5anc b6anc_first b7eligible respondentid mobile_phone flash
+	  care_self enrollage zone_live b5anc b6anc_first b6anc_first_conf continuecare b7eligible respondentid mobile_phone flash kebele_malaria kebele_intworm
 
 *===============================================================================
 
