@@ -248,6 +248,8 @@ gen country = "Ethiopia"
 	rename (m1_1402___1 m1_1402___2 m1_1402___3 m1_1402___4 m1_1402___5 m1_1402___6 m1_1402___7 ///
 			m1_1402___8 m1_1402___9) (m1_1402_1_et m1_1402_2_et m1_1402_3_et m1_1402_4_et m1_1402_5_et ///
 			m1_1402_6_et m1_1402_7_et m1_1402_8_et m1_1402_9_et)
+			
+	rename (m1_1402___888 m1_1402___998 m1_1402___999) (m1_1402_888_et m1_1402_998_et m1_1402_999_et)
 	
 	rename (interview_end_time total_duration_of_intervie module_1_baseline_face_to_face_e) (m1_end_time interview_length m1_complete)
 	
@@ -331,7 +333,7 @@ gen country = "Ethiopia"
 	
 	rename (have_you_spent_money_702a how_much_money_did_you_702a have_you_spent_money_702b how_much_money_did_you_702b have_you_spent_money_702c how_much_money_did_you_702c have_you_spent_money_702d how_much_money_did_you_702d have_you_spent_money_702e how_much_money_did_you_702e so_in_total_you_spent_703 you_know_how_much_704 so_how_much_in_total_would_704)(m2_702a m2_702a_other m2_702b m2_702b_other m2_702c m2_702c_other m2_702d m2_702d_other m2_702e m2_702e_other m2_703 m2_704 m2_704_other)
 	
-	rename (m2_705___1 m2_705___2 m2_705___3 m2_705___4 m2_705___5 m2_705___6 m2_705___96 m2_705___998 m2_705___999 m2_705___888) (m2_705_1 m2_705_2 m2_705_3 m2_705_4 m2_705_5 m2_705_6 m2_705_96 m2_705_998 m2_705_999 m2_705_888)
+	rename (m2_705___1 m2_705___2 m2_705___3 m2_705___4 m2_705___5 m2_705___6 m2_705___96 m2_705___998 m2_705___999 m2_705___888) (m2_705_1 m2_705_2 m2_705_3 m2_705_4 m2_705_5 m2_705_6 m2_705_96 m2_705_998_et m2_705_999_et m2_705_888_et)
 	
 	rename (specify_other_income_sourc m2_time_it_is_interru at_what_time_it_is_restart time_of_interview_end_103b total_duration_of_interv_103c module_2_phone_surveys_prenatal_)(m2_705_other m2_interupt_time m2_restart_time m2_endtime m2_int_duration m2_complete)
 	
@@ -2180,6 +2182,9 @@ lab var m1_815_7 "815. They told you to wait and see"
 lab var m1_815_96 "815. Other (specify)"
 lab var m1_815_98 "815. DK"
 lab var m1_815_99 "815. NR/RF"
+lab var m1_815_888_et "815. Unknown"
+lab var m1_815_998_et "815. Refuse to answer"
+lab var m1_815_999_et "815. No information"
 lab var m1_815_other "815_Other. Other (specify)"
 lab var m1_816 "816. You said that you did not have any of the symptoms I just listed. Did the health provider ask you whether or not you had these symptoms, or did this topic not come up today?"
 lab var m1_901 "901. How often do you currently smoke cigarettes or use any other type of tobacco? Is it every day, some days, or not at all?"
@@ -2220,6 +2225,9 @@ lab var m1_1102_10 "1102. Stranger"
 lab var m1_1102_96 "1102. Other, specify"
 lab var m1_1102_98 "1102. DK"
 lab var m1_1102_99 "1102. NR/RF"
+lab var m1_1102_888_et "1102. Unknown"
+lab var m1_1102_998_et "1102. Refuse to answer"
+lab var m1_1102_999_et "1102. No information"
 lab var m1_1102_other "1102_Oth. Specify who else hit, kick, slapped, ... you"
 lab var m1_1103 "1103. At any point during your current pregnancy, has anyone ever said or done something to humiliate you, insulted you or made you feel bad about yourself?"
 lab var m1_1104_1 "1104. Current husband / partner"
@@ -2235,6 +2243,9 @@ lab var m1_1104_10 "1104. Stranger"
 lab var m1_1104_96 "1104. Other (specify)"
 lab var m1_1104_98 "1104. DF"
 lab var m1_1104_99 "1104. NR/RF"
+lab var m1_1104_888_et "1104. Unknown"
+lab var m1_1104_998_et "1104. Refuse to answer"
+lab var m1_1104_999_et "1104. No information"
 lab var m1_1104_other "1104_Other. Specify others who humiliates you"
 lab var m1_1105 "1105. During the visit today, did the health provider discuss with you where you can seek support for these things?"
 lab var m1_1201 "1201. What is the main source of drinking water for members of your household?"
@@ -2281,6 +2292,9 @@ lab var m1_1220_4 "1220. Sold items (e.g. furniture, animals, jewellery, furnitu
 lab var m1_1220_5 "1220. Family members or friends from outside the household"
 lab var m1_1220_6 "1220. Borrowed (from someone other than a friend or family)"
 lab var m1_1220_96 "1220. Other (specify)"
+lab var m1_1220_888_et "1220. Unknown"
+lab var m1_1220_998_et "1220. Refuse to answer"
+lab var m1_1220_999_et "1220. No information"
 lab var m1_1220_other "1220_Other. Specify other financial source for household use to pay for this"
 lab var m1_1221 "1221. Are you covered with a health insurance?"
 lab var m1_1222 "1222. What type of health insurance coverage do you have?"
@@ -2312,6 +2326,9 @@ lab var m1_1402_6_et "1402. Which is the best phone number to use to contact you
 lab var m1_1402_7_et "1402. Which is the best phone number to use to contact you: Friend or other family member phone 2"
 lab var m1_1402_8_et "1402. Which is the best phone number to use to contact you: Other phone"
 lab var m1_1402_9_et "1402. Which is the best phone number to use to contact you: Does not have any phone numbers"
+lab var m1_1402_888_et "1402. Unknown"
+lab var m1_1402_998_et "1402. Refuse to answer"
+lab var m1_1402_999_et "1402. No information"
 lab var m1_end_time "Interview end time"
 lab var interview_length "Total Duration of interview"
 lab var m1_complete "Complete?"
@@ -2321,12 +2338,11 @@ lab var m1_complete "Complete?"
 label variable m2_attempt_date "CALL TRACKING: What is the date of this attempt?"
 label variable m2_attempt_outcome "CALL TRACKING: What was the outcome of the call?"
 label variable m2_attempt_relationship "Interviewer read: Hello, my name is [your name] and I work with EPHI, I would like to talk with [what_is_your_first_name_101] [what_is_your_family_name_102]. A6. May I Know what the relationship between you and [what_is_your_first_name_101] [what_is_your_family_name_102]?"
-label variable m2_attempt_other "CALL TRACKING:  Specify other relationship with the respondent"
-label variable m2_attempt_avail "CALL TRACKING:  Is [what_is_your_first_name_101] [what_is_your_family_name_102] nearby and available to speak now?   Can you pass the phone to them?"
-label variable m2_attempt_contact "CALL TRACKING:   Is this still the best contact to reach [what_is_your_first_name_101] [what_is_your_family_name_102]?"
-label variable m2_attempt_bestnumber "CALL TRACKING:  Could you please share the best number to contact [what_is_your_first_name_101] [what_is_your_family_name_102]"
-label variable m2_attempt_goodtime "CALL TRACKING:  Do you know when would be a good time to reach [what_is_your_first_name_101] [what_is_your_family_name_102]?"
-
+label variable m2_attempt_other "CALL TRACKING: Specify other relationship with the respondent"
+label variable m2_attempt_avail "CALL TRACKING: Is [what_is_your_first_name_101] [what_is_your_family_name_102] nearby and available to speak now?   Can you pass the phone to them?"
+label variable m2_attempt_contact "CALL TRACKING: Is this still the best contact to reach [what_is_your_first_name_101] [what_is_your_family_name_102]?"
+label variable m2_attempt_bestnumber "CALL TRACKING: Could you please share the best number to contact [what_is_your_first_name_101] [what_is_your_family_name_102]"
+label variable m2_attempt_goodtime "CALL TRACKING: Do you know when would be a good time to reach [what_is_your_first_name_101] [what_is_your_family_name_102]?"
 label variable m2_start "IIC. May I proceed with the interview?"
 label variable m2_103 "102. Date of interview (D-M-Y)"
 label variable m2_permission "CR1. Permission granted to conduct call"
@@ -2339,11 +2355,8 @@ label variable m2_hiv_status "109. HIV status"
 label variable date_of_maternal_death "110. Date of maternal death (D-M-Y)"
 label variable m2_maternal_death_learn "111. How did you learn about the maternal death?"
 label variable m2_maternal_death_learn_other "111-Oth. Specify other way of learning maternal death"
-
 label variable m2_201 "201. I would like to start by asking about your health and how you have been feeling since you last spoke to us. In general, how would you rate your overall health?"
-
 label variable m2_202 "202. As you know, this survey is about health care that women receive during pregnancy, delivery and after birth. So that I know that I am asking the right questions, I need to confirm whether you are still pregnant?"
-
 label variable m2_date_of_maternal_death_2 "110. Date of maternal death (D-M-Y)"
 label variable m2_203a "203a. Since you last spoke to us, have you experienced severe or persistent headaches?"
 label variable m2_203b "203b. Since you last spoke to us, have you experienced vaginal bleeding of any amount?"
@@ -2354,7 +2367,6 @@ label variable m2_203f "203f. Since you last spoke to us, have you experienced c
 label variable m2_203g "203g. Since you last spoke to us, have you experienced fainting or loss of consciousness?"
 label variable m2_203h "203h. Since you last spoke to us, have you experienced that the baby has completely stopped moving?"
 label variable m2_203i "203i. Since you last spoke to us, have you experienced blurring of vision?"
-
 label variable m2_204a "204a. Since you last spoke to us, have you experienced Preeclapsia/eclampsia?"
 label variable m2_204b "204b. Since you last spoke to us, have you experienced Bleeding during pregnancy?"
 label variable m2_204c "204c. Since you last spoke to us, have you experienced Hyperemesis gravidarum?"
@@ -2365,7 +2377,6 @@ label variable m2_204g "204g. Since you last spoke to us, have you experienced A
 label variable m2_204h "204h. Since you last spoke to us, have you experienced RH isoimmunization?"
 label variable m2_204i "204i. Since you last spoke to us, have you experienced any other major health problems?"
 label variable m2_204i_other "204i-oth. Specify any other feeling since last visit"
-
 label variable m2_205a "205a. Over the past 2 weeks, on how many days have you been bothered by little interest or pleasure in doing things?"
 label variable m2_205b "205b. Over the past 2 weeks, on how many days have you been bothered by feeling down, depressed, or hopeless?"
 label variable m2_205c "205c. Over the past 2 weeks, on how many days have you been bothered by trouble falling or staying asleep, or sleeping too much?"
@@ -2375,21 +2386,16 @@ label variable m2_205f "205f. Over the past 2 weeks, on how many days have you b
 label variable m2_205g "205g. Over the past 2 weeks, on how many days have you been bothered by trouble concentrating on things, such as your work or home duties?"
 label variable m2_205h "205h. Over the past 2 weeks, on how many days have you been bothered by moving or speaking so slowly that other people could have noticed? Or so fidgety or restless that you have been moving a lot more than usual?"
 label variable m2_205i "205i. Over the past 2 weeks, on how many days have you been bothered by Thoughts that you would be better off dead, or thoughts of hurting yourself in some way?"
-
 label variable m2_206 "206. How often do you currently smoke cigarettes or use any other type of tobacco? Types of tobacco includes: Snuff tobacco, Chewing tobacco,  Cigar"
 label variable m2_207 "207. How often do you currently chewing khat?(Interviewer: Inform that Khat is a leaf green plant use as stimulant and chewed in Ethiopia)"
 label variable m2_208 "208. How often do you currently drink alcohol or use any other type of alcoholic?   A standard drink is any drink containing about 10g of alcohol, 1 standard drink= 1 tasa or wancha of (tella or korefe or borde or shameta), ½ birile of  Tej, 1 melekiya of Areke, 1 bottle of beer, 1 single of draft, 1 melkiya of spris(Uzo, Gine, Biheraw etc) and 1 melekiya of Apratives"
 label variable m2_301 "301. Since we last spoke, did you have any new healthcare consultations for yourself, or not?"
-
-
 label variable m2_302 "302. Since we last spoke, how many new healthcare consultations have you had for yourself?"
 label variable m2_303a "303a. Where did this/this new first healthcare consultation(s) for yourself take place?"
 label variable m2_303b "303b.  Where did the 2nd healthcare consultation(s) for yourself take place?"
 label variable m2_303c "303c. Where did the 3rd healthcare consultation(s) for yourself take place?"
 label variable m2_303d "303d. Where did the 4th healthcare consultation(s) for yourself take place?"
 label variable m2_303e "303e. Where did the 5th healthcare consultation(s) for yourself take place?"
-
-
 label variable m2_304a "304a. What is the name of the facility where this/this first healthcare consultation took place?"
 label variable m2_304a_other "304a-oth. Other facility for 1st health consultation"
 label variable m2_304b "304b. What is the name of the facility where this/this second healthcare consultation took place?"
@@ -2400,103 +2406,90 @@ label variable m2_304d "304d. What is the name of the facility where this/this f
 label variable m2_304d_other "304d-oth. Other facility for 4th health consultation"
 label variable m2_304e "304e. What is the name of the facility where this/this fifth healthcare consultation took place?"
 label variable m2_304e_other "304e-oth. Other facility for 5th health consultation"
-
 label variable m2_305 "305. Was the first consultation for a routine antenatal care visit?"
 label variable m2_306 "306. Was the first consultation for a referral from your antenatal care provider?"
-
-/*
-label variable any_of_the_following_v_18 "307. Was the first consultation is for any of the following? Include all that apply /  ይህ የመጀመሪያ ክትትል ለየትኛው አገልግሎት ነበር? የሚመለከተውን ሁሉ ይንገሩኝ/ንገሪኝ። / Daawwannaan kun kanneen armaan gadii keessaa tokkoof turee? Kamiif turee (choice=A new health problem, including an emergency or an injury / አዲስ የጤና እክል፤ድንገተኛ ህመም ወይም አደጋጨምሮ / Rakkoo fayyaa haaraa, balaa tasaa yookaan miidhaa qaamaa)"
-label variable any_of_the_following_v_19 "307. Was the first consultation is for any of the following? Include all that apply /  ይህ የመጀመሪያ ክትትል ለየትኛው አገልግሎት ነበር? የሚመለከተውን ሁሉ ይንገሩኝ/ንገሪኝ። / Daawwannaan kun kanneen armaan gadii keessaa tokkoof turee? Kamiif turee (choice=An existing health problem / በፊትም የነበረ የጤና እክል / Rakkoo fayyaa jiru)"
-label variable any_of_the_following_v_20 "307. Was the first consultation is for any of the following? Include all that apply /  ይህ የመጀመሪያ ክትትል ለየትኛው አገልግሎት ነበር? የሚመለከተውን ሁሉ ይንገሩኝ/ንገሪኝ። / Daawwannaan kun kanneen armaan gadii keessaa tokkoof turee? Kamiif turee (choice=A lab test, x-ray, or ultrasound / ለላቦራቶሪ ምርመራ ፤ራጅ፤አልትራሳውንድ / Qoannoo laabiraatorii, x-reeyii yookaan altiraasaawundii)"
-label variable any_of_the_following_v_21 "307. Was the first consultation is for any of the following? Include all that apply /  ይህ የመጀመሪያ ክትትል ለየትኛው አገልግሎት ነበር? የሚመለከተውን ሁሉ ይንገሩኝ/ንገሪኝ። / Daawwannaan kun kanneen armaan gadii keessaa tokkoof turee? Kamiif turee (choice=To pick up medicine / መድሀኒት ለመውሰድ / Qoricha fudhachuuf)"
-label variable any_of_the_following_v_22 "307. Was the first consultation is for any of the following? Include all that apply /  ይህ የመጀመሪያ ክትትል ለየትኛው አገልግሎት ነበር? የሚመለከተውን ሁሉ ይንገሩኝ/ንገሪኝ። / Daawwannaan kun kanneen armaan gadii keessaa tokkoof turee? Kamiif turee (choice=To get a vaccine / ክትባት ለመውሰድ / Talaallii  fudhachuuf)"
-label variable any_of_the_following_v_23 "307. Was the first consultation is for any of the following? Include all that apply /  ይህ የመጀመሪያ ክትትል ለየትኛው አገልግሎት ነበር? የሚመለከተውን ሁሉ ይንገሩኝ/ንገሪኝ። / Daawwannaan kun kanneen armaan gadii keessaa tokkoof turee? Kamiif turee (choice=Other reasons / ሌላ ምክኒያት / Sababni biraa)"
-*/
-
+label variable m2_306_1 "307. Was the first consultation for any of the following? A new health problem, including an emergency or an injury"
+label variable m2_306_2 "307. Was the first consultation for any of the following? An existing health problem"
+label variable m2_306_3 "307. Was the first consultation for any of the following? A lab test, x-ray, or ultrasound"
+label variable m2_306_4 "307. Was the first consultation for any of the following? To pick up medicine"
+label variable m2_306_5 "307. Was the first consultation for any of the following? To get a vaccine"
+label variable m2_306_96 "307. Was the first consultation for any of the following? Other reasons"
+label variable m2_306_888_et "307. No information"
+label variable m2_306_998_et "307. Unknown"
+label variable m2_306_999_et "307. Refuse to answer"
 label variable m2_307_other "307-oth. Specify other reason for the 1st visit"
 label variable m2_308 "308. Was the second consultation is for a routine antenatal care visit?"
 label variable m2_309 "309. Was the second consultation is for a referral from your antenatal care provider?"
-
-/*
-label variable any_of_the_following_v_26 "310. Was the second consultation is for any of the following? Include all that apply. / ይህ የ2ኛ ክትትል ለየትኛው አገልግሎት ነበር? የሚመለከተውን ሁሉ ይንገሩኝ/ንገሪኝ። / Daawwannaan kun kanneen armaan gadii keessaa tokkoof turee?  (choice=A new health problem, including an emergency or an injury / አዲስ የጤና እክል፤ድንገተኛ ህመም ወይም አደጋጨምሮ / Rakkoo fayyaa haaraa, balaa tasaa yookaan miidhaa qaamaa)"
-label variable any_of_the_following_v_27 "310. Was the second consultation is for any of the following? Include all that apply. / ይህ የ2ኛ ክትትል ለየትኛው አገልግሎት ነበር? የሚመለከተውን ሁሉ ይንገሩኝ/ንገሪኝ። / Daawwannaan kun kanneen armaan gadii keessaa tokkoof turee?  (choice=An existing health problem / በፊትም የነበረ የጤና እክል / Rakkoo fayyaa jiru)"
-label variable any_of_the_following_v_28 "310. Was the second consultation is for any of the following? Include all that apply. / ይህ የ2ኛ ክትትል ለየትኛው አገልግሎት ነበር? የሚመለከተውን ሁሉ ይንገሩኝ/ንገሪኝ። / Daawwannaan kun kanneen armaan gadii keessaa tokkoof turee?  (choice=A lab test, x-ray, or ultrasound / ለላቦራቶሪ ምርመራ ፤ራጅ፤አልትራሳውንድ / Qoannoo laabiraatorii, x-reeyii yookaan altiraasaawundii)"
-label variable any_of_the_following_v_29 "310. Was the second consultation is for any of the following? Include all that apply. / ይህ የ2ኛ ክትትል ለየትኛው አገልግሎት ነበር? የሚመለከተውን ሁሉ ይንገሩኝ/ንገሪኝ። / Daawwannaan kun kanneen armaan gadii keessaa tokkoof turee?  (choice=To pick up medicine / መድሀኒት ለመውሰድ / Qoricha fudhachuuf)"
-label variable any_of_the_following_v_30 "310. Was the second consultation is for any of the following? Include all that apply. / ይህ የ2ኛ ክትትል ለየትኛው አገልግሎት ነበር? የሚመለከተውን ሁሉ ይንገሩኝ/ንገሪኝ። / Daawwannaan kun kanneen armaan gadii keessaa tokkoof turee?  (choice=To get a vaccine / ክትባት ለመውሰድ / Talaallii  fudhachuuf)"
-label variable any_of_the_following_v_31 "310. Was the second consultation is for any of the following? Include all that apply. / ይህ የ2ኛ ክትትል ለየትኛው አገልግሎት ነበር? የሚመለከተውን ሁሉ ይንገሩኝ/ንገሪኝ። / Daawwannaan kun kanneen armaan gadii keessaa tokkoof turee?  (choice=Other reasons / ሌላ ምክኒያት / Sababni biraa)"
-*/
-label variable m2_310_other "310-oth. Specify other reason for second consultation / ካለ ይጥቀሱ / Ibsii"
-
+label variable m2_308_1 "310. Was the second consultation for any of the following? A new health problem, including an emergency or an injury"
+label variable m2_308_2 "310. Was the second consultation for any of the following? An existing health problem"
+label variable m2_308_3 "310. Was the second consultation for any of the following? A lab test, x-ray, or ultrasound"
+label variable m2_308_4 "310. Was the second consultation for any of the following? To pick up medicine"
+label variable m2_308_5 "310. Was the second consultation for any of the following? To get a vaccine"
+label variable m2_308_96 "310. Was the second consultation for any of the following? Other reasons"
+label variable m2_308_888_et "310. No information"
+label variable m2_308_998_et "310. Unknown"
+label variable m2_308_999_et "310. Refuse to answer"
+label variable m2_310_other "310-oth. Specify other reason for second consultation"
 label variable m2_311 "311. Was the third consultation is for a routine antenatal care visit?"
 label variable m2_312 "312. Was the third consultation is for a referral from your antenatal care provider?"
-
-/*
-label variable any_of_the_following_v_34 "313. Was the third consultation is for any of the following? Include all that apply. / ይህ የ3ኛ ክትትል ለየትኛው አገልግሎት ነበር? የሚመለከተውን ሁሉ ይንገሩኝ/ንገሪኝ። / Daawwannaan kun kanneen armaan gadii keessaa tokkoof turee? Kamiif turee? (choice=A new health problem, including an emergency or an injury / አዲስ የጤና እክል፤ድንገተኛ ህመም ወይም አደጋጨምሮ / Rakkoo fayyaa haaraa, balaa tasaa yookaan miidhaa qaamaa)"
-label variable any_of_the_following_v_35 "313. Was the third consultation is for any of the following? Include all that apply. / ይህ የ3ኛ ክትትል ለየትኛው አገልግሎት ነበር? የሚመለከተውን ሁሉ ይንገሩኝ/ንገሪኝ። / Daawwannaan kun kanneen armaan gadii keessaa tokkoof turee? Kamiif turee? (choice=An existing health problem / በፊትም የነበረ *የጤና እክል / Rakkoo fayyaa jiru)"
-label variable any_of_the_following_v_36 "313. Was the third consultation is for any of the following? Include all that apply. / ይህ የ3ኛ ክትትል ለየትኛው አገልግሎት ነበር? የሚመለከተውን ሁሉ ይንገሩኝ/ንገሪኝ። / Daawwannaan kun kanneen armaan gadii keessaa tokkoof turee? Kamiif turee? (choice=A lab test, x-ray, or ultrasound / ለላቦራቶሪ ምርመራ ፤ራጅ፤አልትራሳውንድ / Qoannoo laabiraatorii, x-reeyii yookaan altiraasaawundii)"
-label variable any_of_the_following_v_37 "313. Was the third consultation is for any of the following? Include all that apply. / ይህ የ3ኛ ክትትል ለየትኛው አገልግሎት ነበር? የሚመለከተውን ሁሉ ይንገሩኝ/ንገሪኝ። / Daawwannaan kun kanneen armaan gadii keessaa tokkoof turee? Kamiif turee? (choice=To pick up medicine / መድሀኒት ለመውሰድ / Qoricha fudhachuuf)"
-label variable any_of_the_following_v_38 "313. Was the third consultation is for any of the following? Include all that apply. / ይህ የ3ኛ ክትትል ለየትኛው አገልግሎት ነበር? የሚመለከተውን ሁሉ ይንገሩኝ/ንገሪኝ። / Daawwannaan kun kanneen armaan gadii keessaa tokkoof turee? Kamiif turee? (choice=To get a vaccine / ክትባት ለመውሰድ / Talaallii  fudhachuuf)"
-label variable any_of_the_following_v_39 "313. Was the third consultation is for any of the following? Include all that apply. / ይህ የ3ኛ ክትትል ለየትኛው አገልግሎት ነበር? የሚመለከተውን ሁሉ ይንገሩኝ/ንገሪኝ። / Daawwannaan kun kanneen armaan gadii keessaa tokkoof turee? Kamiif turee? (choice=Other reasons / ሌላ ምክኒያት / Sababni biraa)"
-*/
+label variable m2_311_1 "313. Was the third consultation for any of the following? A new health problem, including an emergency or an injury"
+label variable m2_311_2 "313. Was the third consultation for any of the following? An existing health problem"
+label variable m2_311_3 "313. Was the third consultation for any of the following? A lab test, x-ray, or ultrasound"
+label variable m2_311_4 "313. Was the third consultation for any of the following? To pick up medicine"
+label variable m2_311_5 "313. Was the third consultation for any of the following? To get a vaccine"
+label variable m2_311_96 "313. Was the third onsultation for any of the following? Other reasons"
+label variable m2_311_888_et "313. No information"
+label variable m2_311_998_et "313. Unknown"
+label variable m2_311_999_et "313. Refuse to answer"
 label variable m2_313_other "313-oth. Specify any other reason for the third consultation"
-
-
 label variable m2_314 "314. Was the fourth consultation is for a routine antenatal care visit?"
 label variable m2_315 "315. Was the fourth consultation is for a referral from your antenatal care provider?"
-
-/*
-label variable any_of_the_following_v_42 "316. Was the fourth consultation is for any of the following? Include all that apply. / ይህ የ4ኛ ክትትል ለየትኛው አገልግሎት ነበር? የሚመለከተውን ሁሉ ይንገሩኝ/ንገሪኝ። / Daawwannaan kun kanneen armaan gadii keessaa tokkoof turee? Kamiif turee? (choice=A new health problem, including an emergency or an injury / አዲስ የጤና እክል፤ድንገተኛ ህመም ወይም አደጋጨምሮ / Rakkoo fayyaa haaraa, balaa tasaa yookaan miidhaa qaamaa)"
-label variable any_of_the_following_v_43 "316. Was the fourth consultation is for any of the following? Include all that apply. / ይህ የ4ኛ ክትትል ለየትኛው አገልግሎት ነበር? የሚመለከተውን ሁሉ ይንገሩኝ/ንገሪኝ። / Daawwannaan kun kanneen armaan gadii keessaa tokkoof turee? Kamiif turee? (choice=An existing health problem / በፊትም የነበረ የጤና እክል / Rakkoo fayyaa jiru)"
-label variable any_of_the_following_v_44 "316. Was the fourth consultation is for any of the following? Include all that apply. / ይህ የ4ኛ ክትትል ለየትኛው አገልግሎት ነበር? የሚመለከተውን ሁሉ ይንገሩኝ/ንገሪኝ። / Daawwannaan kun kanneen armaan gadii keessaa tokkoof turee? Kamiif turee? (choice=A lab test, x-ray, or ultrasound / ለላቦራቶሪ ምርመራ ፤ራጅ፤አልትራሳውንድ / Qoannoo laabiraatorii, x-reeyii yookaan altiraasaawundii)"
-label variable any_of_the_following_v_45 "316. Was the fourth consultation is for any of the following? Include all that apply. / ይህ የ4ኛ ክትትል ለየትኛው አገልግሎት ነበር? የሚመለከተውን ሁሉ ይንገሩኝ/ንገሪኝ። / Daawwannaan kun kanneen armaan gadii keessaa tokkoof turee? Kamiif turee? (choice=To pick up medicine / መድሀኒት ለመውሰድ / Qoricha fudhachuuf)"
-label variable any_of_the_following_v_46 "316. Was the fourth consultation is for any of the following? Include all that apply. / ይህ የ4ኛ ክትትል ለየትኛው አገልግሎት ነበር? የሚመለከተውን ሁሉ ይንገሩኝ/ንገሪኝ። / Daawwannaan kun kanneen armaan gadii keessaa tokkoof turee? Kamiif turee? (choice=To get a vaccine / ክትባት ለመውሰድ / Talaallii  fudhachuuf)"
-label variable any_of_the_following_v_47 "316. Was the fourth consultation is for any of the following? Include all that apply. / ይህ የ4ኛ ክትትል ለየትኛው አገልግሎት ነበር? የሚመለከተውን ሁሉ ይንገሩኝ/ንገሪኝ። / Daawwannaan kun kanneen armaan gadii keessaa tokkoof turee? Kamiif turee? (choice=Other reasons / ሌላ ምክኒያት / Sababni biraa)"
-*/
-
+label variable m2_314_1 "316. Was the fourth consultation for any of the following? A new health problem, including an emergency or an injury"
+label variable m2_314_2 "316. Was the fourth consultation for any of the following? An existing health problem"
+label variable m2_314_3 "316. Was the fourth consultation for any of the following? A lab test, x-ray, or ultrasound"
+label variable m2_314_4 "316. Was the fourth consultation for any of the following? To pick up medicine"
+label variable m2_314_5 "316. Was the fourth consultation for any of the following? To get a vaccine"
+label variable m2_314_96 "316. Was the fourth onsultation for any of the following? Other reasons"
+label variable m2_314_888_et "316. No information"
+label variable m2_314_998_et "316. Unknown"
+label variable m2_314_999_et "316. Refuse to answer"
 label variable m2_316_other "316-oth. Specify other reason for the fourth consultation"
-
 label variable m2_317 "317. Was the fifth consultation is for a routine antenatal care visit?"
 label variable m2_318 "318. Was the fifth consultation is for a referral from your antenatal care provider?"
-
-/*
-label variable any_of_the_following_v_50 "319. Was the fifth consultation is for any of the following? Include all that apply. / ይህ የ5ኛ ክትትል ለየትኛው አገልግሎት ነበር? የሚመለከተውን ሁሉ ይንገሩኝ/ንገሪኝ። / Daawwannaan kun kanneen armaan gadii keessaa tokkoof turee? (choice=A new health problem, including an emergency or an injury / አዲስ የጤና እክል፤ድንገተኛ ህመም ወይም አደጋጨምሮ / Rakkoo fayyaa haaraa, balaa tasaa yookaan miidhaa qaamaa)"
-label variable any_of_the_following_v_51 "319. Was the fifth consultation is for any of the following? Include all that apply. / ይህ የ5ኛ ክትትል ለየትኛው አገልግሎት ነበር? የሚመለከተውን ሁሉ ይንገሩኝ/ንገሪኝ። / Daawwannaan kun kanneen armaan gadii keessaa tokkoof turee? (choice=An existing health problem / በፊትም የነበረ የጤና እክል / Rakkoo fayyaa jiru)"
-label variable any_of_the_following_v_52 "319. Was the fifth consultation is for any of the following? Include all that apply. / ይህ የ5ኛ ክትትል ለየትኛው አገልግሎት ነበር? የሚመለከተውን ሁሉ ይንገሩኝ/ንገሪኝ። / Daawwannaan kun kanneen armaan gadii keessaa tokkoof turee? (choice=A lab test, x-ray, or ultrasound / ለላቦራቶሪ ምርመራ ፤ራጅ፤አልትራሳውንድ / Qoannoo laabiraatorii, x-reeyii yookaan altiraasaawundii)"
-label variable any_of_the_following_v_53 "319. Was the fifth consultation is for any of the following? Include all that apply. / ይህ የ5ኛ ክትትል ለየትኛው አገልግሎት ነበር? የሚመለከተውን ሁሉ ይንገሩኝ/ንገሪኝ። / Daawwannaan kun kanneen armaan gadii keessaa tokkoof turee? (choice=To pick up medicine / መድሀኒት ለመውሰድ / Qoricha fudhachuuf)"
-label variable any_of_the_following_v_54 "319. Was the fifth consultation is for any of the following? Include all that apply. / ይህ የ5ኛ ክትትል ለየትኛው አገልግሎት ነበር? የሚመለከተውን ሁሉ ይንገሩኝ/ንገሪኝ። / Daawwannaan kun kanneen armaan gadii keessaa tokkoof turee? (choice=To get a vaccine / ክትባት ለመውሰድ / Talaallii  fudhachuuf)"
-label variable any_of_the_following_v_55 "319. Was the fifth consultation is for any of the following? Include all that apply. / ይህ የ5ኛ ክትትል ለየትኛው አገልግሎት ነበር? የሚመለከተውን ሁሉ ይንገሩኝ/ንገሪኝ። / Daawwannaan kun kanneen armaan gadii keessaa tokkoof turee? (choice=Other reasons / ሌላ ምክኒያት / Sababni biraa)"
-*/
+label variable m2_317_1 "319. Was the fifth consultation is for any of the following? A new health problem, including an emergency or an injury"
+label variable m2_317_2 "319. Was the fifth consultation is for any of the following? An existing health problem"
+label variable m2_317_3 "319. Was the fifth consultation is for any of the following? A lab test, x-ray, or ultrasound"
+label variable m2_317_4 "319. Was the fifth consultation is for any of the following? To pick up medicine"
+label variable m2_317_5 "319. Was the fifth consultation is for any of the following? To get a vaccine"
+label variable m2_317_96 "319. Was the fifth consultation is for any of the following? Other reasons"
+label variable m2_317_888_et "319. No information"
+label variable m2_317_998_et "319. Unknown"
+label variable m2_317_999_et "319. Refuse to answer"
 label variable m2_319_other "319-oth. Specify other reason for the fifth consultation"
-
-
-
-/*
-label variable prevent_more_antenat_v_56 "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? Tell me all reasons, if any, that apply. / የመጨረሻውን መጠይቅ ካደረግንልሽ/ዎት በኋላ እርግዝናሽን በተመለከተ አገልግሎቱን እንዳታገኚ ያደረገሽ ምክኒያት አለ? ካለ ሁሉንም ምክንያቶች ይጥቀሱ / Erga yeroo dhumaaf nutti dubbattanii as sababoonni kunuunsa dahumsa duraa dabalataa akka hin arganne si godhan jiruu? yoo jiraatan, Sababoota hunda kan ilaallatan natti himaa. (choice=No reason or you didnt need it / ምንም ምከንያት የለም ወይም አልፈለግሽም / Sababaa hin qabu ykn si hin barbaachifne)"
-label variable prevent_more_antenat_v_57 "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? Tell me all reasons, if any, that apply. / የመጨረሻውን መጠይቅ ካደረግንልሽ/ዎት በኋላ እርግዝናሽን በተመለከተ አገልግሎቱን እንዳታገኚ ያደረገሽ ምክኒያት አለ? ካለ ሁሉንም ምክንያቶች ይጥቀሱ / Erga yeroo dhumaaf nutti dubbattanii as sababoonni kunuunsa dahumsa duraa dabalataa akka hin arganne si godhan jiruu? yoo jiraatan, Sababoota hunda kan ilaallatan natti himaa. (choice=You tried but were sent away (e.g., no appointment available) / ሞክሬያለሁ ነበር ግን ተሰናበትኩ (ለምሳሌ፣ ምንም ቀጠሮ የለም) / Yaaltee garuu ergamte (fkn, beellama hin jiru))"
-label variable prevent_more_antenat_v_58 "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? Tell me all reasons, if any, that apply. / የመጨረሻውን መጠይቅ ካደረግንልሽ/ዎት በኋላ እርግዝናሽን በተመለከተ አገልግሎቱን እንዳታገኚ ያደረገሽ ምክኒያት አለ? ካለ ሁሉንም ምክንያቶች ይጥቀሱ / Erga yeroo dhumaaf nutti dubbattanii as sababoonni kunuunsa dahumsa duraa dabalataa akka hin arganne si godhan jiruu? yoo jiraatan, Sababoota hunda kan ilaallatan natti himaa. (choice=High cost (e.g., high out of pocket payment, not covered by insurance) / ክፍያው ከፍያለ በመሆኑ (ከኪስ ከፍ ያለ ክፍያ፤ በጤና መድህን ስለማይሸፈን) / Baasii guddaa (fkn, kaffaltii kiisha keessaa bahu olaanaa, inshuraansiidhaan kan hin haguugamne))"
-label variable prevent_more_antenat_v_59 "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? Tell me all reasons, if any, that apply. / የመጨረሻውን መጠይቅ ካደረግንልሽ/ዎት በኋላ እርግዝናሽን በተመለከተ አገልግሎቱን እንዳታገኚ ያደረገሽ ምክኒያት አለ? ካለ ሁሉንም ምክንያቶች ይጥቀሱ / Erga yeroo dhumaaf nutti dubbattanii as sababoonni kunuunsa dahumsa duraa dabalataa akka hin arganne si godhan jiruu? yoo jiraatan, Sababoota hunda kan ilaallatan natti himaa. (choice=Far distance (e.g., too far to walk or drive, transport not readily available) / ሩቅ ስለሆነ/ርቀት (ለምሳሌ-በእግር ለመሄድ እሩቅ ስለሆነ /የመጓጓዣ አገልግሎት አለመኖር) / Fageenya fagoo (fkn, miilaan deemuuf ykn konkolaachisuuf baayee fagoo, geejjibni salphaatti hin argamne).)"
-label variable prevent_more_antenat_v_60 "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? Tell me all reasons, if any, that apply. / የመጨረሻውን መጠይቅ ካደረግንልሽ/ዎት በኋላ እርግዝናሽን በተመለከተ አገልግሎቱን እንዳታገኚ ያደረገሽ ምክኒያት አለ? ካለ ሁሉንም ምክንያቶች ይጥቀሱ / Erga yeroo dhumaaf nutti dubbattanii as sababoonni kunuunsa dahumsa duraa dabalataa akka hin arganne si godhan jiruu? yoo jiraatan, Sababoota hunda kan ilaallatan natti himaa. (choice=Long waiting time (e.g., long line to access facility, long wait for the provider) / ብዙ ስለሚያስጠብቅ (ለምሳሌ-ወረፋ ስለሚበዛ ፤ባለሙያ ለማግኘት ብዙ ሰዐት ስለሚያስጠበቅ) / Yeroo eegaa dheeraa (fkn, sarara dheeraa dhaabbata argachuuf, dhiyeessaaf eegaa dheeraa).)"
-label variable prevent_more_antenat_v_61 "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? Tell me all reasons, if any, that apply. / የመጨረሻውን መጠይቅ ካደረግንልሽ/ዎት በኋላ እርግዝናሽን በተመለከተ አገልግሎቱን እንዳታገኚ ያደረገሽ ምክኒያት አለ? ካለ ሁሉንም ምክንያቶች ይጥቀሱ / Erga yeroo dhumaaf nutti dubbattanii as sababoonni kunuunsa dahumsa duraa dabalataa akka hin arganne si godhan jiruu? yoo jiraatan, Sababoota hunda kan ilaallatan natti himaa. (choice=Poor healthcare provider skills (e.g., spent too little time with patient, did not conduct a thorough exam) / የባለሙያዎች ክህሎት ደካማ ስለሆነ (ለምሳሌ., ለነፍሰጡር እናት ትንሽ ጊዜ ብቻ ስለሚሰጡ፤ በደንብ ምርመራ ስለማያረጉ) / Dandeettii ogeessa fayyaa gaarii hin taane (fkn, dhukkubsataa waliin yeroo xiqqoo dabarsuu, qorannoo gadi fageenya qabu hin gaggeessine).)"
-label variable prevent_more_antenat_v_62 "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? Tell me all reasons, if any, that apply. / የመጨረሻውን መጠይቅ ካደረግንልሽ/ዎት በኋላ እርግዝናሽን በተመለከተ አገልግሎቱን እንዳታገኚ ያደረገሽ ምክኒያት አለ? ካለ ሁሉንም ምክንያቶች ይጥቀሱ / Erga yeroo dhumaaf nutti dubbattanii as sababoonni kunuunsa dahumsa duraa dabalataa akka hin arganne si godhan jiruu? yoo jiraatan, Sababoota hunda kan ilaallatan natti himaa. (choice=Staff dont show respect (e.g., staff is rude, impolite, dismissive) / የተቋሙ ሰራተኞች ለእናቶች ክብር ስለማያሳዩ (ለምሳሌ. ባለሙያዎቹ ስነ-ስርዐት ስለሌላቸው፤, ጨዋነት ስለሚጎላቸው፤) / Hojjetoonni kabaja hin agarsiisan (fkn, hojjettoonni gara jabeessa, safuu kan hin qabne, kan tuffatan))"
-label variable prevent_more_antenat_v_63 "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? Tell me all reasons, if any, that apply. / የመጨረሻውን መጠይቅ ካደረግንልሽ/ዎት በኋላ እርግዝናሽን በተመለከተ አገልግሎቱን እንዳታገኚ ያደረገሽ ምክኒያት አለ? ካለ ሁሉንም ምክንያቶች ይጥቀሱ / Erga yeroo dhumaaf nutti dubbattanii as sababoonni kunuunsa dahumsa duraa dabalataa akka hin arganne si godhan jiruu? yoo jiraatan, Sababoota hunda kan ilaallatan natti himaa. (choice=Medicines or equipment are not available (e.g., medicines regularly out of stock, equipment like X-ray machines broken or unavailable) / መድሀኒትና የህክምና መገልገያ መሳሪያዎች ስለሌሉ (ለምሳሌ-አብዛኛውን ጊዜ መድሀኒት ሰለሚያልቅ፤ ራጅን የመሳሰሉ መሳሪያዎች መበላሸት ወይም አለመኖር) / Qorichootni ykn meeshaaleen hin jiran (fkn, qorichi yeroo hunda istookii dhabamuu, meeshaaleen akka maashinii raajii X-ray cabee ykn hin argamne).)"
-label variable prevent_more_antenat_v_64 "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? Tell me all reasons, if any, that apply. / የመጨረሻውን መጠይቅ ካደረግንልሽ/ዎት በኋላ እርግዝናሽን በተመለከተ አገልግሎቱን እንዳታገኚ ያደረገሽ ምክኒያት አለ? ካለ ሁሉንም ምክንያቶች ይጥቀሱ / Erga yeroo dhumaaf nutti dubbattanii as sababoonni kunuunsa dahumsa duraa dabalataa akka hin arganne si godhan jiruu? yoo jiraatan, Sababoota hunda kan ilaallatan natti himaa. (choice=COVID-19 restrictions (e.g., lockdowns, travel restrictions, curfews) / daangeffama COVID-19)"
-label variable prevent_more_antenat_v_65 "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? Tell me all reasons, if any, that apply. / የመጨረሻውን መጠይቅ ካደረግንልሽ/ዎት በኋላ እርግዝናሽን በተመለከተ አገልግሎቱን እንዳታገኚ ያደረገሽ ምክኒያት አለ? ካለ ሁሉንም ምክንያቶች ይጥቀሱ / Erga yeroo dhumaaf nutti dubbattanii as sababoonni kunuunsa dahumsa duraa dabalataa akka hin arganne si godhan jiruu? yoo jiraatan, Sababoota hunda kan ilaallatan natti himaa. (choice=COVID-19 fear / ኮቪድ-19ን ፍራቻ / Sodaa COVID-19)"
-label variable prevent_more_antenat_v_66 "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? Tell me all reasons, if any, that apply. / የመጨረሻውን መጠይቅ ካደረግንልሽ/ዎት በኋላ እርግዝናሽን በተመለከተ አገልግሎቱን እንዳታገኚ ያደረገሽ ምክኒያት አለ? ካለ ሁሉንም ምክንያቶች ይጥቀሱ / Erga yeroo dhumaaf nutti dubbattanii as sababoonni kunuunsa dahumsa duraa dabalataa akka hin arganne si godhan jiruu? yoo jiraatan, Sababoota hunda kan ilaallatan natti himaa. (choice=Dont know where to go/too complicated / የት መሄድ እንዳለብኝ አላውቅም/በጣም የተወሳሰበ ነው / Eessa akka deemtu hin beeku/garmalee walxaxaa)"
-label variable prevent_more_antenat_v_67 "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? Tell me all reasons, if any, that apply. / የመጨረሻውን መጠይቅ ካደረግንልሽ/ዎት በኋላ እርግዝናሽን በተመለከተ አገልግሎቱን እንዳታገኚ ያደረገሽ ምክኒያት አለ? ካለ ሁሉንም ምክንያቶች ይጥቀሱ / Erga yeroo dhumaaf nutti dubbattanii as sababoonni kunuunsa dahumsa duraa dabalataa akka hin arganne si godhan jiruu? yoo jiraatan, Sababoota hunda kan ilaallatan natti himaa. (choice=Fear of discovering serious problem / ከባድ የሆኑ የጤና ችግሮችን ይነገረኛል ብለሽ ፍራቻ ስላደረብሽ / Rakkoo hamaa jiru argachuu sodaachuu Rakkoo hamaa jiru argachuu sodaachuu)"
-label variable prevent_more_antenat_v_68 "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? Tell me all reasons, if any, that apply. / የመጨረሻውን መጠይቅ ካደረግንልሽ/ዎት በኋላ እርግዝናሽን በተመለከተ አገልግሎቱን እንዳታገኚ ያደረገሽ ምክኒያት አለ? ካለ ሁሉንም ምክንያቶች ይጥቀሱ / Erga yeroo dhumaaf nutti dubbattanii as sababoonni kunuunsa dahumsa duraa dabalataa akka hin arganne si godhan jiruu? yoo jiraatan, Sababoota hunda kan ilaallatan natti himaa. (choice=Other, specify / ሌላ ካለ ይጥቀሱ/ጥቀሽ / Beellama koo eeguu)"
-label variable prevent_more_antenat_v_69 "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? Tell me all reasons, if any, that apply. / የመጨረሻውን መጠይቅ ካደረግንልሽ/ዎት በኋላ እርግዝናሽን በተመለከተ አገልግሎቱን እንዳታገኚ ያደረገሽ ምክኒያት አለ? ካለ ሁሉንም ምክንያቶች ይጥቀሱ / Erga yeroo dhumaaf nutti dubbattanii as sababoonni kunuunsa dahumsa duraa dabalataa akka hin arganne si godhan jiruu? yoo jiraatan, Sababoota hunda kan ilaallatan natti himaa. (choice=RF/ ታቅቦ/ያልተመለሰ / DEEBII HIN KENNINE)"
-*/
-
-
+label variable m2_320_0 "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? No reason or you didn't need it"
+label variable m2_320_1 "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? You tried but were sent away (e.g., no appointment available) "
+label variable m2_320_2 "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? High cost (e.g., high out of pocket payment, not covered by insurance)"
+label variable m2_320_3 "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? Far distance (e.g., too far to walk or drive, transport not readily available)"
+label variable m2_320_4 "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? Long waiting time (e.g., long line to access facility, long wait for the provider)"
+label variable m2_320_5 "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? Poor healthcare provider skills (e.g., spent too little time with patient, did not conduct a thorough exam)"
+label variable m2_320_6 "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? Staff don't show respect (e.g., staff is rude, impolite, dismissive)"
+label variable m2_320_7 "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? Medicines or equipment are not available (e.g., medicines regularly out of stock, equipment like X-ray machines broken or unavailable)"
+label variable m2_320_8 "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? COVID-19 restrictions (e.g., lockdowns, travel restrictions, curfews) "
+label variable m2_320_9 "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? COVID-19 fear"
+label variable m2_320_10 "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? Don't know where to go/too complicated"
+label variable m2_320_11 "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? Fear of discovering serious problem"
+label variable m2_320_96 "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? Other, specify"
+label variable m2_320_99 "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? Refused"
+label variable m2_320_888_et "320. No information"
+label variable m2_320_998_et "320. Unknown"
+label variable m2_320_999_et "320. Refuse to answer"
 label variable m2_320_other "320-oth. Specify other reason preventing receiving more antenatal care"
 label variable m2_321 "321. Other than in-person visits, did you have contacted with a health care provider by phone, SMS, or web regarding your pregnancy?"
-
 label variable m2_401 "401. Overall, how would you rate the quality of care that you received from the health facility where you took the 1st consultation?"
 label variable m2_402 "402. Overall, how would you rate the quality of care that you received from the health facility where you took the 2nd consultation?"
 label variable m2_403 "403. Overall, how would you rate the quality of care that you received from the health facility where you took the 3rd consultation?"
 label variable m2_404 "404. Overall, how would you rate the quality of care that you received from the health facility where you took the 4th consultation?"
 label variable m2_405 "405. Overall, how would you rate the quality of care that you received from the health facility where you took the 5th consultation?"
-
 label variable m2_501a "501a. Since you last spoke to us, did you get your blood pressure measured (with a cuff around your arm)?"
 label variable m2_501b "501b. Since you last spoke to us, did you get your weight taken (using a scale)?"
 label variable m2_501c "501c.  Since you last spoke to us, did you get a blood draw (that is, taking blood from your arm with a syringe)?"
@@ -2505,7 +2498,6 @@ label variable m2_501e "501e.  Since you last spoke to us, did you get a urine t
 label variable m2_501f "501f. Since you last spoke to us, did you get an ultrasound (that is, when a probe is moved on your belly to produce a video of the baby on a screen)?"
 label variable m2_501g "501g.  Since you last spoke to us, did you get any other tests?"
 label variable m2_501g_other "501g-oth. Specify any other test you took since you last spoke to us"
-
 label variable m2_502 "502. Since we last spoke, did you receive any new test results from a health care provider?   By that I mean, any result from a blood or urine sample or from blood pressure measurement.Do not include any results that were given to you during your first antenatal care visit or during the first survey, only new ones."
 label variable m2_503a "503a. Remember that this information will remain confidential. Did you receive a result for Anemia?"
 label variable m2_503b "503b. Remember that this information will remain confidential. Did you receive a result for HIV?"
@@ -2515,7 +2507,6 @@ label variable m2_503e "503e. Remember that this information will remain confide
 label variable m2_503f "503f. Remember that this information will remain confidential. Did you receive a result for Hypertension?"
 label variable m2_504 "504. Did you receive any other new test results?"
 label variable m2_504_other "504-oth. Specify other test result you receive"
-
 label variable m2_505a "505a. What was the result of the test for anemia? Remember that this information will remain fully confidential."
 label variable m2_505b "505b. What was the result of the test for HIV? Remember that this information will remain fully confidential."
 label variable m2_505c "505c. What was the result of the test for HIV viral load? Remember that this information will remain fully confidential."
@@ -2523,12 +2514,10 @@ label variable m2_505d "505d. What was the result of the test for syphilis? Reme
 label variable m2_505e "505e. What was the result of the test for diabetes? Remember that this information will remain fully confidential."
 label variable m2_505f "505f. What was the result of the test for hypertension? Remember that this information will remain fully confidential."
 label variable m2_505g "505g. What was the result of the test for other tests? Remember that this information will remain fully confidential."
-
 label variable m2_506a "506a. Since you last spoke to us, did you and a healthcare provider discuss about the signs of pregnancy complications that would require you to go to the health facility?"
 label variable m2_506b "506b. Since you last spoke to us, did you and a healthcare provider discuss about your birth plan that is, where you will deliver, how you will get there, and how you need to prepare, or didnt you?"
 label variable m2_506c "506c. Since you last spoke to us, did you and a healthcare provider discuss about care for the newborn when he or she is born such as warmth, hygiene, breastfeeding, or the importance of postnatal care?"
 label variable m2_506d "506d. Since you last spoke to us, did you and a healthcare provider discuss about family planning options for after delivery?"
-
 label variable m2_507 "507. What did the health care provider tell you to do regarding these new symptoms?"
 label variable m2_508a "508a. Since we last spoke, did you have a session of psychological counseling or therapy with any type of professional?  This could include seeing a mental health professional (like a phycologist, social worker, nurse, spiritual advisor or healer) for problems with your emotions or nerves."
 label variable m2_508b_number "508b. Do you know the number of psychological counseling or therapy session you had?"
@@ -2538,7 +2527,6 @@ label variable m2_508d "508d. How many minutes did this/these visit(s) last on a
 label variable m2_509a "509a.  Since we last spoke, did a healthcare provider tells you that you needed to go see a specialist like an obstetrician or a gynecologist?"
 label variable m2_509b "509b. Since we last spoke, did a healthcare provider tells you that you needed to go to the hospital for follow-up antenatal care?"
 label variable m2_509c "509c. Since we last spoke, did a healthcare provider tell you that you will need a C-section?"
-
 label variable m2_601a "601a. Did you get Iron or folic acid pills?"
 label variable m2_601b "601b. Did you get Calcium pills?"
 label variable m2_601c "601c. Did you get Multivitamins?"
@@ -2554,13 +2542,11 @@ label variable m2_601l "601l. Did you get Aspirin?"
 label variable m2_601m "601m. Did you get Paracetamol, or other pain relief drugs?"
 label variable m2_601n "601n. Did you get Any other medicine or supplement?"
 label variable m2_601n_other "601n-oth. Specify other medicine or supplement you took"
-
 label variable m2_602a "602a. Do you know how much in total you pay for this new medication?"
 label variable m2_602b "602b. In total, how much did you pay for these new medications or supplements (ETB)?"
 label variable m2_603 "603. Are you currently taking iron and folic acid pills, or not?"
 label variable m2_604 "604. How often do you take iron and folic acid pills?"
 label variable m2_701 "701. I would now like to ask about the cost of these new health care visits.  Did you pay any money out of your pocket for these new visits, including for the consultation or other indirect costs like your transport to the facility?  Do not include the cost of medicines that you have already told me about."
-
 label variable m2_702a "702a. Did you spend money on Registration/Consultation?"
 label variable m2_702a_other "702a-oth. How much money did you spend on Registration/Consultation?"
 label variable m2_702b "702b. Did you spend money on Test or investigations (lab tests, ultrasound etc.?"
@@ -2574,18 +2560,16 @@ label variable m2_702e_other "702e-oth. How much money did you spend on other it
 label variable m2_703 "703. So, in total you spent"
 label variable m2_704 "704. Is the total cost correct?"
 label variable m2_704_other "704-oth. So how much in total would you say you spent?"
-
-/*
-label variable which_of_the_followi_v_92 "705. Which of the following financial sources did your household use to pay for this? Include all that apply (Interviewer: probe as anything else?)  ከሚከተሉት የገንዘብ ምንጮች ውስጥ ቤተሰብዎ ለእዚህ ክትትል ክፍያ ወጪ የተጠቀሙትከየትኛው ምንጭ/መንገድ ነው? ( ጠያቂ፡ ሌላስ በማለት)  Maatiin  keessan kaffaltii kana kaffaluuf maddoota gaalli keesaani  armaan gadii keessaa isa kam fayyadamtan? (choice=Current income of any household members / ከቤተሰብ አባላት ወቅታዊ ገቢ / Galii yeroo ammaa miseensota manaa kamiyyuu)"
-label variable which_of_the_followi_v_93 "705. Which of the following financial sources did your household use to pay for this? Include all that apply (Interviewer: probe as anything else?)  ከሚከተሉት የገንዘብ ምንጮች ውስጥ ቤተሰብዎ ለእዚህ ክትትል ክፍያ ወጪ የተጠቀሙትከየትኛው ምንጭ/መንገድ ነው? ( ጠያቂ፡ ሌላስ በማለት)  Maatiin  keessan kaffaltii kana kaffaluuf maddoota gaalli keesaani  armaan gadii keessaa isa kam fayyadamtan? (choice=Savings (e.g., bank account) / ከቁጠባ (ለምሳሌ ከባንክ ደብተር) / Qusannoo (fkn herrega baankii))"
-label variable which_of_the_followi_v_94 "705. Which of the following financial sources did your household use to pay for this? Include all that apply (Interviewer: probe as anything else?)  ከሚከተሉት የገንዘብ ምንጮች ውስጥ ቤተሰብዎ ለእዚህ ክትትል ክፍያ ወጪ የተጠቀሙትከየትኛው ምንጭ/መንገድ ነው? ( ጠያቂ፡ ሌላስ በማለት)  Maatiin  keessan kaffaltii kana kaffaluuf maddoota gaalli keesaani  armaan gadii keessaa isa kam fayyadamtan? (choice=Payment or reimbursement from a health insurance plan / ከጤና መድህን ክፍያ ወይም ማካካሻ / Karoora inshuraansii fayyaa irraa kaffaltii yookaan bakka buusa)"
-label variable which_of_the_followi_v_95 "705. Which of the following financial sources did your household use to pay for this? Include all that apply (Interviewer: probe as anything else?)  ከሚከተሉት የገንዘብ ምንጮች ውስጥ ቤተሰብዎ ለእዚህ ክትትል ክፍያ ወጪ የተጠቀሙትከየትኛው ምንጭ/መንገድ ነው? ( ጠያቂ፡ ሌላስ በማለት)  Maatiin  keessan kaffaltii kana kaffaluuf maddoota gaalli keesaani  armaan gadii keessaa isa kam fayyadamtan? (choice=Sold items (e.g., furniture, animals, jewellery, furniture) / ንብረት በመሸጥ (ለምሳሌ የቤት ዕቃዎች፣ እንስሳት፣ ጌጣጌጥ) / Meeshaalee gurguruun (fkn meeshaalee manaa, bineensota, faaya, meeshaalee manaa))"
-label variable which_of_the_followi_v_96 "705. Which of the following financial sources did your household use to pay for this? Include all that apply (Interviewer: probe as anything else?)  ከሚከተሉት የገንዘብ ምንጮች ውስጥ ቤተሰብዎ ለእዚህ ክትትል ክፍያ ወጪ የተጠቀሙትከየትኛው ምንጭ/መንገድ ነው? ( ጠያቂ፡ ሌላስ በማለት)  Maatiin  keessan kaffaltii kana kaffaluuf maddoota gaalli keesaani  armaan gadii keessaa isa kam fayyadamtan? (choice=Family members or friends from outside the household / ከቤት ውጭ ካሉ የቤተሰብ አባላት ወይም ከጓደኞች / Miseensota maatii yookaan hiriyoota manaa ala jiran irraa)"
-label variable which_of_the_followi_v_97 "705. Which of the following financial sources did your household use to pay for this? Include all that apply (Interviewer: probe as anything else?)  ከሚከተሉት የገንዘብ ምንጮች ውስጥ ቤተሰብዎ ለእዚህ ክትትል ክፍያ ወጪ የተጠቀሙትከየትኛው ምንጭ/መንገድ ነው? ( ጠያቂ፡ ሌላስ በማለት)  Maatiin  keessan kaffaltii kana kaffaluuf maddoota gaalli keesaani  armaan gadii keessaa isa kam fayyadamtan? (choice=Borrowed (from someone other than a friend or family) / ብድር (ከጓደኛ ወይም ከቤተሰብ ውጭ ከሆኑ ሰዎች) / Liqeeffannee (hiriyyaa yookaan maatii irraa kan hafe nama biraa irraa))"
-label variable which_of_the_followi_v_98 "705. Which of the following financial sources did your household use to pay for this? Include all that apply (Interviewer: probe as anything else?)  ከሚከተሉት የገንዘብ ምንጮች ውስጥ ቤተሰብዎ ለእዚህ ክትትል ክፍያ ወጪ የተጠቀሙትከየትኛው ምንጭ/መንገድ ነው? ( ጠያቂ፡ ሌላስ በማለት)  Maatiin  keessan kaffaltii kana kaffaluuf maddoota gaalli keesaani  armaan gadii keessaa isa kam fayyadamtan? (choice=Other (please specify) / ሌላ (እባክዎ ይግለጹ) / Kan biroo (maaloo ibsi))"
-*/
-
-
+label variable m2_705_1 "705. Which of the following financial sources did your household use to pay for this? Current income of any household members"
+label variable m2_705_2 "705. Which of the following financial sources did your household use to pay for this? Savings (e.g., bank account)"
+label variable m2_705_3 "705. Which of the following financial sources did your household use to pay for this? Payment or reimbursement from a health insurance plan"
+label variable m2_705_4 "705. Which of the following financial sources did your household use to pay for this? Sold items (e.g., furniture, animals, jewellery, furniture)"
+label variable m2_705_5 "705. Which of the following financial sources did your household use to pay for this? Family members or friends from outside the household"
+label variable m2_705_6 "705. Which of the following financial sources did your household use to pay for this? Borrowed (from someone other than a friend or family)"
+label variable m2_705_96 "705. Which of the following financial sources did your household use to pay for this? Other (please specify)"
+label variable m2_705_888_et "705. No information"
+label variable m2_705_998_et "705. Unknown"
+label variable m2_705_999_et "705. Refuse to answer"
 label variable m2_705_other "705-oth. Please specify"
 label variable m2_interview_inturrupt "Is the interview inturrupted?"
 label variable m2_interupt_time "At what time it is interrupted?"
@@ -2595,7 +2579,6 @@ label variable m2_endtime "103B. Time of Interview end"
 label variable m2_int_duration "103C. Total Duration of interview (In minutes)"
 label variable m2_endstatus "What is this womens current status at the end of the interview?"
 label variable m2_complete "Complete?"
-
 
 *===============================================================================
 
@@ -2613,16 +2596,23 @@ drop iic_3-module_5_end_line_facetoface_sur first_name family_name phone_number 
 	 m1_519_village m1_519_ward q1501 age gravid lmp edd para ///
 	 number_of_children_alive previous_stillbirth history_of_3 birthweight2500 birthweight4000 ///
 	 last_pregnancy previous_survey diagnosed age_less_than_16_years-maternal_integrated_cards_comple ///
-	 m1_714d date 
+	 m1_714d date 	 
 	 
-
+	 
 order m1_* m2_*, sequential
-order country site sampstrata study_site study_site_sd facility interviewer_id date_m1 permission ////
-	  care_self enrollage zone_live b5anc b6anc_first b7eligible respondentid mobile_phone flash
+
+order m2_start m2_date m2_date m2_permission m2_103 m2_time_start m2_maternal_death_reported m2_ga m2_ga_estimate m2_hiv_status ///
+	 m2_date_of_maternal_death m2_maternal_death_learn m2_maternal_death_learn_other m2_111 m2_111_other m2_201,after(m1_end_time)
+
+order height_cm weight_kg bp_time_1_systolic bp_time_1_diastolic time_1_pulse_rate bp_time_2_systolic bp_time_2_diastolic time_2_pulse_rate bp_time_3_systolic bp_time_3_diastolic pulse_rate_time_3 muac m1_1306 m1_1307 m1_1309,after(m1_1223)
+
 
 order phq9a phq9b phq9c phq9d phq9e phq9f phq9g phq9h phq9i, after(m1_205e)
-	 
 
+order redcap_record_id study_id interviewer_name_a7 redcap_event_name redcap_repeat_instrument redcap_repeat_instance redcap_data_access_group date_m1 m1_start_time country site study_site study_site_sd facility facility_other sampstrata facility_type permission care_self  site sampstrata study_site study_site_sd facility interviewer_id date_m1 m1_start_time permission ////
+	  care_self enrollage zone_live b5anc b6anc_first b7eligible respondentid mobile_phone flash
+
+*===============================================================================
 
 save "$et_data_final/eco_m1m2_et.dta", replace
 	
