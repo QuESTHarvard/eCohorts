@@ -8,7 +8,7 @@ global data "Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts 
 
 u "$user/$data/Ethiopia/02 recoded data/eco_m1m2_et_der.dta", clear	
 	keep if b7eligible==1  & m1_complete==2 // keep baseline data only
-	
+	egen tag=tag(facility)
 * ANC quality
 	gen ultrasound = anc1ultrasound if trimester>2
 	gen edd = anc1edd if trimester>1
@@ -24,7 +24,9 @@ u "$user/$data/Ethiopia/02 recoded data/eco_m1m2_et_der.dta", clear
 		anc1urine ultrasound anc1lmp anc1depression anc1danger_screen ///
 		counsel_nutri counsel_exer counsel_complic counsel_birthplan edd ///
 		counsel_comeback anc1ifa calcium deworm tt anc1itn)
-		
+	
+	rename m1_603 timespent
+	
 * Medical risk factors
 	egen chronic = rowmax(m1_202a m1_202b m1_202c m1_202d m1_202e  m1_202g_et m1_203_et)
 	replace chronic = 0 if m1_203_other=="Anemia" | m1_203_other=="Chronic Sinusitis and tonsil" ///
@@ -33,7 +35,7 @@ u "$user/$data/Ethiopia/02 recoded data/eco_m1m2_et_der.dta", clear
 	| m1_203_other=="Sinusitis" | m1_203_other=="gastric"
 	replace chronic=1 if HBP==1
 	rename malnutrition maln_underw
-
+	rename anemic_11 anemic
 * Obstetric risk factors
 	gen multiple= m1_805 >1 &  m1_805<.
 	gen cesa= m1_1007==1
@@ -43,6 +45,12 @@ u "$user/$data/Ethiopia/02 recoded data/eco_m1m2_et_der.dta", clear
 	gen PPH=m1_1006==1
 	egen complic = rowmax(stillbirth neodeath preterm PPH)
 	
+* Demographics
+	gen second=educ_cat>=3
+	gen minority= m1_507
+	recode minority (1 2 4=0) (3 5 96=1) // protestants, indigenous & other
+	gen firsttrim= trimester==1
+	
 save "$user/$analysis/ETtmp.dta", replace
 
 *------------------------------------------------------------------------------*		
@@ -50,6 +58,7 @@ save "$user/$analysis/ETtmp.dta", replace
 
 u "$user/$data/Kenya/02 recoded data/eco_m1_ke_der.dta", clear
 		rename study_site site
+		egen tag=tag(facility)
 * ANC quality
 		gen ultrasound = anc1ultrasound if trimester>2
 		gen edd2 = anc1edd if trimester>1
@@ -64,6 +73,8 @@ u "$user/$data/Kenya/02 recoded data/eco_m1_ke_der.dta", clear
 		anc1urine ultrasound anc1lmp anc1depression  ///
 		counsel_nutri counsel_exer counsel_complic counsel_birthplan edd2 ///
 		counsel_comeback anc1ifa deworm tt anc1itn)
+		
+		rename m1_603 timespent
 		
 *Medical risk factors
 		egen chronic= rowmax(m1_202a m1_202b m1_202c m1_202d m1_202e m1_203c_ke ///
@@ -83,15 +94,20 @@ u "$user/$data/Kenya/02 recoded data/eco_m1_ke_der.dta", clear
 		gen preterm = m1_1005 ==1
 		gen PPH=m1_1006==1
 		egen complic = rowmax(stillbirth neodeath preterm PPH)
-	
+* Demographics
+		gen second=educ_cat>=3
+		gen minority = m1_501
+		recode minority (4 =1) (-96 1 2 3 5/9=0) //  kikamba vs other
+		gen firsttrim= trimester==1
 save "$user/$analysis/KEtmp.dta", replace
 
 *------------------------------------------------------------------------------*	
 * SOUTH AFRICA 
 
 u  "$user/$data/South Africa/02 recoded data/eco_m1_za_der.dta", clear
-									      
+		drop if respondent =="NEL_045"	// missing entire sections 7 and 8		 				      
 		rename  study_site_sd site
+		egen tag=tag(facility)
 * ANC quality
 		gen edd = anc1edd if trimester>1
 		gen calcium = anc1calcium if trimester>1
@@ -105,6 +121,8 @@ u  "$user/$data/South Africa/02 recoded data/eco_m1_za_der.dta", clear
 		anc1urine anc1lmp anc1depression anc1danger_screen ///
 		counsel_nutri counsel_exer counsel_complic counsel_birthplan edd ///
 		counsel_comeback anc1ifa calcium tt )
+		
+		rename m1_603 timespent
 		
 * Medical risk factors
 		egen chronic= rowmax(m1_202a m1_202b m1_202c m1_202d m1_202e)
@@ -122,5 +140,13 @@ u  "$user/$data/South Africa/02 recoded data/eco_m1_za_der.dta", clear
 		gen preterm = m1_1005 ==1
 		gen PPH=m1_1006==1
 		egen complic = rowmax(stillbirth neodeath preterm PPH)
+* Demographics
+		gen second=educ_cat>=3
+		gen minority = m1_507
+		recode minority (5=1) (1 3 6=0) // African religion vs christian and other
+		gen firsttrim= trimester==1
+* Facility types
+	gen private=0
+	gen facsecond=0
 	
 save "$user/$analysis/ZAtmp.dta", replace

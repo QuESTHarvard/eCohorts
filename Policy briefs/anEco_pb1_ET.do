@@ -4,7 +4,7 @@
 
 
 u "$et_data_final/eco_m1m2_et_der.dta", clear
-u 
+
 * Keep M1 only
 keep if redcap_event_name  == "module_1_arm_1"
 keep if b7eligible==1  & m1_complete==2 //SS: keeping this here only because we are not filtering out incomplete M1 surveys in the cleaning file
@@ -41,6 +41,7 @@ keep if b7eligible==1  & m1_complete==2 //SS: keeping this here only because we 
 				    anc1ultrasound anc1ifa anc1tt counsel_nutri counsel_exer ///
 					counsel_complic counsel_comeback counsel_birthplan, ///
 					stat(mean count) col(stat)
+			ta anc1ultrasound facility_lvl, col 
 		
 			tabstat fpoor*, stat(mean count) col(stat)
 			

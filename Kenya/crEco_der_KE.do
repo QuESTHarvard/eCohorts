@@ -235,11 +235,11 @@ u "$ke_data_final/eco_m1_ke.dta", clear
 			gen low_BMI= 1 if BMI<18.5 
 			replace low_BMI = 0 if BMI>=18.5 & BMI<.
 
-			
-			
+					
 			
 *------------------------------------------------------------------------------*	
 * Labelling new variables 
+	
 	lab var phq9_cat "PHQ9 Depression level Based on sum of all 9 items"
 	lab var anc1bp "Blood pressure taken at ANC1"
 	lab var anc1weight "Weight taken at ANC1"
@@ -267,5 +267,7 @@ u "$ke_data_final/eco_m1_ke.dta", clear
 	lab var height_m "Height in meters"
 	lab var BMI "Body mass index"
 	lab var low_BMI "BMI below 18.5 (low)"
+	
+	order facility_lvl, after(facility)
 								 
  save "$ke_data_final/eco_m1_ke_der.dta", replace

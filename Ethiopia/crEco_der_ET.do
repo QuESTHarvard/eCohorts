@@ -14,16 +14,9 @@ u "$et_data_final/eco_m1m2_et.dta", clear
 *------------------------------------------------------------------------------*
 	* SECTION A: META DATA
 			
-			/* SS - this was already created in cleaning file
-			recode study_site (2/7=2), gen(site)
-			lab def site 1 "Adama Town" 2"East Shewa Zone"
-			lab val site site
-			*/
-			
 			gen facility_own = facility
 			recode facility_own (2/11 14 16/19 =1) ///
 							    (1 13 15 20 21 22 96 =2)
-			
 			lab def facility_own 1 "Public" 2 "Private"
 			lab val facility_own facility_own 
 			
@@ -47,7 +40,7 @@ u "$et_data_final/eco_m1m2_et.dta", clear
 			
 *------------------------------------------------------------------------------*	
 	* SECTION 3: CONFIDENCE AND TRUST HEALTH SYSTEM
-			recode m1_302 (98=.)
+			recode m1_302 (98=.) // this shuold be fixed in cleaning do file
 	
 *------------------------------------------------------------------------------*	
 	* SECTION 5: BASIC DEMOGRAPHICS
@@ -69,11 +62,6 @@ u "$et_data_final/eco_m1m2_et.dta", clear
 			}
 			egen anc1ux=rowmean(vgm1_605a-vgm1_605k)
 			*drop vgm1_605a-vgm1_605k
-			
-			foreach v in m1_605a m1_605b m1_605c m1_605d m1_605e m1_605f ///
-			             m1_605g m1_605h m1_605i m1_605j m1_605k {
-						 	recode `v' (4/5=1) (1/3=0), gen(fpoor`v')
-						 }
 *------------------------------------------------------------------------------*	
 	* SECTION 7: VISIT TODAY: CONTENT OF CARE
 	
@@ -104,7 +92,7 @@ u "$et_data_final/eco_m1m2_et.dta", clear
 
 			egen anc1tq = rowmean(anc1bp anc1weight anc1height anc1muac anc1fetal_hr anc1urine ///
 								 anc1blood anc1ultrasound anc1ifa anc1tt ) // 10 items
-								  
+					  
 			* Counselling at first ANC visit
 			gen counsel_nutri =  m1_716a  
 			gen counsel_exer=  m1_716b
@@ -113,8 +101,7 @@ u "$et_data_final/eco_m1m2_et.dta", clear
 			gen counsel_birthplan =  m1_809
 			egen anc1counsel = rowmean(counsel_nutri counsel_exer counsel_complic ///
 								counsel_comeback counsel_birthplan)
-								
-						
+										
 			* Q713 Other treatments/medicine at first ANC visit 
 			gen anc1food_supp = m1_713c
 			gen anc1mental_health_drug = m1_713f
@@ -184,7 +171,7 @@ u "$et_data_final/eco_m1m2_et.dta", clear
 	* SECTION 12: ECONOMIC STATUS AND OUTCOMES
 			*Asset variables
 			recode  m1_1201 (2 4 6 96=0) (3=1), gen(safewater) // 96 is Roto tanks or tanker 
-			recode  m1_1202 (2=1) (3=0), gen(toilet)
+			recode  m1_1202 (2=1) (3=0), gen(toilet) // flush/ pour flush toilet and pit laterine =improved 
 			gen electr = m1_1203
 			gen radio = m1_1204
 			gen tv = m1_1205
@@ -285,6 +272,7 @@ u "$et_data_final/eco_m1m2_et.dta", clear
 	lab var malnutrition "Acute malnutrition MUAC<23"
 	lab var BMI "Body mass index"
 	lab var low_BMI "BMI below 18.5 (low)"
-	
+
+	order facility_own facility_lvl, after(facility)
 	
 save "$et_data_final/eco_m1m2_et_der.dta", replace
