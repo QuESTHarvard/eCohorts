@@ -24,6 +24,7 @@ u "$user/$data/Ethiopia/02 recoded data/eco_m1m2_et_der.dta", clear
 		anc1urine ultrasound anc1lmp anc1depression anc1danger_screen ///
 		counsel_nutri counsel_exer counsel_complic counsel_birthplan edd ///
 		counsel_comeback anc1ifa calcium deworm tt anc1itn)
+	replace anc1qual = anc1qual*100
 	
 	rename m1_603 timespent
 	
@@ -49,7 +50,27 @@ u "$user/$data/Ethiopia/02 recoded data/eco_m1m2_et_der.dta", clear
 	gen second=educ_cat>=3
 	gen minority= m1_507
 	recode minority (1 2 4=0) (3 5 96=1) // protestants, indigenous & other
-	gen firsttrim= trimester==1
+	gen age_cat=enrollage
+	recode age_cat 15/20=1 21/35=2 36/60=3
+	lab def age_cat 1"15-20yrs" 2"21-35 yrs" 3 "36+yrs"
+	lab val age_cat age_cat
+	
+* Visit-level
+	encode date_m1, gen(month)
+	recode month 1/17=1 18/33=2
+	lab def mo 1"April" 2"May"
+	lab val month mo
+	
+	encode date_m1, gen(day)
+	recode day 6=1 7=2 8=3 9=4 10=2 11=3 12=4 13=1 14=2 15=3 16=4 17=5 18=2 19=3 20=4 21=5 ///
+		   22=1 23=2 24=3 25=4 26=5 27=1 28=2 29=3 30=4 31=5 32=1 33=1
+	lab def day2 1"MON" 2"TUE" 3"WED" 4"THU" 5"FRI" 
+	lab val day day2 
+	
+	encode m1_start_time, gen(time)
+	recode time 1/8=2 9/20=3 21/202=1 203/321=2 322/418=3
+	lab def time2 1"Morning" 2"Afternoon" 3"Evening"
+	lab val time time2
 	
 save "$user/$analysis/ETtmp.dta", replace
 
@@ -73,6 +94,7 @@ u "$user/$data/Kenya/02 recoded data/eco_m1_ke_der.dta", clear
 		anc1urine ultrasound anc1lmp anc1depression  ///
 		counsel_nutri counsel_exer counsel_complic counsel_birthplan edd2 ///
 		counsel_comeback anc1ifa deworm tt anc1itn)
+		replace anc1qual = anc1qual*100
 		
 		rename m1_603 timespent
 		
@@ -98,7 +120,21 @@ u "$user/$data/Kenya/02 recoded data/eco_m1_ke_der.dta", clear
 		gen second=educ_cat>=3
 		gen minority = m1_501
 		recode minority (4 =1) (-96 1 2 3 5/9=0) //  kikamba vs other
-		gen firsttrim= trimester==1
+		gen age_cat=enrollage
+		recode age_cat 15/20=1 21/35=2 36/60=3
+		lab def age_cat 1"15-20yrs" 2"21-35 yrs" 3 "36+yrs"
+		recode educ_cat 4=3 // for multi country analysis
+		
+* Visit-level
+		 ssc install numdate
+		 extrdate month month = m1_start_time
+		 extrdate dow day = m1_start_time
+		 recode day 6=5
+		 extrdate hh time  = m1_start_time
+		 recode time 9/11=1 12/14=2 15/23=3
+		 lab def time2 1"Morning" 2"Afternoon" 3"Evening"
+		 lab val time time2
+
 save "$user/$analysis/KEtmp.dta", replace
 
 *------------------------------------------------------------------------------*	
@@ -121,6 +157,7 @@ u  "$user/$data/South Africa/02 recoded data/eco_m1_za_der.dta", clear
 		anc1urine anc1lmp anc1depression anc1danger_screen ///
 		counsel_nutri counsel_exer counsel_complic counsel_birthplan edd ///
 		counsel_comeback anc1ifa calcium tt )
+		replace anc1qual = anc1qual*100
 		
 		rename m1_603 timespent
 		
@@ -144,9 +181,21 @@ u  "$user/$data/South Africa/02 recoded data/eco_m1_za_der.dta", clear
 		gen second=educ_cat>=3
 		gen minority = m1_507
 		recode minority (5=1) (1 3 6=0) // African religion vs christian and other
-		gen firsttrim= trimester==1
+		gen age_cat=enrollage
+		recode age_cat 15/20=1 21/35=2 36/60=3 
+		lab def age_cat 1"15-20yrs" 2"21-35 yrs" 3 "36+yrs"
+		recode educ_cat 4=3 // for multi country analysis
+		
 * Facility types
 	gen private=0
 	gen facsecond=0
 	
+* Visit-level
+		extrdate month month =date_m1
+		extrdate dow day = date_m1
+		encode m1_start_time, gen(time)
+		recode time 2/11=2 12/217=1 218/344=2  345/369=3
+		lab def time2 1"Morning" 2"Afternoon" 3"Evening"
+		lab val time time2
+  
 save "$user/$analysis/ZAtmp.dta", replace
