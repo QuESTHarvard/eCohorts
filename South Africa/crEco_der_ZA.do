@@ -178,8 +178,8 @@ u "$za_data_final/eco_m1_za.dta", clear
 			pca  electr radio tv  refrig  car 
 			estat kmo
 			predict wealthindex
-			xtile quintile = wealthindex, nq(4)
-			
+			xtile tertile = wealthindex, nq(4)
+
 			gen registration_cost= m1_1218a_1 // registration
 			replace registration = . if registr==0
 			gen med_vax_cost =  m1_1218b_1 // med or vax
@@ -204,8 +204,6 @@ u "$za_data_final/eco_m1_za.dta", clear
 			* Anemia 
 			gen Hb= m1_1309 // test done by E-Cohort data collector
 			gen Hb_card= m1_1307 // hemoglobin value taken from the card
-
-
 			replace Hb = Hb_card if Hb==.a | Hb==. // use the card value if the test wasn't done
 				// Reference value of 11 from: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8990104/
 			gen anemic= 0 if Hb>=11 & Hb<. 

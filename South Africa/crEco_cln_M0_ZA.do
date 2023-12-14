@@ -356,6 +356,11 @@ lab var m0_801_nov "M0-801.11. Number of antenatal care visits (all visits) for 
 lab var m0_801_dec "M0-801.12. Number of antenatal care visits (all visits) for December"
 lab var m0_801_total "M0-801.total. Total number of antenatal care visits (all visits)"
 
+foreach v in m0_801_jan m0_801_feb m0_801_mar m0_801_apr m0_801_may ///
+		m0_801_jun m0_801_jul m0_801_aug m0_801_sep m0_801_oct m0_801_nov m0_801_dec { // Incorrect ANC counts. Londi sent corrections on DEC/13/2023
+		rename `v' `v'k 
+		}
+
 rename (mod0_fac_case_sum_802_jan mod0_fac_case_sum_802_feb mod0_fac_case_sum_802_mar mod0_fac_case_sum_802_apr mod0_fac_case_sum_802_may ///
         mod0_fac_case_sum_802_jun mod0_fac_case_sum_802_jul mod0_fac_case_sum_802_aug mod0_fac_case_sum_802_sep mod0_fac_case_sum_802_oct ///
 		mod0_fac_case_sum_802_nov mod0_fac_case_sum_802_dec mod0_fac_case_sum_802_total) (m0_802_jan m0_802_feb m0_802_mar m0_802_apr m0_802_may ///
@@ -575,7 +580,29 @@ lab var m0_813_total "M0-813.total. Total number of postnatal care visits"
 	* STEP FOUR: LABELING VARIABLES (starts at: line )
 	
 	
-	* STEP FIVE: ORDER VARIABLES (starts at: line )
+save "$za_data_final/eco_m0_za.dta", replace
+
+* Adding corrected ANC volume data received from Londi DEC/13/2023
+
+	import excel using "$za_data/SA Outstanding ANC Data - 14Dec2023.xlsx", firstrow clear
+	drop P var facname
+	rename CRHID fac
+	rename (MOD0_Fac_Case_Sum_801_Jan-MOD0_Fac_Case_Sum_801_Dec) (m0_801_jan m0_801_feb m0_801_mar m0_801_apr m0_801_may ///
+		m0_801_jun m0_801_jul m0_801_aug m0_801_sep m0_801_oct m0_801_nov m0_801_dec)
+	insobs 1
+	replace fac = "EUB" if fac==""
+	sort fac
+	encode fac, gen(facility)
+	drop fac
+	merge 1:1 facility using "$za_data_final/eco_m0_za.dta"
+	drop _merge
+	foreach v in m0_801_jan m0_801_feb m0_801_mar m0_801_apr m0_801_may ///
+		m0_801_jun m0_801_jul m0_801_aug m0_801_sep m0_801_oct m0_801_nov m0_801_dec{
+		replace `v' = `v'k if facility==4
+		drop `v'k
+		}
+	
+* STEP FIVE: ORDER VARIABLES (starts at: line )
 	
 	order m0_*, sequential
 	
@@ -583,4 +610,3 @@ lab var m0_813_total "M0-813.total. Total number of postnatal care visits"
 	m0_a4_site m0_a4_subsite m0_id m0_ward_za m0_facility_type m0_facility_own m0_urban m0_a13 response*
 	
 save "$za_data_final/eco_m0_za.dta", replace
-		

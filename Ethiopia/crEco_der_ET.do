@@ -47,9 +47,8 @@ u "$et_data_final/eco_m1m2_et.dta", clear
 	
 			gen educ_cat=m1_503
 			replace educ_cat = 1 if m1_502==0
-			recode educ_cat (3=2) (4=3) (5=4)
-			lab def educ_cat 1 "No education or some primary" 2 "Complete primary" 3 "Complete secondary" ///
-							 4 "Higher education"	 
+			recode educ_cat (3=2) (4/5=3) 
+			lab def educ_cat 1 "No education or some primary" 2 "Complete primary" 3 "Complete secondary or higher"  
 			lab val educ_cat educ_cat
 			
 			recode m1_505 (1/4=0) (5/6=1), gen(marriedp) 
@@ -194,6 +193,7 @@ u "$et_data_final/eco_m1m2_et.dta", clear
 			estat kmo // all above 50
 			predict wealthindex
 			xtile quintile = wealthindex, nq(5)
+			xtile tertile = wealthindex, nq(3)
 			
 			gen registration_cost= m1_1218a_1 // registration
 				replace registration = . if registr==0
