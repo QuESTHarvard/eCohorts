@@ -1,6 +1,7 @@
 * Kenya MNH ECohort Data Cleaning File 
 * Created by S. Sabwa
 * Last Updated: Sep 14 2023 
+* Added M2 cleaning code 20 Dec 2023 by K. Wright
 
 *------------------------------------------------------------------------------*
 
@@ -174,6 +175,53 @@ rename (preferred_language preferred_language_1 preferred_language_2 preferred_l
 		preferred_language_4 preferred_language__96 preferred_language_oth) (pref_language_ke ///
 		pref_language_1_ke pref_language_2_ke pref_language_3_ke pref_language_4_ke pref_language_96_ke ///
 		pref_language_other_ke)
+		
+	* MODULE 2: rename (old_varname) (new_varname) 
+	
+rename today_date m2_date 
+rename call_response m2_attempt_outcome 
+rename consent m2_permission
+rename (q_109 date_death_knows q_111 q_111_oth) /// 
+       (m2_maternal_death_reported m2_date_of_maternal_death m2_maternal_death_learn ///
+        m2_maternal_death_learn_other) 
+rename (q_201 q_202) (m2_201 m2_202) 
+rename (q_203a q_203b q_203c q_203d q_203e q_203f q_203g q_203h) /// 
+       (m2_203a m2_203b m2_203c m2_203d m2_203e m2_203f m2_203g m2_203h)
+rename (q_204 q_204_specify) (m2_204i m2_204i_other) 
+rename  q_206 m2_206
+rename (q_301 q_302) (m2_301 m2_302) 
+rename (q_305_1 q_306_1) (m2_305 m2_306)
+
+rename (q_320_0 q_320_1 q_320_2 q_320_3 q_320_4 q_320_5 q_320_6 q_320_7 q_320_8 ///
+        q_320_9 q_320_10 q_320_11 q_320_12 q_320__96 q_320__99 q_320_other) ///
+	   (m2_320_0 m2_320_1 m2_320_2 m2_320_3 m2_320_4 m2_320_5 m2_320_6 m2_320_7 /// 
+	    m2_320_8 m2_320_9 m2_320_10 m2_320_11 m2_320_96 m2_320_99)
+rename q_321 m2_321
+rename (q_401_1 q_401_2 q_401_3 q_401_4 q_401_5) (m2_401 m2_402 m2_403 m2_404 m2_405)
+rename (q_501_1 q_501_2 q_501_3 q_501_4 q_501_5 q_501_6 q_501__96 q_501_0 q_501_other) ///
+       (m2_501a m2_501b m2_501c m2_501d m2_501e m2_501f m2_501g m2_501g_other m2_501_0 m2_501g_other)
+rename (q_503_1 q_503_2 q_503_3 q_503_4 q_503_5 q_503_6 q_503_0) ///
+       (m2_503a m2_503b m2_503c m2_503d m2_503e m2_503f m2_503_0)	   
+rename (q_504 q_504_specify) (m2_504 m2_504_other)
+rename (q_505a q_505b q_505c q_505d q_505e q_505f q_505g)///
+	   (m2_505a m2_505b m2_505c m2_505d m2_505e m2_505f m2_505g)
+rename (q_506_1 q_506_2 q_506_3 q_506_4 q_506_0) ///
+       (m2_506a m2_506b m2_506c m2_506d m2_506_0)
+rename (q_507_1 q_507_2 q_507_3 q_507_4 q_507_5 q_507_6 q_507_7 q_507__96 q_507_other)
+       (m2_507_1 m2_507_2 m2_507_3 m2_507_4 m2_507_5 m2_507_6 m2_507_7 m2_507_96 m2_507_other)
+rename (q_508a q_508b q_508c) (m2_508a m2_508b_last m2_508d)	  
+rename (q_509_1 q_509_2 q_509_3 q_509_0) (m2_509a m2_509b m2_509c m2_509_0) 
+rename (q_601_1 q_601_2 q_601_3 q_601_4 q_601_5 q_601_6 q_601_7 q_601_8 q_601_9 ///
+        q_601_10 q_601_11 q_601_12 q_601_13 q_601_14 q_601_other q_601_0 q_601__96) ///
+       (m2_601a m2_601b m2_601c m2_601d m2_601e m2_601f m2_601g m2_601h m2_601i ///
+	    m2_601j m2_601k m2_601l m2_601m m2_601n m2_601n_other m2_601_0 m2_601_96)
+rename q_602 m2_602b 
+rename q_603 m2_603 
+rename (q_705_1 q_705_2 q_705_3 q_705_4 q_705_5 q_705_6 q_705__96 q_705_other) ///
+       (m2_705__1 m2_705__2 m2_705__3 m2_705__4 m2_705__5 m2_705__6 m2_705__96 m2_705_other)
+rename call_status m2_complete
+
+
 
 *===============================================================================
 	
@@ -198,6 +246,9 @@ rename (preferred_language preferred_language_1 preferred_language_2 preferred_l
 	
 	label define q515_2 20 "Kitui East", modify
 	label define q519_2 20 "Kitui East", modify
+	
+	
+	
 
 *===============================================================================
 * Generate new vars (KE only):
