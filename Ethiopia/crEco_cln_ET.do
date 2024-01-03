@@ -38,7 +38,7 @@ keep if is_the_respondent_eligible == 1 | is_the_respondent_eligible == .a | is_
 gen country = "Ethiopia"
 
 *** Dropping M4 & M5 for cleaning purposes:
-*drop m4_attempt_date-maternal_integrated_cards_comple
+drop m4_attempt_date-maternal_integrated_cards_comple
 
 *------------------------------------------------------------------------------*
 	* STEPS: 
@@ -426,7 +426,7 @@ rename (consultation_5 consultation_visit_5 consultation_referral_5___1 consulta
 		m3_consultation5_reason_other)		
 	
 rename (bp_before_delivery_412a weight_before_delivery_412b blood_draw_before_delivery_412c blood_test_before_delivery_412d urine_test_before_delivery_412e ///
-		ultrasound_before_delivery_412f other_test_before_delivery_412g m3_412g_other) (m3_412a m3_412b m3_412c m3_412d m3_413e m3_413f m3_413g m3_412g_other)	
+		ultrasound_before_delivery_412f other_test_before_delivery_412g m3_412g_other) (m3_412a m3_412b m3_412c m3_412d m3_412e m3_412f m3_412g m3_412g_other)	
 	
 rename (deliver_health_facility_501 what_kind_of_facility_was_it name_of_the_facility_deliver other_in_the_zone other_outside_of_the_zone_sp ///
 		where_was_this_facility_locate subcity_this_facility_m3 before_you_delivered_505a how_long_did_you_stay_at_505b what_day_and_time_did_the_506 ///
@@ -797,7 +797,7 @@ label values m1_517 residence
 	label values m2_permission
 	
 	label define maternal_death_reported 1 "Yes" 0 "No" 
-	label values maternal_death_reported maternal_death_reported
+	label values m2_maternal_death_reported maternal_death_reported
 	
 	label define m2_hiv_status 1 "Positive" 2 "Negative" 3 "Unknown" 
 	label values m2_hiv_status m2_hiv_status
@@ -1213,7 +1213,8 @@ label values m2_complete m2_complete
 
 label define YN_m3 1 "Yes" 0 "No"
 label values m3_start_p1 m3_permission m3_baby1_born_alive m3_baby2_born_alive ///
-			 m3_baby3_born_alive m3_508 m3_start_p2 m3_permission_p2 YN_m3
+			 m3_baby3_born_alive m3_508 m3_start_p2 m3_permission_p2 m3_803j m3_808a ///
+			 YN_m3
 
 label define m3_303a 1 "One" 2 "Two" 3 "Three or more" 98 "Don't Know" 99 "NR/RF"
 label values m3_303a m3_303a
@@ -1257,7 +1258,9 @@ label values m3_1201 m3_1203 m3_401 m3_consultation_1 m3_consultation_referral_1
 			 m3_619e m3_619f m3_619g m3_619h m3_619i m3_619j m3_620 ///
 		     m3_621b m3_622a m3_622c m3_701 m3_703 m3_704a m3_704b ///
 			 m3_704c m3_704d m3_704e m3_704f m3_70fg m3_705 m3_706 ///
-			 m3_710a m3_710b m3_710c m3_YNDKRF
+			 m3_710a m3_710b m3_710c m3_802a m3_803a m3_803b m3_803c ///
+			 m3_803d m3_803e m3_803f m3_803g m3_803h m3_803i m3_805 ///
+			 m3_YNDKRF
 
 label define confidenceDKNR 1 "Excellent" 2 "Very Good" 3 "Good" ///
 							4 "Fair" 5 "Poor" 98 "Don't Know" 99 "NR/RF"
@@ -1315,7 +1318,6 @@ label define m3_518 0 "The provider did not give a reason" 1 "No space or no bed
 label values m3_518 m3_518
 
 label define m3_519 1 "Low cost of delivery" 2 "Close to home" 3 "Short waiting time or enough HCWs" 4 "Good healthcare provider skills" 5 "Staff are respectful/nice" ///
-label define m3_519 1 "Low cost of delivery" 2 "Close to home" 3 "Short waiting time or enough HCWs" 4 "Good healthcare provider skills" 5 "Staff are respectful/nice" ///
 					6 "Medicine and equipment available" 7 "Facility is clean and/or comfortable" 8 "I delivered here before" 9 "Low risk of getting COVID-19" ///
 					10 "Female providers available" 11 "I was told by family member" 12 "I was told by a health worker" 13 "Familiarity with health worker" ///
 					14 "Familiarity with facility" 15 "Emergency care is available if need" 16 "Birth companion can come with me" 96 "Other, specify" 98 "Dont know" 99 "No response" 
@@ -1364,7 +1366,27 @@ label values m3_baby1_interactivity m3_baby2_interactivity m3_baby3_interactivit
 label define m3_fx 0 "None of the days" 1 "Several days" 2 "More than half the days" 3 "Nearly every day" 98 "Don't Know" 99 "NR/RF" 
 label values m3_801a m3_801b m3_fx
 
+label define m3_807 0 "Not at all" 1 "1" 2 "2" 3 "3" 4 "4" 5 "5" 6 "6" 7 "7" 8 "8" 9 "9" 10 "A great deal" 99 "NR/DK"
+label values m3_807 m3_807
 
+replace m3_808b = "1" if m3_808b == "A"
+replace m3_808b = "2" if m3_808b == "B"
+replace m3_808b = "3" if m3_808b == "C"
+replace m3_808b = "4" if m3_808b == "D"
+replace m3_808b = "5" if m3_808b == "E"
+replace m3_808b = "6" if m3_808b == "F"
+replace m3_808b = "7" if m3_808b == "G"
+replace m3_808b = "8" if m3_808b == "H"
+destring m3_808b, replace
+
+label define m3_808b 1 "Do not know can be fixed" 2 "Do not know where to go" 3 "Too expensive" 4 "Too far" 5 "Poor quality of care" ///
+					 6 "Could not get permission" 7 "Embarrassment" 8 "Problem disappeared" 96 "Other (specify)" 99 "NR/RF"
+label values m3_808b m3_808b					 
+
+label define m3_809 1 "YES, NO MORE LEAKAGE AT ALL" 2 "YES, BUT STILL SOME LEAKAGE" 3 "NO, STILL HAVE PROBLEM" 98 "Don't Know" 99 "NR/RF"
+label values m3_809 m3_809
+
+ 
 *===============================================================================
 		
 	*STEP THREE: RECODING MISSING VALUES 
