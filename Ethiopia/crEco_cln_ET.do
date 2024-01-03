@@ -28,7 +28,7 @@ drop if record_id == "1" | record_id == "2" | record_id == "3" | ///
 tab redcap_event_name
 tab redcap_repeat_instance
 
-keep if redcap_event_name == "module_1_arm_1" | redcap_event_name == "module_2_arm_1" 
+keep if redcap_event_name == "module_1_arm_1" | redcap_event_name == "module_2_arm_1" | redcap_event_name == "module_3_arm_1" 
 		
 * filter for eligible participants only:
 recode is_the_respondent_eligible (. = .a) if redcap_event_name != "module_1_arm_1" // N =17 missing answer to eligiblity
@@ -36,7 +36,10 @@ recode is_the_respondent_eligible (. = .a) if redcap_event_name != "module_1_arm
 keep if is_the_respondent_eligible == 1 | is_the_respondent_eligible == .a | is_the_respondent_eligible == .
 
 gen country = "Ethiopia"
-		
+
+*** Dropping M4 & M5 for cleaning purposes:
+*drop m4_attempt_date-maternal_integrated_cards_comple
+
 *------------------------------------------------------------------------------*
 	* STEPS: 
 		* STEP ONE: RENAME VARIABLES (starts at: line 29)
@@ -337,6 +340,215 @@ gen country = "Ethiopia"
 	
 	rename (specify_other_income_sourc m2_time_it_is_interru at_what_time_it_is_restart time_of_interview_end_103b total_duration_of_interv_103c module_2_phone_surveys_prenatal_)(m2_705_other m2_interupt_time m2_restart_time m2_endtime m2_int_duration m2_complete)
 	
+	
+	
+* MODULE 3:
+
+rename (iic_3 cr1_permission_granted_3 date_of_interview_m3 time_of_interview_started_3 m3_birth_or_ended m3_ga1 ga_birth_mat_estimated) ///
+	   (m3_start_p1 m3_permission m3_date m3_time m3_birth_or_ended m3_ga1 m3_ga2)
+
+rename (how_many_babies_do_you_303a is_the_1st_baby_alive_303b is_the_2nd_baby_alive_303c is_the_3rd_baby_alive_303d what_is_the_1st_baby_name ///
+		what_is_the_2nd_baby_name what_is_the_3rd_baby_name what_is_gender_of_1st_baby what_is_the_gender_of_2nd_baby what_is_the_gender_of_3rd_baby ///
+		how_old_is_the_1st_baby when_the_1st_baby_born_was when_the_2nd_baby_born_w when_the_3rd_baby_born_was) (m3_303a m3_303b m3_303c m3_303d m3_baby1_name ///
+		m3_baby2_name m3_baby3_name m3_baby1_gender m3_baby2_gender m3_baby3_gender m3_baby1_age m3_baby1_weight m3_baby2_weight m3_baby3_weight) 
+
+rename (do_you_know_weight_1st_baby do_you_know_weight_2nd_baby do_you_know_weight_3rd_baby rate_1st_baby_overall_health rate_2nd_baby_overall_health ///
+		rate_3rd_baby_overall_health other_specify other_specifya2  other_specifa3 /// 
+		how_confiden_on_breastfeed how_often_per_day_in_eth1_3 born_alive_baby_1 as_you_know_this_survey_202 born_alive_baby_2 born_alive_baby_3 ///
+		q313b_1 q313b_2) (m3_baby1_size m3_baby2_size m3_baby3_size m3_baby1_health m3_baby2_health m3_baby3_health m3_baby1_feed_other ///
+	    m3_baby2_feed_other m3_baby3_feed_other m3_breastfeeding m3_breastfeeding_fx_et m3_baby1_born_alive m3_202 ///
+		m3_baby2_born_alive m3_baby3_born_alive m3_313a_baby1 m3_313b_baby1)		
+		
+rename (how_you_feed_1st_baby___1 how_you_feed_1st_baby___2 how_you_feed_1st_baby___3 how_you_feed_1st_baby___4 how_you_feed_1st_baby___5 ///
+		how_you_feed_1st_baby___6 how_you_feed_1st_baby___7 how_you_feed_1st_baby___96 how_you_feed_1st_baby___99 how_you_feed_1st_baby___998 ///
+		how_you_feed_1st_baby___999 how_you_feed_1st_baby___888) (m3_baby1_feed_a m3_baby1_feed_b m3_baby1_feed_c m3_baby1_feed_d m3_baby1_feed_e ///
+		m3_baby1_feed_f m3_baby1_feed_g m3_baby1_feed_h m3_baby1_feed_i m3_baby1_feed_998 m3_baby1_feed_999 m3_baby1_feed_888)
+
+rename (how_you_feed_2nd_baby___1 how_you_feed_2nd_baby___2 how_you_feed_2nd_baby___3 how_you_feed_2nd_baby___4 how_you_feed_2nd_baby___5 ///
+		how_you_feed_2nd_baby___6 how_you_feed_2nd_baby___7 how_you_feed_2nd_baby___96 how_you_feed_2nd_baby___99 how_you_feed_2nd_baby___998 ///
+		how_you_feed_2nd_baby___999 how_you_feed_2nd_baby___888) (m3_baby2_feed_a m3_baby2_feed_b m3_baby2_feed_c m3_baby2_feed_d m3_baby2_feed_e ///
+		m3_baby2_feed_f m3_baby2_feed_g m3_baby2_feed_h m3_baby2_feed_i m3_baby2_feed_998 m3_baby2_feed_999 m3_baby2_feed_888)				
+		
+rename (how_you_feed_3rd_baby___1 how_you_feed_3rd_baby___2 how_you_feed_3rd_baby___3 how_you_feed_3rd_baby___4 how_you_feed_3rd_baby___5 ///
+		how_you_feed_3rd_baby___6 how_you_feed_3rd_baby___7 how_you_feed_3rd_baby___96 how_you_feed_3rd_baby___99 how_you_feed_3rd_baby___998 ///
+		how_you_feed_3rd_baby___999 how_you_feed_3rd_baby___888) (m3_baby3_feed_a m3_baby3_feed_b m3_baby3_feed_c m3_baby3_feed_d m3_baby3_feed_e ///
+		m3_baby3_feed_f m3_baby3_feed_g m3_baby3_feed_h m3_baby3_feed_i m3_baby3_feed_998 m3_baby3_feed_999 m3_baby3_feed_888)
+
+rename (days_or_hours_die_baby_2 days_or_hours_die_baby_4 days_or_hours_die_baby_3 days_or_hours_die_baby_5) (m3_313a_baby2 m3_313b_baby2 ///
+		m3_313a_baby3 m3_313b_baby3)		
+
+rename (death_cause_baby_1___a death_cause_baby_1___b death_cause_baby_1___c death_cause_baby_1___d death_cause_baby_1___e death_cause_baby_1___f ///
+		death_cause_baby_1___g death_cause_baby_1___96 death_cause_baby_1___998 death_cause_baby_1___999 death_cause_baby_1___888 other_death_case_baby_1) ///
+		(m3_death_cause_baby1_a m3_death_cause_baby1_b m3_death_cause_baby1_c m3_death_cause_baby1_d m3_death_cause_baby1_e m3_death_cause_baby1_f ///
+		m3_death_cause_baby1_g m3_death_cause_baby1_96 m3_death_cause_baby1_998 m3_death_cause_baby1_999 m3_death_cause_baby1_888 m3_death_cause_baby1_other)		
+
+rename (death_cause_baby_2___a death_cause_baby_2___b death_cause_baby_2___c death_cause_baby_2___d death_cause_baby_2___e death_cause_baby_2___f ///
+		death_cause_baby_2___g death_cause_baby_2___96 death_cause_baby_2___998 death_cause_baby_2___999 death_cause_baby_2___888 other_death_case_baby_2) ///
+		(m3_death_cause_baby2_a m3_death_cause_baby2_b m3_death_cause_baby2_c m3_death_cause_baby2_d m3_death_cause_baby2_e m3_death_cause_baby2_f ///
+		m3_death_cause_baby2_g m3_death_cause_baby2_96 m3_death_cause_baby2_998 m3_death_cause_baby2_999 m3_death_cause_baby2_888 m3_death_cause_baby2_other)	
+		
+rename (death_cause_baby_3___a death_cause_baby_3___b death_cause_baby_3___c death_cause_baby_3___d death_cause_baby_3___e death_cause_baby_3___f ///
+		death_cause_baby_3___g death_cause_baby_3___96 death_cause_baby_3___998 death_cause_baby_3___999 death_cause_baby_3___888 other_death_case_baby_3) ///
+		(m3_death_cause_baby3_a m3_death_cause_baby3_b m3_death_cause_baby3_c m3_death_cause_baby3_d m3_death_cause_baby3_e m3_death_cause_baby3_f ///
+		m3_death_cause_baby3_g m3_death_cause_baby3_96 m3_death_cause_baby3_998 m3_death_cause_baby3_999 m3_death_cause_baby3_888 m3_death_cause_baby3_other)		
+		
+rename (when_the_miscarriage_1201 overall_how_would_you_rate_1202 did_you_go_to_a_health_fac_1203 overall_how_would_you_rate_1204 consult_before_delivery_401 ///
+		number_healthcare_consult consultation_1 consultation_referral_1) (m3_1201 m3_1202 m3_1203 m3_1204 m3_401 m3_402 m3_consultation_1 m3_consultation_referral_1)
+
+rename (consultation_visit_1___1 consultation_visit_1___2 consultation_visit_1___3 consultation_visit_1___4 consultation_visit_1___5 consultation_visit_1___96 ///
+		consultation_visit_1___998 consultation_visit_1___999 consultation_visit_1___888 specify_other_reason_for_1) (m3_consultation1_reason_a ///
+		m3_consultation1_reason_b m3_consultation1_reason_c m3_consultation1_reason_d m3_consultation1_reason_e m3_consultation1_reason_96 ///
+		m3_consultation1_reason_998 m3_consultation1_reason_999 m3_consultation1_reason_888 m3_consultation1_reason_other)		
+
+rename (consultation_2 consultation_referral_2 consultation_visit_2___1  consultation_visit_2___2 consultation_visit_2___3 consultation_visit_2___4 ///
+		consultation_visit_2___5 consultation_visit_2___96 consultation_visit_2___998 consultation_visit_2___999 consultation_visit_2___888 ///
+		list_m3) (m3_consultation_2 m3_consultation_referral_2 m3_consultation2_reason_a m3_consultation2_reason_b /// 
+		m3_consultation2_reason_c m3_consultation2_reason_d m3_consultation2_reason_e m3_consultation2_reason_96 m3_consultation2_reason_998 ///
+		m3_consultation2_reason_999 m3_consultation2_reason_888 m3_consultation2_reason_other)				
+		
+rename (consultation_3 consultation_visit_3 consultation_referral_3___1 consultation_referral_3___2 consultation_referral_3___3 ///
+		consultation_referral_3___4 consultation_referral_3___5 consultation_referral_3___96 consultation_referral_3___998 consultation_referral_3___999 ///
+		consultation_referral_3___888 other_reasons_spec) (m3_consultation_3 m3_consultation_referral_3 m3_consultation3_reason_a ///
+		m3_consultation3_reason_b m3_consultation3_reason_c m3_consultation3_reason_d m3_consultation3_reason_e m3_consultation3_reason_96 ///
+		m3_consultation3_reason_998 m3_consultation3_reason_999 m3_consultation3_reason_888 m3_consultation3_reason_other)		
+
+		
+rename (consultation_4 consultation_visit_4 consultation_referral_4___1 consultation_referral_4___2 consultation_referral_4___3 consultation_referral_4___4 ///
+		consultation_referral_4___5 consultation_referral_4___96 consultation_referral_4___998 consultation_referral_4___999 consultation_referral_4___888 ///
+		other_reasons_spec_2) (m3_consultation_4 m3_consultation_referral_4 m3_consultation4_reason_a m3_consultation4_reason_b m3_consultation4_reason_c  ///
+		m3_consultation4_reason_d m3_consultation4_reason_e m3_consultation4_reason_96 m3_consultation4_reason_998 m3_consultation4_reason_999 ///
+		m3_consultation4_reason_888 m3_consultation4_reason_other)		
+		
+rename (consultation_5 consultation_visit_5 consultation_referral_5___1 consultation_referral_5___2 consultation_referral_5___3 consultation_referral_5___4 ///
+		consultation_referral_5___5 consultation_referral_5___96 consultation_referral_5___998 consultation_referral_5___999 consultation_referral_5___888 ///
+		other_reasons_spec_3) (m3_consultation_5 m3_consultation_referral_5 m3_consultation5_reason_a m3_consultation5_reason_b m3_consultation5_reason_c m3_consultation5_reason_d ///
+		m3_consultation5_reason_e m3_consultation5_reason_96 m3_consultation5_reason_998 m3_consultation5_reason_999 m3_consultation5_reason_888 ///
+		m3_consultation5_reason_other)		
+	
+rename (bp_before_delivery_412a weight_before_delivery_412b blood_draw_before_delivery_412c blood_test_before_delivery_412d urine_test_before_delivery_412e ///
+		ultrasound_before_delivery_412f other_test_before_delivery_412g m3_412g_other) (m3_412a m3_412b m3_412c m3_412d m3_413e m3_413f m3_413g m3_412g_other)	
+	
+rename (deliver_health_facility_501 what_kind_of_facility_was_it name_of_the_facility_deliver other_in_the_zone other_outside_of_the_zone_sp ///
+		where_was_this_facility_locate subcity_this_facility_m3 before_you_delivered_505a how_long_did_you_stay_at_505b what_day_and_time_did_the_506 ///
+		what_day_and_time_did_the_507 m3_506b_98) (m3_501 m3_502 m3_503 m3_503_inside_zone_other m3_503_outside_zone_other m3_504a m3_504b m3_505a ///
+		m3_505b m3_506a m3_506b m3_506b_unknown)
+ 
+rename (time_you_leave_facility_507 time_you_leave_facility_507_unk at_any_point_during_labor_508 what_was_the_main_reason_509 ///
+		specify_other_reason_for_g did_you_go_to_another_510 how_many_facilities_did_yo_511 what_kind_of_facility_was_512 other_outside_of_the_zo ///
+		what_is_the_name_of_513a ther_in_the_zone_specify a_97_other_outside_of_the_zone where_was_this_facility_513b facility_located_city_m3 ///
+		what_time_did_you_arriv_514 what_time_did_you_arriv_514_unk why_did_you_go_to_the_2nd_515 why_did_you_or_your_family_516 specify_other_reason_to_go) ///
+		(m3_507 m3_507_unknown m3_508 m3_509 m3_509_other m3_510 m3_511 m3_512 m3_512_outside_zone_other m3_513a m3_513_inside_zone_other m3_513_outside_zone_other ///
+		m3_513b1 m3_513b2 m3_514 m3_514_unknown m3_515 m3_516 m3_516_other)
+
+rename (did_the_provider_inform_yo_517 why_did_the_provider_refer_518 other_delivery_complications other_reasons_specify what_was_the_main_reason_519 ///
+		specify_m at_what_time_did_you_arriv_520 m3_520_98 once_you_got_to_facility_521 m3_521_98 m3_attempt_date m3_attempt_outcome date_of_rescheduled_m3_p1 ///
+		time_of_rescheduled_m3_p1 module_3_first_phone_survey_afte) (m3_517 m3_518 m3_518_other_complications m3_518_other m3_519 m3_519_other m3_520 ///
+		m3_520_unknown m3_521 m3_521_unknown m3_attempt_date m3_attempt_outcome m3_p1_date_of_rescheduled m3_p1_time_of_rescheduled m3_p1_complete)
+
+rename (iic_4 cr1_permission_granted_4 date_of_interview_m3_2 time_of_interview_started_m3_2 baby1status baby2status baby3status once_you_were_first_checke_601a ///
+		once_you_were_first_chec_601b once_you_were_first_chec_601c did_the_health_care_prov_602a did_the_health_care_prov_602b a_during_your_time_in_the_603a ///
+		b_during_your_time_in_the_603b c_during_your_time_in_the_603c drink_fluid_m3) (m3_start_p2 m3_permission_p2 m3_date_p2 m3_time_p2 m3_201a m3_201b m3_201c ///
+		m3_601a m3_601b m3_601c m3_602a m3_602b m3_603a m3_603b m3_603c m3_603d)		
+
+rename (a_while_you_were_in_labor_604a while_you_were_giving_bi_604b did_you_have_a_caesarean_605a when_was_the_decision_ma_605b) (m3_604a m3_604b ///
+		m3_605a m3_605b)
+
+rename (m3_605c___1 m3_605c___2 m3_605c___3 m3_605c___4 m3_605c___96 m3_605c___99 m3_605c___998 m3_605c___999 m3_605c___888 specify_other_reason_for_h) ///
+	   (m3_605c_a m3_605c_b m3_605c_c m3_605c_d m3_605c_96 m3_605c_99 m3_605c_998 m3_605c_999 m3_605c_888 m3_605c_other)
+
+rename (did_the_provider_perform_606 did_you_receive_stiches_607 eth_1_6_did_the_health_car eth_2_6_did_the_health_car eth_3_6_did_the_health_car ///
+		eth_4_6_did_the_health_car eth_5_6_did_the_health_car immediately_after_delivery_608 immediately_after_delivery_609 was_were_the_baby_babies_610a ///
+		was_were_the_baby_s_babi_610b did_a_health_care_provider_611 have_you_done_breask_feed_612) (m3_606 m3_607 m3_607a_et m3_607b_et m3_607c_et m3_607d_et ///
+		m3_607e_et m3_608 m3_609 m3_610a m3_610b m3_611 m3_612)	   
+	   
+rename (how_long_after_delivery_di_614 did_anyone_check_on_baby_1 did_anyone_check_on_baby_2 did_anyone_check_on_baby_3 how_long_after_delivery_baby_1 ///
+		how_long_after_delivery_baby_2 how_long_after_delivery_baby_3 receive_a_vaccine_baby_1 receive_a_vaccine_baby_2 receive_a_vaccine_baby_3 ///
+		eth_6_6_did_your_1st_baby eth_6_6_did_your_2nd_baby eth_6_6_did_your_3rd_baby eth_7_6_did_your_baby_eye eth_7_6_did_your_baby_eye_2 ///
+		eth_7_6_did_your_baby_eye_3 whay_baby_eat_619a) (m3_614 m3_615a m3_615b m3_615c m3_616a m3_616b m3_616c m3_617a m3_617b m3_617c m3_617d_et ///
+		m3_617e_et m3_617f_et m3_617g_et m3_617h_et m3_617i_et m3_619a)	   
+
+rename (umblical_cord_care_619b need_avoid_chilling_619c return_vaccination_619d hand_washing_619e danger_sign_or_symptom_619f danger_sign_in_yourself_619g ///
+		before_you_left_the_faci_619h before_you_left_the_faci_619i before_you_left_the_faci_619j after_your_baby_was_born_620 who_assisted_the_delivery_621 ///
+		did_someone_come_to_chec_621b how_long_after_giving_621c around_the_time_of_deliv_622a when_were_you_told_to_go_622b) (m3_619b m3_619c m3_619d m3_619e ///
+		m3_619f m3_619g m3_619h m3_619i m3_619j m3_620 m3_621a m3_621b m3_621c m3_622a m3_622b)	
+		
+rename (regarding_sleep_1st_baby_today regarding_sleep_2nd_baby_today regarding_sleep_3rd_baby_today regarding_feeding_baby_1 regarding_feeding_baby_2 ///
+		regarding_feeding_baby_3 regarding_breathing_baby_1 regarding_breathing_baby_2 regarding_breathing_baby_3 regarding_stooling_baby_5 ///
+		regarding_stooling_baby_2 regarding_stooling_baby_3 regarding_their_mood_baby_1 regarding_their_mood_baby_2 regarding_their_mood_baby_3 ///
+		regarding_their_skin_baby_1 regarding_their_skin_baby_2 regarding_their_skin_baby_3 regarding_interactivit_baby_1 regarding_interactivit_baby_2 ///
+		regarding_interactivit_baby_3)	(m3_baby1_sleep m3_baby2_sleep m3_baby3_sleep m3_baby1_feed m3_baby2_feed m3_baby3_feed m3_baby1_breath m3_baby2_breath ///
+		m3_baby3_breath m3_baby1_stool m3_baby2_stool m3_baby3_stool m3_baby1_mood m3_baby2_mood m3_baby3_mood m3_baby1_skin m3_baby2_skin m3_baby3_skin ///
+		m3_baby1_interactivity m3_baby2_interactivity m3_baby3_interactivity)	
+	
+rename (at_any_time_during_labor_701 what_health_problems_did_702 would_you_say_this_problem_703 did_you_experience_seizures did_you_experience_blurvision ///
+		did_you_experience_headache did_you_experience_swelling did_you_experience_labor did_you_experience_exces did_you_experience_fever did_you_receive_a_blood_705 ///
+		were_you_admitted_to_an_706 how_long_did_you_stay_at_f q707_m3_unk) (m3_701 m3_702 m3_703 m3_704a m3_704b m3_704c m3_704d m3_704e m3_704f m3_70fg m3_705 ///
+		m3_706 m3_707 m3_707_unknown)	
+	
+rename (experience_issiues_baby_1___1 experience_issiues_baby_1___2 experience_issiues_baby_1___3 experience_issiues_baby_1___4 experience_issiues_baby_1___5 ///
+		experience_issiues_baby_1___6 experience_issiues_baby_1___96 experience_issiues_baby_1___98 experience_issiues_baby_1___99 experience_issiues_baby_1___998 ///
+		experience_issiues_baby_1___999 experience_issiues_baby_1___888) (m3_baby1_issues_a m3_baby1_issues_b m3_baby1_issues_c m3_baby1_issues_d m3_baby1_issues_e ///
+		m3_baby1_issues_f m3_baby1_issues_96 m3_baby1_issues_98 m3_baby1_issues_99 m3_baby1_issues_998 m3_baby1_issues_999 m3_baby1_issues_888)
+	
+rename (experience_issiues_baby_2___1 experience_issiues_baby_2___2 experience_issiues_baby_2___3 experience_issiues_baby_2___4 experience_issiues_baby_2___5 ///
+		experience_issiues_baby_2___6 experience_issiues_baby_2___96 experience_issiues_baby_2___98 experience_issiues_baby_2___99 experience_issiues_baby_2___998 ///
+		experience_issiues_baby_2___999 experience_issiues_baby_2___888) (m3_baby2_issues_a m3_baby2_issues_b m3_baby2_issues_c m3_baby2_issues_d m3_baby2_issues_e ///
+		m3_baby2_issues_f m3_baby2_issues_96 m3_baby2_issues_98 m3_baby2_issues_99 m3_baby2_issues_998 m3_baby2_issues_999 m3_baby2_issues_888)	
+		
+rename (experience_issiues_baby_3___1 experience_issiues_baby_3___2 experience_issiues_baby_3___3 experience_issiues_baby_3___4 experience_issiues_baby_3___5 ///
+		experience_issiues_baby_3___6 experience_issiues_baby_3___96 experience_issiues_baby_3___98 experience_issiues_baby_3___99 experience_issiues_baby_3___998 ///
+		experience_issiues_baby_3___999 experience_issiues_baby_3___888) (m3_baby3_issues_a m3_baby3_issues_b m3_baby3_issues_c m3_baby3_issues_d m3_baby3_issues_e ///
+		m3_baby3_issues_f m3_baby3_issues_96 m3_baby3_issues_98 m3_baby3_issues_99 m3_baby3_issues_998 m3_baby3_issues_999 m3_baby3_issues_888)	
+	
+rename (q708_oth write_down_baby_name_709b write_down_baby_name_709c baby_spend_710_baby_1 baby_spend_710_baby_2 baby_spend_710_baby_3 how_long_did_711_baby_1 ///
+		how_long_did_711_baby_2 how_long_did_711_baby_3 over_the_past_2_weeks_on_801a b_over_the_past_2_weeks_801b since_you_last_spoke_802a ///
+		how_many_of_these_sessio_802b how_many_minutes_did_802c) (m3_708_other m3_708b m3_709c m3_710a m3_710b m3_710c m3_711a m3_711b m3_711c m3_801a ///
+		m3_801b m3_802a m3_802b m3_802c)	
+
+rename (have_you_experienced_803a have_you_experienced_803b have_you_experienced_803c have_you_experienced_803d have_you_experienced_803e ///
+		have_you_experienced_803f have_you_experienced_803g have_you_experienced_803h have_you_experienced_803i have_you_experienced_803j ///
+		specify_any_other_health_prob since_you_gave_birth_have_805 how_many_days_after_giving_806 overall_how_much_does_807 have_you_sought_treatment_808a ///
+		why_have_you_not_sought_808b specify_other_reason_not_sought did_the_treatment_stop_809) (m3_803a m3_803b m3_803c m3_803d m3_803e m3_803f m3_803g ///
+		m3_803h m3_803i m3_803j m3_803j_other m3_805 m3_806 m3_807 m3_808a m3_808b m3_808b_other m3_809)		
+
+rename (since_we_last_spoke_did_901a since_we_last_spoke_901b since_we_last_spoke_did_901c since_we_last_spoke_did_901d since_we_last_spoke_did_901e ///
+		since_we_last_spoke_did_901f since_we_last_spoke_did_901g since_we_last_spoke_did_901h since_we_last_spoke_did_901i since_we_last_spoke_did_901j ///
+		since_we_last_spoke_did_901k since_we_last_spoke_did_901l since_we_last_spoke_did_901m since_we_last_spoke_did_901n since_we_last_spoke_did_901o ///
+		since_we_last_spoke_did_901p since_we_last_spoke_did_901q since_we_last_spoke_did_901r specify_other_treatment) (m3_901a m3_901b ///
+		m3_901c m3_901d m3_901e m3_901f m3_901g m3_901h m3_901i m3_901j m3_901k m3_901l m3_901m m3_901n m3_901o m3_901p m3_901q m3_901r m3_901r_other)		
+		
+rename (since_they_were_born_did_902a since_they_were_born_did_902a_2 since_they_were_born_did_902a_3 since_they_were_born_did_902b ///
+		since_they_were_born_did_902b_3 since_they_were_born_did_902b_2 since_they_were_born_did_902c since_they_were_born_did_902c_3 ///
+		since_they_were_born_did_902c_2 since_they_were_born_did_902d since_they_were_born_did_902d_2 since_they_were_born_did_902d_3 ///
+		since_they_were_born_did_902e since_they_were_born_did_902e_3 since_they_were_born_did_902e_2 since_they_were_born_did_902f) ///
+		(m3_902a_baby1 m3_902a_baby2 m3_902a_baby3 m3_902b_baby1 m3_902b_baby2 m3_902b_baby3 m3_902c_baby1 m3_902c_baby2 m3_902c_baby3 ///
+		m3_902d_baby1 m3_902d_baby2 m3_902d_baby3 m3_902e_baby1 m3_902e_baby2 m3_902e_baby3 m3_902f_baby1)		
+		
+rename (since_they_were_born_did_902f_2 since_they_were_born_did_902f_3 since_they_were_born_did_902g since_they_were_born_did_902g_2 ///
+		since_they_were_born_did_902g_3 since_they_were_born_did_902h since_they_were_born_did_902h_2 since_they_were_born_did_902h_3 ///
+		since_they_were_born_did_902i since_they_were_born_did_902i_2 since_they_were_born_did_902i_3 since_they_were_born_did_902j ///
+		q902j_oth since_they_were_born_did_902j_2 q902j_oth_2 since_they_were_born_did_902j_3 q902j_oth_3) (m3_902f_baby2 m3_902f_baby3 ///
+		m3_902g_baby1 m3_902g_baby2 m3_902g_baby3 m3_902h_baby1 m3_902h_baby2 m3_902h_baby3 m3_902i_baby1 m3_902i_baby2 m3_902i_baby3 ///
+		m3_902j_baby1 m3_902j_baby1_other m3_902j_baby2 m3_902j_baby2_other m3_902j_baby3 m3_902j_baby3_other)		
+		
+rename (overall_taking_everything_901 how_likely_are_you_to_reco_902 did_staff_suggest_or_ask_903 rate_the_knowledge_904a rate_the_equipment_904b ///
+		rate_the_level_of_respect_904c rate_the_clarity_904d rate_the_degree_904e rate_the_amount_904f rate_the_amount_904a rate_the_courtesy_904h ///
+		confidentiality_m3 during_labor_m4 during_labor_m3 did_you_were_pinched_905a you_were_slapped_905b you_were_physically_tied_905c you_had_forceful_905d ///
+		you_were_shouted_905e you_were_scolded_905f the_health_worker_905g other_staff_threatened_905h vaginal_examination_1006a) (m3_1001 m3_1002 m3_1003 ///
+		m3_1004a m3_1004b m3_1004c m3_1004d m3_1004e m3_1004f m3_1004g m3_1004h m3_1004i m3_1004j m3_1004k m3_1005a m3_1005b m3_1005c m3_1005d m3_1005e m3_1005f ///
+		m3_1005g m3_1005h m3_1006a)	
+	
+rename (ask_permission_viginal_exa_1006b were_vaginal_examination_1006c any_form_of_pain_relief_1007a did_you_request_pain_rel_1007b did_you_receive_pain_rel_1007c ///
+		would_like_to_ask_you_1101 spend_money_on_reg_1102 how_much_spent_registra did_you_spend_money_on_med how_you_spent_on_medicin did_you_spend_money_on_test ///
+		how_much_spend_on_test did_you_spend_money_on_transp how_much_spend_on_transp did_you_spend_on_food_an how_much_spend_on_food did_you_spend_on_other ///
+		how_much_spend_on_other in_total_how_much_you_spen confirm_oop total_spent) (m3_1006b m3_1006c m3_1006d m3_1007b m3_1007c m3_1101 m3_1102a m3_1102a_amt ///
+		m3_1102b m3_1102b_amt m3_1102c m3_1102c_amt m3_1102d m3_1102_amt m3_1102e m3_1102e_amt m3_1102f m3_1102f_amt m3_1103 m3_1103_confirm m3_1104)
+
+rename (which_of_the_following_fin_1105 other_income_source_1105 to_conclude_this_survey_1106 time_of_interview_ended_103b ///
+		c_total_duration_of_interv ot1 ot1_oth m3_attempt_outcome2 m3_attempt_outcome_p2 date_of_rescheduled_m3_p2 time_of_rescheduled_m3_p2) (m3_1105 ///
+		m3_1105_other m3_1106 m3_endtime m3_duration m3_p2_outcome m3_p2_outcome_other m3_attempt_outcome2 m3_attempt_outcome_p2 ///
+		m3_p2_date_of_rescheduled m3_p2_time_of_rescheduled)		
+		
 *===============================================================================
 	
 	* STEP TWO: ADD VALUE LABELS 
@@ -765,38 +977,17 @@ label values m1_517 residence
 	label define m2_306 1 "Yes, for a referral from your antenatal care provider" 0 "No" 98 "DK" 99 "RF" 
 	label values m2_306 m2_306
 
-*label define any_of_the_following_v_18_ 0 "Unchecked" 1 "Checked" 
-*label define any_of_the_following_v_19_ 0 "Unchecked" 1 "Checked" 
-*label define any_of_the_following_v_20_ 0 "Unchecked" 1 "Checked" 
-*label define any_of_the_following_v_21_ 0 "Unchecked" 1 "Checked" 
-*label define any_of_the_following_v_22_ 0 "Unchecked" 1 "Checked" 
-*label define any_of_the_following_v_23_ 0 "Unchecked" 1 "Checked" 
-
 	label define m2_308 1 "Yes, for a routine antenatal care" 0 "No" 98 "DK" 99 "RF" 
 	label values m2_308 m2_308
 
 	label define m2_309 1 "Yes, for a referral from your antenatal care provider" 0 "No" 98 "DK" 99 "RF" 
 	label values m2_309 m2_309
 	
-*label define any_of_the_following_v_26_ 0 "Unchecked" 1 "Checked" 
-*label define any_of_the_following_v_27_ 0 "Unchecked" 1 "Checked" 
-*label define any_of_the_following_v_28_ 0 "Unchecked" 1 "Checked" 
-*label define any_of_the_following_v_29_ 0 "Unchecked" 1 "Checked" 
-*label define any_of_the_following_v_30_ 0 "Unchecked" 1 "Checked" 
-*label define any_of_the_following_v_31_ 0 "Unchecked" 1 "Checked" 
-
 	label define m2_311 1 "Yes, for a routine antenatal care" 0 "No" 98 "DK" 99 "RF" 
 	label values m2_311 m2_311
  
 	label define m2_312 1 "Yes, for a referral from your antenatal care provider" 0 "No" 98 "DK" 99 "RF" 
 	label values m2_312 m2_312
-	
-*label define any_of_the_following_v_34_ 0 "Unchecked" 1 "Checked" 
-*label define any_of_the_following_v_35_ 0 "Unchecked" 1 "Checked" 
-*label define any_of_the_following_v_36_ 0 "Unchecked" 1 "Checked" 
-*label define any_of_the_following_v_37_ 0 "Unchecked" 1 "Checked" 
-*label define any_of_the_following_v_38_ 0 "Unchecked" 1 "Checked" 
-*label define any_of_the_following_v_39_ 0 "Unchecked" 1 "Checked" 
 
 	label define m2_314 1 "Yes, for a routine antenatal care" 0 "No" 98 "DK" 99 "RF"  
 	label values m2_314 m2_314
@@ -804,39 +995,11 @@ label values m1_517 residence
 	label define m2_315 1 "Yes, for a referral from your antenatal care provider" 0 "No" 98 "DK" 99 "RF" 
 	label values m2_315 m2_315
 
-*label define any_of_the_following_v_42_ 0 "Unchecked" 1 "Checked" 
-*label define any_of_the_following_v_43_ 0 "Unchecked" 1 "Checked" 
-*label define any_of_the_following_v_44_ 0 "Unchecked" 1 "Checked" 
-*label define any_of_the_following_v_45_ 0 "Unchecked" 1 "Checked" 
-*label define any_of_the_following_v_46_ 0 "Unchecked" 1 "Checked" 
-*label define any_of_the_following_v_47_ 0 "Unchecked" 1 "Checked" 
-
 	label define m2_317 1 "Yes, for a routine antenatal care" 0 "No" 98 "DK" 99 "RF"
 	label values m2_317 m2_317
 
 	label define m2_318 1 "Yes, for a referral from your antenatal care provider" 0 "No" 98 "DK" 99 "RF" 
 	label values m2_318 m2_318 
-
-*label define any_of_the_following_v_50_ 0 "Unchecked" 1 "Checked" 
-*label define any_of_the_following_v_51_ 0 "Unchecked" 1 "Checked" 
-*label define any_of_the_following_v_52_ 0 "Unchecked" 1 "Checked" 
-*label define any_of_the_following_v_53_ 0 "Unchecked" 1 "Checked" 
-*label define any_of_the_following_v_54_ 0 "Unchecked" 1 "Checked" 
-*label define any_of_the_following_v_55_ 0 "Unchecked" 1 "Checked" 
-*label define prevent_more_antenat_v_56_ 0 "Unchecked" 1 "Checked" 
-*label define prevent_more_antenat_v_57_ 0 "Unchecked" 1 "Checked" 
-*label define prevent_more_antenat_v_58_ 0 "Unchecked" 1 "Checked" 
-*label define prevent_more_antenat_v_59_ 0 "Unchecked" 1 "Checked" 
-*label define prevent_more_antenat_v_60_ 0 "Unchecked" 1 "Checked" 
-*label define prevent_more_antenat_v_61_ 0 "Unchecked" 1 "Checked" 
-*label define prevent_more_antenat_v_62_ 0 "Unchecked" 1 "Checked" 
-*label define prevent_more_antenat_v_63_ 0 "Unchecked" 1 "Checked" 
-*label define prevent_more_antenat_v_64_ 0 "Unchecked" 1 "Checked" 
-*label define prevent_more_antenat_v_65_ 0 "Unchecked" 1 "Checked" 
-*label define prevent_more_antenat_v_66_ 0 "Unchecked" 1 "Checked" 
-*label define prevent_more_antenat_v_67_ 0 "Unchecked" 1 "Checked" 
-*label define prevent_more_antenat_v_68_ 0 "Unchecked" 1 "Checked" 
-*label define prevent_more_antenat_v_69_ 0 "Unchecked" 1 "Checked" 
 
 	label define m2_321 0 "No" 1 "Yes, by phone" 2 "Yes, by SMS" 3 "Yes, by web" 98 "DK" 99 "NR/RF" 
 	label values m2_321 m2_321
@@ -1045,6 +1208,162 @@ label values m2_endstatus m2_endstatus
 
 label define m2_complete 0 "Incomplete" 1 "Unverified" 2 "Complete" 
 label values m2_complete m2_complete
+
+	* MODULE 3:
+
+label define YN_m3 1 "Yes" 0 "No"
+label values m3_start_p1 m3_permission m3_baby1_born_alive m3_baby2_born_alive ///
+			 m3_baby3_born_alive m3_508 m3_start_p2 m3_permission_p2 YN_m3
+
+label define m3_303a 1 "One" 2 "Two" 3 "Three or more" 98 "Don't Know" 99 "NR/RF"
+label values m3_303a m3_303a
+	
+label define YNRF 1 "Yes" 0 "No" 99 "NR/RF"
+label values m3_303b m3_303c m3_303d m3_505a m3_517 YNRF
+
+label define m3_gender 1 "Male" 2 "Female" 99 "NR/RF"
+label values m3_baby1_gender m3_baby2_gender m3_baby3_gender m3_gender
+	
+label define m3_weight 1 "Very large" 2 "Larger than average" 3 "Average" ///
+					   4 "Smaller than average" 5 "Very small"
+label values m3_baby1_weight m3_baby2_weight m3_baby3_weight m3_weight
+	
+label define m3_overallhealth 1 "Excellent" 2 "Very Good" 3 "Good" ///
+							  4 "Fair" 5 "Poor" 99 "NR/RF"
+label values m3_baby1_health m3_baby2_health m3_baby3_health m3_overallhealth	
+
+label define m3_confidence 1 "Very confident" 2 "Confident" 3 "Somewhat confident" ///
+						   4 "Not very confident" 5 "Not at all confident" ///
+						   96 "I do not breastfeed" 98 "DK" 99 "NR/RF"
+label values m3_breastfeeding m3_confidence
+	
+label define m3_202	3 "Delivered with still birth" 4 "Miscarriage" 5 "Abortion"
+label values m3_202 m3_202
+
+label define YNDKRF 1 "Yes" 0 "No" 98 "Don't Know" 99 "NR/RF"
+label values m3_1201 m3_1203 m3_401 m3_consultation_1 m3_consultation_referral_1 ///
+			 m3_consultation_2 m3_consultation_referral_2 ///
+			 m3_consultation_3 m3_consultation_referral_3 ///
+			 m3_consultation_4 m3_consultation_referral_4 ///
+			 m3_consultation_5 m3_consultation_referral_5 ///
+			 m3_412a m3_412b m3_412c m3_412d m3_412e m3_412f ///
+			 m3_412g m3_501 m3_510 m3_601a m3_601b m3_601c ///
+			 m3_602b m3_603a m3_603b m3_603c m3_603d m3_604b ///
+			 m3_605a m3_605b m3_606 m3_607 m3_607a_et m3_607b_et ///
+			 m3_607c_et m3_607d_et m3_607e_et m3_608 m3_609 m3_610a ///
+			 m3_610b m3_611 m3_613 m3_615a m3_615b m3_615c m3_617a ///
+			 m3_617b m3_617c m3_617d_et m3_617e_et m3_617f_et m3_617g_et ///
+			 m3_617h_et m3_617i_et m3_619a m3_619b m3_619c m3_619d ///
+			 m3_619e m3_619f m3_619g m3_619h m3_619i m3_619j m3_620 ///
+		     m3_621b m3_622a m3_622c m3_701 m3_703 m3_704a m3_704b ///
+			 m3_704c m3_704d m3_704e m3_704f m3_70fg m3_705 m3_706 ///
+			 m3_710a m3_710b m3_710c m3_YNDKRF
+
+label define confidenceDKNR 1 "Excellent" 2 "Very Good" 3 "Good" ///
+							4 "Fair" 5 "Poor" 98 "Don't Know" 99 "NR/RF"
+label values m3_1202 m3_1204 confidenceDKNR
+	
+label define numbers_chron 1 "One" 2 "Two" 3 "Three" 4 "Four" 5 "Five"
+label values m3_402 numbers_chron	
+
+label define m3_502 1 "Government hospital" 2 "Government health center" ///
+					3 "Government health post" 4 "NGO or faith-based health facility" ///
+					5 "Private hospital" 6 "Private specialty maternity center" ///
+					7 "Private specialty maternity clinics" 8 "Private clinic" ///
+					9 "Another private medical facility (including pharmacy, shop, traditional healer)" ///
+					98 "Don't Know" 99 "NR/RF"
+label values m3_502 m3_502
+
+label define m3_503 1 "Meki Catholic Primary Clinic" 2 "Bote Health Center" 3 "Meki Health Center" 4 "Adami Tulu Health Center" 5 "Bulbula Health Center" ///
+					6 "Dubisa Health Center" 7 "Olenchiti Primary Hospital" 8 "Awash Malkasa Health Center" 9 "Koka Health Center" 10 "Biyo Health Center" ///
+					11 "Ejersa Health Center" 12 "Catholic Church Primary Clinic" 13 "Noh Primary Clinic" 14 "Adama Health Center" 15 "Family Guidance Nazret Specialty Clinic" ///
+					16 "Biftu" 17 "Bokushenen" 18 "Adama Teaching Hospital" 19 "Hawas" 20 "Medhanialem Hospital" ///
+					21 "Sister Aklisiya Hospital" 22 "Marie stopes Specialty Clinic" 96 "Other, in the zone, Specify" 97 "Other outside of zone, specify" 98 "Don't Know" 99 "NR/RF"
+label values m3_503 m3_503					
+
+label define m3_509 1 "High cost (e.g., high out of pocket payment, not covered by insurance)" 2 "Far distance (e.g., too far to walk or drive, transport not readily available)" ///
+					3 "Long waiting time (e.g., long line to access facility, long wait for the provider)" 4 "Poor healthcare provider skills (e.g., spent too little time with patient, did not conduct a thorough exam)" ///
+					5 "Staff dont show respect (e.g., staff is rude, impolite, dismissive)" 6 "Medicines and equipment are not available (e.g., medicines regularly out of stock, equipment like X-ray machines broken or unavailable)" ///
+					7 "Facility not clean and/or comfortable (e.g., dirty, risk of infection)" 8 "Not necessary (e.g., able to receive enough care at home, traditional care)" 9 "COVID-19 fear" 10 "No female provider" ///
+					11 "Husband/family did not allow it" 12 "Facility was closed" 13 "Delivered on the way (tried to go)" 96 "Other, specify" 99 "NR/RF" 
+label values m3_509 m3_509 
+
+label define m3_512 1 "Government hospital" 2 "Government health center" 3 "Government health post" 4 "NGO or faith-based health facility" 5 "Private hospital" ///
+					6 "Private specialty maternity centers" 7 "Private specialty maternity clinics" 8 "Private clinic" ///
+					9 "Another private medical facility (including pharmacy, shop, traditional healer)" 97 "Other outside of East Shewa or Adama, specify" 98 "Don't Know" 99 "NR/RF" 
+label values m3_512 m3_512
+
+label define m3_513a 1 "Meki Catholic Primary Clinic" 2 "Bote Health Center" 3 "Meki Health Center" 4 "Adami Tulu Health Center" 5 "Bulbula Health Center" 6 "Dubisa Health Center" ///
+					 7 "Olenchiti Primary Hospital" 8 "Awash Malkasa Health Center" 9 "Koka Health Center" 10 "Biyo Health Center" 11 "Ejersa Health Center" 12 "Catholic Church Primary Clinic" ///
+					 13 "Beza Primary Clinic" 14 "Adama Health Center" 15 "Family Guidance Nazret Specialty Clinic" 16 "Biftu" 17 "Bokushenen" 18 "Adama Teaching Hospital" 19 "Hawas" ///
+					 20 "Medhanialem Hospital" 21 "Sister Aklisiya Hospital" 22 "Marie stopes Specialty Clinic" 96 "Other, in the zone, Specify" 97 "Other outside of zone, specify" 98 "Don't Know" 99 "NR/RF" 
+label values m3_513a m3_513a 
+
+label define m3_515 1 "The first facility was closed" 2 "Provider referred you to this other facility without checking you" 3 "Provider checked you but referred you to this other facility" ///
+					4 "You decided to leave" 5 "A family member decided you should leave" 
+label values m3_515 m3_515
+
+label define m3_516 1 "High cost (e.g., high out of pocket payment, not covered by insurance)" 2 "Long waiting time (e.g., long line to access facility, long wait for the provider)" ///
+					3 "Poor healthcare provider skills (e.g., spent too little time with patient, did not conduct a thorough exam)" 4 "Staff dont show respect (e.g., staff is rude, impolite, dismissive)" ///
+					5 "Medicines and equipment are not available (e.g., medicines regularly out of stock, equipment like X-ray machines broken or unavailable)" ///
+					6 "Facility not clean and/or comfortable (e.g., dirty, risk of infection)" 7 "COVID-19 fear" 8 "No female provider" 96 "Other, specify" 99 "NR/RF" 
+label values m3_516 m3_516
+
+label define m3_518 0 "The provider did not give a reason" 1 "No space or no bed available" 2 "Facility did not provide delivery care" 3 "Prolonged labor" 4 "Obstructed labor" ///
+					5 "Eclampsia/pre-eclampsia" 6 "Previous cesarean section scar" 7 "Fetal distress" 8 "Fetal presentations" 9 "No fetal movement" 10 "Bleeding" ///
+					96 "Other delivery complications (specify)" 97 "Other reasons(specify)" 98 "Don't Know" 99 "NR/RF" 
+label values m3_518 m3_518
+
+label define m3_519 1 "Low cost of delivery" 2 "Close to home" 3 "Short waiting time or enough HCWs" 4 "Good healthcare provider skills" 5 "Staff are respectful/nice" ///
+label define m3_519 1 "Low cost of delivery" 2 "Close to home" 3 "Short waiting time or enough HCWs" 4 "Good healthcare provider skills" 5 "Staff are respectful/nice" ///
+					6 "Medicine and equipment available" 7 "Facility is clean and/or comfortable" 8 "I delivered here before" 9 "Low risk of getting COVID-19" ///
+					10 "Female providers available" 11 "I was told by family member" 12 "I was told by a health worker" 13 "Familiarity with health worker" ///
+					14 "Familiarity with facility" 15 "Emergency care is available if need" 16 "Birth companion can come with me" 96 "Other, specify" 98 "Dont know" 99 "No response" 
+label values m3_519 m3_519
+
+label define m3_attempt_outcome 1 "Answered the phone, correct respondent (Start survey)" 2 "Answered but not by the respondent (Go to A4)" ///
+								3 "No answer (rings but not response or line was busy)" 4 "Number does not work (does not ring/connect to a phone)" 5 "Phone was switched off" 6 "Rescheduled" 
+label values m3_attempt_outcome m3_attempt_outcome
+
+label define m3_p1_complete 0 "Incomplete" 1 "Unverified" 2 "Complete"
+label values m3_p1_complete m3_p1_complete
+
+label define m3_status 1 "Alive" 0 "Died"
+label values m3_201a m3_201b m3_201c m3_status
+
+label define m3_602a 1 "Yes" 0 "No" 2 "I dont have a maternal health card" 98 "Don't Know" 99 "NR/RF"
+label values m3_602a m3_602a
+
+label define m3_604a 1 "My own bed" 2 "A shared bed" 3 "A mattress on the floor" 4 "The floor" 5 "A chair" 6 "I was standing" 98 "Don't Know" 99 "NR/RF"
+label values m3_604a m3_604a
+
+label define m3_621a 1 "A relative or a friend" 2 "A traditional birth attendant" 3 "A community health worker" 4 "A nurse" 5 "A midwife" 6 "A doctor" 99 "NR/RF" 
+label values m3_621a m3_621a
+
+label define sleeping 1 "Sleeps well" 2 "Slightly affected sleep" 3 "Moderately affected sleep" 4 "Severely disturbed sleep" 
+label values m3_baby1_sleep m3_baby2_sleep m3_baby3_sleep sleeping
+
+label define feeding 1 "Normal feeding" 2 "Slight feeding problems" 3 "Moderate feeding problems" 4 "Severe feeding problems" 
+label values m3_baby1_feed m3_baby2_feed m3_baby3_feed feeding
+
+label define breathing 1 "Normal breathing" 2 "Slight breathing problems" 3 "Moderate breathing problems" 4 "Severe breathing problems" 
+label values m3_baby1_breath m3_baby2_breath m3_baby3_breath
+
+label define stooling 1 "Normal stooling/poo" 2 "Slight stooling/poo problems" 3 "Moderate stooling/poo problems" 4 "Severe stooling/poo problems" 
+label values m3_baby1_stool m3_baby2_stool m3_baby3_stool stooling
+
+label define mood 1 "Happy/content" 2 "Fussy/irritable" 3 "Crying" 4 "Inconsolable crying"
+label values m3_baby1_mood m3_baby2_mood m3_baby3_mood mood
+
+label define skin 1 "Normal skin" 2 "Dry or red skin" 3 "Irritated or itchy skin" 4 "Bleeding or cracked skin" 
+label values m3_baby1_skin m3_baby2_skin m3_baby3_skin skin
+
+label define interactivity 1 "Highly playful/interactive" 2 "Playful/interactive" 3 "Less playful/less interactive" 4 "Low energy/inactive/dull" 
+label values m3_baby1_interactivity m3_baby2_interactivity m3_baby3_interactivity interactivity
+
+label define m3_fx 0 "None of the days" 1 "Several days" 2 "More than half the days" 3 "Nearly every day" 98 "Don't Know" 99 "NR/RF" 
+label values m3_801a m3_801b m3_fx
+
 
 *===============================================================================
 		
@@ -1893,7 +2212,7 @@ recode m2_endstatus (. = .a) if m2_endtime == ""
 *------------------------------------------------------------------------------*
 * drop variables after recoding/renaming
 
-drop m1_714d m1_803
+drop m1_714d m1_803 module_3_second_phone_survey_aft
 ren rec* *
 
 *===============================================================================					   
@@ -2609,8 +2928,8 @@ order height_cm weight_kg bp_time_1_systolic bp_time_1_diastolic time_1_pulse_ra
 
 order phq9a phq9b phq9c phq9d phq9e phq9f phq9g phq9h phq9i, after(m1_205e)
 
-order redcap_record_id study_id interviewer_name_a7 redcap_event_name redcap_repeat_instrument redcap_repeat_instance redcap_data_access_group date_m1 m1_start_time country site study_site study_site_sd facility facility_other sampstrata facility_type permission care_self  site sampstrata study_site study_site_sd facility interviewer_id date_m1 m1_start_time permission ////
-	  care_self enrollage zone_live b5anc b6anc_first b6anc_first_conf continuecare b7eligible respondentid mobile_phone flash kebele_malaria kebele_intworm
+order country redcap_record_id study_id interviewer_name_a7 redcap_event_name redcap_repeat_instrument redcap_repeat_instance redcap_data_access_group date_m1 m1_start_time country site study_site study_site_sd facility facility_other sampstrata facility_type permission care_self  site sampstrata study_site study_site_sd facility interviewer_id date_m1 m1_start_time permission ////
+care_self enrollage zone_live b5anc b6anc_first b6anc_first_conf continuecare b7eligible respondentid mobile_phone flash kebele_malaria kebele_intworm
 
 *===============================================================================
 
