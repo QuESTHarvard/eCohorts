@@ -8,7 +8,7 @@
 clear all 
 
 *--------------------DATA FILE:
-import delimited using "$et_data/8Dec2023.csv", clear
+import delimited using "$et_data/05Jan2024.csv", clear
 
 *---------------------
 
@@ -40,11 +40,8 @@ gen country = "Ethiopia"
 *** Dropping M4 & M5 for cleaning purposes:
 drop m4_attempt_date-maternal_integrated_cards_comple
 
-** Carryforward command 
+** Carryforward command: 
 	* Module 3:
-	
-	bysort record_id redcap_event_name redcap_repeat_instance: carryforward hiv_status_109_m2, replace
-
 		gen order_redcap = 1 if redcap_event_name == "module_1_arm_1"
 		replace order_redcap = 2 if redcap_event_name == "module_2_arm_1" & redcap_repeat_instance == 1
 		replace order_redcap = 3 if redcap_event_name == "module_2_arm_1" & redcap_repeat_instance == 2
@@ -62,7 +59,6 @@ drop m4_attempt_date-maternal_integrated_cards_comple
 		
 		sort record_id order_redcap
 		by record_id: carryforward hiv_status_109_m2 what_was_the_result_of_hiv, replace
-		by record_id: carryforward what_was_the_result_of_hiv, replace
 
 *------------------------------------------------------------------------------*
 	* STEPS: 
@@ -4078,7 +4074,6 @@ label variable m3_p2_time_of_rescheduled "Time of rescheduled"
 *===============================================================================
 
 	* STEP SIX: SAVE DATA TO RECODED FOLDER
-	* note: as of 7-27 we are dropping M3-M5 data until it is cleaned
 	
 * drop unncessary vars and de-identify dataset
 drop first_name family_name phone_number m1_513b ///
