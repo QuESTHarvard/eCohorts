@@ -40,6 +40,30 @@ gen country = "Ethiopia"
 *** Dropping M4 & M5 for cleaning purposes:
 drop m4_attempt_date-maternal_integrated_cards_comple
 
+** Carryforward command 
+	* Module 3:
+	
+	bysort record_id redcap_event_name redcap_repeat_instance: carryforward hiv_status_109_m2, replace
+
+		gen order_redcap = 1 if redcap_event_name == "module_1_arm_1"
+		replace order_redcap = 2 if redcap_event_name == "module_2_arm_1" & redcap_repeat_instance == 1
+		replace order_redcap = 3 if redcap_event_name == "module_2_arm_1" & redcap_repeat_instance == 2
+		replace order_redcap = 4 if redcap_event_name == "module_2_arm_1" & redcap_repeat_instance == 3
+		replace order_redcap = 5 if redcap_event_name == "module_2_arm_1" & redcap_repeat_instance == 4
+		replace order_redcap = 6 if redcap_event_name == "module_2_arm_1" & redcap_repeat_instance == 5
+		replace order_redcap = 7 if redcap_event_name == "module_2_arm_1" & redcap_repeat_instance == 6
+		replace order_redcap = 8 if redcap_event_name == "module_2_arm_1" & redcap_repeat_instance == 7
+		replace order_redcap = 9 if redcap_event_name == "module_2_arm_1" & redcap_repeat_instance == 8
+		replace order_redcap = 10 if redcap_event_name == "module_2_arm_1" & redcap_repeat_instance == 9
+		replace order_redcap = 11 if redcap_event_name == "module_2_arm_1" & redcap_repeat_instance == 10
+		replace order_redcap = 12 if redcap_event_name == "module_2_arm_1" & redcap_repeat_instance == 11
+		replace order_redcap = 13 if redcap_event_name == "module_2_arm_1" & redcap_repeat_instance == 12
+		replace order_redcap = 14 if redcap_event_name == "module_3_arm_1" 
+		
+		sort record_id order_redcap
+		by record_id: carryforward hiv_status_109_m2 what_was_the_result_of_hiv, replace
+		by record_id: carryforward what_was_the_result_of_hiv, replace
+
 *------------------------------------------------------------------------------*
 	* STEPS: 
 		* STEP ONE: RENAME VARIABLES (starts at: line 29)
@@ -362,17 +386,17 @@ rename (do_you_know_weight_1st_baby do_you_know_weight_2nd_baby do_you_know_weig
 rename (how_you_feed_1st_baby___1 how_you_feed_1st_baby___2 how_you_feed_1st_baby___3 how_you_feed_1st_baby___4 how_you_feed_1st_baby___5 ///
 		how_you_feed_1st_baby___6 how_you_feed_1st_baby___7 how_you_feed_1st_baby___96 how_you_feed_1st_baby___99 how_you_feed_1st_baby___998 ///
 		how_you_feed_1st_baby___999 how_you_feed_1st_baby___888) (m3_baby1_feed_a m3_baby1_feed_b m3_baby1_feed_c m3_baby1_feed_d m3_baby1_feed_e ///
-		m3_baby1_feed_f m3_baby1_feed_g m3_baby1_feed_h m3_baby1_feed_i m3_baby1_feed_998 m3_baby1_feed_999 m3_baby1_feed_888)
+		m3_baby1_feed_f m3_baby1_feed_g m3_baby1_feed_96 m3_baby1_feed_99 m3_baby1_feed_998 m3_baby1_feed_999 m3_baby1_feed_888)
 
 rename (how_you_feed_2nd_baby___1 how_you_feed_2nd_baby___2 how_you_feed_2nd_baby___3 how_you_feed_2nd_baby___4 how_you_feed_2nd_baby___5 ///
 		how_you_feed_2nd_baby___6 how_you_feed_2nd_baby___7 how_you_feed_2nd_baby___96 how_you_feed_2nd_baby___99 how_you_feed_2nd_baby___998 ///
 		how_you_feed_2nd_baby___999 how_you_feed_2nd_baby___888) (m3_baby2_feed_a m3_baby2_feed_b m3_baby2_feed_c m3_baby2_feed_d m3_baby2_feed_e ///
-		m3_baby2_feed_f m3_baby2_feed_g m3_baby2_feed_h m3_baby2_feed_i m3_baby2_feed_998 m3_baby2_feed_999 m3_baby2_feed_888)				
+		m3_baby2_feed_f m3_baby2_feed_g m3_baby2_feed_96 m3_baby2_feed_99 m3_baby2_feed_998 m3_baby2_feed_999 m3_baby2_feed_888)				
 		
 rename (how_you_feed_3rd_baby___1 how_you_feed_3rd_baby___2 how_you_feed_3rd_baby___3 how_you_feed_3rd_baby___4 how_you_feed_3rd_baby___5 ///
 		how_you_feed_3rd_baby___6 how_you_feed_3rd_baby___7 how_you_feed_3rd_baby___96 how_you_feed_3rd_baby___99 how_you_feed_3rd_baby___998 ///
 		how_you_feed_3rd_baby___999 how_you_feed_3rd_baby___888) (m3_baby3_feed_a m3_baby3_feed_b m3_baby3_feed_c m3_baby3_feed_d m3_baby3_feed_e ///
-		m3_baby3_feed_f m3_baby3_feed_g m3_baby3_feed_h m3_baby3_feed_i m3_baby3_feed_998 m3_baby3_feed_999 m3_baby3_feed_888)
+		m3_baby3_feed_f m3_baby3_feed_g m3_baby3_feed_96 m3_baby3_feed_99 m3_baby3_feed_998 m3_baby3_feed_999 m3_baby3_feed_888)
 
 rename (days_or_hours_die_baby_2 days_or_hours_die_baby_4 days_or_hours_die_baby_3 days_or_hours_die_baby_5) (m3_313a_baby2 m3_313b_baby2 ///
 		m3_313a_baby3 m3_313b_baby3)		
@@ -482,7 +506,7 @@ rename (regarding_sleep_1st_baby_today regarding_sleep_2nd_baby_today regarding_
 	
 rename (at_any_time_during_labor_701 what_health_problems_did_702 would_you_say_this_problem_703 did_you_experience_seizures did_you_experience_blurvision ///
 		did_you_experience_headache did_you_experience_swelling did_you_experience_labor did_you_experience_exces did_you_experience_fever did_you_receive_a_blood_705 ///
-		were_you_admitted_to_an_706 how_long_did_you_stay_at_f q707_m3_unk) (m3_701 m3_702 m3_703 m3_704a m3_704b m3_704c m3_704d m3_704e m3_704f m3_70fg m3_705 ///
+		were_you_admitted_to_an_706 how_long_did_you_stay_at_f q707_m3_unk) (m3_701 m3_702 m3_703 m3_704a m3_704b m3_704c m3_704d m3_704e m3_704f m3_704g m3_705 ///
 		m3_706 m3_707 m3_707_unknown)	
 	
 rename (experience_issiues_baby_1___1 experience_issiues_baby_1___2 experience_issiues_baby_1___3 experience_issiues_baby_1___4 experience_issiues_baby_1___5 ///
@@ -502,7 +526,7 @@ rename (experience_issiues_baby_3___1 experience_issiues_baby_3___2 experience_i
 	
 rename (q708_oth write_down_baby_name_709b write_down_baby_name_709c baby_spend_710_baby_1 baby_spend_710_baby_2 baby_spend_710_baby_3 how_long_did_711_baby_1 ///
 		how_long_did_711_baby_2 how_long_did_711_baby_3 over_the_past_2_weeks_on_801a b_over_the_past_2_weeks_801b since_you_last_spoke_802a ///
-		how_many_of_these_sessio_802b how_many_minutes_did_802c) (m3_708_other m3_708b m3_709c m3_710a m3_710b m3_710c m3_711a m3_711b m3_711c m3_801a ///
+		how_many_of_these_sessio_802b how_many_minutes_did_802c) (m3_708a m3_708b m3_709c m3_710a m3_710b m3_710c m3_711a m3_711b m3_711c m3_801a ///
 		m3_801b m3_802a m3_802b m3_802c)	
 
 rename (have_you_experienced_803a have_you_experienced_803b have_you_experienced_803c have_you_experienced_803d have_you_experienced_803e ///
@@ -541,8 +565,8 @@ rename (overall_taking_everything_901 how_likely_are_you_to_reco_902 did_staff_s
 rename (ask_permission_viginal_exa_1006b were_vaginal_examination_1006c any_form_of_pain_relief_1007a did_you_request_pain_rel_1007b did_you_receive_pain_rel_1007c ///
 		would_like_to_ask_you_1101 spend_money_on_reg_1102 how_much_spent_registra did_you_spend_money_on_med how_you_spent_on_medicin did_you_spend_money_on_test ///
 		how_much_spend_on_test did_you_spend_money_on_transp how_much_spend_on_transp did_you_spend_on_food_an how_much_spend_on_food did_you_spend_on_other ///
-		how_much_spend_on_other in_total_how_much_you_spen confirm_oop total_spent) (m3_1006b m3_1006c m3_1006d m3_1007b m3_1007c m3_1101 m3_1102a m3_1102a_amt ///
-		m3_1102b m3_1102b_amt m3_1102c m3_1102c_amt m3_1102d m3_1102_amt m3_1102e m3_1102e_amt m3_1102f m3_1102f_amt m3_1103 m3_1103_confirm m3_1104)
+		how_much_spend_on_other in_total_how_much_you_spen confirm_oop total_spent) (m3_1006b m3_1006c m3_1007a m3_1007b m3_1007c m3_1101 m3_1102a m3_1102a_amt ///
+		m3_1102b m3_1102b_amt m3_1102c m3_1102c_amt m3_1102d m3_1102d_amt m3_1102e m3_1102e_amt m3_1102f m3_1102f_amt m3_1103 m3_1103_confirm m3_1104)
 
 rename (which_of_the_following_fin_1105 other_income_source_1105 to_conclude_this_survey_1106 time_of_interview_ended_103b ///
 		c_total_duration_of_interv ot1 ot1_oth m3_attempt_outcome2 m3_attempt_outcome_p2 date_of_rescheduled_m3_p2 time_of_rescheduled_m3_p2) (m3_1105 ///
@@ -1259,7 +1283,7 @@ label values m3_1201 m3_1203 m3_401 m3_consultation_1 m3_consultation_referral_1
 			 m3_617h_et m3_617i_et m3_619a m3_619b m3_619c m3_619d ///
 			 m3_619e m3_619f m3_619g m3_619h m3_619i m3_619j m3_620 ///
 		     m3_621b m3_622a m3_622c m3_701 m3_703 m3_704a m3_704b ///
-			 m3_704c m3_704d m3_704e m3_704f m3_70fg m3_705 m3_706 ///
+			 m3_704c m3_704d m3_704e m3_704f m3_704g m3_705 m3_706 ///
 			 m3_710a m3_710b m3_710c m3_802a m3_803a m3_803b m3_803c ///
 			 m3_803d m3_803e m3_803f m3_803g m3_803h m3_803i m3_805 ///
 			 m3_901a m3_901b m3_901c m3_901d m3_901e m3_901f m3_901g ///
@@ -1274,7 +1298,7 @@ label values m3_1201 m3_1203 m3_401 m3_consultation_1 m3_consultation_referral_1
 			 m3_902i_baby3 m3_902j_baby1 m3_902j_baby2 m3_902j_baby3 ///
 			 m3_1003 m3_1005a m3_1005b m3_1005c m3_1005d m3_1005e ///
 			 m3_1005f m3_1005g m3_1005h m3_1006a m3_1006b m3_1006c ///
-			 m3_1006d m3_1007b m3_1007c m3_1101 m3_1102a m3_1102b ///
+			 m3_1007a m3_1007b m3_1007c m3_1101 m3_1102a m3_1102b ///
 			 m3_1102c m3_1102d m3_1102e m3_1102f m3_YNDKRF
 
 label define confidenceDKNR 1 "Excellent" 2 "Very Good" 3 "Good" ///
@@ -1514,8 +1538,30 @@ format recm3_313b_baby1 %tc_HH:MM
 *gen double recm3_313b_baby3 = clock(m3_313b_baby3, "hm") // currently numerical because of 0 obs
 *format recm3_313b_baby3 %tc_HH:MM
 
- 
-	
+gen double recm3_506b = clock(m3_506b, "hm") 
+format recm3_506b %tc_HH:MM
+
+gen double recm3_507 = clock(m3_507, "hm") 
+format recm3_507 %tc_HH:MM
+
+gen double recm3_514 = clock(m3_514, "hm") 
+format recm3_514 %tc_HH:MM
+
+gen double recm3_520 = clock(m3_520, "hm") 
+format recm3_520 %tc_HH:MM
+
+gen double recm3_time_p2 = clock(m3_time_p2, "hm") 
+format recm3_time_p2 %tc_HH:MM 
+
+gen double recm3_endtime = clock(m3_endtime, "hm") 
+format recm3_endtime %tc_HH:MM 
+
+gen double recm3_p2_time_of_rescheduled = clock(m3_p2_time_of_rescheduled, "hm") 
+format recm3_p2_time_of_rescheduled %tc_HH:MM 
+
+gen double recm3_duration = clock(m3_duration, "hm") 
+format recm3_duration %tc_HH:MM 
+
 *===============================================================================
 		
 	*STEP THREE: RECODING MISSING VALUES 
@@ -1534,9 +1580,11 @@ format recm3_313b_baby1 %tc_HH:MM
 	recode m2_201 m2_203a m2_203b m2_203c m2_203d m2_203e m2_203f m2_203g m2_203h m2_203i m2_204a m2_204b m2_204c m2_204d m2_204e m2_204f m2_204g m2_204h m2_204i m2_206 m2_207 m2_208 m2_301 m2_303a m2_303b m2_303c m2_303d m2_303e m2_305 m2_306 m2_308 m2_309 m2_311 m2_312 m2_314 m2_315 m2_317 m2_318 m2_321 m2_401 m2_402 m2_403 m2_404 m2_405 m2_501a m2_501b m2_501c m2_501d m2_501e m2_501f m2_501g m2_502 m2_503a m2_503b m2_503c m2_503d m2_503e m2_503f m2_504 m2_505a m2_505b m2_505c m2_505d m2_505e m2_505f m2_506a m2_506b m2_506c m2_506d m2_507 m2_508a m2_508b_number m2_508c m2_509a m2_509b m2_509c m2_601a m2_601b m2_601c m2_601d m2_601e m2_601f m2_601g m2_601h m2_601i m2_601j m2_601k m2_601l m2_601m m2_601n m2_602a m2_603 m2_604 m2_701 m2_702a m2_702b m2_702c m2_702d m2_702e m2_704 kebele_malaria kebele_intworm (98 = .d)
 
 	** MODULE 3:
-	recode m3_303a m3_303b m3_303c m3_303d m3_baby1_gender m3_baby2_gender m3_baby3_gender m3_baby1_health m3_baby2_health m3_baby3_health m3_breastfeeding m3_505a m3_517 m3_1201 m3_1202 m3_1203 m3_1204 m3_401 m3_consultation_1 m3_consultation_referral_1 m3_consultation_2 m3_consultation_referral_2 m3_consultation_3 m3_consultation_referral_3 m3_consultation_4 m3_consultation_referral_4 m3_consultation_5 m3_consultation_referral_5 m3_412a m3_412b m3_412c m3_412d m3_412e m3_412f m3_412g m3_501 m3_510 m3_601a m3_601b m3_601c m3_602b m3_603a m3_603b m3_603c m3_603d m3_604b m3_605a m3_605b m3_606 m3_607 m3_607a_et m3_607b_et m3_607c_et m3_607d_et m3_607e_et m3_608 m3_609 m3_610a m3_610b m3_611 m3_613 m3_615a m3_615b m3_615c m3_617a m3_617b m3_617c m3_617d_et m3_617e_et m3_617f_et m3_617g_et m3_617h_et m3_617i_et m3_619a m3_619b m3_619c m3_619d m3_619e m3_619f m3_619g m3_619h m3_619i m3_619j m3_620 m3_621b m3_622a m3_622c m3_701 m3_703 m3_704a m3_704b m3_704c m3_704d m3_704e m3_704f m3_70fg m3_705 m3_706 m3_710a m3_710b m3_710c m3_802a m3_803a m3_803b m3_803c m3_803d m3_803e m3_803f m3_803g m3_803h m3_803i m3_805 m3_901a m3_901b m3_901c m3_901d m3_901e m3_901f m3_901g m3_901h m3_901i m3_901j m3_901k m3_901l m3_901m m3_901n m3_901o m3_901p m3_901q m3_901r m3_902a_baby1 m3_902a_baby2 m3_902a_baby3 m3_902b_baby1 m3_902b_baby2 m3_902b_baby3 m3_902c_baby1 m3_902c_baby2 m3_902c_baby3 m3_902d_baby1 m3_902d_baby2 m3_902d_baby3 m3_902e_baby1 m3_902e_baby2 m3_902e_baby3 m3_902f_baby1 m3_902f_baby2 m3_902f_baby3 m3_902g_baby1 m3_902g_baby2 m3_902g_baby3 m3_902h_baby1 m3_902h_baby2 m3_902h_baby3 m3_902i_baby1 m3_902i_baby2 m3_902i_baby3 m3_902j_baby1 m3_902j_baby2 m3_902j_baby3 m3_1003 m3_1005a m3_1005b m3_1005c m3_1005d m3_1005e m3_1005f m3_1005g m3_1005h m3_1006a m3_1006b m3_1006c m3_1006d m3_1007b m3_1007c m3_1101 m3_1102a m3_1102b m3_1102c m3_1102d m3_1102e m3_1102f m3_baby1_gender m3_baby2_gender m3_baby3_gender m3_baby1_health m3_baby2_health m3_baby3_health m3_1001 m3_1004a m3_1004b m3_1004c m3_1004d m3_1004e m3_1004f m3_1004g m3_1004h m3_breastfeeding m3_1202 m3_1204 m3_1004i m3_1004j m3_1004k m3_502 m3_503 m3_509 m3_512 m3_513a m3_516 m3_518 m3_519 m3_602a m3_604a m3_621a m3_801a m3_801b m3_807 m3_808b m3_809 m3_1002 m3_1106 (99 = .r)
+	recode m3_303a m3_303b m3_303c m3_303d m3_baby1_gender m3_baby2_gender m3_baby3_gender m3_baby1_health m3_baby2_health m3_baby3_health m3_breastfeeding m3_505a m3_517 m3_1201 m3_1202 m3_1203 m3_1204 m3_401 m3_consultation_1 m3_consultation_referral_1 m3_consultation_2 m3_consultation_referral_2 m3_consultation_3 m3_consultation_referral_3 m3_consultation_4 m3_consultation_referral_4 m3_consultation_5 m3_consultation_referral_5 m3_412a m3_412b m3_412c m3_412d m3_412e m3_412f m3_412g m3_501 m3_510 m3_601a m3_601b m3_601c m3_602b m3_603a m3_603b m3_603c m3_603d m3_604b m3_605a m3_605b m3_606 m3_607 m3_607a_et m3_607b_et m3_607c_et m3_607d_et m3_607e_et m3_608 m3_609 m3_610a m3_610b m3_611 m3_613 m3_615a m3_615b m3_615c m3_617a m3_617b m3_617c m3_617d_et m3_617e_et m3_617f_et m3_617g_et m3_617h_et m3_617i_et m3_619a m3_619b m3_619c m3_619d m3_619e m3_619f m3_619g m3_619h m3_619i m3_619j m3_620 m3_621b m3_622a m3_622c m3_701 m3_703 m3_704a m3_704b m3_704c m3_704d m3_704e m3_704f m3_704g m3_705 m3_706 m3_710a m3_710b m3_710c m3_802a m3_803a m3_803b m3_803c m3_803d m3_803e m3_803f m3_803g m3_803h m3_803i m3_805 m3_901a m3_901b m3_901c m3_901d m3_901e m3_901f m3_901g m3_901h m3_901i m3_901j m3_901k m3_901l m3_901m m3_901n m3_901o m3_901p m3_901q m3_901r m3_902a_baby1 m3_902a_baby2 m3_902a_baby3 m3_902b_baby1 m3_902b_baby2 m3_902b_baby3 m3_902c_baby1 m3_902c_baby2 m3_902c_baby3 m3_902d_baby1 m3_902d_baby2 m3_902d_baby3 m3_902e_baby1 m3_902e_baby2 m3_902e_baby3 m3_902f_baby1 m3_902f_baby2 m3_902f_baby3 m3_902g_baby1 m3_902g_baby2 m3_902g_baby3 m3_902h_baby1 m3_902h_baby2 m3_902h_baby3 m3_902i_baby1 m3_902i_baby2 m3_902i_baby3 m3_902j_baby1 m3_902j_baby2 m3_902j_baby3 m3_1003 m3_1005a m3_1005b m3_1005c m3_1005d m3_1005e m3_1005f m3_1005g m3_1005h m3_1006a m3_1006b m3_1006c m3_1007a m3_1007b m3_1007c m3_1101 m3_1102a m3_1102b m3_1102c m3_1102d m3_1102e m3_1102f m3_baby1_gender m3_baby2_gender m3_baby3_gender m3_baby1_health m3_baby2_health m3_baby3_health m3_1001 m3_1004a m3_1004b m3_1004c m3_1004d m3_1004e m3_1004f m3_1004g m3_1004h m3_breastfeeding m3_1202 m3_1204 m3_1004i m3_1004j m3_1004k m3_502 m3_503 m3_509 m3_512 m3_513a m3_516 m3_518 m3_519 m3_602a m3_604a m3_621a m3_801a m3_801b m3_807 m3_808b m3_809 m3_1002 m3_1106 (99 = .r)
 	
-	recode m3_303a m3_baby1_weight m3_baby2_weight m3_baby3_weight m3_breastfeeding m3_1201 m3_1202 m3_1203 m3_1204 m3_401 m3_consultation_1 m3_consultation_referral_1 m3_consultation_2 m3_consultation_referral_2 m3_consultation_3 m3_consultation_referral_3 m3_consultation_4 m3_consultation_referral_4 m3_consultation_5 m3_consultation_referral_5 m3_412a m3_412b m3_412c m3_412d m3_412e m3_412f m3_412g m3_501 m3_510 m3_601a m3_601b m3_601c m3_602b m3_603a m3_603b m3_603c m3_603d m3_604b m3_605a m3_605b m3_606 m3_607 m3_607a_et m3_607b_et m3_607c_et m3_607d_et m3_607e_et m3_608 m3_609 m3_610a m3_610b m3_611 m3_613 m3_615a m3_615b m3_615c m3_617a m3_617b m3_617c m3_617d_et m3_617e_et m3_617f_et m3_617g_et m3_617h_et m3_617i_et m3_619a m3_619b m3_619c m3_619d m3_619e m3_619f m3_619g m3_619h m3_619i m3_619j m3_620 m3_621b m3_622a m3_622c m3_701 m3_703 m3_704a m3_704b m3_704c m3_704d m3_704e m3_704f m3_70fg m3_705 m3_706 m3_710a m3_710b m3_710c m3_802a m3_803a m3_803b m3_803c m3_803d m3_803e m3_803f m3_803g m3_803h m3_803i m3_805 m3_901a m3_901b m3_901c m3_901d m3_901e m3_901f m3_901g m3_901h m3_901i m3_901j m3_901k m3_901l m3_901m m3_901n m3_901o m3_901p m3_901q m3_901r m3_902a_baby1 m3_902a_baby2 m3_902a_baby3 m3_902b_baby1 m3_902b_baby2 m3_902b_baby3 m3_902c_baby1 m3_902c_baby2 m3_902c_baby3 m3_902d_baby1 m3_902d_baby2 m3_902d_baby3 m3_902e_baby1 m3_902e_baby2 m3_902e_baby3 m3_902f_baby1 m3_902f_baby2 m3_902f_baby3 m3_902g_baby1 m3_902g_baby2 m3_902g_baby3 m3_902h_baby1 m3_902h_baby2 m3_902h_baby3 m3_902i_baby1 m3_902i_baby2 m3_902i_baby3 m3_902j_baby1 m3_902j_baby2 m3_902j_baby3 m3_1003 m3_1005a m3_1005b m3_1005c m3_1005d m3_1005e m3_1005f m3_1005g m3_1005h m3_1006a m3_1006b m3_1006c m3_1006d m3_1007b m3_1007c m3_1101 m3_1102a m3_1102b m3_1102c m3_1102d m3_1102e m3_1102f m3_1202 m3_1204 m3_1004i m3_1004j m3_1004k m3_502 m3_503 m3_512 m3_513a m3_518 m3_519 m3_602a m3_604a m3_801a m3_801b m3_809 m3_1002 m3_1106 (98 = .d)
+	recode m3_303a m3_baby1_weight m3_baby2_weight m3_baby3_weight m3_breastfeeding m3_1201 m3_1202 m3_1203 m3_1204 m3_401 m3_consultation_1 m3_consultation_referral_1 m3_consultation_2 m3_consultation_referral_2 m3_consultation_3 m3_consultation_referral_3 m3_consultation_4 m3_consultation_referral_4 m3_consultation_5 m3_consultation_referral_5 m3_412a m3_412b m3_412c m3_412d m3_412e m3_412f m3_412g m3_501 m3_510 m3_601a m3_601b m3_601c m3_602b m3_603a m3_603b m3_603c m3_603d m3_604b m3_605a m3_605b m3_606 m3_607 m3_607a_et m3_607b_et m3_607c_et m3_607d_et m3_607e_et m3_608 m3_609 m3_610a m3_610b m3_611 m3_613 m3_615a m3_615b m3_615c m3_617a m3_617b m3_617c m3_617d_et m3_617e_et m3_617f_et m3_617g_et m3_617h_et m3_617i_et m3_619a m3_619b m3_619c m3_619d m3_619e m3_619f m3_619g m3_619h m3_619i m3_619j m3_620 m3_621b m3_622a m3_622c m3_701 m3_703 m3_704a m3_704b m3_704c m3_704d m3_704e m3_704f m3_704g m3_705 m3_706 m3_710a m3_710b m3_710c m3_802a m3_803a m3_803b m3_803c m3_803d m3_803e m3_803f m3_803g m3_803h m3_803i m3_805 m3_901a m3_901b m3_901c m3_901d m3_901e m3_901f m3_901g m3_901h m3_901i m3_901j m3_901k m3_901l m3_901m m3_901n m3_901o m3_901p m3_901q m3_901r m3_902a_baby1 m3_902a_baby2 m3_902a_baby3 m3_902b_baby1 m3_902b_baby2 m3_902b_baby3 m3_902c_baby1 m3_902c_baby2 m3_902c_baby3 m3_902d_baby1 m3_902d_baby2 m3_902d_baby3 m3_902e_baby1 m3_902e_baby2 m3_902e_baby3 m3_902f_baby1 m3_902f_baby2 m3_902f_baby3 m3_902g_baby1 m3_902g_baby2 m3_902g_baby3 m3_902h_baby1 m3_902h_baby2 m3_902h_baby3 m3_902i_baby1 m3_902i_baby2 m3_902i_baby3 m3_902j_baby1 m3_902j_baby2 m3_902j_baby3 m3_1003 m3_1005a m3_1005b m3_1005c m3_1005d m3_1005e m3_1005f m3_1005g m3_1005h m3_1006a m3_1006b m3_1006c m3_1007a m3_1007b m3_1007c m3_1101 m3_1102a m3_1102b m3_1102c m3_1102d m3_1102e m3_1102f m3_1202 m3_1204 m3_1004i m3_1004j m3_1004k m3_502 m3_503 m3_512 m3_513a m3_518 m3_519 m3_602a m3_604a m3_801a m3_801b m3_809 m3_1002 m3_1106 recm3_506b recm3_507 m3_514_unknown recm3_520 (98 = .d)
+	
+	recode recm3_506b recm3_507 m3_514_unknown recm3_520 m3_521 (998 = .d)
 	
 	
 ************** Recode missing values to NA for questions respondents would not have been asked due to skip patterns:
@@ -2377,7 +2425,7 @@ replace m3_baby1_name = ".a" if m3_303b == . | m3_303b == .a | m3_303b == .r // 
 replace m3_baby2_name = ".a" if m3_303c == . | m3_303c == .a
 replace m3_baby3_name = ".a" if m3_303d == . | m3_303d == .a
 
-recode m3_baby1_gender (. = .a) if 
+recode m3_baby1_gender (. = .a) if m3_303b !=1
 recode m3_baby2_gender (. = .a) if m3_303c !=1
 recode m3_baby3_gender (. = .a) if m3_303d !=1
 
@@ -2396,22 +2444,22 @@ recode m3_baby1_health (. = .a) if m3_303c !=1
 recode m3_baby1_health (. = .a) if m3_303d !=1
 
 recode m3_baby1_feed_a m3_baby1_feed_b m3_baby1_feed_c m3_baby1_feed_d m3_baby1_feed_e ///
-	   m3_baby1_feed_f m3_baby1_feed_g m3_baby1_feed_h m3_baby1_feed_i m3_baby1_feed_998 ///
+	   m3_baby1_feed_f m3_baby1_feed_g m3_baby1_feed_96 m3_baby1_feed_99 m3_baby1_feed_998 ///
 	   m3_baby1_feed_999 m3_baby1_feed_888 (. = .a) if m3_303b !=1
 
-replace m3_baby1_feed_other = ".a" if m3_baby1_feed_h != 1
+replace m3_baby1_feed_other = ".a" if m3_baby1_feed_96 != 1
 
 recode m3_baby2_feed_a m3_baby2_feed_b m3_baby2_feed_c m3_baby2_feed_d m3_baby2_feed_e ///
-	   m3_baby2_feed_f m3_baby2_feed_g m3_baby2_feed_h m3_baby2_feed_i m3_baby2_feed_998 ///
+	   m3_baby2_feed_f m3_baby2_feed_g m3_baby2_feed_96 m3_baby2_feed_99 m3_baby2_feed_998 ///
 	   m3_baby2_feed_999 m3_baby2_feed_888 (. = .a) if m3_303c !=1
 
-replace m3_baby2_feed_other = ".a" if m3_baby2_feed_h != 1 
+replace m3_baby2_feed_other = ".a" if m3_baby2_feed_96 != 1 
 
 recode m3_baby3_feed_a m3_baby3_feed_b m3_baby3_feed_c m3_baby3_feed_d m3_baby3_feed_e ///
-	   m3_baby3_feed_f m3_baby3_feed_g m3_baby3_feed_h m3_baby3_feed_i m3_baby3_feed_998 ///
+	   m3_baby3_feed_f m3_baby3_feed_g m3_baby3_feed_96 m3_baby3_feed_99 m3_baby3_feed_998 ///
 	   m3_baby3_feed_999 m3_baby3_feed_888 (. = .a) if m3_303d !=1
 
-recode m3_baby3_feed_other (. = .a) if m3_baby3_feed_h != 1 // SS: why is this numeric? will probably have to change to string once data is entered
+recode m3_baby3_feed_other (. = .a) if m3_baby3_feed_96 != 1 // SS: why is this numeric? will probably have to change to string once data is entered
 
 recode m3_breastfeeding (. = .a) if (m3_303b !=1 & m3_303c !=1 & m3_303d !=1) | (m3_baby1_feed_a !=1 & m3_baby2_feed_a !=1 & m3_baby3_feed_a !=1) // SS: double check
 
@@ -2419,7 +2467,7 @@ recode m3_breastfeeding_fx_et (. = .a) if (m3_303b !=1 & m3_303c !=1 & m3_303d !
 
 recode m3_baby1_born_alive (. = .a) if m3_303b !=0
 
-recode  (. = .a) if m3_303b !=0 & m3_303c !=0 & m3_303d !=0
+recode m3_202 (. = .a) if m3_303b !=0 & m3_303c !=0 & m3_303d !=0
 
 recode m3_baby2_born_alive (. = .a) if m3_303c !=0
 
@@ -2528,13 +2576,290 @@ recode m3_consultation5_reason_a m3_consultation5_reason_b m3_consultation5_reas
 
 recode m3_412a m3_412b m3_412c m3_412d m3_412e m3_412f m3_412g (. =.a) if m3_401 !=1
 
-recode m3_412g_otherc (. = .a) if m3_412g !=1
+replace m3_412g_other = ".a" if m3_412g !=1
 
+recode m3_501 (. = .a) if (m3_303b !=1 & m3_303c !=1 & m3_303d !=1) & (m3_baby1_born_alive !=1 & m3_baby2_born_alive !=1 & m3_baby3_born_alive !=1) & m3_202 !=3
+
+recode m3_502 m3_503 (. = .a) if m3_501 !=1
+
+replace m3_503_inside_zone_other = ".a" if m3_503 !=96
+
+replace m3_503_outside_zone_other = ".a" if m3_503 !=97
+
+replace m3_504a = ".a" if m3_503 !=97
+
+replace m3_504b= ".a" if m3_503 !=97
+
+recode m3_505a (. = .a) if m3_501 !=1
+
+recode m3_505b (. = .a) if m3_505a !=1
+
+recode m3_506a recm3_506b recm3_507 (. = .a) if m3_501 !=1
+
+recode m3_506b_unknown (. = .a) if m3_501 !=1 & recm3_506b != . | recm3_506b != .a
+
+recode m3_507_unknown (. = .a) if m3_501 !=1 & recm3_507 != . | recm3_507 != .a
+
+recode m3_508 m3_509 (. = .a) if m3_501 !=0
+
+replace m3_509_other = ".a" if m3_509 !=96
+
+recode m3_510 (. = .a) if m3_501 !=1
+
+recode m3_511 m3_512 (. = .a) if m3_510 !=1
+
+*replace m3_512_outside_zone_other = ".a" if m3_512 !=97 // numeric because of 0 obs
+
+recode m3_513a (. = .a) if m3_510 !=1
+
+replace m3_513_inside_zone_other = ".a" if m3_513a != 96
+
+replace m3_513_outside_zone_other = ".a" if m3_513a != 97
+
+replace m3_513b1 = ".a" if m3_513a != 97
+
+replace m3_513b2 = ".a" if m3_513a !=97
+
+recode recm3_514 (. = .a) if m3_510 !=1
+
+recode m3_514_unknown (. = .a) if m3_510 !=1 | (recm3_514 != . | recm3_514 !=.a)
+
+recode m3_515 (. = .a) if m3_510 !=1 
+
+recode m3_516 (. = .a) if m3_515 !=4 & m3_515 !=5
+
+replace m3_516_other = ".a" if m3_516 !=96 
+
+recode m3_517 (. = .a) if m3_515 !=2 & m3_515 !=3
+
+recode m3_518 (. = .a) if m3_517 !=1
+
+replace m3_518_other_complications = ".a" if m3_518 !=96
+
+replace m3_518_other = ".a" if m3_518 !=97
+
+recode m3_519 (. = .a) if m3_510 !=0
+
+replace m3_519_other = ".a" if m3_519 !=96 
+
+recode recm3_520 (. = .a) if m3_501 !=1 & m3_515 !=1
+
+recode m3_520_unknown (. = .a) if m3_501 !=1 & (recm3_520 !=. | recm3_520 !=.a)
+
+recode m3_521 (. = .a) if m3_501 !=1
+
+recode m3_521_unknown (. = .a) if m3_501 !=1 | (m3_521 !=. | m3_521 !=.a)
+
+recode m3_p1_date_of_rescheduled m3_p1_time_of_rescheduled (. = .a) if m3_attempt_outcome !=6
+
+recode m3_permission_p2 (. = .a) if m3_start_p2 !=1
+
+recode m3_date_p2 recm3_time_p2 (. = .a) if m3_permission_p2 !=1
+
+recode m3_201a (. = .a) if m3_permission_p2 !=1 | m3_303b !=1
+
+recode m3_201b (. = .a) if m3_permission_p2 !=1 | m3_303c !=1
+
+recode m3_201c (. = .a) if m3_permission_p2 !=1 | m3_303d !=1
+
+recode m3_601a m3_601b m3_601c m3_602a m3_603a m3_603b m3_603c m3_603d ///
+	   m3_604a m3_604b m3_605a (. = .a) if m3_permission_p2 !=1 | m3_501 !=1
+
+recode m3_602b (. = .a) if m3_permission_p2 !=1 | m3_501 !=1 | (m3_602a !=0 & m3_602a !=2 & ///
+						   m3_602a !=98 & m3_602a !=99)
+
+recode m3_605b m3_605c_a m3_605c_b m3_605c_c m3_605c_d m3_605c_96 m3_605c_99 ///
+	   m3_605c_998 m3_605c_999 m3_605c_888 (. = .a) if m3_605a !=1
+
+replace m3_605c_other = ".a" if m3_605c_96 !=1
+
+recode m3_606 m3_607 (. = .a) if m3_605a !=0
+
+recode m3_607a_et m3_607b_et m3_607c_et m3_607d_et m3_607e_et m3_608 ///
+	   (. = .a) if m3_permission_p2 !=1 | m3_501 !=1
+
+recode m3_609 m3_610a m3_611 m3_612 (. = .a) if m3_permission_p2 !=1 | m3_501 !=1 | ///
+	  (m3_303b !=1 & m3_303c !=1 & m3_303d !=1 & m3_baby1_born_alive !=1 & ///
+	  m3_baby2_born_alive !=1 & m3_baby3_born_alive !=1)
+	  
+recode m3_610b (. = .a) if m3_610a !=1
+
+recode m3_613 (. = .a) if m3_permission_p2 !=1 | m3_501 !=1	  
+
+recode m3_614 (. = .a) if m3_613 !=1
+
+recode m3_615a (. = .a) if m3_permission_p2 !=1 | m3_501 !=1 | (m3_201a !=1 & m3_baby1_born_alive !=1)
+
+recode m3_615b (. = .a) if m3_permission_p2 !=1 | m3_501 !=1 | (m3_201b !=1 & m3_baby2_born_alive !=1)
+
+recode m3_615c (. = .a) if m3_permission_p2 !=1 | m3_501 !=1 | (m3_201c !=1 & m3_baby3_born_alive !=1)
+
+recode m3_616a (. = .a) if m3_615a !=1
+
+recode m3_616b (. = .a) if m3_615b !=1
+
+recode m3_616c (. = .a) if m3_615c !=1
+
+recode m3_617a (. = .a) if m3_permission_p2 !=1 | m3_501 !=1 | (m3_201a !=1 & m3_baby1_born_alive !=1)
+
+recode m3_617b (. = .a) if m3_permission_p2 !=1 | m3_501 !=1 | (m3_201b !=1 & m3_baby2_born_alive !=1)
+
+recode m3_617c (. = .a) if m3_permission_p2 !=1 | m3_501 !=1 | (m3_201c !=1 & m3_baby3_born_alive !=1)
+
+recode m3_617d_et (. = .a) if m3_permission_p2 !=1 | m3_501 !=1 | (m3_201a !=1 & m3_baby1_born_alive !=1)
+
+recode m3_617e_et (. = .a) if m3_permission_p2 !=1 | m3_501 !=1 | (m3_201b !=1 & m3_baby2_born_alive !=1)
+
+recode m3_617f_et (. = .a) if m3_permission_p2 !=1 | m3_501 !=1 | (m3_201c !=1 & m3_baby3_born_alive !=1)
+
+recode m3_617g_et (. = .a) if m3_permission_p2 !=1 | m3_501 !=1 | (m3_201a !=1 & m3_baby1_born_alive !=1)
+
+recode m3_617h_et (. = .a) if m3_permission_p2 !=1 | m3_501 !=1 | (m3_201b !=1 & m3_baby2_born_alive !=1)
+
+recode m3_617i_et (. = .a) if m3_permission_p2 !=1 | m3_501 !=1 | (m3_201c !=1 & m3_baby3_born_alive !=1)
+
+recode m3_619a m3_619b m3_619c m3_619d m3_619e m3_619f m3_619g m3_619h m3_619i m3_619j ///
+	   m3_620 (. = .a) if m3_permission_p2 !=1 | m3_501 !=1 | (m3_201a !=1 & m3_201b !=1 & ///
+	   m3_201c !=1 & m3_baby1_born_alive !=1 & m3_baby2_born_alive !=1 & m3_baby3_born_alive !=1)
+						   
+recode m3_621a m3_621b (. = .a) if m3_permission_p2 !=1 | m3_501 !=0			   
+						   
+recode m3_621c (. = .a) if m3_621b !=1
+
+recode m3_622a m3_622c m3_701 m3_704a m3_704b m3_704c m3_704d m3_704e m3_704f m3_704g ///
+	   (. = .a) if m3_permission_p2 !=1
+
+recode m3_622b (. = .a) if m3_622a !=1 
+
+recode m3_baby1_sleep m3_baby1_feed m3_baby1_breath m3_baby1_stool m3_baby1_mood ///
+	   m3_baby1_skin m3_baby1_interactivity (. = .a) if m3_permission_p2 !=1 | m3_201a !=1
+
+recode m3_baby2_sleep m3_baby2_feed m3_baby2_breath m3_baby2_stool m3_baby2_mood ///
+	   m3_baby2_skin m3_baby2_interactivity (. = .a) if m3_permission_p2 !=1 | m3_201b !=1
+
+recode m3_baby3_sleep m3_baby3_feed m3_baby3_breath m3_baby3_stool m3_baby3_mood ///
+	   m3_baby3_skin m3_baby3_interactivity (. = .a) if m3_permission_p2 !=1 | m3_201c !=1
+
+replace m3_702 = ".a" if m3_701 !=1
+
+recode m3_703 (. = .a) if m3_701 !=1
+
+recode m3_705 m3_706 m3_707 (. = .a) if m3_permission_p2 !=1 | m3_501 !=1
+
+recode m3_707_unknown (. = .a) if m3_permission_p2 !=1 | m3_707 != . | m3_707 != .a // SS: why is this numeric instead of string?
+
+recode m3_baby1_issues_a m3_baby1_issues_b m3_baby1_issues_c m3_baby1_issues_d m3_baby1_issues_e ///
+	   m3_baby1_issues_f m3_baby1_issues_96 m3_baby1_issues_98 m3_baby1_issues_99 m3_baby1_issues_998 ///
+	   m3_baby1_issues_999 m3_baby1_issues_888 (. = .a) if m3_permission_p2 !=1 | m3_baby1_born_alive !=1
 	   
+recode m3_baby2_issues_a m3_baby2_issues_b m3_baby2_issues_c m3_baby2_issues_d m3_baby2_issues_e ///
+	   m3_baby2_issues_f m3_baby2_issues_96 m3_baby2_issues_98 m3_baby2_issues_99 m3_baby2_issues_998 ///
+	   m3_baby2_issues_999 m3_baby2_issues_888 (. = .a) if m3_permission_p2 !=1 | m3_baby2_born_alive !=1
+	   
+recode m3_baby3_issues_a m3_baby3_issues_b m3_baby3_issues_c m3_baby3_issues_d m3_baby3_issues_e ///
+       m3_baby3_issues_f m3_baby3_issues_96 m3_baby3_issues_98 m3_baby3_issues_99 m3_baby3_issues_998 ///
+	   m3_baby3_issues_999 m3_baby3_issues_888 (. = .a) if m3_permission_p2 !=1 | m3_baby3_born_alive !=1
+ 
+replace m3_708a = ".a" if m3_baby1_issues_96 !=1
+
+recode m3_708b (. = .a) if m3_baby2_issues_96 !=1 // numeric because of 0 obs
+
+recode m3_709c (. = .a) if m3_baby3_issues_96 !=1 // numeric because of 0 obs
+ 
+recode m3_710a m3_711a (. = .a) if m3_permission_p2 !=1 | m3_501 !=1 | m3_baby1_born_alive !=1
+
+recode m3_710b m3_711b (. = .a) if m3_permission_p2 !=1 | m3_501 !=1 | m3_baby2_born_alive !=1
+
+recode m3_710c m3_711c (. = .a) if m3_permission_p2 !=1 | m3_501 !=1 | m3_baby3_born_alive !=1
+
+recode m3_801a m3_801b m3_803a m3_803b m3_803c m3_803d m3_803e m3_803f m3_803g m3_803h ///
+	   m3_803i m3_803j m3_805 m3_901a m3_901b m3_901c m3_901d m3_901e m3_901f m3_901g ///
+	   m3_901h m3_901i m3_901j m3_901k m3_901l m3_901m m3_901n m3_901o m3_901p m3_901q ///
+	   m3_901r (. = .a) if m3_permission_p2 !=1
+ 
+recode m3_802a (. = .a) if (m3_801a !=0 | m3_801b !=3) & (m3_801a !=1 | m3_801b !=2) & ///
+	   (m3_801a !=2 | m3_801b !=1) & (m3_801a !=3 | m3_801b !=0) & (m3_801a !=1 | m3_801b !=3) & ///
+	   (m3_801a !=2 | m3_801b !=3) & (m3_801a !=2 | m3_801b !=2) & (m3_801a !=3 | m3_801b !=3) & ///
+	   (m3_801a !=3 | m3_801b !=1) & (m3_801a !=3 | m3_801b !=2)
+	   
+recode m3_802b m3_802c (. = .a) if m3_802a !=1
+
+replace m3_803j_other = ".a" if m3_803j !=1
+
+recode m3_806 m3_807 m3_808a (. = .a) if m3_805 !=1
+
+recode m3_808b (. = .a) if m3_805 !=1 | m3_808a !=0
+
+replace m3_808b_other = ".a" if m3_808b !=96
+
+recode m3_809 (. = .a) if m3_805 !=1 | m3_808a !=1
+
+replace m3_901r_other = ".a" if m3_901r !=1
+
+recode m3_902a_baby1 m3_902b_baby1 m3_902c_baby1 m3_902d_baby1 m3_902e_baby1 m3_902f_baby1 m3_902g_baby1 m3_902h_baby1 (. = .a) if m3_permission_p2 !=1 | m3_201a !=1
+
+recode m3_902a_baby2 m3_902b_baby2 m3_902c_baby2 m3_902d_baby2 m3_902e_baby2 m3_902f_baby2 m3_902g_baby2 m3_902h_baby2 (. = .a) if m3_permission_p2 !=1 | m3_201b !=1
+
+recode m3_902a_baby3 m3_902b_baby3 m3_902c_baby3 m3_902d_baby3 m3_902e_baby3 m3_902f_baby3 m3_902g_baby3 m3_902h_baby3 (. = .a) if m3_permission_p2 !=1 | m3_201c !=1
+
+recode m3_902i_baby1 (. = .a) if (m3_permission_p2 !=1 | m3_201a !=1 | m1_202e !=1) & (m1_708b !=1 & m2_hiv_status !=1 & m2_505b !=1)
+
+recode m3_902i_baby2 (. = .a) if (m3_permission_p2 !=1 | m3_201b !=1 | m1_202e !=1) & (m1_708b !=1 & m2_hiv_status !=1 & m2_505b !=1)
+  
+recode m3_902i_baby3 (. = .a) if (m3_permission_p2 !=1 | m3_201c !=1 | m1_202e !=1) & (m1_708b !=1 & m2_hiv_status !=1 & m2_505b !=1) 
+ 
+recode m3_902j_baby1 (. = .a) if m3_permission_p2 !=1 | m3_201a !=1
+
+replace m3_902j_baby1_other = ".a" if m3_902j_baby1 !=1
+
+recode m3_902j_baby2 (. = .a) if m3_permission_p2 !=1 | m3_201b !=1
+ 
+recode m3_902j_baby2_other (. = .a) if m3_902j_baby2 !=1 // numeric because of 0 obs
+
+recode m3_902j_baby3 (. = .a) if m3_permission_p2 !=1 | m3_201c !=1
+
+recode m3_902j_baby3_other (. = .a) if m3_902j_baby3 !=1 // numeric because of 0 obs
+
+recode m3_1001 m3_1002 m3_1003 m3_1004a m3_1004b m3_1004c m3_1004d m3_1004e m3_1004f ///
+	   m3_1004g m3_1004h m3_1004i m3_1004j m3_1004k m3_1005a m3_1005b m3_1005c m3_1005d ///
+	   m3_1005e m3_1005f m3_1005g m3_1005h m3_1006a m3_1007a m3_1007b m3_1007c m3_1101 ///
+	   (. = .a) if m3_permission_p2 !=1 | m3_501 !=1
+ 
+recode m3_1006b m3_1006c (. = .a) if m3_1006a !=1
+
+recode m3_1102a m3_1102b m3_1102c m3_1102d m3_1102e m3_1102f m3_1103 m3_1105 (. = .a) if m3_1101 !=1
+
+recode m3_1102a_amt (. = .a) if m3_1102a !=1
+
+recode m3_1102b_amt (. = .a) if m3_1102b !=1
+
+recode m3_1102c_amt (. = .a) if m3_1102c !=1
+
+recode m3_1102d_amt (. = .a) if m3_1102d !=1
+
+recode m3_1102e_amt (. = .a) if m3_1102e !=1
+
+recode m3_1102f_amt (. = .a) if m3_1102f !=1
+
+recode m3_1103_confirm (. = .a) if (m3_1103 == . |  m3_1103 == .a)
+
+recode m3_1104 (. = .a) if m3_1103_confirm !=0
+
+replace m3_1105_other = ".a" if m3_1105 !=96
+
+recode m3_1106 m3_p2_outcome (. = .a) if m3_permission_p2 !=1
+
+recode recm3_endtime recm3_duration (. = .a) if m3_permission_p2 !=1 | (m3_303b !=1  & m3_303c !=1 & m3_303d !=1 & m3_202 !=3)
+
+recode m3_p2_outcome_other (. = .a) if m3_p2_outcome !=96 // numeric because of 0 obs
+
+recode m3_p2_date_of_rescheduled recm3_p2_time_of_rescheduled (. = .a) if m3_attempt_outcome_p2 !=6
+
 *------------------------------------------------------------------------------*
 * drop variables after recoding/renaming
 
-drop m1_714d m1_803 module_3_second_phone_survey_aft m3_time m3_313b_baby1
+drop m1_714d m1_803 module_3_second_phone_survey_aft m3_time m3_313b_baby1 m3_506b m3_507 ///
+	 m3_514 m3_520 m3_time_p2 m3_endtime m3_p2_time_of_rescheduled m3_duration
 ren rec* *
 
 *===============================================================================					   
@@ -2989,11 +3314,11 @@ label variable m2_103 "102. Date of interview (D-M-Y)"
 label variable m2_permission "CR1. Permission granted to conduct call"
 label variable m2_date "102. Date of interview (D-M-Y)"
 label variable m2_time_start "103A. Time of interview started"
-label variable maternal_death_reported "108. Maternal death reported"
+label variable m2_maternal_death_reported "108. Maternal death reported"
 label variable m2_ga "107a. Gestational age at this call based on LNMP (in weeks)"
 label variable m2_ga_estimate "107b. Gestational age based on maternal estimation (in weeks)"
 label variable m2_hiv_status "109. HIV status"
-label variable date_of_maternal_death "110. Date of maternal death (D-M-Y)"
+label variable m2_date_of_maternal_death "110. Date of maternal death (D-M-Y)"
 label variable m2_maternal_death_learn "111. How did you learn about the maternal death?"
 label variable m2_maternal_death_learn_other "111-Oth. Specify other way of learning maternal death"
 label variable m2_201 "201. I would like to start by asking about your health and how you have been feeling since you last spoke to us. In general, how would you rate your overall health?"
@@ -3223,529 +3548,528 @@ label variable m2_complete "Complete?"
 
 
 	** MODULE 3:
+label variable m3_start_p1 "IIC. May I proceed with the interview?"
+label variable m3_permission "CR1. Permission granted to conduct call"
+label variable m3_date "102. Date of interview (D-M-Y)"
+label variable m3_time "103A. Time of interview started"
+label variable m3_birth_or_ended "201a. On what date did you give birth or did the pregnancy end?"
+label variable m3_ga1 "201d. Gestational age at birth or end of pregnancy (based on LNMP)"
+label variable m3_ga2 "201e. Gestational age at birth or end of pregnancy (based on maternal estimation)"
+label variable m3_303a "301. If its ok with you, I would like to now ask some questions about the baby or babies. How many babies were you pregnant with?"
+label variable m3_303b "303a. Is the 1st baby alive?"
+label variable m3_303c "303b. Is the 2nd baby alive?"
+label variable m3_303d "303c. Is the 3rd   baby alive?"
+label variable m3_baby1_name "304a. What is the 1st babys name?"
+label variable m3_baby2_name "304b. What is the 2nd babys name?"
+label variable m3_baby3_name "304c. What is the 3rd babys name?"
+label variable m3_baby1_gender "305a. What is first baby's's gender?"
+label variable m3_baby2_gender "305b. what is the second baby's gender?"
+label variable m3_baby3_gender "305c. What is the third baby's gender?"
+label variable m3_baby1_age "306a. How old is the baby?"
+label variable m3_baby1_weight "307a. How much did the first baby weigh at birth in KG?"
+label variable m3_baby2_weight "307b.How much did the second baby weigh at birth?"
+label variable m3_baby3_weight "307c. How much did the third baby weigh at birth?"
+label variable m3_baby1_size "308a. When the first baby was born, were they: very large, larger than average, average, smaller than average or very small?"
+label variable m3_baby2_size "308b. When the second baby was born, were they: very large, larger than average, average, smaller than average or very small?"
+label variable m3_baby3_size "308c. When the third baby was born, were they: very large, larger than average, average, smaller than average or very small?"
+label variable m3_baby1_health "309a. In general, how would you rate the first baby's overall health?"
+label variable m3_baby2_health "309b. In general, how would you rate the second baby's overall health?"
+label variable m3_baby3_health "309c. In general, how would you rate the third baby's overall health?"
+label variable m3_baby1_feed_a "310a.1. People feed their babies in different ways. Please indicate how you have fed the first baby in the last 7 days? Indicate all that apply. (choice=Breast milk)"
+label variable m3_baby1_feed_b "310a. People feed their babies in different ways. Please indicate how you have fed the first baby in the last 7 days? Indicate all that apply. (choice=Formula/Cow milk)"
+label variable m3_baby1_feed_c "310a. People feed their babies in different ways. Please indicate how you have fed the first baby in the last 7 days? Indicate all that apply. (choice=Water)"
+label variable m3_baby1_feed_d "310a. People feed their babies in different ways. Please indicate how you have fed the first baby in the last 7 days? Indicate all that apply. (choice=Juice)"
+label variable m3_baby1_feed_e "310a. People feed their babies in different ways. Please indicate how you have fed the first baby in the last 7 days? Indicate all that apply. (choice=Broth)"
+label variable m3_baby1_feed_f "310a. People feed their babies in different ways. Please indicate how you have fed the first babyin the last 7 days? Indicate all that apply. (choice=Baby food)"
+label variable m3_baby1_feed_g "310a. People feed their babies in different ways. Please indicate how you have fed [what_is_the_1st_baby_name] in the last 7 days? Indicate all that apply. (choice=Local food)"
+label variable m3_baby1_feed_96 "310a. People feed their babies in different ways. Please indicate how you have fed [what_is_the_1st_baby_name] in the last 7 days? Indicate all that apply. (choice=Other, specify)"
+label variable m3_baby1_feed_99 "310a. People feed their babies in different ways. Please indicate how you have fed [what_is_the_1st_baby_name] in the last 7 days? Indicate all that apply. (choice=NR/RF)"
+label variable m3_baby1_feed_998 "310a. People feed their babies in different ways. Please indicate how you have fed [what_is_the_1st_baby_name] in the last 7 days? Indicate all that apply. (choice=Unknown)"
+label variable m3_baby1_feed_999 "310a. People feed their babies in different ways. Please indicate how you have fed [what_is_the_1st_baby_name] in the last 7 days? Indicate all that apply. (choice=Refuse to answer)"
+label variable m3_baby1_feed_888 "310a. People feed their babies in different ways. Please indicate how you have fed [what_is_the_1st_baby_name] in the last 7 days? Indicate all that apply. (choice=No Information)"
+label variable m3_baby1_feed_other "310a_Oth. Other specify"
+label variable m3_baby2_feed_a "310a. People feed their babies in different ways. Please indicate how you have fed the second baby in the last 7 days? Indicate all that apply. (choice=Breast milk)"
+label variable m3_baby2_feed_b "310a. People feed their babies in different ways. Please indicate how you have fed the second baby in the last 7 days? Indicate all that apply. (choice=Formula/Cow milk)"
+label variable m3_baby2_feed_c "310a. People feed their babies in different ways. Please indicate how you have fed the second baby in the last 7 days? Indicate all that apply. (choice=Water)"
+label variable m3_baby2_feed_d "310a. People feed their babies in different ways. Please indicate how you have fed the second baby in the last 7 days? Indicate all that apply. (choice=Juice)"
+label variable m3_baby2_feed_e "310a. People feed their babies in different ways. Please indicate how you have fed the second baby in the last 7 days? Indicate all that apply.(choice=Broth)"
+label variable m3_baby2_feed_f "310a. People feed their babies in different ways. Please indicate how you have fed the second baby in the last 7 days? Indicate all that apply. (choice=Baby food)"
+label variable m3_baby2_feed_g "310a. People feed their babies in different ways. Please indicate how you have fed the second baby in the last 7 days? Indicate all that apply. (choice=Local food)"
+label variable m3_baby2_feed_96 "310a. People feed their babies in different ways. Please indicate how you have fed the second baby in the last 7 days? Indicate all that apply. (choice=Other, specify)"
+label variable m3_baby2_feed_99 "310a. People feed their babies in different ways. Please indicate how you have fed the second baby in the last 7 days? Indicate all that apply. (choice=NR/RF)"
+label variable m3_baby2_feed_998 "310a. People feed their babies in different ways. Please indicate how you have fed the second baby in the last 7 days? Indicate all that apply. (choice=Unknown)"
+label variable m3_baby2_feed_999 "310a. People feed their babies in different ways. Please indicate how you have fed the second baby in the last 7 days? Indicate all that apply. (choice=Refuse to answer)"
+label variable m3_baby2_feed_888 "310a. People feed their babies in different ways. Please indicate how you have fed the second baby in the last 7 days? Indicate all that apply. (choice=No Information)"
+label variable m3_baby2_feed_other "310a_Oth. Other specify"
+label variable m3_baby3_feed_a "310a. People feed their babies in different ways. Please indicate how you have fed the third baby in the last 7 days? Indicate all that apply. (choice=Breast milk)"
+label variable m3_baby3_feed_b "310a. People feed their babies in different ways. Please indicate how you have fed the third baby in the last 7 days? Indicate all that apply. (choice=Formula/Cow milk)"
+label variable m3_baby3_feed_c "310a. People feed their babies in different ways. Please indicate how you have fed the third baby in the last 7 days? Indicate all that apply. (choice=Water)"
+label variable m3_baby3_feed_d "310a. People feed their babies in different ways. Please indicate how you have fed the third baby in the last 7 days? Indicate all that apply. (choice=Juice)"
+label variable m3_baby3_feed_e "310a. People feed their babies in different ways. Please indicate how you have fed the third baby in the last 7 days? Indicate all that apply. (choice=Broth)"
+label variable m3_baby3_feed_f "310a. People feed their babies in different ways. Please indicate how you have fed the third baby in the last 7 days? Indicate all that apply. (choice=Baby food)"
+label variable m3_baby3_feed_g "310a. People feed their babies in different ways. Please indicate how you have fed the third baby in the last 7 days? Indicate all that apply. (choice=Local food/butter)"
+label variable m3_baby3_feed_96 "310a. People feed their babies in different ways. Please indicate how you have fed the third baby in the last 7 days? Indicate all that apply. (choice=Other, specify)"
+label variable m3_baby3_feed_99 "310a. People feed their babies in different ways. Please indicate how you have fed the third baby in the last 7 days? Indicate all that apply. (choice=NR/RF)"
+label variable m3_baby3_feed_998 "310a. People feed their babies in different ways. Please indicate how you have fed the third baby in the last 7 days? Indicate all that apply. (choice=Unknown)"
+label variable m3_baby3_feed_999 "310a. People feed their babies in different ways. Please indicate how you have fed the third baby in the last 7 days? Indicate all that apply. (choice=Refuse to answer)"
+label variable m3_baby3_feed_888 "310a. People feed their babies in different ways. Please indicate how you have fed the third baby in the last 7 days? Indicate all that apply. (choice=No Information)"
+label variable m3_baby3_feed_other "310a_Oth. Other specify"
+label variable m3_breastfeeding "310b. As of today, how confident do you feel about breastfeeding your baby/babies?"
+label variable m3_breastfeeding_fx_et "Eth 1-3. How often per day in average your baby  or babies breastfed?"
+label variable m3_baby1_born_alive "312a. I am very sorry to hear this. I hope that you will find the strength to deal with that event. If it is okay with you, I would like to ask a few more questions about the baby. Was the baby born alive? Did the baby cry, make any movement, sound, or effort to breathe, or show any other signs of life even if for a very short time?"
+label variable m3_202 "202. Data collectors need to choose the status of birth based on the gestational age at death in 201d (or 201e if 201d is missing). If baby died before 28 weeks, this is a miscarriage, and the survey ends. If baby died after 28 weeks, this is a stillbirth. Continue the survey. If the woman reports getting an abortion, report it here, and end the survey."
+label variable m3_baby2_born_alive "312b. I am very sorry to hear this. I hope that you will find the strength to deal with that event. If it is okay with you, I would like to ask a few more questions about the baby. Was the baby born alive? Was the second baby born alive? Did the baby cry, make any movement, sound, or effort to breathe, or show any other signs of life even if for a very short time?"
+label variable m3_baby3_born_alive "312c. I am very sorry to hear this. I hope that you will find the strength to deal with that event. If it is okay with you, I would like to ask a few more questions about the baby.  Was the baby born alive? Was the 3rd baby born alive? Did the baby cry, make any movement, sound, effort to breathe, or show any other signs of life even if for a very short time?"
+label variable m3_313a_baby1 "313a1. On what day did the first baby baby die (i.e. the date of death)?"
+label variable m3_313b_baby1 "313b1. At what time did the first baby baby die?"
+label variable m3_313a_baby2 "313a2. On what day did the second baby die (i.e.the date of death)?"
+label variable m3_313b_baby2 "313b2. At what time did the second baby die?"
+label variable m3_313a_baby3 "313a3. On what day did the third baby die?"
+label variable m3_313b_baby3 "313b3. At what time did the third baby die?"
+label variable m3_death_cause_baby1_a "314c.1. What were you told was the cause of death for the baby, or were you not told? (choice=Not told anything)"
+label variable m3_death_cause_baby1_b "314c. What were you told was the cause of death for the baby, or were you not told? (choice=The baby was premature (born too early))"
+label variable m3_death_cause_baby1_c "314c. What were you told was the cause of death for the baby, or were you not told? (choice=An infection)"
+label variable m3_death_cause_baby1_d "314c. What were you told was the cause of death for the baby, or were you not told? (choice=A congenital abnormality (genetic or acquired issues with growth/ development))"
+label variable m3_death_cause_baby1_e "314c. What were you told was the cause of death for the baby, or were you not told? (choice=A birth injury or asphyxia (occurring because of delivery complications))"
+label variable m3_death_cause_baby1_f "314c. What were you told was the cause of death for the baby, or were you not told? (choice=Difficulties breathing)"
+label variable m3_death_cause_baby1_g "314c. What were you told was the cause of death for the baby, or were you not told? (choice=Unexplained causes)"
+label variable m3_death_cause_baby1_96 "314c. What were you told was the cause of death for the baby, or were you not told? (choice=Other specify)"
+label variable m3_death_cause_baby1_998 "314c. What were you told was the cause of death for the baby, or were you not told? (choice=Unknown)"
+label variable m3_death_cause_baby1_999 "314c. What were you told was the cause of death for the baby, or were you not told? (choice=Refuse to answer)"
+label variable m3_death_cause_baby1_888 "314c. What were you told was the cause of death for the baby, or were you not told? (choice=No Information)"
+label variable m3_death_cause_baby1_other "314c_Oth. Specify other death cause for 1st  baby"
+label variable m3_death_cause_baby2_a "314c. What were you told was the cause of death for the 2nd baby, or were you not told? (choice=Not told anything)"
+label variable m3_death_cause_baby2_b "314c. What were you told was the cause of death for the 2nd baby, or were you not told? (choice=The baby was premature (born too early))"
+label variable m3_death_cause_baby2_c "314c. What were you told was the cause of death for the 2nd baby, or were you not told? (choice=An infection)"
+label variable m3_death_cause_baby2_d "314c. What were you told was the cause of death for the 2nd baby, or were you not told? (choice=A congenital abnormality (genetic or acquired issues with growth/ development))"
+label variable m3_death_cause_baby2_e "314c. What were you told was the cause of death for the 2nd baby, or were you not told? (choice=A birth injury or asphyxia (occurring because of delivery complications))"
+label variable m3_death_cause_baby2_f "314c. What were you told was the cause of death for the 2nd baby, or were you not told? (choice=Difficulties breathing)"
+label variable m3_death_cause_baby2_g "314c. What were you told was the cause of death for the 2nd baby, or were you not told? (choice=Unexplained causes)"
+label variable m3_death_cause_baby2_96 "314c. What were you told was the cause of death for the 2nd baby, or were you not told? (choice=Other specify)"
+label variable m3_death_cause_baby2_998 "314c. What were you told was the cause of death for the 2nd baby, or were you not told? (choice=Unknown)"
+label variable m3_death_cause_baby2_999 "314c. What were you told was the cause of death for the 2nd baby, or were you not told? (choice=Refuse to answer)"
+label variable m3_death_cause_baby2_888 "314c. What were you told was the cause of death for the 2nd baby, or were you not told? (choice=No Information)"
+label variable m3_death_cause_baby2_other "314c_Oth. Specify other death case for the 2nd baby"
+label variable m3_death_cause_baby3_a "314c. What were you told was the cause of death for the 3rd baby, or were you not told? (choice=Not told anything)"
+label variable m3_death_cause_baby3_b "314c. What were you told was the cause of death for the 3rd baby, or were you not told? (choice=The baby was premature (born too early))"
+label variable m3_death_cause_baby3_c "314c. What were you told was the cause of death for the 3rd baby, or were you not told? (choice=An infection)"
+label variable m3_death_cause_baby3_d "314c. What were you told was the cause of death for the 3rd baby, or were you not told? (choice=A congenital abnormality (genetic or acquired issues with growth/ development))"
+label variable m3_death_cause_baby3_e "314c. What were you told was the cause of death for the 3rd baby, or were you not told? (choice=A birth injury or asphyxia (occurring because of delivery complications))"
+label variable m3_death_cause_baby3_f "314c. What were you told was the cause of death for the 3rd baby, or were you not told? (choice=Difficulties breathing)"
+label variable m3_death_cause_baby3_g "314c. What were you told was the cause of death for the 3rd baby, or were you not told? (choice=Unexplained causes)"
+label variable m3_death_cause_baby3_96 "314c. What were you told was the cause of death for the 3rd baby, or were you not told? (choice=Other specify)"
+label variable m3_death_cause_baby3_998 "314c. What were you told was the cause of death for the 3rd baby, or were you not told? (choice=Unknown)"
+label variable m3_death_cause_baby3_999 "314c. What were you told was the cause of death for the 3rd baby, or were you not told? (choice=Refuse to answer)"
+label variable m3_death_cause_baby3_888 "314c. What were you told was the cause of death for the 3rd baby, or were you not told? (choice=No Information)"
+label variable m3_death_cause_baby3_other "314c_Oth. Specify other death case for the 3rd baby"
+label variable m3_1201 "1201. Im sorry to hear you had a miscarriage. If its ok with you I would like to ask a few more questions. When the miscarriage occurred, did you go to a health facility for follow-up?"
+label variable m3_1202 "1202. Overall, how would you rate the quality of care that you received for your miscarriage?"
+label variable m3_1203 "1203. Did you go to a health facility to receive this abortion?"
+label variable m3_1204 "1204. Overall, how would you rate the quality of care that you received for your abortion?"
+label variable m3_401 "401. Before we talk about the delivery, I would like to ask about any additional health care you may have received since you last spoke to us and BEFORE the delivery. We are interested in ALL NEW healthcare consultations that you may have had for yourself between the time of the last survey and the delivery.  Since you last spoke to us, did you have any new healthcare consultations for yourself before the delivery?"
+label variable m3_402 "402. How many new healthcare consultations did you have?"
+label variable m3_consultation_1 "403. Was the 1st consultation for a routine antenatal care visit?"
+label variable m3_consultation_referral_1 "404. Was the 1st for referral from your antenatal care provider?"
+label variable m3_consultation1_reason_a "405. Was the 1st visit for any of the following? Include all that apply. (choice=A new health problem, including an emergency or an injury)"
+label variable m3_consultation1_reason_b "405. Was the 1st visit for any of the following? Include all that apply. (choice=An existing health problem)"
+label variable m3_consultation1_reason_c "405. Was the 1st visit for any of the following? Include all that apply. (choice=A lab test, x-ray, or ultrasound)"
+label variable m3_consultation1_reason_d "405. Was the 1st visit for any of the following? Include all that apply. (choice=To pick up medicine)"
+label variable m3_consultation1_reason_e "405. Was the 1st visit for any of the following? Include all that apply. (choice=To get a vaccine)"
+label variable m3_consultation1_reason_96 "405. Was the 1st visit for any of the following? Include all that apply. (choice=Other reasons, please specify)"
+label variable m3_consultation1_reason_998 "405. Was the 1st visit for any of the following? Include all that apply. (choice=Unknown)"
+label variable m3_consultation1_reason_999 "405. Was the 1st visit for any of the following? Include all that apply. (choice=Refuse to answer)"
+label variable m3_consultation1_reason_888 "405. Was the 1st visit for any of the following? Include all that apply. (choice=No Information)"
+label variable m3_consultation1_reason_other "405_Oth. Other reasons, please specify"
+label variable m3_consultation_2 "406. Was the 2nd consultation for a routine antenatal care visit?"
+label variable m3_consultation_referral_2 "407. Was the 2nd for referral from your antenatal care provider?"
+label variable m3_consultation2_reason_a "408. Was the 2nd visit for any of the following? Include all that apply. (choice=A new health problem, including an emergency or an injury)"
+label variable m3_consultation2_reason_b "408. Was the 2nd visit for any of the following? Include all that apply. (choice=An existing health problem)"
+label variable m3_consultation2_reason_c "408. Was the 2nd visit for any of the following? Include all that apply. (choice=A lab test, x-ray, or ultrasound)"
+label variable m3_consultation2_reason_d "408. Was the 2nd visit for any of the following? Include all that apply. (choice=To pick up medicine)"
+label variable m3_consultation2_reason_e "408. Was the 2nd visit for any of the following? Include all that apply. (choice=To get a vaccine)"
+label variable m3_consultation2_reason_96 "408. Was the 2nd visit for any of the following? Include all that apply. (choice=Other reasons, please specify)"
+label variable m3_consultation2_reason_998 "408. Was the 2nd visit for any of the following? Include all that apply. (choice=Unknown)"
+label variable m3_consultation2_reason_999 "408. Was the 2nd visit for any of the following? Include all that apply. (choice=Refuse to answer)"
+label variable m3_consultation2_reason_888 "408. Was the 2nd visit for any of the following? Include all that apply. (choice=No Information)"
+label variable m3_consultation2_reason_other "408_Oth. Other reasons, please specify"
+label variable m3_consultation_3 "409. Was the 3rd consultation for a routine antenatal care visit?"
+label variable m3_consultation_referral_3 "410. Was the 3rd consultation for a referral from your antenatal care provider?"
+label variable m3_consultation3_reason_a "411. Was the 3rd visit for any of the following? Include all that apply. (choice=A new health problem, including an emergency or an injury)"
+label variable m3_consultation3_reason_b "411. Was the 3rd visit for any of the following? Include all that apply. (choice=An existing health problem)"
+label variable m3_consultation3_reason_c "411. Was the 3rd visit for any of the following? Include all that apply. (choice=A lab test, x-ray, or ultrasound)"
+label variable m3_consultation3_reason_d "411. Was the 3rd visit for any of the following? Include all that apply. (choice=To pick up medicine)"
+label variable m3_consultation3_reason_e "411. Was the 3rd visit for any of the following? Include all that apply. (choice=To get a vaccine)"
+label variable m3_consultation3_reason_96 "411. Was the 3rd visit for any of the following? Include all that apply. (choice=Other reasons, please specify)"
+label variable m3_consultation3_reason_998 "411. Was the 3rd visit for any of the following? Include all that apply. (choice=Unknown)"
+label variable m3_consultation3_reason_999 "411. Was the 3rd visit for any of the following? Include all that apply. (choice=Refuse to answer)"
+label variable m3_consultation3_reason_888 "411. Was the 3rd visit for any of the following? Include all that apply. (choice=No Information)"
+label variable m3_consultation3_reason_other "411_Oth. Other reasons specify"
+label variable m3_consultation_4 "411a. Was the 4th consultation for a routine antenatal care visit?"
+label variable m3_consultation_referral_4 "411b. Was the 4th for referral from your antenatal care provider?"
+label variable m3_consultation4_reason_a "411c. Was the 4th visit for any of the following? Include all that apply. (choice=A new health problem, including an emergency or an injury)"
+label variable m3_consultation4_reason_b "411c. Was the 4th visit for any of the following? Include all that apply. (choice=An existing health problem)"
+label variable m3_consultation4_reason_c "411c. Was the 4th visit for any of the following? Include all that apply. (choice=A lab test, x-ray, or ultrasound)"
+label variable m3_consultation4_reason_d "411c. Was the 4th visit for any of the following? Include all that apply. (choice=To pick up medicine)"
+label variable m3_consultation4_reason_e "411c. Was the 4th visit for any of the following? Include all that apply. (choice=To get a vaccine)"
+label variable m3_consultation4_reason_96 "411c. Was the 4th visit for any of the following? Include all that apply. (choice=Other reasons, please specify)"
+label variable m3_consultation4_reason_998 "411c. Was the 4th visit for any of the following? Include all that apply. (choice=Unknown)"
+label variable m3_consultation4_reason_999 "411c. Was the 4th visit for any of the following? Include all that apply. (choice=Refuse to answer)"
+label variable m3_consultation4_reason_888 "411c. Was the 4th visit for any of the following? Include all that apply. (choice=No Information)"
+label variable m3_consultation4_reason_other "411c_Oth. Other reasons specify"
+label variable m3_consultation_5 "411d . Was the 5th consultation for a routine antenatal care visit?"
+label variable m3_consultation_referral_5 "411e. Was the 5th for referral from your antenatal care provider?/ Include all that apply"
+label variable m3_consultation5_reason_a "411f. Was the 5th visit for any of the following? Include all that apply. (choice=A new health problem, including an emergency or an injury)"
+label variable m3_consultation5_reason_b "411f. Was the 5th visit for any of the following? Include all that apply. (choice=An existing health problem)"
+label variable m3_consultation5_reason_c "411f. Was the 5th visit for any of the following? Include all that apply. (choice=A lab test, x-ray, or ultrasound)"
+label variable m3_consultation5_reason_d "411f. Was the 5th visit for any of the following? Include all that apply. (choice=To pick up medicine)"
+label variable m3_consultation5_reason_e "411f. Was the 5th visit for any of the following? Include all that apply. (choice=To get a vaccine)"
+label variable m3_consultation5_reason_96 "411f. Was the 5th visit for any of the following? Include all that apply. (choice=Other reasons, please specify)"
+label variable m3_consultation5_reason_998 "411f. Was the 5th visit for any of the following? Include all that apply. (choice=Unknown)"
+label variable m3_consultation5_reason_999 "411f. Was the 5th visit for any of the following? Include all that apply. (choice=Refuse to answer)"
+label variable m3_consultation5_reason_888 "411f. Was the 5th visit for any of the following? Include all that apply. (choice=No Information)"
+label variable m3_consultation5_reason_other "411f_Oth. Other reasons specify"
+label variable m3_412a "412a. Between the time that you last spoke to us and before the delivery, did you get Your blood pressure measured (with a cuff around your arm)"
+label variable m3_412b "412b. Between the time that you last spoke to us and before the delivery, did you get Your weight taken (using a scale)?"
+label variable m3_412c "412c. Between the time that you last spoke to us and before the delivery, did you get a blood draw (that is, taking blood from your arm with a syringe?"
+label variable m3_412d "412d. Between the time that you last spoke to us and before the delivery, did you get a blood test using a finger prick (that is, taking a drop of blood from your finger)?"
+label variable m3_412e "412e. Between the time that you last spoke to us and before the delivery, did you get a urine test (that is, where you peed in a container)?"
+label variable m3_412f "412f. Between the time that you last spoke to us and before the delivery, did you get an ultrasound (that is, when a probe is moved on your belly to produce a video of the baby on a screen)?"
+label variable m3_412g "412g. Between the time that you last spoke to us and before the delivery, did you get any other test?"
+label variable m3_412g_other "412g_Oth . Specify other tests you got between the time that you last spoke to us and before the delivery"
+label variable m3_501 "501. Did you deliver in a health facility?"
+label variable m3_502 "502. What kind of facility was it?"
+label variable m3_503 "503. What is the name of the facility where you delivered?"
+label variable m3_503_inside_zone_other "503_96. Other in the zone specify"
+label variable m3_503_outside_zone_other "503_97. Other outside of the zone specify"
+label variable m3_504a "504a. Where region was this facility located?"
+label variable m3_504b "504b. Where was the city/sub-city/district this facility located?"
+label variable m3_505a "505a. Before you delivered, did you go to a maternity waiting home to wait for labor?"
+label variable m3_505b "505b. How long in days did you stay at the maternity waiting home for?"
+label variable m3_506a "506a. What day did the labor start - that is, when contractions started and did not stop, or when your water broke?"
+label variable m3_506b "506b. What time did the labor start - that is, when contractions started and did not stop, or when your water broke?"
+label variable m3_506b_unknown "506b. If day and time not known enter (98)"
+label variable m3_507 "507. At what time did you leave for the facility?"
+label variable m3_507_unknown "507. If day and time not known enter (98)"
+label variable m3_508 "508. At any point during labor or delivery did you try to go to a facility?"
+label variable m3_509 "509. What was the main reason for giving birth at home instead of a health facility?"
+label variable m3_509_other "509_Oth. Specify other reasons for giving birth at home instead of a health facility"
+label variable m3_510 "510. Did you go to another health facility before going to the health facility where you delivered?"
+label variable m3_511 "511. How many facilities did you go to before going the health facility where you delivered?"
+label variable m3_512 "512. What kind of facility was it?"
+label variable m3_512_outside_zone_other "512_97. Other outside of the zone, specify"
+label variable m3_513a "513a. What is the name of the facility you went to first?"
+label variable m3_513_inside_zone_other "513a_96. Other in the zone, specify"
+label variable m3_513_outside_zone_other "513a_97. Other outside of the zone"
+label variable m3_513b1 "513b. Where region was this facility located? (City and region)"
+label variable m3_513b2 "513b. Where city/sub-city/district was this facility located?"
+label variable m3_514 "514. At what time did you arrive at the facility you went to first?"
+label variable m3_514_unknown "514. If time of arrival not known enter (98)"
+label variable m3_515 "515. Why did you go to the facility you went to first after going to the facility you delivered at?"
+label variable m3_516 "516. Why did you or your family member decide to leave the facility you went to first and come to the facility you delivered at? Select only one main reason"
+label variable m3_516_other "516_Oth. Specify other reason to go to the facility you delivered at"
+label variable m3_517 "517. Did the provider inform you why they referred you?"
+label variable m3_518 "518. Why did the provider refer you to the facility you delivered at?"
+label variable m3_518_other_complications "518_96. Other delivery complications, specify"
+label variable m3_518_other "518_97. Other reasons, specify"
+label variable m3_519 "519. What was the main reason you decided that you wanted to deliver at the facility you delivered at?"
+label variable m3_519_other "519_Oth. Other, specify"
+label variable m3_520 "520. At what time did you arrive at the facility you delivered at?"
+label variable m3_520_unknown "520. If day and time not known enter (98)"
+label variable m3_521 "521. Once you got to the facility you delivered at, how long in minutes did you wait until a healthcare worker checked on you?"
+label variable m3_521_unknown "521. If day and time not known enter (98)"
+label variable m3_attempt_date "CALL TRACKING: What is the date of this attempt? (D-M-Y)"
+label variable m3_attempt_outcome "CALL TRACKING: What was the outcome of the call?"
+label variable m3_p1_date_of_rescheduled "Date of rescheduled"
+label variable m3_p1_time_of_rescheduled "Time of rescheduled"
+label variable m3_p1_complete "Complete?"
+label variable m3_start_p2 "IIC. May I proceed with the interview?"
+label variable m3_permission_p2 "CR1. Permission granted to conduct call?"
+label variable m3_date_p2 "102. Date of interview (D-M-Y)"
+label variable m3_time_p2 "103A. Time of interview started"
+label variable m3_201a "201a. I would like to start by asking some questions about the first baby's health since we last spoke. So that I know that I am asking the right questions, could you please confirm if the first baby is still alive, or did something else happen?"
+label variable m3_201b "201b.I would like to start by asking some questions about the second baby's health since we last spoke. So that I know that I am asking the right questions, could you please confirm if the second baby is still alive, or did something else happen?"
+label variable m3_201c "201c.I would like to start by asking some questions about the third baby's health since we last spoke. So that I know that I am asking the right questions, could you please confirm if the third baby is still alive, or did something else happen?"
+label variable m3_601a "601a. Once you were first checked by a health care provider at the facility you delivered at, did they ask about your health status?"
+label variable m3_601b "601b. Once you were first checked by a health care provider at the facility you delivered at, did the health care provider take your blood pressure (with a cuff around your arm)?"
+label variable m3_601c "601c. Once you were first checked by a health care provider at the facility you delivered at, did the health care provider Explain what will happen during labor?"
+label variable m3_602a "602a. Did the health care provider, look at your integrated maternal child health card?"
+label variable m3_602b "602b. Did the health care provider have information about your antenatal care (e.g. your tests results) from health facility records?"
+label variable m3_603a "603a. During your time in the health facility while in labor or giving birth Were you told you could walk around and move during labour?"
+label variable m3_603b "603b. During your time in the health facility while in labor or giving birth Were you allowed to have a birth companion present? For example, this includes your husband, a friend, sister, mother-in-law etc.?"
+label variable m3_603c "603c. During your time in the health facility while in labor or giving birth Did you have a needle inserted in your arm with a drip?"
+label variable m3_603d "603d. During your time in the health facility while in labor or giving birth Did the health care provider encourage you to drink fluid?"
+label variable m3_604a "604a. While you were in labor and giving birth, what were you sitting  or lying on?"
+label variable m3_604b "604b. While you were giving birth, were curtains, partitions or other measures used to provide privacy from other people not involved in your care?"
+label variable m3_605a "605a. Did you have a caesarean? (That means, did they cut your belly open to take the baby out?)"
+label variable m3_605b "605b. When was the decision made to have the caesarean section? Was it before or after your labor pains started?"
+label variable m3_605c_a "605c. What was the reason for having a caesarean? (choice=I was not told)"
+label variable m3_605c_b "605c. What was the reason for having a caesarean? (choice=It was previously planned for medical reasons)"
+label variable m3_605c_c "605c. What was the reason for having a caesarean? (choice=I asked for a c-section)"
+label variable m3_605c_d "605c. What was the reason for having a caesarean? (choice=Problems arose during labor)"
+label variable m3_605c_96 "605c. What was the reason for having a caesarean? (choice=Other, specify)"
+label variable m3_605c_99 "605c. What was the reason for having a caesarean? (choice=RF/NR)"
+label variable m3_605c_998 "605c. What was the reason for having a caesarean? (choice=Unknown)"
+label variable m3_605c_999 "605c. What was the reason for having a caesarean? (choice=Refuse to answer)"
+label variable m3_605c_888 "605c. What was the reason for having a caesarean? (choice=No Information)"
+label variable m3_605c_other "605c_Oth. Specify other reason for having a caesarean"
+label variable m3_606 "606. Did the provider perform a cut near your vagina to help the baby come out?"
+label variable m3_607 "607. Did you receive stiches near your vagina after the delivery?"
+label variable m3_607a_et "Eth-1-6. Did the health care provider frequently assess fetal heart beat?"
+label variable m3_607b_et "Eth-2-6. Did the health care provider assess abdominal contraction by that I mean the HCP puts hands on your abdomen to monitor your labor frequently?"
+label variable m3_607c_et "Eth-3-6. Did the health care provider frequently make vaginal examination by putting fingers inside your vagina?"
+label variable m3_607d_et "Eth-4-6. Did the health care provider frequently assess BP?"
+label variable m3_607e_et "Eth-5-6. Did the health care provider check your temperature frequently?"
+label variable m3_608 "608. Immediately after delivery: Did a health care provider give you an injection or pill to stop the bleeding?"
+label variable m3_609 "609. Immediately after delivery, did a health care provider dry the baby/babies with a towel?"
+label variable m3_610a "610a. Immediately after delivery, was/were the baby/babies put on your chest?"
+label variable m3_610b "610b. Immediately after delivery, was/were the babys/babies bare skin touching your bare skin?"
+label variable m3_611 "611. Immediately after delivery, did a health care provider help you with breastfeeding the baby/babies?"
+label variable m3_612 "612. How long in minutes after the baby/babies was born did you first breastfeed he/she/them?"
+label variable m3_613 "613. I  would like to talk to you about checks on your health after the delivery, for example, someone asking you questions about your health or examining you.  Did anyone check on your health while you were still in the facility?"
+label variable m3_614 "614. How long in hours after delivery did the first check take place?"
+label variable m3_615a "615a. Did anyone check on the baby's health while you were still in the facility?"
+label variable m3_615b "615b. Did anyone check on the second baby's health while you were still in the facility?"
+label variable m3_615c "615c. Did anyone check on the baby the third baby's health while you were still in the facility?"
+label variable m3_616a "616a. How long in hours after delivery was the first baby's health first checked?"
+label variable m3_616b "616b. How long in hours after delivery was the second baby's health first checked?"
+label variable m3_616c "616c. How long in hour after delivery was the third baby's health first checked?"
+label variable m3_617a "617a. Did the first baby receive a vaccine for BCG while you were still in the facility? That is an injection in the arm that can sometimes cause a scar"
+label variable m3_617b "617b. Did the second baby receive a vaccine for BCG while you were still in the facility?"
+label variable m3_617c "617c. Did the 3rd baby receive a vaccine for BCG while you were still in the facility? That is an injection in the arm that can sometimes cause a scar."
+label variable m3_617d_et "Eth-6-6a. Did the first baby receive an injection [vaccine] on thigh? That I mean is a vitamin K injection?"
+label variable m3_617e_et "Eth-6-6b. Did the second baby receive an injection [vaccine] on thigh? That I mean is a vitamin K injection?"
+label variable m3_617f_et "Eth-6-6c. Did the third baby receive an injection [vaccine] on thigh? That I mean is a vitamin K injection?"
+label variable m3_617g_et "Eth-7-6a. Did the first baby receive eye ointment?"
+label variable m3_617h_et "Eth-7-6b. Did the second baby receive eye ointment?"
+label variable m3_617i_et "Eth-7-6c. Did the third baby receive eye ointment?"
+label variable m3_619a "619a. Before you left the facility, did you receive advice on what the baby should eat (only breastmilk or No other foods)?"
+label variable m3_619b "619b. Before you left the facility, did you receive advice on care of the umbilical cord?"
+label variable m3_619c "619c. Before you left the facility, did you receive advice on avoid chilling of baby?"
+label variable m3_619d "619d. Before you left the facility, did you receive advice on when to return for vaccinations for the baby?"
+label variable m3_619e "619e. Before you left the facility, did you receive advice on hand washing with soap/water before touching the baby?"
+label variable m3_619f "619f. Before you left the facility, did you receive advice on need to exposure your baby/babies for sunlight?"
+label variable m3_619g "619g. Before you left the facility, did you receive advice on danger signs or symptoms you should watch out for in the baby that would mean you should go to a health facility?"
+label variable m3_619h "619h. Before you left the facility, did you receive advice on danger signs or symptoms you should watch out for in yourself that would mean you should go to a health facility?"
+label variable m3_619i "619i. Before you left the facility, did you receive advice on family planning you should look for?"
+label variable m3_619j "619j. Before you left the facility, did you receive  advice on maternal nutrition that you should take?"
+label variable m3_620 "620. After your baby was born, did you receive a vaccination card for the baby to take home with you?"
+label variable m3_621a "621a. Who assisted you in the delivery?"
+label variable m3_621b "621b. Did someone come to check on you after you gave birth? For example, someone asking you questions about  your health or examining you?"
+label variable m3_621c "621c. How long after giving birth did the checkup take  place (in hours)?"
+label variable m3_622a "622a. Around the time of delivery, were you told that  you will need to go to a facility for a checkup for you or your baby?"
+label variable m3_622b "622b. When were you told to go to a health facility for postnatal checkups? How many days after delivery?"
+label variable m3_622c "622c. Around the time of delivery, were you told that someone would come to visit you at your home to check on you or your babys health?"
+label variable m3_baby1_sleep "311a. Regarding sleep, which response best describes the first baby today?"
+label variable m3_baby2_sleep "311a. Regarding sleep, which response best describes the second baby today?"
+label variable m3_baby3_sleep "311a. Regarding sleep, which response best describes the third baby today?"
+label variable m3_baby1_feed "311b. Regarding feeding, which response best describes the first baby today?"
+label variable m3_baby2_feed "311b. Regarding feeding, which response best describes the second baby today?"
+label variable m3_baby3_feed "311b. Regarding feeding, which response best describes the third baby today?"
+label variable m3_baby1_breath "311c. Regarding breathing, which response best describes the first baby today?"
+label variable m3_baby2_breath "311c. Regarding breathing, which response best describes the second baby today?"
+label variable m3_baby3_breath "311c. Regarding breathing, which response best describes the third baby today?"
+label variable m3_baby1_stool "311d. Regarding stooling/poo, which response best describes the first baby today?"
+label variable m3_baby2_stool "311d. Regarding stooling/poo, which response best describes the second baby today?"
+label variable m3_baby3_stool "311d. Regarding stooling/poo, which response best describes the third baby today?"
+label variable m3_baby1_mood "311e. Regarding their mood, which response best describes the first baby today?"
+label variable m3_baby2_mood "311e. Regarding their mood, which response best describes the second baby today?"
+label variable m3_baby3_mood "311e. Regarding their mood, which response best describes the third baby today?"
+label variable m3_baby1_skin "311f. Regarding their skin, which response best describes the first baby today?"
+label variable m3_baby2_skin "311f. Regarding their skin, which response best describes the second baby today?"
+label variable m3_baby3_skin "311f. Regarding their skin, which response best describes the third baby today?"
+label variable m3_baby1_interactivity "311g. Regarding interactivity, which response best describes the first baby today?"
+label variable m3_baby2_interactivity "311g. Regarding interactivity, which response best describes the second baby today?"
+label variable m3_baby3_interactivity "311g. Regarding interactivity, which response best describes the third baby today?"
+label variable m3_701 "701. At any time during labor, delivery, or after delivery did you suffer from any health problems?"
+label variable m3_702 "702. What health problems did you have?"
+label variable m3_703 "703. Would you say this problem was severe?"
+label variable m3_704a "704a. During your delivery, did you experience seizures, or not?"
+label variable m3_704b "704b. During your delivery, did you experience blurred vision, or not?"
+label variable m3_704c "704c. During your delivery, did you experience severe headaches, or not?"
+label variable m3_704d "704d. Did you experience swelling in hands/feet during your delivery, or not?"
+label variable m3_704e "704e. Did you experience labor over 12 hours during your delivery, or not?"
+label variable m3_704f "704f. Did you experience Excessive bleeding during your delivery, or not?"
+label variable m3_704g "704g. During your delivery, did you experience fever, or not?"
+label variable m3_705 "705. Did you receive a blood transfusion around the time of your delivery?"
+label variable m3_706 "706. Were you admitted to an intensive care unit?"
+label variable m3_707 "707. How long in hours did you stay at the facility you delivered at after the delivery?"
+label variable m3_707_unknown "Data Collector: If the hour and /or minute is unknown enter 98 here"
+label variable m3_baby1_issues_a "708a. Did the first baby experience any of the following issues in the first day of life? Tell me all that apply. (choice=Trouble breathing)"
+label variable m3_baby1_issues_b "708a. Did the first baby experience any of the following issues in the first day of life? Tell me all that apply. (choice=Fever)"
+label variable m3_baby1_issues_c "708a. Did the first baby experience any of the following issues in the first day of life? Tell me all that apply. (choice=Trouble feeding)"
+label variable m3_baby1_issues_d "708a. Did the baby the first baby experience any of the following issues in the first day of life? Tell me all that apply. (choice=Jaundice (yellow color of the skin))"
+label variable m3_baby1_issues_e "708a. Did the first baby experience any of the following issues in the first day of life? Tell me all that apply. (choice=Low birth weight)"
+label variable m3_baby1_issues_f "708a. Did the first baby experience any of the following issues in the first day of life? Tell me all that apply. (choice=No complications)"
+label variable m3_baby1_issues_96 "708a. Did the first baby experience any of the following issues in the first day of life? Tell me all that apply. (choice=Other)"
+label variable m3_baby1_issues_98 "708a. Did the first baby experience any of the following issues in the first day of life? Tell me all that apply. (choice=DK)"
+label variable m3_baby1_issues_99 "708a. Did the first baby experience any of the following issues in the first day of life? Tell me all that apply. (choice=NR/RF)"
+label variable m3_baby1_issues_998 "708a. Did the first baby experience any of the following issues in the first day of life? Tell me all that apply. (choice=Unknown)"
+label variable m3_baby1_issues_999 "708a. Did the first baby experience any of the following issues in the first day of life? Tell me all that apply. (choice=Refuse to answer)"
+label variable m3_baby1_issues_888 "708a. Did the first baby experience any of the following issues in the first day of life? Tell me all that apply. (choice=No Information)"
+label variable m3_baby2_issues_a "708b. Did the second baby experience any of the following issues in the first day of life? Tell me all that apply. (choice=Trouble breathing)"
+label variable m3_baby2_issues_b "708b. Did the second baby experience any of the following issues in the first day of life? Tell me all that apply. (choice=Fever, low temperature, or infection)"
+label variable m3_baby2_issues_c "708b. Did the second baby experience any of the following issues in the first day of life? Tell me all that apply. (choice=Trouble feeding)"
+label variable m3_baby2_issues_d "708b. Did the second baby experience any of the following issues in the first day of life? Tell me all that apply. (choice=Jaundice (yellow color of the skin))"
+label variable m3_baby2_issues_e "708b. Did the second baby experience any of the following issues in the first day of life? Tell me all that apply. (choice=Low birth weight)"
+label variable m3_baby2_issues_f "708b. Did the second baby experience any of the following issues in the first day of life? Tell me all that apply. (choice=No complications)"
+label variable m3_baby2_issues_96 "708b. Did the second baby experience any of the following issues in the first day of life? Tell me all that apply. (choice=Other)"
+label variable m3_baby2_issues_98 "708b. Did the second baby experience any of the following issues in the first day of life? Tell me all that apply. (choice=DK)"
+label variable m3_baby2_issues_99 "708b. Did the second baby experience any of the following issues in the first day of life? Tell me all that apply. (choice=NR/RF)"
+label variable m3_baby2_issues_998 "708b. Did the second baby experience any of the following issues in the first day of life? Tell me all that apply. (choice=Unknown)"
+label variable m3_baby2_issues_999 "708b. Did the second baby experience any of the following issues in the first day of life? Tell me all that apply. (choice=Refuse to answer)"
+label variable m3_baby2_issues_888 "708b. Did the second baby experience any of the following issues in the first day of life? Tell me all that apply. (choice=No Information)"
+label variable m3_baby3_issues_a "708c. Did the third baby experience any of the following issues in the first day of life? Tell me all that apply. (choice=Trouble breathing)"
+label variable m3_baby3_issues_b "708c. Did the third baby experience any of the following issues in the first day of life? Tell me all that apply. (choice=Fever, low temperature, or infection)"
+label variable m3_baby3_issues_c "708c. Did the third baby experience any of the following issues in the first day of life? Tell me all that apply. (choice=Trouble feeding)"
+label variable m3_baby3_issues_d "708c. Did the third baby experience any of the following issues in the first day of life? Tell me all that apply. (choice=Jaundice (yellow color of the skin))"
+label variable m3_baby3_issues_e "708c. Did the baby the third baby experience any of the following issues in the first day of life? Tell me all that apply. (choice=Low birth weight)"
+label variable m3_baby3_issues_f "708c. Did the third baby experience any of the following issues in the first day of life? Tell me all that apply. (choice=No complications)"
+label variable m3_baby3_issues_96 "708c. Did the third baby experience any of the following issues in the first day of life? Tell me all that apply. (choice=Other)"
+label variable m3_baby3_issues_98 "708c. Did the third baby experience any of the following issues in the first day of life? Tell me all that apply. (choice=DK)"
+label variable m3_baby3_issues_99 "708c. Did the third baby experience any of the following issues in the first day of life? Tell me all that apply. (choice=NR/RF)"
+label variable m3_baby3_issues_998 "708c. Did the third baby experience any of the following issues in the first day of life? Tell me all that apply. (choice=Unknown)"
+label variable m3_baby3_issues_999 "708c. Did the third baby experience any of the following issues in the first day of life? Tell me all that apply. (choice=Refuse to answer)"
+label variable m3_baby3_issues_888 "708c. Did the third baby experience any of the following issues in the first day of life? Tell me all that apply. (choice=No Information)"
+label variable m3_708a "709a. Write down the first baby's experiences any other health problems in the first day of life"
+label variable m3_708b "709b. Write down the second baby's experiences any other health problems in the first day of life"
+label variable m3_709c "709c. Write down the third baby's experiences any other health problems in the first day of life"
+label variable m3_710a "710a. Did the first baby spend time in a special care nursery or intensive care unit before discharge?"
+label variable m3_710b "710b. Did the second baby spend time in a special care nursery or intensive care unit before discharge?"
+label variable m3_710c "710c. Did the third baby spend time in a special care nursery or intensive care unit before discharge?"
+label variable m3_711a "711a. How long in hours did the first baby stay at the health facility after being born?"
+label variable m3_711b "711b. How long in hours did the second baby stay at the health facility after being born?"
+label variable m3_711c "711c. How long in hours did the third baby stay at the health facility after being born?"
+label variable m3_801a "801a. Over the past 2 weeks, on how many days have you been bothered little interest or pleasure in doing things?"
+label variable m3_801b "801b. Over the past 2 weeks, on how many days have you been bothered feeling down, depressed, or hopeless in doing things?"
+label variable m3_802a "802a. Since you last spoke to us, did you have a session of psychological counseling or therapy with any type of professional?  This could include seeing a mental health professional (like a phycologist, social worker, nurse, spiritual advisor or healer) for problems with your emotions or nerves?"
+label variable m3_802b "802b. How many of these sessions did you have since you last spoke to us?"
+label variable m3_802c "802c. How many minutes did this/these visit(s) last on average?"
+label variable m3_803a "803a. Since giving birth, have you experienced severe or persistent headaches?"
+label variable m3_803b "803b. Since giving birth, have you experienced a fever?"
+label variable m3_803c "803c. Since giving birth, have you experienced severe abdominal pain, not just discomfort?"
+label variable m3_803d "803d. Since giving birth, have you experienced a lot of difficulty breathing even when you are resting?"
+label variable m3_803e "803e. Since giving birth, have you experienced convulsions or seizures?"
+label variable m3_803f "803f. Since giving birth, have you experienced repeated fainting or loss of consciousness?"
+label variable m3_803g "803g. Since giving birth, have you experienced continued heavy vaginal bleeding?"
+label variable m3_803h "803h. Since giving birth, have you experienced foul smelling vaginal discharge?"
+label variable m3_803i "803i. Since giving birth, have you experienced blurring of vision?"
+label variable m3_803j "803j. Since giving birth, have you experienced any other major health problems since you gave birth?"
+label variable m3_803j_other "803j_Oth. Specify any other major health problems since you gave birth"
+label variable m3_805 "805. Sometimes a woman can have a problem such that she experiences a constant leakage of urine or stool from her vagina during the day and night. This problem can occur after a difficult childbirth. Since you gave birth have you experienced a constant leakage of urine or stool from your vagina during the day and night?"
+label variable m3_806 "806. How many days after giving birth did these symptoms start?"
+label variable m3_807 "807. Overall, how much does this problem interfere with your everyday life? Please select a number between 0 (not at all) and 10 (a great deal)."
+label variable m3_808a "808a. Have you sought treatment for this condition?"
+label variable m3_808b "808b. Why have you not sought treatment?"
+label variable m3_808b_other "808b_Oth. Specify other reasons why have you not sought treatment"
+label variable m3_809 "809. Did the treatment stop the problem?"
+label variable m3_901a "901a. Since last spoke, did you get iron or folic acid pills for yourself?"
+label variable m3_901b "901b. Since we last spoke, did you get iron injection?"
+label variable m3_901c "901c. Since we last spoke, did you get calcium pills?"
+label variable m3_901d "901d. Since we last spoke, did you get multivitamins?"
+label variable m3_901e "901e. Since we last spoke, did you get food supplements like Super Cereal or Plumpynut?"
+label variable m3_901f "901f. Since we last spoke, did you get medicine for intestinal worms [endemic areas]?"
+label variable m3_901g "901g. Since we last spoke, did you get medicine for malaria [endemic areas]?"
+label variable m3_901h "901h. Since we last spoke, did you get Medicine for HIV?"
+label variable m3_901i "901i. Since we last spoke, did you get medicine for your emotions, nerves, depression, or mental health?"
+label variable m3_901j "901j. Since we last spoke, did you get medicine for hypertension?"
+label variable m3_901k "901k. Since we last spoke, did you get medicine for diabetes, including injections of insulin?"
+label variable m3_901l "901l. Since we last spoke, did you get antibiotics for an infection?"
+label variable m3_901m "901m. Since we last spoke, did you get aspirin?"
+label variable m3_901n "901n. Since we last spoke, did you get paracetamol, or other pain relief drugs?"
+label variable m3_901o "901o. Since we last spoke, did you get contraceptive pills?"
+label variable m3_901p "901p. Since we last spoke, did you get contraceptive injection?"
+label variable m3_901q "901q. Since we last spoke, did you get other contraception method?"
+label variable m3_901r "901r. Since we last spoke, did you get any other medicine or supplement?"
+label variable m3_901r_other "901s_Oth. Specify other treatment you took"
+label variable m3_902a_baby1 "902a. Since they were born, did the first baby get iron supplements?"
+label variable m3_902a_baby2 "902a. Since they were born, did the second baby get iron supplements?"
+label variable m3_902a_baby3 "902a. Since they were born, did the third baby get iron supplements?"
+label variable m3_902b_baby1 "902b. Since they were born, did the first baby get Vitamin A supplements?"
+label variable m3_902b_baby2 "902b. Since they were born, did the second baby get Vitamin A supplements?"
+label variable m3_902b_baby3 "902b. Since they were born, did the third baby get Vitamin A supplements?"
+label variable m3_902c_baby1 "902c. Since they were born, did the first baby get Vitamin D supplements?"
+label variable m3_902c_baby2 "902c. Since they were born, did the second baby get Vitamin D supplements?"
+label variable m3_902c_baby3 "902c. Since they were born, did the third baby get Vitamin D supplements?"
+label variable m3_902d_baby1 "902d. Since they were born, did the first baby get Oral rehydration salts?"
+label variable m3_902d_baby2 "902d. Since they were born, did the second baby get Oral rehydration salts?"
+label variable m3_902d_baby3 "902d. Since they were born, did the third baby get Oral rehydration salts?"
+label variable m3_902e_baby1 "902e. Since they were born, did the first baby get antidiarrheal?"
+label variable m3_902e_baby2 "902e. Since they were born, did the second baby get antidiarrheal?"
+label variable m3_902e_baby3 "902e. Since they were born, did the third baby get antidiarrheal?"
+label variable m3_902f_baby1 "902f. Since they were born, did the first baby get Antibiotics for an infection?"
+label variable m3_902f_baby2 "902f. Since they were born, did the second baby get Antibiotics for an infection?"
+label variable m3_902f_baby3 "902f. Since they were born, did the third baby get Antibiotics for an infection?"
+label variable m3_902g_baby1 "902g. Since they were born, did the first baby get medicine to prevent pneumonia?"
+label variable m3_902g_baby2 "902g. Since they were born, did the second baby get medicine to prevent pneumonia?"
+label variable m3_902g_baby3 "902g. Since they were born, did the third baby get medicine to prevent pneumonia?"
+label variable m3_902h_baby1 "902h. Since they were born, did the first baby get medicine for malaria [endemic areas]?"
+label variable m3_902h_baby2 "902h. Since they were born, did the second baby get medicine for malaria [endemic areas]?"
+label variable m3_902h_baby3 "902h. Since they were born, did the third baby get medicine for malaria [endemic areas]?"
+label variable m3_902i_baby1 "902i. Since they were born, did the first baby get medicine for HIV (HIV+ mothers only)?"
+label variable m3_902i_baby2 "902i. Since they were born, did the second baby get medicine for HIV (HIV+ mothers only)?"
+label variable m3_902i_baby3 "902i. Since they were born, did the third baby get medicine for HIV (HIV+ mothers only)?"
+label variable m3_902j_baby1 "902j. Since they were born, did the first baby get other medicine or supplement, please specify"
+label variable m3_902j_baby1_other "902j_Oth. Any other medicine or supplement for the first baby please specify"
+label variable m3_902j_baby2 "902j. Since they were born, did the second baby get other medicine or supplement, please specify"
+label variable m3_902j_baby2_other "902j_Oth_2. Any other medicine or supplement for the second baby please specify"
+label variable m3_902j_baby3 "902j_3. Since they were born, did the third baby get other medicine or supplement, please specify"
+label variable m3_902j_baby3_other "902j_Oth_3. Any other medicine or supplement for the third baby please specify"
+label variable m3_1001 "1001. Overall, taking everything into account, how would you rate the quality of care that you received for your delivery at the facility you delivered at?"
+label variable m3_1002 "1002. How likely are you to recommend this provider to a family member or friend for childbirth?"
+label variable m3_1003 "1003. Did staff suggest or ask you (or your family or friends) for a bribe, and informal payment or gift?"
+label variable m3_1004a "1004a. Thinking about the care you received during labor and delivery, how would you rate the knowledge and skills of your provider?"
+label variable m3_1004b "1004b. Thinking about the care you received during labor and delivery, how would you rate the equipment and supplies that the provider had available such as medical equipment or access to lab tests?"
+label variable m3_1004c "1004c. Thinking about the care you received during labor and delivery, how would you rate the level of respect the provider showed you?"
+label variable m3_1004d "1004d. Thinking about the care you received during labor and delivery, how would you rate clarity of the providers explanations?"
+label variable m3_1004e "1004e. Thinking about the care you received during labor and delivery, how would you rate degree to which the provider involved you as much as you wanted to be in decisions about your care?"
+label variable m3_1004f "1004f. Thinking about the care you received during labor and delivery, how would you rate amount of time the provider spent with you?"
+label variable m3_1004g "1004g. Thinking about the care you received during labor and delivery, how would you rate the amount of time you waited before being seen?"
+label variable m3_1004h "1004h. Thinking about the care you received during labor and delivery, how would you rate the courtesy and helpfulness of the healthcare facility staff, other than your provider? "
+label variable m3_1004i "1004i. Thinking about the care you received during labor and delivery, how would you rate confidentiality of care or diagnosis is there?"
+label variable m3_1004j "1004j. Thinking about the care you received during labor and delivery, how would you rate the privacy (Auditory or visual) maintained?"
+label variable m3_1004k "1004k. Thinking about the care you received during labor and delivery, how would you rate the cost to the service you received?"
+label variable m3_1005a "1005a. During your time at the health facility for labor and delivery, were you pinched by a health worker or other staff?"
+label variable m3_1005b "1005b. During your time at the health facility for labor and delivery, were slapped by a health worker or other staff?"
+label variable m3_1005c "1005c. During your time at the health facility for labor and delivery, were were physically tied to the bed or held down to the bed forcefully by a health worker or other staff?"
+label variable m3_1005d "1005d. During your time at the health facility for labor and delivery, had forceful downward pressure placed on your abdomen before the baby came out?"
+label variable m3_1005e "1005e. During your time at the health facility for labor and delivery, were shouted or screamed at by a health worker or other staff?"
+label variable m3_1005f "1005f. During your time at the health facility for labor and delivery, were scolded by a health worker or other staff?"
+label variable m3_1005g "1005g. During your time at the health facility for labor and delivery, the health worker or other staff member made negative comments to you regarding your sexual activity?"
+label variable m3_1005h "1005h. DDuring your time at the health facility for labor and delivery, the health worker or other staff threatened that if you did not comply, you or your baby would have a poor outcome?"
+label variable m3_1006a "1006a. During labor and delivery, women sometimes receive a vaginal examination. Did you receive a vaginal examination at any point in the health facility?"
+label variable m3_1006b "1006b. Did the health care provider ask permission before performing the vaginal examination?"
+label variable m3_1006c "1006c. Were vaginal examinations conducted privately (in a way that other people could not see)?"
+label variable m3_1007a "1007a. During your time in the facility, were you offered any form of pain relief?"
+label variable m3_1007b "1007b. Did you request pain relief during your time in the facility?"
+label variable m3_1007c "1007c. Did you receive pain relief during your time in the facility?"
+label variable m3_1101 "1101. I would like to ask you about the cost of the delivery. Did you pay money out of your pocket for the delivery, including for the consultation or other indirect costs like your transport to the facility?"
+label variable m3_1102a "1102a. Did you spend money on registration/consultation?"
+label variable m3_1102a_amt "1102a_1. How much money did you spend on registration/consultation?"
+label variable m3_1102b "1102b. Did you spend money on medicine/vaccines (including outside purchase)?"
+label variable m3_1102b_amt "1102b. How much money did you spend on medicine/vaccines (including outside purchase)?"
+label variable m3_1102c "1102c. Did you spend money test/investigations (x-ray, lab etc.)?"
+label variable m3_1102c_amt "1102c.	How much money did you spend test/investigations (x-ray, lab etc.)?"
+label variable m3_1102d "1102d. Did you spend money on transport (round trip) including that of person accompanying you?"
+label variable m3_1102d_amt "1102d. How much money did you spend on transport (round trip) including that of person accompanying you?"
+label variable m3_1102e "1102e. Did you spend money on food and accommodation including that of person accompanying you?"
+label variable m3_1102e_amt "1102e. How much money did you spend money on food and accommodation including that of person accompanying you?"
+label variable m3_1102f "1102f. Did you spend money on other items?"
+label variable m3_1102f_amt "1102f. How much money did you spend on other items?"
+label variable m3_1103 "1103. So in total you spent:_____ Is that correct?"
+label variable m3_1103_confirm "Is the total you spent correct? "
+label variable m3_1104 "1104. So how much in total would you say you spent?"
+label variable m3_1105 "1105. Which of the following financial sources did your household use to pay for this?"
+label variable m3_1105_other "1105_Oth. Other specify"
+label variable m3_1106 "1106. To conclude this survey, overall, please tell me how satisfied you are  with the health services you received during labor and delivery?"
+label variable m3_endtime "Time of interview ended"
+label variable m3_duration "Total duration of interview"
+label variable m3_p2_outcome "What is the outcome of the phone call?"
+label variable m3_p2_outcome_other "Other reason, specify"
+label variable m3_attempt_outcome2 "CALL TRACKING: What is the date of this attempt? (D-M-Y)"
+label variable m3_attempt_outcome_p2 "CALL TRACKING: What was the outcome of the call?"
+label variable m3_p2_date_of_rescheduled "Date of rescheduled"
+label variable m3_p2_time_of_rescheduled "Time of rescheduled"
 
-label variable iic_3 "IIC. May I proceed with the interview?  ቃለ-መጠይቁን ለመሳተፍ ፍቃደኛ ነዎት?  Af-gaffii kana itti fufu?"
-label variable cr1_permission_granted_3 "CR1. Permission granted to conduct call በስልክ ለመነጋገር ፍቃደኛ ነዎት?   Hayyamni iti fufudhaf kenamee?"
-label variable date_of_interview_m3 "102. Date of interview (D-M-Y)   የቃለ መጠይቁ ቀን  Guyyaa af-gaaffii"
-label variable time_of_interview_started_3 "103A. Time of interview started   የቃለ መጠይቁ የተመጀመረበት ሰዓት   Saatii af-gaaffiin itti eegalamu"
-label variable m3_birth_or_ended "201a. On what date did you give birth or did the pregnancy end? በየትኛው ቀን ነው የተወለዱት ወይም እርግዝናው ያበቃው? Guyyaa meeqatti deesse moo ulfi dhume?"
-label variable m3_ga1 "201d. Gestational age at birth or end of pregnancy (based on LNMP) የእርግዝና እድሜ የወር አበባ የመጣበትን ቀን በመጠቀም በወሊድ ጊዜ ወይም ጽንሱ ሲቋረጥ በመጨረሻው  Umurii ulfaa yeroo daumsaa yookaan yeroo ulffii addan cite, guyyaa isa dhumaa laguun itti jalqabee fayyadamudhan"
-label variable ga_birth_mat_estimated "201e. Gestational age at birth or end of pregnancy (based on maternal estimation) የእርግዝና እድሜ በወሊድ ጊዜ ወይም ጽንሱ ሲቋረጥ በእናትየው ግምት Umurii ulfaa yeroo daumsaa yookaan yeroo ulffii addan cite,tilmaama haadhaatiin"
-label variable how_many_babies_do_you_303a "301. If its ok with you, I would like to now ask some questions about the baby or babies. How many babies were you pregnant with?   ፍቃደኛ ከሆኑ ስለሕፃኑ ወይም ሕፃናቱ አንዳንድ ጥያቄዎችን መጠየቅ እፈልጋለሁ። የስንት ህጻናት ነፍሰ ጡር ነበሩ?   Yoo siif tole tae, amma waaee daaimaa ykn daaimman gaaffii tokko tokko si gaafachuu barbaada. Daaimman meeqa ulfooftee turte? "
-label variable is_the_1st_baby_alive_303b "303a. Is the 1st baby alive?   በአሁኑ ወሊድ በመጀመሪያ የተወለደው ሕፃን በሕይወት አለ?    Daaimni jalqaba amma dhalate lubbuun jiraa?  "
-label variable is_the_2nd_baby_alive_303c "303b. Is the 2nd baby alive?   በአሁኑ ወሊድ ሁለተኛ የተወለደው ሕፃን በሕይወት አለ?   Daaimni lammaffaa amma dhalate lubbuun jiraa?  "
-label variable is_the_3rd_baby_alive_303d "303c. Is the 3rd   baby alive?    በአሁኑ ወሊድ ሦስተኛ የተወለደው ሕፃን በሕይወት አለ?   Daaimni sadaffaan amma dhalate lubbuun jiraa?  "
-label variable what_is_the_1st_baby_name "Instruction for DC: ONLY ask for the babys name if the baby is ALIVE. Otherwise only write baby 1 ህጻኑ በህይወት ካለ ብቻ ስሙን ጠይቂ፤ያለበለዚያ ህጻን 1 ብለሽ ጻፊ Daaimi dhalate yoo lubbuun jiraate qofaa maqaa gaafadhu, yoo hin jiru tae daaima 1ffaa  jedhii barreessii 304a. What is the 1st babys name ?የመጀመሪያ ልጅ ስም ማን ይባላል ? Maqaan daaima jalqabaa enyuu?"
-label variable what_is_the_2nd_baby_name "Instruction to DC: ONLY ask for the babys name if the baby is ALIVE. Otherwise only write baby 2 ህጻኑ በህይወት ካለ ብቻ ስሙን ጠይቂ፤ያለበለዚያ ህጻን 2 ብለሽ ጻፊ Daaimi dhalate yoo lubbuun jiraate qofaa maqaa gaafadhu, yoo hin jiru tae daaima 2ffaa  jedhii barreessii.  304b. What is the 2nd babys name ?ሁለተኛው የተወለደው ህጻን ስም ማን ይባላል? Maqaan daaima lammaffaa amma dhalate enyuu jedhama? "
-label variable what_is_the_3rd_baby_name "Instruction for DC: ONLY ask for the babys name if the baby is ALIVE. Otherwise only write baby 3 ህጻኑ በህይወት ካለ ብቻ ስሙን ጠይቂ፤ያለበለዚያ ህጻን 3 ብለሽ ጻፊ Daaimi dhalate yoo lubbuun jiraate qofaa maqaa gaafadhu, yoo hin jiru tae daaima 3ffaa jedhii barreessii.  304c. What is the 3rd babys name 3ኛው የተወለደው ህጻን ስም ማን ይባላል? Maqaan daaima sadaffaa amma dhalate enyuu jedhama?"
-label variable what_is_gender_of_1st_baby "305a. What is [what_is_the_1st_baby_name]s gender? መጀመሪያ የተወለደው ህጻን ልጅ [what_is_the_1st_baby_name] ጾታ ምንድን ነው ? Saalii daaimni jalqaba isa amma dhalatee dhiiraa moo dubaraa?"
-label variable what_is_the_gender_of_2nd_baby "305b. what is [what_is_the_2nd_baby_name]s gender ሁለተኛ የተወለደው ህጻን [what_is_the_2nd_baby_name] ጾታ ምንድን ነው? Daaimni lammaffaa dhiiraa moo dubaraa?"
-label variable what_is_the_gender_of_3rd_baby "305c. What is [what_is_the_3rd_baby_name]s gender 3ኛ የተወለደው ህጻን ጾታ ምንድን ነው? Daaimni saadaffa dhiiraa moo dubaraa?"
-label variable how_old_is_the_1st_baby "306a. How old is [what_is_the_1st_baby_name] [what_is_the_2nd_baby_name] [what_is_the_3rd_baby_name] in days   በአሁኑ እርግዝና [what_is_the_1st_baby_name] [what_is_the_2nd_baby_name] [what_is_the_3rd_baby_name] እድሜው/ያቸው በቀናት ስንት ነው? [what_is_the_1st_baby_name] [what_is_the_2nd_baby_name] [what_is_the_3rd_baby_name] daaimni jalqabaa umuriin isaa meeqa GUYYAADHAAN If the mother doesnt know her babys age write 98 and if she refuses write 99 "
-label variable when_the_1st_baby_born_was "307a. How much did [what_is_the_1st_baby_name] weigh at birth in KG ? የመጀመሪያ ልጅ [what_is_the_1st_baby_name] ሲወለደ ክብደቱ በኪሎግራም ስንት ነበር? [what_is_the_1st_baby_name] daaimni jalqabaa yeroo dhalatu ulfaatina meeqa qaba ture ? Instruction to data collectors: If the mother doesnt know the weight of her baby, write 98 in the space"
-label variable when_the_2nd_baby_born_w "307b.How much did [what_is_the_2nd_baby_name] weigh at birth?የ ሁለተኛ ልጅ [what_is_the_2nd_baby_name] ሲወለደ ክብደቱ በኪሎግራም ስንት ነበር?[what_is_the_2nd_baby_name] yeroo dhalatu ulfaatina meeqa qaba Instruction to data collector: If the mother doesnt know the weight of her baby, write 98 in the space"
-label variable when_the_3rd_baby_born_was "307c. How much did [what_is_the_3rd_baby_name] weigh at birth? የሶሰተኛ ልጅ [what_is_the_3rd_baby_name] ሲወለደ ክብደቱ በኪሎግራም ስንት ነበር?[what_is_the_3rd_baby_name] daaimni Sadaffaa yeroo dhalatu ulfaatina meeqa qaba Instruction to data collector: If the mother doesnt know the weight of her baby, write 98 in the space"
-label variable do_you_know_weight_1st_baby "308a. When [what_is_the_1st_baby_name] was born, were they: very large, larger than average, average, smaller than average or very small? የአንደኛ [what_is_the_1st_baby_name]ሲወለደ ክብደቱ እንዴት ነበር?በጣም ትልቅ,ከአማካይ በላይ, አማካኝ,ከአማካይ ያነሰ, በጣም ትንሽ? Yeroo tokkooffaan [what_is_the_1st_baby_name] dhalate, MAQAA daaimaa: Baayyee guddaa, giddu galeessaa caalaa guddaa, giddu galeessa, giddu galeessa irraa xiqqaa moo baayee xiqqaa ture"
-label variable do_you_know_weight_2nd_baby "308b. When the 2nd baby [what_is_the_2nd_baby_name] was born, were they: very large, larger than average, average, smaller than average or very small? የሁለተኛ [what_is_the_2nd_baby_name] ሲወለደ ክብደቱ እንዴት ነበር? በጣም ትልቅ,ከአማካይ በላይ, አማካኝ,ከአማካይ ያነሰ, በጣም ትንሽ? Yeroo [what_is_the_2nd_baby_name] dama lammaffaan dhalate, : Baayyee guddaa, giddu galeessaa caalaa guddaa, giddu galeessa, giddu galeessa irraa xiqqaa moo baayee xiqqaa ture?"
-label variable do_you_know_weight_3rd_baby "308c. When the 3rd baby [what_is_the_3rd_baby_name] was born, were they: very large, larger than average, average, smaller than average or very small? የሶስተኛ [what_is_the_3rd_baby_name] ሲወለደ ክብደቱ እንዴት ነበር? በጣም ትልቅ፤ከአማካይ በላይ፤ አማካኝ፤ከአማካይ ያነሰ፤በጣም ትንሽ? Yeroo [what_is_the_3rd_baby_name] dama 3ffaan dhalate, : Baayyee guddaa, giddu galeessaa caalaa guddaa, giddu galeessa, giddu galeessa irraa xiqqaa moo baayee xiqqaa ture?"
-label variable rate_1st_baby_overall_health "309a. In general, how would you rate [what_is_the_1st_baby_name]s overall health? በአጠቃላይ፣1ኛ የተወለደው የ[what_is_the_1st_baby_name]አጠቃላይ ጤናው እንዴት ይመዝኑታል? Walumaagalatti, fayyaa waliigalaa [what_is_the_1st_baby_name] akkamitti madaaltu?"
-label variable rate_2nd_baby_overall_health "309b. In general, how would you rate [what_is_the_2nd_baby_name] overall health? በአጠቃላይ፣ሁለተኛ የተወለደው [what_is_the_2nd_baby_name] አጠቃላይ ጤናው እንዴት ይመዝኑታል? Walumaagalatti, fayyaa waliigalaa [what_is_the_2nd_baby_name] akkamitti madaaltu?"
-label variable rate_3rd_baby_overall_health "309c. In general, how would you rate [what_is_the_3rd_baby_name] overall health? በአጠቃላይ፣ሦስተኛ የተወለደው [what_is_the_3rd_baby_name] አጠቃላይ ጤናው እንዴት ይመዝኑታል? Walumaagalatti, fayyaa waliigalaa [what_is_the_3rd_baby_name] akkamitti madaaltu?"
-label variable how_you_feed_1st_baby___1 "310a.1. People feed their babies in different ways. Please indicate how you have fed [what_is_the_1st_baby_name] in the last 7 days? Indicate all that apply ሰዎች ልጆቻቸውን በተለያየ መንገድ ይመግባሉ። እባክዎ ባለፉት 7 ቀናት ውስጥ የመጀመሪያ የተወለደው ህጻን ልጅዎን [what_is_the_1st_baby_name] አመጋገብ በተመለከተ እና እንዴት እንደመገቡት ቢነግሩኝ? ማለትም በነዚህ 7ቀናት ውስጥ የመገቡትን ሁሉ ይንገሩኝ Namoonni daaimman isaanii karaa adda addaatiin nyaachisu. Mee guyyoota 7n darban keessatti akkamitti mucakessani isa tokkoffaa [what_is_the_1st_baby_name] akka nyaachiftan aiibsa? Wantoota deebii tauu dandaan hunda iibsa (choice=Breast milk .የጡት ወተት /Aannan harmaa)"
-label variable how_you_feed_1st_baby___2 "310a.1. People feed their babies in different ways. Please indicate how you have fed [what_is_the_1st_baby_name] in the last 7 days? Indicate all that apply ሰዎች ልጆቻቸውን በተለያየ መንገድ ይመግባሉ። እባክዎ ባለፉት 7 ቀናት ውስጥ የመጀመሪያ የተወለደው ህጻን ልጅዎን [what_is_the_1st_baby_name] አመጋገብ በተመለከተ እና እንዴት እንደመገቡት ቢነግሩኝ? ማለትም በነዚህ 7ቀናት ውስጥ የመገቡትን ሁሉ ይንገሩኝ Namoonni daaimman isaanii karaa adda addaatiin nyaachisu. Mee guyyoota 7n darban keessatti akkamitti mucakessani isa tokkoffaa [what_is_the_1st_baby_name] akka nyaachiftan aiibsa? Wantoota deebii tauu dandaan hunda iibsa (choice=Formula/Cow milk/የከብት/ ዱቄት ወተት/ foormulaa/annan saꞌ a)"
-label variable how_you_feed_1st_baby___3 "310a.1. People feed their babies in different ways. Please indicate how you have fed [what_is_the_1st_baby_name] in the last 7 days? Indicate all that apply ሰዎች ልጆቻቸውን በተለያየ መንገድ ይመግባሉ። እባክዎ ባለፉት 7 ቀናት ውስጥ የመጀመሪያ የተወለደው ህጻን ልጅዎን [what_is_the_1st_baby_name] አመጋገብ በተመለከተ እና እንዴት እንደመገቡት ቢነግሩኝ? ማለትም በነዚህ 7ቀናት ውስጥ የመገቡትን ሁሉ ይንገሩኝ Namoonni daaimman isaanii karaa adda addaatiin nyaachisu. Mee guyyoota 7n darban keessatti akkamitti mucakessani isa tokkoffaa [what_is_the_1st_baby_name] akka nyaachiftan aiibsa? Wantoota deebii tauu dandaan hunda iibsa (choice=Water/ውሃ/Bishaani)"
-label variable how_you_feed_1st_baby___4 "310a.1. People feed their babies in different ways. Please indicate how you have fed [what_is_the_1st_baby_name] in the last 7 days? Indicate all that apply ሰዎች ልጆቻቸውን በተለያየ መንገድ ይመግባሉ። እባክዎ ባለፉት 7 ቀናት ውስጥ የመጀመሪያ የተወለደው ህጻን ልጅዎን [what_is_the_1st_baby_name] አመጋገብ በተመለከተ እና እንዴት እንደመገቡት ቢነግሩኝ? ማለትም በነዚህ 7ቀናት ውስጥ የመገቡትን ሁሉ ይንገሩኝ Namoonni daaimman isaanii karaa adda addaatiin nyaachisu. Mee guyyoota 7n darban keessatti akkamitti mucakessani isa tokkoffaa [what_is_the_1st_baby_name] akka nyaachiftan aiibsa? Wantoota deebii tauu dandaan hunda iibsa (choice=Juice/ጭማቂ/Cuunfaa(kudurafi muduraa))"
-label variable how_you_feed_1st_baby___5 "310a.1. People feed their babies in different ways. Please indicate how you have fed [what_is_the_1st_baby_name] in the last 7 days? Indicate all that apply ሰዎች ልጆቻቸውን በተለያየ መንገድ ይመግባሉ። እባክዎ ባለፉት 7 ቀናት ውስጥ የመጀመሪያ የተወለደው ህጻን ልጅዎን [what_is_the_1st_baby_name] አመጋገብ በተመለከተ እና እንዴት እንደመገቡት ቢነግሩኝ? ማለትም በነዚህ 7ቀናት ውስጥ የመገቡትን ሁሉ ይንገሩኝ Namoonni daaimman isaanii karaa adda addaatiin nyaachisu. Mee guyyoota 7n darban keessatti akkamitti mucakessani isa tokkoffaa [what_is_the_1st_baby_name] akka nyaachiftan aiibsa? Wantoota deebii tauu dandaan hunda iibsa (choice=Broth/ሾርባ/Marqaa)"
-label variable how_you_feed_1st_baby___6 "310a.1. People feed their babies in different ways. Please indicate how you have fed [what_is_the_1st_baby_name] in the last 7 days? Indicate all that apply ሰዎች ልጆቻቸውን በተለያየ መንገድ ይመግባሉ። እባክዎ ባለፉት 7 ቀናት ውስጥ የመጀመሪያ የተወለደው ህጻን ልጅዎን [what_is_the_1st_baby_name] አመጋገብ በተመለከተ እና እንዴት እንደመገቡት ቢነግሩኝ? ማለትም በነዚህ 7ቀናት ውስጥ የመገቡትን ሁሉ ይንገሩኝ Namoonni daaimman isaanii karaa adda addaatiin nyaachisu. Mee guyyoota 7n darban keessatti akkamitti mucakessani isa tokkoffaa [what_is_the_1st_baby_name] akka nyaachiftan aiibsa? Wantoota deebii tauu dandaan hunda iibsa (choice=Baby food/የሕፃን ምግብ/ ngaata daimani)"
-label variable how_you_feed_1st_baby___7 "310a.1. People feed their babies in different ways. Please indicate how you have fed [what_is_the_1st_baby_name] in the last 7 days? Indicate all that apply ሰዎች ልጆቻቸውን በተለያየ መንገድ ይመግባሉ። እባክዎ ባለፉት 7 ቀናት ውስጥ የመጀመሪያ የተወለደው ህጻን ልጅዎን [what_is_the_1st_baby_name] አመጋገብ በተመለከተ እና እንዴት እንደመገቡት ቢነግሩኝ? ማለትም በነዚህ 7ቀናት ውስጥ የመገቡትን ሁሉ ይንገሩኝ Namoonni daaimman isaanii karaa adda addaatiin nyaachisu. Mee guyyoota 7n darban keessatti akkamitti mucakessani isa tokkoffaa [what_is_the_1st_baby_name] akka nyaachiftan aiibsa? Wantoota deebii tauu dandaan hunda iibsa (choice=Local food/butter/አካባቢዊ ምግብ (ለምሳሌ ቂቤ)/ Nyaata aadaa(dhadha naannoo( dhadhaa, aannan loonni/saa ykn  reee)"
-label variable how_you_feed_1st_baby___96 "310a.1. People feed their babies in different ways. Please indicate how you have fed [what_is_the_1st_baby_name] in the last 7 days? Indicate all that apply ሰዎች ልጆቻቸውን በተለያየ መንገድ ይመግባሉ። እባክዎ ባለፉት 7 ቀናት ውስጥ የመጀመሪያ የተወለደው ህጻን ልጅዎን [what_is_the_1st_baby_name] አመጋገብ በተመለከተ እና እንዴት እንደመገቡት ቢነግሩኝ? ማለትም በነዚህ 7ቀናት ውስጥ የመገቡትን ሁሉ ይንገሩኝ Namoonni daaimman isaanii karaa adda addaatiin nyaachisu. Mee guyyoota 7n darban keessatti akkamitti mucakessani isa tokkoffaa [what_is_the_1st_baby_name] akka nyaachiftan aiibsa? Wantoota deebii tauu dandaan hunda iibsa (choice=Other, specify)"
-label variable how_you_feed_1st_baby___99 "310a.1. People feed their babies in different ways. Please indicate how you have fed [what_is_the_1st_baby_name] in the last 7 days? Indicate all that apply ሰዎች ልጆቻቸውን በተለያየ መንገድ ይመግባሉ። እባክዎ ባለፉት 7 ቀናት ውስጥ የመጀመሪያ የተወለደው ህጻን ልጅዎን [what_is_the_1st_baby_name] አመጋገብ በተመለከተ እና እንዴት እንደመገቡት ቢነግሩኝ? ማለትም በነዚህ 7ቀናት ውስጥ የመገቡትን ሁሉ ይንገሩኝ Namoonni daaimman isaanii karaa adda addaatiin nyaachisu. Mee guyyoota 7n darban keessatti akkamitti mucakessani isa tokkoffaa [what_is_the_1st_baby_name] akka nyaachiftan aiibsa? Wantoota deebii tauu dandaan hunda iibsa (choice=NR/RF/ ታቅቦ/ያልተመለሰ/ Deebii hin kennine)"
-label variable how_you_feed_1st_baby___998 "310a.1. People feed their babies in different ways. Please indicate how you have fed [what_is_the_1st_baby_name] in the last 7 days? Indicate all that apply ሰዎች ልጆቻቸውን በተለያየ መንገድ ይመግባሉ። እባክዎ ባለፉት 7 ቀናት ውስጥ የመጀመሪያ የተወለደው ህጻን ልጅዎን [what_is_the_1st_baby_name] አመጋገብ በተመለከተ እና እንዴት እንደመገቡት ቢነግሩኝ? ማለትም በነዚህ 7ቀናት ውስጥ የመገቡትን ሁሉ ይንገሩኝ Namoonni daaimman isaanii karaa adda addaatiin nyaachisu. Mee guyyoota 7n darban keessatti akkamitti mucakessani isa tokkoffaa [what_is_the_1st_baby_name] akka nyaachiftan aiibsa? Wantoota deebii tauu dandaan hunda iibsa (choice=Unknown)"
-label variable how_you_feed_1st_baby___999 "310a.1. People feed their babies in different ways. Please indicate how you have fed [what_is_the_1st_baby_name] in the last 7 days? Indicate all that apply ሰዎች ልጆቻቸውን በተለያየ መንገድ ይመግባሉ። እባክዎ ባለፉት 7 ቀናት ውስጥ የመጀመሪያ የተወለደው ህጻን ልጅዎን [what_is_the_1st_baby_name] አመጋገብ በተመለከተ እና እንዴት እንደመገቡት ቢነግሩኝ? ማለትም በነዚህ 7ቀናት ውስጥ የመገቡትን ሁሉ ይንገሩኝ Namoonni daaimman isaanii karaa adda addaatiin nyaachisu. Mee guyyoota 7n darban keessatti akkamitti mucakessani isa tokkoffaa [what_is_the_1st_baby_name] akka nyaachiftan aiibsa? Wantoota deebii tauu dandaan hunda iibsa (choice=Refuse to answer)"
-label variable how_you_feed_1st_baby___888 "310a.1. People feed their babies in different ways. Please indicate how you have fed [what_is_the_1st_baby_name] in the last 7 days? Indicate all that apply ሰዎች ልጆቻቸውን በተለያየ መንገድ ይመግባሉ። እባክዎ ባለፉት 7 ቀናት ውስጥ የመጀመሪያ የተወለደው ህጻን ልጅዎን [what_is_the_1st_baby_name] አመጋገብ በተመለከተ እና እንዴት እንደመገቡት ቢነግሩኝ? ማለትም በነዚህ 7ቀናት ውስጥ የመገቡትን ሁሉ ይንገሩኝ Namoonni daaimman isaanii karaa adda addaatiin nyaachisu. Mee guyyoota 7n darban keessatti akkamitti mucakessani isa tokkoffaa [what_is_the_1st_baby_name] akka nyaachiftan aiibsa? Wantoota deebii tauu dandaan hunda iibsa (choice=No Information)"
-label variable other_specify "310a.1_Oth. Other specify                       ሌላ ይግለጹ                       kan biroo ibsi "
-label variable how_you_feed_2nd_baby___1 "310a2. People feed their babies in different ways. Please indicate how you have fed [what_is_the_2nd_baby_name] in the last 7 days? Indicate all that applyሰዎች ልጆቻቸውን በተለያየ መንገድ ይመግባሉ። እባክዎ ባለፉት 7 ቀናት ውስጥ የሁለተኛ የተወለደው ልጅዎን [what_is_the_2nd_baby_name] ን አመጋገብ በተመለከተ እና እንዴት እንደመገቡት ቢነግሩገኝ? ማለትም በነዚህ 7ቀናት ውስጥ የመገቡትን ሁሉ ይንገሩኝNamoonni daaimman isaanii karaa adda addaatiin nyaachisu. Mee guyyoota 7n darban keessatti akkamitti mucakeessan isa lammaffaa [what_is_the_2nd_baby_name] akka nyaachiftan aiibsa? Wantoota deebii tauu dandaan hunda iibsa (choice=Breast milk .የጡት ወተት /Aannan harmaa)"
-label variable how_you_feed_2nd_baby___2 "310a2. People feed their babies in different ways. Please indicate how you have fed [what_is_the_2nd_baby_name] in the last 7 days? Indicate all that applyሰዎች ልጆቻቸውን በተለያየ መንገድ ይመግባሉ። እባክዎ ባለፉት 7 ቀናት ውስጥ የሁለተኛ የተወለደው ልጅዎን [what_is_the_2nd_baby_name] ን አመጋገብ በተመለከተ እና እንዴት እንደመገቡት ቢነግሩገኝ? ማለትም በነዚህ 7ቀናት ውስጥ የመገቡትን ሁሉ ይንገሩኝNamoonni daaimman isaanii karaa adda addaatiin nyaachisu. Mee guyyoota 7n darban keessatti akkamitti mucakeessan isa lammaffaa [what_is_the_2nd_baby_name] akka nyaachiftan aiibsa? Wantoota deebii tauu dandaan hunda iibsa (choice=Formula/Cow milk/የከብት/ ዱቄት ወተት/ foormulaa/annan saꞌ a)"
-label variable how_you_feed_2nd_baby___3 "310a2. People feed their babies in different ways. Please indicate how you have fed [what_is_the_2nd_baby_name] in the last 7 days? Indicate all that applyሰዎች ልጆቻቸውን በተለያየ መንገድ ይመግባሉ። እባክዎ ባለፉት 7 ቀናት ውስጥ የሁለተኛ የተወለደው ልጅዎን [what_is_the_2nd_baby_name] ን አመጋገብ በተመለከተ እና እንዴት እንደመገቡት ቢነግሩገኝ? ማለትም በነዚህ 7ቀናት ውስጥ የመገቡትን ሁሉ ይንገሩኝNamoonni daaimman isaanii karaa adda addaatiin nyaachisu. Mee guyyoota 7n darban keessatti akkamitti mucakeessan isa lammaffaa [what_is_the_2nd_baby_name] akka nyaachiftan aiibsa? Wantoota deebii tauu dandaan hunda iibsa (choice=Water/ውሃ/Bishaani)"
-label variable how_you_feed_2nd_baby___4 "310a2. People feed their babies in different ways. Please indicate how you have fed [what_is_the_2nd_baby_name] in the last 7 days? Indicate all that applyሰዎች ልጆቻቸውን በተለያየ መንገድ ይመግባሉ። እባክዎ ባለፉት 7 ቀናት ውስጥ የሁለተኛ የተወለደው ልጅዎን [what_is_the_2nd_baby_name] ን አመጋገብ በተመለከተ እና እንዴት እንደመገቡት ቢነግሩገኝ? ማለትም በነዚህ 7ቀናት ውስጥ የመገቡትን ሁሉ ይንገሩኝNamoonni daaimman isaanii karaa adda addaatiin nyaachisu. Mee guyyoota 7n darban keessatti akkamitti mucakeessan isa lammaffaa [what_is_the_2nd_baby_name] akka nyaachiftan aiibsa? Wantoota deebii tauu dandaan hunda iibsa (choice=Juice/ጭማቂ/Cuunfaa(kudurafi muduraa))"
-label variable how_you_feed_2nd_baby___5 "310a2. People feed their babies in different ways. Please indicate how you have fed [what_is_the_2nd_baby_name] in the last 7 days? Indicate all that applyሰዎች ልጆቻቸውን በተለያየ መንገድ ይመግባሉ። እባክዎ ባለፉት 7 ቀናት ውስጥ የሁለተኛ የተወለደው ልጅዎን [what_is_the_2nd_baby_name] ን አመጋገብ በተመለከተ እና እንዴት እንደመገቡት ቢነግሩገኝ? ማለትም በነዚህ 7ቀናት ውስጥ የመገቡትን ሁሉ ይንገሩኝNamoonni daaimman isaanii karaa adda addaatiin nyaachisu. Mee guyyoota 7n darban keessatti akkamitti mucakeessan isa lammaffaa [what_is_the_2nd_baby_name] akka nyaachiftan aiibsa? Wantoota deebii tauu dandaan hunda iibsa (choice=Broth/ሾርባ/Marqaa)"
-label variable how_you_feed_2nd_baby___6 "310a2. People feed their babies in different ways. Please indicate how you have fed [what_is_the_2nd_baby_name] in the last 7 days? Indicate all that applyሰዎች ልጆቻቸውን በተለያየ መንገድ ይመግባሉ። እባክዎ ባለፉት 7 ቀናት ውስጥ የሁለተኛ የተወለደው ልጅዎን [what_is_the_2nd_baby_name] ን አመጋገብ በተመለከተ እና እንዴት እንደመገቡት ቢነግሩገኝ? ማለትም በነዚህ 7ቀናት ውስጥ የመገቡትን ሁሉ ይንገሩኝNamoonni daaimman isaanii karaa adda addaatiin nyaachisu. Mee guyyoota 7n darban keessatti akkamitti mucakeessan isa lammaffaa [what_is_the_2nd_baby_name] akka nyaachiftan aiibsa? Wantoota deebii tauu dandaan hunda iibsa (choice=Baby food/የሕፃን ምግብ/ ngaata daimani)"
-label variable how_you_feed_2nd_baby___7 "310a2. People feed their babies in different ways. Please indicate how you have fed [what_is_the_2nd_baby_name] in the last 7 days? Indicate all that applyሰዎች ልጆቻቸውን በተለያየ መንገድ ይመግባሉ። እባክዎ ባለፉት 7 ቀናት ውስጥ የሁለተኛ የተወለደው ልጅዎን [what_is_the_2nd_baby_name] ን አመጋገብ በተመለከተ እና እንዴት እንደመገቡት ቢነግሩገኝ? ማለትም በነዚህ 7ቀናት ውስጥ የመገቡትን ሁሉ ይንገሩኝNamoonni daaimman isaanii karaa adda addaatiin nyaachisu. Mee guyyoota 7n darban keessatti akkamitti mucakeessan isa lammaffaa [what_is_the_2nd_baby_name] akka nyaachiftan aiibsa? Wantoota deebii tauu dandaan hunda iibsa (choice=Local food/butter/አካባቢዊ ምግብ (ለምሳሌ ቂቤ)/ Nyaata aadaa(dhadha naannoo( dhadhaa, aannan loonni/saa ykn  reee)"
-label variable how_you_feed_2nd_baby___96 "310a2. People feed their babies in different ways. Please indicate how you have fed [what_is_the_2nd_baby_name] in the last 7 days? Indicate all that applyሰዎች ልጆቻቸውን በተለያየ መንገድ ይመግባሉ። እባክዎ ባለፉት 7 ቀናት ውስጥ የሁለተኛ የተወለደው ልጅዎን [what_is_the_2nd_baby_name] ን አመጋገብ በተመለከተ እና እንዴት እንደመገቡት ቢነግሩገኝ? ማለትም በነዚህ 7ቀናት ውስጥ የመገቡትን ሁሉ ይንገሩኝNamoonni daaimman isaanii karaa adda addaatiin nyaachisu. Mee guyyoota 7n darban keessatti akkamitti mucakeessan isa lammaffaa [what_is_the_2nd_baby_name] akka nyaachiftan aiibsa? Wantoota deebii tauu dandaan hunda iibsa (choice=Other, specify)"
-label variable how_you_feed_2nd_baby___99 "310a2. People feed their babies in different ways. Please indicate how you have fed [what_is_the_2nd_baby_name] in the last 7 days? Indicate all that applyሰዎች ልጆቻቸውን በተለያየ መንገድ ይመግባሉ። እባክዎ ባለፉት 7 ቀናት ውስጥ የሁለተኛ የተወለደው ልጅዎን [what_is_the_2nd_baby_name] ን አመጋገብ በተመለከተ እና እንዴት እንደመገቡት ቢነግሩገኝ? ማለትም በነዚህ 7ቀናት ውስጥ የመገቡትን ሁሉ ይንገሩኝNamoonni daaimman isaanii karaa adda addaatiin nyaachisu. Mee guyyoota 7n darban keessatti akkamitti mucakeessan isa lammaffaa [what_is_the_2nd_baby_name] akka nyaachiftan aiibsa? Wantoota deebii tauu dandaan hunda iibsa (choice=NR/RF/ ታቅቦ/ያልተመለሰ/ Deebii hin kennine)"
-label variable how_you_feed_2nd_baby___998 "310a2. People feed their babies in different ways. Please indicate how you have fed [what_is_the_2nd_baby_name] in the last 7 days? Indicate all that applyሰዎች ልጆቻቸውን በተለያየ መንገድ ይመግባሉ። እባክዎ ባለፉት 7 ቀናት ውስጥ የሁለተኛ የተወለደው ልጅዎን [what_is_the_2nd_baby_name] ን አመጋገብ በተመለከተ እና እንዴት እንደመገቡት ቢነግሩገኝ? ማለትም በነዚህ 7ቀናት ውስጥ የመገቡትን ሁሉ ይንገሩኝNamoonni daaimman isaanii karaa adda addaatiin nyaachisu. Mee guyyoota 7n darban keessatti akkamitti mucakeessan isa lammaffaa [what_is_the_2nd_baby_name] akka nyaachiftan aiibsa? Wantoota deebii tauu dandaan hunda iibsa (choice=Unknown)"
-label variable how_you_feed_2nd_baby___999 "310a2. People feed their babies in different ways. Please indicate how you have fed [what_is_the_2nd_baby_name] in the last 7 days? Indicate all that applyሰዎች ልጆቻቸውን በተለያየ መንገድ ይመግባሉ። እባክዎ ባለፉት 7 ቀናት ውስጥ የሁለተኛ የተወለደው ልጅዎን [what_is_the_2nd_baby_name] ን አመጋገብ በተመለከተ እና እንዴት እንደመገቡት ቢነግሩገኝ? ማለትም በነዚህ 7ቀናት ውስጥ የመገቡትን ሁሉ ይንገሩኝNamoonni daaimman isaanii karaa adda addaatiin nyaachisu. Mee guyyoota 7n darban keessatti akkamitti mucakeessan isa lammaffaa [what_is_the_2nd_baby_name] akka nyaachiftan aiibsa? Wantoota deebii tauu dandaan hunda iibsa (choice=Refuse to answer)"
-label variable how_you_feed_2nd_baby___888 "310a2. People feed their babies in different ways. Please indicate how you have fed [what_is_the_2nd_baby_name] in the last 7 days? Indicate all that applyሰዎች ልጆቻቸውን በተለያየ መንገድ ይመግባሉ። እባክዎ ባለፉት 7 ቀናት ውስጥ የሁለተኛ የተወለደው ልጅዎን [what_is_the_2nd_baby_name] ን አመጋገብ በተመለከተ እና እንዴት እንደመገቡት ቢነግሩገኝ? ማለትም በነዚህ 7ቀናት ውስጥ የመገቡትን ሁሉ ይንገሩኝNamoonni daaimman isaanii karaa adda addaatiin nyaachisu. Mee guyyoota 7n darban keessatti akkamitti mucakeessan isa lammaffaa [what_is_the_2nd_baby_name] akka nyaachiftan aiibsa? Wantoota deebii tauu dandaan hunda iibsa (choice=No Information)"
-label variable other_specifya2 "310a2_Oth	Other specify                         ሌላ ይግለጹ                         kan biroo ibsi "
-label variable how_you_feed_3rd_baby___1 "310a3. People feed their babies in different ways. Please indicate how you have fed [what_is_the_3rd_baby_name] in the last 7 days? Indicate all that apply/ሰዎች ልጆቻቸውን በተለያየ መንገድ ይመግባሉ። እባክዎ ባለፉት 7 ቀናት ውስጥ የሶስተኛ የተወለደው ልጅዎን [what_is_the_3rd_baby_name] ን አመጋገብ በተመለከተ እና እንዴት እንደመገቡ ት ቢነግሩገኝ? ማለትም በነዚህ 7ቀናት ውስጥ የመገቡትን ሁሉ ይንገሩኝNamoonni daaimman isaanii karaa adda addaatiin nyaachisu. Mee guyyoota 7n darban keessatti akkamitti mucakessan isa Sadaffaa [what_is_the_3rd_baby_name] akka nyaachiftan aiibsa? Wantoota deebii tauu dandaan hunda iibsa (choice=Breast milk .የጡት ወተት /Aannan harmaa)"
-label variable how_you_feed_3rd_baby___2 "310a3. People feed their babies in different ways. Please indicate how you have fed [what_is_the_3rd_baby_name] in the last 7 days? Indicate all that apply/ሰዎች ልጆቻቸውን በተለያየ መንገድ ይመግባሉ። እባክዎ ባለፉት 7 ቀናት ውስጥ የሶስተኛ የተወለደው ልጅዎን [what_is_the_3rd_baby_name] ን አመጋገብ በተመለከተ እና እንዴት እንደመገቡ ት ቢነግሩገኝ? ማለትም በነዚህ 7ቀናት ውስጥ የመገቡትን ሁሉ ይንገሩኝNamoonni daaimman isaanii karaa adda addaatiin nyaachisu. Mee guyyoota 7n darban keessatti akkamitti mucakessan isa Sadaffaa [what_is_the_3rd_baby_name] akka nyaachiftan aiibsa? Wantoota deebii tauu dandaan hunda iibsa (choice=Formula/Cow milk/የከብት/ ዱቄት ወተት/ foormulaa/annan saꞌ a)"
-label variable how_you_feed_3rd_baby___3 "310a3. People feed their babies in different ways. Please indicate how you have fed [what_is_the_3rd_baby_name] in the last 7 days? Indicate all that apply/ሰዎች ልጆቻቸውን በተለያየ መንገድ ይመግባሉ። እባክዎ ባለፉት 7 ቀናት ውስጥ የሶስተኛ የተወለደው ልጅዎን [what_is_the_3rd_baby_name] ን አመጋገብ በተመለከተ እና እንዴት እንደመገቡ ት ቢነግሩገኝ? ማለትም በነዚህ 7ቀናት ውስጥ የመገቡትን ሁሉ ይንገሩኝNamoonni daaimman isaanii karaa adda addaatiin nyaachisu. Mee guyyoota 7n darban keessatti akkamitti mucakessan isa Sadaffaa [what_is_the_3rd_baby_name] akka nyaachiftan aiibsa? Wantoota deebii tauu dandaan hunda iibsa (choice=Water/ውሃ/Bishaani)"
-label variable how_you_feed_3rd_baby___4 "310a3. People feed their babies in different ways. Please indicate how you have fed [what_is_the_3rd_baby_name] in the last 7 days? Indicate all that apply/ሰዎች ልጆቻቸውን በተለያየ መንገድ ይመግባሉ። እባክዎ ባለፉት 7 ቀናት ውስጥ የሶስተኛ የተወለደው ልጅዎን [what_is_the_3rd_baby_name] ን አመጋገብ በተመለከተ እና እንዴት እንደመገቡ ት ቢነግሩገኝ? ማለትም በነዚህ 7ቀናት ውስጥ የመገቡትን ሁሉ ይንገሩኝNamoonni daaimman isaanii karaa adda addaatiin nyaachisu. Mee guyyoota 7n darban keessatti akkamitti mucakessan isa Sadaffaa [what_is_the_3rd_baby_name] akka nyaachiftan aiibsa? Wantoota deebii tauu dandaan hunda iibsa (choice=Juice/ጭማቂ/Cuunfaa(kudurafi muduraa))"
-label variable how_you_feed_3rd_baby___5 "310a3. People feed their babies in different ways. Please indicate how you have fed [what_is_the_3rd_baby_name] in the last 7 days? Indicate all that apply/ሰዎች ልጆቻቸውን በተለያየ መንገድ ይመግባሉ። እባክዎ ባለፉት 7 ቀናት ውስጥ የሶስተኛ የተወለደው ልጅዎን [what_is_the_3rd_baby_name] ን አመጋገብ በተመለከተ እና እንዴት እንደመገቡ ት ቢነግሩገኝ? ማለትም በነዚህ 7ቀናት ውስጥ የመገቡትን ሁሉ ይንገሩኝNamoonni daaimman isaanii karaa adda addaatiin nyaachisu. Mee guyyoota 7n darban keessatti akkamitti mucakessan isa Sadaffaa [what_is_the_3rd_baby_name] akka nyaachiftan aiibsa? Wantoota deebii tauu dandaan hunda iibsa (choice=Broth/ሾርባ/Marqaa)"
-label variable how_you_feed_3rd_baby___6 "310a3. People feed their babies in different ways. Please indicate how you have fed [what_is_the_3rd_baby_name] in the last 7 days? Indicate all that apply/ሰዎች ልጆቻቸውን በተለያየ መንገድ ይመግባሉ። እባክዎ ባለፉት 7 ቀናት ውስጥ የሶስተኛ የተወለደው ልጅዎን [what_is_the_3rd_baby_name] ን አመጋገብ በተመለከተ እና እንዴት እንደመገቡ ት ቢነግሩገኝ? ማለትም በነዚህ 7ቀናት ውስጥ የመገቡትን ሁሉ ይንገሩኝNamoonni daaimman isaanii karaa adda addaatiin nyaachisu. Mee guyyoota 7n darban keessatti akkamitti mucakessan isa Sadaffaa [what_is_the_3rd_baby_name] akka nyaachiftan aiibsa? Wantoota deebii tauu dandaan hunda iibsa (choice=Baby food/የሕፃን ምግብ/ ngaata daimani)"
-label variable how_you_feed_3rd_baby___7 "310a3. People feed their babies in different ways. Please indicate how you have fed [what_is_the_3rd_baby_name] in the last 7 days? Indicate all that apply/ሰዎች ልጆቻቸውን በተለያየ መንገድ ይመግባሉ። እባክዎ ባለፉት 7 ቀናት ውስጥ የሶስተኛ የተወለደው ልጅዎን [what_is_the_3rd_baby_name] ን አመጋገብ በተመለከተ እና እንዴት እንደመገቡ ት ቢነግሩገኝ? ማለትም በነዚህ 7ቀናት ውስጥ የመገቡትን ሁሉ ይንገሩኝNamoonni daaimman isaanii karaa adda addaatiin nyaachisu. Mee guyyoota 7n darban keessatti akkamitti mucakessan isa Sadaffaa [what_is_the_3rd_baby_name] akka nyaachiftan aiibsa? Wantoota deebii tauu dandaan hunda iibsa (choice=Local food/butter/አካባቢዊ ምግብ (ለምሳሌ ቂቤ)/ Nyaata aadaa(dhadha naannoo( dhadhaa, aannan loonni/saa ykn  reee)"
-label variable how_you_feed_3rd_baby___96 "310a3. People feed their babies in different ways. Please indicate how you have fed [what_is_the_3rd_baby_name] in the last 7 days? Indicate all that apply/ሰዎች ልጆቻቸውን በተለያየ መንገድ ይመግባሉ። እባክዎ ባለፉት 7 ቀናት ውስጥ የሶስተኛ የተወለደው ልጅዎን [what_is_the_3rd_baby_name] ን አመጋገብ በተመለከተ እና እንዴት እንደመገቡ ት ቢነግሩገኝ? ማለትም በነዚህ 7ቀናት ውስጥ የመገቡትን ሁሉ ይንገሩኝNamoonni daaimman isaanii karaa adda addaatiin nyaachisu. Mee guyyoota 7n darban keessatti akkamitti mucakessan isa Sadaffaa [what_is_the_3rd_baby_name] akka nyaachiftan aiibsa? Wantoota deebii tauu dandaan hunda iibsa (choice=Other, specify)"
-label variable how_you_feed_3rd_baby___99 "310a3. People feed their babies in different ways. Please indicate how you have fed [what_is_the_3rd_baby_name] in the last 7 days? Indicate all that apply/ሰዎች ልጆቻቸውን በተለያየ መንገድ ይመግባሉ። እባክዎ ባለፉት 7 ቀናት ውስጥ የሶስተኛ የተወለደው ልጅዎን [what_is_the_3rd_baby_name] ን አመጋገብ በተመለከተ እና እንዴት እንደመገቡ ት ቢነግሩገኝ? ማለትም በነዚህ 7ቀናት ውስጥ የመገቡትን ሁሉ ይንገሩኝNamoonni daaimman isaanii karaa adda addaatiin nyaachisu. Mee guyyoota 7n darban keessatti akkamitti mucakessan isa Sadaffaa [what_is_the_3rd_baby_name] akka nyaachiftan aiibsa? Wantoota deebii tauu dandaan hunda iibsa (choice=NR/RF/ ታቅቦ/ያልተመለሰ/ Deebii hin kennine)"
-label variable how_you_feed_3rd_baby___998 "310a3. People feed their babies in different ways. Please indicate how you have fed [what_is_the_3rd_baby_name] in the last 7 days? Indicate all that apply/ሰዎች ልጆቻቸውን በተለያየ መንገድ ይመግባሉ። እባክዎ ባለፉት 7 ቀናት ውስጥ የሶስተኛ የተወለደው ልጅዎን [what_is_the_3rd_baby_name] ን አመጋገብ በተመለከተ እና እንዴት እንደመገቡ ት ቢነግሩገኝ? ማለትም በነዚህ 7ቀናት ውስጥ የመገቡትን ሁሉ ይንገሩኝNamoonni daaimman isaanii karaa adda addaatiin nyaachisu. Mee guyyoota 7n darban keessatti akkamitti mucakessan isa Sadaffaa [what_is_the_3rd_baby_name] akka nyaachiftan aiibsa? Wantoota deebii tauu dandaan hunda iibsa (choice=Unknown)"
-label variable how_you_feed_3rd_baby___999 "310a3. People feed their babies in different ways. Please indicate how you have fed [what_is_the_3rd_baby_name] in the last 7 days? Indicate all that apply/ሰዎች ልጆቻቸውን በተለያየ መንገድ ይመግባሉ። እባክዎ ባለፉት 7 ቀናት ውስጥ የሶስተኛ የተወለደው ልጅዎን [what_is_the_3rd_baby_name] ን አመጋገብ በተመለከተ እና እንዴት እንደመገቡ ት ቢነግሩገኝ? ማለትም በነዚህ 7ቀናት ውስጥ የመገቡትን ሁሉ ይንገሩኝNamoonni daaimman isaanii karaa adda addaatiin nyaachisu. Mee guyyoota 7n darban keessatti akkamitti mucakessan isa Sadaffaa [what_is_the_3rd_baby_name] akka nyaachiftan aiibsa? Wantoota deebii tauu dandaan hunda iibsa (choice=Refuse to answer)"
-label variable how_you_feed_3rd_baby___888 "310a3. People feed their babies in different ways. Please indicate how you have fed [what_is_the_3rd_baby_name] in the last 7 days? Indicate all that apply/ሰዎች ልጆቻቸውን በተለያየ መንገድ ይመግባሉ። እባክዎ ባለፉት 7 ቀናት ውስጥ የሶስተኛ የተወለደው ልጅዎን [what_is_the_3rd_baby_name] ን አመጋገብ በተመለከተ እና እንዴት እንደመገቡ ት ቢነግሩገኝ? ማለትም በነዚህ 7ቀናት ውስጥ የመገቡትን ሁሉ ይንገሩኝNamoonni daaimman isaanii karaa adda addaatiin nyaachisu. Mee guyyoota 7n darban keessatti akkamitti mucakessan isa Sadaffaa [what_is_the_3rd_baby_name] akka nyaachiftan aiibsa? Wantoota deebii tauu dandaan hunda iibsa (choice=No Information)"
-label variable other_specifa3 "310a3_Oth.	Other specify                          ሌላ ይግለጹ                          kan biroo ibsi "
-label variable how_confiden_on_breastfeed "310b. As of today, how confident do you feel about breastfeeding your baby/babies?  አሁን ላይ ሕጸኑን/ ሕጻናቱን በማጥባትላይ ምን ያህል በራስ መተማመን ይሰማዎታል?  Hara irraa taatee waaee daaima/daaimman keessan harma hoosisuu irratti ofitti amanamummaa hangamii qabduu? "
-label variable how_often_per_day_in_eth1_3 "Eth - 1-3 How often per day in average your baby  or babies breastfed?   ሕጸኑን/ ሕጻናቱን  በቀን ዉስጥ በአማካኝ ምን ያህል ጊዜ ጡት ያጠቡታል? Guyyaatti giddu galeessaan yeroo meeqa harma hoodhaa? "
-label variable born_alive_baby_1 "312a. I am very sorry to hear this. I hope that you will find the strength to deal with that event. If it is okay with you, I would like to ask a few more questions about the baby. Was the baby born alive? Did the baby cry, make any movement, sound, or effort to breathe, or show any other signs of life even if for a very short time? ይህን በመስማቴ በጣም አዝኛለሁ። ይህን ክስተት ለመቋቋም ጥንካሬ እንደሚያገኙ ተስፋ አደርጋለሁ። ፍቃደኛ ከሆኑ፣ ስለሕፃኑ ሁለት ተጨማሪ ጥያቄዎችን ልጠይቅዎት። መጀመሪያ የተወለደው ሕፃን በሕይወት ነው የተወለደው ? (ማውጣጫ፡ህፃኑ አልቅሶ ነበር፣ እንቅስቃሴ ለማድረግ ሞክሯል፣ ድምጽ አውጥቷል፣ ለመተንፈስ ጥረት አድርጓል ወይም ሌላ የህይወት ምልክቶችን አሳይቷል ምንም እንኳን ለአጭር ጊዜ ቢሆንም?)/Daaimni sun yeroo baayee gabaabaaf yoo taellee booee, sochii, sagalee, carraaqqii hafuura baafachuu ykn mallattoo jireenyaa kan biraa agarsiisee?"
-label variable as_you_know_this_survey_202 "202. Data collectors need to choose the status of birth based on the gestational age at death in 201d (or 201e if 201d is missing).  If baby died before 28 weeks, this is a miscarriage, and the survey ends. If baby died after 28 weeks, this is a stillbirth. Continue the survey.  If the woman reports getting an abortion, report it here, and end the survey."
-label variable born_alive_baby_2 "312b. I am very sorry to hear this. I hope that you will find the strength to deal with that event. If it is okay with you, I would like to ask a few more questions about the baby. Was the baby born alive? Was the second baby born alive? Did the baby cry, make any movement, sound, or effort to breathe, or show any other signs of life even if for a very short time?/2ኛው ሕፃን በህይወት ነበር የተወለደው? ህፃኑ አለቀሰ ፣ ምንም እንቅስቃሴ ፣ ድምጽ ፣ ለመተንፈስ ጥረት አድርጓል ወይም ሌላ የህይወት ምልክቶችን አሳይቷል ምንም እንኳን ለአጭር ጊዜ ቢሆን?/Daaimni 2ffaan lubbuun dhalateeraa? Daaimni sun yeroo baayee gabaabaa taus booee, sochii, sagalee, hafuura baafachuuf carraaqqii ykn mallattoo jireenyaa kan biraa argisiisee?"
-label variable born_alive_baby_3 "312c. I am very sorry to hear this. I hope that you will find the strength to deal with that event. If it is okay with you, I would like to ask a few more questions about the baby.  Was the baby born alive? Was the 3rd baby born alive? Did the baby cry, make any movement, sound, effort to breathe, or show any other signs of life even if for a very short time?ሶስተኛው ሕፃን በሕይወት ነው የተወለደው? (ማውጣጫ፡ህፃኑ አልቅሶ ነበር፣ እንቅስቃሴ ለማድረግ ሞክሯል፣ ድምጽ አውጥቷል፣ ለመተንፈስ ጥረት አድርጓል ወይም ሌላ የህይወት ምልክቶችን አሳይቷል ምንም እንኳን ለአጭር ጊዜ ቢሆንም?)Daaimni sun yeroo baayee gabaabaaf yoo taellee booee, sochii, sagalee, carraaqqii hafuura baafachuu ykn mallattoo jireenyaa kan biraa agarsiisee?"
-label variable q313b_1 "313a1. On what day did the [what_is_the_1st_baby_name] (first baby) baby died (i.e. the date of death)?[what_is_the_1st_baby_name] በየትኛው ቀን ነው የሞተ? Daaimni [what_is_the_1st_baby_name] guyyaa gaafa kam due?"
-label variable q313b_2 "313b1. At what time did [what_is_the_1st_baby_name] (first baby) die? [what_is_the_1st_baby_name] በ ስንት ሰዓት ላይ ነው የሞተ? Daaimni [what_is_the_1st_baby_name] saaatii meeqatti due? "
-label variable days_or_hours_die_baby_2 "313a2. On what day did [what_is_the_2nd_baby_name] (2nd baby) died (i.e.the date of death)? [what_is_the_2nd_baby_name] በየትኛው ቀን ነው የሞተ? Daaimni [what_is_the_2nd_baby_name] guyyaa gaafa kam due? "
-label variable days_or_hours_die_baby_4 "313b2. At what time did [what_is_the_2nd_baby_name] (2nd baby) die?[what_is_the_2nd_baby_name] በስንት ሰዓት ላይ ነው የሞተ? Daaimni [what_is_the_2nd_baby_name] saaatii meeqatti due?"
-label variable days_or_hours_die_baby_3 "313a3. On what day did the [what_is_the_3rd_baby_name] (3rd baby) die? [what_is_the_3rd_baby_name] በየትኛው ቀን ነው የሞተ? Daaimni [what_is_the_3rd_baby_name] guyyaa gaafa kam due?"
-label variable days_or_hours_die_baby_5 "313b3. At what time did the [what_is_the_3rd_baby_name] (3rd baby) die? [what_is_the_3rd_baby_name] በ ስንት ሰዓት ላይ ነው የሞተ? Daaimni [what_is_the_3rd_baby_name] saaatii meeqatti due?"
-label variable death_cause_baby_1___a "314c.1. What were you told was the cause of death for the baby, or were you not told?     ለመጀመሪያ ልጅዎ የተነገርዎ የሞት ምክንያት ምን ነበር ?  Sababni duaa  mucaa isa 1ffaan maaltu sitti himame, moo hin himamne?  (choice=Not told anything/ምንም አልተነገረኝም።/ Homaa hin himamne)"
-label variable death_cause_baby_1___b "314c.1. What were you told was the cause of death for the baby, or were you not told?     ለመጀመሪያ ልጅዎ የተነገርዎ የሞት ምክንያት ምን ነበር ?  Sababni duaa  mucaa isa 1ffaan maaltu sitti himame, moo hin himamne?  (choice=The baby was premature (born too early)/ ሕፃኑ ያለጊዜው ነበር የተወለደው (በጣም ቀደም ብሎ) የተወለደ/ Daaimni yeroo malee dhalate (dafee dhalate))"
-label variable death_cause_baby_1___c "314c.1. What were you told was the cause of death for the baby, or were you not told?     ለመጀመሪያ ልጅዎ የተነገርዎ የሞት ምክንያት ምን ነበር ?  Sababni duaa  mucaa isa 1ffaan maaltu sitti himame, moo hin himamne?  (choice=An infection/በኢንፌክሽን (የሰውነት መቆጣት)/ Infeekshinii dallansuu dhaqnaa)"
-label variable death_cause_baby_1___d "314c.1. What were you told was the cause of death for the baby, or were you not told?     ለመጀመሪያ ልጅዎ የተነገርዎ የሞት ምክንያት ምን ነበር ?  Sababni duaa  mucaa isa 1ffaan maaltu sitti himame, moo hin himamne?  (choice=A congenital abnormality (genetic or acquired issues with growth/ development) የአፈጣጠር መዛባት (በዘር ወይም ከዕድገት ጋር የተያያዙ)/ Dhukkuba dhalootaan dhufu (dhimmoota jeneetikii ykn guddina/ guddinaa wajjin argaman))"
-label variable death_cause_baby_1___e "314c.1. What were you told was the cause of death for the baby, or were you not told?     ለመጀመሪያ ልጅዎ የተነገርዎ የሞት ምክንያት ምን ነበር ?  Sababni duaa  mucaa isa 1ffaan maaltu sitti himame, moo hin himamne?  (choice=A birth injury or asphyxia (occurring because of delivery complications)/ የወሊድ ጉዳት ወይም በመታፍን (በወሊድ ጊዜ በሚከሰቱ ችግሮች)/ Miidhaa dahumsaa ykn asphyxia (sababii rakkoo daumsaatiin kan uumamu))"
-label variable death_cause_baby_1___f "314c.1. What were you told was the cause of death for the baby, or were you not told?     ለመጀመሪያ ልጅዎ የተነገርዎ የሞት ምክንያት ምን ነበር ?  Sababni duaa  mucaa isa 1ffaan maaltu sitti himame, moo hin himamne?  (choice=Difficulties breathing /የመተንፈስ ችግር/ Hafuura baafachuu irratti rakkachuu)"
-label variable death_cause_baby_1___g "314c.1. What were you told was the cause of death for the baby, or were you not told?     ለመጀመሪያ ልጅዎ የተነገርዎ የሞት ምክንያት ምን ነበር ?  Sababni duaa  mucaa isa 1ffaan maaltu sitti himame, moo hin himamne?  (choice=Unexplained causes/.ያልታወቀ ችግሮች/ Sababoota hin ibsamne)"
-label variable death_cause_baby_1___96 "314c.1. What were you told was the cause of death for the baby, or were you not told?     ለመጀመሪያ ልጅዎ የተነገርዎ የሞት ምክንያት ምን ነበር ?  Sababni duaa  mucaa isa 1ffaan maaltu sitti himame, moo hin himamne?  (choice=Other specifiy/ሌላ ይግለጹ)"
-label variable death_cause_baby_1___998 "314c.1. What were you told was the cause of death for the baby, or were you not told?     ለመጀመሪያ ልጅዎ የተነገርዎ የሞት ምክንያት ምን ነበር ?  Sababni duaa  mucaa isa 1ffaan maaltu sitti himame, moo hin himamne?  (choice=Unknown)"
-label variable death_cause_baby_1___999 "314c.1. What were you told was the cause of death for the baby, or were you not told?     ለመጀመሪያ ልጅዎ የተነገርዎ የሞት ምክንያት ምን ነበር ?  Sababni duaa  mucaa isa 1ffaan maaltu sitti himame, moo hin himamne?  (choice=Refuse to answer)"
-label variable death_cause_baby_1___888 "314c.1. What were you told was the cause of death for the baby, or were you not told?     ለመጀመሪያ ልጅዎ የተነገርዎ የሞት ምክንያት ምን ነበር ?  Sababni duaa  mucaa isa 1ffaan maaltu sitti himame, moo hin himamne?  (choice=No Information)"
-label variable other_death_case_baby_1 "314c.1_Oth. Specify other death case for 1st  baby የ1ኛው ልጅ ሞት ምክንያት ሌላ ከሆነ  (ይግለጹ) Sababni dua mucaa isa [1st baby name] kan birooibsi"
-label variable death_cause_baby_2___a "314c.2. What were you told was the cause of death for 2nd baby, or were you not told?  ለሁለተኛ ልጅዎ የተነገርዎ የሞት ምክንያት ምን ነበር ?      Sababni duaa  mucaa isa 2ffaa maaltu sitti himame, moo hin himamne?    (choice=Not told anything/ምንም አልተነገረኝም።/ Homaa hin himamne)"
-label variable death_cause_baby_2___b "314c.2. What were you told was the cause of death for 2nd baby, or were you not told?  ለሁለተኛ ልጅዎ የተነገርዎ የሞት ምክንያት ምን ነበር ?      Sababni duaa  mucaa isa 2ffaa maaltu sitti himame, moo hin himamne?    (choice=The baby was premature (born too early)/ ሕፃኑ ያለጊዜው ነበር የተወለደው (በጣም ቀደም ብሎ) የተወለደ/ Daaimni yeroo malee dhalate (dafee dhalate))"
-label variable death_cause_baby_2___c "314c.2. What were you told was the cause of death for 2nd baby, or were you not told?  ለሁለተኛ ልጅዎ የተነገርዎ የሞት ምክንያት ምን ነበር ?      Sababni duaa  mucaa isa 2ffaa maaltu sitti himame, moo hin himamne?    (choice=An infection/በኢንፌክሽን (የሰውነት መቆጣት)/ Infeekshinii dallansuu dhaqnaa)"
-label variable death_cause_baby_2___d "314c.2. What were you told was the cause of death for 2nd baby, or were you not told?  ለሁለተኛ ልጅዎ የተነገርዎ የሞት ምክንያት ምን ነበር ?      Sababni duaa  mucaa isa 2ffaa maaltu sitti himame, moo hin himamne?    (choice=A congenital abnormality (genetic or acquired issues with growth/ development) የአፈጣጠር መዛባት (በዘር ወይም ከዕድገት ጋር የተያያዙ)/ Dhukkuba dhalootaan dhufu (dhimmoota jeneetikii ykn guddina/ guddinaa wajjin argaman))"
-label variable death_cause_baby_2___e "314c.2. What were you told was the cause of death for 2nd baby, or were you not told?  ለሁለተኛ ልጅዎ የተነገርዎ የሞት ምክንያት ምን ነበር ?      Sababni duaa  mucaa isa 2ffaa maaltu sitti himame, moo hin himamne?    (choice=A birth injury or asphyxia (occurring because of delivery complications)/ የወሊድ ጉዳት ወይም በመታፍን (በወሊድ ጊዜ በሚከሰቱ ችግሮች)/ Miidhaa dahumsaa ykn asphyxia (sababii rakkoo daumsaatiin kan uumamu))"
-label variable death_cause_baby_2___f "314c.2. What were you told was the cause of death for 2nd baby, or were you not told?  ለሁለተኛ ልጅዎ የተነገርዎ የሞት ምክንያት ምን ነበር ?      Sababni duaa  mucaa isa 2ffaa maaltu sitti himame, moo hin himamne?    (choice=Difficulties breathing /የመተንፈስ ችግር/ Hafuura baafachuu irratti rakkachuu)"
-label variable death_cause_baby_2___g "314c.2. What were you told was the cause of death for 2nd baby, or were you not told?  ለሁለተኛ ልጅዎ የተነገርዎ የሞት ምክንያት ምን ነበር ?      Sababni duaa  mucaa isa 2ffaa maaltu sitti himame, moo hin himamne?    (choice=Unexplained causes/.ያልታወቀ ችግሮች/ Sababoota hin ibsamne)"
-label variable death_cause_baby_2___96 "314c.2. What were you told was the cause of death for 2nd baby, or were you not told?  ለሁለተኛ ልጅዎ የተነገርዎ የሞት ምክንያት ምን ነበር ?      Sababni duaa  mucaa isa 2ffaa maaltu sitti himame, moo hin himamne?    (choice=Other specifiy/ሌላ ይግለጹ)"
-label variable death_cause_baby_2___998 "314c.2. What were you told was the cause of death for 2nd baby, or were you not told?  ለሁለተኛ ልጅዎ የተነገርዎ የሞት ምክንያት ምን ነበር ?      Sababni duaa  mucaa isa 2ffaa maaltu sitti himame, moo hin himamne?    (choice=Unknown)"
-label variable death_cause_baby_2___999 "314c.2. What were you told was the cause of death for 2nd baby, or were you not told?  ለሁለተኛ ልጅዎ የተነገርዎ የሞት ምክንያት ምን ነበር ?      Sababni duaa  mucaa isa 2ffaa maaltu sitti himame, moo hin himamne?    (choice=Refuse to answer)"
-label variable death_cause_baby_2___888 "314c.2. What were you told was the cause of death for 2nd baby, or were you not told?  ለሁለተኛ ልጅዎ የተነገርዎ የሞት ምክንያት ምን ነበር ?      Sababni duaa  mucaa isa 2ffaa maaltu sitti himame, moo hin himamne?    (choice=No Information)"
-label variable other_death_case_baby_2 "314c.2_Oth. Specify other death case for 2nd baby የ2ኛው ልጅ ሞት ሌላ ምክንያት  (ይግለጹ) Sababni dua mucaa isa [2nd baby name] kan birooibsi"
-label variable death_cause_baby_3___a "314c.3. What were you told was the cause of death for 3rd baby, or were you not told?   ለሶስተኛ ልጅዎ የተነገርዎ የሞት ምክንያት ምን ነበር ?  Sababni duaa  mucaa isa 3ffaa maaltu sitti himame, moo hin himamne?   (choice=Not told anything/ምንም አልተነገረኝም።/ Homaa hin himamne)"
-label variable death_cause_baby_3___b "314c.3. What were you told was the cause of death for 3rd baby, or were you not told?   ለሶስተኛ ልጅዎ የተነገርዎ የሞት ምክንያት ምን ነበር ?  Sababni duaa  mucaa isa 3ffaa maaltu sitti himame, moo hin himamne?   (choice=The baby was premature (born too early)/ ሕፃኑ ያለጊዜው ነበር የተወለደው (በጣም ቀደም ብሎ) የተወለደ/ Daaimni yeroo malee dhalate (dafee dhalate))"
-label variable death_cause_baby_3___c "314c.3. What were you told was the cause of death for 3rd baby, or were you not told?   ለሶስተኛ ልጅዎ የተነገርዎ የሞት ምክንያት ምን ነበር ?  Sababni duaa  mucaa isa 3ffaa maaltu sitti himame, moo hin himamne?   (choice=An infection/በኢንፌክሽን (የሰውነት መቆጣት)/ Infeekshinii dallansuu dhaqnaa)"
-label variable death_cause_baby_3___d "314c.3. What were you told was the cause of death for 3rd baby, or were you not told?   ለሶስተኛ ልጅዎ የተነገርዎ የሞት ምክንያት ምን ነበር ?  Sababni duaa  mucaa isa 3ffaa maaltu sitti himame, moo hin himamne?   (choice=A congenital abnormality (genetic or acquired issues with growth/ development) የአፈጣጠር መዛባት (በዘር ወይም ከዕድገት ጋር የተያያዙ)/ Dhukkuba dhalootaan dhufu (dhimmoota jeneetikii ykn guddina/ guddinaa wajjin argaman))"
-label variable death_cause_baby_3___e "314c.3. What were you told was the cause of death for 3rd baby, or were you not told?   ለሶስተኛ ልጅዎ የተነገርዎ የሞት ምክንያት ምን ነበር ?  Sababni duaa  mucaa isa 3ffaa maaltu sitti himame, moo hin himamne?   (choice=A birth injury or asphyxia (occurring because of delivery complications)/ የወሊድ ጉዳት ወይም በመታፍን (በወሊድ ጊዜ በሚከሰቱ ችግሮች)/ Miidhaa dahumsaa ykn asphyxia (sababii rakkoo daumsaatiin kan uumamu))"
-label variable death_cause_baby_3___f "314c.3. What were you told was the cause of death for 3rd baby, or were you not told?   ለሶስተኛ ልጅዎ የተነገርዎ የሞት ምክንያት ምን ነበር ?  Sababni duaa  mucaa isa 3ffaa maaltu sitti himame, moo hin himamne?   (choice=Difficulties breathing /የመተንፈስ ችግር/ Hafuura baafachuu irratti rakkachuu)"
-label variable death_cause_baby_3___g "314c.3. What were you told was the cause of death for 3rd baby, or were you not told?   ለሶስተኛ ልጅዎ የተነገርዎ የሞት ምክንያት ምን ነበር ?  Sababni duaa  mucaa isa 3ffaa maaltu sitti himame, moo hin himamne?   (choice=Unexplained causes/.ያልታወቀ ችግሮች/ Sababoota hin ibsamne)"
-label variable death_cause_baby_3___96 "314c.3. What were you told was the cause of death for 3rd baby, or were you not told?   ለሶስተኛ ልጅዎ የተነገርዎ የሞት ምክንያት ምን ነበር ?  Sababni duaa  mucaa isa 3ffaa maaltu sitti himame, moo hin himamne?   (choice=Other specifiy/ሌላ ይግለጹ)"
-label variable death_cause_baby_3___998 "314c.3. What were you told was the cause of death for 3rd baby, or were you not told?   ለሶስተኛ ልጅዎ የተነገርዎ የሞት ምክንያት ምን ነበር ?  Sababni duaa  mucaa isa 3ffaa maaltu sitti himame, moo hin himamne?   (choice=Unknown)"
-label variable death_cause_baby_3___999 "314c.3. What were you told was the cause of death for 3rd baby, or were you not told?   ለሶስተኛ ልጅዎ የተነገርዎ የሞት ምክንያት ምን ነበር ?  Sababni duaa  mucaa isa 3ffaa maaltu sitti himame, moo hin himamne?   (choice=Refuse to answer)"
-label variable death_cause_baby_3___888 "314c.3. What were you told was the cause of death for 3rd baby, or were you not told?   ለሶስተኛ ልጅዎ የተነገርዎ የሞት ምክንያት ምን ነበር ?  Sababni duaa  mucaa isa 3ffaa maaltu sitti himame, moo hin himamne?   (choice=No Information)"
-label variable other_death_case_baby_3 "314c.3_Oth. Specify other death case for 3nd baby የ3ኛው ልጅዎ የሞት  ምክንያት ሌላ ከሆነ  (ይግለጹ) Sababni dua mucaa isa [3rd baby name] kan birooibsi"
-label variable when_the_miscarriage_1201 "1201. Im sorry to hear you had a miscarriage. If its ok with you I would like to ask a few more questions. When the miscarriage occurred, did you go to a health facility for follow-up?  የፅንሱ መጨናገፍን በመስማቴ አዝናለሁ። ፍቃደኛ ከሆኑ/ከሆንሽ ጥቂት ተጨማሪ ጥያቄዎችን መጠየቅ እፈልጋለሁ። የፅንስ መጨንገፍ ሲከሰት ክትትል ለማድረግ ወደ ጤና ተቋም ሄደው/ሽ ነበር?  Ulfa bauu kee dhagauu kootti dhiifama. Yoo siif tole tae gaaffii muraasa dabalataan gaafachuu barbaada. Yeroo ulfi bau hordoffiif gara dhaabbata fayyaa deemtee?   "
-label variable overall_how_would_yo_v_0 "1202. Overall, how would you rate the quality of care that you received for your miscarriage?  በአጠቃላይ፣ ለፅንስ መጨንገፍ ያገኙት የሕክምና ጥራት እንዴት ይመዝኑታል?  Walumaagalatti, qulqullina kunuunsa ulfi baeef argatte akkamitti madaaltu?  "
-label variable did_you_go_to_a_heal_v_1 "1203. Did you go to a health facility to receive this abortion? ይህንን ውርጃ ለማድረግ ወደ ጤና ተቋም ሄደው ነበር? Ulfa baasuu kana fudhachuuf dhaabbata fayyaa dhaqxee? "
-label variable overall_how_would_yo_v_2 "1204. Overall, how would you rate the quality of care that you received for your abortion?"
-label variable consult_before_delivery_401 "401. Before we talk about the delivery, I would like to ask about any additional health care you may have received since you last spoke to us and BEFORE the delivery. We are interested in ALL NEW healthcare consultations that you may have had for yourself between the time of the last survey and the delivery.  Since you last spoke to us, did you have any new healthcare consultations for yourself before the delivery? ስለ ወሊድ ከመናገራችን በፊት፣ ለመጨረሻ ጊዜ ካነጋገርኮት በኋላ እና ከመውለዶ በፊት ስላገኙት ተጨማሪ የጤና እንክብካቤ መጠየቅ እፈልጋለሁ።በመጨረሻው ቃለ-መጠይቅ ጊዜ እና ከወሊድ በፊት ባለው ወቅት ለራስዎ ያደረጉትን ሁሉንም አዳዲስ የጤና እንክብካቤ ምክክሮች ማወቅ እንፈልጋለን። ምንም እንኳን ለምርመራ ብቻ ቢሆንም እባክዎን ማንኛውንም የጤና እንክብካቤ ምክክር  አካተው ይንገሩኝ። ለመጨረሻ ጊዜ ከተነጋገረን በኋላ፣ ከወሊድ በፊት ለራስዎ አዲስ የጤና እንክብካቤ ምክክር አግኝተዋል? Waaee daumsaa dubbachuu keenya dura, erga yeroo dhumaaf nutti dubbattee fi daumsa duran kunuunsa fayyaa dabalataa argachuu dandeessu kamiyyuu gaafachuu barbaada.Gorsa eegumsa fayyaa haaraa yeroo qorannoo dhumaa fi daumsa gidduutti ofii keessaniif qabaachuu dandeessan hundaa baruuf fedhii qabna. Maaloo qorannoo adda baasuu qofaaf yoo taellee gorsa kunuunsa fayyaa kamiyyuu dabalaa.  Erga yeroo dhumaaf nu waliin dubbattanii asitti, daumsa dura gorsa eegumsa fayyaa haaraa ofii keessaniif qabduu?  "
-label variable number_healthcare_consult "402. How many new healthcare consultations did you have? ምን ያህል አዲስ የጤና እንክብካቤ ምክሮች አድርገዋል? Marii eegumsa fayyaa haaraa meeqa qabda turte?  "
-label variable consultation_1 "403. Was the 1st consultation for a routine antenatal care visit?  የመጀመሪያው የጤና እንክብካቤ ምክክር ለመደበኛ ቅድመ-ወሊድ ክትትል ነው ?  Mariin 1ffaan daawwannaa kunuunsa dahumsa duraa idilee taeef turee?  "
-label variable consultation_referral_1 "404. Was the 1st for referral from your antenatal care provider? ይህ  ክትትል የቅድመ ወሊድ እንክብበካቤ ከሚያደርግሎት ባለሙያ ተልከው (ሪፈር ተብለው) ነው? Rifaralaa ogeessa kunuunsa daumsa duraa keessan irraa argachuuf turee?  "
-label variable consultation_visit_1___1 "405. Was the 1st visit for any of the following? Include all that apply ይህንን ጉብኝት ያደረጉት ከሚከተሉት ውስጥ ለየትኛው ነበር? ያገኙትን አገልግሎት ሁሉንም ይንገሩኝ። Daawwannaan kun kanneen armaan gadii keessaa tokkoof turee? Wantoota ilaallatu hunda dabali. (Interviewer: Probe to get all possible answers as any other reason?)(Multiple options are possible)/(ጠያቂ፡ አውታጪ፤ ሌላስ በማለት ያገኙትን እንዲጠቅሱ፤ከአንድ በላይ ምላሽ ይቻላል)/(Af-gafataan, kan biraa jechuun haagaafatuu)  (choice=A new health problem, including an emergency or an injury/አዲስ የጤና ችግር፤ድንገተኛ ወይም ጉዳትን ጨምሮ/ Rakkoo fayyaa haaraa, balaa tasaa ykn miidhaa qaamaa dabalatee)"
-label variable consultation_visit_1___2 "405. Was the 1st visit for any of the following? Include all that apply ይህንን ጉብኝት ያደረጉት ከሚከተሉት ውስጥ ለየትኛው ነበር? ያገኙትን አገልግሎት ሁሉንም ይንገሩኝ። Daawwannaan kun kanneen armaan gadii keessaa tokkoof turee? Wantoota ilaallatu hunda dabali. (Interviewer: Probe to get all possible answers as any other reason?)(Multiple options are possible)/(ጠያቂ፡ አውታጪ፤ ሌላስ በማለት ያገኙትን እንዲጠቅሱ፤ከአንድ በላይ ምላሽ ይቻላል)/(Af-gafataan, kan biraa jechuun haagaafatuu)  (choice=An existing health problem/. የነበረ የጤና ችግር/ Rakkoo fayyaa jiru/duran ture)"
-label variable consultation_visit_1___3 "405. Was the 1st visit for any of the following? Include all that apply ይህንን ጉብኝት ያደረጉት ከሚከተሉት ውስጥ ለየትኛው ነበር? ያገኙትን አገልግሎት ሁሉንም ይንገሩኝ። Daawwannaan kun kanneen armaan gadii keessaa tokkoof turee? Wantoota ilaallatu hunda dabali. (Interviewer: Probe to get all possible answers as any other reason?)(Multiple options are possible)/(ጠያቂ፡ አውታጪ፤ ሌላስ በማለት ያገኙትን እንዲጠቅሱ፤ከአንድ በላይ ምላሽ ይቻላል)/(Af-gafataan, kan biraa jechuun haagaafatuu)  (choice=A lab test, x-ray, or ultrasound/.የላብራቶሪ ምርመራ፣ ኤክስሬይ ወይም አልትራሳውንድ/ Qorannoo  laabraatoorii, raajii ykn altiraasaawundii)"
-label variable consultation_visit_1___4 "405. Was the 1st visit for any of the following? Include all that apply ይህንን ጉብኝት ያደረጉት ከሚከተሉት ውስጥ ለየትኛው ነበር? ያገኙትን አገልግሎት ሁሉንም ይንገሩኝ። Daawwannaan kun kanneen armaan gadii keessaa tokkoof turee? Wantoota ilaallatu hunda dabali. (Interviewer: Probe to get all possible answers as any other reason?)(Multiple options are possible)/(ጠያቂ፡ አውታጪ፤ ሌላስ በማለት ያገኙትን እንዲጠቅሱ፤ከአንድ በላይ ምላሽ ይቻላል)/(Af-gafataan, kan biraa jechuun haagaafatuu)  (choice=To pick up medicine/መድሃኒት ለመውሰድ/ Qoricha fudhachuuf)"
-label variable consultation_visit_1___5 "405. Was the 1st visit for any of the following? Include all that apply ይህንን ጉብኝት ያደረጉት ከሚከተሉት ውስጥ ለየትኛው ነበር? ያገኙትን አገልግሎት ሁሉንም ይንገሩኝ። Daawwannaan kun kanneen armaan gadii keessaa tokkoof turee? Wantoota ilaallatu hunda dabali. (Interviewer: Probe to get all possible answers as any other reason?)(Multiple options are possible)/(ጠያቂ፡ አውታጪ፤ ሌላስ በማለት ያገኙትን እንዲጠቅሱ፤ከአንድ በላይ ምላሽ ይቻላል)/(Af-gafataan, kan biraa jechuun haagaafatuu)  (choice=To get a vaccine/ክትባት ለመውሰድ/ Talaallii fudhachuuf)"
-label variable consultation_visit_1___96 "405. Was the 1st visit for any of the following? Include all that apply ይህንን ጉብኝት ያደረጉት ከሚከተሉት ውስጥ ለየትኛው ነበር? ያገኙትን አገልግሎት ሁሉንም ይንገሩኝ። Daawwannaan kun kanneen armaan gadii keessaa tokkoof turee? Wantoota ilaallatu hunda dabali. (Interviewer: Probe to get all possible answers as any other reason?)(Multiple options are possible)/(ጠያቂ፡ አውታጪ፤ ሌላስ በማለት ያገኙትን እንዲጠቅሱ፤ከአንድ በላይ ምላሽ ይቻላል)/(Af-gafataan, kan biraa jechuun haagaafatuu)  (choice=Other reasons, please specifyሌሎች ምክንያቶች ካለ እባክዎይግለጹ/ Sababoota biroo, mee ibsaa)"
-label variable consultation_visit_1___998 "405. Was the 1st visit for any of the following? Include all that apply ይህንን ጉብኝት ያደረጉት ከሚከተሉት ውስጥ ለየትኛው ነበር? ያገኙትን አገልግሎት ሁሉንም ይንገሩኝ። Daawwannaan kun kanneen armaan gadii keessaa tokkoof turee? Wantoota ilaallatu hunda dabali. (Interviewer: Probe to get all possible answers as any other reason?)(Multiple options are possible)/(ጠያቂ፡ አውታጪ፤ ሌላስ በማለት ያገኙትን እንዲጠቅሱ፤ከአንድ በላይ ምላሽ ይቻላል)/(Af-gafataan, kan biraa jechuun haagaafatuu)  (choice=Unknown)"
-label variable consultation_visit_1___999 "405. Was the 1st visit for any of the following? Include all that apply ይህንን ጉብኝት ያደረጉት ከሚከተሉት ውስጥ ለየትኛው ነበር? ያገኙትን አገልግሎት ሁሉንም ይንገሩኝ። Daawwannaan kun kanneen armaan gadii keessaa tokkoof turee? Wantoota ilaallatu hunda dabali. (Interviewer: Probe to get all possible answers as any other reason?)(Multiple options are possible)/(ጠያቂ፡ አውታጪ፤ ሌላስ በማለት ያገኙትን እንዲጠቅሱ፤ከአንድ በላይ ምላሽ ይቻላል)/(Af-gafataan, kan biraa jechuun haagaafatuu)  (choice=Refuse to answer)"
-label variable consultation_visit_1___888 "405. Was the 1st visit for any of the following? Include all that apply ይህንን ጉብኝት ያደረጉት ከሚከተሉት ውስጥ ለየትኛው ነበር? ያገኙትን አገልግሎት ሁሉንም ይንገሩኝ። Daawwannaan kun kanneen armaan gadii keessaa tokkoof turee? Wantoota ilaallatu hunda dabali. (Interviewer: Probe to get all possible answers as any other reason?)(Multiple options are possible)/(ጠያቂ፡ አውታጪ፤ ሌላስ በማለት ያገኙትን እንዲጠቅሱ፤ከአንድ በላይ ምላሽ ይቻላል)/(Af-gafataan, kan biraa jechuun haagaafatuu)  (choice=No Information)"
-label variable specify_other_reason_for_1 "405_Oth . Other reasons, please specify ሌሎች ምክንያቶች እባክዎ ይግለጹ Sababoota biroo, mee ibsaa"
-label variable consultation_2 "406  Was the 2nd consultation for a routine antenatal care visit?  ጉብኝቶ ለመደበኛ የቅድመ ወሊድ እንክብካቤ ክትትል ነበር?  Daawwannaa kunuunsa daumsa duraa idileedhaaf turee? "
-label variable consultation_referral_2 "407. Was the 2nd for referral from your antenatal care provider ?  ይህ የቅድመ ወሊድ ክትትል የቅድመወሊድ እንክብበካቤ ከሚያደርግሎት ባለሙያ ተልከው (ሪፈር ተብለው) ነው?  2ffaan ogeessa kunuunsa dahumsa duraa keessan irraa rifaralaa turee?  "
-label variable consultation_visit_2___1 "408. Was the 2nd visit for any of the following? Include all that apply. ይህን ሁለተኛ ጉብኝት ያደረጉት ከሚከተሉት ውስጥ ለየትኛው ነበር? ያገኙትን አገልግሎት ሁሉ ይጥቀሱ። Daawwannaan lammaffaan kun kun kanneen armaan gadii keessaa tokkoof turee? Wantoota ilaallatu hunda dabali (Interviewer: Probe to get all possible answers as any other reason?)(Multiple options are possible)// (ጠያቂ፡ አውታጪ፤ ሌላስ በማለት ያገኙትን እንዲጠቅሱ፤ከአንድ በላይ ምላሽ ይቻላል)/(Af-gafataan, kan biraa jechuun haagaafatuu)  (choice=A new health problem, including an emergency or an injury/አዲስ የጤና ችግር፤ድንገተኛ ወይም ጉዳትን ጨምሮ/ Rakkoo fayyaa haaraa, balaa tasaa ykn miidhaa qaamaa dabalatee)"
-label variable consultation_visit_2___2 "408. Was the 2nd visit for any of the following? Include all that apply. ይህን ሁለተኛ ጉብኝት ያደረጉት ከሚከተሉት ውስጥ ለየትኛው ነበር? ያገኙትን አገልግሎት ሁሉ ይጥቀሱ። Daawwannaan lammaffaan kun kun kanneen armaan gadii keessaa tokkoof turee? Wantoota ilaallatu hunda dabali (Interviewer: Probe to get all possible answers as any other reason?)(Multiple options are possible)// (ጠያቂ፡ አውታጪ፤ ሌላስ በማለት ያገኙትን እንዲጠቅሱ፤ከአንድ በላይ ምላሽ ይቻላል)/(Af-gafataan, kan biraa jechuun haagaafatuu)  (choice=An existing health problem/. የነበረ የጤና ችግር/ Rakkoo fayyaa jiru/duran ture)"
-label variable consultation_visit_2___3 "408. Was the 2nd visit for any of the following? Include all that apply. ይህን ሁለተኛ ጉብኝት ያደረጉት ከሚከተሉት ውስጥ ለየትኛው ነበር? ያገኙትን አገልግሎት ሁሉ ይጥቀሱ። Daawwannaan lammaffaan kun kun kanneen armaan gadii keessaa tokkoof turee? Wantoota ilaallatu hunda dabali (Interviewer: Probe to get all possible answers as any other reason?)(Multiple options are possible)// (ጠያቂ፡ አውታጪ፤ ሌላስ በማለት ያገኙትን እንዲጠቅሱ፤ከአንድ በላይ ምላሽ ይቻላል)/(Af-gafataan, kan biraa jechuun haagaafatuu)  (choice=A lab test, x-ray, or ultrasound/.የላብራቶሪ ምርመራ፣ ኤክስሬይ ወይም አልትራሳውንድ/ Qorannoo  laabraatoorii, raajii ykn altiraasaawundii)"
-label variable consultation_visit_2___4 "408. Was the 2nd visit for any of the following? Include all that apply. ይህን ሁለተኛ ጉብኝት ያደረጉት ከሚከተሉት ውስጥ ለየትኛው ነበር? ያገኙትን አገልግሎት ሁሉ ይጥቀሱ። Daawwannaan lammaffaan kun kun kanneen armaan gadii keessaa tokkoof turee? Wantoota ilaallatu hunda dabali (Interviewer: Probe to get all possible answers as any other reason?)(Multiple options are possible)// (ጠያቂ፡ አውታጪ፤ ሌላስ በማለት ያገኙትን እንዲጠቅሱ፤ከአንድ በላይ ምላሽ ይቻላል)/(Af-gafataan, kan biraa jechuun haagaafatuu)  (choice=To pick up medicine/መድሃኒት ለመውሰድ/ Qoricha fudhachuuf)"
-label variable consultation_visit_2___5 "408. Was the 2nd visit for any of the following? Include all that apply. ይህን ሁለተኛ ጉብኝት ያደረጉት ከሚከተሉት ውስጥ ለየትኛው ነበር? ያገኙትን አገልግሎት ሁሉ ይጥቀሱ። Daawwannaan lammaffaan kun kun kanneen armaan gadii keessaa tokkoof turee? Wantoota ilaallatu hunda dabali (Interviewer: Probe to get all possible answers as any other reason?)(Multiple options are possible)// (ጠያቂ፡ አውታጪ፤ ሌላስ በማለት ያገኙትን እንዲጠቅሱ፤ከአንድ በላይ ምላሽ ይቻላል)/(Af-gafataan, kan biraa jechuun haagaafatuu)  (choice=To get a vaccine/ክትባት ለመውሰድ/ Talaallii fudhachuuf)"
-label variable consultation_visit_2___96 "408. Was the 2nd visit for any of the following? Include all that apply. ይህን ሁለተኛ ጉብኝት ያደረጉት ከሚከተሉት ውስጥ ለየትኛው ነበር? ያገኙትን አገልግሎት ሁሉ ይጥቀሱ። Daawwannaan lammaffaan kun kun kanneen armaan gadii keessaa tokkoof turee? Wantoota ilaallatu hunda dabali (Interviewer: Probe to get all possible answers as any other reason?)(Multiple options are possible)// (ጠያቂ፡ አውታጪ፤ ሌላስ በማለት ያገኙትን እንዲጠቅሱ፤ከአንድ በላይ ምላሽ ይቻላል)/(Af-gafataan, kan biraa jechuun haagaafatuu)  (choice=Other reasons, please specifyሌሎች ምክንያቶች ካለ እባክዎይግለጹ/ Sababoota biroo, mee ibsaa)"
-label variable consultation_visit_2___998 "408. Was the 2nd visit for any of the following? Include all that apply. ይህን ሁለተኛ ጉብኝት ያደረጉት ከሚከተሉት ውስጥ ለየትኛው ነበር? ያገኙትን አገልግሎት ሁሉ ይጥቀሱ። Daawwannaan lammaffaan kun kun kanneen armaan gadii keessaa tokkoof turee? Wantoota ilaallatu hunda dabali (Interviewer: Probe to get all possible answers as any other reason?)(Multiple options are possible)// (ጠያቂ፡ አውታጪ፤ ሌላስ በማለት ያገኙትን እንዲጠቅሱ፤ከአንድ በላይ ምላሽ ይቻላል)/(Af-gafataan, kan biraa jechuun haagaafatuu)  (choice=Unknown)"
-label variable consultation_visit_2___999 "408. Was the 2nd visit for any of the following? Include all that apply. ይህን ሁለተኛ ጉብኝት ያደረጉት ከሚከተሉት ውስጥ ለየትኛው ነበር? ያገኙትን አገልግሎት ሁሉ ይጥቀሱ። Daawwannaan lammaffaan kun kun kanneen armaan gadii keessaa tokkoof turee? Wantoota ilaallatu hunda dabali (Interviewer: Probe to get all possible answers as any other reason?)(Multiple options are possible)// (ጠያቂ፡ አውታጪ፤ ሌላስ በማለት ያገኙትን እንዲጠቅሱ፤ከአንድ በላይ ምላሽ ይቻላል)/(Af-gafataan, kan biraa jechuun haagaafatuu)  (choice=Refuse to answer)"
-label variable consultation_visit_2___888 "408. Was the 2nd visit for any of the following? Include all that apply. ይህን ሁለተኛ ጉብኝት ያደረጉት ከሚከተሉት ውስጥ ለየትኛው ነበር? ያገኙትን አገልግሎት ሁሉ ይጥቀሱ። Daawwannaan lammaffaan kun kun kanneen armaan gadii keessaa tokkoof turee? Wantoota ilaallatu hunda dabali (Interviewer: Probe to get all possible answers as any other reason?)(Multiple options are possible)// (ጠያቂ፡ አውታጪ፤ ሌላስ በማለት ያገኙትን እንዲጠቅሱ፤ከአንድ በላይ ምላሽ ይቻላል)/(Af-gafataan, kan biraa jechuun haagaafatuu)  (choice=No Information)"
-label variable list_m3 "408_Oth . Other reasons, please specify ሌሎች ምክንያቶች ካለ እባክዎይግለጹ Sababoota biroo, mee ibsaa "
-label variable consultation_3 "409 . Was the 3rd consultation for a routine antenatal care visit?  የሶስተኛ ክትትሉ ለመደበኛ የቅድመ ወሊድ እንክብካቤ ክትትል ነበር?  Daawwannaan 3ffaan kun kunuunsa daumsa duraa idileedhaaf turee?  "
-label variable consultation_visit_3 "410. Was the 3rd consultation for a referral from your antenatal care provider?  ይህን 3ኛ ጉብኝት ያደረጉት  የቅድመወሊድ እንክብበካቤ ከሚያደርግሎት ባለሙያ ተልከው (ሪፈር ተብለው) ነው? Daawwannaan3ffaan kun kanneen armaan gadii keessaa tokkoof turee? Wantoota ilaallatu hunda dabali?   "
-label variable consultation_referral_3___1 "411. Was the 3rd visit for any of the following? Include all that apply. ከሚከተሉት ውስጥ 3ኛው ጉብኝት ለየትኛው ነበር? የሚመለከተውን ሁሉ ያካትቱ። Rifaralaa ogeessa kunuunsa daumsa duraa keessan irraa argachuuf turee? (Interviewer: Probe to get all possible answers as any other reason?)(Multiple options are possible)/(ጠያቂ፡ አውታጪ፤ ሌላስ በማለት ያገኙትን እንዲጠቅሱ፤ከአንድ በላይ ምላሽ ይቻላል) /(Af-gafataan, kan biraa jechuun haagaafatuu)  (choice=A new health problem, including an emergency or an injury/አዲስ የጤና ችግር፤ድንገተኛ ወይም ጉዳትን ጨምሮ/ Rakkoo fayyaa haaraa, balaa tasaa ykn miidhaa qaamaa dabalatee)"
-label variable consultation_referral_3___2 "411. Was the 3rd visit for any of the following? Include all that apply. ከሚከተሉት ውስጥ 3ኛው ጉብኝት ለየትኛው ነበር? የሚመለከተውን ሁሉ ያካትቱ። Rifaralaa ogeessa kunuunsa daumsa duraa keessan irraa argachuuf turee? (Interviewer: Probe to get all possible answers as any other reason?)(Multiple options are possible)/(ጠያቂ፡ አውታጪ፤ ሌላስ በማለት ያገኙትን እንዲጠቅሱ፤ከአንድ በላይ ምላሽ ይቻላል) /(Af-gafataan, kan biraa jechuun haagaafatuu)  (choice=An existing health problem/. የነበረ የጤና ችግር/ Rakkoo fayyaa jiru/duran ture)"
-label variable consultation_referral_3___3 "411. Was the 3rd visit for any of the following? Include all that apply. ከሚከተሉት ውስጥ 3ኛው ጉብኝት ለየትኛው ነበር? የሚመለከተውን ሁሉ ያካትቱ። Rifaralaa ogeessa kunuunsa daumsa duraa keessan irraa argachuuf turee? (Interviewer: Probe to get all possible answers as any other reason?)(Multiple options are possible)/(ጠያቂ፡ አውታጪ፤ ሌላስ በማለት ያገኙትን እንዲጠቅሱ፤ከአንድ በላይ ምላሽ ይቻላል) /(Af-gafataan, kan biraa jechuun haagaafatuu)  (choice=A lab test, x-ray, or ultrasound/.የላብራቶሪ ምርመራ፣ ኤክስሬይ ወይም አልትራሳውንድ/ Qorannoo  laabraatoorii, raajii ykn altiraasaawundii)"
-label variable consultation_referral_3___4 "411. Was the 3rd visit for any of the following? Include all that apply. ከሚከተሉት ውስጥ 3ኛው ጉብኝት ለየትኛው ነበር? የሚመለከተውን ሁሉ ያካትቱ። Rifaralaa ogeessa kunuunsa daumsa duraa keessan irraa argachuuf turee? (Interviewer: Probe to get all possible answers as any other reason?)(Multiple options are possible)/(ጠያቂ፡ አውታጪ፤ ሌላስ በማለት ያገኙትን እንዲጠቅሱ፤ከአንድ በላይ ምላሽ ይቻላል) /(Af-gafataan, kan biraa jechuun haagaafatuu)  (choice=To pick up medicine/መድሃኒት ለመውሰድ/ Qoricha fudhachuuf)"
-label variable consultation_referral_3___5 "411. Was the 3rd visit for any of the following? Include all that apply. ከሚከተሉት ውስጥ 3ኛው ጉብኝት ለየትኛው ነበር? የሚመለከተውን ሁሉ ያካትቱ። Rifaralaa ogeessa kunuunsa daumsa duraa keessan irraa argachuuf turee? (Interviewer: Probe to get all possible answers as any other reason?)(Multiple options are possible)/(ጠያቂ፡ አውታጪ፤ ሌላስ በማለት ያገኙትን እንዲጠቅሱ፤ከአንድ በላይ ምላሽ ይቻላል) /(Af-gafataan, kan biraa jechuun haagaafatuu)  (choice=To get a vaccine/ክትባት ለመውሰድ/ Talaallii fudhachuuf)"
-label variable consultation_referral_3___96 "411. Was the 3rd visit for any of the following? Include all that apply. ከሚከተሉት ውስጥ 3ኛው ጉብኝት ለየትኛው ነበር? የሚመለከተውን ሁሉ ያካትቱ። Rifaralaa ogeessa kunuunsa daumsa duraa keessan irraa argachuuf turee? (Interviewer: Probe to get all possible answers as any other reason?)(Multiple options are possible)/(ጠያቂ፡ አውታጪ፤ ሌላስ በማለት ያገኙትን እንዲጠቅሱ፤ከአንድ በላይ ምላሽ ይቻላል) /(Af-gafataan, kan biraa jechuun haagaafatuu)  (choice=Other reasons, please specifyሌሎች ምክንያቶች ካለ እባክዎይግለጹ/ Sababoota biroo, mee ibsaa)"
-label variable consultation_referral_3___998 "411. Was the 3rd visit for any of the following? Include all that apply. ከሚከተሉት ውስጥ 3ኛው ጉብኝት ለየትኛው ነበር? የሚመለከተውን ሁሉ ያካትቱ። Rifaralaa ogeessa kunuunsa daumsa duraa keessan irraa argachuuf turee? (Interviewer: Probe to get all possible answers as any other reason?)(Multiple options are possible)/(ጠያቂ፡ አውታጪ፤ ሌላስ በማለት ያገኙትን እንዲጠቅሱ፤ከአንድ በላይ ምላሽ ይቻላል) /(Af-gafataan, kan biraa jechuun haagaafatuu)  (choice=Unknown)"
-label variable consultation_referral_3___999 "411. Was the 3rd visit for any of the following? Include all that apply. ከሚከተሉት ውስጥ 3ኛው ጉብኝት ለየትኛው ነበር? የሚመለከተውን ሁሉ ያካትቱ። Rifaralaa ogeessa kunuunsa daumsa duraa keessan irraa argachuuf turee? (Interviewer: Probe to get all possible answers as any other reason?)(Multiple options are possible)/(ጠያቂ፡ አውታጪ፤ ሌላስ በማለት ያገኙትን እንዲጠቅሱ፤ከአንድ በላይ ምላሽ ይቻላል) /(Af-gafataan, kan biraa jechuun haagaafatuu)  (choice=Refuse to answer)"
-label variable consultation_referral_3___888 "411. Was the 3rd visit for any of the following? Include all that apply. ከሚከተሉት ውስጥ 3ኛው ጉብኝት ለየትኛው ነበር? የሚመለከተውን ሁሉ ያካትቱ። Rifaralaa ogeessa kunuunsa daumsa duraa keessan irraa argachuuf turee? (Interviewer: Probe to get all possible answers as any other reason?)(Multiple options are possible)/(ጠያቂ፡ አውታጪ፤ ሌላስ በማለት ያገኙትን እንዲጠቅሱ፤ከአንድ በላይ ምላሽ ይቻላል) /(Af-gafataan, kan biraa jechuun haagaafatuu)  (choice=No Information)"
-label variable other_reasons_spec "411_Oth. Other reasons specify ሌሎች ምክንያቶች ይግለጹ Sababoota biroo, mee ibsaa "
-label variable consultation_4 "411a . Was the 4th consultation for a routine antenatal care visit?   የ4ኛ ክትትሉ ለመደበኛ የቅድመ ወሊድ እንክብካቤ ክትትል ነበር?  Daawwannaan 3ffaan kun kunuunsa daumsa duraa idileedhaaf turee?  "
-label variable consultation_visit_4 "411b. Was the 4th for referral from your antenatal care provider?/ Include all that apply ይህን 4ኛ ጉብኝት ያደረጉት ከሚከተሉት ውስጥ ለየትኛው ነበር?  ያገኙትን አገልግሎት ሁሉ ያካትቱ።  Daawwannaan3ffaan kun kanneen armaan gadii keessaa tokkoof turee? Wantoota ilaallatu hunda dabali  "
-label variable consultation_referral_4___1 "411c. Was the 4th visit for any of the following? Include all that apply. ከሚከተሉት ውስጥ 3ኛው ጉብኝት ነበር? የሚመለከተውን ሁሉ ያካትቱ።/ Rifaralaa ogeessa kunuunsa daumsa duraa keessan irraa argachuuf turee? (Interviewer: Probe to get all possible answers as any other reason?)(Multiple options are possible)/(ጠያቂ፡ አውታጪ፤ ሌላስ በማለት ያገኙትን እንዲጠቅሱ፤ከአንድ በላይ ምላሽ ይቻላል) /(Af-gafataan, kan biraa jechuun haagaafatuu)  (choice=A new health problem, including an emergency or an injury/አዲስ የጤና ችግር፤ድንገተኛ ወይም ጉዳትን ጨምሮ/ Rakkoo fayyaa haaraa, balaa tasaa ykn miidhaa qaamaa dabalatee)"
-label variable consultation_referral_4___2 "411c. Was the 4th visit for any of the following? Include all that apply. ከሚከተሉት ውስጥ 3ኛው ጉብኝት ነበር? የሚመለከተውን ሁሉ ያካትቱ።/ Rifaralaa ogeessa kunuunsa daumsa duraa keessan irraa argachuuf turee? (Interviewer: Probe to get all possible answers as any other reason?)(Multiple options are possible)/(ጠያቂ፡ አውታጪ፤ ሌላስ በማለት ያገኙትን እንዲጠቅሱ፤ከአንድ በላይ ምላሽ ይቻላል) /(Af-gafataan, kan biraa jechuun haagaafatuu)  (choice=An existing health problem/. የነበረ የጤና ችግር/ Rakkoo fayyaa jiru/duran ture)"
-label variable consultation_referral_4___3 "411c. Was the 4th visit for any of the following? Include all that apply. ከሚከተሉት ውስጥ 3ኛው ጉብኝት ነበር? የሚመለከተውን ሁሉ ያካትቱ።/ Rifaralaa ogeessa kunuunsa daumsa duraa keessan irraa argachuuf turee? (Interviewer: Probe to get all possible answers as any other reason?)(Multiple options are possible)/(ጠያቂ፡ አውታጪ፤ ሌላስ በማለት ያገኙትን እንዲጠቅሱ፤ከአንድ በላይ ምላሽ ይቻላል) /(Af-gafataan, kan biraa jechuun haagaafatuu)  (choice=A lab test, x-ray, or ultrasound/.የላብራቶሪ ምርመራ፣ ኤክስሬይ ወይም አልትራሳውንድ/ Qorannoo  laabraatoorii, raajii ykn altiraasaawundii)"
-label variable consultation_referral_4___4 "411c. Was the 4th visit for any of the following? Include all that apply. ከሚከተሉት ውስጥ 3ኛው ጉብኝት ነበር? የሚመለከተውን ሁሉ ያካትቱ።/ Rifaralaa ogeessa kunuunsa daumsa duraa keessan irraa argachuuf turee? (Interviewer: Probe to get all possible answers as any other reason?)(Multiple options are possible)/(ጠያቂ፡ አውታጪ፤ ሌላስ በማለት ያገኙትን እንዲጠቅሱ፤ከአንድ በላይ ምላሽ ይቻላል) /(Af-gafataan, kan biraa jechuun haagaafatuu)  (choice=To pick up medicine/መድሃኒት ለመውሰድ/ Qoricha fudhachuuf)"
-label variable consultation_referral_4___5 "411c. Was the 4th visit for any of the following? Include all that apply. ከሚከተሉት ውስጥ 3ኛው ጉብኝት ነበር? የሚመለከተውን ሁሉ ያካትቱ።/ Rifaralaa ogeessa kunuunsa daumsa duraa keessan irraa argachuuf turee? (Interviewer: Probe to get all possible answers as any other reason?)(Multiple options are possible)/(ጠያቂ፡ አውታጪ፤ ሌላስ በማለት ያገኙትን እንዲጠቅሱ፤ከአንድ በላይ ምላሽ ይቻላል) /(Af-gafataan, kan biraa jechuun haagaafatuu)  (choice=To get a vaccine/ክትባት ለመውሰድ/ Talaallii fudhachuuf)"
-label variable consultation_referral_4___96 "411c. Was the 4th visit for any of the following? Include all that apply. ከሚከተሉት ውስጥ 3ኛው ጉብኝት ነበር? የሚመለከተውን ሁሉ ያካትቱ።/ Rifaralaa ogeessa kunuunsa daumsa duraa keessan irraa argachuuf turee? (Interviewer: Probe to get all possible answers as any other reason?)(Multiple options are possible)/(ጠያቂ፡ አውታጪ፤ ሌላስ በማለት ያገኙትን እንዲጠቅሱ፤ከአንድ በላይ ምላሽ ይቻላል) /(Af-gafataan, kan biraa jechuun haagaafatuu)  (choice=Other reasons, please specifyሌሎች ምክንያቶች ካለ እባክዎይግለጹ/ Sababoota biroo, mee ibsaa)"
-label variable consultation_referral_4___998 "411c. Was the 4th visit for any of the following? Include all that apply. ከሚከተሉት ውስጥ 3ኛው ጉብኝት ነበር? የሚመለከተውን ሁሉ ያካትቱ።/ Rifaralaa ogeessa kunuunsa daumsa duraa keessan irraa argachuuf turee? (Interviewer: Probe to get all possible answers as any other reason?)(Multiple options are possible)/(ጠያቂ፡ አውታጪ፤ ሌላስ በማለት ያገኙትን እንዲጠቅሱ፤ከአንድ በላይ ምላሽ ይቻላል) /(Af-gafataan, kan biraa jechuun haagaafatuu)  (choice=Unknown)"
-label variable consultation_referral_4___999 "411c. Was the 4th visit for any of the following? Include all that apply. ከሚከተሉት ውስጥ 3ኛው ጉብኝት ነበር? የሚመለከተውን ሁሉ ያካትቱ።/ Rifaralaa ogeessa kunuunsa daumsa duraa keessan irraa argachuuf turee? (Interviewer: Probe to get all possible answers as any other reason?)(Multiple options are possible)/(ጠያቂ፡ አውታጪ፤ ሌላስ በማለት ያገኙትን እንዲጠቅሱ፤ከአንድ በላይ ምላሽ ይቻላል) /(Af-gafataan, kan biraa jechuun haagaafatuu)  (choice=Refuse to answer)"
-label variable consultation_referral_4___888 "411c. Was the 4th visit for any of the following? Include all that apply. ከሚከተሉት ውስጥ 3ኛው ጉብኝት ነበር? የሚመለከተውን ሁሉ ያካትቱ።/ Rifaralaa ogeessa kunuunsa daumsa duraa keessan irraa argachuuf turee? (Interviewer: Probe to get all possible answers as any other reason?)(Multiple options are possible)/(ጠያቂ፡ አውታጪ፤ ሌላስ በማለት ያገኙትን እንዲጠቅሱ፤ከአንድ በላይ ምላሽ ይቻላል) /(Af-gafataan, kan biraa jechuun haagaafatuu)  (choice=No Information)"
-label variable other_reasons_spec_2 "411c_Oth. Other reasons specify ሌሎች ምክንያቶች ይግለጹ Sababoota biroo, mee ibsaa"
-label variable consultation_5 "411d . Was the 5th consultation for a routine antenatal care visit?   የ5ኛ ክትትሉ ለመደበኛ የቅድመ ወሊድ እንክብካቤ ክትትል ነበር?  Daawwannaan 5ffaan kun kunuunsa daumsa duraa idileedhaaf turee?  "
-label variable consultation_visit_5 "411e. Was the 5th for referral from your antenatal care provider?/ Include all that apply  ይህን 5ኛ ጉብኝት ያደረጉት ከሚከተሉት ውስጥ ለየትኛው ነበር?  ያገኙትን አገልግሎት ሁሉ ያካትቱ።/  Daawwannaan3ffaan kun kanneen armaan gadii keessaa tokkoof turee? Wantoota ilaallatu hunda dabali  "
-label variable consultation_referral_5___1 "411f. Was the 5th visit for any of the following? Include all that apply. ከሚከተሉት ውስጥ 5ኛው ጉብኝት ነበር? የሚመለከተውን ሁሉ ያካትቱ። Rifaralaa ogeessa kunuunsa daumsa duraa keessan irraa argachuuf turee? (Interviewer: Probe to get all possible answers as any other reason?)(Multiple options are possible)/(ጠያቂ፡ አውታጪ፤ ሌላስ በማለት ያገኙትን እንዲጠቅሱ፤ከአንድ በላይ ምላሽ ይቻላል) /(Af-gafataan, kan biraa jechuun haagaafatuu)  (choice=A new health problem, including an emergency or an injury/አዲስ የጤና ችግር፤ድንገተኛ ወይም ጉዳትን ጨምሮ/ Rakkoo fayyaa haaraa, balaa tasaa ykn miidhaa qaamaa dabalatee)"
-label variable consultation_referral_5___2 "411f. Was the 5th visit for any of the following? Include all that apply. ከሚከተሉት ውስጥ 5ኛው ጉብኝት ነበር? የሚመለከተውን ሁሉ ያካትቱ። Rifaralaa ogeessa kunuunsa daumsa duraa keessan irraa argachuuf turee? (Interviewer: Probe to get all possible answers as any other reason?)(Multiple options are possible)/(ጠያቂ፡ አውታጪ፤ ሌላስ በማለት ያገኙትን እንዲጠቅሱ፤ከአንድ በላይ ምላሽ ይቻላል) /(Af-gafataan, kan biraa jechuun haagaafatuu)  (choice=An existing health problem/. የነበረ የጤና ችግር/ Rakkoo fayyaa jiru/duran ture)"
-label variable consultation_referral_5___3 "411f. Was the 5th visit for any of the following? Include all that apply. ከሚከተሉት ውስጥ 5ኛው ጉብኝት ነበር? የሚመለከተውን ሁሉ ያካትቱ። Rifaralaa ogeessa kunuunsa daumsa duraa keessan irraa argachuuf turee? (Interviewer: Probe to get all possible answers as any other reason?)(Multiple options are possible)/(ጠያቂ፡ አውታጪ፤ ሌላስ በማለት ያገኙትን እንዲጠቅሱ፤ከአንድ በላይ ምላሽ ይቻላል) /(Af-gafataan, kan biraa jechuun haagaafatuu)  (choice=A lab test, x-ray, or ultrasound/.የላብራቶሪ ምርመራ፣ ኤክስሬይ ወይም አልትራሳውንድ/ Qorannoo  laabraatoorii, raajii ykn altiraasaawundii)"
-label variable consultation_referral_5___4 "411f. Was the 5th visit for any of the following? Include all that apply. ከሚከተሉት ውስጥ 5ኛው ጉብኝት ነበር? የሚመለከተውን ሁሉ ያካትቱ። Rifaralaa ogeessa kunuunsa daumsa duraa keessan irraa argachuuf turee? (Interviewer: Probe to get all possible answers as any other reason?)(Multiple options are possible)/(ጠያቂ፡ አውታጪ፤ ሌላስ በማለት ያገኙትን እንዲጠቅሱ፤ከአንድ በላይ ምላሽ ይቻላል) /(Af-gafataan, kan biraa jechuun haagaafatuu)  (choice=To pick up medicine/መድሃኒት ለመውሰድ/ Qoricha fudhachuuf)"
-label variable consultation_referral_5___5 "411f. Was the 5th visit for any of the following? Include all that apply. ከሚከተሉት ውስጥ 5ኛው ጉብኝት ነበር? የሚመለከተውን ሁሉ ያካትቱ። Rifaralaa ogeessa kunuunsa daumsa duraa keessan irraa argachuuf turee? (Interviewer: Probe to get all possible answers as any other reason?)(Multiple options are possible)/(ጠያቂ፡ አውታጪ፤ ሌላስ በማለት ያገኙትን እንዲጠቅሱ፤ከአንድ በላይ ምላሽ ይቻላል) /(Af-gafataan, kan biraa jechuun haagaafatuu)  (choice=To get a vaccine/ክትባት ለመውሰድ/ Talaallii fudhachuuf)"
-label variable consultation_referral_5___96 "411f. Was the 5th visit for any of the following? Include all that apply. ከሚከተሉት ውስጥ 5ኛው ጉብኝት ነበር? የሚመለከተውን ሁሉ ያካትቱ። Rifaralaa ogeessa kunuunsa daumsa duraa keessan irraa argachuuf turee? (Interviewer: Probe to get all possible answers as any other reason?)(Multiple options are possible)/(ጠያቂ፡ አውታጪ፤ ሌላስ በማለት ያገኙትን እንዲጠቅሱ፤ከአንድ በላይ ምላሽ ይቻላል) /(Af-gafataan, kan biraa jechuun haagaafatuu)  (choice=Other reasons, please specifyሌሎች ምክንያቶች ካለ እባክዎይግለጹ/ Sababoota biroo, mee ibsaa)"
-label variable consultation_referral_5___998 "411f. Was the 5th visit for any of the following? Include all that apply. ከሚከተሉት ውስጥ 5ኛው ጉብኝት ነበር? የሚመለከተውን ሁሉ ያካትቱ። Rifaralaa ogeessa kunuunsa daumsa duraa keessan irraa argachuuf turee? (Interviewer: Probe to get all possible answers as any other reason?)(Multiple options are possible)/(ጠያቂ፡ አውታጪ፤ ሌላስ በማለት ያገኙትን እንዲጠቅሱ፤ከአንድ በላይ ምላሽ ይቻላል) /(Af-gafataan, kan biraa jechuun haagaafatuu)  (choice=Unknown)"
-label variable consultation_referral_5___999 "411f. Was the 5th visit for any of the following? Include all that apply. ከሚከተሉት ውስጥ 5ኛው ጉብኝት ነበር? የሚመለከተውን ሁሉ ያካትቱ። Rifaralaa ogeessa kunuunsa daumsa duraa keessan irraa argachuuf turee? (Interviewer: Probe to get all possible answers as any other reason?)(Multiple options are possible)/(ጠያቂ፡ አውታጪ፤ ሌላስ በማለት ያገኙትን እንዲጠቅሱ፤ከአንድ በላይ ምላሽ ይቻላል) /(Af-gafataan, kan biraa jechuun haagaafatuu)  (choice=Refuse to answer)"
-label variable consultation_referral_5___888 "411f. Was the 5th visit for any of the following? Include all that apply. ከሚከተሉት ውስጥ 5ኛው ጉብኝት ነበር? የሚመለከተውን ሁሉ ያካትቱ። Rifaralaa ogeessa kunuunsa daumsa duraa keessan irraa argachuuf turee? (Interviewer: Probe to get all possible answers as any other reason?)(Multiple options are possible)/(ጠያቂ፡ አውታጪ፤ ሌላስ በማለት ያገኙትን እንዲጠቅሱ፤ከአንድ በላይ ምላሽ ይቻላል) /(Af-gafataan, kan biraa jechuun haagaafatuu)  (choice=No Information)"
-label variable other_reasons_spec_3 "411f_Oth. Other reasons specify ሌሎች ምክንያቶች ይግለጹ Sababoota biroo, mee ibsaa"
-label variable bp_before_delivery_412a "412a. Between the time that you last spoke to us and before the delivery, did you get Your blood pressure measured (with a cuff around your arm)  ለመጨረሻ ጊዜ ካነጋገርኖት ጊዜ እና ከወሊድ በፊት የደም ግፊትዎ ተለክተዋል? (በክንድዎ ላይ መመርመሪ በማድረግ)  Erga yeroo  dhumaaf nutti dubbattee fi daumsa dura gidduutti, Dhiibbaan dhiigaa Kee safaramee (harka kee irratti cuff waliin)   "
-label variable weight_before_delivery_412b "412b. Between the time that you last spoke to us and before the delivery, did you get Your weight taken (using a scale)? ለመጨረሻ ጊዜ ካነጋገርኖት ጊዜ እና ከወሊድ በፊት ክብደትዎ ተወስዷል? (ሚዛን በመጠቀም) Erga Yeroo dhumaaf nu waliin dubbattee fi daumsa dura gidduutti, Ulfaatina Keessan Fudhatame (Miizaana Fayyadamaa)  "
-label variable blood_draw_before_de_v_3 "412c. Between the time that you last spoke to us and before the delivery, did you get a blood draw (that is, taking blood from your arm with a syringe ? ለመጨረሻ ጊዜ ካነጋገርኖት ጊዜ እና ከወሊድ በፊት የ ደም ናሙና ተወስዶሎታል (ይህም ከክንድዎ ደም በመርፌ መውሰድ) ? Erga Yeroo dhumaaf nu waliin dubbattee fi daumsa dura gidduutti Dhiiga waraabuu (Jechuunis, Siriinjiidhaan Dhiiga Harka Kee Irraa Fudhachuu) ?  "
-label variable blood_test_before_de_v_4 "412d. Between the time that you last spoke to us and before the delivery, did you get a blood test using a finger prick (that is, taking a drop of blood from your finger)?  ለመጨረሻ ጊዜ ካነጋገርኖት ጊዜ እና ከወሊድ በፊት ከጣትዎ ላይ በመርፌ በመውጋት  የደም ምርመራ ተደርጎሎታል (ይህም ከጣትዎ ላይ የደም ጠብታ መውሰድ ማለት ነው) ? Erga Yeroo dhumaaf nu waliin dubbattee fi daumsa dura gidduutti Qorannoo Dhiigaa Quba  Fayyadamuun (Jechuun Quba Keessan Irraa Dhiiga Copha Fudhachuu)  "
-label variable urine_test_before_de_v_5 "412e. Between the time that you last spoke to us and before the delivery, did you get a urine test (that is, where you peed in a container) ? ለመጨረሻ ጊዜ ካነጋገርኖት ጊዜ እና ከወሊድ በፊት የሽንት ምርመራ (ይህም በናሙና መያዣ ዕቅ ውስጥ ሽንት መስጠት)? Erga Yeroo dhumaaf nu waliin dubbattee fi daumsa dura gidduutti Qorannoo fincaanii (jechuunis, bakka qorannoof tuubii xiqqaa qabduu keessatti fincaaan/fincaaan) "
-label variable ultrasound_before_de_v_6 "412f. Between the time that you last spoke to us and before the delivery, did you get an ultrasound (that is, when a probe is moved on your belly to produce a video of the baby on a screen)? ለመጨረሻ ጊዜ ካነጋገርኖት ጊዜ እና ከወሊድ በፊት አልትራሳውንድ (ይህም ሕፃኑን በቪዲዮ ስክሪን ላይ መመርመሪውን በሆድዎ ላይ በማንቀሳቀስ ማየት) ምርመራ ተደርጎሎታል ? Erga Yeroo dhumaaf nu waliin dubbattee fi daumsa dura gidduutti Ultrasound (jechuunis yeroo probe garaa keessan irratti sochoosuun viidiyoo daaimaa iskiriinii irratti hojjetu)  "
-label variable other_test_before_de_v_7 "412g. Between the time that you last spoke to us and before the delivery, did you get any other test?  ለመጨረሻ ጊዜ ካነጋገርኖት ጊዜ እና ከወሊድ በፊት ሌላ ማንኛውም አይነት ምርመራ አገኝተዋል?  Erga Yeroo dhumaaf nu waliin dubbattee fi daumsa dura gidduutti Qorannoo biraa kamiiyuu argatanittu? "
-label variable m3_412g_other "412g_Oth . Specify other tests you got between the time that you last spoke to us and before the delivery   ለመጨረሻ ጊዜ ካነጋገርኖት ጊዜ እና ከወሊድ በፊትሌላ ማንኛውም ምርመራ ሌላ ካለ እባክዎ ይግለጹ Erga Yeroo Dhumaaf Nutti Dubbatte Fi Daumsa Dura Gidduutti qoranoo kanbiraa kamiyyuu yojiraate Ibsaa. "
-label variable deliver_health_facility_501 "501.Did you deliver in a health facility? የወለዱት በጤና ተቋም ነው? Dhaabbata fayyaa keessatti deessee? "
-label variable what_kind_of_facility_was_it "502. What kind of facility was it?  የወለዱበት ጤና ተቋም ምን ዓይነት ነው?  Dhaabbata akkamii ture? "
-label variable name_of_the_facility_deliver "503. What is the name of the facility where you delivered?   የወለዱበት ተቋም ስም ማን ይባላል?    Dhaabbanni itti deessan maqaan isaa maali jedhama? "
-label variable other_in_the_zone "503_96.	Other in the zone specify ሌላ በዞኑ ውስጥ ያለ ይግለጹ kan biroo godina keessa jiru ibsi  "
-label variable other_outside_of_the_zone_sp "503_97	Other outside of the zone specify ሌላ ከዞኑ ውጪ ያለ ይግለጹ kan biro kan godinaa ala jiru ibsi"
-label variable where_was_this_facility_locate "504a. Where region was this facility located?    ይህ የወለዱበት ተቋም የት ክልል ነው የሚገኘው?  Dhaabbanni kun eessatti argama?  "
-label variable subcity_this_facility_m3 "504b. Where was the city/sub-city/district this facility located?  ይህ የወለዱበት ተቋም የት ከተማ/ክፍለ-ከተማ/ወረዳ ነው የሚገኘው? Dhaabbanni kun eessatti argama? "
-label variable before_you_delivered_505a "505a. Before you delivered, did you go to a maternity waiting home to wait for labor? ከመውለዶ በፊት፣ ምጥ ለመጠባበቅ ወደ አቅራቢያዎ የሚገኝ መውለጃቸው እስኪደርሱ ነፍሰጡር እናቶች የሚቆዩበት የ እናቶች ማቆያ ሂደው ነበር? Osoo dauu kessaniin dura, mana egumsaa daumsa/bakka hadhooliin turanii) deemtanii turee?    "
-label variable how_long_did_you_stay_at_505b "505b. How long in days did you stay at the maternity waiting home for?መውለጃዎ ሊደርስ ሲል ለምን ያህል ነው ነፍሰጡር እናቶች የሚቆዩበት የእናቶች ማቆያ የቆዩ?Manaa egumsaa daumsa keessa guyyoota meqaaf turtanii?"
-label variable what_day_and_time_did_the_506 "506a. What day did the labor start - that is, when contractions started and did not stop, or when your water broke?  ምጥ የጀመረበት በየትኛው ቀን ላይ ነው - ማለትም ምጥ ሲጀመር እና ሳይቆም ወይም የእንሽርት/ሽል ውሃዎ ሲፈስ?  Cininsuun guyyaa kam si jalqabe? Kana jechuun koo yeroo itti ciniinsuun jalqabee hin dhaabanne yookaan yeroo itti bishaan sammuukee si dhangalae jechuu kooti.   "
-label variable what_day_and_time_did_the_507 "506b. What time did the labor start - that is, when contractions started and did not stop, or when your water broke?  ምጥ የጀመረው በስንት ሰዓት ላይ ነበር - ማለትም ምጥ ሲጀመር እና ሳይቆም ወይም የእንሽርት/ሽል ውሃዎ ሲፈስ?  Cininsuun saaatii meeqatti si jalqabe? Kana jechuun koo yeroo itti ciniinsuun jalqabee hin dhaabanne yookaan yeroo itti bishaan sammuukee si dhangalae jechuu kooti. "
-label variable m3_506b_98 "506b. If day and time not known enter (98) ቀን እና ሰዓት የማይታወቅ ከሆነ (98) ያስገቡ Yoo guyyaa fi saaatiin hin beekamne galchi (98) ."
-label variable time_you_leave_facility_507 "507. At what time did you leave for the facility? በስንት ሰአት ነው ወደ ተቋሙ የሄዱት? Saaatii meeqatti gara dhaabbatichaa deemtan? "
-label variable time_you_leave_facil_v_8 "507. If day and time not known enter (98) ቀን እና ሰዓት የማይታወቅ ከሆነ (98) ያስገቡ Yoo guyyaa fi saaatiin hin beekamne galchi (98) ."
-label variable at_any_point_during_labor_508 "508. At any point during labor or delivery did you try to go to a facility?  በምጥ ወይም በወሊድ ጊዜ ወደ ጤና ተቋም ለመሄድ ሞክረዋል? Yeroo kamiyyuu yeroo cininsuu ykn daumsaa gara dhaabbata tokkoo deemuuf yaaltaniittuu?  "
-label variable what_was_the_main_reason_509 "509. What was the main reason for giving birth at home instead of a health facility?   በቤት ውስጥ የወለዱበት ዋናው ምክንያትዎ/ሽ ምንድን ነው?  Dhaabbata fayyaa osoo hin taane mana keessatti dauuf sababni guddaan maal ture?  "
-label variable specify_other_reason_for_g "509_Oth. Specify other reasons for giving birth at home instead of a health facility   ከጤና ተቋም ይልቅ በቤት ውስጥ የመውለድ ሌላ ምክንያት ይግለጹ  Dhabbata fayyaa dhistee maliif mana kessatti desse?   "
-label variable did_you_go_to_another_510 "510. Did you go to another health facility before going to [name_of_the_facility_deliver]? ወደ ወለዱበት [name_of_the_facility_deliver] ከመሄድዎ በፊት ወደ ሌላ ጤና ተቋም ሄደው/ ነበር? [name_of_the_facility_deliver] isiin amma deessan deemuu kessan dura gara dhaabbata fayyaa biraa deemtanittuu?"
-label variable how_many_facilities_did_yo_511 "511. How many facilities did you go to before going the [name_of_the_facility_deliver] where you delivered]? ወደ የወለዱበት[name_of_the_facility_deliver] ከመሄድዎ በፊት ስንት ጤና ተቋም ሄዱ? [name_of_the_facility_deliver] bakka isheen deesse osoo hin deemin dura dhaabbilee meeqa dhaqxe?"
-label variable what_kind_of_facility_was_512 "512. What kind of facility was it?   ምን ዓይነት ተቋም ነበር?   Dhaabbata akkamii ture? "
-label variable other_outside_of_the_zo "512_97. Other outside of the zone, specify ሌላ ከዞን ውጪ ያለ ጥቀሱ kan biro kan godinaa ala jiru ibsi"
-label variable what_is_the_name_of_513a "513a. What is the name of the facility you went to first?  መጀመሪያ የሄድክበት ተቋም ስም ማን ይባላል? Dhaabbanni ati jalqaba deemte maqaan isaa maali??  "
-label variable ther_in_the_zone_specify "513a_96.  Other in the zone, specify ሌላ በዞኑ ውስጥ ያለ ጥቀሱ Sababoota biroo, mee ibsaa"
-label variable a_97_other_outside_of_the_zone "513a_97.  Other outside of the zone ሌላ ከዞኑ ውጪ ያለ ጥቀሱ kan biro kan godinaa ala jiru ibsi"
-label variable where_was_this_facility_513b "513b1. Where region was this facility located? (City and region) ይህ የጤና ተቋም የት ክልል ነው የሚገኘው? Dhaabbanni kun eessatti argama ?   "
-label variable facility_located_city_m3 "513b2. Where city/sub-city/district was this facility located?  ይህ የጤና ተቋም የት ከተማ/ ክፍለ-ከተማ/ወረዳ ነው የሚገኘው?/ Dhaabbanni kun eessatti argama?  "
-label variable what_time_did_you_arriv_514 "514. At what time did you arrive at [what_is_the_name_of_513a]?የመጀመሪያው ጤና ተቋም [what_is_the_name_of_513a] ለመድረስ ምን ያህል ሰዓት ፈጀቦትSaaati meeqatti [what_is_the_name_of_513a] geessan?"
-label variable what_time_did_you_ar_v_9 "514. If time of arrival not known enter (98) የደረሱበት ሰዓት የማይታወቅ ከሆነ (98) ያስገቡ Yoo guyyaa fi saaatiin hin beekamne galchi (98) ."
-label variable why_did_you_go_to_the_2nd_515 "515. Why did you go to [what_is_the_name_of_513a]after going to the [name_of_the_facility_deliver]ወደ [what_is_the_name_of_513a] ከሄድክ በኋላ ለምን ወደ ሁለተኛው [name_of_the_facility_deliver]ሄድክ?[what_is_the_name_of_513a] erga deemtee booda maaliif [name_of_the_facility_deliver]deemte?"
-label variable why_did_you_or_your_family_516 "516. Why did you or your family member decide to leave [what_is_the_name_of_513a] and come to the [name_of_the_facility_deliver]እርስዎ ወይም የቤተሰብዎ አባል [what_is_the_name_of_513a] ትተው ወደ [name_of_the_facility_deliver] ለመምጣት የወሰኑት ለምንድነው?Ati ykn miseensi maatii kee [what_is_the_name_of_513a] dhiistee gara [name_of_the_facility_deliver] dhufuuf maaliif murteessitan?Select only one main reason"
-label variable specify_other_reason_to_go "516_Oth. Specify other reason to go to [name_of_the_facility_deliver]ወደ 2 ኛ ተቋም ለመሄድ ሌላ ምክንያት ይግለጹSababa biraa gara dhabbata lammmaffaa demuu kessanif yo jiratee ibsii"
-label variable did_the_provider_inform_yo_517 "517. Did the provider inform you why they referred you?  ጤና ባለሙያወ/ዋ ለምን ወደዚህ እንደላኮተ (ሪፈር እንዳልዎት) አሳውቆዎታል? Ogeessi fayyaa maaliif akka si erge si beeksisee? "
-label variable why_did_the_provider_refer_518 "518. Why did the provider refer you to [name_of_the_facility_deliver]ጤና ባለሙያው/ዋ ለምንድነው ወደ [የወለደችበት ተቋም] ሪፈር ያልዎት (የላኮት)Ogeessi fayyaa maaliif gara [bakka isheen deessetti] si ergite?"
-label variable other_delivery_complications "518_96. Other delivery complications, specify               ሌላ ከወሊድ  ጋር የተያያዘ ችግር ጥቀሱ              rakkoo daumsa waliin wal qabate kan biro ibsi"
-label variable other_reasons_specify "518_97. Other reasons, specify                ሌላ ምክንያት ካለ ጥቀሱ               kan biroo ibsi"
-label variable what_was_the_main_reason_519 "519. What was the main reason you decided that you wanted to deliver at [name_of_the_facility_deliver]?  [name_of_the_facility_deliver] ወደ እዚህ ተቋም ተልከው ለመውለድ የወሰኑበት ዋና ምክንያትዎ ምንድን ነበር?  Sababni guddaan [name_of_the_facility_deliver]dauu akka barbaaddu murteessiteef maali ture?"
-label variable specify_m "519_Oth. Other, specify ሌላ ይግለጹ kan biroo ibsi"
-label variable at_what_time_did_you_arriv_520 "520. At what time did you arrive at [name_of_the_facility_deliver] በስንት ሰዓት የወለዱበት ጤና ተቋሙ ደረሱ? Bakka isheen itti deesse] gauuf yeroo meeqa isinitii fudhatee?"
-label variable m3_520_98 "520. If day and time not known enter (98) ቀን እና ሰዓት የማይታወቅ ከሆነ (98) ያስገቡ Yoo guyyaa fi saaatiin hin beekamne galchi (98) ."
-label variable once_you_got_to_facility_521 "521. Once you got to [name_of_the_facility_deliver], how long in minutes did you wait until a healthcare worker checked on you?[name_of_the_facility_deliver] ከደረሱ በኋላ በጤና ባለሙያ እስኪያዩ ድረስ ምን ያህል ጊዜ (በደቂቃዎች) ቆዩ?[name_of_the_facility_deliver] erga geessee booda hanga ogeessa fayyaatiin si argitutti yeroo hammamii (Daqiiqaan) eegde?"
-label variable m3_521_98 "521. If day and time not known enter (98) ቀን እና ሰዓት የማይታወቅ ከሆነ (98) ያስገቡ Yoo guyyaa fi saaatiin hin beekamne galchi (98) ."
-label variable m3_attempt_date "CALL TRACKING: What is the date of this attempt? (D-M-Y)  የዚህ ሙከራ ቀን?  Guyyaan yaalii kun maali?"
-label variable m3_attempt_outcome "C1. CALL TRACKING: What was the outcome of the call? የጥሪው ውጤት ምን ነበር? Buaan waamicha kanaa maal ture?"
-label variable date_of_rescheduled_m3_p1 "Date  of rescheduled"
-label variable time_of_rescheduled_m3_p1 "Time of rescheduled"
-label variable module_3_first_phone_v_10 "Complete?"
-label variable iic_4 "IIC. May I proceed with the interview?   ቃለ-መጠይቁን ለመሳተፍ ፍቃደኛ ነዎት?   Af-gaffii kana itti fufu?"
-label variable cr1_permission_granted_4 "CR1. Permission granted to conduct call ?  በስልክ ለመነጋገር ፍቃደኛ ነዎት?    Hayyamni iti fufudhaf kenamee?"
-label variable date_of_interview_m3_2 "102. Date of interview (D-M-Y)   የቃለ መጠይቁ ቀን   Guyyaa af-gaaffii"
-label variable time_of_interview_started_m3_2 "103A. Time of interview started   የቃለ መጠይቁ የተመጀመረበት ሰዓት   Saatii af-gaaffiin itti eegalamu"
-label variable baby1status "201a. I would like to start by asking some questions about [what_is_the_1st_baby_name]s health since we last spoke. So that I know that I am asking the right questions, could you please confirm if [what_is_the_1st_baby_name] is still alive, or did something else happen?  ስለ [what_is_the_1st_baby_name] ጤና ለመጨረሻ ጊዜ ካነጋገርኮት በኋላ ስላለበት ጤና ሁኔታ ለማወቅ አንዳንድ ጥያቄዎች በመጠየቅ እጀምራለው፡፡ስለዚህ ትክክለኛ ጥያቄ እየጠየኮት መሆኑን ለማረጋገጥ [what_is_the_1st_baby_name]በሕይወት ስላለ መሆኑ ወይም ሌላ ነገር ተከስቶ እንደሆነ ያረጋግጡልኛል?  Ammamo waaee fayyaa [what_is_the_1st_baby_name]gaaffi tokko tokko isin gaafachudhan jalqabun barbaada. Gaaffi sirri gaafachaa akkan jiru beekuf [what_is_the_1st_baby_name]lubbuun akka jiru mirkaneefachun barbaada. [what_is_the_1st_baby_name] lubbuun jiramoo? Waanti daaimakee mudate jira?"
-label variable baby2status "201b.I would like to start by asking some questions about [what_is_the_2nd_baby_name]s health since we last spoke. So that I know that I am asking the right questions, could you please confirm if [what_is_the_2nd_baby_name] is still alive, or did something else happen? ስለ [what_is_the_2nd_baby_name]ጤና ለመጨረሻ ጊዜ ካነጋገርኮት በኋላ ስላለበት የጤና ሁኔታ ለማወቅ አንዳንድ ጥያቄዎች በመጠየቅ እጀምራለው፡፡ስለዚህ ትክክለኛ ጥያቄ እየጠየኮት መሆኑን ለማረጋገጥ [what_is_the_2nd_baby_name] በሕይወት ስላለ መሆኑ ወይም ሌላ ነገር ተከስቶ እንደሆነ ያረጋግጡልኛል? Ammamo waaee fayyaa [maqaa daaima lammaffaa(2ffaa)] gaaffi tokko tokko isin gaafachudhan jalqabun barbaada. Gaaffi sirri gaafachaa akkan jiru beekuf [what_is_the_2nd_baby_name]lubbuun akka jiru mirkaneefachun barbaada. [what_is_the_2nd_baby_name]lubbuun jiramoo? Waanti daaimakee mudate jira?"
-label variable baby3status "201c.I would like to start by asking some questions about [what_is_the_3rd_baby_name]s health since we last spoke. So that I know that I am asking the right questions, could you please confirm if [what_is_the_3rd_baby_name] is still alive, or did something else happen? ስለ [what_is_the_3rd_baby_name] ጤና ለመጨረሻ ጊዜ ካነጋገርኮት በኋላ ስላለበት የጤና ሁኔታ ለማወቅ አንዳንድ ጥያቄዎች በመጠየቅ እጀምራለው፡፡ስለዚህ ትክክለኛ ጥያቄ እየጠየኮት መሆኑን ለማረጋገጥ [what_is_the_3rd_baby_name] በሕይወት ስላለ መሆኑ ወይም ሌላ ነገር ተከስቶ እንደሆነ ያረጋግጡልኛል? Ammamo waaee fayyaa [what_is_the_3rd_baby_name]gaaffi tokko tokko isin gaafachudhan jalqabun barbaada. Gaaffi sirri gaafachaa akkan jiru beekuf [what_is_the_3rd_baby_name]lubbuun akka jiru mirkaneefachun barbaada. [what_is_the_3rd_baby_name]lubbuun jiramoo? Waanti daaimakee mudate jira?"
-label variable once_you_were_first__v_11 "601a. Once you were first checked by a health care provider at [name_of_the_facility_deliver], did they ask about your health status? አንዴ [name_of_the_facility_deliver] ጤና ባለሙያው የጤናዎን ሁኔታ ሲያይዎት ፣የጤና ባለሙያው ያሉበትን የጤና ሁኔታ ጠይቆታል? Erga jalqaba ogeessa fayyaatiin [name_of_the_facility_deliver] erga ilaalamtee booda, ogeessi fayyaa Waaee haala fayyaa keessani gaafatera?"
-label variable once_you_were_first_chec_601b "601b. Once you were first checked by a health care provider at [name_of_the_facility_deliver] , did the health care provider take your blood pressure (with a cuff around your arm)? አንዴ [name_of_the_facility_deliver] ጤና ባለሙያው የጤናዎን ሁኔታ ሲያይዎት ፣የጤና ባለሙያው የደም ግፊትዎን ለክቶሎታል (በክንድዎ ላይ በመሳሪያ)? Erga jalqaba ogeessa fayyaatiin [name_of_the_facility_deliver] erga ilaalamtee booda, ogeessi fayyaa Dhiibbaa dhiigaa kee lakkaeraa (cuff naannoo harka keetii)?"
-label variable once_you_were_first_chec_601c "601c. Once you were first checked by a health care provider at [name_of_the_facility_deliver] , did the health care provider Explain what will happen during labor? አንዴ [name_of_the_facility_deliver] ጤና ባለሙያው የጤናዎን ሁኔታ ሲያይዎት ፣የጤና ባለሙያው በምጥ ጊዜ ምን እንደሚከሰት አብራረቶልዎታል ? Erga jalqaba ogeessa fayyaatiin [name_of_the_facility_deliver] ilaalamtanii booda, ogeessi fayyaa Yeroo daumsaa maaltu akka tau isiinif ibseeraa?"
-label variable did_the_health_care_prov_602a "602a. Did the health care provider, look at your integrated maternal child health card?    የጤና ባለሙያው/ዋ የእርስዎን እና የህጻኑን የተቀኛጀ የጤና ካርድ] ተመልክቷል?    Oggessi fayyaa, kaardii fayyaa haadholii keessan ilaalee?  "
-label variable did_the_health_care_prov_602b "602b. Did the health care provider have information about your antenatal care (e.g. your tests results) from health facility records?    የጤና ባለሙያው/ዋ ስለእርስዎ የቅድመ ወሊድ ክትትል (ለምሳሌ የምርመራ ውጤትዎትን) ከጤና ተቋም መዛግብት መረጃ ነበረው?   Ogeessi tajaajila fayyaa waaee kunuunsa daumsa duraa keetii (fkn buaa qorannoo keetii) galmee dhaabbata fayyaa irraa odeeffannoo qabaa?  "
-label variable a_during_your_time_in_the_603a "603a. During your time in the health facility while in labor or giving birth Were you told you could walk around and move during labour?   በጤና ተቋም ውስጥ በምጥ ላይ ወይም እየወለዱ በነበሩበት ጊዜ በምጥ ጊዜ መዟዟር እና መንቀሳቀስ እንደሚችሉ ተነግሮቷል?  Dhaabbata fayyaa keessatti Yeroo daumsa keessa jirtu ykn daaa jirtutti Mana daumsaa ykn ciniinsuu   keessa naannauu fi sochouu akka dandeessu sitti himamee turee? "
-label variable b_during_your_time_in_the_603b "603b. During your time in the health facility while in labor or giving birth Were you allowed to have a birth companion present? For example, this includes your husband, a friend, sister, mother-in-law etc.?  በጤና ተቋም ውስጥ በምጥ ላይ ወይም እየወለዱ በነበሩበት ጊዜ የሚያጅቦት ሰው አብሮት እንዲሆን ተፈቅዶሎታል? ለምሳሌ ባሎት፤ጓደኛ፤እህት፤አማት የመሳሰሉት ሊሆኑ ይችላል  Dhaabbata fayyaa keessatti Yeroo daumsa keessa jirtu ykn daaa jirtutti Maattin kee akka sii wajjin turan siif hayyamameeraa? Fakkeenyaaf, kun abbaa manaa kee, hiriyaa kee, obboleettii kee, fi kkf dabalata  "
-label variable c_during_your_time_in_the_603c "603c. During your time in the health facility while in labor or giving birth Did you have a needle inserted in your arm with a drip?    በጤና ተቋም ውስጥ በምጥ ላይ ወይም እየወለዱ በነበሩበት ጊዜ የሚንጠባጠብ ፈሳሽ ያለው መርፌ በክንዶ ተሰጥቶት ነበር?  Dhaabbata fayyaa keessatti Yeroo daumsa keessa jirtu ykn daaa jirtutti Guluukoosii ykn Dhangalaaa Hidda dhiigaa harka keessan keessa galfamee turee? "
-label variable drink_fluid_m3 "603d. During your time in the health facility while in labor or giving birth Did the health care provider encourage you to drink fluid?   በጤና ተቋም ውስጥ በምጥ ላይ ወይም እየወለዱ በነበሩበት ጊዜ  የጤና ባለሙያው በቂ ፈሳሽ እንዲወስዱ አበረታትዎታል?  Dhaabbata fayyaa keessatti Yeroo daumsa keessa jirtu ykn daaa jirtutti Ogeessi fayyaa dhangalaaa akka fudhattuu sii jajjabeessee turee? "
-label variable a_while_you_were_in_labor_604a "604a. While you were in labor and giving birth, what were you sitting  or lying on?  በምጥ ላይ ወይም እየወለዱ በነበሩበት ጊዜ በምን ላይ ነው ተቀምጠው ወይም ተኝተው የነበረው?  Osoo ciniinsuu ykn daumsaa keessa jirtuu maal irra teessee ykn ciiftee turte? "
-label variable while_you_were_giving_bi_604b "604b. While you were giving birth, were curtains, partitions or other measures used to provide privacy from other people not involved in your care?   በሚወልዱበት ጊዜ በመጋረጃዎች ፣በመላያ በተከፈለ ወይም ሌሎች ዘዴዎችን በመጠቀም ግላዊነት ለማስጠበቅ ከእይታና ከድምጽ የተከለለ ቦታ ነበር?  Yeroo deessu, golgaan, qoqqoodinsa ykn tarkaanfiiwwan biroo namoota biroo irraa iccitii kennuudhaaf itti fayyadaman kunuunsa keessan keessatti hin hirmaanne?  "
-label variable did_you_have_a_caesarean_605a "605a. Did you have a caesarean? (That means, did they cut your belly open to take the baby out?)  የወለዱት በቀዶ-ጥገና ነበር? (ይህ ማለት ህፃኑን ለማውጣት ሆድዎን ቀደዎት ነበር ማለት ነው?)  Baqaqsanii yaalu gootaniittuu? (Kana jechuun, daaima baasuuf garaa kee muranii bananii?) "
-label variable when_was_the_decision_ma_605b "605b. When was the decision made to have the caesarean section? Was it before or after your labor pains started?  ቀዶ-ጥገና  እንዲደረግሎት የተወሰነው መቼ ነው? የምጥዎ ህመም ከመጀመሩ በፊት ወይስ በኋላ ነበር?  Murtoon baqaqsanii yaalu da.uu Akka Taasifamuuf  Yoom murteeffamee? Ciniinsuu Keessan Jalqabuu Dura Moo Booda?  "
-label variable m3_605c___1 "605c. What was the reason for having a caesarean?በቀዶ-ጥገና የወለዱበት ምክንያት ምን ነበር?Sababni baqaqsanii yaalu dauun kee maal ture?Data collector: Multiple options are possible. Probe as any thing else (choice=I was not told/አልተነገረኝም።/ natti hin himamne)"
-label variable m3_605c___2 "605c. What was the reason for having a caesarean?በቀዶ-ጥገና የወለዱበት ምክንያት ምን ነበር?Sababni baqaqsanii yaalu dauun kee maal ture?Data collector: Multiple options are possible. Probe as any thing else (choice=It was previously planned for medical reasons/ቀደም ሲል በህክምና ምክንያቶች የታቀደ ነበር/ Kanaan dura sababa fayyaatiin karoorfamee ture)"
-label variable m3_605c___3 "605c. What was the reason for having a caesarean?በቀዶ-ጥገና የወለዱበት ምክንያት ምን ነበር?Sababni baqaqsanii yaalu dauun kee maal ture?Data collector: Multiple options are possible. Probe as any thing else (choice=I asked for a c-section/ቀዶ-ጥገናለመውለድ ስለጠየቅሁ/ Baqaqsanii yaalu akka deessuu gaffatamterra)"
-label variable m3_605c___4 "605c. What was the reason for having a caesarean?በቀዶ-ጥገና የወለዱበት ምክንያት ምን ነበር?Sababni baqaqsanii yaalu dauun kee maal ture?Data collector: Multiple options are possible. Probe as any thing else (choice=Problems arose during labor/በምጥ ላይ ሳሉ ችግሮች ስለተፈጠሩ/ Yeroo daumsaa rakkoon uumame)"
-label variable m3_605c___96 "605c. What was the reason for having a caesarean?በቀዶ-ጥገና የወለዱበት ምክንያት ምን ነበር?Sababni baqaqsanii yaalu dauun kee maal ture?Data collector: Multiple options are possible. Probe as any thing else (choice=Other, specify/ሌላ፣ይግለጹ/ Kan biroo, ibsi)"
-label variable m3_605c___99 "605c. What was the reason for having a caesarean?በቀዶ-ጥገና የወለዱበት ምክንያት ምን ነበር?Sababni baqaqsanii yaalu dauun kee maal ture?Data collector: Multiple options are possible. Probe as any thing else (choice=RF/NR/ታቅቦ/መልስ የለም/ Debii hin kenine)"
-label variable m3_605c___998 "605c. What was the reason for having a caesarean?በቀዶ-ጥገና የወለዱበት ምክንያት ምን ነበር?Sababni baqaqsanii yaalu dauun kee maal ture?Data collector: Multiple options are possible. Probe as any thing else (choice=Unknown)"
-label variable m3_605c___999 "605c. What was the reason for having a caesarean?በቀዶ-ጥገና የወለዱበት ምክንያት ምን ነበር?Sababni baqaqsanii yaalu dauun kee maal ture?Data collector: Multiple options are possible. Probe as any thing else (choice=Refuse to answer)"
-label variable m3_605c___888 "605c. What was the reason for having a caesarean?በቀዶ-ጥገና የወለዱበት ምክንያት ምን ነበር?Sababni baqaqsanii yaalu dauun kee maal ture?Data collector: Multiple options are possible. Probe as any thing else (choice=No Information)"
-label variable specify_other_reason_for_h "605c_Oth. Specify other reason for having a caesarean    በቀዶ-ጥገና የወለዱበት ሌላ ተጨማሪ ምክንያት ካለ ይግለጹ?  Sababa kan biro baqaqsanii yaaluun godhameef ibsi? "
-label variable did_the_provider_perform_606 "606. Did the provider perform a cut near your vagina to help the baby come out?    የጤና ባለሙያው/ዋ ህፃኑ እንዲወጣ ለመርዳት በማህጸኖ/ብልትዎጫፍ አካባቢ ቆርጦት ነበር?   Oggessi fayyaa daa;imni akka bahu gargaaruuf naannoo qaama saalaa keetii baqaqsuun raawwatameeraa?  "
-label variable did_you_receive_stiches_607 "607. Did you receive stiches near your vagina after the delivery?  ከወለዱ/ከወለዱሽ በኋላ ማህጸኖ/ብልትዎ አካባቢ ስቲችስ ተደርጎሎታል?  Erga daumsa booda naannoo qaama saalaa keessaniitti hodhuun yaalun raawwatameeraa?  "
-label variable eth_1_6_did_the_health_car "Eth-1-6. Did the health care provider frequently assess fetal heart beat?  የጤና ባለሙያው/ዋ ከ30 እሰከ 60 ደቂቃ ባለበት ጊዜ በተደጋጋሚ የጽንሱን የልብ ምት ይከታተል ነበር?   Ogeessi fayyaa yeroo baayyeedhaannaa onnee daaimaa madaaleeraa?  "
-label variable eth_2_6_did_the_health_car "Eth-2-6. Did the health care provider assess abdominal contraction by that I mean the HCP puts hands on your abdomen to monitor your labor frequently   የጤና ባለሙያው በየ30 ወይም በየ 60 ደቂቃ ውስጥ የጽንሱን እንቅስቃሴ ሆድሽን በእጁ ጫን እያደርገ ያይሸ /ይከታተልሽ ነበር?  Ogeessi fayyaa Ciiminaa ciniinsuu keessaan dedebiee madaaleeraa jechuun koo cimina cinninsuu kee yeroo baayee hordofuuf garaa kee irratti harka kaaa jechuu kooti?  "
-label variable eth_3_6_did_the_health_car "Eth-3-6. Did the health care provider frequently make vaginal examination by putting fingers inside your vagina?  የጤና ባለሙያው/ዋ በተደጋጋሚ በየአራት ሰዓታት ጊዜ ብልቶን ጣቱን/ቷን በመጨመር መርምሮዎት ነበር?  Ogessi fayyan dedebie quba isaatin qaama saalaa keessan keessa kaauun qorannoo qaama saalaa godheeraa?  "
-label variable eth_4_6_did_the_health_car "Eth-4-6. Did the health care provider frequently assess BP?  የጤና ባለሙያው/ዋ በተደጋጋሚ በየአራት ሰዓታት ጊዜ የደም ግፊቶን ለክቶታልን?   ogessii fayyaa dedebiee dhibba dhiigaa keessan madaalee turee?  "
-label variable eth_5_6_did_the_health_car "Eth-5-6. Did the health care provider check your temperature frequently?   የጤና ባለሙያው/ዋ በተደጋጋሚ በየአራት ሰዓታት ጊዜ የሰውነት ሙቀት መጠንን ለክቶታልን?  Ogessi fayyaa hoina qaamaa kessan dedebiee ilaalee turee? "
-label variable immediately_after_delivery_608 "608. Immediately after delivery:   Did a health care provider give you an injection or pill to stop the bleeding?   ከወሊድ በኋላ ወዲያውኑ: - የጤና ባለሙያው የደም መፍሰስን ለማስቆም መርፌ ወይም ክኒን ሰጥቶዎታል?  Erga daumsa booda battaluma sanatti: Dhiigni akka dhaabbatu ogeessi fayyaa qoricha lilmoo ykn kiniinii siif kennee?   "
-label variable immediately_after_delivery_609 "609. Immediately after delivery, did a health care provider dry the baby/babies with a towel?  ወዲያው እንደወለዱ የጤና ባለሙያው ወዲያው ህፃኑን /ህፃናቱን በፎጣ ጠቅልሎታል(አድርቆልዎታል)?   Ogeessi fayyaa daaima/daaimman uffataan gogsee turee? "
-label variable was_were_the_baby_babies_610a "610a. Immediately after delivery, was/were the baby/babies put on your chest?   ወዲያው እንደወለዱ ሕፃኑ / ሕፃናቱ በደረትዎ ላይ አስቀምቶት ነበር?  Daaimman/wwan garaa kee irra kaaamee turee?  "
-label variable was_were_the_baby_s_babi_610b "610b. Immediately after delivery, was/were the babys/babies bare skin touching your bare skin?  ወዲያው እንደወለዱ  የሕፃኑ/ የሕፃናቱ ባዶ ገላ ከእርሶ ባዶ ገላ ጋር ቆዳ ለቆዳ እንዲገናኝ ተደርጓል?  Gogaan qullaa daaimaa/daaimman gogaa qullaa kee tuqaa turee?"
-label variable did_a_health_care_provider_611 "611. Immediately after delivery, did a health care provider help you with breastfeeding the baby/babies?  ወዲያው እንደወለዱ ህፃኑን/ ህፃናቱን ጡት ለማጥባት የጤና ባለሙያው ረድቶዎታል?  Ogeessi fayyaa daaima/daaimman harma hoosisuu irratti si gargaareeraa?  "
-label variable have_you_done_breask_feed_612 "612. How long in minutes after the baby/babies was born did you first breastfeed he/she/them? ህፃኑ / ኗ ከተወለደ/ች ከምን ያህል ደቂቃ በኋላ ነበር ለመጀመሪያ ጊዜ ጡት ማጥባት የጀመሩት? Daaimni erga dhalatee daqiiqaa meeqa booda yeroo jalqabaaf harma hoosifte?  Data Collector: If the hour and /or minute is unknow enter 98 here Yeroon/daqiiqan yoo hin beekamne : 98 hin beeku galchi (Interviewer: If she doesnt know or refuse, write 98 or 99 in the space)"
-label variable m3_613 "613. I  would like to talk to you about checks on your health after the delivery, for example, someone asking you questions about your health or examining you.  Did anyone check on your health while you were still in the facility?  ከወሊድ በኋላ ስለጤናዎ ሁኔታ ስለተመረመሩንት ለምሳሌ አንድ ሰው ስለጤናዎ ስለጠየቅዎት ወይም ስለመረመሮዎት ላነጋግርዎ እፈልጋለሁ። በጤና ተቋሙ ውስጥ እያሉ ጤንነትዎን የመረመርዎ/ያየዎት የጤና ባለሙያ ነበር?  Waaee daumsa booda fayyaa kee irratti sakattaiinsa, fakkeenyaaf, namni waaee fayyaa kee gaaffii si gaafatu ykn si qoratu sitti haasauu barbaada. Osoo ati dhaabbaticha keessa jirtuu fayyaa kee Oggessi ilaale jiraa?    "
-label variable how_long_after_delivery_di_614 "614. How long in hours after delivery did the first check take place?ከወለዱ ለመጀመሪያ ጊዜ ከስንት ሰዓት በኃላ ነው ምርመራ የተደረገሎት/የተደረገልሽ?Erga deesse, saaatii meeqa booda qorannon jalqabaa sif godhame ?NOTE TO DATA COLLECTORS: DO NOT RECORD MINUTES. IF LESS THAN 1 HOUR, WRITE: 0 IF FIRST CHECK TOOK PLACE 1 DAY AFTER DELIVERY, WRITE: 24 IF FIRST CHECK TOOK PLACE 2 DAYS AFTER DELIVERY, WRITE: 48 IF FIRST CHECK TOOK PLACE 3 DAYS OR MORE AFTER DELIVERY, WRITE: 72 IF THE WOMAN DOESNT NOT KNOW OR REFUSES, WRITE 998 OR 999 "
-label variable did_anyone_check_on_baby_1 "615a. Now I would like to talk about checks on the baby [what_is_the_1st_baby_name] s health after the delivery - for example, someone examining the baby [what_is_the_1st_baby_name], checking the cord, or seeing if the baby [what_is_the_1st_baby_name]is OK. Did anyone check on the baby [what_is_the_1st_baby_name] s health while you were still in the facility? አሁን ስለ [what_is_the_1st_baby_name] የጤና ምረመራ ሁኔታ ማውራት እፈልጋለሁ - ለምሳሌ አንድ ሰው [what_is_the_1st_baby_name] ን እንደመረመረ፣ እትብቱን እየፈተሸ ወይም [what_is_the_1st_baby_name] ደህና መሆኑን ። በጤና ተቋሙ ውስጥ በነበሩበት ጊዜ የ1ኛውን ልጅ [what_is_the_1st_baby_name]ጤና የመረመረ ባለሙያ ነበር/? Amma waaee daumsa booda fayyaa [what_is_the_1st_baby_name] sakattauu dubbachuu barbaada - fakkeenyaaf, namni tokko [what_is_the_1st_baby_name]qorachuu, funyoo handhuurra sakattauun, ykn [what_is_the_1st_baby_name] handhuurii daiimichaa rakkoo akka hin qabne ilaalannirruu Osoo ati ammallee dhaabbaticha keessa jirtuu oggessii fayyaa Daaimaa 1ffaa ilaale jiraa?"
-label variable did_anyone_check_on_baby_2 "615b. Now I would like to talk about checks on the baby [what_is_the_2nd_baby_name] s health after the delivery - for example, someone examining the baby [what_is_the_2nd_baby_name] , checking the cord, or seeing if the baby [what_is_the_2nd_baby_name] is OK. Did anyone check on the baby [what_is_the_2nd_baby_name] s health while you were still in the facility? አሁን ስለ [what_is_the_2nd_baby_name] የጤና ምረመራ ሁኔታ ማውራት እፈልጋለሁ - ለምሳሌ አንድ ሰው [what_is_the_2nd_baby_name]ን እንደመረመረ፣ እትብቱን እየፈተሸ ወይም [what_is_the_2nd_baby_name] ደህና መሆኑን ።በጤና ተቋሙ ውስጥ በነበሩበት ጊዜ የ2ኛውን ልጅ [what_is_the_2nd_baby_name] ጤና የመረመረ ባለሙያ ነበር/? Amma waaee daumsa booda fayyaa [what_is_the_2nd_baby_name] sakattauu dubbachuu barbaada - fakkeenyaaf, namni tokko [what_is_the_2nd_baby_name] qorachuu, funyoo handhuurra sakattauun, ykn [what_is_the_2nd_baby_name] handhuurii daiimichaa rakkoo akka hin qabne ilaalannirruu Osoo ati ammallee dhaabbaticha keessa jirtuu oggessii fayyaa Daaimaa 2ffaa ilaale jiraa?"
-label variable did_anyone_check_on_baby_3 "615c. Now I would like to talk about checks on the baby [what_is_the_3rd_baby_name] s health after the delivery - for example, someone examining the baby [what_is_the_3rd_baby_name] , checking the cord, or seeing if the baby [what_is_the_3rd_baby_name] is OK. Did anyone check on the baby [what_is_the_3rd_baby_name] health while you were still in the facility? አሁን ስለ [what_is_the_3rd_baby_name] የጤና ምረመራ ሁኔታ ማውራት እፈልጋለሁ - ለምሳሌ አንድ ሰው [what_is_the_3rd_baby_name]ን እንደመረመረ፣ እትብቱን እየፈተሸ ወይም [what_is_the_3rd_baby_name] ደህና መሆኑን ።በጤና ተቋሙ ውስጥ በነበሩበት ጊዜ የ3ኛውን ልጅ [what_is_the_3rd_baby_name] ጤና የመረመረ ባለሙያ ነበር/? Amma waaee daumsa booda fayyaa [what_is_the_3rd_baby_name] sakattauu dubbachuu barbaada - fakkeenyaaf, namni tokko [what_is_the_3rd_baby_name] qorachuu, funyoo handhuurra sakattauun, ykn [what_is_the_3rd_baby_name]handhuurii daiimichaa rakkoo akka hin qabne ilaalannirruu Osoo ati ammallee dhaabbaticha keessa jirtuu oggessii fayyaa Daaimaa 3ffaa ilaale jiraa?"
-label variable how_long_after_delivery_baby_1 "616a. How long in hours after delivery was [what_is_the_1st_baby_name] health first checked? የ1ኛውን ልጅ [what_is_the_1st_baby_name] ከወለዱ ለመጀመሪያ ግዜ ከስንት ሰዓት በኃላ ነው ምርመራ የተደረገለት? Erga daumsaa booda yeroo yoomiitti Daaimaa [what_is_the_1st_baby_name] fayyaan qoratame? Erga daumsaa booda yeroo yoomiitti Daaimaa [what_is_the_2nd_baby_name]fayyaan qoratame? NOTE TO DATA COLLECTORS:DO NOT RECORD MINUTES. IF LESS THAN 1 HOUR, WRITE: 0IF FIRST CHECK TOOK PLACE 1 DAY AFTER DELIVERY, WRITE: 24 IF FIRST CHECK TOOK PLACE 2 DAYS AFTER DELIVERY, WRITE: 48IF FIRST CHECK TOOK PLACE 3 DAYS OR MORE AFTER DELIVERY, WRITE: 72IF THE WOMAN DOESNT NOT KNOW OR REFUSES, WRITE 998 OR 999< "
-label variable how_long_after_delivery_baby_2 "616b. How long in hours after delivery was [what_is_the_2nd_baby_name] health first checked? የ2ኛውን ልጅ [what_is_the_2nd_baby_name] ከወለዱ ለመጀመሪያ ግዜ ከስንት ሰዓት በኃላ ነው ምርመራ የተደረገለት? Erga daumsaa booda yeroo yoomiitti Daaimaa [what_is_the_2nd_baby_name]fayyaan qoratame? NOTE TO DATA COLLECTORS:DO NOT RECORD MINUTES. IF LESS THAN 1 HOUR, WRITE: 0IF FIRST CHECK TOOK PLACE 1 DAY AFTER DELIVERY, WRITE: 24 IF FIRST CHECK TOOK PLACE 2 DAYS AFTER DELIVERY, WRITE: 48IF FIRST CHECK TOOK PLACE 3 DAYS OR MORE AFTER DELIVERY, WRITE: 72IF THE WOMAN DOESNT NOT KNOW OR REFUSES, WRITE 998 OR 999"
-label variable how_long_after_delivery_baby_3 "616c. How long in hour after delivery was [what_is_the_3rd_baby_name] health first checked? የ3ኛውን ልጅ [what_is_the_3rd_baby_name] ከወለዱ ለመጀመሪያ ጊዜ ከስንት ሰዓት በኃላ ነው ምርመራ የተደረገለት? Daaima [what_is_the_3rd_baby_name] maqaa daaima 3ffaa erga deessee saaatii meeqa booda qorannon jalqaba godhame?Erga daumsaa booda yeroo yoomiitti Daaimaa [what_is_the_2nd_baby_name]fayyaan qoratame? NOTE TO DATA COLLECTORS:DO NOT RECORD MINUTES. IF LESS THAN 1 HOUR, WRITE: 0IF FIRST CHECK TOOK PLACE 1 DAY AFTER DELIVERY, WRITE: 24 IF FIRST CHECK TOOK PLACE 2 DAYS AFTER DELIVERY, WRITE: 48IF FIRST CHECK TOOK PLACE 3 DAYS OR MORE AFTER DELIVERY, WRITE: 72IF THE WOMAN DOESNT NOT KNOW OR REFUSES, WRITE 998 OR 999"
-label variable receive_a_vaccine_baby_1 "617a. Did [what_is_the_1st_baby_name] receive a vaccine for BCG while you were still in the facility? That is an injection in the arm that can sometimes cause a scar በጤና ተቋሙ ውስጥ እያሉ የ1ኛው ልጅ [what_is_the_1st_baby_name] ለልጅዎ የሳንባ ነቀርሳ ክትባት (ቢሲጂ) ክትባት ወስዷል? ይህ መርፌ አንዳንድ ጊዜ ክንድ ላይ ጠባሳ ሊያስከትል የሚችል ነው፡፡ Osoo ati dhaabbaticha keessa jirtuu Daaimaa [what_is_the_1st_baby_name]talaalli daranyoo sombaa (bii sii jii) fudhatee? Kana jechuun talaalli lilmoodhan harka gubbatti kennamu tae yeroo tokko tokko kan godaannisaa fidudha."
-label variable receive_a_vaccine_baby_2 "617b. Did[what_is_the_2nd_baby_name] receive a vaccine for BCG while you were still in the facility? That is an injection in the arm that can sometimes cause a scar በጤና ተቋሙ ውስጥ እያሉ የ2ኛው ልጅ [what_is_the_2nd_baby_name] ለልጅዎ የሳንባ ነቀርሳ ክትባት (ቢሲጂ) ክትባት ወስዷል? ይህ መርፌ አንዳንድ ጊዜ ክንድ ላይ ጠባሳ ሊያስከትል የሚችል ነው፡፡ Osoo ati dhaabbaticha keessa jirtuu Daaimaa [what_is_the_1st_baby_name]talaalli daranyoo sombaa (bii sii jii) fudhatee? Kana jechuun talaalli lilmoodhan harka gubbatti kennamu tae yeroo tokko tokko kan godaannisaa fidudha."
-label variable receive_a_vaccine_baby_3 "617c. Did the 3rd baby [what_is_the_3rd_baby_name] receive a vaccine for BCG while you were still in the facility? That is an injection in the arm that can sometimes cause a scar. በጤና ተቋሙ ውስጥ እያሉ የ3ኛው ልጅ [what_is_the_3rd_baby_name] ለልጅዎ የሳንባ ነቀርሳ ክትባት (ቢሲጂ) ክትባት ወስዷል? ይህ መርፌ አንዳንድ ጊዜ ክንድ ላይ ጠባሳ ሊያስከትል የሚችል ነው፡፡ Osoo ati dhaabbaticha keessa jirtuu Daaimaa [what_is_the_1st_baby_name]talaalli daranyoo sombaa (bii sii jii) fudhatee? Kana jechuun talaalli lilmoodhan harka gubbatti kennamu tae yeroo tokko tokko kan godaannisaa fidudha."
-label variable eth_6_6_did_your_1st_baby "Eth-6-6a. Did [what_is_the_1st_baby_name] receive injection[vaccine] on thigh? That I mean is a vitamin K injection?ለህጻን [what_is_the_1st_baby_name] በታፋው ላይ ክትባት በመርፌ ተሰጥቶታል? Daaimni [what_is_the_1st_baby_name] talaalli lilmoodhan sarbaa irratti kennameerafi?(vitamin k)"
-label variable eth_6_6_did_your_2nd_baby "Eth-6-6b. Did [what_is_the_2nd_baby_name] receive injection[vaccine] on thigh? That I mean is a vitamin K injection?ለህጻን [what_is_the_2nd_baby_name] በታፋው ላይ ክትባት በመርፌ ተሰጥቶታል? Daaimni keessan lilimoodhan [what_is_the_2nd_baby_name] qoma irratti fudhatee jiraa"
-label variable eth_6_6_did_your_3rd_baby "Eth-6-6c. Did [what_is_the_3rd_baby_name]receive injection[vaccine] on thigh? That I mean is a vitamin K injection?  ለህጻን [what_is_the_3rd_baby_name]በታፋው ላይ ክትባት በመርፌ ተሰጥቶታል?  Daaimni [what_is_the_3rd_baby_name] talaalli lilmoodhan sarbaa irratti kennameerafi?(vitamin k) "
-label variable eth_7_6_did_your_baby_eye "Eth-7-6a. Did [what_is_the_1st_baby_name] receive eye ointment? ለህጻን [what_is_the_1st_baby_name] የአይን ጠብታ ተደርጎለታል? Daimmin keessaan dibata [what_is_the_1st_baby_name] fudhattee turree?"
-label variable eth_7_6_did_your_baby_eye_2 "Eth-7-6b. Did [what_is_the_2nd_baby_name] receive eye ointment?  ለህጻን [what_is_the_2nd_baby_name] የአይን ጠብታ ተደርጎለታል?  Daaimni [what_is_the_2nd_baby_name] dibata ijaa fudhattee/tee turtee/ree?"
-label variable eth_7_6_did_your_baby_eye_3 "Eth-7-6c. Did [what_is_the_3rd_baby_name] receive eye ointment? ለህጻን [what_is_the_3rd_baby_name] የአይን ጠብታ ተደርጎለታል? Daimmin keessaan dibata [what_is_the_3rd_baby_name] fudhattee turree?"
-label variable whay_baby_eat_619a "619a. Before you left the facility, did you receive  advice on what the baby should eat (only breastmilk or No other foods) ?  ተቋሙን ለቀው ከመውጣትዎ በፊት ህፃኑ ምን መመገብ  እንዳለበት (የእናት ጡት ወተት ብቻ  እንጂ ምንም ሌሎች ምግቦችን እንደማይወስድ) ማድርግ  እንዳለብዎት ምክር አግኝተዋል ?  (harma haaadhaa qofaa ykn nyaata dabalataa biro fudhachuu akka hin qabne)irratti gorsa argattaniittuu?  "
-label variable umblical_cord_care_619b "619b. Before you left the facility, did you receive advice on Care of the umbilical cord ?  ተቋሙን ለቀው ከመውጣትዎ በፊት እምብርትን እንዴት ስለመንከባከብ   ምክር አግኝተዋል?   Dhaabbaticha keessaa osoo hin baiin dura Waan Kunuunsa funyoo handhurraa daamma/wwan   irratti gorsa argattaniittuu ?  "
-label variable need_avoid_chilling_619c "619c. Before you left the facility, did you receive advice on avoid chilling of baby  ተቋሙን ለቀው ከመውጣትዎ በፊት ሕፃኑን ከቅዝቃዜ መከላከል አስፈላጊነት  ምክር አግኝተዋል?  Dhaabbaticha keessaa osoo hin baiin dura Barbaachisummaa Daaima  qorra irraa eeguu? "
-label variable return_vaccination_619d "619d. Before you left the facility, did you receive advice on when to return for vaccinations for the baby  ተቋሙን ለቀው ከመውጣትዎ በፊት ለሕፃኑ ክትባቶች መቼ እንደሚመለሱ ምክር አግኝተዋል?  Dhaabbaticha keessaa osoo hin baiin dura Daaiman Talaalliif yoom akka deebiu   irratti gorsa argattaniittuu ?  "
-label variable hand_washing_619e "619e. Before you left the facility, did you receive advice on Hand washing with soap/water before touching the baby  ተቋሙን ለቀው ከመውጣትዎ በፊት ህፃኑን ከመንካትዎ በፊት እጅን በሳሙና ወይም በውሃ መታጠብ እንዳለቦት ምክር አግኝተዋል ተቀብለዋል?  Dhaabbaticha keessaa osoo hin baiin dura Daaima osoo hin tuqin dura harka saamunaa/bishaan dhiqachuu irratti gorsa argattaniittuu "
-label variable danger_sign_or_symptom_619f "619f. Before you left the facility, did you receive advice on Need to exposure your baby/babies for Sun light  ተቋሙን ለቀው ከመውጣትዎ በፊት ህፃኑን የጠዋት ፀሐይ ማሞቅ እንዳለቦት ምክር አግኝተዋል?  Dhaabbaticha keessaa osoo hin baiin dura Barbachissumma daima Ifa aduutti   hoissuu irratti gorsa argattaniittuu ? "
-label variable danger_sign_in_yourself_619g "619g. Before you left the facility, did you receive advice on Danger signs or symptoms you should watch out for in the baby that would mean you should go to a health facility?  ተቋሙን ለቀው ከመውጣትዎ በፊት በሕፃኑ ጤና ላይ ስለሚከሰቱ አደገኛ የጤና ምልክቶች እንዴት መገንዘብ እነዳለብዎት እና ሲከሰቱ ወደ ጤና ተቋም መሄድ እንዳለቦት ምክር አግኝተዋል?  Dhaabbaticha keessaa osoo hin baiin dura Mallattoolee balaa ykn mallattoolee daaima keessatti of eeggannoo gochuu qabdu kan gara dhaabbata fayyaa deemuu qabda jechuudha   irratti gorsa argattaniittuu ?  "
-label variable before_you_left_the_faci_619h "619h. Before you left the facility, did you receive advice on danger signs or symptoms you should watch out for in yourself that would mean you should go to a health facility?  ተቋሙን ለቀው ከመውጣትዎ በፊት በእርሶ ላይ ስለሚከሰቱ አደገኛ የጤና ምልክቶች እንዴት መገንዘብ እንዳለቦት እና ሲከሰቱ ወደ ጤና ተቋም መሄድ እንዳለቦት ምክር አግኝተዋል ?  Dhaabbaticha keessaa osoo hin baiin dura Mallattoolee balaa ykn mallattoolee ofii kee keessatti of eeggannoo gochuu qabdu kan gara dhaabbata fayyaa deemuu qabda jechuu tau   irratti gorsa argattaniittuu ?  "
-label variable before_you_left_the_faci_619i "619i. Before you left the facility, did you receive  advice on Family planning you should look for  ተቋሙን ለቀው ከመውጣትዎ በፊት ስለ ቤተሰብ ምጣኔ አስፈላጊነት ምክር አግኝተዋል?  Dhaabbaticha keessaa osoo hin baiin dura Karoora maatii   irratti gorsa argattaniittuu ?  "
-label variable before_you_left_the_faci_619j "619j. Before you left the facility, did you receive  advice on Maternal nutrition that you should take  ተቋሙን ለቀው ከመውጣትዎ በፊት ስለ እናቶች  አመጋገብ ምክር አግኝተዋል/ተቀብለዋል  Dhaabbaticha keessaa osoo hin baiin dura Nyaata dabalataa haadholii irratti gorsa argattaniittuu  "
-label variable after_your_baby_was_born_620 "620. After your baby was born, did you receive a vaccination card for the baby to take home with you?  ሕፃኑ ከተወለደ በኋላ ለህፃኑ ወደ ቤት የሚወስዱት የህፃኑን የክትባት ካርድ ተቀብለዋል?  Erga daimtii kessan dhalatee booodaa, kardii talaallii kan daima gara manakeetitti fudhattee galtuu siif kenameraa?   "
-label variable who_assisted_the_delivery_621 "621a. Who assisted you in the delivery?  ሲወልዱ ማን ነዉ የረዳዎት(ያዋለዶት)?   Daumsa manaakee irratti eenyuutu si gargaare?  "
-label variable did_someone_come_to_chec_621b "621b. Did someone come to check on you after you gave birth? For example, someone asking you questions about  your health or examining you?  ከወለዱ በኋላ የእርሰዎን የጤና ሁኔታ መጥቶ ያየዎት ሰው /ባለሙያ ነበር? ለምሳሌ፣ የሆነ ሰው ስለ ጤናዎ የጠየቆት ወይም የመረመሮት?  Erga deessee booda namni haala si ilaalu dhufee? Fakkeenyaaf, namni waaʼee fayyaa keetii gaaffii si gaafatu ykn si yaaluuf?  "
-label variable how_long_after_giving_621c "621c. How long after giving birth did the checkup take  place (in hours)?  ከወለዱ በኋላ ከምን ያህል ሰዓት በኋላ ነው ምርመራ የተደረገልዎት?  rga deesse, saaatii meeqa booda qorannon  sif godhame?"
-label variable around_the_time_of_deliv_622a "622a. Around the time of delivery, were you told that  you will need to go to a facility for a checkup for you or your baby?  በመውለጃዎ ሰዓት አካባቢ ፣ ለእርስዎ ወይም ለልጅዎ ምርመራ ለማድረግ ወደ ጤና ተቋም መሄድ እንደሚያስፈልጎት ተነግርዎታል?  Naannoo yeroo daumsaatti, siif ykn Daaima keetiif qorannoo gochuuf gara dhaabbata fayyaa deemuun akka si barbaachisu sitti himamee turee?  "
-label variable when_were_you_told_to_go_622b "622b. When were you told to go to a health facility for postnatal checkups? How many days after delivery?መቼ ነው ለድህረ ወሊድ ክትትል ወደ ጤና ተቋም እንዲሄዱ የተነገሮት? ከወለዱ ከስንት ቀን በኋላ ነው?Yoom gara dhaabbata fayyaa deemtee qorannoo kunuunsa daumsaa boodaa akka gootu sitti himame? Guyyaa meeqa booda?Instruction for data collector: If the woman doesnt know the number of days, write 98"
-label variable m3_622c "622c. Around the time of delivery, were you told that someone would come to visit you at your home to check on you or your babys health?  በመወለጃዎ ሰዓት አካባቢ አንድ ሰው/ባለሙያ የእርስዎን ወይም የልጅዎን ጤና ለመመርመር ወደ ቤትዎ እንደሚመጣ ነግሮዎታል?  Naannoo yeroo daumsaatti, oggessi fayyaa mana keetti si daawwatee fayyaa kee ykn fayyaa daaima keetii akka ilaalu sitti himamee turee?  "
-label variable regarding_sleep_1st_baby_today "311a.1. Regarding sleep, which response best describes [what_is_the_1st_baby_name] today? እንቅልፍ መተኛትን በተመለከተ ዛሬ ላይ የመጀመሪያ የተወለደው ልጅዎን [what_is_the_1st_baby_name] በተሻለ ሁኔታ የሚገልጸው የትኛው ምላሽ ነው? Hirriba rafuu ilaalchisee, deebii kamtu akka gaariitti Hirriba daaima kee [what_is_the_1st_baby_name] ibsa?"
-label variable regarding_sleep_2nd_baby_today "311a.2. Regarding sleep, which response best describes [what_is_the_2nd_baby_name] today?እንቅልፍ መተኛትን በተመለከተ ዛሬ ላይ ሁለትኛ ልጅዎን [what_is_the_2nd_baby_name]በተሻለ ሁኔታ የሚገልጸው የትኛው ምላሽ ነው?Hirriba rafuu ilaalchisee, deebii kamtu akka gaariitti Hirriba daaima kee [what_is_the_2nd_baby_name] ibsa?"
-label variable regarding_sleep_3rd_baby_today "311a.3. Regarding sleep, which response best describes [what_is_the_3rd_baby_name] today?እንቅልፍ መተኛትን በተመለከተ ዛሬ ላይ ሶስተኛ ልጅዎን [what_is_the_3rd_baby_name]በተሻለ ሁኔታ የሚገልጸው የትኛው ምላሽ ነው?Hirriba rafuu ilaalchisee, deebii kamtu akka gaariitti Hirriba daaima kee [what_is_the_3rd_baby_name] ibsa?"
-label variable regarding_feeding_baby_1 "311b.1. Regarding feeding, which response best describes [what_is_the_1st_baby_name] today? መመገብን በተመለከተ [what_is_the_1st_baby_name] ዛሬ ላይ የትኛው ምላሽ በተሻለ ሁኔታ ይገልፃል?  Nyaata kennuu ilaalchisee, deebii kamtu akka gaariitti [what_is_the_1st_baby_name] ibsa]?"
-label variable regarding_feeding_baby_2 "311b.2. Regarding feeding, which response best describes [what_is_the_2nd_baby_name] today? መመገብን በተመለከተ [what_is_the_2nd_baby_name] ዛሬ ላይ የትኛው ምላሽ በተሻለ ሁኔታ ይገልፃል? Nyaata kennuu ilaalchisee, deebii kamtu akka gaariitti [what_is_the_2nd_baby_name] ibsa?"
-label variable regarding_feeding_baby_3 "311b.3. Regarding feeding, which response best describes [what_is_the_3rd_baby_name] today?መመገብን በተመለከተ [what_is_the_3rd_baby_name]ዛሬ ላይ የትኛው ምላሽ በተሻለ ሁኔታ ይገልፃል?Nyaata kennuu ilaalchisee, deebii kamtu akka gaariitti [what_is_the_3rd_baby_name] ibsa?"
-label variable regarding_breathing_baby_1 "311c.1 Regarding breathing, which response best describes [what_is_the_1st_baby_name] today? የህጻኑን አተነፋፈስ በተመለከተ ዛሬ ላይ አንደኛ የተወለደው ልጅዎን [what_is_the_1st_baby_name] በተሻለ ሁኔታ የሚገልጸው የትኛው ምላሽ ነው? Haarggansuu ilaalchisee, deebii kamtu akka gaariitti [what_is_the_1st_baby_name] ibsa]?"
-label variable regarding_breathing_baby_2 "311c.2 Regarding breathing, which response best describes [what_is_the_2nd_baby_name] today? የህጻኑን አተነፋፈስ በተመለከተ ዛሬ ላይ ሁለተኛ የተወለደው ልጅዎን [what_is_the_2nd_baby_name] በተሻለ ሁኔታ የሚገልጸው የትኛው ምላሽ ነው? Haarggansuu ilaalchisee, deebii kamtu akka gaariitti [what_is_the_2nd_baby_name] ibsa?"
-label variable regarding_breathing_baby_3 "311c.3 Regarding breathing, which response best describes [what_is_the_3rd_baby_name] today?የህጻኑን አተነፋፈስ በተመለከተ ዛሬ ሶስተኛ የተወለደው ልጅዎን [what_is_the_3rd_baby_name] ዛሬ ላይ በተሻለ ሁኔታ የሚገልጸው የትኛው ምላሽ ነው?Haarggansuu ilaalchisee, deebii kamtu akka gaariitti [what_is_the_3rd_baby_name] ibsa?"
-label variable regarding_stooling_baby_5 "311d.1. Regarding stooling/poo, which response best describes [what_is_the_1st_baby_name] today?የህጻኑን ሰገራ አወጋገድ በተመለከተ የትኛው ምላሽ ዛሬ ላይ [what_is_the_1st_baby_name]በተሻለ ሁኔታ ይገልፃል? Sagaraa/boolii baafachuu ilaalchisee, deebii kamtu akka gaariittii [what_is_the_1st_baby_name] ibsa?"
-label variable regarding_stooling_baby_2 "311d.2. Regarding stooling/poo, which response best describes [what_is_the_2nd_baby_name] today?የህጻኑን ሰገራ አወጋገድ በተመለከተ የትኛው ምላሽ ዛሬ [what_is_the_2nd_baby_name] በተሻለ ሁኔታ ይገልፃል?Sagaraa/boolii baafachuu ilaalchisee, deebii kamtu akka gaariittii [what_is_the_2nd_baby_name] ibsa?"
-label variable regarding_stooling_baby_3 "311d.3. Regarding stooling/poo, which response best describes [what_is_the_3rd_baby_name] today?የህጻኑን ሰገራ አወጋገድ በተመለከተ የትኛው ምላሽ ዛሬ ላይ [what_is_the_3rd_baby_name] በተሻለ ሁኔታ ይገልፃል?Sagaraa/boolii baafachuu ilaalchisee, deebii kamtu akka gaariittii [what_is_the_3rd_baby_name] ibsa?"
-label variable regarding_their_mood_baby_1 "311e.1. Regarding their mood, which response best describes [what_is_the_1st_baby_name]today? ስሜትን በተመለከተ ዛሬ ላይ [what_is_the_1st_baby_name]የሚገልጸው የትኛው ምላሽ ነው? Miira ilaalchisee, deebii kamtu akka gaariitti [what_is_the_1st_baby_name]ibsa?"
-label variable regarding_their_mood_baby_2 "311e.2. Regarding their mood, which response best describes [what_is_the_2nd_baby_name]today? ስሜትን በተመለከተ ዛሬ ላይ [what_is_the_2nd_baby_name]የሚገልጸው የትኛው ምላሽ ነው? Miira ilaalchisee, deebii kamtu akka gaariitti [what_is_the_2nd_baby_name]ibsa?"
-label variable regarding_their_mood_baby_3 "311e.3. Regarding their mood, which response best Happy/content describes [what_is_the_3rd_baby_name]today? ስሜትን በተመለከተ፣ ዛሬ ላይ [what_is_the_3rd_baby_name]የሚገልጸው የትኛው ምላሽ ነው? Miira ilaalchisee, deebii kamtu akka gaariitti [what_is_the_3rd_baby_name] ibsa?"
-label variable regarding_their_skin_baby_1 "311f.1. Regarding their skin, which response best describes [what_is_the_1st_baby_name] today? ቆዳን በተመለከተ፣ ዛሬ ላይ [what_is_the_1st_baby_name] የሚገልጸው የትኛው ምላሽ ነው? Gogaa isaa/ishee ilaalchisee, deebii kamtu hara daaima kee isa [what_is_the_1st_baby_name] gaariitti ibsa? "
-label variable regarding_their_skin_baby_2 "311f.2. Regarding their skin, which response best describes [what_is_the_2nd_baby_name] today? ቆዳውን በተመለከተ፣ ዛሬ ላይ [what_is_the_2nd_baby_name]የሚገልጸው የትኛው ምላሽ ነው? Gogaa isaa/ishee ilaalchisee, deebii kamtu hara daaima kee isa [what_is_the_2nd_baby_name]gaariitti ibsa? "
-label variable regarding_their_skin_baby_3 "311f.3. Regarding their skin, which response best describes [what_is_the_3rd_baby_name] today? ቆዳውን በተመለከተ፣ ዛሬ ላይ [what_is_the_3rd_baby_name]የሚገልጸው የትኛው ምላሽ ነው? Gogaa isaa/ishee ilaalchisee, deebii kamtu akka gaariitti [what_is_the_3rd_baby_name]ibsa? "
-label variable regarding_interactivit_baby_1 "311g.1. Regarding interactivity, which response best describes [what_is_the_1st_baby_name] today?ህጻኑ ያለውን መስተጋብር በተመለከተ [what_is_the_1st_baby_name] ን ዛሬ ላይ የትኛው ምላሽ በተሻለ ሁኔታ ይገለጻል?Sochii ykn taphachuu ilaalchisee, deebii kamtu akka gaariitti [what_is_the_1st_baby_name] ibsa?"
-label variable regarding_interactivit_baby_2 "311g.2. Regarding interactivity, which response best describes [what_is_the_2nd_baby_name] today?ህጻኑ ያለውን መስተጋብር በተመለከተ [what_is_the_2nd_baby_name]የተወለደወን ህጻን ልጅዎን ዛሬ ላይ የትኛው ምላሽ በተሻለ ሁኔታ ይገለጻል?Sochii ykn taphachuu ilaalchisee, deebii kamtu akka gaariitti [what_is_the_2nd_baby_name] ibsa?"
-label variable regarding_interactivit_baby_3 "311g.3. Regarding interactivity, which response best describes [what_is_the_3rd_baby_name] today?ህጻኑ ያለውን መስተጋብር/እንቅስቃሲው በተመለከተ [what_is_the_3rd_baby_name] የተወለደወን ህጻን ልጅዎን ዛሬ ላይ የትኛው ምላሽ በተሻለ ሁኔታ ይገለጻል?Sochii ykn taphachuu ilaalchisee, deebii kamtu akka gaariitti [what_is_the_3rd_baby_name] ibsa?"
-label variable at_any_time_during_labor_701 "701. At any time during labor, delivery, or after delivery did you suffer from any health problems?   በማንኛውም ጊዜ ማለትም በምጥ ወቅት፣ በወሊድ ወቅት ወይም ከወሊድ በኋላ ባለው ጊዜ ውስጥ የጤና ችግር አጋጥሞት ነበር?  Yeroo kamiyyuu yeroo ciniinsuu, daumsaa, ykn erga daumsaa booda rakkoo fayyaa kamiinuu si mudateeraa?  "
-label variable what_health_problems_did_702 "702. What health problems did you have? ምን አይነትየጤና ችግር ነው ያጋጠመዎት? Rakkoo fayyaa akkamiitu si mudate? Kanbiraas jecuun gafadhuu (Interviewer probe: Anything else?) Interviewer to include all problems cited./ [ለመረጃ ሰብሳቢ፡- አውጣጪ ...ሌላስ በማለት] ፡ ጠያቂው ሁሉንም የተጠቀሱ ችግሮች አካትቺ/መዝግቢ/(Rakkoolee caqasaman hunda galmessii) "
-label variable would_you_say_this_problem_703 "703. Would you say this problem was severe? ያጋጠመዎት የጤና ችግር ከባድ ነበር? Rakkoon sun cimaa ture jettaa?  "
-label variable did_you_experience_seizures "704a. During your delivery, did you experience seizures, or not? በወሊድ ጊዜ የሚጥል በሽታ አጋጥሞዎት ነበረ ? yeroo daumsa keessanitti rakkoolee mulata jajjaboo/sirritti arguuf rakkachuun isin mudateera moo hin mudanne?"
-label variable did_you_experience_blurvision "704b. During your delivery, did you experience blurred vision, or not? በወሊድ ጊዜ የ እይታ መደብዘዝ/ብዥታአጋጥሞዎት ነበረ? Yeroo daumsa keetii mulanni jajjaboo si mudatee moo hin mudanne?"
-label variable did_you_experience_headache "704c. During your delivery, did you experience severe headaches, or not? በወሊድ ጊዜ ከባድ ራስ ምታት አጋጥሞዎት ነበረ? Yeroo daumsa keetii mataa dhukkubbiin cimaan si mudatee moo hin dhukkubsanne?"
-label variable did_you_experience_swelling "704d. Did you experience swelling in hands/feet during your delivery, or not? በወሊድ ጊዜ በእጆች / በእግሮች ላይ እብጠት አጋጥሞዎት ነበረ ? Yeroo daumsaa keessanitti rakkoolee Harka/miila dhiitauu isin mudateeraa moo hin mudanne?  "
-label variable did_you_experience_labor "704e. Did you experience labor over 12 hours during your delivery, or not? በወሊድ ጊዜ ከ 12 ሰአታት በላይ የቆየ ምጥ አጋጥሞዎት ነበረ ? Yeroo daumsaa keessanitti rakkoolee Ciniinsuu saati 12 olii isin   "
-label variable did_you_experience_exces "704f. Did you experience Excessive bleeding during your delivery, or not? በወሊድ ጊዜ ከመጠን በላይ የደም መፍሰስአጋጥሞዎት ነበረ ? Yeroo daumsaa keessanitti rakkoolee Garmalee dhiiguu isin mudateeraa moo hin mudanne?   "
-label variable did_you_experience_fever "704g. During your delivery, did you experience fever, or not? በወሊድ ጊዜ ትኩሳት አጋጥሞዎት ነበረ? Yeroo daumsa keetii hoi qaamaa si mudatee moo hin mudanne?"
-label variable did_you_receive_a_blood_705 "705. Did you receive a blood transfusion around the time of your delivery? በወሊድ ጊዜ ደም ተሰጥቶት ነበር? Yeroo daumsaa keessanitti dhiiga isiniif kennamee?  "
-label variable were_you_admitted_to_an_706 "706. Were  you admitted to an intensive care unit? ከፍተኛ እንክብካቤ ወደሚሰጥበት ክፍል ገብተው ነበር?  Kutaa yaala cimaa keessa galtaniittuu?  "
-label variable how_long_did_you_stay_at_f "707. How long in hours did you stay at [name_of_the_facility_deliver]after the delivery?ከወሊድ በኋላ በ [name_of_the_facility_deliver] ውስጥ ለምን ያህል በሰዓት ቆዩ?Erga daumsaa booda [name_of_the_facility_deliver] yeroo hammamii turtan?"
-label variable q707_m3_unk "Data Collector: If the hour and /or minute is unknow enter 98 here ሰዓቱ እና/ወይም ደቂቃው ካልታወቁ፣ 98 ያስገቡ saaaatiin ykn daqiiqaan isaa yoo hin beekamne 98 galchii"
-label variable experience_issiues_baby_1___1 "708a. Did the baby [what_is_the_1st_baby_name] experience any of the following issues in the first day of life? Tell me all that apply.እንደተወለደ በመጀመሪያ ቀን [what_is_the_1st_baby_name] የ1ኛው ልጅ ከሚከተሉት ውስጥ የቱን አጋጥሞታል? ያጋጠመውን ሁሉ ይንገሩኝ።[what_is_the_1st_baby_name] Daaima 1ffaa guyyaa jireenyaa jalqabaa keessatti dhimmoota armaan gadii keessaa tokkollee isa mudateeraa? Kan ilaallatu hunda natti himi. (choice=Trouble breathing /.የመተንፈስ ችግር/ Rakkoo haarggansuu)"
-label variable experience_issiues_baby_1___2 "708a. Did the baby [what_is_the_1st_baby_name] experience any of the following issues in the first day of life? Tell me all that apply.እንደተወለደ በመጀመሪያ ቀን [what_is_the_1st_baby_name] የ1ኛው ልጅ ከሚከተሉት ውስጥ የቱን አጋጥሞታል? ያጋጠመውን ሁሉ ይንገሩኝ።[what_is_the_1st_baby_name] Daaima 1ffaa guyyaa jireenyaa jalqabaa keessatti dhimmoota armaan gadii keessaa tokkollee isa mudateeraa? Kan ilaallatu hunda natti himi. (choice=Fever, low temperature, or infection/.ትኩሳት፣ዝቅተኛ የሙቀት መጠን ወይም ኢንፌክሽን/ Hoa qaamaa ykn hoa qaamaa gadi buuu, ykn infekshinii)"
-label variable experience_issiues_baby_1___3 "708a. Did the baby [what_is_the_1st_baby_name] experience any of the following issues in the first day of life? Tell me all that apply.እንደተወለደ በመጀመሪያ ቀን [what_is_the_1st_baby_name] የ1ኛው ልጅ ከሚከተሉት ውስጥ የቱን አጋጥሞታል? ያጋጠመውን ሁሉ ይንገሩኝ።[what_is_the_1st_baby_name] Daaima 1ffaa guyyaa jireenyaa jalqabaa keessatti dhimmoota armaan gadii keessaa tokkollee isa mudateeraa? Kan ilaallatu hunda natti himi. (choice=Trouble feeding/.መመገብ መቸገር/ Harmaa hodhuu ykn nyaataa  irratti rakkachuu)"
-label variable experience_issiues_baby_1___4 "708a. Did the baby [what_is_the_1st_baby_name] experience any of the following issues in the first day of life? Tell me all that apply.እንደተወለደ በመጀመሪያ ቀን [what_is_the_1st_baby_name] የ1ኛው ልጅ ከሚከተሉት ውስጥ የቱን አጋጥሞታል? ያጋጠመውን ሁሉ ይንገሩኝ።[what_is_the_1st_baby_name] Daaima 1ffaa guyyaa jireenyaa jalqabaa keessatti dhimmoota armaan gadii keessaa tokkollee isa mudateeraa? Kan ilaallatu hunda natti himi. (choice=Jaundice (yellow color of the skin)/ .ቢጫየቆዳ በሽታ (የቆዳ ቀለም ቢጫ)/ Halluu gogaa keelloo qabu)"
-label variable experience_issiues_baby_1___5 "708a. Did the baby [what_is_the_1st_baby_name] experience any of the following issues in the first day of life? Tell me all that apply.እንደተወለደ በመጀመሪያ ቀን [what_is_the_1st_baby_name] የ1ኛው ልጅ ከሚከተሉት ውስጥ የቱን አጋጥሞታል? ያጋጠመውን ሁሉ ይንገሩኝ።[what_is_the_1st_baby_name] Daaima 1ffaa guyyaa jireenyaa jalqabaa keessatti dhimmoota armaan gadii keessaa tokkollee isa mudateeraa? Kan ilaallatu hunda natti himi. (choice=Low birth weight/.ሲወለድ ዝቅተኛ ክብደት/ Ulfaatina yeroo dahumsaa gadi aanaa)"
-label variable experience_issiues_baby_1___6 "708a. Did the baby [what_is_the_1st_baby_name] experience any of the following issues in the first day of life? Tell me all that apply.እንደተወለደ በመጀመሪያ ቀን [what_is_the_1st_baby_name] የ1ኛው ልጅ ከሚከተሉት ውስጥ የቱን አጋጥሞታል? ያጋጠመውን ሁሉ ይንገሩኝ።[what_is_the_1st_baby_name] Daaima 1ffaa guyyaa jireenyaa jalqabaa keessatti dhimmoota armaan gadii keessaa tokkollee isa mudateeraa? Kan ilaallatu hunda natti himi. (choice=No complications/.ምንም ውስብስብ ነገሮች አልገጠሙትም/ Rakkoo hin qabu)"
-label variable experience_issiues_baby_1___96 "708a. Did the baby [what_is_the_1st_baby_name] experience any of the following issues in the first day of life? Tell me all that apply.እንደተወለደ በመጀመሪያ ቀን [what_is_the_1st_baby_name] የ1ኛው ልጅ ከሚከተሉት ውስጥ የቱን አጋጥሞታል? ያጋጠመውን ሁሉ ይንገሩኝ።[what_is_the_1st_baby_name] Daaima 1ffaa guyyaa jireenyaa jalqabaa keessatti dhimmoota armaan gadii keessaa tokkollee isa mudateeraa? Kan ilaallatu hunda natti himi. (choice=Other)"
-label variable experience_issiues_baby_1___98 "708a. Did the baby [what_is_the_1st_baby_name] experience any of the following issues in the first day of life? Tell me all that apply.እንደተወለደ በመጀመሪያ ቀን [what_is_the_1st_baby_name] የ1ኛው ልጅ ከሚከተሉት ውስጥ የቱን አጋጥሞታል? ያጋጠመውን ሁሉ ይንገሩኝ።[what_is_the_1st_baby_name] Daaima 1ffaa guyyaa jireenyaa jalqabaa keessatti dhimmoota armaan gadii keessaa tokkollee isa mudateeraa? Kan ilaallatu hunda natti himi. (choice=DK/ አላውቅም/Hin beeku)"
-label variable experience_issiues_baby_1___99 "708a. Did the baby [what_is_the_1st_baby_name] experience any of the following issues in the first day of life? Tell me all that apply.እንደተወለደ በመጀመሪያ ቀን [what_is_the_1st_baby_name] የ1ኛው ልጅ ከሚከተሉት ውስጥ የቱን አጋጥሞታል? ያጋጠመውን ሁሉ ይንገሩኝ።[what_is_the_1st_baby_name] Daaima 1ffaa guyyaa jireenyaa jalqabaa keessatti dhimmoota armaan gadii keessaa tokkollee isa mudateeraa? Kan ilaallatu hunda natti himi. (choice=NR/RF/ታቅቦ/መልስ የለም/ Deebii hin kennine)"
-label variable experience_issiues_b_v_12 "708a. Did the baby [what_is_the_1st_baby_name] experience any of the following issues in the first day of life? Tell me all that apply.እንደተወለደ በመጀመሪያ ቀን [what_is_the_1st_baby_name] የ1ኛው ልጅ ከሚከተሉት ውስጥ የቱን አጋጥሞታል? ያጋጠመውን ሁሉ ይንገሩኝ።[what_is_the_1st_baby_name] Daaima 1ffaa guyyaa jireenyaa jalqabaa keessatti dhimmoota armaan gadii keessaa tokkollee isa mudateeraa? Kan ilaallatu hunda natti himi. (choice=Unknown)"
-label variable experience_issiues_b_v_13 "708a. Did the baby [what_is_the_1st_baby_name] experience any of the following issues in the first day of life? Tell me all that apply.እንደተወለደ በመጀመሪያ ቀን [what_is_the_1st_baby_name] የ1ኛው ልጅ ከሚከተሉት ውስጥ የቱን አጋጥሞታል? ያጋጠመውን ሁሉ ይንገሩኝ።[what_is_the_1st_baby_name] Daaima 1ffaa guyyaa jireenyaa jalqabaa keessatti dhimmoota armaan gadii keessaa tokkollee isa mudateeraa? Kan ilaallatu hunda natti himi. (choice=Refuse to answer)"
-label variable experience_issiues_b_v_14 "708a. Did the baby [what_is_the_1st_baby_name] experience any of the following issues in the first day of life? Tell me all that apply.እንደተወለደ በመጀመሪያ ቀን [what_is_the_1st_baby_name] የ1ኛው ልጅ ከሚከተሉት ውስጥ የቱን አጋጥሞታል? ያጋጠመውን ሁሉ ይንገሩኝ።[what_is_the_1st_baby_name] Daaima 1ffaa guyyaa jireenyaa jalqabaa keessatti dhimmoota armaan gadii keessaa tokkollee isa mudateeraa? Kan ilaallatu hunda natti himi. (choice=No Information)"
-label variable experience_issiues_baby_2___1 "708b. Did the bay [what_is_the_2nd_baby_name] experience any of the following issues in the first day of life? Tell me all that apply./ እንደተወለደ በመጀመሪያ ቀን [what_is_the_2nd_baby_name] በመጀመሪያ የተወለደው ልጅ ከሚከተሉት ውስጥ የቱን አጋጥሞታል? ያጋጠመውን ሁሉ ይንገሩኝ። [what_is_the_2nd_baby_name] Daaima 2ffaa guyyaa jireenyaa jalqabaa keessatti dhimmoota armaan gadii keessaa tokkollee isa mudateeraa? Kan ilaallatu hunda natti himi. (choice=Trouble breathing /.የመተንፈስ ችግር/ Rakkoo haarggansuu)"
-label variable experience_issiues_baby_2___2 "708b. Did the bay [what_is_the_2nd_baby_name] experience any of the following issues in the first day of life? Tell me all that apply./ እንደተወለደ በመጀመሪያ ቀን [what_is_the_2nd_baby_name] በመጀመሪያ የተወለደው ልጅ ከሚከተሉት ውስጥ የቱን አጋጥሞታል? ያጋጠመውን ሁሉ ይንገሩኝ። [what_is_the_2nd_baby_name] Daaima 2ffaa guyyaa jireenyaa jalqabaa keessatti dhimmoota armaan gadii keessaa tokkollee isa mudateeraa? Kan ilaallatu hunda natti himi. (choice=Fever, low temperature, or infection/.ትኩሳት፣ዝቅተኛ የሙቀት መጠን ወይም ኢንፌክሽን/ Hoa qaamaa ykn hoa qaamaa gadi buuu, ykn infekshinii)"
-label variable experience_issiues_baby_2___3 "708b. Did the bay [what_is_the_2nd_baby_name] experience any of the following issues in the first day of life? Tell me all that apply./ እንደተወለደ በመጀመሪያ ቀን [what_is_the_2nd_baby_name] በመጀመሪያ የተወለደው ልጅ ከሚከተሉት ውስጥ የቱን አጋጥሞታል? ያጋጠመውን ሁሉ ይንገሩኝ። [what_is_the_2nd_baby_name] Daaima 2ffaa guyyaa jireenyaa jalqabaa keessatti dhimmoota armaan gadii keessaa tokkollee isa mudateeraa? Kan ilaallatu hunda natti himi. (choice=Trouble feeding/.መመገብ መቸገር/ Harmaa hodhuu ykn nyaataa  irratti rakkachuu)"
-label variable experience_issiues_baby_2___4 "708b. Did the bay [what_is_the_2nd_baby_name] experience any of the following issues in the first day of life? Tell me all that apply./ እንደተወለደ በመጀመሪያ ቀን [what_is_the_2nd_baby_name] በመጀመሪያ የተወለደው ልጅ ከሚከተሉት ውስጥ የቱን አጋጥሞታል? ያጋጠመውን ሁሉ ይንገሩኝ። [what_is_the_2nd_baby_name] Daaima 2ffaa guyyaa jireenyaa jalqabaa keessatti dhimmoota armaan gadii keessaa tokkollee isa mudateeraa? Kan ilaallatu hunda natti himi. (choice=Jaundice (yellow color of the skin)/ .ቢጫየቆዳ በሽታ (የቆዳ ቀለም ቢጫ)/ Halluu gogaa keelloo qabu)"
-label variable experience_issiues_baby_2___5 "708b. Did the bay [what_is_the_2nd_baby_name] experience any of the following issues in the first day of life? Tell me all that apply./ እንደተወለደ በመጀመሪያ ቀን [what_is_the_2nd_baby_name] በመጀመሪያ የተወለደው ልጅ ከሚከተሉት ውስጥ የቱን አጋጥሞታል? ያጋጠመውን ሁሉ ይንገሩኝ። [what_is_the_2nd_baby_name] Daaima 2ffaa guyyaa jireenyaa jalqabaa keessatti dhimmoota armaan gadii keessaa tokkollee isa mudateeraa? Kan ilaallatu hunda natti himi. (choice=Low birth weight/.ሲወለድ ዝቅተኛ ክብደት/ Ulfaatina yeroo dahumsaa gadi aanaa)"
-label variable experience_issiues_baby_2___6 "708b. Did the bay [what_is_the_2nd_baby_name] experience any of the following issues in the first day of life? Tell me all that apply./ እንደተወለደ በመጀመሪያ ቀን [what_is_the_2nd_baby_name] በመጀመሪያ የተወለደው ልጅ ከሚከተሉት ውስጥ የቱን አጋጥሞታል? ያጋጠመውን ሁሉ ይንገሩኝ። [what_is_the_2nd_baby_name] Daaima 2ffaa guyyaa jireenyaa jalqabaa keessatti dhimmoota armaan gadii keessaa tokkollee isa mudateeraa? Kan ilaallatu hunda natti himi. (choice=No complications/.ምንም ውስብስብ ነገሮች አልገጠሙትም/ Rakkoo hin qabu)"
-label variable experience_issiues_baby_2___96 "708b. Did the bay [what_is_the_2nd_baby_name] experience any of the following issues in the first day of life? Tell me all that apply./ እንደተወለደ በመጀመሪያ ቀን [what_is_the_2nd_baby_name] በመጀመሪያ የተወለደው ልጅ ከሚከተሉት ውስጥ የቱን አጋጥሞታል? ያጋጠመውን ሁሉ ይንገሩኝ። [what_is_the_2nd_baby_name] Daaima 2ffaa guyyaa jireenyaa jalqabaa keessatti dhimmoota armaan gadii keessaa tokkollee isa mudateeraa? Kan ilaallatu hunda natti himi. (choice=Other)"
-label variable experience_issiues_baby_2___98 "708b. Did the bay [what_is_the_2nd_baby_name] experience any of the following issues in the first day of life? Tell me all that apply./ እንደተወለደ በመጀመሪያ ቀን [what_is_the_2nd_baby_name] በመጀመሪያ የተወለደው ልጅ ከሚከተሉት ውስጥ የቱን አጋጥሞታል? ያጋጠመውን ሁሉ ይንገሩኝ። [what_is_the_2nd_baby_name] Daaima 2ffaa guyyaa jireenyaa jalqabaa keessatti dhimmoota armaan gadii keessaa tokkollee isa mudateeraa? Kan ilaallatu hunda natti himi. (choice=DK/ አላውቅም/Hin beeku)"
-label variable experience_issiues_baby_2___99 "708b. Did the bay [what_is_the_2nd_baby_name] experience any of the following issues in the first day of life? Tell me all that apply./ እንደተወለደ በመጀመሪያ ቀን [what_is_the_2nd_baby_name] በመጀመሪያ የተወለደው ልጅ ከሚከተሉት ውስጥ የቱን አጋጥሞታል? ያጋጠመውን ሁሉ ይንገሩኝ። [what_is_the_2nd_baby_name] Daaima 2ffaa guyyaa jireenyaa jalqabaa keessatti dhimmoota armaan gadii keessaa tokkollee isa mudateeraa? Kan ilaallatu hunda natti himi. (choice=NR/RF/ታቅቦ/መልስ የለም/ Deebii hin kennine)"
-label variable experience_issiues_b_v_15 "708b. Did the bay [what_is_the_2nd_baby_name] experience any of the following issues in the first day of life? Tell me all that apply./ እንደተወለደ በመጀመሪያ ቀን [what_is_the_2nd_baby_name] በመጀመሪያ የተወለደው ልጅ ከሚከተሉት ውስጥ የቱን አጋጥሞታል? ያጋጠመውን ሁሉ ይንገሩኝ። [what_is_the_2nd_baby_name] Daaima 2ffaa guyyaa jireenyaa jalqabaa keessatti dhimmoota armaan gadii keessaa tokkollee isa mudateeraa? Kan ilaallatu hunda natti himi. (choice=Unknown)"
-label variable experience_issiues_b_v_16 "708b. Did the bay [what_is_the_2nd_baby_name] experience any of the following issues in the first day of life? Tell me all that apply./ እንደተወለደ በመጀመሪያ ቀን [what_is_the_2nd_baby_name] በመጀመሪያ የተወለደው ልጅ ከሚከተሉት ውስጥ የቱን አጋጥሞታል? ያጋጠመውን ሁሉ ይንገሩኝ። [what_is_the_2nd_baby_name] Daaima 2ffaa guyyaa jireenyaa jalqabaa keessatti dhimmoota armaan gadii keessaa tokkollee isa mudateeraa? Kan ilaallatu hunda natti himi. (choice=Refuse to answer)"
-label variable experience_issiues_b_v_17 "708b. Did the bay [what_is_the_2nd_baby_name] experience any of the following issues in the first day of life? Tell me all that apply./ እንደተወለደ በመጀመሪያ ቀን [what_is_the_2nd_baby_name] በመጀመሪያ የተወለደው ልጅ ከሚከተሉት ውስጥ የቱን አጋጥሞታል? ያጋጠመውን ሁሉ ይንገሩኝ። [what_is_the_2nd_baby_name] Daaima 2ffaa guyyaa jireenyaa jalqabaa keessatti dhimmoota armaan gadii keessaa tokkollee isa mudateeraa? Kan ilaallatu hunda natti himi. (choice=No Information)"
-label variable experience_issiues_baby_3___1 "708c. Did the baby [what_is_the_3rd_baby_name] experience any of the following issues in the first day of life? Tell me all that apply. እንደተወለደ በመጀመሪያ ቀን [what_is_the_3rd_baby_name] የ3ኛው ልጅ ከሚከተሉት ውስጥ የቱን አጋጥሞታል? ያጋጠመውን ሁሉ ይንገሩኝ።[what_is_the_3rd_baby_name] Daaima 3ffaa guyyaa jireenyaa jalqabaa keessatti dhimmoota armaan gadii keessaa tokkollee isa mudateeraa? Kan ilaallatu hunda natti himi. (choice=Trouble breathing /.የመተንፈስ ችግር/ Rakkoo haarggansuu)"
-label variable experience_issiues_baby_3___2 "708c. Did the baby [what_is_the_3rd_baby_name] experience any of the following issues in the first day of life? Tell me all that apply. እንደተወለደ በመጀመሪያ ቀን [what_is_the_3rd_baby_name] የ3ኛው ልጅ ከሚከተሉት ውስጥ የቱን አጋጥሞታል? ያጋጠመውን ሁሉ ይንገሩኝ።[what_is_the_3rd_baby_name] Daaima 3ffaa guyyaa jireenyaa jalqabaa keessatti dhimmoota armaan gadii keessaa tokkollee isa mudateeraa? Kan ilaallatu hunda natti himi. (choice=Fever, low temperature, or infection/.ትኩሳት፣ዝቅተኛ የሙቀት መጠን ወይም ኢንፌክሽን/ Hoa qaamaa ykn hoa qaamaa gadi buuu, ykn infekshinii)"
-label variable experience_issiues_baby_3___3 "708c. Did the baby [what_is_the_3rd_baby_name] experience any of the following issues in the first day of life? Tell me all that apply. እንደተወለደ በመጀመሪያ ቀን [what_is_the_3rd_baby_name] የ3ኛው ልጅ ከሚከተሉት ውስጥ የቱን አጋጥሞታል? ያጋጠመውን ሁሉ ይንገሩኝ።[what_is_the_3rd_baby_name] Daaima 3ffaa guyyaa jireenyaa jalqabaa keessatti dhimmoota armaan gadii keessaa tokkollee isa mudateeraa? Kan ilaallatu hunda natti himi. (choice=Trouble feeding/.መመገብ መቸገር/ Harmaa hodhuu ykn nyaataa  irratti rakkachuu)"
-label variable experience_issiues_baby_3___4 "708c. Did the baby [what_is_the_3rd_baby_name] experience any of the following issues in the first day of life? Tell me all that apply. እንደተወለደ በመጀመሪያ ቀን [what_is_the_3rd_baby_name] የ3ኛው ልጅ ከሚከተሉት ውስጥ የቱን አጋጥሞታል? ያጋጠመውን ሁሉ ይንገሩኝ።[what_is_the_3rd_baby_name] Daaima 3ffaa guyyaa jireenyaa jalqabaa keessatti dhimmoota armaan gadii keessaa tokkollee isa mudateeraa? Kan ilaallatu hunda natti himi. (choice=Jaundice (yellow color of the skin)/ .ቢጫየቆዳ በሽታ (የቆዳ ቀለም ቢጫ)/ Halluu gogaa keelloo qabu)"
-label variable experience_issiues_baby_3___5 "708c. Did the baby [what_is_the_3rd_baby_name] experience any of the following issues in the first day of life? Tell me all that apply. እንደተወለደ በመጀመሪያ ቀን [what_is_the_3rd_baby_name] የ3ኛው ልጅ ከሚከተሉት ውስጥ የቱን አጋጥሞታል? ያጋጠመውን ሁሉ ይንገሩኝ።[what_is_the_3rd_baby_name] Daaima 3ffaa guyyaa jireenyaa jalqabaa keessatti dhimmoota armaan gadii keessaa tokkollee isa mudateeraa? Kan ilaallatu hunda natti himi. (choice=Low birth weight/.ሲወለድ ዝቅተኛ ክብደት/ Ulfaatina yeroo dahumsaa gadi aanaa)"
-label variable experience_issiues_baby_3___6 "708c. Did the baby [what_is_the_3rd_baby_name] experience any of the following issues in the first day of life? Tell me all that apply. እንደተወለደ በመጀመሪያ ቀን [what_is_the_3rd_baby_name] የ3ኛው ልጅ ከሚከተሉት ውስጥ የቱን አጋጥሞታል? ያጋጠመውን ሁሉ ይንገሩኝ።[what_is_the_3rd_baby_name] Daaima 3ffaa guyyaa jireenyaa jalqabaa keessatti dhimmoota armaan gadii keessaa tokkollee isa mudateeraa? Kan ilaallatu hunda natti himi. (choice=No complications/.ምንም ውስብስብ ነገሮች አልገጠሙትም/ Rakkoo hin qabu)"
-label variable experience_issiues_baby_3___96 "708c. Did the baby [what_is_the_3rd_baby_name] experience any of the following issues in the first day of life? Tell me all that apply. እንደተወለደ በመጀመሪያ ቀን [what_is_the_3rd_baby_name] የ3ኛው ልጅ ከሚከተሉት ውስጥ የቱን አጋጥሞታል? ያጋጠመውን ሁሉ ይንገሩኝ።[what_is_the_3rd_baby_name] Daaima 3ffaa guyyaa jireenyaa jalqabaa keessatti dhimmoota armaan gadii keessaa tokkollee isa mudateeraa? Kan ilaallatu hunda natti himi. (choice=Other)"
-label variable experience_issiues_baby_3___98 "708c. Did the baby [what_is_the_3rd_baby_name] experience any of the following issues in the first day of life? Tell me all that apply. እንደተወለደ በመጀመሪያ ቀን [what_is_the_3rd_baby_name] የ3ኛው ልጅ ከሚከተሉት ውስጥ የቱን አጋጥሞታል? ያጋጠመውን ሁሉ ይንገሩኝ።[what_is_the_3rd_baby_name] Daaima 3ffaa guyyaa jireenyaa jalqabaa keessatti dhimmoota armaan gadii keessaa tokkollee isa mudateeraa? Kan ilaallatu hunda natti himi. (choice=DK/ አላውቅም/Hin beeku)"
-label variable experience_issiues_baby_3___99 "708c. Did the baby [what_is_the_3rd_baby_name] experience any of the following issues in the first day of life? Tell me all that apply. እንደተወለደ በመጀመሪያ ቀን [what_is_the_3rd_baby_name] የ3ኛው ልጅ ከሚከተሉት ውስጥ የቱን አጋጥሞታል? ያጋጠመውን ሁሉ ይንገሩኝ።[what_is_the_3rd_baby_name] Daaima 3ffaa guyyaa jireenyaa jalqabaa keessatti dhimmoota armaan gadii keessaa tokkollee isa mudateeraa? Kan ilaallatu hunda natti himi. (choice=NR/RF/ታቅቦ/መልስ የለም/ Deebii hin kennine)"
-label variable experience_issiues_b_v_18 "708c. Did the baby [what_is_the_3rd_baby_name] experience any of the following issues in the first day of life? Tell me all that apply. እንደተወለደ በመጀመሪያ ቀን [what_is_the_3rd_baby_name] የ3ኛው ልጅ ከሚከተሉት ውስጥ የቱን አጋጥሞታል? ያጋጠመውን ሁሉ ይንገሩኝ።[what_is_the_3rd_baby_name] Daaima 3ffaa guyyaa jireenyaa jalqabaa keessatti dhimmoota armaan gadii keessaa tokkollee isa mudateeraa? Kan ilaallatu hunda natti himi. (choice=Unknown)"
-label variable experience_issiues_b_v_19 "708c. Did the baby [what_is_the_3rd_baby_name] experience any of the following issues in the first day of life? Tell me all that apply. እንደተወለደ በመጀመሪያ ቀን [what_is_the_3rd_baby_name] የ3ኛው ልጅ ከሚከተሉት ውስጥ የቱን አጋጥሞታል? ያጋጠመውን ሁሉ ይንገሩኝ።[what_is_the_3rd_baby_name] Daaima 3ffaa guyyaa jireenyaa jalqabaa keessatti dhimmoota armaan gadii keessaa tokkollee isa mudateeraa? Kan ilaallatu hunda natti himi. (choice=Refuse to answer)"
-label variable experience_issiues_b_v_20 "708c. Did the baby [what_is_the_3rd_baby_name] experience any of the following issues in the first day of life? Tell me all that apply. እንደተወለደ በመጀመሪያ ቀን [what_is_the_3rd_baby_name] የ3ኛው ልጅ ከሚከተሉት ውስጥ የቱን አጋጥሞታል? ያጋጠመውን ሁሉ ይንገሩኝ።[what_is_the_3rd_baby_name] Daaima 3ffaa guyyaa jireenyaa jalqabaa keessatti dhimmoota armaan gadii keessaa tokkollee isa mudateeraa? Kan ilaallatu hunda natti himi. (choice=No Information)"
-label variable q708_oth "709a. Write down [what_is_the_1st_baby_name] experiences any other health problems in the first day of lifeአንደኛ የተወለደው ህጻን [what_is_the_1st_baby_name] በተወለደ የመጀመሪያ ቀን ሌላ ያጋጠመውን የጤና ችግር ግለጹ[what_is_the_1st_baby_name] Guyyaa jalqabaa jireenya isaa keessatti rakkoo fayyaa biroo mudateeraa?/"
-label variable write_down_baby_name_709b "709b. Write down [what_is_the_2nd_baby_name] experiences any other health problems in the first day of lifeሁለተኛ የተወለደው ህጻን [what_is_the_2nd_baby_name] በተወለደ የመጀመሪያ ቀን ሌላ ያጋጠመውን የጤና ችግር ግለጹ[what_is_the_2nd_baby_name] Guyyaa jalqabaa jireenya isaa keessatti rakkoo fayyaa biroo mudateeraa?/"
-label variable write_down_baby_name_709c "709c. Write down [what_is_the_3rd_baby_name] experiences any other health problems in the first day of lifeሦስተኛ የተወለደው ህጻን [what_is_the_3rd_baby_name] በተወለደ የመጀመሪያ ቀን ሌላ ያጋጠመውን የጤና ችግር ግለጹ [what_is_the_3rd_baby_name] Guyyaa jalqabaa jireenya isaa keessatti rakkoo fayyaa biroo mudateeraa?/"
-label variable baby_spend_710_baby_1 "710a. Did the baby [what_is_the_1st_baby_name] spend time in a special care nursery or intensive care unit before discharge? የ1ኛው ልጅ [what_is_the_1st_baby_name] ከጤና ተቋሙ ከመውጣቱ በፊት ልዩ የጨቅላ ህጻን እንክብካቤ ክፍል ወይም ከፍተኛ እንክብካቤ በሚሰጥበት ክፍል ውስጥ ቆይቶ ነበር? [what_is_the_1st_baby_name] Daaima 1ffaa dhaabbata fayyaa irraa osoo hin gadhiifamin dura mana daaimmanii kunuunsa addaa ykn kutaa kunuunsa cimaa daaimmanii keessatti dabarsee turee?"
-label variable baby_spend_710_baby_2 "710b. Did the baby [what_is_the_2nd_baby_name] spend time in a special care nursery or intensive care unit before discharge? የ2ኛው ልጅ [what_is_the_2nd_baby_name] ከጤና ተቋሙ ከመውጣቱ በፊት ልዩ የጨቅላ ህጻን እንክብካቤ ክፍል ወይም ከፍተኛ እንክብካቤ በሚሰጥበት ክፍል ውስጥ ቆይቶ ነበር? [what_is_the_2nd_baby_name] Daaima 2ffaa dhaabbata fayyaa irraa osoo hin gadhiifamin dura mana daaimmanii kunuunsa addaa ykn kutaa kunuunsa cimaa daaimmanii keessatti dabarsee turee?"
-label variable baby_spend_710_baby_3 "710c. Did [what_is_the_3rd_baby_name] spend time in a special care nursery or intensive care unit before discharge?የ3ኛው ልጅ [what_is_the_3rd_baby_name] ከጤና ተቋሙ ከመውጣቱ በፊት ልዩ የጨቅላ ህጻን እንክብካቤ ክፍል ወይም ከፍተኛ እንክብካቤ በሚሰጥበት ክፍል ውስጥ ቆይቶ ነበር? [what_is_the_3rd_baby_name] Daaima 3ffaa dhaabbata fayyaa irraa osoo hin gadhiifamin dura mana daaimmanii kunuunsa addaa ykn kutaa kunuunsa cimaa daaimmanii keessatti dabarsee turee?"
-label variable how_long_did_711_baby_1 "711a. How long in hours did the baby [what_is_the_1st_baby_name] stay at the health facility after being born[what_is_the_1st_baby_name]ከተወለደ በኋላ በጤና ተቋም ውስጥ ለምን ያህል ሰዓታት ነው የቆየው? [what_is_the_1st_baby_name] erga dhalatee/tte booda saaattii meeqaaf buufata fayyaa keessa ture/tte?"
-label variable how_long_did_711_baby_2 "711b. How long in hours did [what_is_the_2nd_baby_name]stay at the health facility after being born? [Second_baby_ NAME] ከተወለደ በኋላ [what_is_the_2nd_baby_name]በጤና ተቋም ውስጥ ለምን ያህል ሰዓታት ነው የቆየው? [what_is_the_2nd_baby_name] erga dhalatee/tte booda saaattii meeqaaf buufata fayyaa keessa ture/tte?"
-label variable how_long_did_711_baby_3 "711c. How long in hours did the 3rd baby [what_is_the_3rd_baby_name] stay at the health facility after being born?[what_is_the_3rd_baby_name]ከተወለደ በኋላ በጤና ተቋም ውስጥ ለምን ያህል ሰዓታት ነው የቆየው? [what_is_the_3rd_baby_name] erga dhalatee/tte booda saaattii meeqaaf buufata fayyaa keessa ture/tte?"
-label variable over_the_past_2_weeks_on_801a "801a. Over the past 2 weeks, on how many days have you been bothered little interest or pleasure in doing things  ከወለድሺ ጀምሮ ስለ ጤናሽ አንዳንድ ተጨማሪ ጥያቄዎች እጠይቅሻለው/ባለፉት 2 ሳምንታት ውስጥ ለሚሰሩት ስራዎች ፍላጎት ማጣት ወይም ስሜት መቀነስ ለስንት ቀናት አስቸግሮዎታል?   Amma waaee fayyaa kessani erga daumsaan asi sigafachuun barbadaa. Torban lamaan darban keessa Wantoota hojjechuuf fedhii ykn gammachuu xiqqoo qabaachuu rakkoolee armaan gadii keessaa tokko guyyoota meeqa si dhiphise? Miirri gadi buuu, dhiphachuu ykn abdii kutachuu "
-label variable b_over_the_past_2_weeks_801b "801b. Over the past 2 weeks, on how many days have you been bothered feeling down, depressed, or hopeless in doing things  ባለፉት 2 ሳምንታት ውስጥ የስሜት/ፍላጎት መቀነስ፣ ጭንቀት ወይም የተስፋ መቁረጥ ስሜት ለስንት ቀናት አስቸግሮዎታል?   Torban lamaan darban keessa Miirri gadi buuu, dhiphachuu ykn abdii kutachuu rakkoolee armaan gadii keessaa tokko guyyoota meeqa si dhiphise?  "
-label variable since_you_last_spoke_802a "802a. Since you last spoke to us, did you have a session of psychological counseling or therapy with any type of professional?  This could include seeing a mental health professional (like a phycologist, social worker, nurse, spiritual advisor or healer) for problems with your emotions or nerves   ለመጨረሻ ጊዜ ከተነጋገርን በኋላ፣ ከማንኛውም አይነት ባለሙያ ጋር የስነ ልቦና ምክር ወይም የማማከር ህክምና አድርገዋል? ይህ በስሜትዎ ወይም በነርቮዎ ላይ ለሚፈጠሩ ችግሮች የአእምሮ ጤና ባለሙያን (ማለትም እንደ ስነ ልቦና ባለሙያ፣ ማህበራዊ ሰራተኛ፣ ነርስ፣ መንፈሳዊ አማካሪ ወይም ሀኪም) ማየትን ሊያካትት ይችላል።  Erga yeroo dhumaaf nutti dubbattee as gorsa xiinsammuu ykn walaansa ogeessa gosa kamiyyuu waliin taasiftaniittuu? Kunis rakkoo miira ykn narvii kee irratti mulateef ogeessa fayyaa sammuu (akka ogeessa fayyaa, hojjetaa hawaasummaa, narsii, gorsaa hafuuraa ykn fayyisaa) arguu dabalatee tauu dandaa.  "
-label variable how_many_of_these_sessio_802b "802b. How many of these sessions did you have since you last spoke to us?  ለመጨረሻ ጊዜ ከተነጋገርን በኋላ ለምን ያህል ጊዜ የስነ ልቦና ምክር ወይም ህክምና ነበረዎት?  Erga yeroo dhumaaf nutti dubbattee booda yeroo meeqa irratti hirmaatte? "
-label variable how_many_minutes_did_802c "802c. How many minutes did this/these visit(s) last on average?  የስነ ልቦና ምክር ወይም ህክምና ቆይታዎ በአማካይ ለስንት ደቂቃዎች ነበር?  Daawwannaan kun/kunneen giddu galeessaan daqiiqaa meeqa turaniiru?  "
-label variable have_you_experienced_803a "803a. Since giving birth ,have  you experienced Severe or persistent headaches?   ከወለዱ ጀምሮ ከባድ ወይም የማያቋርጥ ራስ ምታት አጋጥሞዎት ያውቃል ?  Erga deessee Mataa dhukkubbii cimaa walittii fufiinsa qabu si mudateeraa moo hin mudanne?    "
-label variable have_you_experienced_803b "803b. Since giving birth ,have  you experienced a fever?  ከወለዱ ጀምሮ ከባድ ወይም የማያቋርጥ ትኩሳት አጋጥሞዎት ያውቃል ? Erga deessee Hoa qaamaa si mudateeraa moo hin mudanne?   "
-label variable have_you_experienced_803c "803c. Since giving birth ,have  you experienced Severe abdominal pain, not just discomfort?   ከወለዱ ጀምሮ ከባድ የሆድ ህመም, ምቾት ማጣት ብቻ ያልሆነ አጋጥሞዎት ያውቃል ?  Erga deessee Dhukkubbii garaamalee cimaa miira namaa hin tolle si mudateeraa moo hin mudanne?    "
-label variable have_you_experienced_803d "803d. Since giving birth ,have  you experienced a lot of difficulty breathing even when you are resting?  ከወለዱ ጀምሮ በሚያርፉበት ጊዜ እንኳን ብዙ የመተንፈስ ችግር አጋጥሞዎት ያውቃል ? Erga deessee Yeroo boqottullee hafuura baafachuun baayee sitti ulfaata?   "
-label variable have_you_experienced_803e "803e. Since giving birth ,have  you experienced Convulsions or seizures?   ከወለዱ ጀምሮ መንቀጥቀጥ ወይም መናድ ችግር አጋጥሞዎት ያውቃል ?  Erga deessee Konvulsion ykn dhukkubbii of urgguffamuu?   "
-label variable have_you_experienced_803f "803f. Since giving birth ,have  you experienced repeated fainting or loss of consciousness?   ከወለዱ ጀምሮ ተደጋጋሚ የንቃተ ህሊና ማጣት ወይም መሳት  አጋጥሞዎት ያውቃል ?  Erga deessee Irra deddeebiin kuffuu ykn of wallaaluu?     "
-label variable have_you_experienced_803g "803g. Since giving birth ,have  you experienced continued heavy vaginal bleeding?  ከወለዱ ጀምሮ የቀጠለ ከባድ የሴት ብልት ደም መፍሰስ  አጋጥሞዎት ያውቃል ?  Erga deessee Dhiigni karaa qaama saalaa ulfaataa itti fufuun dhangalauu?   "
-label variable have_you_experienced_803h "803h. Since giving birth ,have  you experienced foul smelling vaginal discharge?  ከወለዱ ጀምሮ ደስ የማይል ሽታ ያለው የብልት ፈሳሽ አጋጥሞዎት ያውቃል ? Erga deessee Dhangalaaa qaama saalaa foolii qabu si mudateeraa?   "
-label variable have_you_experienced_803i "803i. Since giving birth, have you experienced Blurring of vision?   ከወለዱ ጀምሮ የእይታ ወይም ብዥ ማለት አጋጥሞዎት ያውቃልr?  Erga deessee Mulata jaamsuu/ ijan arggu dadhabuu yeroodhaf? "
-label variable have_you_experienced_803j "803j. Since giving birth, have you experienced any other major health problems since you gave birth?  ከወለዱ ጀምሮ በኋላ ሌላ ዋና የጤና ችግሮች አጋጥመውዎት ያውቃሉ?  Erga deessee rakkoo fayyaa gurguddaa kan biraa si mudatee jiraa? (Erga deessee rakkoo fayyaa gurguddaa biro kamiyyuu ibsi )   "
-label variable specify_any_other_health_prob "803j_Specify any other major health problems since you gave birth  ከወለዱ ጀምሮ ሌሎች ዋና ያጋጠሞትን የጤና ችግሮችን ይግለጹ Ibsi  "
-label variable since_you_gave_birth_have_805 "805. Sometimes a woman can have a problem such that she experiences a constant leakage of urine or stool from her vagina during the day and night. This problem can occur after a difficult childbirth. Since you gave birth to [what_is_the_1st_baby_name], [what_is_the_2nd_baby_name], [what_is_the_3rd_baby_name] have you experienced a constant leakage of urine or stool from your vagina during the day and night?አንዳንድ ጊዜ በሴት ብልቷ በኩል የማያቋርጥ የሽንት ወይም የሰገራ መንጠባጠብ በቀንም ሆነ በማታ ያጋጥማታል፡፡ ይህ ችግር የሚፈጠረው በአስቸጋሪ ሁኔታ ልጅ ከወለደች በኋላ ነው [what_is_the_1st_baby_name], [what_is_the_2nd_baby_name], [what_is_the_3rd_baby_name] ከወለዱ ጀምሮ በቀን ወይም በሌሊት ከብልትዎ የማያቋርጥ የሽንት ወይም የሰገራ መፍሰስ ችግር አጋጥሞታል?Hadhooliin tokkoo tokkoo dhagalaa fincaanii ykn boolii karaa qaama salaa isaanitin bau isaan mudatuu dandaaa. Kunis kan tauu daumsa haala cimaa taeen boodaa. Erga [what_is_the_1st_baby_name], [what_is_the_2nd_baby_name], [what_is_the_3rd_baby_name] deessee as, halkanii fi guyyaa fincaan ykn sagaraan qaama saalaa kee keessaa yeroo hunda dhangalauu si mudateeraa?"
-label variable how_many_days_after_giving_806 "806. How many days after giving birth did these symptoms start?  እነዚህ ምልክቶች ከወለዱ ከስንት ቀናት በኋላ ጀመረዎት?  Mallattoon kun erga deessee booda guyyaa meeqatti eegale?  "
-label variable overall_how_much_does_807 "807. Overall, how much does this problem interfere with your everyday life? Please select a number between 0 (not at all) and 10 (a great deal).  በአጠቃላይ ይህ ችግር በዕለት ተዕለት ኑሮዎ ላይ ምን ያህል አስቸግሮዎታል?  እባኮትን በ0 (በፍፁም አላስቸገረም) እና በ10 (በከፍተኛ አስቸግሮታል) በመካከል ያለውን ቁጥር ይምረጡ።  Walumaagalatti, rakkoon kun jireenya kee guyyaa guyyaa keessa hangam gidduu seena? Maaloo lakkoofsa 0 (tasumaa miti) fi 10 (baayee guddaa) gidduu jiru filadhu  "
-label variable have_you_sought_treatment_808a "808a. Have you sought treatment for this condition?   ለዚህ የጤና እክል ሕክምና ለማግኘት ሞክረው ነበር?  Haala kanaaf walaansa barbaaddeettaa?  "
-label variable why_have_you_not_sought_808b "808b. Why have you not sought treatment?ሕክምና ያላገኙ /ያልፈለጉበት ምክንያቱ ምን ነበር?Maaliif wallaansaa hin barbaanne?"
-label variable specify_other_reason_v_21 "808b_Oth. Specify other reasons why have you not sought  treatment  ሕክምናዎን ላለመግኘት ሌላ ምክንያት ይግለጹ   Sababa kan biro maaliif yaala akka hin barbaanne ibsi? "
-label variable did_the_treatment_stop_809 "809. Did the treatment stop the problem? የወሰዱትሕክምና ችግሩን አስቆመሎት? Walaansi sun rakkinicha dhaabee? "
-label variable since_we_last_spoke_did_901a "901a. Since last spoke, did you get Iron or folic acid pills for yourself?   ከእኔ ጋር ለመጨረሻ ጊዜ ከተነጋገሩበት ጊዜ ጀምሮ አይረን ወይም ፎሊክ አሲድ ክኒኖች/እንክብል አግኝተዋል?   Erga yeroo dhumaaf dubbanne Ayeran kininaadhan keenamuu argattan moo hin arganne?  "
-label variable since_we_last_spoke_901b "901b. Since we last spoke, did you get iron injection?  ከእኔ ጋር ለመጨረሻ ጊዜ ከተነጋገሩበት ጊዜ ጀምሮ አይረን በመርፌ የሚሰጥ አግኝተዋል?  Erga yeroo dhumaaf dubbanne Ayeran lilmodhan keenamuu argattan moo hin arganne?   "
-label variable since_we_last_spoke_did_901c "901c. Since we last spoke, did you get Calcium pills?   ከእኔ ጋር ለመጨረሻ ጊዜ ከተነጋገሩበት ጊዜ ጀምሮ የካልሲየም ክኒኖች/እንክብሎች አግኝተዋል?   Erga yeroo dhumaaf dubbanne Kiniinii kaalsiyeemii argattan moo hin arganne?   "
-label variable since_we_last_spoke_did_901d "901d. Since we last spoke, did you get multivitamins?   ከእኔ ጋር ለመጨረሻ ጊዜ ከተነጋገሩበት ጊዜ ጀምሮ መልቲ ቫይታሚኖች  አግኝተዋል?   Erga yeroo dhumaaf dubbanne Maltivitaamiinotaa argattan moo hin arganne?  "
-label variable since_we_last_spoke_did_901e "901e. Since we last spoke, did you get Food supplements like Super Cereal or Plumpynut?  ከእኔ ጋር ለመጨረሻ ጊዜ ከተነጋገሩበት ጊዜ ጀምሮ ተጨማሪ/አጋዥ ምግቦች እንደ ሱፐር ሴሪያል ምግብ ወይም ፕለምፒኔት አግኝተዋል?   Erga yeroo dhumaaf dubbanne Nyaata dabalataa kan akka Super Cereal ykn Plumpynut argattan moo hin arganne?   "
-label variable since_we_last_spoke_did_901f "901f. Since we last spoke, did you get Medicine for intestinal worms [endemic areas]?  ከእኔ ጋር ለመጨረሻ ጊዜ ከተነጋገሩበት ጊዜ ጀምሮ ለአንጀት ትሎች መደሀኒት (በሽታው ላለባቸው አካባቢዎች) አግኝተዋል?   Erga yeroo dhumaaf dubbanne Qoricha raammoo garaachaa bakka dhukkubni itti baayatutti argattan moo hin arganne?   "
-label variable since_we_last_spoke_did_901g "901g. Since we last spoke, did you get Medicine for malaria [endemic areas]?ከእኔ ጋር ለመጨረሻ ጊዜ ከተነጋገሩበት ጊዜ ጀምሮ ለወባ መድሃኒት [በሽታው ላለባቸው አካባቢዎች]አግኝተዋል?Erga yeroo dhumaaf dubbanne Qoricha busaan [naannoo dhukkuba busaan itti baayatu]argattan moo hin arganne?"
-label variable since_we_last_spoke_did_901h "901h. Since we last spoke, did you get Medicine for HIV?   ከእኔ ጋር ለመጨረሻ ጊዜ ከተነጋገሩበት ጊዜ ጀምሮ ጸረ-ኤችአይቪ መድሃኒት አግኝተዋል?   Erga yeroo dhumaaf dubbanne Qoricha farra HIV argattan moo hin arganne?   "
-label variable since_we_last_spoke_did_901i "901i. Since we last spoke, did you get Medicine for your emotions, nerves, depression, or mental health?   ከእኔ ጋር ለመጨረሻ ጊዜ ከተነጋገሩበት ጊዜ ጀምሮ ለስሜትዎ፣ ለነርቮችዎ ወይም ለአእምሮ ጤናዎ መድሃኒት አግኝተዋል?   Erga yeroo dhumaaf dubbanne Miira, narvii ykn fayyaa sammuu keessaniif qoricha argattan moo hin arganne?   "
-label variable since_we_last_spoke_did_901j "901j. Since we last spoke, did you get Medicine for hypertension?   ከእኔ ጋር ለመጨረሻ ጊዜ ከተነጋገሩበት ጊዜ ጀምሮ የደም ግፊት መድሃኒት   አግኝተዋል?   Erga yeroo dhumaaf dubbanne Qoricha dhiibbaa dhiigaa argattan moo hin arganne?   "
-label variable since_we_last_spoke_did_901k "901k. Since we last spoke, did you get Medicine for diabetes, including injections of insulin?  ከእኔ ጋር ለመጨረሻ ጊዜ ከተነጋገሩበት ጊዜ ጀምሮ የኢንሱሊን መርፌን ጨምሮ ለስኳር በሽታ መድኃኒት አግኝተዋል?   Erga yeroo dhumaaf dubbanne Qoricha dhukkuba sukkaaraa, insuliinii lilmoo dabalatee argattan moo hin arganne?   "
-label variable since_we_last_spoke_did_901l "901l. Since we last spoke, did you get Antibiotics for an infection?   ከእኔ ጋር ለመጨረሻ ጊዜ ከተነጋገሩበት ጊዜ ጀምሮ ኢንፌክሽኑን ለማከም አንቲባዮቲክስ  አግኝተዋል?   Erga yeroo dhumaaf dubbanne Antibaayootikii infekshinii tokkoof argattan moo hin arganne?   "
-label variable since_we_last_spoke_did_901m "901m. Since we last spoke, did you get aspirin?   ከእኔ ጋር ለመጨረሻ ጊዜ ከተነጋገሩበት ጊዜ ጀምሮ አስፕሪን አግኝተዋል?   Erga yeroo dhumaaf dubbanne Aspiriin jedhamuun beekama argattan moo hin arganne?   "
-label variable since_we_last_spoke_did_901n "901n. Since we last spoke, did you get Paracetamol, or other pain relief drugs?   ከእኔ ጋር ለመጨረሻ ጊዜ ከተነጋገሩበት ጊዜ ጀምሮ.ፓራሲታሞል ወይም ሌላ የህመም ማስታገሻ መድሃኒቶች አግኝተዋል ?   Erga yeroo dhumaaf  dubbannee Paracetamol, ykn qoricha dhukkubbii hirisu kan biroo argattan moo hin arganne?  "
-label variable since_we_last_spoke_did_901o "901o. Since we last spoke, did you get Contraceptive pills?  ከእኔ ጋር ለመጨረሻ ጊዜ ከተነጋገሩበት ጊዜ ጀምሮ የወሊድ መከላከያ እንክብል/ኪኒን አግኝተዋል?   Erga yeroo dhumaaf dubbanne Kiniinii ulfa ittisuu argattan moo hin arganne?  "
-label variable since_we_last_spoke_did_901p "901p. Since we last spoke, did you get contraceptive injection?   ከእኔ ጋር ለመጨረሻ ጊዜ ከተነጋገሩበት ጊዜ ጀምሮ በመርፌ የሚሰጥ የወሊድ መከላከያ አግኝተዋል?  Erga yeroo dhumaaf  nutti dubbatte as Qoricha ulfa ittisuu lilmoodhaan naqamuu  Argattan moo hin arganne?   "
-label variable since_we_last_spoke_did_901q "901q. Since we last spoke, did you get other contraception method?   ከእኔ ጋር ለመጨረሻ ጊዜ ከተነጋገሩበት ጊዜ ጀምሮ ሌላ የወሊድ መከላከያ ዘዴ አግኝተዋል?   Erga yeroo dhumaaf Mala ittisa ulfaa kan biraa Argattan moo hin arganne?  "
-label variable since_we_last_spoke_did_901r "901r. Since we last spoke, did you get Any other medicine or supplement ?   ከእኔ ጋር ለመጨረሻ ጊዜ ከተነጋገሩበት ጊዜ ጀምሮ ሌላ ማንኛውም መድሃኒት  አግኝተዋል?  Erga yeroo dhumaaf dubbanne Qoricha ykn dabalataa biroo kamiyyuu, argattan moo hin arganne ?  "
-label variable specify_other_treatment "901s_Oth. Specify other treatment you took   ሌላ ማንኛውም መድሃኒት ወይም ማሟያ ካለ፣ እባክዎ ይግለጹ  Qoricha ykn dabalataa biroo kamiyyuu, maaloo ibsaa "
-label variable since_they_were_born_did_902a "902a 1. Since they were born, did [what_is_the_1st_baby_name]get Iron supplements? ለመጨረሻ ጊዜ ካነጋገሩን በኋላ፣ [what_is_the_1st_baby_name] አይረን ተሰጥቶታልን? Erga dhalatanii, [what_is_the_1st_baby_name] ayiiranii kininidhaan kennamu argatan moo hin arganne? "
-label variable since_they_were_born_v_22 "902a 2. Since they were born, did [what_is_the_2nd_baby_name]get Iron supplements? ለመጨረሻ ጊዜ ካነጋገሩን በኋላ፣ [what_is_the_2nd_baby_name]አይረን ተሰጥቶታል Erga dhalatanii, [what_is_the_2nd_baby_name] ayiiranii kininidhaan kennamu argatan moo hin arganne?"
-label variable since_they_were_born_v_23 "902a 3. Since they were born, did [what_is_the_3rd_baby_name]get Iron supplements? ለመጨረሻ ጊዜ ካነጋገሩን በኋላ፣ [what_is_the_3rd_baby_name]አይረን ተሰጥቶታል Erga dhalatanii, [what_is_the_3rd_baby_name] ayiiranii kininidhaan kennamu argatan moo hin arganne?"
-label variable since_they_were_born_did_902b "902b 1. Since they were born, did [what_is_the_1st_baby_name] get Vitamin A supplements? ለመጨረሻ ጊዜ ካነጋገሩን በኋላ፣ [what_is_the_1st_baby_name] የቫይታሚን ኤ ተሰጥቶታል Erga dhalatanii, [what_is_the_1st_baby_name] Dabalata vitamin Aargateera moo hin arganne? "
-label variable since_they_were_born_v_24 "902b 2. Since they were born, did [what_is_the_2nd_baby_name] get Vitamin A supplements? ለመጨረሻ ጊዜ ካነጋገሩን በኋላ፣ [what_is_the_2nd_baby_name] የቫይታሚን ኤ ተሰጥቶታል Erga dhalatanii, [what_is_the_2nd_baby_name] Dabalata vitamin Aargateera moo hin arganne? "
-label variable since_they_were_born_v_25 "902b 3. Since they were born, did [what_is_the_3rd_baby_name] get Vitamin A supplements? ለመጨረሻ ጊዜ ካነጋገሩን በኋላ፣ [what_is_the_3rd_baby_name] የቫይታሚን ኤ ተሰጥቶታል Erga dhalatanii, [what_is_the_3rd_baby_name] Dabalata vitamin Aargateera moo hin arganne? "
-label variable since_they_were_born_did_902c "902c 1. Since they were born, did [what_is_the_1st_baby_name] get Vitamin D supplements? ለመጨረሻ ጊዜ ካነጋገሩን በኋላ፣ [what_is_the_1st_baby_name] ቫይታሚን ዲ ተሰጥቶታል Erga dhalatanii, [what_is_the_1st_baby_name] Dabalata vitamin D argateera moo hin arganne? Isaanis:"
-label variable since_they_were_born_v_26 "902c 2. Since they were born, did [what_is_the_2nd_baby_name] get Vitamin D supplements? ለመጨረሻ ጊዜ ካነጋገሩን በኋላ፣ [what_is_the_2nd_baby_name] ቫይታሚን ዲ ተሰጥቶታል Erga dhalatanii, [what_is_the_2nd_baby_name] Dabalata vitamin D argateera moo hin arganne? Isaanis:"
-label variable since_they_were_born_v_27 "902c 3. Since they were born, did [what_is_the_3rd_baby_name] get Vitamin D supplements? ለመጨረሻ ጊዜ ካነጋገሩን በኋላ፣ [what_is_the_3rd_baby_name] ቫይታሚን ዲ ተሰጥቶታል Erga dhalatanii, [what_is_the_3rd_baby_name] Dabalata vitamin D argateera moo hin arganne? Isaanis:"
-label variable since_they_were_born_did_902d "902d 1. Since they were born, did [what_is_the_1st_baby_name] get Oral rehydration salts? ለመጨረሻ ጊዜ ካነጋገሩን በኋላ፣ [what_is_the_1st_baby_name] የእንግሊዝ ጨው /ኦአርኤስ/ለምለም ተሰጥቶታል Erga dhalatanii, [what_is_the_1st_baby_name] ORS/Soogidda bishaan keessaa deebiee fudhatamu argateera moo hin arganne? Isaanis:"
-label variable since_they_were_born_v_28 "902d 2. Since they were born, did [what_is_the_2nd_baby_name] get Oral rehydration salts? ለመጨረሻ ጊዜ ካነጋገሩን በኋላ፣ [what_is_the_2nd_baby_name] የእንግሊዝ ጨው /ኦአርኤስ/ለምለም ተሰጥቶታል Erga dhalatanii, [what_is_the_2nd_baby_name] ORS/Soogidda bishaan keessaa deebiee fudhatamu argateera moo hin arganne? Isaanis:"
-label variable since_they_were_born_v_29 "902d 3. Since they were born, did [what_is_the_3rd_baby_name] get Oral rehydration salts? ለመጨረሻ ጊዜ ካነጋገሩን በኋላ፣ [what_is_the_3rd_baby_name] የእንግሊዝ ጨው /ኦአርኤስ/ለምለም ተሰጥቶታል Erga dhalatanii, [what_is_the_3rd_baby_name] ORS/Soogidda bishaan keessaa deebiee fudhatamu argateera moo hin arganne? Isaanis:"
-label variable since_they_were_born_did_902e "902e 1. Since they were born, did [what_is_the_1st_baby_name] get antidiarrheal? ለመጨረሻ ጊዜ ካነጋገሩን በኋላ፣ [what_is_the_1st_baby_name] የተቅማጥ መድሃኒት ተሰጥቶታል Erga dhalatanii [what_is_the_1st_baby_name]f qorichii garaakaasaa kennameraafi?  "
-label variable since_they_were_born_v_30 "902e 2. Since they were born, did [what_is_the_2nd_baby_name] get antidiarrheal? ለመጨረሻ ጊዜ ካነጋገሩን በኋላ፣ [what_is_the_2nd_baby_name] የተቅማጥ መድሃኒት ተሰጥቶታል Erga dhalatanii [what_is_the_2nd_baby_name]f qorichii garaakaasaa kennameraafi?  "
-label variable since_they_were_born_v_31 "902e 3. Since they were born, did [what_is_the_3rd_baby_name] get antidiarrheal? ለመጨረሻ ጊዜ ካነጋገሩን በኋላ፣ [what_is_the_3rd_baby_name] የተቅማጥ መድሃኒት ተሰጥቶታል Erga dhalatanii [what_is_the_3rd_baby_name]f qorichii garaakaasaa kennameraafi?  "
-label variable since_they_were_born_did_902f "902f 1. Since they were born, did [what_is_the_1st_baby_name] get Antibiotics for an infection? ለመጨረሻ ጊዜ ካነጋገሩን በኋላ፣ [what_is_the_1st_baby_name] ለፀረ-ተዋሲያን አንቲባዮቲክስ ተሰጥቶታልErga dhalatanii, [what_is_the_1st_baby_name] Antibaayootiksii kennameraafi?"
-label variable since_they_were_born_v_32 "902f 2. Since they were born, did [what_is_the_2nd_baby_name] get Antibiotics for an infection? ለመጨረሻ ጊዜ ካነጋገሩን በኋላ፣ [what_is_the_2nd_baby_name] ለፀረ-ተዋሲያን አንቲባዮቲክስ ተሰጥቶታልErga dhalatanii, [what_is_the_2nd_baby_name] Antibaayootiksii kennameraafi?"
-label variable since_they_were_born_v_33 "902f 3. Since they were born, did [what_is_the_3rd_baby_name] get Antibiotics for an infection? ለመጨረሻ ጊዜ ካነጋገሩን በኋላ፣ [what_is_the_3rd_baby_name] ለፀረ-ተዋሲያን አንቲባዮቲክስ ተሰጥቶታልErga dhalatanii, [what_is_the_3rd_baby_name] Antibaayootiksii kennameraafi?"
-label variable since_they_were_born_did_902g "902g 1. Since they were born, did [what_is_the_1st_baby_name] get Medicine to prevent pneumonia? ለመጨረሻ ጊዜ ካነጋገሩን በኋላ፣ [what_is_the_1st_baby_name]ለሳንባ-ምች መድሃኒት ተሰጥቶታል Erga dhalatanii, [what_is_the_1st_baby_name] qoricha daranyoo sombaa ittisu kennameerafi?"
-label variable since_they_were_born_v_34 "902g 2. Since they were born, did [what_is_the_2nd_baby_name] get Medicine to prevent pneumonia? ለመጨረሻ ጊዜ ካነጋገሩን በኋላ፣ [what_is_the_2nd_baby_name] ለሳንባ-ምች መድሃኒት ተሰጥቶታል Erga dhalatanii, [what_is_the_2nd_baby_name] qoricha daranyoo sombaa ittisu kennameerafi?"
-label variable since_they_were_born_v_35 "902g_3. Since they were born, did [what_is_the_3rd_baby_name]get Medicine to prevent pneumonia? ለመጨረሻ ጊዜ ካነጋገሩን በኋላ፣ [what_is_the_3rd_baby_name] ለሳንባ-ምች መድሃኒት ተሰጥቶታል Erga dhalatanii, [what_is_the_3rd_baby_name] qoricha daranyoo sombaa ittisu kennameerafi?"
-label variable since_they_were_born_did_902h "902h 1. Since they were born, did [what_is_the_1st_baby_name] get Medicine for malaria [endemic areas]? ለመጨረሻ ጊዜ ካነጋገሩን በኋላ፣ [what_is_the_1st_baby_name] ለወባ መድሃኒት (ለወባማ አካባቢዎች) ተሰጥቶታልErga dhalatanii, [what_is_the_1st_baby_name] Qoricha dhukkuba busaa [naannoowwan dhukkuba busaa itti baayatu]. argateera moo hin arganne? Isaanis:"
-label variable since_they_were_born_v_36 "902h 2. Since they were born, did [what_is_the_2nd_baby_name]get Medicine for malaria [endemic areas]? ለመጨረሻ ጊዜ ካነጋገሩን በኋላ፣ [what_is_the_2nd_baby_name]ለወባ መድሃኒት (ለወባማ አካባቢዎች) ተሰጥቶታልErga dhalatanii, [what_is_the_2nd_baby_name]Qoricha dhukkuba busaa [naannoowwan dhukkuba busaa itti baayatu]. argateera moo hin arganne? Isaanis:"
-label variable since_they_were_born_v_37 "902h_3. Since they were born, did [what_is_the_3rd_baby_name] get Medicine for malaria [endemic areas]? ለመጨረሻ ጊዜ ካነጋገሩን በኋላ፣ [what_is_the_3rd_baby_name] ለወባ መድሃኒት (ለወባማ አካባቢዎች) ተሰጥቶታልErga dhalatanii, [what_is_the_3rd_baby_name] Qoricha dhukkuba busaa [naannoowwan dhukkuba busaa itti baayatu]. argateera moo hin arganne? Isaanis:"
-label variable since_they_were_born_did_902i "902i _1. Since they were born, did [what_is_the_1st_baby_name] get Medicine for HIV [HIV+ mothers only? ለመጨረሻ ጊዜ ካነጋገሩን በኋላ፣ [what_is_the_1st_baby_name] ጸረ-ኤችአይቪ መድሃኒት አግኝቷል/ተሰጥቶታልErga dhalatanii, [what_is_the_1st_baby_name]Qoricha HIV argateera moo hin arganne? Isaanis:"
-label variable since_they_were_born_v_38 "902i_2. Since they were born, did [what_is_the_2nd_baby_name] get Medicine for HIV [HIV+ mothers only? ለመጨረሻ ጊዜ ካነጋገሩን በኋላ፣ [what_is_the_2nd_baby_name] ጸረ-ኤችአይቪ መድሃኒት አግኝቷል/ተሰጥቶታልErga dhalatanii, [what_is_the_2nd_baby_name]Qoricha HIV argateera moo hin arganne? Isaanis:"
-label variable since_they_were_born_v_39 "902i _3. Since they were born, did [what_is_the_3rd_baby_name] get Medicine for HIV [HIV+ mothers only? ለመጨረሻ ጊዜ ካነጋገሩን በኋላ፣ [what_is_the_3rd_baby_name] ጸረ-ኤችአይቪ መድሃኒት አግኝቷል/ተሰጥቶታልErga dhalatanii, [what_is_the_3rd_baby_name]Qoricha HIV argateera moo hin arganne? Isaanis:"
-label variable since_they_were_born_did_902j "902j_1. Since they were born, did [what_is_the_1st_baby_name] get other medicine or supplement, please specifyሌላ ማንኛውም መድሃኒት ወይም ማሟያ ካለ፣ እባክዎ ይግለጹQoricha ykn dabalataa biroo kamiyyuu, maaloo ibsa"
-label variable q902j_oth "902j_Oth. Any other medicine or supplement for [what_is_the_1st_baby_name] please specify ሌላ ማንኛውም መድሃኒት ወይም ማሟያ ህጻኑ ካገኘ/ች፣ እባክዎ ይግለጹ Qoricha ykn dabalataa biroo kamiyyuu, maaloo ibsa"
-label variable since_they_were_born_v_40 "902j_2. Since they were born, did [what_is_the_2nd_baby_name] get other medicine or supplement, please specifyሌላ ማንኛውም መድሃኒት ወይም ማሟያ ካለ፣ እባክዎ ይግለጹQoricha ykn dabalataa biroo kamiyyuu, maaloo ibsa"
-label variable q902j_oth_2 "902j_Oth_2. Any other medicine or supplement for [what_is_the_2nd_baby_name] please specifyሌላ ማንኛውም መድሃኒት ወይም ማሟያ ህጻኑ ካገኘ/ች፣ እባክዎ ይግለጹQoricha ykn dabalataa biroo kamiyyuu, maaloo ibsa"
-label variable since_they_were_born_v_41 "902j_3. Since they were born, did [what_is_the_3rd_baby_name] get other medicine or supplement, please specifyሌላ ማንኛውም መድሃኒት ወይም ማሟያ ካለ፣ እባክዎ ይግለጹQoricha ykn dabalataa biroo kamiyyuu, maaloo ibsa"
-label variable q902j_oth_3 "902j_Oth_3. Any other medicine or supplement for [what_is_the_3rd_baby_name] please specifyሌላ ማንኛውም መድሃኒት ወይም ማሟያ ህጻኑ ካገኘ/ች፣ እባክዎ ይግለጹQoricha ykn dabalataa biroo kamiyyuu, maaloo ibsa"
-label variable overall_taking_everything_901 "1001. Overall, taking everything into account, how would you rate the quality of care that you received for your delivery at [name_of_the_facility_deliver] ? በአጠቃላይ፣ ሁሉንም ነገር ግምት ውስጥ በማስገባት፣ ሲወልዱ ያገኙትትን የእንክብካቤ ጥራት እንዴት ይመዝኑታል[name_of_the_facility_deliver]? Walumaagalatti, waan hunda tilmaama keessa galchuun, qulqullina kunuunsa daumsa keessaniif argattan akkamitti madaaltu [name_of_the_facility_deliver]?"
-label variable how_likely_are_you_to_reco_902 "1002. How likely are you to recommend this provider to a family member or friend for childbirth?  ይህን አቅራቢ ለቤተሰብ አባል ወይም ጓደኛ ልጅ ለመውለድ ምን ያህል የመምከር እድል አለዎት?  Dhiyeessaa kana miseensa maatii ykn hiriyyaa keessaniif daumsaaf gorsuu keessan hangam? "
-label variable did_staff_suggest_or_ask_903 "1003. Did staff suggest or ask you (or your family or friends) for a bribe, and informal payment or gift?  የጤና ተቋሙ ሰራተኞች እርስዎን (ወይም ቤተሰብዎን ወይም ጓደኞችዎን) ጉቦ እና መደበኛ ያልሆነ ክፍያ ወይም ስጦታ እንድትሰጡሃቸው ጠይቀዋል?  Hojjetoonni malaammaltummaa, fi kaffaltii ykn kennaa al-kallatti siif (ykn maatii kee ykn hiriyoota kee) yaada dhiyeessan ykn gaafataniiru?  "
-label variable rate_the_knowledge_904a "1004a. Thinking about the care you received during labor and delivery, how would you rate the knowledge and skills of your provider?  በምጥ እና በወሊድ ወቅት ስላገኙት እንክብካቤ በማሰብ የጤና ባለሙያው/ባለሙያዋ እውቀት እና ክህሎት  እንዴት ይገመግማሉ?  Waaee kunuunsa yeroo cininsuu fi daumsaa argatte yoo yaaddu, Beekumsaa fi dandeettii oggessoota fayyaa keessanii akkamitti madaalta?  "
-label variable rate_the_equipment_904b "1004b. Thinking about the care you received during labor and delivery, how would you rate the equipment and supplies that the provider had available such as medical equipment or access to lab tests?  በምጥ እና በወሊድ ወቅት ስላገኙት እንክብካቤ በማሰብ የጤና ተቋሙ ያለው መሳሪያዎች እና አቅርቦቶች ለምሳሌ የህክምና መሳሪያዎች ወይም የላብራቶሪ ምርመራዎች ተደራሽነት እንዴት ይገመግማሉ?  Waaee kunuunsa yeroo cininsuu fi daumsaa argatte yoo yaaddu, Meeshaalee fi dhiyeessii oggessoota fayyaa qabu kan akka meeshaalee yaalaa ykn qorannoo mana yaalaa argachuu akkamitti madaalta? "
-label variable rate_the_level_of_respect_904c "1004c. Thinking about the care you received during labor and delivery, how would you rate the level of respect the provider showed you?  በምጥ እና በወሊድ ወቅት ስላገኙት እንክብካቤ በማሰብ የጤና ባለሙያው/ዋ የአክብሮት ደረጃ  እንዴት ይገመግማሉ?  Waaee kunuunsa yeroo cininsuu fi daumsaa argatte yoo yaaddu, Sadarkaa kabaja oggessoota fayyaa sitti agarsiise akkamitti madaalta?  "
-label variable rate_the_clarity_904d "1004d. Thinking about the care you received during labor and delivery, how would you rate clarity of the providers explanations?    በምጥ እና በወሊድ ወቅት ስላገኙት እንክብካቤ በማሰብ የጤና ባለሙያው/ዋ የማብራሪያው ግልጽነት ደረጃ  እንዴት ይገመግማሉ?  Waaee kunuunsa yeroo cininsuu fi daumsaa argatte yoo yaaddu, Ibsa oggessoota fayyaa ifa tauu isaa akkamitti madaalta? "
-label variable rate_the_degree_904e "1004e. Thinking about the care you received during labor and delivery, how would you rate degree to which the provider involved you as much as you wanted to be in decisions about your care?  በምጥ እና በወሊድ ወቅት ስላገኙት እንክብካቤ በማሰብ ስለ እርስዎ እንክብካቤ በሚደረጉ ውሳኔዎች ላይ ባለሙያው/ዋ የሚፈልጉትን ያህል እርስዎን ያሳተፈበት/ያሳተፈችበት ደረጃ እንዴት ይገመግማሉ?  Waaee kunuunsa yeroo cininsuu fi daumsaa argatte yoo yaaddu, Sadarkaa oggessoota fayyaa sun murtoo waaee kunuunsa keetii keessatti hamma barbaadde si hirmaachise akkamitti madaalta?  "
-label variable rate_the_amount_904f "1004f. Thinking about the care you received during labor and delivery, how would you rate amount of time the provider spent with you?  በምጥ እና በወሊድ ወቅት ስላገኙት እንክብካቤ በማሰብ ስለ ባለሙያው/ዋ ከእርስዎ ጋር ያሳለፈው ጊዜ እንዴት ይገመግማሉ?  Waaee kunuunsa yeroo cininsuu fi daumsaa argatte yoo yaaddu, Hamma yeroo oggessoota fayyaa si waliin dabarse akkamitti madaalta? "
-label variable rate_the_amount_904a "1004g. Thinking about the care you received during labor and delivery, how would you rate the amount of time you waited before being seen?  በምጥ እና በወሊድ ወቅት ስላገኙት እንክብካቤ በማሰብ  ከመታየቱ በፊት/ባለሙያ ጋር ከመቅረቦ በፊት የጠበቁት ጊዜ እንዴት ይመዝኑታል?  Waaee kunuunsa yeroo cininsuu fi daumsaa argatte yoo yaaddu, Hamma yeroo ati osoo oggessa eegduu sittii fudhatee akkamitti madaalta?   "
-label variable rate_the_courtesy_904h "1004h. Thinking about the care you received during labor and delivery, how would you rate the courtesy and helpfulness of the healthcare facility staff, other than your provider?   በምጥ እና በወሊድ ወቅት ስላገኙት እንክብካቤ በማሰብ ስለ ባለሙያው/ዋ ለእርስዎ የነበረው ትህትና እና ድጋፍ የማድረጉን  እንዴት ይመዝኑታል?  Waaee kunuunsa yeroo cininsuu fi daumsaa argatte yoo yaaddu, Kabajaa fi gargaarsa hojjettoota dhaabbata eegumsa fayyaa, oggessa fayyaa keetiin alatti akkamitti madaalta?  "
-label variable confidentiality_m3 "1004i. Thinking about the care you received during labor and delivery, how would you rate Confidentiality of care or diagnosis is there?   በምጥ እና በወሊድ ወቅት ስላገኙት የአገልግሎቱ አሰጣጥ ሚስጥር ጠባቂነት እንዴት ይገመግማሉ?  Waaee kunuunsa yeroo cininsuu fi daumsaa argatte yoo yaaddu iccitii kunuunsaa akkamitti madaalta?  "
-label variable during_labor_m4 "1004j. Thinking about the care you received during labor and delivery, how would you rate the Privacy (Auditory or visual) maintained?   በምጥ እና በወሊድ ወቅት ስላገኙት ከድምጽና ከእይታ ውጪ ለብቻ አገልግሎት የማግኘት እንዴት ይገመግማሉ?  Waaee kunuunsa yeroo cininsuu fi daumsaa argatte yoo yaaddu Dhuunfummaa (mulataa fi sagalee irraa eeguu) akkamitti madalta  "
-label variable during_labor_m3 "1004k. Thinking about the care you received during labor and delivery, how would you rate the cost to the service you received?  በምጥ እና በወሊድ ወቅት ስላገኙት የአገልግሎት ክፍያ ተመጣጣኝነት እንዴት ይገመግማሉ? /   Waaee kunuunsa yeroo cininsuu fi daumsaa argatte yoo yaaddu maallaqa ati tajajilaaf kafalte akkamitti madalta?   "
-label variable did_you_were_pinched_905a "1005a. During your time at the health facility for labor and delivery, were you pinched by a health worker or other staff?  በጤና ተቋም ለመውለድ በቆዩበት ጊዜ በጤና ባለሙያው ወይም በሌላ ሰራተኛ ተቆንጥጠው ነበር?  Yeroo dhaabbata fayyaa cininsuu fi daumsaaf turtan keessatti taateewwan Hojjetaa fayyaa ykn hojjettoota birootiin si qimidamte/quunxuxamtee?"
-label variable you_were_slapped_905b "1005b. During your time at the health facility for labor and delivery, were slapped by a health worker or other staff?   በጤና ተቋም ለመውለድ በቆዩበት ጊዜ በጤና ባለሙያው ወይም በሌላ ሰራተኛ በጥፊ ተመተዋል?  Yeroo dhaabbata fayyaa cininsuu fi daumsaaf turtan keessatti taateewwan Hojjetaa fayyaa ykn hojjettoota birootiin rukutamtee?  "
-label variable you_were_physically_tied_905c "1005c. During your time at the health facility for labor and delivery, were were physically tied to the bed or held down to the bed forcefully by a health worker or other staff?   በጤና ተቋም ለመውለድ በቆዩበት ጊዜ በጤና ባለሙያው ወይም በሌላ ሰራተኛ ከአልጋው ጋር አስረዎታል ወይም በኃይል ወደ አልጋው ይዘዎታል?  Yeroo dhaabbata fayyaa cininsuu fi daumsaaf turtan keessatti taateewwan Qaamaan siree irratti hidhamtee ykn hojjetaa fayyaa ykn hojjettoota birootiin humnaan sireetti gadi qabamtee?  "
-label variable you_had_forceful_905d "1005d. During your time at the health facility for labor and delivery, had forceful downward pressure placed on your abdomen before the baby came out?  በጤና ተቋም ለመውለድ በቆዩበት ጊዜ ህፃኑ ከመወለዱ በፊት ሆድዎን በኃይል ወደ ታች ተጭኖታል?  Yeroo dhaabbata fayyaa cininsuu fi daumsaaf turtan keessatti taateewwan Daaimni osoo hin baiin dura dhiibbaa humnaan gara gadiitti garaa kee irratti godhamee turtee "
-label variable you_were_shouted_905e "1005e. During your time at the health facility for labor and delivery, were shouted or screamed at by a health worker or other staff?  በጤና ተቋም ለመውለድ በቆዩበት ጊዜ በጤና ባለሙያው ወይም በሌላ ሰራተኛ ተጩዎቦታል ወይም ተምባርቆቦታል?  Yeroo dhaabbata fayyaa cininsuu fi daumsaaf turtan keessatti taateewwan Hojjetaan fayyaa ykn hojjettoota birootiin sitti iyyan ykn sitti iyyan?  "
-label variable you_were_scolded_905f "1005f. During your time at the health facility for labor and delivery, were scolded by a health worker or other staff?   በጤና ተቋም ለመውለድ በቆዩበት ጊዜ በጤና ባለሙያው ወይም በሌላ ሰራተኛ ተነቅፈሃል?  Yeroo dhaabbata fayyaa cininsuu fi daumsaaf, Hojjetaa fayyaa ykn hojjettoota birootiin si arrabsan?  "
-label variable the_health_worker_905g "1005g. During your time at the health facility for labor and delivery, the health worker or other staff member made negative comments to you regarding your sexual activity?  በጤና ተቋም ለመውለድ በቆዩበት ጊዜ በጤና ባለሙያው ወይም ሌላ ሰራተኛ ስለወሲባዊ ግንኙነቶ አሉታዊ አስተያየቶችን ሰጥተዎታል?  Yeroo dhaabbata fayyaa cininsuu fi daumsaaf, Hojjetaan fayyaa ykn hojjetaan biroo sochii saalqunnamtii kee ilaalchisee yaada gadhee siif kenne? "
-label variable other_staff_threatened_905h "1005h. DDuring your time at the health facility for labor and delivery, the health worker or other staff threatened that if you did not comply, you or your baby would have a poor outcome?  በጤና ተቋም ለመውለድ በቆዩበት ጊዜ እሺ ካላሉ የጤና ባለሙያው ወይም ሌሎች ሰራተኞች የእርስዎ ወይም የህጻኑ ውጤት መጥፎ እንደሚሆን አስፈራርተዎታል?  Yeroo dhaabbata fayyaa cininsuu fi daumsaaf, Hojjetaan fayyaa ykn hojjettoonni biroo yoo ati hin kabajne, ati ykn daaimni kee buaa gaarii hin taane akka argattu sii doorsisan?   "
-label variable vaginal_examination_1006a "1006a. During labor and delivery, women sometimes receive a vaginal examination. Did you receive a vaginal examination at any point in the health facility?  በወሊድ እና በወሊድ ጊዜ ሴቶች አንዳንድ ጊዜ የሴት ብልት ምርመራ ይደረግላቸዋል. በጤና ተቋም ውስጥ በማንኛውም ጊዜ የሴት ብልት ምርመራ አድርገዋል?  Yeroo daumsaa fi daumsaa dubartoonni yeroo tokko tokko qorannoo qaama saalaa ni taasifamu. Dhaabbata fayyaa keessatti yeroo kamiyyuu qorannoo qaama saalaa fudhattanii jruu? "
-label variable ask_permission_vigin_v_42 "1006b. Did the health care provider ask permission before performing the vaginal examination?   የጤና ባለሙያው/ዋ ብልቶን ምርመራ ከማድረጉ/ጓ በፊት ፈቃድ ጠይቀዎታል?  Ogeessi fayyaa qorannoo qaama saalaa raawwachuu isaa dura hayyama gaafateeraa?  "
-label variable were_vaginal_examination_1006c "1006c. Were vaginal examinations conducted privately (in a way that other people could not see)?   የብልት ምርመራ ሲደረግሎት ግላዊነቶን በጠበቀ መንገድ (ሌሎች ሰዎች ማየት በማይችሉበት ሁኔታ) ነበር?  Qorannoon qaama saalaa dhuunfaatti (karaa namoonni biroo arguu hin dandeenyeen) gaggeeffamaa turee?  "
-label variable any_form_of_pain_relief_1007a "1007a. During your time in the facility, were you offered any form of pain relief?   በጤና ተቋሙ ውስጥ በነበሩበት ጊዜ የህመም ማስታገሻ ተሰጥቶታል?  Yeroo dhaabbaticha keessa turtetti, qorichi dhukkubbii hirʼisuu siif kennamee? "
-label variable did_you_request_pain_rel_1007b "1007b. Did you request pain relief during your time in the facility?  በተቋሙ ውስጥ በነበሩበት ጊዜ የህመም ማስታገሻ እንዲሰጦት ጠይቀዋል?  Yeroo dhaabbaticha keessa turtetti, qorichi dhukkubbii hirʼisuu gaafattaniittuu? "
-label variable did_you_receive_pain_rel_1007c "1007c. Did you receive pain relief during your time in the facility?  በተቋሙ ውስጥ በነበሩበት ጊዜ የህመም ማስታገሻ አግኝተዋል?  Yeroo dhaabbaticha keessa turtetti, qorichi dhukkubbii hirʼisuu argattaniittuu?  "
-label variable would_like_to_ask_you_1101 "1101. I would like to ask you about the cost of the delivery. Did you pay money out of your pocket for the delivery, including for the consultation or other indirect costs like your transport to the facility?  ለወሊድ አገልግሎት ስላወጡት ወጪ መጠየቅ እፈልጋለው፡፡ ለወሊድ አገልግሎት ለምክክር እና ትራንስፖርትን ጨምሮ ከኪሶ ከፈለዋል?  Waaee baasii geejjibaa isin gaafachuun barbaada. Marii ykn baasii al-kallatti biroo kan akka geejjibaa gara dhaabbatichaatti godhamu dabalatee geejjibuuf maallaqa Kiisii/boorsaa keessan keessaa kaffaltaniittuu?  "
-label variable spend_money_on_reg_1102 "1102a. Did you spend money on registration (Consultation)?  ለምዝገባ/ካርድ/ (ለምክክር) አገልግሎት ገንዘብ ወጪ አውጥተዋል  Galmee/ Mariiffi Maallaqa baste "
-label variable how_much_spent_registra "1102a_1. How much money did you spend on registration/ Consultation?   ለምዝገባ / ለምክክር አገልግሎት ምን ያህል ገንዘብ ወጪ አውጥተዋል  Galmee/ Mariiffi Maallaqa meeqa irratti baste?   "
-label variable did_you_spend_money_on_med "1102b. Did you spend money on Medicine/vaccines (including outside purchase)?  ለመድሃኒት/ክትባቶች (ከውጭ የገዙትን ጨምሮ) ገንዘብ ወጪ አውጥተዋል  Qoricha/talaallii (bittaa alaa dabalateeffi Maallaqa  irratti baste  "
-label variable how_you_spent_on_medicin "1102b_2. How much money did you spend on Medicine/vaccines (including outside  purchase)?  ለመድሃኒት/ክትባቶች (ከውጭ የገዙትን ጨምሮ) ምን ያህል ገንዘብ ወጪ አውጥተዋል  Qoricha/talaallii (bittaa alaa dabalateeffi Maallaqa meeqa irratti baste  "
-label variable did_you_spend_money_on_test "1102c. Did you spend money Test/investigations (x-ray, lab etc.)?  ለምርመራ (ኤክስሬይ፣ላብራቶሪ ወዘተ) ገንዘብ ወጪ አውጥተዋል?  Qormaata/qorannoowwan (x-ray, lab fi kkf) ffi Maallaqa  irratti baaste: "
-label variable how_much_spend_on_test "1102c_3.	How much money did you spend Test/investigations (x-ray, lab etc.)?  ለምርመራ (ኤክስሬይ፣ላብራቶሪ ወዘተ) ምን ያህል ገንዘብ ወጪ አውጥተዋል?   Qormaata/qorannoowwan (x-ray, lab fi kkf) ffi Maallaqa meeqa irratti baaste:  "
-label variable did_you_spend_money_on_transp "1102d. Did you spend money on transport (round trip) including that of person accompanying you?              ለመጓጓዣ (የደርሶ መልስ ጉዞ) ከእርስዎ ጋር የሄደውን ሰው ጨምሮ ገንዘብ ወጪ አውጥተዋል?             Geejjibaa (Dhaqaa gala) kan nama si waliin deemu dabalatee  Maallaqa baaste?    "
-label variable how_much_spend_on_transp "1102d_4. How much money did you spend on transport (round trip) including that of person accompanying you?   ለምርመራ (ኤክስሬይ፣ላብራቶሪ ወዘተ) ምን ያህል ገንዘብ ወጪ አውጥተዋል?   Geejjibaa (Dhaqaa gala) kan nama si waliin deemu dabalatee ffi Maallaqa meeqa irratti baaste: "
-label variable did_you_spend_on_food_an "1102e. Did you spend money on food and accommodation including that of person accompanying you?   ለምግብ እና ለማረፊያ ከእርስዎ ጋር አብሮ የመጣውን ሰው ጨምሮ ገንዘብ ወጪ አውጥተዋል   Nyaataa fi bakka jireenyaa kan nama si waliin deemu dabalatee ffi Maallaqa irratti baste? "
-label variable how_much_spend_on_food "1102e_5	. How much money did you spend money on food and accommodation including that of person accompanying you?   ለምግብ እና ለማረፊያ ከእርስዎ ጋር አብሮ የመጣውን ሰው ጨምሮ ምን ያህል ገንዘብ ወጪ አውጥተዋል  Nyaataa fi bakka jireenyaa kan nama si waliin deemu dabalatee ffi Maallaqa meeqa irratti baste?  "
-label variable did_you_spend_on_other "1102f. Did you spend money on other items ?  ለሌሎች ነገር ወጪ አውጥተዋል?   Sababa biraatif maallaqa baastee ? "
-label variable how_much_spend_on_other "1102f_6. How much money did you spend on other items?   ለሌሎች ነገሮች ምን ያህል ገንዘብ ወጪ አውጥተዋል?   Sababa biraatif maallaqa meeqa baastee "
-label variable in_total_how_much_you_spen "1103. So in total you spent:  _____ Is that correct?  በአጠቃላይ፣ ወጪ አድርገዋል፡- _____ ይህ ትክክል ነው?  Walumaagalatti, baasii: _____ Kun sirriidhaa? "
-label variable confirm_oop "Q1103a. Is the total you spent correct?  ያወጡት ጠቅላላ ድምር ከላይ ያለው ትክክል ነው ?  Waliigala baasii ati baaste kan gubbaa jiru sirridha?"
-label variable total_spent "1104. So how much in total would you say you spent?  ስለዚህ በጠቅላላው ምን ያህል ገንዘብ አውጥተዋል ይላሉ?  Kanaafuu walumaa galatti meeqa baaste jetta? "
-label variable which_of_the_followi_v_43 "1105. Which of the following financial sources did your household use to pay for this?  ቤተሰብዎ ለዚህ ሕክምና አገልግሎት ክፍያ ከሚከተሉት የገንዘብ ምንጮች ውስጥ የትኛውን ተጠቅመዋል?  Manneen keessan kanaaf kaffaltii kaffaluuf maddoota maallaqaa armaan gadii keessaa isa kamiitti fayyadame? "
-label variable other_income_source_1105 "1105_Oth. Other specify/ሌላ ይግለጹ/ maaloo ibsaa"
-label variable to_conclude_this_survey_1106 "1106. To conclude this survey, overall, please tell me how satisfied you are  with the health services you received during labor and delivery?  ይህንን ዳሰሳ ለማጠቃለል፣ በአጠቃላይ፣ እባክዎትን በምጥ እና በወሊድ ወቅት ባገኙት የጤና አገልግሎት ምን ያህል ረክተዋል?  Qorannoon kana xumuruuf, walumaa galatti, tajaajila fayyaa yeroo Cininssuu fi daumsaa argattanitti hangam akka itti quuftan natti himaa.  "
-label variable time_of_interview_ended_103b "103B. Time of interview ended / ቃለ መጠይቅ የተጠናቀቀበት ጊዜ/ Yeroo af-gafichi dhumee "
-label variable c_total_duration_of_interv "103C. Total duration of interview ቃለ መጠይቅ ጠቅላላ የፈጀው ጊዜ Yeroo waligala af-gaffichaa/"
-label variable ot1 "OT1. What is the Outcome of the phone call?    "
-label variable ot1_oth "Other reason, specify"
-label variable m3_attempt_outcome2 "CALL TRACKING: What is the date of this attempt? (D-M-Y)  የዚህ ሙከራ ቀን?  Guyyaan yaalii kun maali?"
-label variable m3_attempt_outcome_p2 "C1. CALL TRACKING: What was the outcome of the call? የጥሪው ውጤት ምን ነበር? Buaan waamicha kanaa maal ture?"
-label variable date_of_rescheduled_m3_p2 "Date of rescheduled"
-label variable time_of_rescheduled_m3_p2 "Time of rescheduled"
-label variable module_3_second_phon_v_44 "Complete?"
 
 *===============================================================================
 
@@ -3757,13 +4081,10 @@ label variable module_3_second_phon_v_44 "Complete?"
 	* note: as of 7-27 we are dropping M3-M5 data until it is cleaned
 	
 * drop unncessary vars and de-identify dataset
-drop iic_3-module_5_end_line_facetoface_sur first_name family_name phone_number m1_513b ///
+drop first_name family_name phone_number m1_513b ///
      m1_513c m1_513d m1_513e m1_513f m1_513g m1_513h m1_513i m1_514b m1_515a_town ///
 	 m1_515b_zone m1_515c_ward m1_515d_house m1_516 m1_517 m1_518 m1_519_district ///
-	 m1_519_village m1_519_ward q1501 age gravid lmp edd para ///
-	 number_of_children_alive previous_stillbirth history_of_3 birthweight2500 birthweight4000 ///
-	 last_pregnancy previous_survey diagnosed age_less_than_16_years-maternal_integrated_cards_comple ///
-	 m1_714d date 	 
+	 m1_519_village m1_519_ward enrollage m1_714d order_redcap
 	 
 	 
 order m1_* m2_*, sequential
@@ -3776,10 +4097,13 @@ order height_cm weight_kg bp_time_1_systolic bp_time_1_diastolic time_1_pulse_ra
 
 order phq9a phq9b phq9c phq9d phq9e phq9f phq9g phq9h phq9i, after(m1_205e)
 
-order country redcap_record_id study_id interviewer_name_a7 redcap_event_name redcap_repeat_instrument redcap_repeat_instance redcap_data_access_group date_m1 m1_start_time country site study_site study_site_sd facility facility_other sampstrata facility_type permission care_self  site sampstrata study_site study_site_sd facility interviewer_id date_m1 m1_start_time permission ////
-care_self enrollage zone_live b5anc b6anc_first b6anc_first_conf continuecare b7eligible respondentid mobile_phone flash kebele_malaria kebele_intworm
+order country redcap_record_id study_id interviewer_name_a7 redcap_event_name redcap_repeat_instrument redcap_repeat_instance ///
+	  redcap_data_access_group date_m1 m1_start_time country site study_site study_site_sd facility facility_other sampstrata ///
+	  facility_type permission care_self site sampstrata study_site study_site_sd facility interviewer_id permission ///
+	  care_self zone_live b5anc b6anc_first b6anc_first_conf continuecare b7eligible respondentid mobile_phone ///
+	  flash kebele_malaria kebele_intworm
 
 *===============================================================================
 
-save "$et_data_final/eco_m1m2_et.dta", replace
+save "$et_data_final/eco_m1-m3_et.dta", replace
 	
