@@ -15,6 +15,8 @@ u "$ke_data_final/eco_m1_ke_der.dta", clear
 	tab m1_501 study_site, col
 	tab m1_1205 study_site, col
 
+	gen public = facility_lvl
+	recode public 2=1 3=0
 * QUALITY OF ANC1
 	* By facility type
 			tabstat anc1tq, by(facility_lvl) stat(mean sd count)
@@ -67,11 +69,16 @@ ta specialist_hosp anyrisk if facility_lvl!=2 & facility!=4 & /// "Kalimoni miss
 					 facility!= 11 & ///"Mercylite hospital"
 					 facility!= 17 & ///"Our Lady of Lourdes Mutomo Hospital" 
 					 facility!= 13, col chi2 //"Muthale Mission Hospital"
-					
+
+ta specialist_hosp dangersign if facility_lvl!=2 & facility!=4 & /// "Kalimoni mission hospital"
+					 facility!= 11 & ///"Mercylite hospital"
+					 facility!= 17 & ///"Our Lady of Lourdes Mutomo Hospital" 
+					 facility!= 13, col chi2 //"Muthale Mission Hospital"
 * ECONOMIC OUTCOMES
 	ta m1_1221
 	ta m1_1222 
-	ta m1_1217	// spent money oop		 
+	ta m1_1217	// spent money oop	
+	ta public m1_1217, row
 					 
 * COST OF 1st ANC VISIT
 	sum m1_1218_total_ke
@@ -97,6 +104,7 @@ ta specialist_hosp anyrisk if facility_lvl!=2 & facility!=4 & /// "Kalimoni miss
 			tabstat anc1counsel, by(anyrisk) stat(mean sd count)
 				ttest anc1counsel , by(anyrisk)
 			tabstat m1_603, by(anyrisk) stat(mean sd count)
+				ttest m1_603, by(anyrisk)
 			tabstat anc1ultrasound, by(anyrisk) stat(mean sd count)		
 		
 *COMPETENT SYSTEMS: DANGER SIGNS
@@ -109,10 +117,7 @@ ta specialist_hosp anyrisk if facility_lvl!=2 & facility!=4 & /// "Kalimoni miss
 			tabstat anc1ultrasound, by(dangersign) stat(mean sd count)
 			ta anc1ultrasound dangersign, col chi2
 			
-ta specialist_hosp dangersign if facility_lvl!=2 & facility!=4 & /// "Kalimoni mission hospital"
-					 facility!= 11 & ///"Mercylite hospital"
-					 facility!= 17 & ///"Our Lady of Lourdes Mutomo Hospital" 
-					 facility!= 13, col chi2 //"Muthale Mission Hospital"
+
 
 * CASCADES
 	* Anemia

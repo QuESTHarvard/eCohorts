@@ -115,10 +115,7 @@ u "$user/$data/Ethiopia/02 recoded data/eco_m0_et.dta", clear
 	
 	save  "$user/$analysis/ETtmp.dta", replace		
 		  
-		  
-		  
-		  
-		  
+		    
 *------------------------------------------------------------------------------*
 * KENYA
 
@@ -296,7 +293,11 @@ Average of 6 items: electricity, water, toilet, communication, computer & intern
 	recode beds 98=0
 
 * VOLUMES 
-	* 3 facilities missing anc volumes for now
+	egen anc_annual= rowtotal (m0_801_*)
+	gen anc_mont = anc_annual/12
+	
+	* Volume per staff
+	gen anc_vol_staff_onc = anc_mont / total_staff_onc
 	
 	lab var elect "Electricity from any power source with break less than 2hours/per day)"
 	lab var water "Improved water source"
@@ -305,14 +306,13 @@ Average of 6 items: electricity, water, toilet, communication, computer & intern
 	lab var comput_inter "Computer with internet"
 	lab var ambulance "Functionning ambulance on site"
 	lab var ftdoc "At least one full time doctor"
-	*lab var anc_annual "Total number of ANC visits over the last 12 months"
-	*lab var anc_mont "Average number of ANC visits per month"
-	*lab var anc_vol_staff_onc "Average monthly number of ANC visits per staff providing obstetric care"
+	lab var anc_annual "Total number of ANC visits over the last 12 months"
+	lab var anc_mont "Average number of ANC visits per month"
+	lab var anc_vol_staff_onc "Average monthly number of ANC visits per staff providing obstetric care"
 	
 	keep facility sri_score sri_basicamenities sri_equip sri_diag total_staff ///
-		  ftdoc beds m0_facility_own m0_facility_type
+		  anc_mont anc_vol_staff ftdoc beds m0_facility_own m0_facility_type
 	
-
 
 * MERGING WITH M1 INDIVIDUAL-LEVEL DATA
 	merge 1:m facility using "$user/$analysis/ZAtmp.dta"

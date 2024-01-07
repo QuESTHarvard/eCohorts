@@ -115,7 +115,7 @@ global qualvarsZA anc1bp anc1weight anc1height anc1muac anc1blood ///
 		
 		* Table 3 Facility characteristics
 		summtab if tag==1, catvars(private facsecond ftdoc) contvars (sri_basicamenities ///
-		sri_equip sri_diag total_staff  beds) mean by(site) excel ///
+		sri_equip sri_diag total_staff anc_mont anc_vol_staff_onc beds) mean by(site) excel ///
 		excelname(Table3) sheetname(ZA) replace 
 
 		* Figure 1

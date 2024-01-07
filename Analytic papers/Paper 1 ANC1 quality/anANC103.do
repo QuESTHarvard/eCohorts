@@ -5,7 +5,8 @@ global data "Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts 
 
 
 	u "$user/$analysis/ETtmp.dta", clear
-	keep site facility anc1qual private sri_score total_staff_onc ftdoc month day time  ///
+	keep site facility anc1qual private sri_score sri_basic sri_diag sri_equip ///
+	anc_vol_staff_onc ftdoc month day time  ///
 	age_cat educ_cat tertile minority primipara chronic anemic maln_underw dangersigns complic cesa 
 	recode site 2=1 1=2
 	recode facility 13=12 14=13 15=14 16=15 17=16 18=17 19=18 20=19 21=20 22=21 96=22
@@ -13,7 +14,7 @@ global data "Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts 
 	save "$user/$analysis/4cos.dta", replace
 	
 	u "$user/$analysis/KEtmp.dta", clear
-	keep site facility anc1qual private sri_score total_staff_onc  ftdoc month day time  ///
+	keep site facility anc1qual private sri_score sri_basic sri_diag sri_equip anc_vol_staff_onc ftdoc month day time  ///
 	age_cat educ_cat tertile minority primipara chronic anemic maln_underw dangersigns complic cesa 
 	recode site 1=4 2=3
 	replace facility= facility+22
@@ -21,7 +22,7 @@ global data "Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts 
 	save "$user/$analysis/4cos.dta", replace
 		
 	u "$user/$analysis/ZAtmp.dta", clear 
-	keep site facility anc1qual private sri_score total_staff_onc  ftdoc month day time  ///
+	keep site facility anc1qual private sri_score sri_basic sri_diag sri_equip anc_vol_staff_onc ftdoc month day time  ///
 	age_cat educ_cat tertile minority primipara chronic anemic maln_underw dangersigns complic cesa 
 	recode site 1=6 2=5
 	replace facility= facility+43
@@ -32,9 +33,22 @@ global data "Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts 
 	lab def site 1 "East Shewa" 2 "Adama Town" 3"Kitui" 4 "Kiambu"  5 "Nongoma" 6 "uMhlathuze"
 	lab val site site
 	
-	mixed anc1qual sri_score total_staff_onc  ftdoc month day i.time  ///
-	i.age_cat i.educ_cat  minority primipara chronic anemic maln_underw dangersigns complic cesa i.site || facility: , vce(robust)
+	mixed anc1qual ib(2).age_cat ib(3).educ_cat  minority primipara ib(3).tertile ///
+	chronic anemic maln_underw dangersigns complic cesa ///
+	 sri_score  anc_vol_staff_onc ftdoc month day i.time  ///
+	 i.site || facility: , vce(robust)
 
+	 * checking model assumptions
+	predict es1
+	predict rs1, rstandard
+	*Normality of residuals
+	qnorm rs1,   graphregion(color(white)) title("Full model")
+	hist rs1
+	* Linearity assumption
+	twoway (scatter rs1 es1), yline(0) title("Full model") graphregion(color(white))
+	
+	* Variance analysis
+	
 	* Null model
 	mixed anc1qual || facility: if e(sample) ==1, vce(robust)
 	

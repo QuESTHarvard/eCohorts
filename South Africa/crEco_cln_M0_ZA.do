@@ -595,7 +595,7 @@ save "$za_data_final/eco_m0_za.dta", replace
 	encode fac, gen(facility)
 	drop fac
 	merge 1:1 facility using "$za_data_final/eco_m0_za.dta"
-	drop _merge
+	drop _merge m0_801_total
 	foreach v in m0_801_jan m0_801_feb m0_801_mar m0_801_apr m0_801_may ///
 		m0_801_jun m0_801_jul m0_801_aug m0_801_sep m0_801_oct m0_801_nov m0_801_dec{
 		replace `v' = `v'k if facility==4
