@@ -195,6 +195,8 @@ u "$ke_data_final/eco_m1_ke.dta", clear
 			estat kmo // all above 50
 			predict wealthindex
 			xtile quintile = wealthindex, nq(5)
+			xtile tertile = wealthindex, nq(3)
+
 			
 			gen registration_cost= m1_1218a_1 // registration
 				replace registration = . if registr==0
