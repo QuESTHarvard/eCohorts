@@ -78,6 +78,7 @@ save "$user/$analysis/ETtmp.dta", replace
 * KENYA
 
 u "$user/$data/Kenya/02 recoded data/eco_m1_ke_der.dta", clear
+		keep if module==1	// keep m1 data only
 		rename study_site site
 		egen tag=tag(facility)
 * ANC quality

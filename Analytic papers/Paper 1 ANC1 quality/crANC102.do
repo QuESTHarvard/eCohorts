@@ -4,8 +4,6 @@ global analysis "Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH E-Coh
 global data "Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data"
 
 * HEALTH FACILITY DATA (MODULE 0)
-
-
 *------------------------------------------------------------------------------*
 * ETHIOPIA	
 
