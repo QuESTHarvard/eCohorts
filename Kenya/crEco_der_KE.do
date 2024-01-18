@@ -124,7 +124,7 @@ u "$ke_data_final/eco_m1_ke.dta", clear
 			/* Gestational age at ANC1
 			Here we should recalculate the GA based on LMP (m1_802c and self-report m1_803 */
 			
-			egen dangersigns = rowmax(m1_814a m1_814b m1_814c m1_814d m1_814e m1_814f m1_814g)
+			egen dangersigns = rowmax(m1_814a m1_814b m1_814c m1_814d m1_814f m1_814g)
 			
 			gen ga = gest_age_baseline_ke
 			replace ga = m1_803 if ga == . 
