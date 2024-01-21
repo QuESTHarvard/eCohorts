@@ -7,7 +7,7 @@
 
 */
 
-u "$et_data_final/eco_m1m2_et.dta", clear
+u "$et_data_final/eco_m1-m3_et.dta", clear
 
 *------------------------------------------------------------------------------*
 * MODULE 1
@@ -24,7 +24,7 @@ u "$et_data_final/eco_m1m2_et.dta", clear
 			recode facility_lvl (2/6 8/12 14 16 17 19  =1) (7 18 =2) ///
 								(1 13 15 20 21 22 96 =3) 
 			
-			lab def facility_lvl 1"Primary" 2 "Secondary" 3 "Private"
+			lab def facility_lvl 1"Public primary" 2 "Public secondary" 3 "Private"
 			lab val facility_lvl facility_lvl
 *------------------------------------------------------------------------------*	
 	* SECTION 2: HEALTH PROFILE
@@ -53,6 +53,15 @@ u "$et_data_final/eco_m1m2_et.dta", clear
 			
 			recode m1_505 (1/4=0) (5/6=1), gen(marriedp) 
 
+			recode m1_509b 0=1 1=0, g(mosquito)
+			recode m1_510b 0=1 1=0, g(tbherb)
+			recode m1_511 2=1 1=0 3/4=0, g(drink)
+			recode m1_512 2=1 1=0 3=0, g(smoke)
+			
+			egen health_literacy=rowtotal(m1_509a mosquito m1_510a tbherb drink smoke ), m
+			recode health_literacy 0/3=1 4=2 5=3 6=4
+			lab def health_lit 1"Poor" 2"Fair" 3"Good" 4"Very good"
+			lab val health_lit health_lit
 *------------------------------------------------------------------------------*	
 	* SECTION 6: USER EXPERIENCE
 			foreach v in m1_601 m1_605a m1_605b m1_605c m1_605d m1_605e m1_605f ///
@@ -122,18 +131,12 @@ u "$et_data_final/eco_m1m2_et.dta", clear
 			*calculating GA - confirm with Catherine/Kate: 
 			
 			*this part needs to go into cleaning file - remove once that file is updated
-			replace m1_803 = ".d" if m1_803 == "Dk" | m1_803 == "98"
-			replace m1_803 = "." if m1_803 == ""
-			encode m1_803, generate(recm1_803)
-			drop m1_803
-			ren rec* *
-			
 			gen ga = m1_802d_et 
 			replace ga = m1_803 if ga == . // ga based reported LMP or self report of weeks pregnant 
 			
 			recode ga (1/12.99999 = 1) (13/26.99999= 2) (27/50=3), gen(trimester)
 			lab def trimester 1"1st trimester 0-12wks" 2"2nd trimester 13-26 wks" 3 "3rd trimester 27-42 wks"
-			lab val trimester trimester
+			lab val trimester trimester 
 			
 			gen preg_intent = m1_807
 			* Reports danger signs

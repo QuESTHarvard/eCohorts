@@ -3,11 +3,41 @@ global user "/Users/catherine.arsenault"
 global analysis "Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH E-Cohorts-internal/Analyses/Manuscripts/Paper 1 ANC1 quality"
 global data "Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data"
 
-
+* Regressions
 	u "$user/$analysis/ETtmp.dta", clear
+
+	mixed anc1qual i.risk_score  i.age second healthlit_corr i.tertile marriedp ///
+			primipara preg_intent  month day i.time private i.staff_cat ib(2).site || facility: 
+	margins risk_score, atmeans
+	marginsplot, recast(line) plot1opts(lcolor(gs8)) ciopt(color(black%20)) recastci(rarea) title("Quality of 1st ANC visit, Average Marginal Effects of risk profile") xtitle("Risk score") ytitle("Predicted ANC quality") ylabel(40(20)85, labsize(small) ) 
+
+	
+	u "$user/$analysis/KEtmp.dta", clear
+	
+	mixed anc1qual i.risk_score  i.age second healthlit_corr i.tertile marriedp ///
+			primipara preg_intent  month day i.time private i.staff_cat ib(2).site || facility: 
+	margins risk_score, atmeans
+	marginsplot, recast(line) plot1opts(lcolor(gs8)) ciopt(color(black%20)) recastci(rarea) title("Quality of 1st ANC visit, Average Marginal Effects of risk profile") xtitle("Risk score") ytitle("Predicted ANC quality") ylabel(40(20)85, labsize(small) ) 
+	
+
+	u "$user/$analysis/ZAtmp.dta", clear
+	
+	mixed anc1qual i.risk_score  i.age second healthlit_corr i.tertile marriedp ///
+			primipara preg_intent  month day i.time  i.staff_cat ib(2).site || facility: 
+	margins risk_score, atmeans
+	marginsplot, recast(line) plot1opts(lcolor(gs8)) ciopt(color(black%20)) recastci(rarea) title("Quality of 1st ANC visit, Average Marginal Effects of risk profile") xtitle("Risk score") ytitle("Predicted ANC quality") ylabel(40(20)85, labsize(small) ) 
+	
+	
+
+			
+		
+		
+/* MULTI COUNTRY REGRESSION 	
+	u "$user/$analysis/ETtmp.dta", clear	
 	keep site facility anc1qual private sri_score sri_basic sri_diag sri_equip ///
 	anc_vol_staff_onc ftdoc month day time  ///
-	age_cat educ_cat tertile minority primipara chronic anemic maln_underw dangersigns complic cesa 
+	age_cat educ_cat tertile minority primipara marriedp ///
+	chronic anemic maln_underw dangersigns complic cesa 
 	recode site 2=1 1=2
 	recode facility 13=12 14=13 15=14 16=15 17=16 18=17 19=18 20=19 21=20 22=21 96=22
 	lab drop facility

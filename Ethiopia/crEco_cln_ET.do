@@ -2854,7 +2854,7 @@ recode m3_p2_date_of_rescheduled recm3_p2_time_of_rescheduled (. = .a) if m3_att
 *------------------------------------------------------------------------------*
 * drop variables after recoding/renaming
 
-drop m1_714d m1_803 module_3_second_phone_survey_aft m3_time m3_313b_baby1 m3_506b m3_507 ///
+drop m1_714d  module_3_second_phone_survey_aft m3_time m3_313b_baby1 m3_506b m3_507 ///
 	 m3_514 m3_520 m3_time_p2 m3_endtime m3_p2_time_of_rescheduled m3_duration
 ren rec* *
 
@@ -3067,7 +3067,7 @@ lab var m1_802a "802a. What is the estimated date of delivery the provider told 
 lab var m1_802b_et "802b. Do you know your last normal menstrual period?"
 lab var m1_802c_et "802c. What is the date of your last normal menstrual period"
 lab var m1_802d_et "802d. Gestational age in weeks based on LNMP"
-*lab var m1_803 "803. How many weeks pregnant do you think you are?" // dropped above
+lab var m1_803 "803. How many weeks pregnant do you think you are?" 
 lab var m1_804 "804. Interviewer calculates the gestational age in trimester based on Q802 (estimated due date) or on Q803 (self-reported number of months pregnant)."
 lab var m1_805 "805. How many babies are you pregnant with?"
 lab var m1_806 "806. During the visit today, did the healthcare provider ask when you had your last period, or not?"
@@ -4079,7 +4079,7 @@ label variable m3_p2_time_of_rescheduled "Time of rescheduled"
 drop first_name family_name phone_number m1_513b ///
      m1_513c m1_513d m1_513e m1_513f m1_513g m1_513h m1_513i m1_514b m1_515a_town ///
 	 m1_515b_zone m1_515c_ward m1_515d_house m1_516 m1_517 m1_518 m1_519_district ///
-	 m1_519_village m1_519_ward enrollage m1_714d order_redcap
+	 m1_519_village m1_519_ward m1_714d order_redcap
 	 
 	 
 order m1_* m2_*, sequential

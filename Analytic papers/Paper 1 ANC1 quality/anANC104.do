@@ -3,7 +3,272 @@ global user "/Users/catherine.arsenault"
 global analysis "Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH E-Cohorts-internal/Analyses/Manuscripts/Paper 1 ANC1 quality"
 global data "Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data"
 
+ssc install schemepack, replace
+
+*------------------------------------------------------------------------------*	
+* BOX PLOT QUALITY BY SITE 
+u "$user/$analysis/ETtmp.dta", clear
+keep anc1qual site 
+recode site 2=0 // 0 ES 1 Adama
+save "$user/$analysis/allcountrytmp.dta", replace
+
+u "$user/$analysis/KEtmp.dta", clear
+keep anc1qual site
+recode site 1=3 // 2 Kitui 3 Kiambu
+lab drop a4
+append using "$user/$analysis/allcountrytmp.dta"
+save "$user/$analysis/allcountrytmp.dta", replace
+
+u "$user/$analysis/ZAtmp.dta", clear 
+keep anc1qual site
+recode site 1=5 2=4
+lab drop study_site_sd
+append using "$user/$analysis/allcountrytmp.dta"
+
+lab def site 0"East Shewa" 1"Adama" 2"Kitui" 3"Kiambu" 4 "Nongoma" 5 "uMhlathuze"
+lab val site site
+
+graph box anc1qual, over(site) ylabel(0(20)100, labsize(small)) ytitle("Antenatal Care Quality Index") scheme(white_tableau)
+
+*------------------------------------------------------------------------------*	
+* BOX PLOT QUALITY BY SITE 
+u "$user/$analysis/ETtmp.dta", clear
+keep mcscore site 
+recode site 2=0 // 0 ES 1 Adama
+save "$user/$analysis/allcountrytmp.dta", replace
+
+u "$user/$analysis/KEtmp.dta", clear
+keep  mcscore site
+recode site 1=3 // 2 Kitui 3 Kiambu
+lab drop a4
+append using "$user/$analysis/allcountrytmp.dta"
+save "$user/$analysis/allcountrytmp.dta", replace
+
+u "$user/$analysis/ZAtmp.dta", clear 
+keep  mcscore site
+recode site 1=5 2=4
+lab drop study_site_sd
+append using "$user/$analysis/allcountrytmp.dta"
+
+lab def site 0"East Shewa" 1"Adama" 2"Kitui" 3"Kiambu" 4 "Nongoma" 5 "uMhlathuze"
+lab val site site
+
+graph box  mcscore, over(site) ylabel(0(20)100, labsize(small)) ytitle("Antenatal Care Quality Index") scheme(white_tableau)
 *------------------------------------------------------------------------------*
+* Ethiopia - BY FACILITY 
+u "$user/$analysis/ETtmp.dta", clear
+cd "$user/$analysis/Graphs" 
+	tabstat anc1qual, by(site) stat(mean sd ) 
+	
+	egen med_anc1qual =median(anc1qual), by (facility)
+	g facnum = facility
+	drop if facility ==11 | facility ==20 | facility ==21
+	
+	graph box anc1qual if site==2, over(facnum, sort(med_anc1qual)) ///
+	yline(37.95576) saving(ES, replace) asyvars legend(off) scheme(white_tableau) ///
+	ylabel(0(20)100, labsize(small) ) title("East Shewa") ytitle("Antenatal Care Quality Index")
+	graph box anc1qual if site==1, over(facnum, sort(med_anc1qual)) scheme(white_tableau) ///
+	yline(48.05584) saving(AD, replace) asyvars legend(off) ///
+	ylabel(0(20)100, labsize(small) ) title("Adama Town") ytitle("Antenatal Care Quality Index")
+	graph combine ES.gph AD.gph
+*------------------------------------------------------------------------------*	
+* Kenya - BY FACILITY 
+u "$user/$analysis/KEtmp.dta", clear
+	tabstat anc1qual, by(site) stat(mean sd ) 
+	
+	egen med_anc1qual =median(anc1qual), by (facility)
+	g facnum = facility
+	
+	graph box anc1qual if site==2, over(facnum, sort(med_anc1qual)) ///
+	yline( 64.84679) saving(KIT, replace) asyvars legend(off) scheme(white_tableau) ///
+	ylabel(0(20)100, labsize(small) ) title("Kitui") ytitle("Antenatal Care Quality Index")
+	graph box anc1qual if site==1, over(facnum, sort(med_anc1qual)) scheme(white_tableau) ///
+	yline(68.14943) saving(KIA, replace) asyvars legend(off) ///
+	ylabel(0(20)100, labsize(small) ) title("Kiambu") ytitle("Antenatal Care Quality Index")
+	graph combine KIT.gph KIA.gph
+	
+*------------------------------------------------------------------------------*		
+* ZAF - FACILITY 
+u "$user/$analysis/ZAtmp.dta", clear 
+
+tabstat anc1qual, by(site) stat(mean sd ) 
+	
+	egen med_anc1qual =median(anc1qual), by (facility)
+	g facnum = facility
+	
+	graph box anc1qual if site==2, over(facnum, sort(med_anc1qual)) ///
+	yline( 73.3169) saving(NON, replace) asyvars legend(off) scheme(white_tableau) ///
+	ylabel(0(20)100, labsize(small) ) title("Nongoma") ytitle("Antenatal Care Quality Index")
+	graph box anc1qual if site==1, over(facnum, sort(med_anc1qual)) scheme(white_tableau) ///
+	yline(77.93765 ) saving(UM, replace) asyvars legend(off) ///
+	ylabel(0(20)100, labsize(small) ) title("uMhlathuze") ytitle("Antenatal Care Quality Index")
+	graph combine NON.gph UM.gph
+	
+*------------------------------------------------------------------------------*
+* Ethiopia - BY RISK 
+u "$user/$analysis/ETtmp.dta", clear
+cd "$user/$analysis/Graphs" 
+	lab def risk_score 0"No risk factor" 1"1 risk factor" 2"2 risk factors" 3 "3 or more risk factors"
+	lab val risk_score risk_score
+
+	graph bar anc1qual if site==2, over(risk_score)  ///
+		saving("$user/$analysis/Graphs/ES.gph", replace) asyvars  legend(off) ylabel(0(20)100, labsize(small) ) ///
+		yline(38.83369) ytitle("Antenatal Care Quality Index") title("East Shewa",size(medium)) scheme(white_tableau)
+	graph bar anc1qual if site==1, over(risk_score)  ///
+		saving("$user/$analysis/Graphs/AD.gph", replace) asyvars  legend(off)  ylabel(0(20)100, labsize(small) ) ///
+		yline(48.39692) ytitle("")  title("Adama Town",size(medium)) scheme(white_tableau)
+	graph combine "$user/$analysis/Graphs/ES.gph" "$user/$analysis/Graphs/AD.gph", xsize(5) title("Ethiopia", size(small))
+
+* Kenya - BY RISK
+u "$user/$analysis/KEtmp.dta", clear
+cd "$user/$analysis/Graphs" 
+graph bar anc1qual if site==2, over(risk_score) ///
+		saving("$user/$analysis/Graphs/KIT.gph", replace) asyvars  legend(off) ylabel(0(20)100, labsize(small) ) ///
+		yline(64.84679) ytitle("Antenatal Care Quality Index") title("Kitui",size(medium)) scheme(white_tableau)
+graph bar anc1qual if site==1, over(risk_score)  ///
+		saving("$user/$analysis/Graphs/KIA.gph", replace) asyvars  legend(off) ylabel(0(20)100, labsize(small) ) ///
+		yline(68.14943) ytitle("")  title("Kiambu",size(medium)) scheme(white_tableau)
+	graph combine "$user/$analysis/Graphs/KIT.gph" "$user/$analysis/Graphs/KIA.gph", xsize(4) ysize(3) title("Kenya", size(small))
+		
+* ZAF - BY RISK
+u "$user/$analysis/ZAtmp.dta", clear 
+cd "$user/$analysis/Graphs" 
+	graph bar anc1qual if site==2, over(risk_score)  ///
+		saving("$user/$analysis/Graphs/NON.gph", replace) asyvars  legend(off) ylabel(0(20)100, labsize(small) ) ///
+		yline(73.24961) ytitle("Antenatal Care Quality Index") title("Nongoma",size(medium)) scheme(white_tableau)
+	graph bar anc1qual if site==1, over(risk_score)  ///
+		saving("$user/$analysis/Graphs/UM.gph", replace) asyvars  legend(off) ylabel(0(20)100, labsize(small) ) ///
+		yline( 77.89773) ytitle("")  title("uMhlathuze",size(medium)) scheme(white_tableau)
+	graph combine "$user/$analysis/Graphs/NON.gph" "$user/$analysis/Graphs/UM.gph", xsize(5) title("South Africa", size(small))
+
+
+/*------------------------------------------------------------------------------*
+* Ethiopia - FACILITY TYPE
+u "$user/$analysis/ETtmp.dta", clear
+
+	tabstat anc1qual, by(site) stat(mean sd ) //  East Shewa 38.83369 Adama 48.39692
+	egen med_anc1qual =median(anc1qual), by (facility_lvl)
+	
+	graph box anc1qual if site==2, over(facility_lvl, sort(med_anc1qual))  ///
+		saving("$user/$analysis/Graphs/ES.gph", replace) asyvars  legend(off) ylabel(0(20)100, labsize(small) ) ///
+		yline(38.83369) ytitle("Antenatal Care Quality Index") title("East Shewa",size(medium)) 
+	graph box anc1qual if site==1, over(facility_lvl, sort(med_anc1qual))  ///
+		saving("$user/$analysis/Graphs/AD.gph", replace) asyvars  legend(off) ylabel(0(20)100, labsize(small) ) ///
+		yline(48.39692) ytitle("")  title("Adama Town",size(medium)) 
+	graph combine "$user/$analysis/Graphs/ES.gph" "$user/$analysis/Graphs/AD.gph", xsize(4) ysize(3) title("Ethiopia", size(small))
+
+
+*------------------------------------------------------------------------------*	
+* Kenya - FACILITY TYPE
+u "$user/$analysis/KEtmp.dta", clear
+
+	tabstat anc1qual, by(site) stat(mean sd ) // 1 Kiambu  68.14943   2 Kitui   64.84679
+	egen med_anc1qual =median(anc1qual), by (facility_lvl)
+	
+	graph box anc1qual if site==2, over(facility_lvl, sort(med_anc1qual))  ///
+		saving("$user/$analysis/Graphs/KIT.gph", replace) asyvars  legend(off) ylabel(0(20)100, labsize(small) ) ///
+		yline(64.84679) ytitle("Antenatal Care Quality Index") title("Kitui",size(medium)) 
+	graph box anc1qual if site==1, over(facility_lvl, sort(med_anc1qual))  ///
+		saving("$user/$analysis/Graphs/KIA.gph", replace) asyvars  legend(off) ylabel(0(20)100, labsize(small) ) ///
+		yline(68.14943) ytitle("")  title("Kiambu",size(medium)) 
+	graph combine "$user/$analysis/Graphs/KIT.gph" "$user/$analysis/Graphs/KIA.gph", xsize(4) ysize(3) title("Kenya", size(small))
+
+*------------------------------------------------------------------------------*		
+* ZAF - FACILITY TYPE
+u "$user/$analysis/ZAtmp.dta", clear 
+gen facility_lvl=1
+insobs 4, after(1044)
+replace facility_lvl = 2 in 1045
+replace facility_lvl = 3 in 1046
+replace facility_lvl = 2 in 1047
+replace facility_lvl = 3 in 1048
+replace site = 1 in 1045
+replace site=1 in 1046
+replace site = 2 in 1047
+replace site = 2 in 1048
+lab def facility_lvl 1"Public primary" 2"Public secondar" 3"Private"
+lab val facility_lvl facility_lvl
+
+	tabstat anc1qual, by(site) stat(mean sd ) // 1 uMhlathuze  77.89773   2 Nongoma 73.24961
+	
+	graph box anc1qual if site==2, over(facility_lvl)  ///
+		saving("$user/$analysis/Graphs/NON.gph", replace) asyvars  legend(off) ylabel(0(20)100, labsize(small) ) ///
+		yline(73.24961) ytitle("Antenatal Care Quality Index") title("Nongoma",size(medium)) 
+	graph box anc1qual if site==1, over(facility_lvl)  ///
+		saving("$user/$analysis/Graphs/UM.gph", replace) asyvars  legend(off) ylabel(0(20)100, labsize(small) ) ///
+		yline( 77.89773) ytitle("")  title("uMhlathuze",size(medium)) 
+	graph combine "$user/$analysis/Graphs/NON.gph" "$user/$analysis/Graphs/UM.gph", xsize(4) ysize(3) title("South Africa", size(small))
+
+
+*------------------------------------------------------------------------------*
+* Ethiopia - HEALTH LITERACY
+u "$user/$analysis/ETtmp.dta", clear
+	
+	graph box anc1qual if site==2, over(health_lit)  ///
+		saving("$user/$analysis/Graphs/ES.gph", replace) asyvars  legend(off) ylabel(0(20)100, labsize(small) ) ///
+		yline(38.83369) ytitle("Antenatal Care Quality Index") title("East Shewa",size(medium)) 
+	graph box anc1qual if site==1, over(health_lit)  ///
+		saving("$user/$analysis/Graphs/AD.gph", replace) asyvars   legend(off) ylabel(0(20)100, labsize(small) ) ///
+		yline(48.39692) ytitle("")  title("Adama Town",size(medium)) 
+	graph combine "$user/$analysis/Graphs/ES.gph" "$user/$analysis/Graphs/AD.gph", xsize(5) title("Ethiopia", size(small))
+
+*------------------------------------------------------------------------------*
+* Ethiopia - EDUCATION
+u "$user/$analysis/ETtmp.dta", clear
+	replace m1_503=0 if m1_502==0
+	lab def education 0"No education", add
+	
+	graph box anc1qual if site==2, over(m1_503)  ///
+		saving("$user/$analysis/Graphs/ES.gph", replace) asyvars  legend(off) ylabel(0(20)100, labsize(small) ) ///
+		yline(38.83369) ytitle("Antenatal Care Quality Index") title("East Shewa",size(medium)) 
+	graph box anc1qual if site==1, over(m1_503)  ///
+		saving("$user/$analysis/Graphs/AD.gph", replace) asyvars   legend(off) ylabel(0(20)100, labsize(small) ) ///
+		yline(48.39692) ytitle("")  title("Adama Town",size(medium)) 
+	graph combine "$user/$analysis/Graphs/ES.gph" "$user/$analysis/Graphs/AD.gph", xsize(5) title("Ethiopia", size(small))
+	
+*------------------------------------------------------------------------------*	
+* Kenya - EDUCATION
+u "$user/$analysis/KEtmp.dta", clear
+	replace m1_503=0 if m1_502==0
+	lab def q503 0"No education", add
+	drop if site==1 & m1_503==0
+	insobs 1, after(1001)
+	replace m1_503=0 in 1002
+	replace site = 1 in 1002
+		
+	graph box anc1qual if site==2, over(health_lit)  ///
+		saving("$user/$analysis/Graphs/KIT.gph", replace) asyvars  legend(off) ylabel(0(20)100, labsize(small) ) ///
+		yline(64.84679) ytitle("Antenatal Care Quality Index") title("Kitui",size(medium)) 
+	graph box anc1qual if site==1, over(health_lit)  ///
+		saving("$user/$analysis/Graphs/KIA.gph", replace) asyvars  legend(off) ylabel(0(20)100, labsize(small) ) ///
+		yline(68.14943) ytitle("")  title("Kiambu",size(medium)) 
+	graph combine "$user/$analysis/Graphs/KIT.gph" "$user/$analysis/Graphs/KIA.gph", xsize(4) title("Kenya", size(small))
+
+*------------------------------------------------------------------------------*		
+* ZAF - EDUCATION
+u "$user/$analysis/ZAtmp.dta", clear 
+	replace m1_503=0 if m1_502==0
+	lab def education 0"No education", add
+	insobs 2, after(1044)
+	replace m1_503=0 in 1045
+	replace m1_503=0 in 1046
+	replace site = 1 in 1045
+	replace site = 2 in 1046
+	
+	graph box anc1qual if site==2, over(m1_503)  ///
+		saving("$user/$analysis/Graphs/NON.gph", replace) asyvars  legend(off) ylabel(0(20)100, labsize(small) ) ///
+		yline(73.24961) ytitle("Antenatal Care Quality Index") title("Nongoma",size(medium)) 
+	graph box anc1qual if site==1, over(m1_503)  ///
+		saving("$user/$analysis/Graphs/UM.gph", replace) asyvars  legend(off) ylabel(0(20)100, labsize(small) ) ///
+		yline( 77.89773) ytitle("")  title("uMhlathuze",size(medium)) 
+	graph combine "$user/$analysis/Graphs/NON.gph" "$user/$analysis/Graphs/UM.gph", xsize(4) title("South Africa", size(small))
+
+	box(1, color(green)) box(2, color(green)) box(3, color(green)) box(4, color(green)) ///
+	box(5, color(green)) box(6, color(green)) box(7, color(green)) box(8, color(green)) ///
+	box(9, color(green)) box(10, color(green)) box(11, color(green)) 
+
+
+/*------------------------------------------------------------------------------*
 * Ethiopia
 u "$user/$analysis/ETtmp.dta", clear
 
