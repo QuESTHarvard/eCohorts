@@ -14,7 +14,7 @@ global qualvarsET anc1bp anc1weight anc1height anc1muac anc1blood ///
 		tabstat timespent, by(site) stat(mean sd )
 		
 	* Table 2 Demog & health 		
-		summtab , contvars(enrollage) catvars(second quintile minority marriedp ///
+		summtab , contvars(enrollage) catvars(second health_lit tertile  marriedp ///
 		primipara preg_intent trimester ) mean by(site) excel ///
 		excelname(Table2) sheetname(ETH_demog) replace 
 	
@@ -63,7 +63,7 @@ global qualvarsKE anc1bp anc1weight anc1height anc1muac anc1blood ///
 		tabstat timespent, by(site) stat(mean sd)
 	
 	* Table 2 Demog & health 
-		summtab , contvars(enrollage) catvars(second quintile minority marriedp ///
+		summtab , contvars(enrollage) catvars(second health_lit tertile  marriedp ///
 		primipara preg_intent trimester ) mean by(site) excel ///
 		excelname(Table2) sheetname(KE_demog) replace 
 		
@@ -106,7 +106,7 @@ global qualvarsZA anc1bp anc1weight anc1height anc1muac anc1blood ///
 		tabstat anc1qual, by(site) stat(mean sd)
 		tabstat timespent, by(site) stat(mean sd)
 		
-		summtab , contvars(enrollage) catvars(second quintile minority marriedp ///
+		summtab , contvars(enrollage) catvars(second health_lit tertile  marriedp ///
 		primipara preg_intent trimester ) mean by(site) excel ///
 		excelname(Table2) sheetname(ZA_demog) replace 
 		

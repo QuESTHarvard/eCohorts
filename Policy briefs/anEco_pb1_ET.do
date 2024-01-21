@@ -4,7 +4,7 @@
 
 
 u "$et_data_final/eco_m1m2_et_der.dta", clear
-
+			  
 * Keep M1 only
 keep if redcap_event_name  == "module_1_arm_1"
 keep if b7eligible==1  & m1_complete==2 //SS: keeping this here only because we are not filtering out incomplete M1 surveys in the cleaning file
@@ -43,7 +43,7 @@ keep if b7eligible==1  & m1_complete==2 //SS: keeping this here only because we 
 					stat(mean count) col(stat)
 			ta anc1ultrasound facility_lvl, col 
 		
-			tabstat fpoor*, stat(mean count) col(stat)
+			
 			
 * GENERAL RISK FACTORS
 	gen aged18 = enrollage<18
@@ -132,6 +132,7 @@ keep if b7eligible==1  & m1_complete==2 //SS: keeping this here only because we 
 			ta m1_719 if m1_202b==1 // disccused HTN
 			ta m1_720 if m1_202c==1 // disccused cardiac problem
 			ta m1_721 if m1_202d==1 // disccused mental health problem
+			ta m1_722 if m1_202e==1
 			ta diabetes_tx if m1_202a==1
 			ta hypertension_tx if m1_202b==1
 			ta specialist_hosp if m1_202c==1

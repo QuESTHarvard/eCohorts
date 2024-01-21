@@ -7,18 +7,22 @@ global data "Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts 
 * Ethiopia
 u "$user/$analysis/ETtmp.dta", clear
 	* Diabetes, HTN, cardiac problem, mental health problem, HIV
-	egen chronic5 =rowtotal(m1_202a m1_202b m1_202c m1_202d m1_202e), m
-	recode chronic5 0=.
-	egen chronic5_disc= rowtotal(m1_718 m1_719 m1_720 m1_721 m1_722), m
-	g chronic5_address = chronic5-chronic5_disc 
-	recode chronic5_add 0=1 1/5=0
+	egen chronic5=rowmax(m1_202a m1_202b m1_202c m1_202d m1_202e)
+	tabstat m1_202a m1_202b m1_202c m1_202d m1_202e, stat(sum N) col(stat)
+	ta m1_718 if m1_202a  ==1 
+	ta m1_719 if m1_202b  ==1
+	ta m1_720 if m1_202c ==1
+	ta m1_721 if  m1_202d ==1
+	ta m1_722 if m1_202e ==1
+	
 	
 	* Prior obstetric complications
-	egen complic4= rowtotal(m1_1004 stillbirth m1_1005 m1_1010), m // late miscarriage, stillbirth (deliv>live births), preterm, neodeath
-	recode complic4 0=.
-	egen complic4_disc= rowtotal (m1_1011b m1_1011c m1_1011d m1_1011f), m
-	gen complic4_address = complic4-complic4_disc
-	recode  complic4_add -1/0=1 1/5=0
+	egen complic4=rowmax(m1_1004 stillbirth m1_1005 m1_1010)
+	tabstat m1_1004 stillbirth m1_1005 m1_1010, stat(sum N) col(stat) // late miscarriage, stillbirth (deliv>live births), preterm, neodeath
+	ta m1_1011b if m1_1004 ==1 
+	ta m1_1011c if stillbirth ==1 
+	ta m1_1011d if m1_1005 ==1 
+	ta m1_1011f if m1_1010 ==1 
 	
 	* Depression
 	recode phq9_cat (1=0) (2/5=1), gen(depression)
@@ -39,18 +43,21 @@ u "$user/$analysis/ETtmp.dta", clear
 u "$user/$analysis/KEtmp.dta", clear
 
 	* Diabetes, HTN, cardiac problem, mental health problem, HIV
-	egen chronic5 =rowtotal(m1_202a m1_202b m1_202c m1_202d m1_202e), m
-	recode chronic5 0=.
-	egen chronic5_disc= rowtotal(m1_718 m1_719 m1_720 m1_721 m1_722), m
-	g chronic5_address = chronic5-chronic5_disc 
-	recode chronic5_add 0=1 1/5=0
+	egen chronic5=rowmax(m1_202a m1_202b m1_202c m1_202d m1_202e)
+	tabstat m1_202a m1_202b m1_202c m1_202d m1_202e, stat(sum N) col(stat)
+	ta m1_718 if m1_202a  ==1 
+	ta m1_719 if m1_202b  ==1
+	ta m1_720 if m1_202c ==1
+	ta m1_721 if  m1_202d ==1
+	ta m1_722 if m1_202e ==1
 	
 	* Prior obstetric complications
-	egen complic4= rowtotal(m1_1004 stillbirth m1_1005 m1_1010), m // late miscarriage, stillbirth (deliv>live births), preterm, neodeath
-	recode complic4 0=.
-	egen complic4_disc= rowtotal (m1_1011b m1_1011c m1_1011d m1_1011f), m
-	gen complic4_address = complic4-complic4_disc
-	recode  complic4_add 0=1 1/5=0
+	egen complic4=rowmax(m1_1004 stillbirth m1_1005 m1_1010)
+	tabstat m1_1004 stillbirth m1_1005 m1_1010, stat(sum N) col(stat) // late miscarriage, stillbirth (deliv>live births), preterm, neodeath
+	ta m1_1011b if m1_1004 ==1 
+	ta m1_1011c if stillbirth ==1 
+	ta m1_1011d if m1_1005 ==1 
+	ta m1_1011f if m1_1010 ==1 
 	
 	* Depression
 	recode phq9_cat (1=0) (2/5=1), gen(depression)
@@ -68,21 +75,41 @@ u "$user/$analysis/KEtmp.dta", clear
 	| m1_815_other=="No response given by the nurse"
 	replace danger_address= 0 if   m1_815_1==1 // did not discuss the danger sign 
 	replace danger_address=. if dangersign==0
-	
-	
-	egen keep = rownonmiss(chronic5_add complic4_add depression_address anemia_address danger_address)
-	keep if keep!=0
-	keep educ *_address facility_lvl site facility tertile
 			
 *------------------------------------------------------------------------------*		
 * ZAF
 u "$user/$analysis/ZAtmp.dta", clear 			
+	
+	* Diabetes, HTN, cardiac problem, mental health problem, HIV
+	egen chronic5=rowmax(m1_202a m1_202b m1_202c m1_202d m1_202e)
+	tabstat m1_202a m1_202b m1_202c m1_202d m1_202e, stat(sum N) col(stat)
+	ta m1_718 if m1_202a  ==1 
+	ta m1_719 if m1_202b  ==1
+	ta m1_720 if m1_202c ==1
+	ta m1_721 if  m1_202d ==1
+	ta m1_722 if m1_202e ==1
+	
+	* Prior obstetric complications
+	egen complic4=rowmax(m1_1004 stillbirth m1_1005 m1_1010)
+	tabstat m1_1004 stillbirth m1_1005 m1_1010, stat(sum N) col(stat) // late miscarriage, stillbirth (deliv>live births), preterm, neodeath
+	ta m1_1011b if m1_1004 ==1 
+	ta m1_1011c if stillbirth ==1 
+	ta m1_1011d if m1_1005 ==1 
+	ta m1_1011f if m1_1010 ==1 
+	* Depression
+	recode phq9_cat (1=0) (2/5=1), gen(depression)
+	g depression_address = m1_716c if depression==1
+	
+	* Anemia
+	ta anemic
+	g anemia_address= anc1blood if anemic==1
+	
+	* Danger signs (one of 6)
+	ta dangersign
+	recode m1_815 (1=0) (2/96=1) (.a .d .r=.) , gen(danger_address)
+	replace danger_address = 0 if m1_815_other=="She told the nurse that she bleeds and the nurse said there is no such thing"
+	replace danger_address=. if dangersign==0		
 			
-			
-			
-			ta  neodeath // previous neonatal death
-			ta m1_1011f if neodeath==1
-			ta specialist_hosp if neodeath==1
 			
 			
 			

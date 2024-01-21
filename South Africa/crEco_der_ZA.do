@@ -46,6 +46,16 @@ u "$za_data_final/eco_m1_za.dta", clear
 			lab val educ_cat educ_cat
 			
 			recode m1_505 (1/4=0) (5/6=1), gen(marriedp) 
+			
+			recode m1_509b 0=1 1=0, g(mosquito)
+			recode m1_510b 0=1 1=0, g(tbherb)
+			recode m1_511 2=1 1=0 3/4=0 99=. , g(drink)
+			recode m1_512 2=1 1=0 3=0, g(smoke)
+			
+			egen health_literacy=rowtotal(m1_509a mosquito m1_510a tbherb drink smoke ), m
+			recode health_literacy 0/3=1 4=2 5=3 6=4
+			lab def health_lit 1"Poor" 2"Fair" 3"Good" 4"Very good"
+			lab val health_lit health_lit
 *------------------------------------------------------------------------------*	
 	* SECTION 6: USER EXPERIENCE
 			foreach v in m1_601 m1_605a m1_605b m1_605c m1_605d m1_605e m1_605f ///
@@ -109,7 +119,7 @@ u "$za_data_final/eco_m1_za.dta", clear
 			/* Gestational age at ANC1
 			Here we should recalculate the GA based on LMP (m1_802c and self-report m1_803 */
 			
-			egen dangersigns = rowmax(m1_814a m1_814b m1_814c m1_814d m1_814e m1_814f m1_814g)
+			egen dangersigns = rowmax(m1_814a m1_814b m1_814c m1_814d  m1_814f m1_814g)
 			
 		    gen ga_edd = 40-((m1_802a - date_m1)/7)
 			gen ga = trunc(ga_edd)
