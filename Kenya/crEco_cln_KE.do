@@ -1,8 +1,6 @@
 * Kenya MNH ECohort Data Cleaning File 
-* Created by S. Sabwa
-* Last Updated: Sep 14 2023 
-* Added M2 cleaning code 20 Dec 2023 by K. Wright
-
+* Created by S. Sabwa, K. Wright
+* Last Updated: 20 Dec 2023
 *------------------------------------------------------------------------------*
 
 * Import Data 
