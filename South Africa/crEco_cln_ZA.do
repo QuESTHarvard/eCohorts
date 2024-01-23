@@ -215,7 +215,7 @@ rename (N202a N202b N202c N202d N202e Specify ) (m1_202a_2_za m1_202b_2_za m1_20
 		recode m1_204_2_za 1=0 2=1 3=.
 		recode m1_204b_za 1=0 2=1 3/5=.
 		recode m1_708a_2_za 1=0 2=1 3/5=.
-		recode m1_708b_2_za 0=. 4/5=. 
+		recode m1_708b_2_za 1=. 2=1 3=2 4/5=. 
 		recode m1_708c_2_za 1=0 2=1 3/5=.
 		recode m1_708d_2_za 1=0 2=1 3/5=.
 		recode m1_708e_2_za 1=0 2=1 3/5=.
