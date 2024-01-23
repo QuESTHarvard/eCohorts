@@ -223,7 +223,7 @@ rename call_status m2_complete
 
 *===============================================================================
 	
-	* STEP TWO: ADD VALUE LABELS (NA in KENYA)
+	* STEP TWO: ADD VALUE LABELS (NA in KENYA, already labeled)
 	
 	encode facility_name, generate(facility)
 	/*
@@ -244,9 +244,6 @@ rename call_status m2_complete
 	
 	label define q515_2 20 "Kitui East", modify
 	label define q519_2 20 "Kitui East", modify
-	
-	
-	
 
 *===============================================================================
 * Generate new vars (KE only):
