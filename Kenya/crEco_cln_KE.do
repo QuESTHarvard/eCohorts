@@ -21,6 +21,7 @@ gen country = "Kenya"
 * recode a1 = ids and drop names
 
 * de-identifying dataset and remove extra variables
+
 drop q101 q102 q105 q513b q513d q513e_1 q513e_2 q513f_1 q513f_2 q513g_1 q513g_2 ///
 	 q513h_1 q513h_2 q513i_1 q513i_2 text_audit mean_sound_level min_sound_level ///
 	 max_sound_level sd_sound_level pct_sound_between0_60 pct_sound_above80 ///
@@ -37,8 +38,33 @@ replace module = 1 if a4 !=.
 replace module = 2 if attempts != .
 
 *------------------------------------------------------------------------------*
+* de-identifying dataset and remove extra variables
+
+drop q_102 resp_other_name resp_worker availability module_2_success ///
+     module_2_first module_2_freq name_confirm name_full date_confirm ///
+	 starttime time_start_full ///
+	 text_audit consent_audio section6_audio mean_sound_leve min_sound_level ///
+	 max_sound_level sd_sound_level pct_sound_between0_60 pct_sound_above80 ///
+	 pct_conversation q_104_calc q_105 q_106 full_name phone1 phone2 phone3 ///
+	 phone4 phone_combi 
+	 
+drop q_203a_calc_e q_203b_calc_e q_203c_calc_e q_203d_calc_e q_203e_calc_e ///
+     q_203f_calc_e q_203g_calc_e q_203h_calc_e q_203_calc_e q_203a_calc_ki ///
+	 q_203b_calc_ki q_203c_calc_ki q_203d_calc_ki q_203e_calc_ki q_203f_calc_ki ///
+	 q_203g_calc_ki q_203h_calc_ki q_203_calc_ki q_203a_calc_ka q_203b_calc_ka ///
+	 q_203c_calc_ka q_203d_calc_ka q_203e_calc_ka q_203f_calc_ka q_203g_calc_ka ///
+	 q_203h_calc_ka q_203_calc_ka
+	 
+drop q_205a_calc q_205b_calc
+
+drop repeat_g303 q_303_rpt_grp q_303_indx q_303_indx_st q_303_indx_nd ///
+     q_303_indx_rd q_303_indx_x  
+
+drop q_307_1 q_307_2 q_320 
+
+*------------------------------------------------------------------------------*
 	* STEPS: 
-		* STEP ONE: RENAME VARIABLES (starts at: line 28)
+		* STEP ONE: RENAME VARIABLES (starts at: line 76)
 		* STEP TW0: ADD VALUE LABELS - NA in KENYA 
 		* STEP THREE: RECODING MISSING VALUES (starts at: line 496)
 		* STEP FOUR: LABELING VARIABLES (starts at: line 954)
@@ -177,46 +203,99 @@ rename (preferred_language preferred_language_1 preferred_language_2 preferred_l
 		pref_language_other_ke)
 		
 	* MODULE 2: rename (old_varname) (new_varname) 
+
+rename (attempts attempts_oth call_response resp_language resp_language_no ///
+       resp_language_no_oth resp_other resp_other_oth resp_available ///
+	   best_phone_reconfirm best_phone_resp resp_available_when reschedule_resp ///
+	   reschedule_date_resp) (m2_attempt_number m2_attempt_number_other m2_attempt_outcome ///
+	   m2_resp_language m2_resp_language_no m2_resp_language_no_oth m2_attempt_relationship ///
+	   m2_attempt_other m2_attempt_avail m2_attempt_contact m2_attempt_bestnumber ///
+	   m2_attempt_goodtime m2_reschedule_resp m2_reschedule_date_resp) 
+
+rename (mod_2_round intro_yn consent) (m2_completed_attempts m2_consent_recording m2_consent)	
 	
 rename today_date m2_date 
-rename call_response m2_attempt_outcome 
-rename consent m2_permission
-rename (q_109 date_death_knows q_111 q_111_oth) /// 
-       (m2_maternal_death_reported m2_date_of_maternal_death m2_maternal_death_learn ///
-        m2_maternal_death_learn_other) 
+rename q_103 m2_time_start
+rename q_101 m2_interviewer
+rename q_104 m2_respondentid
+
+rename gest_age_baseline m2_baseline_ga
+rename date_survey_baseline m2_baseline_date
+rename q_109 m2_maternal_death_reported
+rename q_107 m2_ga
+rename gestational_update m2_ga_estimate	
+
+rename q_108 m2_hiv_status
+
+rename (facility_name county enum_name date_death_knows) /// 
+       (m2_site m2_county m2_enum m2_date_of_maternal_death_yesno) 
+	   
+rename q_110 m2_date_of_maternal_death
+		
+
+
 rename (q_201 q_202) (m2_201 m2_202) 
+rename q_202_oth m2_202_other
+
 rename (q_203a q_203b q_203c q_203d q_203e q_203f q_203g q_203h) /// 
        (m2_203a m2_203b m2_203c m2_203d m2_203e m2_203f m2_203g m2_203h)
 rename (q_204 q_204_specify) (m2_204i m2_204i_other) 
+
+rename (q_205a q_205b) (m2_205a m2_205b)
+rename phq_score m2_phq2_ke 
 rename  q_206 m2_206
 rename (q_301 q_302) (m2_301 m2_302) 
+
+rename (q_303_1 q_303_2 q_303_3 q_303_4 q_303_5) ///
+       (m2_303a m2_303b m2_303 m2_303d m2_303e)
+	   
+rename (q_304_1 q_304_oth_1 q_304_2 q_304_oth_2 q_304_3 q_304_oth_3 q_304_4 ///
+        q_304_oth_4 q_304_5 q_304_oth_5) ///
+	   (m2_304a m2_304a_other m2_304b m2_304b_other m2_304c m2_304c_other m2_304d ///
+	    m2_304d_other m2_304e m2_304e_other)
+
 rename (q_305_1 q_306_1) (m2_305 m2_306)
+
+
+
+rename (q_307_1_1 q_307_1_2 q_307_1_3 q_307_1_4 q_307_1_5) ///
+	   (m2_306_1 m2_306_2 m2_306_3 m2_306_4 m2_306_5)
+	   
+rename (q_307_oth_1 q_305_1_2 q_306_2) ()
 
 rename (q_320_0 q_320_1 q_320_2 q_320_3 q_320_4 q_320_5 q_320_6 q_320_7 q_320_8 ///
         q_320_9 q_320_10 q_320_11 q_320_12 q_320__96 q_320__99 q_320_other) ///
 	   (m2_320_0 m2_320_1 m2_320_2 m2_320_3 m2_320_4 m2_320_5 m2_320_6 m2_320_7 /// 
-	    m2_320_8 m2_320_9 m2_320_10 m2_320_11 m2_320_96 m2_320_99)
+	    m2_320_8 m2_320_9 m2_320_10 m2_320_11 m2_312_ke m2_320_96 m2_320_99 m2_3220_other)
 rename q_321 m2_321
 rename (q_401_1 q_401_2 q_401_3 q_401_4 q_401_5) (m2_401 m2_402 m2_403 m2_404 m2_405)
 rename (q_501_1 q_501_2 q_501_3 q_501_4 q_501_5 q_501_6 q_501__96 q_501_0 q_501_other) ///
-       (m2_501a m2_501b m2_501c m2_501d m2_501e m2_501f m2_501g m2_501g_other m2_501_0 m2_501g_other)
+       (m2_501a m2_501b m2_501c m2_501d m2_501e m2_501f m2_501g  m2_501_0 m2_501g_other)
 rename (q_503_1 q_503_2 q_503_3 q_503_4 q_503_5 q_503_6 q_503_0) ///
        (m2_503a m2_503b m2_503c m2_503d m2_503e m2_503f m2_503_0)	   
 rename (q_504 q_504_specify) (m2_504 m2_504_other)
-rename (q_505a q_505b q_505c q_505d q_505e q_505f q_505g)///
+rename (q_505a q_505b q_505c q_505d q_505e q_505f q_505g) ///
 	   (m2_505a m2_505b m2_505c m2_505d m2_505e m2_505f m2_505g)
 rename (q_506_1 q_506_2 q_506_3 q_506_4 q_506_0) ///
        (m2_506a m2_506b m2_506c m2_506d m2_506_0)
-rename (q_507_1 q_507_2 q_507_3 q_507_4 q_507_5 q_507_6 q_507_7 q_507__96 q_507_other)
-       (m2_507_1 m2_507_2 m2_507_3 m2_507_4 m2_507_5 m2_507_6 m2_507_7 m2_507_96 m2_507_other)
+rename (q_507_1 q_507_2 q_507_3 q_507_4 q_507_5 q_507_6 q_507_7 q_507__96 q_507_other) /// 
+       (m2_507_1_ke m2_507_2_ke m2_507_3_ke m2_507_4_ke m2_507_5_ke m2_507_6_ke ///
+	    m2_507_7_ke m2_507_96_ke m2_507_other_ke)
 rename (q_508a q_508b q_508c) (m2_508a m2_508b_last m2_508d)	  
-rename (q_509_1 q_509_2 q_509_3 q_509_0) (m2_509a m2_509b m2_509c m2_509_0) 
+rename (q_509_1 q_509_2 q_509_3 q_509_0) (m2_509a m2_509b m2_509c m2_509_0_ke) 
 rename (q_601_1 q_601_2 q_601_3 q_601_4 q_601_5 q_601_6 q_601_7 q_601_8 q_601_9 ///
-        q_601_10 q_601_11 q_601_12 q_601_13 q_601_14 q_601_other q_601_0 q_601__96) ///
+        q_601_10 q_601_11 q_601_12 q_601_13 q_601_14 q_601_other q_601_0) ///
        (m2_601a m2_601b m2_601c m2_601d m2_601e m2_601f m2_601g m2_601h m2_601i ///
-	    m2_601j m2_601k m2_601l m2_601m m2_601n m2_601n_other m2_601_0 m2_601_96)
+	    m2_601j m2_601k m2_601l m2_601m m2_601n m2_601n_other m2_601_0_ke)
 rename q_602 m2_602b 
 rename q_603 m2_603 
+rename q_701 m2_701
+rename (q_702a q_702b q_702c q_702d q_702e) ///
+       (m2_702a_other m2_702b_other m2_702c_other m2_702d_other m2_702e_other)
+rename q_701_total m2_703
+rename q_702_medication m2_702_meds_ke
+rename q_702_total m2_704_other
+rename q_705 m2_705
 rename (q_705_1 q_705_2 q_705_3 q_705_4 q_705_5 q_705_6 q_705__96 q_705_other) ///
        (m2_705__1 m2_705__2 m2_705__3 m2_705__4 m2_705__5 m2_705__6 m2_705__96 m2_705_other)
 rename call_status m2_complete
@@ -295,6 +374,16 @@ recode m1_303 m1_304 m1_305a m1_402 m1_405 m1_504 m1_505 m1_507 m1_509a m1_509b 
 replace m1_812b=".d" if m1_812b== "998"	
 replace m1_815_0=".d" if m1_815_0== "998"	
 replace m1_815_0=".r" if m1_815_0== "999"	
+
+
+
+    ** MODULE 2: 
+
+recode m2_203a m2_203b m2_203c m2_203d m2_203e m2_203f m2_203g m2_204i (-99 = .r)
+
+recode m2_303a (-99 = .r)
+
+recode m2_303a (-98 = .d)
 
 *------------------------------------------------------------------------------*
 
