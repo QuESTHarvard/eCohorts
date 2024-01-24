@@ -41,7 +41,6 @@ gen country = "Ethiopia"
 drop m4_attempt_date-maternal_integrated_cards_comple
 
 ** Carryforward command: 
-	* Module 3:
 		gen order_redcap = 1 if redcap_event_name == "module_1_arm_1"
 		replace order_redcap = 2 if redcap_event_name == "module_2_arm_1" & redcap_repeat_instance == 1
 		replace order_redcap = 3 if redcap_event_name == "module_2_arm_1" & redcap_repeat_instance == 2
@@ -58,8 +57,10 @@ drop m4_attempt_date-maternal_integrated_cards_comple
 		replace order_redcap = 14 if redcap_event_name == "module_3_arm_1" 
 		
 		sort record_id order_redcap
-		by record_id: carryforward hiv_status_109_m2 what_was_the_result_of_hiv, replace
+		by record_id: carryforward hiv_status_109_m2 what_was_the_result_of_hiv module_1_baseline_face_to_face_e, replace
 
+*dropping incomplete module 1 surveys
+drop if module_1_baseline_face_to_face_e == 0
 *------------------------------------------------------------------------------*
 	* STEPS: 
 		* STEP ONE: RENAME VARIABLES (starts at: line 29)
