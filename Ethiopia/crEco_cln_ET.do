@@ -12,18 +12,6 @@ import delimited using "$et_data/05Jan2024.csv", clear
 
 *---------------------
 
-drop if record_id == "1" | record_id == "2" | record_id == "3" | ///
-		record_id == "4" | record_id == "5" | record_id == "6" | ///
-		record_id == "7" | record_id == "8" | record_id == "9" | ///
-		record_id == "10" | record_id == "11" | record_id == "12" | ///
-		record_id == "13" | record_id == "14" | record_id == "15" | ///
-		record_id == "16" | record_id == "17" | record_id == "18" | ///
-		record_id == "19" | record_id == "20" | record_id == "21" | ///
-		record_id == "22" | record_id == "23" | record_id == "24" | ///
-		record_id == "25" | record_id == "26" | record_id == "27" | ///
-		record_id == "28"
-
-
 ** FOR STATISTICS OF COMPLETED SURVEYS:
 tab redcap_event_name
 tab redcap_repeat_instance
@@ -41,6 +29,8 @@ gen country = "Ethiopia"
 drop m4_attempt_date-maternal_integrated_cards_comple
 
 ** Carryforward command: 
+
+		*1) Creating order (do not edit)
 		gen order_redcap = 1 if redcap_event_name == "module_1_arm_1"
 		replace order_redcap = 2 if redcap_event_name == "module_2_arm_1" & redcap_repeat_instance == 1
 		replace order_redcap = 3 if redcap_event_name == "module_2_arm_1" & redcap_repeat_instance == 2
@@ -57,17 +47,29 @@ drop m4_attempt_date-maternal_integrated_cards_comple
 		replace order_redcap = 14 if redcap_event_name == "module_3_arm_1" 
 		
 		sort record_id order_redcap
+		
+		*2) Add any new vars here:
 		by record_id: carryforward hiv_status_109_m2 what_was_the_result_of_hiv module_1_baseline_face_to_face_e, replace
 
-*dropping incomplete module 1 surveys
+		
+			*Further cleaning of incomplete surveys:
+
+drop if record_id == "1" | record_id == "2" | record_id == "3" | ///
+		record_id == "4" | record_id == "5" | record_id == "6" | ///
+		record_id == "7" | record_id == "8" | record_id == "9" | ///
+		record_id == "10" | record_id == "11" | record_id == "12" | ///
+		record_id == "13" | record_id == "14" | record_id == "15" | ///
+		record_id == "16" | record_id == "17" | record_id == "18" | ///
+		record_id == "19" | record_id == "20" | record_id == "21" | ///
+		record_id == "22" | record_id == "23" | record_id == "24" | ///
+		record_id == "25" | record_id == "26" | record_id == "27" | ///
+		record_id == "28"			
+					
+*dropping incomplete module 1 surveys - 1/24
 drop if module_1_baseline_face_to_face_e == 0
 
-*dropping records with completely empty M2 (sum across 30 vars and if 0) and drop m2_complete var and drop call tracking questions/module 
-drop m2_attempt_avail m2_attempt_bestnumber m2_attempt_contact m2_attempt_date m2_attempt_goodtime m2_attempt_other m2_attempt_outcome m3_attempt_outcome m3_attempt_outcome_p2 m3_attempt_date m3_attempt_outcome2 m2_complete
-
-egen m2_drop = rowtotal(m2_201 m2_202 m2_203a m2_203b m2_203c m2_203d m2_203e m2_203f m2_203g m2_203h m2_203i m2_204a m2_204b m2_204c m2_204d m2_204e m2_204f m2_204g m2_204h m2_204i m2_205a m2_205b m2_205c m2_205d m2_205e m2_205f m2_205g m2_205h m2_205i m2_206 m2_207 m2_208 m2_301 m2_302 m2_303a m2_303b m2_303c m2_303d m2_303e m2_304a m2_304b m2_304c m2_304d m2_304e m2_305 m2_306 m2_306_1 m2_306_2 m2_306_3 m2_306_4 m2_306_5 m2_306_96 m2_306_888_et m2_306_998_et m2_306_999_et m2_308 m2_308_1 m2_308_2 m2_308_3 m2_308_4 m2_308_5 m2_308_96 m2_308_888_et m2_308_998_et m2_308_999_et m2_309 m2_311 m2_311_1 m2_311_2 m2_311_3 m2_311_4 m2_311_5 m2_311_96 m2_311_888_et m2_311_998_et m2_311_999_et m2_312 m2_314 m2_314_1 m2_314_2 m2_314_3 m2_314_4 m2_314_5 m2_314_96 m2_314_888_et m2_314_998_et m2_314_999_et m2_315 m2_317 m2_317_1 m2_317_2 m2_317_3 m2_317_4 m2_317_5 m2_317_96 m2_317_888_et m2_317_998_et m2_317_999_et m2_318 m2_320_0 m2_320_1 m2_320_2 m2_320_3 m2_320_4 m2_320_5 m2_320_6 m2_320_7 m2_320_8 m2_320_9 m2_320_10 m2_320_11 m2_320_96 m2_320_99 m2_320_888_et m2_320_998_et m2_320_999_et m2_321 m2_401 m2_402 m2_403 m2_404 m2_405 m2_501a m2_501b m2_501c m2_501d m2_501e m2_501f m2_501g m2_502 m2_503a m2_503b m2_503c m2_503d m2_503e m2_503f m2_504 m2_505a m2_505b m2_505c m2_505d m2_505e m2_505f m2_506a m2_506b m2_506c m2_506d m2_507 m2_508a m2_508b_last m2_508b_number m2_508c m2_508d m2_509a m2_509b m2_509c m2_601a m2_601b m2_601c m2_601d m2_601e m2_601f m2_601g m2_601h m2_601i m2_601j m2_601k m2_601l m2_601m m2_601n m2_602a m2_602b m2_603 m2_604 m2_701 m2_702a m2_702b m2_702c m2_702d m2_702e m2_703 m2_704 m2_705_1 m2_705_2 m2_705_3 m2_705_4 m2_705_5 m2_705_6 m2_705_96 m2_705_888_et m2_705_998_et m2_705_999_et) 
-
-drop if m2_drop == 0 & redcap_event_name == "module_2_arm_1"
+*drop m2_complete (not useful) and drop call tracking questions/module (also not useful) - 1/24
+drop m2_attempt_avail m2_attempt_bestnumber m2_attempt_contact m2_attempt_date m2_attempt_goodtime m2_attempt_other m2_attempt_outcome m3_attempt_outcome m3_attempt_outcome_p2 m3_attempt_date m3_attempt_outcome2 module_2_phone_surveys_prenatal_
 
 *------------------------------------------------------------------------------*
 	* STEPS: 
@@ -367,7 +369,7 @@ drop if m2_drop == 0 & redcap_event_name == "module_2_arm_1"
 	
 	rename (m2_705___1 m2_705___2 m2_705___3 m2_705___4 m2_705___5 m2_705___6 m2_705___96 m2_705___998 m2_705___999 m2_705___888) (m2_705_1 m2_705_2 m2_705_3 m2_705_4 m2_705_5 m2_705_6 m2_705_96 m2_705_998_et m2_705_999_et m2_705_888_et)
 	
-	rename (specify_other_income_sourc m2_time_it_is_interru at_what_time_it_is_restart time_of_interview_end_103b total_duration_of_interv_103c module_2_phone_surveys_prenatal_)(m2_705_other m2_interupt_time m2_restart_time m2_endtime m2_int_duration m2_complete)
+	rename (specify_other_income_sourc m2_time_it_is_interru at_what_time_it_is_restart time_of_interview_end_103b total_duration_of_interv_103c)(m2_705_other m2_interupt_time m2_restart_time m2_endtime m2_int_duration)
 	
 	
 	
@@ -470,9 +472,9 @@ rename (time_you_leave_facility_507 time_you_leave_facility_507_unk at_any_point
 		m3_513b1 m3_513b2 m3_514 m3_514_unknown m3_515 m3_516 m3_516_other)
 
 rename (did_the_provider_inform_yo_517 why_did_the_provider_refer_518 other_delivery_complications other_reasons_specify what_was_the_main_reason_519 ///
-		specify_m at_what_time_did_you_arriv_520 m3_520_98 once_you_got_to_facility_521 m3_521_98 m3_attempt_date m3_attempt_outcome date_of_rescheduled_m3_p1 ///
+		specify_m at_what_time_did_you_arriv_520 m3_520_98 once_you_got_to_facility_521 m3_521_98 date_of_rescheduled_m3_p1 ///
 		time_of_rescheduled_m3_p1 module_3_first_phone_survey_afte) (m3_517 m3_518 m3_518_other_complications m3_518_other m3_519 m3_519_other m3_520 ///
-		m3_520_unknown m3_521 m3_521_unknown m3_attempt_date m3_attempt_outcome m3_p1_date_of_rescheduled m3_p1_time_of_rescheduled m3_p1_complete)
+		m3_520_unknown m3_521 m3_521_unknown m3_p1_date_of_rescheduled m3_p1_time_of_rescheduled m3_p1_complete)
 
 rename (iic_4 cr1_permission_granted_4 date_of_interview_m3_2 time_of_interview_started_m3_2 baby1status baby2status baby3status once_you_were_first_checke_601a ///
 		once_you_were_first_chec_601b once_you_were_first_chec_601c did_the_health_care_prov_602a did_the_health_care_prov_602b a_during_your_time_in_the_603a ///
@@ -574,9 +576,19 @@ rename (ask_permission_viginal_exa_1006b were_vaginal_examination_1006c any_form
 		m3_1102b m3_1102b_amt m3_1102c m3_1102c_amt m3_1102d m3_1102d_amt m3_1102e m3_1102e_amt m3_1102f m3_1102f_amt m3_1103 m3_1103_confirm m3_1104)
 
 rename (which_of_the_following_fin_1105 other_income_source_1105 to_conclude_this_survey_1106 time_of_interview_ended_103b ///
-		c_total_duration_of_interv ot1 ot1_oth m3_attempt_outcome2 m3_attempt_outcome_p2 date_of_rescheduled_m3_p2 time_of_rescheduled_m3_p2) (m3_1105 ///
-		m3_1105_other m3_1106 m3_endtime m3_duration m3_p2_outcome m3_p2_outcome_other m3_attempt_outcome2 m3_attempt_outcome_p2 ///
+		c_total_duration_of_interv ot1 ot1_oth date_of_rescheduled_m3_p2 time_of_rescheduled_m3_p2) (m3_1105 ///
+		m3_1105_other m3_1106 m3_endtime m3_duration m3_p2_outcome m3_p2_outcome_other ///
 		m3_p2_date_of_rescheduled m3_p2_time_of_rescheduled)		
+		
+*------------------------------------------------------------------------------*
+
+* dropping people with incomplete M2 surveys	
+		
+egen m2_drop = rowtotal(m2_201 m2_202 m2_203a m2_203b m2_203c m2_203d m2_203e m2_203f m2_203g m2_203h m2_203i m2_204a m2_204b m2_204c m2_204d m2_204e m2_204f m2_204g m2_204h m2_204i m2_205a m2_205b m2_205c m2_205d m2_205e m2_205f m2_205g m2_205h m2_205i m2_206 m2_207 m2_208 m2_301 m2_302 m2_303a m2_303b m2_303c m2_303d m2_303e m2_304a m2_304b m2_304c m2_304d m2_304e m2_305 m2_306 m2_306_1 m2_306_2 m2_306_3 m2_306_4 m2_306_5 m2_306_96 m2_306_888_et m2_306_998_et m2_306_999_et m2_308 m2_308_1 m2_308_2 m2_308_3 m2_308_4 m2_308_5 m2_308_96 m2_308_888_et m2_308_998_et m2_308_999_et m2_309 m2_311 m2_311_1 m2_311_2 m2_311_3 m2_311_4 m2_311_5 m2_311_96 m2_311_888_et m2_311_998_et m2_311_999_et m2_312 m2_314 m2_314_1 m2_314_2 m2_314_3 m2_314_4 m2_314_5 m2_314_96 m2_314_888_et m2_314_998_et m2_314_999_et m2_315 m2_317 m2_317_1 m2_317_2 m2_317_3 m2_317_4 m2_317_5 m2_317_96 m2_317_888_et m2_317_998_et m2_317_999_et m2_318 m2_320_0 m2_320_1 m2_320_2 m2_320_3 m2_320_4 m2_320_5 m2_320_6 m2_320_7 m2_320_8 m2_320_9 m2_320_10 m2_320_11 m2_320_96 m2_320_99 m2_320_888_et m2_320_998_et m2_320_999_et m2_321 m2_401 m2_402 m2_403 m2_404 m2_405 m2_501a m2_501b m2_501c m2_501d m2_501e m2_501f m2_501g m2_502 m2_503a m2_503b m2_503c m2_503d m2_503e m2_503f m2_504 m2_505a m2_505b m2_505c m2_505d m2_505e m2_505f m2_506a m2_506b m2_506c m2_506d m2_507 m2_508a m2_508b_last m2_508b_number m2_508c m2_508d m2_509a m2_509b m2_509c m2_601a m2_601b m2_601c m2_601d m2_601e m2_601f m2_601g m2_601h m2_601i m2_601j m2_601k m2_601l m2_601m m2_601n m2_602a m2_602b m2_603 m2_604 m2_701 m2_702a m2_702b m2_702c m2_702d m2_702e m2_703 m2_704 m2_705_1 m2_705_2 m2_705_3 m2_705_4 m2_705_5 m2_705_6 m2_705_96 m2_705_888_et m2_705_998_et m2_705_999_et) 
+
+drop if m2_drop == 0 & redcap_event_name == "module_2_arm_1"
+
+drop m2_drop		
 		
 *===============================================================================
 	
@@ -807,17 +819,9 @@ label values m1_517 residence
 	label values m1_1221 insurance_type
 	
 	** MODULE 2:
-	label define m2_attempt_outcome 1 "Answered the phone, correct respondent (Start survey)" 2 "Answered but not by the respondent (Go to A4)" 3 "No answer (rings but not response or line was busy)" 4 "Number does not work (does not ring/connect to a phone)" 5 "Phone was switched off"
-	label values m2_attempt_outcome m2_attempt_outcome
 	
 	label define m2_attempt_relationship 1 "Family member" 2 "Friend/Neighbor" 3 "Colleague" 4 "Does not know the respondent" 5 "Other, specify"
 	label values m2_attempt_relationship m2_attempt_relationship
-	
-	label define m2_attempt_avail 1 "Yes" 0 "No"
-	label values m2_attempt_avail m2_attempt_avail
-	
-	label define m2_attempt_contact 1 "Yes" 0 "No"
-	label values m2_attempt_contact m2_attempt_contact
 	
 	label define m2_start 1 "Yes" 0 "No" 
 	label values m2_start m2_start
@@ -1235,8 +1239,6 @@ label values m2_interview_restarted m2_interview_restarted
 label define m2_endstatus 1 "Active follow-up" 2 "Lost to follow-up" 3 "Decline further participation" 4 "Maternal death" 5 "No longer pregnant"
 label values m2_endstatus m2_endstatus
 
-label define m2_complete 0 "Incomplete" 1 "Unverified" 2 "Complete" 
-label values m2_complete m2_complete
 
 	* MODULE 3:
 
@@ -1367,10 +1369,6 @@ label define m3_519 1 "Low cost of delivery" 2 "Close to home" 3 "Short waiting 
 					14 "Familiarity with facility" 15 "Emergency care is available if need" 16 "Birth companion can come with me" 96 "Other, specify" 98 "Dont know" 99 "No response" 
 label values m3_519 m3_519
 
-label define m3_attempt_outcome 1 "Answered the phone, correct respondent (Start survey)" 2 "Answered but not by the respondent (Go to A4)" ///
-								3 "No answer (rings but not response or line was busy)" 4 "Number does not work (does not ring/connect to a phone)" 5 "Phone was switched off" 6 "Rescheduled" 
-label values m3_attempt_outcome m3_attempt_outcome
-
 label define m3_p1_complete 0 "Incomplete" 1 "Unverified" 2 "Complete"
 label values m3_p1_complete m3_p1_complete
 
@@ -1456,13 +1454,7 @@ label define m3_p2_outcome 1 "Completed respondent" 2 "Partially completed and s
 						   3 "Refused" 4 "Incomplete and no more interest to continue" ///
 						   5 "Not Available via the phones" 6 "Phone doesnt work" 96 "Other reason"  
 label values m3_p2_outcome m3_p2_outcome
-				
-label define m3_attempt_outcome_p2 1 "Answered the phone, correct respondent (Start survey)" ///
-								   2 "Answered but not by the respondent (Go to A4)" ///
-								   3 "No answer (rings but not response or line was busy)" ///
-								   4 "Number does not work (does not ring/connect to a phone)" ///
-								   5 "Phone was switched off" 6 "Rescheduled" 			
-label values m3_attempt_outcome_p2 m3_attempt_outcome_p2
+
 
 *Formatting dates/ times:
 tostring m3_date, replace
@@ -1504,11 +1496,13 @@ drop m3_506a
 rename _date_ m3_506a
 format m3_506a %dM_d,_CY
 
+/*
 tostring m3_attempt_date, replace
 gen _date_ = date(m3_attempt_date,"YMD")
 drop m3_attempt_date
 rename _date_ m3_attempt_date
 format m3_attempt_date %dM_d,_CY
+*/
 
 tostring m3_p1_date_of_rescheduled, replace
 gen _date_ = date(m3_p1_date_of_rescheduled,"YMD")
@@ -1522,11 +1516,13 @@ drop m3_date_p2
 rename _date_ m3_date_p2
 format m3_date_p2 %dM_d,_CY
 
+/*
 tostring m3_attempt_outcome2, replace
 gen _date_ = date(m3_attempt_outcome2,"YMD")
 drop m3_attempt_outcome2
 rename _date_ m3_attempt_outcome2
 format m3_attempt_outcome2 %dM_d,_CY
+*/
 
 tostring m3_p2_date_of_rescheduled, replace
 gen _date_ = date(m3_p2_date_of_rescheduled,"YMD")
@@ -2061,13 +2057,6 @@ recode m1_1308 (. = .a) if m1_1306 == 1 | m1_1306 == 96 | m1_1306 == .
 recode m1_1309 (. = .a) if m1_1308 == 0 | m1_1308 == . | m1_1308 == .a
 
 	** MODULE 2:
-recode m2_attempt_relationship (. = .a) if m2_attempt_outcome == 1 | m2_attempt_outcome == 3 | m2_attempt_outcome == 4 | m2_attempt_outcome == 5
-
-recode m2_attempt_avail (. = .a) if m2_attempt_relationship == 4 | m2_attempt_relationship == . | m2_attempt_relationship == .a
-
-recode m2_attempt_contact (. = .a) if m2_attempt_avail == 0 | m2_attempt_avail == . | m2_attempt_avail == .a
-
-recode m2_start (. = .a) if m2_attempt_outcome == 2 |  m2_attempt_outcome == 3 | m2_attempt_outcome == 4 | m2_attempt_outcome == 5 | m2_attempt_avail == 0
 
 recode m2_permission (. = .a) if m2_start == 0
 recode m2_maternal_death_reported (. = .a) if m2_permission==0
@@ -2655,7 +2644,7 @@ recode m3_521 (. = .a) if m3_501 !=1
 
 recode m3_521_unknown (. = .a) if m3_501 !=1 | (m3_521 !=. | m3_521 !=.a)
 
-recode m3_p1_date_of_rescheduled m3_p1_time_of_rescheduled (. = .a) if m3_attempt_outcome !=6
+*recode m3_p1_date_of_rescheduled m3_p1_time_of_rescheduled (. = .a) if m3_attempt_outcome !=6
 
 recode m3_permission_p2 (. = .a) if m3_start_p2 !=1
 
@@ -2858,7 +2847,7 @@ recode recm3_endtime recm3_duration (. = .a) if m3_permission_p2 !=1 | (m3_303b 
 
 recode m3_p2_outcome_other (. = .a) if m3_p2_outcome !=96 // numeric because of 0 obs
 
-recode m3_p2_date_of_rescheduled recm3_p2_time_of_rescheduled (. = .a) if m3_attempt_outcome_p2 !=6
+*recode m3_p2_date_of_rescheduled recm3_p2_time_of_rescheduled (. = .a) if m3_attempt_outcome_p2 !=6
 
 *------------------------------------------------------------------------------*
 * drop variables after recoding/renaming
@@ -3306,14 +3295,6 @@ lab var m1_complete "Complete?"
 
 
 	** MODULE 2:
-label variable m2_attempt_date "CALL TRACKING: What is the date of this attempt?"
-label variable m2_attempt_outcome "CALL TRACKING: What was the outcome of the call?"
-label variable m2_attempt_relationship "Interviewer read: Hello, my name is [your name] and I work with EPHI, I would like to talk with [what_is_your_first_name_101] [what_is_your_family_name_102]. A6. May I Know what the relationship between you and [what_is_your_first_name_101] [what_is_your_family_name_102]?"
-label variable m2_attempt_other "CALL TRACKING: Specify other relationship with the respondent"
-label variable m2_attempt_avail "CALL TRACKING: Is [what_is_your_first_name_101] [what_is_your_family_name_102] nearby and available to speak now?   Can you pass the phone to them?"
-label variable m2_attempt_contact "CALL TRACKING: Is this still the best contact to reach [what_is_your_first_name_101] [what_is_your_family_name_102]?"
-label variable m2_attempt_bestnumber "CALL TRACKING: Could you please share the best number to contact [what_is_your_first_name_101] [what_is_your_family_name_102]"
-label variable m2_attempt_goodtime "CALL TRACKING: Do you know when would be a good time to reach [what_is_your_first_name_101] [what_is_your_family_name_102]?"
 label variable m2_start "IIC. May I proceed with the interview?"
 label variable m2_103 "102. Date of interview (D-M-Y)"
 label variable m2_permission "CR1. Permission granted to conduct call"
@@ -3549,7 +3530,6 @@ label variable m2_restart_time "At what time it is restarted?"
 label variable m2_endtime "103B. Time of Interview end"
 label variable m2_int_duration "103C. Total Duration of interview (In minutes)"
 label variable m2_endstatus "What is this womens current status at the end of the interview?"
-label variable m2_complete "Complete?"
 
 
 	** MODULE 3:
@@ -3782,8 +3762,8 @@ label variable m3_520 "520. At what time did you arrive at the facility you deli
 label variable m3_520_unknown "520. If day and time not known enter (98)"
 label variable m3_521 "521. Once you got to the facility you delivered at, how long in minutes did you wait until a healthcare worker checked on you?"
 label variable m3_521_unknown "521. If day and time not known enter (98)"
-label variable m3_attempt_date "CALL TRACKING: What is the date of this attempt? (D-M-Y)"
-label variable m3_attempt_outcome "CALL TRACKING: What was the outcome of the call?"
+*label variable m3_attempt_date "CALL TRACKING: What is the date of this attempt? (D-M-Y)"
+*label variable m3_attempt_outcome "CALL TRACKING: What was the outcome of the call?"
 label variable m3_p1_date_of_rescheduled "Date of rescheduled"
 label variable m3_p1_time_of_rescheduled "Time of rescheduled"
 label variable m3_p1_complete "Complete?"
@@ -4070,8 +4050,8 @@ label variable m3_endtime "Time of interview ended"
 label variable m3_duration "Total duration of interview"
 label variable m3_p2_outcome "What is the outcome of the phone call?"
 label variable m3_p2_outcome_other "Other reason, specify"
-label variable m3_attempt_outcome2 "CALL TRACKING: What is the date of this attempt? (D-M-Y)"
-label variable m3_attempt_outcome_p2 "CALL TRACKING: What was the outcome of the call?"
+*label variable m3_attempt_outcome2 "CALL TRACKING: What is the date of this attempt? (D-M-Y)"
+*label variable m3_attempt_outcome_p2 "CALL TRACKING: What was the outcome of the call?"
 label variable m3_p2_date_of_rescheduled "Date of rescheduled"
 label variable m3_p2_time_of_rescheduled "Time of rescheduled"
 
