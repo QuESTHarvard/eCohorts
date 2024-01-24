@@ -27,11 +27,9 @@ u "$user/$data/Ethiopia/02 recoded data/eco_m1m2_et_der.dta", clear
 		counsel_comeback anc1ifa calcium deworm tt anc1itn)
 	replace anc1qual = anc1qual*100
 	
-	egen mcscore= rowmean(anc1bp anc1weight anc1height anc1muac anc1blood ///
-		anc1urine  anc1lmp anc1depression ///
-		counsel_nutri counsel_exer counsel_complic counsel_birthplan edd ///
-		counsel_comeback anc1ifa  tt )
-	replace mcscore = mcscore*100
+	xtile group_anc1qual=anc1qual, nquantiles(4)
+	gen q4_anc1=group_anc1qual==4
+	
 	
 	rename m1_603 timespent
 	g lntime=ln(timespent)
@@ -113,12 +111,8 @@ u "$user/$data/Kenya/02 recoded data/eco_m1_ke_der.dta", clear
 		counsel_nutri counsel_exer counsel_complic counsel_birthplan edd2 ///
 		counsel_comeback anc1ifa deworm tt anc1itn)
 		replace anc1qual = anc1qual*100
-		
-		egen mcscore= rowmean(anc1bp anc1weight anc1height anc1muac anc1blood ///
-		anc1urine  anc1lmp anc1depression ///
-		counsel_nutri counsel_exer counsel_complic counsel_birthplan edd2 ///
-		counsel_comeback anc1ifa  tt )
-		replace mcscore = mcscore*100
+		xtile group_anc1qual=anc1qual, nquantiles(4)
+		gen q4_anc1=group_anc1qual==4
 		
 		rename m1_603 timespent
 		g lntime=ln(timespent)
@@ -192,12 +186,8 @@ u  "$user/$data/South Africa/02 recoded data/eco_m1_za_der.dta", clear
 		counsel_nutri counsel_exer counsel_complic counsel_birthplan edd ///
 		counsel_comeback anc1ifa calcium tt )
 		replace anc1qual = anc1qual*100
-		
-		egen mcscore= rowmean(anc1bp anc1weight anc1height anc1muac anc1blood ///
-		anc1urine  anc1lmp anc1depression ///
-		counsel_nutri counsel_exer counsel_complic counsel_birthplan edd ///
-		counsel_comeback anc1ifa  tt )
-		replace mcscore = mcscore*100
+		xtile group_anc1qual=anc1qual, nquantiles(4)
+		gen q4_anc1=group_anc1qual==4
 		
 		rename m1_603 timespent
 		g lntime=ln(timespent)
