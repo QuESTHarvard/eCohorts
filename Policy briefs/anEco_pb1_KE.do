@@ -4,16 +4,19 @@
 
 
 u "$ke_data_final/eco_m1_ke_der.dta", clear
-
+	keep if module==1
+	sort facility respondentid 
+	egen tagfac=tag(facility)
 * SETTING AND DEMOGRAPHICS OF WOMEN ENROLLED
 	* By site
 	tab facility_lvl study_site, col
 	mean enrollage, over(study_site)
-	tab educ_cat study_site, col
+	g secondary= educ_cat>2
+	ta secondary study_site , col
 	mean ga, over(study_site)
 	tab m1_1001 study_site, col
 	tab m1_501 study_site, col
-	tab m1_1205 study_site, col
+	tab tertile study_site, col
 
 	gen public = facility_lvl
 	recode public 2=1 3=0
@@ -75,9 +78,10 @@ ta specialist_hosp dangersign if facility_lvl!=2 & facility!=4 & /// "Kalimoni m
 					 facility!= 17 & ///"Our Lady of Lourdes Mutomo Hospital" 
 					 facility!= 13, col chi2 //"Muthale Mission Hospital"
 * ECONOMIC OUTCOMES
+	g private = facility_lvl==3
 	ta m1_1221
 	ta m1_1222 
-	ta m1_1217	// spent money oop	
+	ta m1_1217	private, col // spent money oop	
 	ta public m1_1217, row
 					 
 * COST OF 1st ANC VISIT
@@ -86,9 +90,11 @@ ta specialist_hosp dangersign if facility_lvl!=2 & facility!=4 & /// "Kalimoni m
 	egen totalcost= rowtotal(m1_1218a_1 m1_1218b_1 m1_1218c_1 m1_1218d_1 m1_1218e_1 m1_1218f_1)
 	replace totalcost=. if totalcost==0
 	
-	sum totalcost
+	sum totalcost 
+	sum totalcost if private==1
+	sum totalcost if private==0
 	
-	replace registration = 0 if (regist==.a | regist==.) & m1_1218_total_ke >0 & m1_1218_total_ke <.
+	replace registration = 0 if (registration==.a | registration==.) & m1_1218_total_ke >0 & m1_1218_total_ke <.
 	replace med = 0 if (med ==.a | med==.) & m1_1218_total_ke >0 & m1_1218_total_ke <.
 	replace lab = 0 if (lab ==.a |lab==.) & m1_1218_total_ke >0 & m1_1218_total_ke <.
 	replace indirect = 0 if indirect ==. & m1_1218_total_ke >0 & m1_1218_total_ke <.
@@ -106,7 +112,7 @@ ta specialist_hosp dangersign if facility_lvl!=2 & facility!=4 & /// "Kalimoni m
 			tabstat m1_603, by(anyrisk) stat(mean sd count)
 				ttest m1_603, by(anyrisk)
 			tabstat anc1ultrasound, by(anyrisk) stat(mean sd count)		
-		
+				ta anc1ultrasound anyrisk, col chi2
 *COMPETENT SYSTEMS: DANGER SIGNS
 			tabstat anc1tq, by(dangersign) stat(mean sd count)
 				ttest anc1tq, by(dangersign)
@@ -117,8 +123,6 @@ ta specialist_hosp dangersign if facility_lvl!=2 & facility!=4 & /// "Kalimoni m
 			tabstat anc1ultrasound, by(dangersign) stat(mean sd count)
 			ta anc1ultrasound dangersign, col chi2
 			
-
-
 * CASCADES
 	* Anemia
 			ta anemic // 273
@@ -135,6 +139,7 @@ ta specialist_hosp dangersign if facility_lvl!=2 & facility!=4 & /// "Kalimoni m
 	*Prior chronic conditions
 	egen diabetes_tx = rowmax(anc1diabetes specialist_hosp)
 	egen hypertension_tx = rowmax(anc1hypertension specialist_hosp)
+			egen chronic4=rowmax(m1_202a m1_202b m1_202c m1_202d)
 			tab1 m1_202a m1_202b m1_202c m1_202d m1_202e
 			*tab1 m1_203c_ke m1_203d_ke m1_203e_ke m1_203f_ke m1_203g_ke m1_203h_ke /// added additional KE only chronic conditions
 				*m1_203i_ke m1_203j_ke m1_203k_ke m1_203l_ke m1_203m_ke m1_203n_ke m1_203o_ke // 
@@ -152,8 +157,8 @@ ta specialist_hosp dangersign if facility_lvl!=2 & facility!=4 & /// "Kalimoni m
 
 	* Prior obstetric complications (miscarriage, stillbirth, preterm, neonatal death, c-section)
 			tab1 m1_1004 stillbirth preterm neodeath csect
-			
-			tab1 m1_1011b if m1_1004==1 //miscarriage
+			egen complic5 =rowmax(m1_1004 stillbirth preterm neodeath csect)
+			tab1 m1_1011b if m1_1004==1 //late miscarriage
 			tab1 m1_1011c if stillbirth==1
 			tab1 m1_1011d if preterm==1
 			tab1 m1_1011f if neodeath==1
@@ -167,7 +172,7 @@ ta specialist_hosp dangersign if facility_lvl!=2 & facility!=4 & /// "Kalimoni m
 					
 	* Malnutrition
 	egen screen_mal = rowmax(anc1muac anc1bmi)
-			ta low_BMI // 46
+			ta low_BMI // 45
 			ta screen_mal if low_BMI==1
 			ta counsel_nutri if low_BMI==1
 			ta anc1food if low_BMI==1	
