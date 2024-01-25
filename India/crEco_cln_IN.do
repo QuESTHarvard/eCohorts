@@ -192,10 +192,230 @@ drop SubmissionDate calc_start_time Calc_weeks_remaining_1 Calc_weeks_remaining_
 	*STEP THREE: RECODING MISSING VALUES 
 		* Recode refused and don't know values
 		* Note: .a means NA, .r means refused, .d is don't know, . is missing 
+		* helpful command: codebookout "D:IN missing codebook.xls"
 
-	** MODULE 1:	
+		** MODULE 1:
+
+recode mobile_phone m1_201 m1_202a m1_202b m1_202c m1_202d m1_202e m1_203 m1_204 ///
+	   m1_205a m1_205b m1_205c m1_205d m1_205e phq9a phq9b phq9c phq9d phq9e phq9f ///
+	   phq9g phq9h phq9i m1_301 m1_302 m1_303 m1_304 m1_305a m1_305b m1_401 m1_402 ///
+	   m1_404 m1_501 m1_503 m1_504 m1_505 m1_506 m1_507 m1_601 m1_602 m1_605a m1_605b ///
+	   m1_605c m1_605d m1_605e m1_605f m1_605g m1_605h m1_700 m1_701 m1_702 m1_703 m1_704 ///
+	   m1_705 m1_706 m1_707 m1_708a m1_708b m1_708c m1_708d m1_708e m1_708f m1_709a m1_709b ///
+	   m1_710a m1_710b m1_710c m1_711a m1_711b m1_712 m1_713_in_za m1_713a m1_713b m1_713c ///
+	   m1_713d m1_713e m1_713f m1_713g m1_713h m1_713i m1_713k m1_713l m1_714a m1_714b m1_716a ///
+	   m1_716b m1_716c m1_716d m1_716e m1_717 m1_718 m1_719 m1_720 m1_721 m1_722 m1_723 m1_724a ///
+	   m1_724c m1_724d m1_724e m1_724f m1_724g m1_724h m1_724i m1_801 m1_802a m1_805 m1_806 ///
+	   m1_807 m1_809 m1_812a m1_812b m1_813a m1_813b m1_814a m1_814b m1_814c m1_814d m1_814e ///
+	   m1_814f m1_814g m1_814h m1_815a_in m1_815e_in m1_815g_in m1_815h_in m1_816 m1_901 m1_902 /// 
+	   m1_905 m1_907 m1_1004 m1_1005 m1_1006 m1_1007 m1_1008 m1_1011a m1_1011b m1_1011c m1_1011d ///
+	   m1_1011e m1_1011f m1_1101 m1_1103 m1_1105 m1_1201 m1_1201 m1_1202 m1_1203 m1_1204 m1_1205 ///
+	   m1_1206 m1_1207 m1_1208 m1_1209 m1_1210 m1_1211 m1_1212 m1_1213 m1_1214 m1_1215 m1_1217 ///
+	   m1_1221 m1_1222 m1_1223 (99 = .r)
+
+recode m1_401 m1_402 m1_404 m1_506 m1_700 m1_701 m1_702 m1_703 m1_704 m1_705 m1_706 m1_707 ///
+	   m1_708a m1_708b m1_708c m1_708d m1_708e m1_708f m1_709a m1_709b m1_710a m1_710b m1_710c ///
+	   m1_711a m1_711b m1_712 m1_713_in_za m1_713a m1_713b m1_713c m1_713d m1_713e m1_713f m1_713g ///
+	   m1_713h m1_713i m1_713k m1_713l m1_714a m1_714b m1_716a m1_716b m1_716c m1_716d m1_716e ///
+	   m1_717 m1_718 m1_719 m1_720 m1_721 m1_722 m1_723 m1_724a m1_724c m1_724d m1_724e m1_724f ///
+	   m1_724g m1_724h m1_724i m1_801 m1_802a m1_805 m1_806 m1_807 m1_809 m1_812a m1_812b m1_813a ///
+	   m1_813b m1_814a m1_814b m1_814c m1_814d m1_814e m1_814f m1_814g m1_814h m1_815a_in m1_815e_in ///
+	   m1_815g_in m1_815h_in m1_816 m1_901 m1_902 m1_907 m1_1004 m1_1005 m1_1006 m1_1007 m1_1008 ///
+	   m1_1011a m1_1011b m1_1011c m1_1011d m1_1011e m1_1011f m1_1101 m1_1105 m1_1201 m1_1202 ///
+	   m1_1203 m1_1204 m1_1205 m1_1206 m1_1207 m1_1208 m1_1209 m1_1210 m1_1211 m1_1212 m1_1213 ///
+	   m1_1214 m1_1215 m1_1222 m1_1223 m1_714c m1_714e m1_810a (98 = .d)
+
+recode m1_509b m1_510b m1_511 (99 = .d)   
+
+replace m1_815c_in = ".d" if m1_815c_in == "98"
+
+replace m1_808 = ".r" if m1_808 == "99"
+	   
+*------------------------------------------------------------------------------*
+
+* recoding for skip pattern logic:	   
+	   
+* Recode missing values to NA for questions respondents would not have been asked 
+* due to skip patterns
+
+* MODULE 1:	
+		*Note: A lot of the early M1 vars on data file of 1-24-24 do not have missings
+	* Kept these recode commands here even though there is no missings 
+	* helpful command: misstable summarize
+recode care_self (. = .a) if permission == 0
+recode enrollage (. = .a) if permission == 0
+recode b6anc_first (. = .a) if b5anc== 2
+recode flash (. = .a) if mobile_phone == 0 | mobile_phone == 99 | mobile_phone == .
 	
+recode m1_402a_in (. = .a) if m1_402 !=1
+recode m1_402b_in (. = .a) if m1_402 !=2
 	
+recode m1_405_other (. = .a) if m1_405_96_in != 1 // numeric right now because of 0 obs (1-24-24)
+	
+recode m1_503 (. = .a) if m1_502 !=1	
+recode m1_504  m1_504a_in (. = .a) if m1_503 != 2 | m1_503 != 3 | m1_503 != 4 | m1_503 != 5
+	
+recode m1_509b (.  = .a) if m1_509a == 0 | m1_509a == . | m1_509a == .r
+recode m1_510b (.  = .a) if m1_510a == 0 | m1_510a == . | m1_510a == .r
+
+recode m1_c6_in m1_c7_in (. = .a) if m1_interview_split !=1
+
+recode m1_708b m1_708c m1_708d m1_708e m1_708f m1_709a m1_709b (. = .a) if m1_708a !=1
+
+recode m1_708b (. = .a) if m1_708a == . | m1_708a == 0 | m1_708a == .d | m1_708a == .r
+recode m1_708c (. = .a) if m1_708b	== 2 | m1_708b	== 3 | m1_708b == . |	m1_708b == .d | m1_708b == .a | m1_708b == .r
+recode m1_708d (. = .a) if m1_708c	== 0 | m1_708c == . | m1_708c == .d | m1_708c == .a | m1_708c == .r
+recode m1_708e (. = .a) if m1_708d == 0 | m1_708d == . | m1_708d == .d | m1_708d == .a | m1_708d == .r
+recode m1_708f (. = .a) if m1_708e == 0 | m1_708e == . | m1_708e == .d | m1_708e == .a | m1_708e == .r
+recode m1_709a (. = .a) if m1_708b	== 2 | m1_708b == . | m1_708b == .d | m1_708b == .a | m1_708b == .r | m1_708b == .a
+recode m1_709b (. = .a) if m1_708b	== 2 | m1_708b == . | m1_708b == .d | m1_708b == .a | m1_708b == .r | m1_708b == .a
+
+recode m1_710b (. = .a) if m1_710a !=1
+recode m1_710c (. = .a) if m1_710b !=1
+recode m1_711b (. = .a) if m1_711a !=1
+recode m1_714c m1_714d (. = .a) if m1_714b !=1
+recode m1_714e (. = .a) if m1_714c == 0 | m1_714c == 1 | m1_714c == . | m1_714c == .a | ///
+						   m1_710b !=1
+
+recode m1_717 (. = .a) if m1_202d !=1
+recode m1_718 (. = .a) if m1_202a !=1
+recode m1_719 (. = .a) if m1_202b !=1
+recode m1_720 (. = .a) if m1_202c !=1
+recode m1_721 (. = .a) if m1_202d !=1
+recode m1_722 (. = .a) if m1_202e !=1
+recode m1_723 (. = .a) if m1_204 !=1
+recode m1_724b (. = .a) if m1_724a !=1
+recode m1_724f (. = .a) if m1_705 !=0
+recode m1_724g (. = .a) if  m1_707 !=0
+recode m1_724h (. = .a) if m1_708a !=0 
+recode m1_724i (. = .a) if m1_712 !=0
+recode m1_802_date_in m1_802a (. = .a) if m1_802a !=1
+recode m1_803a_in m1_803b_in (. = .a) if m1_802a ==1 
+recode m1_808_0 m1_808_1 m1_808_2 m1_808_3 m1_808_4 m1_808_5 m1_808_6 m1_808_7 ///
+	   m1_808_8 m1_808_13_in m1_808_9 m1_808_10 m1_808_11 m1_808_96 m1_808_99 ///
+	   (. = .a) if m1_808 == ""
+recode m1_810a (. = .a) if m1_809 !=1
+recode m1_812b (. = .a) if m1_812a !=1
+recode m1_813b (.  = .a) if m1_813a !=1
+recode m1_814h (.  = .a) if m1_804 !=3
+recode m1_815a_in m1_815a_0_in m1_815a_1_in m1_815a_2_in m1_815a_3_in m1_815a_4_in m1_815a_5_in m1_815a_6_in m1_815a_96_in m1_815a_98_in m1_815a_99_in (. = .a) if m1_814a !=1 
+
+replace m1_815a_other_in = ".a" if m1_815a_96_in !=1 
+
+replace m1_815b_in = ".a" if m1_814b !=1 
+
+recode m1_815b_0_in m1_815b_1_in m1_815b_2_in m1_815b_3_in m1_815b_4_in m1_815b_5_in m1_815b_6_in m1_815b_96_in m1_815b_98_in m1_815b_99_in (. = .a) if m1_814b !=1 
+
+recode m1_815b_other_in (. = .a) if m1_815b_96_in !=1 // numeric because of 0 obs
+
+replace m1_815c_in = ".a" if m1_814c !=1 
+
+recode m1_815c_0_in m1_815c_1_in m1_815c_2_in m1_815c_3_in m1_815c_4_in m1_815c_5_in m1_815c_6_in m1_815c_96_in m1_815c_98_in m1_815c_99_in (. = .a) if m1_814c !=1 
+
+recode m1_815c_other_in (. = .a) if m1_815c_96_in !=1 // numeric because of 0 obs
+
+replace m1_815d_in = ".a" if m1_814d !=1 
+
+recode m1_815d_0_in m1_815d_1_in m1_815d_2_in m1_815d_3_in m1_815d_4_in m1_815d_5_in m1_815d_6_in m1_815d_96_in m1_815d_98_in m1_815d_99_in (. = .a) if m1_814d !=1 
+
+recode m1_815d_other_in (. = .a) if m1_815d_96_in !=1 // numeric because of 0 obs
+
+recode m1_815e_in m1_815e_0_in m1_815e_1_in m1_815e_2_in m1_815e_3_in m1_815e_4_in m1_815e_5_in m1_815e_6_in m1_815e_96_in m1_815e_98_in m1_815e_99_in (. = .a) if m1_814e !=1
+
+recode m1_815e_other_in (. = .a) if m1_815e_96_in !=1 
+
+replace m1_815f_in = ".a" if m1_814d !=1 
+
+recode m1_815f_0_in m1_815f_1_in m1_815f_2_in m1_815f_3_in m1_815f_4_in m1_815f_5_in m1_815f_6_in m1_815f_96_in m1_815f_98_in m1_815f_99_in (. = .a) if m1_814f !=1
+
+recode m1_815f_other_in (. = .a) if m1_815f_96_in !=1 
+
+recode m1_815g_in m1_815g_0_in m1_815g_1_in m1_815g_2_in m1_815g_3_in m1_815g_4_in m1_815g_5_in m1_815g_6_in m1_815g_96_in m1_815g_98_in m1_815g_99_in (. = .a) if m1_814g !=1
+
+replace m1_815g_other_in = ".a" if m1_815g_96_in !=1 
+
+recode m1_815h_in m1_815h_0_in m1_815h_1_in m1_815h_2_in m1_815h_3_in m1_815h_4_in m1_815h_5_in m1_815h_6_in m1_815h_96_in m1_815h_98_in m1_815h_99_in (. = .a) if m1_814h !=1
+
+recode m1_815h_other_in (. = .a) if m1_815h_96_in !=1 
+
+egen m1_symptoms = rowtotal(m1_814a m1_814b m1_814c m1_814d m1_814e m1_814f m1_814g m1_814h)
+
+recode m1_816 (. = .a) if m1_symptoms >0 // 111 obs still in true missing? but they responded to one of the symptoms
+						  
+drop m1_symptoms
+
+recode m1_816 (. = .a) if m1_814a !=1 &	m1_814b !=1 & m1_814c !=1 & m1_814d !=1 & ///
+						  m1_814e !=1 &	m1_814f !=1 & m1_814g !=1 & m1_814h !=1 		
+						  
+recode m1_902 (. = .a) if m1_901 !=1 | m1_901 !=2
+						  
+recode m1_906 (. = .a) if m1_905 !=1
+
+recode m1_907 (. = .a) if m1_906 !=1	
+
+recode m1_1003 (.  = .a) if m1_1002 <1 | m1_1002 == . | m1_1002 == .a		  
+				
+recode m1_1004 (.  = .a) if m1_1001 <= m1_1002
+
+recode m1_1005 (.  = .a) if (m1_1002<1 | m1_1002 ==.a | m1_1002 == .)
+
+recode m1_1006 (.  = .a) if (m1_1002<1 | m1_1002 ==.a | m1_1002 == .)
+
+recode m1_1007 (.  = .a) if (m1_1002<1 | m1_1002 ==.a | m1_1002 ==.)
+
+recode m1_1008 (.  = .a) if (m1_1002<1 | m1_1002 ==.a | m1_1002 ==.)
+
+recode m1_1009 (.  = .a) if (m1_1003 <1 | m1_1003 == .a | m1_1003 == .)
+
+recode m1_1010 (.  = .a) if (m1_1003 <= m1_1009) | m1_1003 == .a 
+
+recode m1_1011a (.  = .a) if (m1_1001 <= 1 | m1_1001 ==.)
+
+recode m1_1011b (.  = .a) if m1_1004 !=1
+
+recode m1_1011c (.  = .a) if (m1_1002 <= m1_1003)
+
+recode m1_1011d (.  = .a) if m1_1005 !=1 
+
+recode m1_1011e (.  = .a) if m1_1007 !=1
+
+recode m1_1011f (.  = .a) if m1_1010 !=1
+
+replace m1_1102 = ".a" if m1_1101 !=1
+				
+recode m1_1102_1 m1_1102_2 m1_1102_3 m1_1102_4 m1_1102_5 m1_1102_6 m1_1102_7 ///
+	   m1_1102_8 m1_1102_9 m1_1102_10 m1_1102_96 m1_1102_98 m1_1102_99 (.  = .a) if ///
+	   m1_1101 !=1
+	   
+recode m1_1102_other (. = .a) if m1_1102_96 != 1 // numeric bc of 0 observations 
+	   
+replace m1_1104 = ".a" if m1_1103 !=1
+
+recode m1_1104_1 m1_1104_2 m1_1104_3 m1_1104_4 m1_1104_5 m1_1104_6 m1_1104_7 m1_1104_8 m1_1104_9 m1_1104_10 m1_1104_96 m1_1104_98 m1_1104_99 (. = .a) if m1_1103 !=1
+	
+recode m1_1104_other (. = .a) if m1_1104_96 != 1 // numeric bc of 0 observations 
+
+recode m1_1202_other (.  = .a) if m1_1202 !=96 // numeric bc of 0 observations 
+
+recode m1_1208_other (.  = .a) if m1_1208 !=96 // numeric bc of 0 observations  
+
+recode m1_1218a_1 m1_1218b_1 m1_1218c_1 m1_1218d_1 m1_1218e_1 m1_totalcost_in ///
+	   m1_1219 m1_1220_1 m1_1220_2 m1_1220_3 m1_1220_4 m1_1220_5 m1_1220_6 ///
+	   m1_1220_96 (. = .a) if m1_1217 !=1
+
+replace m1_1218f_other = ".a" if m1_1218f_1 !=1	   
+
+recode m1_1220_other (. = .a) if m1_1220_96 !=1 // numeric bc of 0 observations  
+	   
+recode m1_1222 (. = .a) if m1_1221 !=1	   
+
+recode m1_1222_other (. = .a) if m1_1222 !=96
+
+recode m1_1307 (. = .a) if m1_1306 !=1
+	
+recode m1_1308 (.  = .a) if m1_1306 == 1 | m1_1306 == .a | m1_1306 == .d | m1_1306 == .r
+
+recode m1_1309 (.  = .a) if m1_1308 !=1		
 	
 *===============================================================================					   
 	
@@ -261,6 +481,7 @@ lab var m1_501_other "501_Other. Specify other language"
 lab var m1_502 "502. Have you ever attended school?"
 lab var m1_503 "503. What is the highest level of education you have completed?"
 lab var m1_504 "504. Now I would like you to read this sentence to me. 1. PARENTS LOVE THEIR CHILDREN. 3. THE CHILD IS READING A BOOK. 4. CHILDREN WORK HARD AT SCHOOL."
+lab var m1_504a_in "IF RESPONDENT CANNOT READ WHOLE SENTENCE, PROBE: Can you read any part of the sentence to me?"
 lab var m1_505 "505. What is your current marital status?"
 lab var m1_506 "506. What is your occupation, that is, what kind of work do you mainly do?"
 lab var m1_506_other "506_Other. Specify other occupation"
@@ -308,6 +529,7 @@ lab var m1_710c "710c. Did the provider give you medicine for syphilis directly,
 lab var m1_711a "711a. Did they do a blood sugar test for diabetes?"
 lab var m1_711b "711b. Do you know the result of your blood sugar test?"
 lab var m1_712 "712. Did they do an ultrasound (that is, when a probe is moved on your belly to produce a video of the baby on a screen)"
+lab var m1_713_in_za "713. IN/ZA only: Iron injection"
 lab var m1_713a "713a. Iron or folic acid pills, e.g., IFAS or Pregnacare?"
 lab var m1_713b "713b. Calcium pills?"
 lab var m1_713c "713c. The food supplement like Super Cereal or Plumpynut?"
@@ -348,6 +570,7 @@ lab var m1_724h "724h. To go somewhere else to do an HIV test such as a lab or a
 lab var m1_724i "724i. Were you told to go somewhere else to do an ultrasound such as a hospital or another health facility?"
 lab var m1_801 "801. Did the healthcare provider tell you the estimated date of delivery, or not?"
 lab var m1_802a "802a. What is the estimated date of delivery the provider told you?"
+lab var m1_802_date_in "802. IN only: Estimated date of delivery"
 lab var m1_803a_in "803. How many months pregnant do you think you are?"
 lab var m1_803b_in "803. How many weeks pregnant do you think you are?"
 lab var m1_804 "804. Interviewer calculates the gestational age in trimester based on Q802 (estimated due date) or on Q803 (self-reported number of months pregnant)."
@@ -372,106 +595,108 @@ lab var m1_814e "814e. Did you experience a lot of difficulty breathing even whe
 lab var m1_814f "814f. Did you experience convulsions or seizures in your pregnancy so far, or not?"
 lab var m1_814g "814g. Did you experience repeated fainting or loss of consciousness in your pregnancy so far, or not?"
 lab var m1_814h "814h. Did you experience noticing that the baby has completely stopped moving in your pregnancy so far, or not?"
-lab var m1_815a_in
-lab var m1_815a_other_in
-lab var m1_815b_in
-lab var m1_815b_other_in
-lab var m1_815c_in
-lab var m1_815c_other_in
-lab var m1_815d_in
-lab var m1_815d_other_in
-lab var m1_815e_in
-lab var m1_815d_other_in
-lab var m1_815f_in
-lab var m1_815f_other_in
-lab var m1_815g_in
-lab var m1_815g_other_in
-lab var m1_815h_in
-lab var m1_815h_other_in
-lab var m1_815a_0_in
-lab var m1_815a_1_in
-lab var m1_815a_2_in
-lab var m1_815a_3_in
-lab var m1_815a_4_in
-lab var m1_815a_5_in
-lab var m1_815a_6_in
-lab var m1_815a_96_in
-lab var m1_815a_98_in
-lab var m1_815a_99_in
-lab var m1_815b_0_in
-lab var m1_815b_1_in
-lab var m1_815b_2_in
-lab var m1_815b_3_in
-lab var m1_815b_4_in
-lab var m1_815b_5_in
-lab var m1_815b_6_in
-lab var m1_815b_96_in
-lab var m1_815b_98_in
-lab var m1_815b_99_in
-lab var m1_815c_0_in
-lab var m1_815c_1_in
-lab var m1_815c_2_in
-lab var m1_815c_3_in
-lab var m1_815c_4_in
-lab var m1_815c_5_in
-lab var m1_815c_6_in
-lab var m1_815c_96_in
-lab var m1_815c_98_in
-lab var m1_815c_99_in
-lab var m1_815d_0_in
-lab var m1_815d_1_in
-lab var m1_815d_2_in
-lab var m1_815d_3_in
-lab var m1_815d_4_in
-lab var m1_815d_5_in
-lab var m1_815d_6_in
-lab var m1_815d_96_in
-lab var m1_815d_98_in
-lab var m1_815d_99_in
-lab var m1_815e_0_in
-lab var m1_815e_1_in
-lab var m1_815e_2_in
-lab var m1_815e_3_in
-lab var m1_815e_4_in
-lab var m1_815e_5_in
-lab var m1_815e_6_in
-lab var m1_815e_96_in
-lab var m1_815e_98_in
-lab var m1_815e_99_in
-lab var m1_815f_0_in
-lab var m1_815f_1_in
-lab var m1_815f_2_in
-lab var m1_815f_3_in
-lab var m1_815f_4_in
-lab var m1_815f_5_in
-lab var m1_815f_6_in
-lab var m1_815f_96_in
-lab var m1_815f_98_in
-lab var m1_815f_99_in
-lab var m1_815g_0_in
-lab var m1_815g_1_in
-lab var m1_815g_2_in
-lab var m1_815g_3_in
-lab var m1_815g_4_in
-lab var m1_815g_5_in
-lab var m1_815g_6_in
-lab var m1_815g_96_in
-lab var m1_815g_98_in
-lab var m1_815g_99_in
-lab var m1_815h_0_in
-lab var m1_815h_1_in
-lab var m1_815h_2_in
-lab var m1_815h_3_in
-lab var m1_815h_4_in
-lab var m1_815h_5_in
-lab var m1_815h_6_in
-lab var m1_815h_96_in
-lab var m1_815h_98_in
-lab var m1_815h_99_in
-lab var m1_816
-
+lab var m1_815a_in "815a. During the visit today, what did the provider tell you to do regarding the 'Severe or persistent headaches?'"
+lab var m1_815a_other_in "815a-oth. Other (Please specify)"
+lab var m1_815b_in "815.b. During the visit today, what did the provider tell you to do regarding the 'Vaginal bleeding of any amount'?"
+lab var m1_815b_other_in "815b-oth. Other (Please specify)"
+lab var m1_815c_in "815c. During the visit today, what did the provider tell you to do regarding the 'fever'?"
+lab var m1_815c_other_in "815c-oth. Other (Please specify)"
+lab var m1_815d_in "815d. During the visit today, what did the provider tell you to do regarding the 'Severe abdominal pain, not just discomfort'?"
+lab var m1_815d_other_in "815d-oth. Other (Please specify)"
+lab var m1_815e_in "815e. During the visit today, what did the provider tell you to do regarding 'A lot of difficulty breathing even when you are resting'?"
+lab var m1_815e_other_in "815e-oth. Other (Please specify)"
+lab var m1_815f_in "815f. During the visit today, what did the provider tell you to do regarding the 'Convulsions or seizures'?"
+lab var m1_815f_other_in "815f-oth. Other (Please specify)"
+lab var m1_815g_in "815g. During the visit today, what did the provider tell you to do regarding the 'Repeated fainting or loss of consciousness'?"
+lab var m1_815g_other_in "815g-oth. Other (Please specify)"
+lab var m1_815h_in "815h. During the visit today, what did the provider tell you to do regarding the 'Noticing that the baby has completely stopped moving'?"
+lab var m1_815h_other_in "815h-oth. Other (Please specify)"
+lab var m1_815a_0_in "Nothing, we did not discuss this"
+lab var m1_815a_1_in "They told you to get a lab test or imaging (e.g., ultrasound, blood tests, x-ray, heart echo)"
+lab var m1_815a_2_in "They provided a treatment in the visit"
+lab var m1_815a_3_in "They prescribed a medication"
+lab var m1_815a_4_in "They told you to come back to this health facility"
+lab var m1_815a_5_in "They told you to go somewhere else for higher level care"
+lab var m1_815a_6_in "They told you to wait and see"
+lab var m1_815a_96_in "Other"
+lab var m1_815a_98_in "Don't Know"
+lab var m1_815a_99_in "NR/RF"
+lab var m1_815b_0_in "Nothing, we did not discuss this"
+lab var m1_815b_1_in "They told you to get a lab test or imaging (e.g., ultrasound, blood tests, x-ray, heart echo)"
+lab var m1_815b_2_in "They provided a treatment in the visit"
+lab var m1_815b_3_in "They prescribed a medication"
+lab var m1_815b_4_in "They told you to come back to this health facility"
+lab var m1_815b_5_in "They told you to go somewhere else for higher level care"
+lab var m1_815b_6_in "They told you to wait and see"
+lab var m1_815b_96_in "Other"
+lab var m1_815b_98_in "Don't Know"
+lab var m1_815b_99_in "NR/RF"
+lab var m1_815c_0_in "Nothing, we did not discuss this"
+lab var m1_815c_1_in "They told you to get a lab test or imaging (e.g., ultrasound, blood tests, x-ray, heart echo)"
+lab var m1_815c_2_in "They provided a treatment in the visit"
+lab var m1_815c_3_in "They prescribed a medication"
+lab var m1_815c_4_in "They told you to come back to this health facility"
+lab var m1_815c_5_in "They told you to go somewhere else for higher level care"
+lab var m1_815c_6_in "They told you to wait and see"
+lab var m1_815c_96_in "Other"
+lab var m1_815c_98_in "Don't Know"
+lab var m1_815c_99_in "NR/RF"
+lab var m1_815d_0_in "Nothing, we did not discuss this"
+lab var m1_815d_1_in "They told you to get a lab test or imaging (e.g., ultrasound, blood tests, x-ray, heart echo)"
+lab var m1_815d_2_in "They provided a treatment in the visit"
+lab var m1_815d_3_in "They prescribed a medication"
+lab var m1_815d_4_in "They told you to come back to this health facility"
+lab var m1_815d_5_in "They told you to go somewhere else for higher level care"
+lab var m1_815d_6_in "They told you to wait and see"
+lab var m1_815d_96_in "Other"
+lab var m1_815d_98_in "Don't Know"
+lab var m1_815d_99_in "NR/RF"
+lab var m1_815e_0_in "Nothing, we did not discuss this"
+lab var m1_815e_1_in "They told you to get a lab test or imaging (e.g., ultrasound, blood tests, x-ray, heart echo)"
+lab var m1_815e_2_in "They provided a treatment in the visit"
+lab var m1_815e_3_in "They prescribed a medication"
+lab var m1_815e_4_in "They told you to come back to this health facility"
+lab var m1_815e_5_in "They told you to go somewhere else for higher level care"
+lab var m1_815e_6_in "They told you to wait and see"
+lab var m1_815e_96_in "Other"
+lab var m1_815e_98_in "Don't Know"
+lab var m1_815e_99_in "NR/RF"
+lab var m1_815f_0_in "Nothing, we did not discuss this"
+lab var m1_815f_1_in "They told you to get a lab test or imaging (e.g., ultrasound, blood tests, x-ray, heart echo)"
+lab var m1_815f_2_in "They provided a treatment in the visit"
+lab var m1_815f_3_in "They prescribed a medication"
+lab var m1_815f_4_in "They told you to come back to this health facility"
+lab var m1_815f_5_in "They told you to go somewhere else for higher level care"
+lab var m1_815f_6_in "They told you to wait and see"
+lab var m1_815f_96_in "Other"
+lab var m1_815f_98_in "Don't Know"
+lab var m1_815f_99_in "NR/RF"
+lab var m1_815g_0_in "Nothing, we did not discuss this"
+lab var m1_815g_1_in "They told you to get a lab test or imaging (e.g., ultrasound, blood tests, x-ray, heart echo)"
+lab var m1_815g_2_in "They provided a treatment in the visit"
+lab var m1_815g_3_in "They prescribed a medication"
+lab var m1_815g_4_in "They told you to come back to this health facility"
+lab var m1_815g_5_in "They told you to go somewhere else for higher level care"
+lab var m1_815g_6_in "They told you to wait and see"
+lab var m1_815g_96_in "Other"
+lab var m1_815g_98_in "Don't Know"
+lab var m1_815g_99_in "NR/RF"
+lab var m1_815h_0_in "Nothing, we did not discuss this"
+lab var m1_815h_1_in "They told you to get a lab test or imaging (e.g., ultrasound, blood tests, x-ray, heart echo)"
+lab var m1_815h_2_in "They provided a treatment in the visit"
+lab var m1_815h_3_in "They prescribed a medication"
+lab var m1_815h_4_in "They told you to come back to this health facility"
+lab var m1_815h_5_in "They told you to go somewhere else for higher level care"
+lab var m1_815h_6_in "They told you to wait and see"
+lab var m1_815h_96_in "Other"
+lab var m1_815h_98_in "Don't Know"
+lab var m1_815h_99_in "NR/RF"
+lab var m1_816 "816. You said that you did not have any of the symptoms I just listed. Did the health provider ask you whether or not you had these symptoms, or did this topic not come up today?"
 lab var m1_901 "901. How often do you currently smoke cigarettes or use any other type of tobacco? Is it every day, some days, or not at all?"
 lab var m1_902 "902. During the visit today, did the health provider advise you to stop smoking or using tobacco products?"
+lab var m1_905 "905. Have you consumed an alcoholic drink within the past 30 days?"
+lab var m1_906 "906. When you do drink alcohol, how many drinks do you consume on average?"
+lab var m1_907 "907. During the visit today, did the health provider advise you to stop drinking alcohol?"
 lab var m1_1001 "1001. How many pregnancies have you had, including the current pregnancy and regardless of whether you gave birth or not?"
 lab var m1_1002 "1002. How many births have you had (including babies born alive or dead)?"
 lab var m1_1003 "1003. In how many of those births was the baby born alive?"
@@ -553,6 +778,13 @@ lab var m1_1218f_1 "1218f. How much were these other costs?"
 lab var m1_1218f_other "1218f_Other. What are those other costs that you incurred?"
 lab var m1_1219 "1219. Total amount spent"
 lab var m1_1220 "1220: Which of the following financial sources did your household use to pay for this?"
+lab var m1_1220_1 "Current income of any household members"
+lab var m1_1220_2 "Savings (e.g. bank account)"
+lab var m1_1220_3 "Payment or reimbursement from a health insurance plan"
+lab var m1_1220_4 "Sold items (e.g. furniture, animals, jewellery, furniture)"
+lab var m1_1220_5 "Family members or friends from outside the household"
+lab var m1_1220_6 "Borrowed (from someone other than a friend or family)"
+lab var m1_1220_96 "Other"
 lab var m1_1220_other "1220_Other. Specify other financial source for household use to pay for this"
 lab var m1_1221 "1221. Are you covered with a health insurance?"
 lab var m1_1222 "1222. What type of health insurance coverage do you have?"
@@ -574,6 +806,8 @@ lab var m1_1307 "1307. HEMOGLOBIN LEVEL FROM MATERNAL HEALTH CARD "
 lab var m1_1308 "1308. Will you take the anemia test?"
 lab var m1_1309 "1309. HEMOGLOBIN LEVEL FROM TEST PERFORMED BY DATA COLLECTOR"
 lab var m1_1401 "1401. What period of the day is most convenient for you to answer the phone survey?"
+lab var m1_c6_in "Date of interview, if survey was split after ANC visit"
+lab var m1_c7_in "Time of interview, if survey was split after ANC visit"
 lab var m1_end_time "Module 1 end date and time"
 
 *===============================================================================
@@ -590,7 +824,7 @@ order gestational_age_1 gestational_age_1 gest_age, after(m1_803b_in)
 *===============================================================================
 	* STEP SIX: SAVE DATA TO RECODED FOLDER
 
-	*save "$in_data_final/eco_m1_in.dta", replace
+	save "$in_data_final/eco_m1_in.dta", replace
 
 *===============================================================================
 

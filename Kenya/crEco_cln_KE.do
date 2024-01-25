@@ -573,7 +573,6 @@ replace pref_language_other_ke = ".a" if pref_language_96_ke != 1
 *===============================================================================					   
 	
 	* STEP FOUR: LABELING VARIABLES
-drop enrollage 
 ren rec* *
 	
 	** MODULE 1:		
