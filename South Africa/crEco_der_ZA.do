@@ -28,7 +28,7 @@ u "$za_data_final/eco_m1_za.dta", clear
 			recode phq2_cat (0/2=0) (3/6=1)
 			
 			encode m1_203, gen(other_major_hp)
-			recode other_major_hp (1 3/4 10 15 16 18/21 =0)
+			recode other_major_hp (1 3/4 10 15 16 18/21 24 33 34=0)
 			replace other_major_hp = 1 if other_major_hp!=0
 			lab drop other_major_hp
 		
@@ -75,8 +75,7 @@ u "$za_data_final/eco_m1_za.dta", clear
 			recode anc1bmi (1=0) (2=1)
 			gen anc1muac = m1_703
 			gen anc1fetal_hr = m1_704
-			recode anc1fetal_hr  (2=.) 
-			replace anc1fetal_hr=. if m1_804==1 // only applies to those in 2nd or 3rd trimester
+			recode anc1fetal_hr  (2=.) // only applies to those in 2nd or 3rd trimester (adjusted in section 8)
 			gen anc1urine = m1_705
 			egen anc1blood = rowmax(m1_706 m1_707) // finger prick or blood draw
 			gen anc1hiv_test =  m1_708a
@@ -89,7 +88,7 @@ u "$za_data_final/eco_m1_za.dta", clear
 			gen anc1depression = m1_716c
 			gen anc1edd =  m1_801
 			egen anc1tq = rowmean(anc1bp anc1weight anc1height anc1muac anc1fetal_hr anc1urine ///
-								 anc1blood anc1ultrasound anc1ifa anc1tt ) // 10 items
+								 anc1blood  anc1depression anc1ifa anc1tt  ) // 10 items
 								 
 			* Counselling at first ANC visit
 			gen counsel_nutri =  m1_716a  
@@ -128,6 +127,9 @@ u "$za_data_final/eco_m1_za.dta", clear
 			replace ga=. if ga <0
 			gen trimester = ga
 			recode trimester 0/12 = 1 13/26 = 2 27/42 = 3
+			replace trimester = m1_804 if trimester ==. | trimester==.d | trimester==.r
+			
+			replace anc1fetal_hr=. if trimester==1 
 			
 			* Asked about LMP
 			gen anc1lmp= m1_806
