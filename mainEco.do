@@ -1,5 +1,5 @@
 * Ecohorts main code file 
-* Date of last update: July 2023
+* Date of last update: Jan 2024
 * Last updated by: S Sabwa
 
 /* Purpose of code file: 
@@ -7,7 +7,7 @@
 	This file sets all macros and runs all data cleaning files for the 
 	ECohorts data. 
 	
-	Countries included: Ethiopia, Kenya, South Africa
+	Countries included: Ethiopia, Kenya, South Africa, India
 	
 */
 
@@ -22,7 +22,7 @@ macro drop _all
 
 * Setting user globals 
 global user "/Users/shs8688/Dropbox (Harvard University)/SPH-Kruk Team/QuEST Network/"
-*global user "/Users/catherine.arsenault/Dropbox/SPH Kruk QuEST Network/"
+*global user "/Users/catherine.arsenault/Dropbox/SPH Kruk QuEST Network"
 *global user "/Users/neenakapoor/Dropbox (Harvard University)/SPH-Kruk Team/QuEST Network"
 *global user "/Users/katedwright"
 
@@ -65,6 +65,14 @@ global github "$user/Documents/GitHub/eCohorts"
 run "$github/Ethiopia/crEco_cln_ET.do"
 run "$github/South Africa/crEco_cln_ZA.do"
 run "$github/Kenya/crEco_cln_KE.do"
+run "$github/India/crEco_cln_IN.do"
+
+* Module 0 data cleaning:
+run "$github/Ethiopia/crEco_cln_M0_ET.do"
+run "$github/South Africa/crEco_cln_M0_ZA.do"
+run "$github/Kenya/crEco_cln_M0_KE.do"
+
+************Other data cleaning:
 
 * ETHIOPIA:
 	* derived vars
@@ -77,5 +85,24 @@ run "$github/Kenya/crEco_cln_KE.do"
 	run "$github/Ethiopia/anEco_mtbl_ET.do"
 
 	* policy briefs
-	run "$github/Ethiopia/anEco_pb1_ET.do"
-	 
+	run "$github/Policy briefs/anEco_pb1_ET.do"
+	
+* South Africa:
+	* derived vars
+	run "$github/South Africa/crEco_der_ZA.do"
+	
+	* summtab table creation
+	run "$github/South Africa/anEco_mtbl_ZA.do"
+	
+	* policy briefs
+	run "$github/Policy briefs/anEco_pb1_ZA.do"
+
+* KENYA:
+	* derived vars
+	run "$github/Kenya/crEco_der_KE.do"
+	
+	* summtab table creation
+	run "$github/Kenya/anEco_mtbl_KE.do"
+
+	* policy briefs
+	run "$github/Policy briefs/anEco_pb1_ZA.do"

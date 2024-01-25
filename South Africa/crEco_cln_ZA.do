@@ -7,8 +7,8 @@
 
 * Import Data 
 clear all 
-
-import excel "$za_data/SA MOD-1 - 28Nov2023_updated.xlsx", sheet("MNH_Module_1_Baseline") firstrow
+import excel "$za_data/SA MOD-1 - 15 Jan 2024.xlsx", sheet("MNH_Module_1_Baseline") firstrow
+*import excel "$za_data/SA MOD-1 - 28Nov2023_updated.xlsx", sheet("MNH_Module_1_Baseline") firstrow
 
 
 * Notes from original excel:
@@ -198,8 +198,31 @@ rename (MOD1_Physical_Assessment_1303a MOD1_Physical_Assessment_1303b MOD1_Physi
 		time_2_pulse_rate bp_time_3_systolic bp_time_3_diastolic pulse_rate_time_3)
 		
 rename (MOD1Physical_Assessment_1306 MOD1_Physical_Assessment_1307 MOD1_Physical_Assessment_1308 MOD1_Physical_Assessment_1309 ///
-		MOD1_Next_Call_1401) (m1_1306 m1_1307 m1_1308 m1_1309 m1_1401)		
+		MOD1_Next_Call_1401) (m1_1306 m1_1307 m1_1308 m1_1309 m1_1401)	
 		
+rename (N202a N202b N202c N202d N202e Specify ) (m1_202a_2_za m1_202b_2_za m1_202c_2_za m1_202d_2_za m1_202e_2_za m1_203_2_za ) // recollected HIV Qs
+		encode N204a , g(m1_204_2_za)  
+		encode N204b , g(m1_204b_za)
+		encode N708a , g(m1_708a_2_za)
+		encode N708b , g(m1_708b_2_za)
+		encode N708c , g(m1_708c_2_za)
+		encode N708d , g(m1_708d_2_za)
+		encode N708e , g(m1_708e_2_za)
+		encode N708f , g(m1_708f_2_za)
+		encode N709a , g(m1_709a_2_za)
+		encode N709b , g(m1_709b_2_za)
+		
+		recode m1_204_2_za 1=0 2=1 3=.
+		recode m1_204b_za 1=0 2=1 3/5=.
+		recode m1_708a_2_za 1=0 2=1 3/5=.
+		recode m1_708b_2_za 1=. 2=1 3=2 4/5=. 
+		recode m1_708c_2_za 1=0 2=1 3/5=.
+		recode m1_708d_2_za 1=0 2=1 3/5=.
+		recode m1_708e_2_za 1=0 2=1 3/5=.
+		recode m1_708f_2_za 1=0 2=1 3/5=.
+		recode m1_709a_2_za 1=0 2=1 3/5=.
+		recode m1_709b_2_za 1=0 2=1 3/5=.
+	
 * Fix variables:
 replace m1_714d = "21" if m1_714d == "2002"
 replace m1_714d = "6" if m1_714d == "2017"
@@ -329,13 +352,13 @@ label values m1_605a m1_605b m1_605c m1_605d m1_605e m1_605f m1_605g m1_605h lik
 	 label define YN3 1 "Yes" 0 "No" 3 "Don't Know"
 	 label define YN4 1 "Yes" 0 "No" 99 "Don't Know"
 	 
-	 label values m1_202a m1_202b m1_202c m1_202d m1_202e m1_204 YN
+	 label values m1_202a m1_202b m1_202c m1_202d m1_202e m1_204 m1_202a_2_za m1_202b_2_za m1_202c_2_za m1_202d_2_za m1_202e_2_za m1_204_2_za m1_204b_za YN 	 
 	 label values m1_502 m1_509a m1_510a m1_514a YN2 
 	 label values m1_509b YN3
 	 label values m1_510b YN4
 	 
-	 label values m1_700 m1_701 m1_702 m1_703 m1_705 m1_706 m1_707 m1_708a YN
-	 label values m1_708c m1_708d m1_708e m1_708f m1_709a m1_709b m1_710a YN 
+	 label values m1_700 m1_701 m1_702 m1_703 m1_705 m1_706 m1_707 m1_708a m1_708a_2_za YN
+	 label values m1_708c  m1_708c_2_za m1_708d  m1_708d_2_za m1_708e  m1_708e_2_za  m1_708f m1_708f_2_za  m1_709a m1_709a_2_za m1_709b  m1_709b_2_za m1_710a YN 
 	 label values m1_711a m1_712 m1_714a m1_714b YN 
 	 label values m1_716a m1_716b m1_716c m1_716d m1_716e YN
    	 label values m1_717 m1_718 m1_719 m1_720 m1_721 m1_722 recm1_723 YN 
@@ -447,7 +470,7 @@ label define residence 1 "Temporary" 2 "Permanent"
 label values m1_517 residence
 
 label define test_result 1 "Positive" 2 "Negative" 98 "DK" 99 "RF" 
-label values m1_708b m1_710b test_result
+label values m1_708b  m1_708b_2_za m1_710b test_result
 
 recode m1_704 (2 = 0)
 lab values m1_704 YN
@@ -627,6 +650,7 @@ recode mobile_phone m1_201 m1_202a m1_202b m1_202c m1_202d m1_202e m1_204 m1_205
 	   m1_1101 m1_1103 m1_1201 m1_1202 m1_1203 m1_1204 m1_1205 m1_1206 m1_1207 m1_1208 m1_1209 m1_1210 ///
 	   m1_1211 m1_1212 m1_1213 m1_1214 m1_1215 m1_1216 m1_1217 m1_1221 (99 = .r)
 
+	   
 recode m1_509b m1_713b (3 = .d)	
 
 recode m1_510b m1_1105 (99 = .d)   
@@ -1119,8 +1143,16 @@ lab var m1_202b "202.b. BEFORE you got pregnant, did you know that you had High 
 lab var m1_202c "202.c. BEFORE you got pregnant, did you know that you had a cardiac disease or problem with your heart?"
 lab var m1_202d "202.d BEFORE you got pregnant, did you know that you had A mental health disorder such as depression, anxiety, bipolar disorder, or schizophrenia?"
 lab var m1_202e "202.e BEFORE you got pregnant, did you know that you had HIV?"
+lab var m1_202a_2_za "Recollected 202.a Diabetes"
+lab var m1_202b_2_za "Recollected 202.b HBP"
+lab var m1_202c_2_za "Recollected 202.c Cardia problem"
+lab var m1_202d_2_za "Recollected 202.d Mental health disorder"
+lab var m1_202e_2_za "Recollected 202.e HIV"
+lab var m1_203_2_za "Recollected 203. Other major health problem"
 lab var m1_203 "203. Before you got pregnant, were you diagnosed with any other major health problems?"
 lab var m1_204 "204. Are you currently taking any medications?"
+lab var m1_204_2_za "204. Recollected medications"
+lab var m1_204b_za "204b. Were you taking ARV medication before pregnancy?"
 lab var m1_205a "205A. I am going to read three statements about your mobility, by which I mean your ability to walk around. Please indicate which statement best describe your own health state today?"
 lab var m1_205b "205B. I am now going to read three statements regarding your ability to self-care, by which I mean whether you can wash and dress yourself without assistance. Please indicate which statement best describe your own health state today"
 lab var m1_205c "205C. I am going to read three statements regarding your ability to perform your usual daily activities, by which I mean your ability to work, take care of your family or perform leisure activities. Please indicate which statement best describe your own health state today."
@@ -1201,6 +1233,14 @@ lab var m1_708e "708e. Did the provider do an HIV viral load test?"
 lab var m1_708f "708f. Did the provider do a CD4 test?"
 lab var m1_709a "709a. Did the provider do an HIV viral load test?"
 lab var m1_709b "709b. Did the provider do a CD4 test?"
+lab var m1_708a_2_za "Recollected 708a HIV test"
+lab var m1_708b_2_za "Recollected 708b. Result of HIV test"
+lab var m1_708c_2_za "Recollected 708c. Medicine for HIV"
+lab var m1_708d_2_za "Recollected 708d. Explained how to the medicine for HIV"
+lab var m1_708e_2_za "Recollected 708e. IV viral load test"
+lab var m1_708f_2_za "Recollected 708f. CD4 test"
+lab var m1_709a_2_za "Recollected 709a HIV viral load test"
+lab var m1_709b_2_za "Recollected 709b CD4 test"
 lab var m1_710a "710a. Did they do a syphilis test?"
 lab var m1_710b "710b. Would you please share with me the result of the syphilis test?"
 lab var m1_710c "710c. Did the provider give you medicine for syphilis directly, gave you a prescription or told you to get it somewhere else, or neither?"
@@ -1376,6 +1416,8 @@ order country study_site study_site_sd facility interviewer_id date_m1 pre_scree
 order phq9a phq9b phq9c phq9d phq9e phq9f phq9g phq9h phq9i, after(m1_205e)
 
 order height_cm weight_kg bp_time_1_systolic bp_time_1_diastolic time_1_pulse_rate bp_time_2_systolic bp_time_2_diastolic time_2_pulse_rate bp_time_3_systolic bp_time_3_diastolic pulse_rate_time_3, after(m1_1223)
+
+drop JO-N709b
 
 save "$za_data_final/eco_m1_za.dta", replace
 	

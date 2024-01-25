@@ -28,7 +28,7 @@ u "$za_data_final/eco_m1_za.dta", clear
 			recode phq2_cat (0/2=0) (3/6=1)
 			
 			encode m1_203, gen(other_major_hp)
-			recode other_major_hp (1 3/4 10 15 16 18/21 =0)
+			recode other_major_hp (1 3/4 10 15 16 18/21 24 33 34=0)
 			replace other_major_hp = 1 if other_major_hp!=0
 			lab drop other_major_hp
 		
@@ -46,6 +46,16 @@ u "$za_data_final/eco_m1_za.dta", clear
 			lab val educ_cat educ_cat
 			
 			recode m1_505 (1/4=0) (5/6=1), gen(marriedp) 
+			
+			recode m1_509b 0=1 1=0, g(mosquito)
+			recode m1_510b 0=1 1=0, g(tbherb)
+			recode m1_511 2=1 1=0 3/4=0 99=. , g(drink)
+			recode m1_512 2=1 1=0 3=0, g(smoke)
+			
+			egen health_literacy=rowtotal(m1_509a mosquito m1_510a tbherb drink smoke ), m
+			recode health_literacy 0/3=1 4=2 5=3 6=4
+			lab def health_lit 1"Poor" 2"Fair" 3"Good" 4"Very good"
+			lab val health_lit health_lit
 *------------------------------------------------------------------------------*	
 	* SECTION 6: USER EXPERIENCE
 			foreach v in m1_601 m1_605a m1_605b m1_605c m1_605d m1_605e m1_605f ///
@@ -65,8 +75,7 @@ u "$za_data_final/eco_m1_za.dta", clear
 			recode anc1bmi (1=0) (2=1)
 			gen anc1muac = m1_703
 			gen anc1fetal_hr = m1_704
-			recode anc1fetal_hr  (2=.) 
-			replace anc1fetal_hr=. if m1_804==1 // only applies to those in 2nd or 3rd trimester
+			recode anc1fetal_hr  (2=.) // only applies to those in 2nd or 3rd trimester (adjusted in section 8)
 			gen anc1urine = m1_705
 			egen anc1blood = rowmax(m1_706 m1_707) // finger prick or blood draw
 			gen anc1hiv_test =  m1_708a
@@ -79,7 +88,7 @@ u "$za_data_final/eco_m1_za.dta", clear
 			gen anc1depression = m1_716c
 			gen anc1edd =  m1_801
 			egen anc1tq = rowmean(anc1bp anc1weight anc1height anc1muac anc1fetal_hr anc1urine ///
-								 anc1blood anc1ultrasound anc1ifa anc1tt ) // 10 items
+								 anc1blood  anc1depression anc1ifa anc1tt  ) // 10 items
 								 
 			* Counselling at first ANC visit
 			gen counsel_nutri =  m1_716a  
@@ -109,7 +118,7 @@ u "$za_data_final/eco_m1_za.dta", clear
 			/* Gestational age at ANC1
 			Here we should recalculate the GA based on LMP (m1_802c and self-report m1_803 */
 			
-			egen dangersigns = rowmax(m1_814a m1_814b m1_814c m1_814d m1_814e m1_814f m1_814g)
+			egen dangersigns = rowmax(m1_814a m1_814b m1_814c m1_814d  m1_814f m1_814g)
 			
 		    gen ga_edd = 40-((m1_802a - date_m1)/7)
 			gen ga = trunc(ga_edd)
@@ -118,6 +127,9 @@ u "$za_data_final/eco_m1_za.dta", clear
 			replace ga=. if ga <0
 			gen trimester = ga
 			recode trimester 0/12 = 1 13/26 = 2 27/42 = 3
+			replace trimester = m1_804 if trimester ==. | trimester==.d | trimester==.r
+			
+			replace anc1fetal_hr=. if trimester==1 
 			
 			* Asked about LMP
 			gen anc1lmp= m1_806
@@ -178,8 +190,8 @@ u "$za_data_final/eco_m1_za.dta", clear
 			pca  electr radio tv  refrig  car 
 			estat kmo
 			predict wealthindex
-			xtile quintile = wealthindex, nq(4)
-			
+			xtile tertile = wealthindex, nq(4)
+
 			gen registration_cost= m1_1218a_1 // registration
 			replace registration = . if registr==0
 			gen med_vax_cost =  m1_1218b_1 // med or vax
@@ -204,8 +216,6 @@ u "$za_data_final/eco_m1_za.dta", clear
 			* Anemia 
 			gen Hb= m1_1309 // test done by E-Cohort data collector
 			gen Hb_card= m1_1307 // hemoglobin value taken from the card
-
-
 			replace Hb = Hb_card if Hb==.a | Hb==. // use the card value if the test wasn't done
 				// Reference value of 11 from: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8990104/
 			gen anemic= 0 if Hb>=11 & Hb<. 

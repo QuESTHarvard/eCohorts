@@ -4,8 +4,6 @@ global analysis "Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH E-Coh
 global data "Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data"
 
 * HEALTH FACILITY DATA (MODULE 0)
-
-
 *------------------------------------------------------------------------------*
 * ETHIOPIA	
 
@@ -59,7 +57,7 @@ u "$user/$data/Ethiopia/02 recoded data/eco_m0_et.dta", clear
 	/* Total staff providing ANC: 
 	GP, OBGYN Emergency surgical officers, health officer, diploma nurses, degree nurses, diploma midwife, degree midwives */
 	egen total_staff_onc=rowtotal(m0_1a_et m0_1b_et m0_1c_et m0_1d_et m0_1e_et m0_1f_et m0_1g_et m0_102d )
-	
+	egen staff_cat= cut(total_staff_onc), group(3)
 	* At least one full time doctor
 	gen ftdoc= m0_101a - m0_101b
 	recode ftdoc (-5/-1=1) (1/20=1)
@@ -92,6 +90,7 @@ u "$user/$data/Ethiopia/02 recoded data/eco_m0_et.dta", clear
 	lab var water "Improved water source"
 	lab var toilet "Improved toilet"
 	lab var communication "functioning hone or landline"
+	lab var staff_cat "ONC staffing categories"
 	lab var comput_inter "Computer with internet"
 	lab var ambulance "Functionning ambulance on site"
 	lab var ftdoc "At least one full time doctor"
@@ -99,7 +98,7 @@ u "$user/$data/Ethiopia/02 recoded data/eco_m0_et.dta", clear
 	lab var anc_mont "Average number of ANC visits per month"
 	lab var anc_vol_staff_onc "Average monthly number of ANC visits per staff providing obstetric care"
 	
-	keep facility sri_score sri_basicamenities sri_equip sri_diag total_staff ///
+	keep facility sri_score sri_basicamenities sri_equip sri_diag total_staff staff_cat ///
 	     anc_mont anc_vol_staff ftdoc beds m0_a8_fac_own m0_a6_fac_type
 	
 	gen private = m0_a8_fac_own
@@ -115,13 +114,9 @@ u "$user/$data/Ethiopia/02 recoded data/eco_m0_et.dta", clear
 	
 	save  "$user/$analysis/ETtmp.dta", replace		
 		  
-		  
-		  
-		  
-		  
+		    
 *------------------------------------------------------------------------------*
 * KENYA
-
 
 u "$user/$data/Kenya/02 recoded data/eco_m0_ke", clear
 
@@ -174,6 +169,7 @@ Average of 6 items: electricity, water, toilet, communication, computer & intern
 	Medical doc, OBGYN,  Midwife BSc, Nurse certificate Nurse BSc, Nurse diploma, 
 	Health officer, Family phsician */
 	egen total_staff_onc=rowtotal(m0_101d m0_102d  m0_108d m0_109d m0_110d m0_111d m0_112d  m0_famphy_d_ke )
+	egen staff_cat= cut(total_staff_onc), group(3)
 	
 	* At least one full time doctor
 	gen tmp1= m0_101a - m0_101b
@@ -218,7 +214,7 @@ Average of 6 items: electricity, water, toilet, communication, computer & intern
 	lab var anc_vol_staff_onc "Average monthly number of ANC visits per staff providing obstetric care"
 	
 	keep facility sri_score sri_basicamenities sri_equip sri_diag total_staff ///
-		 anc_mont anc_vol_staff ftdoc beds m0_facility_own m0_facility_type
+		 anc_mont anc_vol_staff ftdoc beds m0_facility_own m0_facility_type staff_cat
 	
 	gen private = m0_facility_own==2
 	gen facsecond= m0_facility_type==2
@@ -231,8 +227,6 @@ Average of 6 items: electricity, water, toilet, communication, computer & intern
 	
 *------------------------------------------------------------------------------*
 * SOUTH AFRICA
-
-
 u "$user/$data/South Africa/02 recoded data/eco_m0_za", clear
 
 * SERVICE READINESS INDICES
@@ -286,7 +280,7 @@ Average of 6 items: electricity, water, toilet, communication, computer & intern
 	Medical doc, OBGYN,  Midwife BSc, Midwife diploma,  Nurse BSc, Nurse diploma, 
 	Health officer,  */
 	egen total_staff_onc=rowtotal(m0_101d m0_102d m0_108d m0_109d m0_110d m0_111d m0_112d )
-	
+	egen staff_cat=cut(total_staff_onc), group(3)
 	* At least one full time doctor
 	gen ftdoc= m0_101a - m0_101b
 	recode ftdoc (-1=0) (1/5=1)
@@ -296,7 +290,11 @@ Average of 6 items: electricity, water, toilet, communication, computer & intern
 	recode beds 98=0
 
 * VOLUMES 
-	* 3 facilities missing anc volumes for now
+	egen anc_annual= rowtotal (m0_801_*)
+	gen anc_mont = anc_annual/12
+	
+	* Volume per staff
+	gen anc_vol_staff_onc = anc_mont / total_staff_onc
 	
 	lab var elect "Electricity from any power source with break less than 2hours/per day)"
 	lab var water "Improved water source"
@@ -305,14 +303,13 @@ Average of 6 items: electricity, water, toilet, communication, computer & intern
 	lab var comput_inter "Computer with internet"
 	lab var ambulance "Functionning ambulance on site"
 	lab var ftdoc "At least one full time doctor"
-	*lab var anc_annual "Total number of ANC visits over the last 12 months"
-	*lab var anc_mont "Average number of ANC visits per month"
-	*lab var anc_vol_staff_onc "Average monthly number of ANC visits per staff providing obstetric care"
+	lab var anc_annual "Total number of ANC visits over the last 12 months"
+	lab var anc_mont "Average number of ANC visits per month"
+	lab var anc_vol_staff_onc "Average monthly number of ANC visits per staff providing obstetric care"
 	
-	keep facility sri_score sri_basicamenities sri_equip sri_diag total_staff ///
-		  ftdoc beds m0_facility_own m0_facility_type
+	keep facility sri_score sri_basicamenities sri_equip sri_diag total_staff staff_cat ///
+		  anc_mont anc_vol_staff ftdoc beds m0_facility_own m0_facility_type
 	
-
 
 * MERGING WITH M1 INDIVIDUAL-LEVEL DATA
 	merge 1:m facility using "$user/$analysis/ZAtmp.dta"
