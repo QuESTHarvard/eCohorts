@@ -239,7 +239,7 @@ replace m1_808 = ".r" if m1_808 == "99"
 * due to skip patterns
 
 * MODULE 1:	
-		*Note: A lot of the early M1 vars on data file of 1-24-24 do not have missings
+	*Note: A lot of the early M1 vars on data file of 1-24-24 do not have missings
 	* Kept these recode commands here even though there is no missings 
 	* helpful command: misstable summarize
 recode care_self (. = .a) if permission == 0
