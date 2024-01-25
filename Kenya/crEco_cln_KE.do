@@ -1,8 +1,6 @@
 * Kenya MNH ECohort Data Cleaning File 
-* Created by S. Sabwa
-* Last Updated: Sep 14 2023 
-* Added M2 cleaning code 20 Dec 2023 by K. Wright
-
+* Created by S. Sabwa, K. Wright
+* Last Updated: 20 Dec 2023
 *------------------------------------------------------------------------------*
 
 * Import Data 
@@ -225,7 +223,7 @@ rename call_status m2_complete
 
 *===============================================================================
 	
-	* STEP TWO: ADD VALUE LABELS (NA in KENYA)
+	* STEP TWO: ADD VALUE LABELS (NA in KENYA, already labeled)
 	
 	encode facility_name, generate(facility)
 	/*
@@ -246,9 +244,6 @@ rename call_status m2_complete
 	
 	label define q515_2 20 "Kitui East", modify
 	label define q519_2 20 "Kitui East", modify
-	
-	
-	
 
 *===============================================================================
 * Generate new vars (KE only):
@@ -578,7 +573,6 @@ replace pref_language_other_ke = ".a" if pref_language_96_ke != 1
 *===============================================================================					   
 	
 	* STEP FOUR: LABELING VARIABLES
-drop enrollage 
 ren rec* *
 	
 	** MODULE 1:		
