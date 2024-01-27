@@ -283,4 +283,3 @@ u "$ke_data_final/eco_m1_ke.dta", clear
 	
 	order facility_lvl, after(facility)
 								 
- save "$ke_data_final/eco_m1_ke_der.dta", replace

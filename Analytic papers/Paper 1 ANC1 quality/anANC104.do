@@ -19,16 +19,28 @@ lab drop a4
 append using "$user/$analysis/allcountrytmp.dta"
 save "$user/$analysis/allcountrytmp.dta", replace
 
+u "$user/$analysis/INtmp.dta", clear
+keep anc1qual site 
+recode site 1=5 2=4 // 4 rural 5 urban
+append using "$user/$analysis/allcountrytmp.dta"
+save "$user/$analysis/allcountrytmp.dta", replace
+
 u "$user/$analysis/ZAtmp.dta", clear 
-keep anc1qual site
-recode site 1=5 2=4
+keep anc1qual site // 6 Nongoma 7 Umhla
+recode site 1=7 2=6
 lab drop study_site_sd
 append using "$user/$analysis/allcountrytmp.dta"
 
-lab def site 0"East Shewa" 1"Adama" 2"Kitui" 3"Kiambu" 4 "Nongoma" 5 "uMhlathuze"
+
+lab def site 0"East Shewa" 1"Adama" 2"Kitui" 3"Kiambu" 4"Rural India" 5"Urban India" 6 "Nongoma" 7 "uMhlathuze", modify
 lab val site site
 
-graph box anc1qual, over(site) ylabel(0(20)100, labsize(small)) ytitle("Antenatal Care Quality Index") scheme(white_tableau)
+graph box anc1qual, over(site) ylabel(0(20)100, labsize(small)) ytitle("Antenatal Care Quality Index") asyvars ///
+box(1, fcolor(teal) lcolor(teal)) marker(1, mcolor(teal)) box(2, fcolor(teal) lcolor(teal)) marker(2, mcolor(teal)) ///
+box(3, fcolor(ebblue) lcolor(ebblue)) marker(3, mcolor(ebblue)) box(4, fcolor(ebblue) lcolor(ebblue)) marker(3, mcolor(ebblue)) ///
+box(5, fcolor(gold) lcolor(gold)) marker(3, mcolor(gold)) box(6, fcolor(gold) lcolor(gold)) marker(3, mcolor(gold)) ///
+box(7, fcolor(midgreen) lcolor(midgreen)) marker(3, mcolor(midgreen)) box(8, fcolor(midgreen) lcolor(midgreen)) marker(3, mcolor(midgreen)) 
+
 
 *------------------------------------------------------------------------------*	
 * BOX PLOT QUALITY BY SITE 

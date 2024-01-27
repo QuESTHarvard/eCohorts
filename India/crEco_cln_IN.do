@@ -6,7 +6,7 @@
 * Import Data 
 clear all 
 
-use "/Users/shs8688/Dropbox (Harvard University)/SPH-Kruk Team/QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data/India/01 raw data/Module_1_Baseline_Data.dta"
+use "$in_data/Module_1_Baseline_Data.dta", clear
 
 *------------------------------------------------------------------------------*
 
@@ -814,7 +814,7 @@ lab var m1_end_time "Module 1 end date and time"
 
 	* STEP FIVE: ORDER VARIABLES
 order m1_*, sequential
-order country date_m1 m1_start_time facility ///
+order country date_m1 m1_start_time facility facility_other ///
       permission care_self enrollage b5anc b6anc_first b7eligible  ///
 	  respondentid mobile_phone flash
 

@@ -8,7 +8,9 @@
 */
 
 u "$et_data_final/eco_m1-m3_et.dta", clear
-
+			drop if m1_complete==0
+			sort redcap_record_id redcap_event_name redcap_repeat_instance
+			egen tagpid=tag(redcap_record_id)
 *------------------------------------------------------------------------------*
 * MODULE 1
 *------------------------------------------------------------------------------*
@@ -135,8 +137,8 @@ u "$et_data_final/eco_m1-m3_et.dta", clear
 			replace ga = m1_803 if ga == . // ga based reported LMP or self report of weeks pregnant 
 			
 			recode ga (1/12.99999 = 1) (13/26.99999= 2) (27/50=3), gen(trimester)
-			lab def trimester 1"1st trimester 0-12wks" 2"2nd trimester 13-26 wks" 3 "3rd trimester 27-42 wks"
-			lab val trimester trimester 
+			lab def trimester2 1"1st trimester 0-12wks" 2"2nd trimester 13-26 wks" 3 "3rd trimester 27-42 wks"
+			lab val trimester trimester2 
 			
 			gen preg_intent = m1_807
 			* Reports danger signs

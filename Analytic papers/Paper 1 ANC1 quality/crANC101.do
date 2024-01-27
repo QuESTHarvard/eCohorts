@@ -30,6 +30,7 @@ u "$user/$data/Ethiopia/02 recoded data/eco_m1m2_et_der.dta", clear
 	xtile group_anc1qual=anc1qual, nquantiles(4)
 	gen q4_anc1=group_anc1qual==4
 	
+	gen q60=anc1qual>60
 	
 	rename m1_603 timespent
 	g lntime=ln(timespent)
@@ -114,6 +115,8 @@ u "$user/$data/Kenya/02 recoded data/eco_m1_ke_der.dta", clear
 		xtile group_anc1qual=anc1qual, nquantiles(4)
 		gen q4_anc1=group_anc1qual==4
 		
+		gen q60=anc1qual>60
+		
 		rename m1_603 timespent
 		g lntime=ln(timespent)
 		
@@ -189,6 +192,8 @@ u  "$user/$data/South Africa/02 recoded data/eco_m1_za_der.dta", clear
 		xtile group_anc1qual=anc1qual, nquantiles(4)
 		gen q4_anc1=group_anc1qual==4
 		
+		gen q60=anc1qual>60
+		
 		rename m1_603 timespent
 		g lntime=ln(timespent)
 		
@@ -241,3 +246,45 @@ u  "$user/$data/South Africa/02 recoded data/eco_m1_za_der.dta", clear
 		recode risk_score 4/9=3
 		
 save "$user/$analysis/ZAtmp.dta", replace
+
+*------------------------------------------------------------------------------*
+* INDIA
+
+u "$user/$data/India/02 recoded data/eco_m1_in_der.dta", clear	
+
+* ANC quality
+		gen edd = anc1edd if trimester>1 & trimester<.
+		gen ultra =anc1ultrasound if trimester>2 & trimester<.
+		gen calcium = anc1calcium if trimester>1 & trimester<.
+		gen tt= anc1tt
+		replace tt =. if  m1_714c>=5 &  m1_714c<98 // had 5 or more previous lifetime doses
+		replace tt =. if  m1_714c>=4 &  m1_714c<98 & m1_714e <=10 // had 4 or more incl. 1 in last 10 years
+		replace tt =. if  m1_714c>=3 &  m1_714c<98 & m1_714e <=5 // had 3 or more incl. 1 in last 5 years
+		replace tt =. if  m1_714c>=2 &  m1_714c<98 & m1_714e <=3 // had 2 or more incl. 1 in last 3 years
+		
+		egen anc1qual= rowmean(anc1bp anc1weight  anc1blood ///
+		anc1urine ultra anc1lmp  counsel_nutri  counsel_complic counsel_birthplan edd ///
+		counsel_comeback anc1ifa anc1deworm calcium tt )
+		replace anc1qual = anc1qual*100
+save "$user/$analysis/INtmp.dta", replace
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
