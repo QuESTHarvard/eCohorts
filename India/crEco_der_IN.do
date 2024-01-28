@@ -127,7 +127,8 @@ u "$in_data_final/eco_m1_in.dta", clear
 			
 *------------------------------------------------------------------------------*	
 	* SECTION 8: CURRENT PREGNANCY
-			
+			egen dangersigns = rowmax(m1_814a m1_814b m1_814c m1_814d m1_814f m1_814g)
+
 			gen ga = gest_age
 			replace ga = . if gest_age<1 | gest_age> 40
 			
@@ -154,6 +155,17 @@ u "$in_data_final/eco_m1_in.dta", clear
 				| m1_815g_0_in==1 | m1_815h_0_in==1 
 			replace anc1danger_screen =  m1_816 if anc1danger_screen==.a | ///
 				anc1danger_screen==. | anc1danger_screen==.d */
+				
+*------------------------------------------------------------------------------*	
+	* SECTION 10: OBSTETRIC HISTORY
+			gen gravidity = m1_1001
+			gen primipara=  m1_1001==1 // first pregnancy
+			replace primipara = 1 if  m1_1002==0  // never gave birth
+			gen nbpreviouspreg = m1_1001-1 // nb of pregnancies including current minus current pregnancy
+			gen pregloss = nbpreviouspreg-m1_1002 // nb previous pregnancies not including current minus previous births
+			
+			gen stillbirths = m1_1002 - m1_1003 // nb of deliveries/births minus live births
+			replace stillbirths = 1 if stillbirths>1 & stillbirths<.
 				
 *------------------------------------------------------------------------------*	
 	* SECTION 13: HEALTH ASSESSMENTS AT BASELINE

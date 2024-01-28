@@ -267,6 +267,9 @@ u "$user/$data/India/02 recoded data/eco_m1_in_der.dta", clear
 		counsel_comeback anc1ifa anc1deworm calcium tt )
 		replace anc1qual = anc1qual*100
 		
+		rename m1_603 timespent
+
+		
 * Medical risk factors
 		egen chronic= rowmax(m1_202a m1_202b m1_202c m1_202d m1_202e m1_203)
 		replace chronic=1 if HBP==1
