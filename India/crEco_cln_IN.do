@@ -186,7 +186,7 @@ rename end m1_end_time
 * dropping unncessary vars:
 
 drop SubmissionDate calc_start_time Calc_weeks_remaining_1 Calc_weeks_remaining_2 Calc_weeks_remaining ///
-	 start 
+	 start gest_age gestational_age gestational_age_1
 
 *===============================================================================
 	
@@ -246,7 +246,7 @@ replace bp_time_3_systolic= . if bp_time_3_systolic==1120
 * due to skip patterns
 
 * MODULE 1:	
-		*Note: A lot of the early M1 vars on data file of 1-24-24 do not have missings
+	*Note: A lot of the early M1 vars on data file of 1-24-24 do not have missings
 	* Kept these recode commands here even though there is no missings 
 	* helpful command: misstable summarize
 recode care_self (. = .a) if permission == 0
@@ -348,6 +348,7 @@ recode m1_815h_other_in (. = .a) if m1_815h_96_in !=1
 egen m1_symptoms = rowtotal(m1_814a m1_814b m1_814c m1_814d m1_814e m1_814f m1_814g m1_814h)
 
 recode m1_816 (. = .a) if m1_symptoms >0 // 111 obs still in true missing? but they responded to one of the symptoms
+* response from team: Although variable Q816 is related to Q814_a…. Q814_h, but the individuals have answered it independently, whether the health facility workers have asked the individuals about various symptoms or not
 						  
 drop m1_symptoms
 
@@ -826,7 +827,6 @@ order country date_m1 m1_start_time study_site facility facility_other ///
 	  respondentid mobile_phone flash
 
 order phq9a phq9b phq9c phq9d phq9e phq9f phq9g phq9h phq9i, after(m1_205e)
-order gestational_age_1 gestational_age_1 gest_age, after(m1_803b_in)
 
 *===============================================================================
 	* STEP SIX: SAVE DATA TO RECODED FOLDER
