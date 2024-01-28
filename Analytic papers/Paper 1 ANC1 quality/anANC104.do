@@ -8,32 +8,31 @@ ssc install schemepack, replace
 *------------------------------------------------------------------------------*	
 * BOX PLOT QUALITY BY SITE 
 u "$user/$analysis/ETtmp.dta", clear
-keep anc1qual site 
 recode site 2=0 // 0 ES 1 Adama
 save "$user/$analysis/allcountrytmp.dta", replace
 
 u "$user/$analysis/KEtmp.dta", clear
-keep anc1qual site
 recode site 1=3 // 2 Kitui 3 Kiambu
 lab drop a4
-append using "$user/$analysis/allcountrytmp.dta"
+append using "$user/$analysis/allcountrytmp.dta", force
 save "$user/$analysis/allcountrytmp.dta", replace
 
 u "$user/$analysis/INtmp.dta", clear
-keep anc1qual site 
-recode site 1=5 2=4 // 4 rural 5 urban
-append using "$user/$analysis/allcountrytmp.dta"
+recode state 1=4 2=5, g(site) // 4 Sonipat 5 Jodhpur
+append using "$user/$analysis/allcountrytmp.dta", force
 save "$user/$analysis/allcountrytmp.dta", replace
 
 u "$user/$analysis/ZAtmp.dta", clear 
-keep anc1qual site // 6 Nongoma 7 Umhla
 recode site 1=7 2=6
 lab drop study_site_sd
-append using "$user/$analysis/allcountrytmp.dta"
+append using "$user/$analysis/allcountrytmp.dta", force
 
-
-lab def site 0"East Shewa" 1"Adama" 2"Kitui" 3"Kiambu" 4"Rural India" 5"Urban India" 6 "Nongoma" 7 "uMhlathuze", modify
+lab def site 0"East Shewa" 1"Adama" 2"Kitui" 3"Kiambu" 4"Sonipat" 5"Jodhpur" 6 "Nongoma" 7 "uMhlathuze", modify
 lab val site site
+save "$user/$analysis/allcountrytmp.dta", replace
+
+keep anc1qual site
+
 
 graph box anc1qual, over(site) ylabel(0(20)100, labsize(small)) ytitle("Antenatal Care Quality Index") asyvars ///
 box(1, fcolor(teal) lcolor(teal)) marker(1, mcolor(teal)) box(2, fcolor(teal) lcolor(teal)) marker(2, mcolor(teal)) ///
@@ -42,30 +41,6 @@ box(5, fcolor(gold) lcolor(gold)) marker(3, mcolor(gold)) box(6, fcolor(gold) lc
 box(7, fcolor(midgreen) lcolor(midgreen)) marker(3, mcolor(midgreen)) box(8, fcolor(midgreen) lcolor(midgreen)) marker(3, mcolor(midgreen)) 
 
 
-*------------------------------------------------------------------------------*	
-* BOX PLOT QUALITY BY SITE 
-u "$user/$analysis/ETtmp.dta", clear
-keep mcscore site 
-recode site 2=0 // 0 ES 1 Adama
-save "$user/$analysis/allcountrytmp.dta", replace
-
-u "$user/$analysis/KEtmp.dta", clear
-keep  mcscore site
-recode site 1=3 // 2 Kitui 3 Kiambu
-lab drop a4
-append using "$user/$analysis/allcountrytmp.dta"
-save "$user/$analysis/allcountrytmp.dta", replace
-
-u "$user/$analysis/ZAtmp.dta", clear 
-keep  mcscore site
-recode site 1=5 2=4
-lab drop study_site_sd
-append using "$user/$analysis/allcountrytmp.dta"
-
-lab def site 0"East Shewa" 1"Adama" 2"Kitui" 3"Kiambu" 4 "Nongoma" 5 "uMhlathuze"
-lab val site site
-
-graph box  mcscore, over(site) ylabel(0(20)100, labsize(small)) ytitle("Antenatal Care Quality Index") scheme(white_tableau)
 *------------------------------------------------------------------------------*
 * Ethiopia - BY FACILITY 
 u "$user/$analysis/ETtmp.dta", clear
@@ -116,6 +91,22 @@ tabstat anc1qual, by(site) stat(mean sd )
 	ylabel(0(20)100, labsize(small) ) title("uMhlathuze") ytitle("Antenatal Care Quality Index")
 	graph combine NON.gph UM.gph
 	
+*------------------------------------------------------------------------------*		
+* IND - FACILITY 
+u "$user/$analysis/INtmp.dta", clear 
+
+tabstat anc1qual, by(state) stat(mean sd ) // Sonipat  66.13274 Jodhpur 72.59736
+	
+	egen med_anc1qual =median(anc1qual), by (facility)
+	g facnum = facility
+	
+	graph box anc1qual if site==2, over(facnum, sort(med_anc1qual)) ///
+	yline( 73.3169) saving(NON, replace) asyvars legend(off) scheme(white_tableau) ///
+	ylabel(0(20)100, labsize(small) ) title("Nongoma") ytitle("Antenatal Care Quality Index")
+	graph box anc1qual if site==1, over(facnum, sort(med_anc1qual)) scheme(white_tableau) ///
+	yline(77.93765 ) saving(UM, replace) asyvars legend(off) ///
+	ylabel(0(20)100, labsize(small) ) title("uMhlathuze") ytitle("Antenatal Care Quality Index")
+	graph combine NON.gph UM.gph
 *------------------------------------------------------------------------------*
 * Ethiopia - BY RISK 
 u "$user/$analysis/ETtmp.dta", clear

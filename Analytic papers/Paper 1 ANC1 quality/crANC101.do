@@ -151,7 +151,7 @@ u "$user/$data/Kenya/02 recoded data/eco_m1_ke_der.dta", clear
 		gen older=age_cat==3
 		
 * Visit-level
-		 ssc install numdate
+		 *ssc install numdate
 		 extrdate month month = m1_start_time
 		 extrdate dow day = m1_start_time
 		 recode day 6=5
@@ -266,6 +266,22 @@ u "$user/$data/India/02 recoded data/eco_m1_in_der.dta", clear
 		anc1urine ultra anc1lmp  counsel_nutri  counsel_complic counsel_birthplan edd ///
 		counsel_comeback anc1ifa anc1deworm calcium tt )
 		replace anc1qual = anc1qual*100
+		
+* Medical risk factors
+		egen chronic= rowmax(m1_202a m1_202b m1_202c m1_202d m1_202e m1_203)
+		replace chronic=1 if HBP==1
+		rename low_BMI maln_underw
+		
+* Obstetric risk factors
+		gen multiple= m1_805 >1 &  m1_805<.
+		gen cesa= m1_1007==1
+		
+		gen neodeath = m1_1010 ==1
+		gen preterm = m1_1005 ==1
+		gen PPH=m1_1006==1
+		egen complic = rowmax(stillbirth neodeath preterm PPH)
+		egen complic4=rowmax(m1_1004 stillbirth m1_1005 m1_1010)
+		
 save "$user/$analysis/INtmp.dta", replace
 
 

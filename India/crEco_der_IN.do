@@ -12,19 +12,30 @@ u "$in_data_final/eco_m1_in.dta", clear
 * MODULE 1
 *------------------------------------------------------------------------------*
 	* SECTION A: META DATA
-	g site = facility // UCHC & UPHC is urban
-	recode site 1/6=1 8/10=2 11/12=1 14/23=2 24=1 25/34=2 35/39=1 96=.
-	
-	encode facility_other, g(site2)
-	recode site2 1/40=2 41/59=1
-	replace site=site2 if site==.
-	
-	lab def site 1"urban" 2"rural"
-	lab val site site
-	
-	* THIS IS NOT CORRECT, PHFI TO SEND LIST OF URBAN/RURAL FACILITIES
-	
+	recode facility (8 9 10 = 1 "JRP")(1 2 3 4 5 6 24=2 "JUP")(11 12=3 "JUS") ///
+	(14 15 23=4 "JRS") (20=5 "SUS")(26=6 "SRS")(25 27 28 29 30 31 32 33 34=7 "SRP") ///
+	(35 36 39=8 "SUP"), g (facility_type)
 
+	recode facility_type (1 4=1 "Rural_Jodhpur") (2 3=2 "Urban_Jodhpur") ///
+	(6 7=3 "Sonipath_Rural") (8 5=4 "Sonopath_Urban"), gen (residence)
+
+	* THIS IS NOT CORRECT, PHFI TO SEND URBAN/RURAL categories for remaining 211 women
+	
+	/*g site=study_site
+	replace site = 1 if site==3 & residence==2
+	replace site = 2 if site==3 & residence==1
+	recode site 3=.
+	
+	lab def site 1"India Urban" 2"India Rural"
+	lab val site site */
+	
+	recode study_site (2=1 "Sonipat") (3=2 "Jodhpur"), g(state)
+	
+	
+	recode facility_type 1=1 2=1 3=2 4=2 5=2 6=2 7=1 8=1 18/96=. , g(facility_lvl)
+	lab def facility_lvl 1"Primary" 2"Secondary"
+	lab val facility_lvl facility_lvl
+	
 *------------------------------------------------------------------------------*	
 	* SECTION 2: HEALTH PROFILE
 			egen phq9_cat = rowtotal(phq9*)
@@ -90,7 +101,7 @@ u "$in_data_final/eco_m1_in.dta", clear
 			gen anc1malaria_proph =  m1_713e
 			recode anc1malaria_proph (2=1) (3=0)
 			gen anc1edd =  m1_801
-			*egen anc1tq = rowmean(anc1bp anc1weight anc1height anc1muac anc1fetal_hr anc1urine anc1blood anc1ifa anc1tt ) // 9 items - removed ultrasound
+			egen anc1tq = rowmean(anc1bp anc1weight anc1urine anc1blood anc1ultrasound anc1ifa anc1tt anc1calcium ) // 9 items - removed ultrasound
 								 
 			* Counselling at first ANC visit
 			gen counsel_nutri =  m1_716a  
@@ -144,10 +155,38 @@ u "$in_data_final/eco_m1_in.dta", clear
 			replace anc1danger_screen =  m1_816 if anc1danger_screen==.a | ///
 				anc1danger_screen==. | anc1danger_screen==.d */
 				
-				
-				
-				
-				
+*------------------------------------------------------------------------------*	
+	* SECTION 13: HEALTH ASSESSMENTS AT BASELINE
+
+			* High blood pressure (HBP)
+			egen systolic_bp= rowmean(bp_time_1_systolic bp_time_2_systolic bp_time_3_systolic)
+			egen diastolic_bp= rowmean(bp_time_1_diastolic bp_time_2_diastolic bp_time_3_diastolic)
+			
+			recode systolic_bp 50/139.999=0 140/160=1, gen(systolic_high)
+			
+			recode diastolic_bp 50/89.999=0 90/160=1, gen(diastolic_high)
+			
+			egen HBP= rowmax (systolic_high diastolic_high)
+			drop systolic* diastolic*
+			
+			* Anemia 
+			gen Hb= m1_1307 // hemoglobin value taken from the card
+			gen Hb2= m1_1309 // test done by E-Cohort data collector
+			replace Hb = Hb2 if Hb==.a // use the card value if the test wasn't done
+			drop Hb2
+
+			// Reference value of 11 from Ethiopian 2022 guidelines. Should check if relevant in KE
+			recode Hb 0/10.9999=1 11/20=0, g(anemic)
+			
+			* BMI 
+			gen height_m = height_cm/100 // need to fix height values under 10cm!!!
+			replace height_m=. if height_m<1
+			gen BMI = weight_kg / (height_m^2)
+			gen low_BMI= 1 if BMI<18.5 
+			replace low_BMI = 0 if BMI>=18.5 & BMI<.
+
+			
+							
 
  save "$in_data_final/eco_m1_in_der.dta", replace
  
