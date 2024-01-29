@@ -8,7 +8,7 @@
 clear all 
 
 *--------------------DATA FILE:
-import delimited using "$et_data/05Jan2024.csv", clear
+import delimited using "$et_data/05Jan2024.csv", clear 
 
 *---------------------
 
