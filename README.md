@@ -6,9 +6,8 @@ Shalom Sabwa, Kate Wright, Catherine Arsenault
 **This repository contains the .do files used to process and analyze data from the MNH: eCohorts.** 
 
 ## About the survey: 
-The MNH E-Cohort data was fielded starting April 2023 in eight sites in Ethiopia, Kenya, India and South Africa. The original E-Cohort survey instruments consist of six modules and are available in the shared Dropbox folder (though some country-specific adaptations may have been included).
+The MNH E-Cohort was fielded starting April 2023 in eight sites in Ethiopia, Kenya, India and South Africa. The original E-Cohort survey instruments consist of six modules:
 
-The six modules consist of:
 - Module 0 (M0) is a brief health facility assessment in the facilities where women are enrolled.
   
 - Module 1 (M1) is the baseline in-person recruitment module conducted during the first antenatal care visit.
@@ -23,7 +22,7 @@ The six modules consist of:
 
 
 ## Countries: 
-Currently, the ECohorts has been conducted in 3 countries: Kenya, South Africa, and Ethiopia 
+Currently, the ECohorts has been conducted in 4 countries: Ethiopia, India, Kenya, and South Africa. 
 
 ## Files in this repository: 
-The "mainPVS.do" file sets globals and runs all .do files for data cleaning and preparation. Each country-specific creation file (e.g., crECo_cln_ET.do) cleans country data. The "crEco_der.do" file creates derived variables for analysis. The "anEco_mtbl.do" file creates weighted descriptive tables from these data. 
+The "mainPVS.do" file sets globals and runs all .do files for data cleaning and preparation. Each country-specific creation file (e.g., crECo_cln_ET.do) cleans country data. The "crEco_der.do" file creates derived variables for analysis. 

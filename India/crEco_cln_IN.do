@@ -6,7 +6,7 @@
 * Import Data 
 clear all 
 
-use "/Users/shs8688/Dropbox (Harvard University)/SPH-Kruk Team/QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data/India/01 raw data/Module_1_Baseline_Data.dta"
+use "$in_data/Module_1_Baseline_Data.dta", clear
 
 *------------------------------------------------------------------------------*
 
@@ -26,11 +26,16 @@ gen country = "India"
 		* STEP SIX: SAVE DATA
 *===============================================================================
 
+
+	* MERGE WITH DATASET CONTAINING STATE/URBAN/RURAL
+merge 1:1 Q103 using "$in_data/A4.dta"
+drop _merge
+
 	* STEP ONE: RENAME VARAIBLES
     
 	* MODULE 1:
 	
-rename (A2 A3 A5 A5_other) (date_m1 m1_start_time facility facility_other)
+rename (A2 A3 A4 A5 A5_other) (date_m1 m1_start_time study_site facility facility_other)
 
 rename (B1 B2 B3 B5 B6) (permission care_self enrollage b5anc b6anc_first)
 		
@@ -230,7 +235,9 @@ recode m1_509b m1_510b m1_511 (99 = .d)
 replace m1_815c_in = ".d" if m1_815c_in == "98"
 
 replace m1_808 = ".r" if m1_808 == "99"
-	   
+
+replace bp_time_1_systolic = . if bp_time_1_systolic==1120
+replace bp_time_3_systolic= . if bp_time_3_systolic==1120
 *------------------------------------------------------------------------------*
 
 * recoding for skip pattern logic:	   
@@ -428,7 +435,7 @@ lab var country "Country"
 *lab var interviewer_id "Interviewer ID"
 lab var date_m1 "A2. Date of interview"
 lab var m1_start_time "A3. Time of interview"
-*lab var study_site "A4. Study site"
+lab var study_site "A4. Study site"
 lab var facility "A5. Facility name"
 lab var permission "B1. May we have your permission to explain why we are here today, and to ask some questions?"
 lab var care_self "B2. Are you here today to receive care for yourself or someone else?"
@@ -815,7 +822,7 @@ lab var m1_end_time "Module 1 end date and time"
 
 	* STEP FIVE: ORDER VARIABLES
 order m1_*, sequential
-order country date_m1 m1_start_time facility ///
+order country date_m1 m1_start_time study_site facility facility_other ///
       permission care_self enrollage b5anc b6anc_first b7eligible  ///
 	  respondentid mobile_phone flash
 
