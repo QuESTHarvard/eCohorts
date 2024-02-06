@@ -20,20 +20,26 @@ u "$user/$data/Ethiopia/02 recoded data/eco_m1m2_et_der.dta", clear
 	replace tt =. if  m1_714c>=4 &  m1_714c<98 & m1_714e <=10 // had 4 or more incl. 1 in last 10 years
 	replace tt =. if  m1_714c>=3 &  m1_714c<98 & m1_714e <=5 // had 3 or more incl. 1 in last 5 years
 	replace tt =. if  m1_714c>=2 &  m1_714c<98 & m1_714e <=3 // had 2 or more incl. 1 in last 3 years
+	g previous_preg=m1_1011a 
 			
 	egen anc1qual= rowmean(anc1bp anc1weight anc1height anc1muac anc1blood ///
-		anc1urine ultrasound anc1lmp anc1depression anc1danger_screen ///
+		anc1urine ultrasound anc1lmp anc1depression anc1danger_screen previous_preg ///
 		counsel_nutri counsel_exer counsel_complic counsel_birthplan edd ///
 		counsel_comeback anc1ifa calcium deworm tt anc1itn)
 	replace anc1qual = anc1qual*100
+	
+		egen phys_exam=rowmean(anc1bp anc1weight anc1height anc1muac)
+		egen diag=rowmean(anc1blood anc1urine ultrasound)
+		egen hist= rowmean(anc1lmp anc1depression anc1danger_screen previous_preg)
+		egen counsel=rowmean(counsel_nutri counsel_exer counsel_complic counsel_birthplan edd ///
+		counsel_comeback)
+		egen tx=rowmean(anc1ifa calcium deworm tt anc1itn)
 	
 	xtile group_anc1qual=anc1qual, nquantiles(4)
 	gen q4_anc1=group_anc1qual==4
 	
 	gen q60=anc1qual>60
 	
-	rename m1_603 timespent
-	g lntime=ln(timespent)
 	
 * Medical risk factors
 	replace m1_203_et = 0 if m1_203_other=="Anemia" | m1_203_other=="Chronic Sinusitis and tonsil" ///
@@ -44,6 +50,8 @@ u "$user/$data/Ethiopia/02 recoded data/eco_m1m2_et_der.dta", clear
 	replace chronic=1 if HBP==1
 	rename malnutrition maln_underw
 	rename anemic_11 anemic
+	
+	egen ipv=rowmax(m1_1101 m1_1103)
 	
 * Obstetric risk factors
 	gen multiple= m1_805 >1 &  m1_805<.
@@ -106,9 +114,10 @@ u "$user/$data/Kenya/02 recoded data/eco_m1_ke_der.dta", clear
 		replace tt =. if  m1_714c>=4 &  m1_714c<98 & m1_714e <=10 // had 4 or more incl. 1 in last 10 years
 		replace tt =. if  m1_714c>=3 &  m1_714c<98 & m1_714e <=5 // had 3 or more incl. 1 in last 5 years
 		replace tt =. if  m1_714c>=2 &  m1_714c<98 & m1_714e <=3 // had 2 or more incl. 1 in last 3 years
-				
+		g previous_preg=m1_1011a 
+		
 		egen anc1qual= rowmean(anc1bp anc1weight anc1height anc1muac anc1blood ///
-		anc1urine ultrasound anc1lmp anc1depression  ///
+		anc1urine ultrasound anc1lmp anc1depression previous_preg ///
 		counsel_nutri counsel_exer counsel_complic counsel_birthplan edd2 ///
 		counsel_comeback anc1ifa deworm tt anc1itn)
 		replace anc1qual = anc1qual*100
@@ -117,8 +126,14 @@ u "$user/$data/Kenya/02 recoded data/eco_m1_ke_der.dta", clear
 		
 		gen q60=anc1qual>60
 		
-		rename m1_603 timespent
-		g lntime=ln(timespent)
+			
+		egen phys_exam=rowmean(anc1bp anc1weight anc1height anc1muac)
+		egen diag=rowmean(anc1blood anc1urine ultrasound)
+		egen hist= rowmean(anc1lmp anc1depression previous_preg)
+		egen counsel=rowmean(counsel_nutri counsel_exer counsel_complic counsel_birthplan edd2 ///
+		counsel_comeback)
+		egen tx=rowmean(anc1ifa deworm tt anc1itn)
+
 		
 *Medical risk factors
 		g other_chronic= 1 if m1_203_other=="Fibroids" | m1_203_other=="Peptic ulcers disease" ///
@@ -130,6 +145,7 @@ u "$user/$data/Kenya/02 recoded data/eco_m1_ke_der.dta", clear
 		replace chronic=1 if HBP==1
 		rename low_BMI maln_underw
 		
+		egen ipv=rowmax(m1_1101 m1_1103)
 * Obstetric risk factors		
 		gen multiple= m1_805 >1 &  m1_805<.
 		gen cesa= m1_1007==1
@@ -183,9 +199,10 @@ u  "$user/$data/South Africa/02 recoded data/eco_m1_za_der.dta", clear
 		replace tt =. if  m1_714c>=4 &  m1_714c<98 & m1_714e <=10 // had 4 or more incl. 1 in last 10 years
 		replace tt =. if  m1_714c>=3 &  m1_714c<98 & m1_714e <=5 // had 3 or more incl. 1 in last 5 years
 		replace tt =. if  m1_714c>=2 &  m1_714c<98 & m1_714e <=3 // had 2 or more incl. 1 in last 3 years
+		g previous_preg=m1_1011a 
 		
 		egen anc1qual= rowmean(anc1bp anc1weight anc1height anc1muac anc1blood ///
-		anc1urine anc1lmp anc1depression anc1danger_screen ///
+		anc1urine anc1lmp anc1depression anc1danger_screen previous_preg ///
 		counsel_nutri counsel_exer counsel_complic counsel_birthplan edd ///
 		counsel_comeback anc1ifa calcium tt )
 		replace anc1qual = anc1qual*100
@@ -194,8 +211,12 @@ u  "$user/$data/South Africa/02 recoded data/eco_m1_za_der.dta", clear
 		
 		gen q60=anc1qual>60
 		
-		rename m1_603 timespent
-		g lntime=ln(timespent)
+		egen phys_exam=rowmean(anc1bp anc1weight anc1height anc1muac)
+		egen diag=rowmean(anc1blood anc1urine )
+		egen hist= rowmean(anc1lmp anc1depression anc1danger_screen previous_preg)
+		egen counsel=rowmean(counsel_nutri counsel_exer counsel_complic counsel_birthplan edd ///
+		counsel_comeback)
+		egen tx=rowmean(anc1ifa calcium  tt )
 		
 * Medical risk factors
 		egen chronic= rowmax(m1_202a m1_202b m1_202c m1_202d m1_202e)
@@ -205,6 +226,8 @@ u  "$user/$data/South Africa/02 recoded data/eco_m1_za_der.dta", clear
 		drop prob
 		replace chronic=1 if HBP==1
 		rename low_BMI maln_underw
+		
+		egen ipv=rowmax(m1_1101 m1_1103)
 		
 * Obstetric risk factors
 		gen multiple= m1_805 >1 &  m1_805<.
@@ -247,7 +270,7 @@ u  "$user/$data/South Africa/02 recoded data/eco_m1_za_der.dta", clear
 		
 save "$user/$analysis/ZAtmp.dta", replace
 
-*------------------------------------------------------------------------------*
+/*------------------------------------------------------------------------------*
 * INDIA
 
 u "$user/$data/India/02 recoded data/eco_m1_in_der.dta", clear	
@@ -261,13 +284,14 @@ u "$user/$data/India/02 recoded data/eco_m1_in_der.dta", clear
 		replace tt =. if  m1_714c>=4 &  m1_714c<98 & m1_714e <=10 // had 4 or more incl. 1 in last 10 years
 		replace tt =. if  m1_714c>=3 &  m1_714c<98 & m1_714e <=5 // had 3 or more incl. 1 in last 5 years
 		replace tt =. if  m1_714c>=2 &  m1_714c<98 & m1_714e <=3 // had 2 or more incl. 1 in last 3 years
-		
+		g previous_preg=m1_1011a 
+
 		egen anc1qual= rowmean(anc1bp anc1weight  anc1blood ///
-		anc1urine ultra anc1lmp  counsel_nutri  counsel_complic counsel_birthplan edd ///
+		anc1urine ultra anc1lmp  previous_preg counsel_nutri  counsel_complic counsel_birthplan edd ///
 		counsel_comeback anc1ifa anc1deworm calcium tt )
 		replace anc1qual = anc1qual*100
 		
-		rename m1_603 timespent
+		egen ipv=rowmax(m1_1101 m1_1103)
 
 		
 * Medical risk factors

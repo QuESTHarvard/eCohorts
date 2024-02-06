@@ -98,9 +98,10 @@ ta specialist_hosp dangersign if facility_lvl!=2 & facility!=4 & /// "Kalimoni m
 	replace med = 0 if (med ==.a | med==.) & m1_1218_total_ke >0 & m1_1218_total_ke <.
 	replace lab = 0 if (lab ==.a |lab==.) & m1_1218_total_ke >0 & m1_1218_total_ke <.
 	replace indirect = 0 if indirect ==. & m1_1218_total_ke >0 & m1_1218_total_ke <.
-	tabstat totalcost registration_cost med_vax_cost labtest_cost indirect_cost, ///
-	stat(mean count) col(stat)
-	
+			tabstat totalcost registration_cost med_vax_cost labtest_cost indirect_cost if private==0, ///
+			stat(mean count) col(stat)
+			tabstat totalcost registration_cost med_vax_cost labtest_cost indirect_cost if private==1, ///
+			stat(mean count) col(stat)
 * CONFIDENCE
 		ta m1_302
 

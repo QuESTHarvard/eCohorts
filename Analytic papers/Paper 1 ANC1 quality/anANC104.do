@@ -3,10 +3,10 @@ global user "/Users/catherine.arsenault"
 global analysis "Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH E-Cohorts-internal/Analyses/Manuscripts/Paper 1 ANC1 quality"
 global data "Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data"
 
-ssc install schemepack, replace
+*ssc install schemepack, replace
 
 *------------------------------------------------------------------------------*	
-* BOX PLOT QUALITY BY SITE 
+* APPENDING COUNTRIES FOR GRAPHS
 u "$user/$analysis/ETtmp.dta", clear
 recode site 2=0 // 0 ES 1 Adama
 save "$user/$analysis/allcountrytmp.dta", replace
@@ -17,10 +17,10 @@ lab drop a4
 append using "$user/$analysis/allcountrytmp.dta", force
 save "$user/$analysis/allcountrytmp.dta", replace
 
-u "$user/$analysis/INtmp.dta", clear
+/*u "$user/$analysis/INtmp.dta", clear
 recode state 1=4 2=5, g(site) // 4 Sonipat 5 Jodhpur
 append using "$user/$analysis/allcountrytmp.dta", force
-save "$user/$analysis/allcountrytmp.dta", replace
+save "$user/$analysis/allcountrytmp.dta", replace*/
 
 u "$user/$analysis/ZAtmp.dta", clear 
 recode site 1=7 2=6
@@ -30,9 +30,27 @@ append using "$user/$analysis/allcountrytmp.dta", force
 lab def site 0"East Shewa" 1"Adama" 2"Kitui" 3"Kiambu" 4"Sonipat" 5"Jodhpur" 6 "Nongoma" 7 "uMhlathuze", modify
 lab val site site
 save "$user/$analysis/allcountrytmp.dta", replace
+*------------------------------------------------------------------------------*
+* BAR GRAPH BY CATEGORY AND SITE
+
+foreach v in phys_exam diag hist counsel tx{
+	replace `v'=`v'*100
+}
+
+graph bar phys_exam diag hist counsel tx, over(country) ylabel(0(20)100, labsize(small)) ///
+		ytitle("Completeness of care %") asyvars  scheme(white_tableau)  ///
+		 blabel(bar, size(vsmall) position(outside) format(%2.1g)) ///
+		 legend(order(1 "Physical examinations" 2 "Diagnostic tests" 3 "History taking and screening" ///
+		 4 "Counselling" 5 "Preventive treatments or supplements") rows(2) position(12) size(small) )
+
+
+
+
+
+*------------------------------------------------------------------------------*
+* BOXPLOT BY SITE
 
 keep anc1qual site
-
 
 graph box anc1qual, over(site) ylabel(0(20)100, labsize(small)) ytitle("Antenatal Care Quality Index") asyvars ///
 box(1, fcolor(teal) lcolor(teal)) marker(1, mcolor(teal)) box(2, fcolor(teal) lcolor(teal)) marker(2, mcolor(teal)) ///

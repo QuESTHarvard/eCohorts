@@ -93,7 +93,12 @@ keep if b7eligible==1  & m1_complete==2 //SS: keeping this here only because we 
 	replace med_vax_cost= 0 if med_vax_cost==.a & m1_1219>0 & m1_1219<.
 	replace labtest_cost= 0 if labtest_cost==.a & m1_1219>0 & m1_1219<.
 	replace indirect_cost= 0 if indirect_cost==. & m1_1219>0 & m1_1219<.
-				
+			
+	su m1_1219 if facility_lvl<3
+	su m1_1219 if facility_lvl==3
+	
+	tabstat registration_cost med_vax_cost labtest_cost indirect_cost if facility_lvl<3, stat(mean) col(stat)
+	tabstat registration_cost med_vax_cost labtest_cost indirect_cost if facility_lvl==3, stat(mean) col(stat)
 * CONFIDENCE
 		ta m1_302			
 				

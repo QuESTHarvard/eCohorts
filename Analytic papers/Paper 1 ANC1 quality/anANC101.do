@@ -1,17 +1,17 @@
 
 
-* Ethiopia
+* ETHIOPIA
 u "$user/$analysis/ETtmp.dta", clear
 cd "$user/$analysis"
 global qualvarsET anc1bp anc1weight anc1height anc1muac anc1blood ///
-		anc1urine ultrasound anc1lmp anc1depression anc1danger_screen ///
+		anc1urine ultrasound anc1lmp anc1depression anc1danger_screen previous_preg ///
 		counsel_nutri counsel_exer counsel_complic counsel_birthplan edd ///
 		counsel_comeback anc1ifa calcium deworm tt anc1itn
-	* Table 1 ANC quality	
+		
+	* Supp Table 1. ANC1 quality
 		tabstat  $qualvarsET if site==2, stat(mean count) col(stat) // East Shewa
 		tabstat  $qualvarsET if site==1, stat(mean count) col(stat) // Adama
 		tabstat anc1qual, by(site) stat(mean sd )
-		tabstat timespent, by(site) stat(mean sd )
 		
 	* Table 2 Demog & health 		
 		summtab , contvars(enrollage) catvars(second health_lit tertile  marriedp ///
@@ -21,7 +21,7 @@ global qualvarsET anc1bp anc1weight anc1height anc1muac anc1blood ///
 		summtab, catvars(chronic anemic maln_underw dangersigns cesa complic) mean by(site) excel ///
 		excelname(Table2) sheetname(ETH_risk) replace 
 	
-	* Table 3 Facility characteristics
+	/* Table 3 Facility characteristics
 		summtab if tag==1, catvars(private facsecond ftdoc) contvars (sri_basicamenities ///
 		sri_equip sri_diag total_staff anc_mont anc_vol_staff_onc beds) mean by(site) excel ///
 		excelname(Table3) sheetname(ET) replace 
@@ -46,21 +46,20 @@ global qualvarsET anc1bp anc1weight anc1height anc1muac anc1blood ///
 		margins, at(chronic=(0 1)) post
 		lincom (_b[2._at] - _b[1._at])*/
 		
-*------------------------------------------------------------------------------*	
-* Kenya
+*------------------------------------------------------------------------------*/	
+* KENYA
 
 u "$user/$analysis/KEtmp.dta", clear
 cd "$user/$analysis"
 global qualvarsKE anc1bp anc1weight anc1height anc1muac anc1blood ///
-		anc1urine ultrasound anc1lmp anc1depression  ///
+		anc1urine ultrasound anc1lmp anc1depression  previous_preg ///
 		counsel_nutri counsel_exer counsel_complic counsel_birthplan edd2 ///
 		counsel_comeback anc1ifa deworm tt anc1itn
-	
-	* Table 1 ANC quality 
+			
+	* Supp Table 1 ANC quality 
 		tabstat  $qualvarsKE if site==2, stat(mean count) col(stat) // Kitui
 		tabstat  $qualvarsKE if site==1, stat(mean count) col(stat) // Kiambu
 		tabstat anc1qual, by(site) stat(mean sd)
-		tabstat timespent, by(site) stat(mean sd)
 	
 	* Table 2 Demog & health 
 		summtab , contvars(enrollage) catvars(second health_lit tertile  marriedp ///
@@ -70,7 +69,7 @@ global qualvarsKE anc1bp anc1weight anc1height anc1muac anc1blood ///
 		summtab, catvars(chronic anemic maln_underw dangersigns cesa complic) mean by(site) excel ///
 		excelname(Table2) sheetname(KE_risk) replace 
 		
-	* Table 3 Facility characteristics
+	/* Table 3 Facility characteristics
 		summtab if tag==1, catvars(private facsecond ftdoc) contvars (sri_basicamenities ///
 		sri_equip sri_diag total_staff anc_mont anc_vol_staff_onc beds) mean by(site) excel ///
 		excelname(Table3) sheetname(KE) replace 
@@ -92,15 +91,17 @@ global qualvarsKE anc1bp anc1weight anc1height anc1muac anc1blood ///
 		
 		scatter anc1qual sri_score
 		
-*------------------------------------------------------------------------------*		
+*------------------------------------------------------------------------------*/		
 * ZAF
 u "$user/$analysis/ZAtmp.dta", clear 
 cd "$user/$analysis"
 global qualvarsZA anc1bp anc1weight anc1height anc1muac anc1blood ///
-		anc1urine anc1lmp anc1depression anc1danger_screen ///
+		anc1urine anc1lmp anc1depression anc1danger_screen previous_preg ///
 		counsel_nutri counsel_exer counsel_complic counsel_birthplan edd ///
 		counsel_comeback anc1ifa calcium tt
 		
+		
+		* Supp Table 1
 		tabstat  $qualvarsZA if site==2, stat(mean count) col(stat) // Nongoma
 		tabstat  $qualvarsZA if site==1, stat(mean count) col(stat) // uMhlathuze
 		tabstat anc1qual, by(site) stat(mean sd)
@@ -113,7 +114,7 @@ global qualvarsZA anc1bp anc1weight anc1height anc1muac anc1blood ///
 		summtab, catvars(chronic anemic maln_underw dangersigns cesa complic) mean by(site) excel ///
 		excelname(Table2) sheetname(ZA_risk) replace 
 		
-		* Table 3 Facility characteristics
+		/* Table 3 Facility characteristics
 		summtab if tag==1, catvars(private facsecond ftdoc) contvars (sri_basicamenities ///
 		sri_equip sri_diag total_staff anc_mont anc_vol_staff_onc beds) mean by(site) excel ///
 		excelname(Table3) sheetname(ZA) replace 
