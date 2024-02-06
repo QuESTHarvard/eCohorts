@@ -129,11 +129,11 @@ u "$in_data_final/eco_m1_in.dta", clear
 	* SECTION 8: CURRENT PREGNANCY
 			egen dangersigns = rowmax(m1_814a m1_814b m1_814c m1_814d m1_814f m1_814g)
 
-			gen ga = gest_age
+			/*gen ga = gest_age
 			replace ga = . if gest_age<1 | gest_age> 40
 			
 			gen trimester = m1_804
-			replace trimester =. if trimester<1 | trimester >3
+			replace trimester =. if trimester<1 | trimester >3 */
 
 			* Asked about LMP
 			gen anc1lmp= m1_806

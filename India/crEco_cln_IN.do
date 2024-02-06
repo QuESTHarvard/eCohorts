@@ -186,7 +186,8 @@ rename end m1_end_time
 * dropping unncessary vars:
 
 drop SubmissionDate calc_start_time Calc_weeks_remaining_1 Calc_weeks_remaining_2 Calc_weeks_remaining ///
-	 start gest_age gestational_age gestational_age_1
+	 start 
+	 *gest_age gestational_age gestational_age_1
 
 *===============================================================================
 	
