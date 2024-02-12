@@ -51,7 +51,7 @@ drop if record_id == "1" | record_id == "2" | record_id == "3" | ///
 		record_id == "19" | record_id == "20" | record_id == "21" | ///
 		record_id == "22" | record_id == "23" | record_id == "24" | ///
 		record_id == "25" | record_id == "26" | record_id == "27" | ///
-		record_id == "28"			
+		record_id == "28" | record_id == "1706-2" // 1706-2 did not finish the rest of M1			
 					
 *dropping incomplete module 1 surveys - 1/24
 drop if module_1_baseline_face_to_face_e == 0
