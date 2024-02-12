@@ -579,6 +579,595 @@ rename (which_of_the_following_fin_1105 other_income_source_1105 to_conclude_thi
 		c_total_duration_of_interv ot1 ot1_oth date_of_rescheduled_m3_p2 time_of_rescheduled_m3_p2) (m3_1105 ///
 		m3_1105_other m3_1106 m3_endtime m3_duration m3_p2_outcome m3_p2_outcome_other ///
 		m3_p2_date_of_rescheduled m3_p2_time_of_rescheduled)		
+
+		
+* MODULE 4:
+rename iic_m4 m4_start 
+rename cr1_permission_granted_m4 m4_permission
+rename date_of_rescheduled_m4 m4_date_of_rescheduled
+rename time_of_rescheduled_m4 m4_time_of_reschedule
+rename q102_date_int_m4 m4_102
+rename q103_time_int_m4 m4_103
+rename q108_hiv_status_m4 m4_108
+rename maternal_death_reported_m4 m4_112
+rename date_of_maternal_death_m4 m4_113
+rename m3_maternal_death_learn m4_114
+rename m3_maternal_death_learn_other m4_114_other
+rename baby1status_m4 m4_201_1
+rename baby2status_m4 m4_201_2
+rename baby3status_m4 m4_201_3
+rename overall_health_baby_1_m4 m4_202_1
+rename overall_health_baby_2_m4 m4_202_2
+rename overall_health_baby_3_m4 m4_202_3
+rename feed_baby_1_m4___1 m4_203_1_1
+rename feed_baby_1_m4___2 m4_203_1_2
+rename feed_baby_1_m4___3 m4_203_1_3
+rename feed_baby_1_m4___4 m4_203_1_4
+rename feed_baby_1_m4___5 m4_203_1_5
+rename feed_baby_1_m4___6 m4_203_1_6
+rename feed_baby_1_m4___7 m4_203_1_7
+rename feed_baby_1_m4___99 m4_203_1_99
+rename feed_baby_1_m4___998 m4_203_1_998
+rename feed_baby_1_m4___999 m4_203_1_999
+rename feed_baby_1_m4___888 m4_203_1_888
+rename feed_baby_2_m4___1 m4_203_2_1
+rename feed_baby_2_m4___2 m4_203_2_2
+rename feed_baby_2_m4___3 m4_203_2_3
+rename feed_baby_2_m4___4 m4_203_2_4
+rename feed_baby_2_m4___5 m4_203_2_5
+rename feed_baby_2_m4___6 m4_203_2_6
+rename feed_baby_2_m4___7 m4_203_2_7
+rename feed_baby_2_m4___99 m4_203_2_99
+rename feed_baby_2_m4___998 m4_203_2_998
+rename feed_baby_2_m4___999 m4_203_2_999
+rename feed_baby_2_m4___888 m4_203_2_888
+rename feed_baby_3_m4___1 m4_203_3_1
+rename feed_baby_3_m4___2 m4_203_3_2
+rename feed_baby_3_m4___3 m4_203_3_3
+rename feed_baby_3_m4___4 m4_203_3_4
+rename feed_baby_3_m4___5 m4_203_3_5
+rename feed_baby_3_m4___6 m4_203_3_6
+rename feed_baby_3_m4___7 m4_203_3_7
+rename feed_baby_3_m4___99 m4_203_3_99
+rename feed_baby_3_m4___998 m4_203_3_998
+rename feed_baby_3_m4___999 m4_203_3_999
+rename feed_baby_3_m4___888 m4_203_3_888
+rename number_feeds_m4 m4_203d_et
+rename bf_confidence_baby_1_m4 m4_204a
+rename sleep_baby_1_m4 m4_205a_1 
+rename sleep_baby_2_m4 m4_205a_2
+rename sleep_baby_3_m4 m4_205a_3
+
+rename feeding_baby_1_m4 m4_205b_1
+rename feeding_baby_2_m4 m4_205b_2
+rename feeding_baby_3_m4 m4_205b_3
+
+rename breathing_baby_1_m4 m4_205c_1
+rename breathing_baby_2_m4 m4_205c_2
+rename breathing_baby_3_m4 m4_205c_3
+
+rename stooling_poo_baby_1_m4 m4_205d_1
+rename stooling_poo_baby_2_m4 m4_205d_2
+rename stooling_poo_baby_3_m4 m4_205d_3
+
+rename mood_baby_1_m4 m4_205e_1
+rename mood_baby_2_m4 m4_205e_2
+rename mood_baby_3_m4 m4_205e_3
+
+rename skin_baby_1_m4 m4_205f_1
+rename skin_baby_2_m4 m4_205f_2
+rename skin_baby_3_m4 m4_205f_3
+
+rename interactivity_baby_1_m4 m4_205g_1
+rename interactivity_baby_2_m4 m4_205g_2
+rename interactivity_baby_3_m4 m4_205g_3
+
+rename diarrhea_baby_1 m4_206a_1
+rename diarrhea_baby_2 m4_206a_2
+rename diarrhea_baby_3 m4_206a_3
+
+rename fever_baby_1 m4_206b_1
+rename fever_baby_2 m4_206b_2
+rename fever_baby_3 m4_206b_3
+
+rename low_temperature_baby_1 m4_206c_1
+rename low_temperature_baby_2 m4_206c_2
+rename low_temperature_baby_3 m4_206c_3
+
+rename illness_baby_1 m4_206d_1
+rename illness_baby_2 m4_206d_2
+rename illness_baby_3 m4_206d_3
+
+rename trouble_breathing_baby_1 m4_206e_1
+rename trouble_breathing_baby_2 m4_206e_2
+rename trouble_breathing_baby_3 m4_206e_3
+
+rename chest_problem_baby_1 m4_206f_1
+rename chest_problem_baby_2 m4_206f_2
+rename chest_problem_baby_3 m4_206f_3
+
+rename trouble_feeding_baby_1 m4_206g_1
+rename trouble_feeding_baby_2 m4_206g_2
+rename trouble_feeding_baby_3 m4_206g_3
+
+rename convulsions_baby_1 m4_206h_1
+rename convulsions_baby_2 m4_206h_2
+rename convulsions_baby_3 m4_206h_3
+
+rename jaundice_baby_1 m4_206i_1
+rename jaundice_baby_2 m4_206i_2
+rename jaundice_baby_3 m4_206i_3
+
+rename yellow_palms_baby_1 m4_206j_1
+rename yellow_palms_baby_2 m4_206j_2
+rename yellow_palms_baby_3 m4_206j_3
+
+rename lethargic_baby_1_m4 m4_206k_1
+rename lethargic_baby_2_m4 m4_206k_2
+rename lethargic_baby_3_m4 m4_206k_3
+rename bulged_font_1_m4 m4_206l_1
+rename bulged_font_2_m4 m4_206l_2
+rename bulged_font_3_m4 m4_206l_3
+
+rename other_health_problem_baby_1 m4_207a_1 
+rename other_problem_baby_1 m4_207_1_other  
+rename other_health_problem_baby_2 m4_207a_2 
+rename other_problem_baby_2 m4_207_2_other  
+rename other_health_problem_baby_3 m4_207a_3 
+rename other_problem_baby_3 m4_207_3_other  
+
+rename date_died_baby m4_208a_1  
+rename date_died_baby_unk m4_208a_1_unk  
+
+rename date_died_baby2 m4_208a_2  
+rename date_died_baby_unk2 m4_208a_2_unk 
+
+rename date_died_baby3 m4_208a_3  
+rename date_died_baby_unk3 m4_208a_3_unk 
+
+rename age_when_died_baby_1 m4_209_1
+rename age_when_died_baby_2 m4_209_2
+rename age_when_died_baby_3 m4_209_3
+
+rename cause_death_baby_1___0 m4_210_1_0 
+rename cause_death_baby_1___1 m4_210_1_1
+rename cause_death_baby_1___2 m4_210_1_2
+rename cause_death_baby_1___3 m4_210_1_3
+rename cause_death_baby_1___4 m4_210_1_4
+rename cause_death_baby_1___5 m4_210_1_5
+rename cause_death_baby_1___6 m4_210_1_6
+rename cause_death_baby_1___7 m4_210_1_7
+rename cause_death_baby_1___8 m4_210_1_8
+rename cause_death_baby_1___9 m4_210_1_9
+rename cause_death_baby_1___96 m4_210_1_96
+rename cause_death_baby_1___998 m4_210_1_998
+rename cause_death_baby_1___999 m4_210_1_999
+rename cause_death_baby_1___888 m4_210_1_888
+rename what_other_causes_baby_1 m4_210_1_other 
+
+rename cause_death_baby_2___0 m4_210_2_0
+rename cause_death_baby_2___1 m4_210_2_1
+rename cause_death_baby_2___2 m4_210_2_2
+rename cause_death_baby_2___3 m4_210_2_3
+rename cause_death_baby_2___4 m4_210_2_4
+rename cause_death_baby_2___5 m4_210_2_5
+rename cause_death_baby_2___6 m4_210_2_6
+rename cause_death_baby_2___7 m4_210_2_7
+rename cause_death_baby_2___8 m4_210_2_8
+rename cause_death_baby_2___9 m4_210_2_9
+rename cause_death_baby_2___96 m4_210_2_96
+rename cause_death_baby_2___998 m4_210_2_998
+rename cause_death_baby_2___999 m4_210_2_999 
+rename cause_death_baby_2___888 m4_210_2_888 
+rename what_other_causes_baby_2 m4_210_2_other
+
+rename cause_death_baby_3___0 m4_210_3_0
+rename cause_death_baby_3___1 m4_210_3_1
+rename cause_death_baby_3___2 m4_210_3_2
+rename cause_death_baby_3___3 m4_210_3_3
+rename cause_death_baby_3___4 m4_210_3_4
+rename cause_death_baby_3___5 m4_210_3_5
+rename cause_death_baby_3___6 m4_210_3_6
+rename cause_death_baby_3___7 m4_210_3_7
+rename cause_death_baby_3___8 m4_210_3_8
+rename cause_death_baby_3___9 m4_210_3_9
+rename cause_death_baby_3___96 m4_210_3_96
+rename cause_death_baby_3___998 m4_210_3_998
+rename cause_death_baby_3___999 m4_210_3_999
+rename cause_death_baby_3___888 m4_210_3_888
+rename what_other_causes_baby_3 m4_210_3_other
+rename eth_1_3 m4_1_3_et
+
+rename before_died_baby_1 m4_211_1
+rename before_died_baby_2 m4_211_2
+rename before_died_baby_3 m4_211_3
+
+rename where_died_baby_1 m4_212_1
+rename where_died_baby_2 m4_212_2
+rename where_died_baby_3 m4_212_3
+
+rename rate_overall_health_women m4_301
+
+rename bothered_by_little_interest m4_302a
+rename bothered_feeling_down m4_302b
+
+rename baby_loving_303a m4_303a
+rename baby_resentful_303b m4_303b
+rename m3_303c m4_303c
+rename baby_joyful_303d m4_303d
+rename baby_dislike m4_303e
+rename baby_protective m4_303f
+rename baby_disappointed m4_303g
+rename baby_aggressive m4_303h
+
+rename pain_on_sex_satisfaction_304 m4_304
+
+rename constant_urine_leakage_baby_1 m4_305 
+
+rename how_many_days_after_giving_306 m4_306
+
+rename how_much_does_this_problem_307 m4_307
+
+rename have_you_sought_treatment m4_308
+
+rename why_have_you_not_sought_treat m4_309
+rename other_reason_specif m4_309_other 
+
+rename did_the_treatment_stop_the_310 m4_310
+
+rename since_the_delivery_did_you_401 m4_401a
+rename q401b_m4 m4_401b
+
+rename since_the_delivery_how_402 m4_402  
+
+rename new_health_consult_1 m4_403a
+rename new_health_consult_2 m4_403b 
+rename new_health_consult_3_1_m4 m4_403c
+
+rename name_new_consult_1 m4_404a
+rename other_in_east_shewa m4_404a_other_1
+rename other_outsidein_east_shewa m4_404a_other_2 
+rename name_new_consult_2 m4_404b
+rename other_in_east_shewa404b m4_404b_other_1
+rename other_outside_east_shew_2 m4_404b_other_2
+rename name_new_consult_3 m4_404c
+rename other_in_east_shewa404c m4_404c_other_1
+rename other_ourside_east_shew_3 m4_404c_other_2
+rename q405_pnc_visit1_m4 m4_405
+
+rename q406_reason_visit1_m4___1 m4_406_1
+rename q406_reason_visit1_m4___2 m4_406_2
+rename q406_reason_visit1_m4___3 m4_406_3
+rename q406_reason_visit1_m4___4 m4_406_4
+rename q406_reason_visit1_m4___5 m4_406_5
+rename q406_reason_visit1_m4___6 m4_406_6
+rename q406_reason_visit1_m4___7 m4_406_7
+rename q406_reason_visit1_m4___8 m4_406_8
+rename q406_reason_visit1_m4___9 m4_406_9
+rename q406_reason_visit1_m4___10 m4_406_10
+rename q406_reason_visit1_m4___96 m4_406_96
+rename q406_reason_visit1_m4___998 m4_406_998
+rename q406_reason_visit1_m4___999 m4_406_999
+rename q406_reason_visit1_m4___888 m4_406_888
+rename q406_other_visit1_m4 m4_406_other
+
+rename q407_pnc_visit2_m4 m4_407
+
+rename q408_reason_visit2_m4___1 m4_408_1
+rename q408_reason_visit2_m4___2 m4_408_2
+rename q408_reason_visit2_m4___3 m4_408_3
+rename q408_reason_visit2_m4___4 m4_408_4
+rename q408_reason_visit2_m4___5 m4_408_5
+rename q408_reason_visit2_m4___6 m4_408_6
+rename q408_reason_visit2_m4___7 m4_408_7
+rename q408_reason_visit2_m4___8 m4_408_8
+rename q408_reason_visit2_m4___9 m4_408_9
+rename q408_reason_visit2_m4___10 m4_408_10
+rename q408_reason_visit2_m4___96 m4_408_96
+rename q408_reason_visit2_m4___998 m4_408_998
+rename q408_reason_visit2_m4___999 m4_408_999
+rename q408_reason_visit2_m4___888 m4_408_888
+rename q408_other_visit2_m4 m4_408_other
+
+rename q409_pnc_visit3_m4 m4_409
+
+rename q410_reason_visit3_m4___1 m4_410_1
+rename q410_reason_visit3_m4___2 m4_410_2
+rename q410_reason_visit3_m4___3 m4_410_3
+rename q410_reason_visit3_m4___4 m4_410_4
+rename q410_reason_visit3_m4___5 m4_410_5
+rename q410_reason_visit3_m4___6 m4_410_6
+rename q410_reason_visit3_m4___7 m4_410_7
+rename q410_reason_visit3_m4___8 m4_410_8
+rename q410_reason_visit3_m4___9 m4_410_9
+rename q410_reason_visit3_m4___10 m4_410_10
+rename q410_reason_visit3_m4___96 m4_410_96
+rename q410_reason_visit3_m4___998 m4_410_998
+rename q410_reason_visit3_m4___999 m4_410_999
+rename q410_reason_visit3_m4___888 m4_410_888
+
+rename q410_other_visit3_m4 m4_410_other
+
+rename on_what_day_did_the_1st_ne m4_411a
+rename on_what_day_did_the_2nd_ne m4_411b
+rename on_what_day_did_the_3rd_ne m4_411c
+
+rename for_how_long_conslt_1 m4_412a
+rename for_how_long_conslt_2 m4_412b
+rename for_how_long_conslt_3 m4_412c
+
+rename m4_413___0 m4_413_0
+rename m4_413___1 m4_413_1
+rename m4_413___2 m4_413_2
+rename m4_413___3 m4_413_3
+rename m4_413___4 m4_413_4
+rename m4_413___5 m4_413_5
+rename m4_413___6 m4_413_6
+rename m4_413___7 m4_413_7
+* m4_413___8 is not in the DS and in the CB
+rename m4_413___9 m4_413_9
+rename m4_413___10 m4_413_10
+rename m4_413___11 m4_413_11
+rename m4_413___96 m4_413_96
+rename m4_413___99 m4_413_99
+rename m4_413___998 m4_413_998
+rename m4_413___999 m4_413_999
+rename m4_413___888 m4_413_888
+
+rename specify_other_reasons_that m4_413_other
+
+rename rate_quality_of_consult_1 m4_501
+
+rename rate_quality_of_consult_2 m4_502
+
+rename rate_quality_of_consult_3 m4_503
+
+rename q601_baby1_temp_m4 m4_601a_1
+rename q601_baby2_temp_m4 m4_601a_2
+rename q601_baby3_temp_m4 m4_601a_3
+rename q601_baby1_weight_m4 m4_601b_1
+rename q601_baby2_weight_m4 m4_601b_2
+rename q601_baby3_weight_m4 m4_601b_3
+rename q601_baby1_length_m4 m4_601c_1
+rename q601_baby2_length_m4 m4_601c_2
+rename q601_baby2_length_m5 m4_601c_3
+rename q601_baby1_eyes_m4 m4_601d_1
+rename q601_baby2_eyes_m4 m4_601d_2
+rename q601_baby3_eyes_m4 m4_601d_3
+rename q601_baby1_hearing_m4 m4_601e_1
+rename q601_baby2_hearing_m4 m4_601e_2
+rename q601_baby3_hearing_m4 m4_601e_3
+rename q601_baby1_chest_m4 m4_601f_1
+rename q601_baby2_chest_m4 m4_601f_2
+rename q601_baby3_chest_m4 m4_601f_3
+rename q601_blood_prick_baby1_m4 m4_601g_1
+rename q601_blood_prick_baby2_m4 m4_601g_2
+rename q601_blood_prick_baby3_m4 m4_601g_3
+rename q601_malaria_baby1_m4 m4_601h_1
+rename q601_malaria_baby2_m4 m4_601h_2
+rename q601_malaria_baby3_m4 m4_601h_3
+rename q601_othertest_baby1_m4 m4_601i_1
+rename q601_testspecify_baby1_m4 m4_601i_1_other
+rename q601_othertest_baby2_m4 m4_601i_2
+rename q601_testspecify_baby2_m4 m4_601i_2_other
+rename q601_othertest_baby3_m4 m4_601i_3
+rename q601_testspecify_baby3_m4 m4_601i_3_other
+
+rename baby1hiv m4_618a_1
+rename baby_hiv_result m4_618b_1
+rename given_medication_baby_1 m4_618c_1 
+rename baby2hiv m4_618a_2
+rename baby2_hiv_result m4_618b_2
+rename given_medication_baby_2 m4_618c_2
+rename given_medication_baby_4 m4_618a_3
+*the variable name is given medication_4 but the question is if the baby 3 was tested for HIV 
+rename given_medication_baby_5 m4_618b_3
+*the variable name is given medication_4 but the question is about the result of the HIV test 
+rename given_medication_baby_3 m4_618c_3
+
+rename how_often_baby_eats_602a m4_602a
+rename what_baby_should_eat_602b m4_602b
+rename vaccination_for_baby_602c m4_602c
+rename position_baby_sleep_602d m4_602d
+rename danger_signs_you_watch_602e m4_602e
+rename how_you_play_with_baby_602f m4_602f
+rename take_baby_to_hospital_602g m4_602g
+
+rename what_healthcare_provide_603___0 m4_603_1_0
+rename what_healthcare_provide_603___1 m4_603_1_1
+rename what_healthcare_provide_603___2 m4_603_1_2
+rename what_healthcare_provide_603___3 m4_603_1_3
+rename what_healthcare_provide_603___4 m4_603_1_4
+rename what_healthcare_provide_603___5 m4_603_1_5
+rename what_healthcare_provide_603___6 m4_603_1_6
+rename what_healthcare_provide_603___96 m4_603_1_96
+rename what_healthcare_provide_603___98 m4_603_1_98
+rename what_healthcare_provide_603___99 m4_603_1_99
+rename v1546 m4_603_1_998
+rename v1547 m4_603_1_999
+rename what_healthcare_provide_603___88 m4_603_1_888
+rename other_thing_provided m4_603_1_other
+
+rename m4_603b___0 m4_603_2_0
+rename m4_603b___1 m4_603_2_1
+rename m4_603b___2 m4_603_2_2
+rename m4_603b___3 m4_603_2_3
+rename m4_603b___4 m4_603_2_4
+rename m4_603b___5 m4_603_2_5
+rename m4_603b___6 m4_603_2_6
+rename m4_603b___96 m4_603_2_96
+rename m4_603b___98 m4_603_2_98
+rename m4_603b___99 m4_603_2_99
+rename m4_603b___998 m4_603_2_998
+rename m4_603b___999 m4_603_2_999 
+rename m4_603b___888 m4_603_2_888
+rename other_thing_provided_2 m4_603_2_other
+
+rename m4_603c___0 m4_603_3_0
+rename m4_603c___1 m4_603_3_1
+rename m4_603c___2 m4_603_3_2
+rename m4_603c___3 m4_603_3_3
+rename m4_603c___4 m4_603_3_4
+rename m4_603c___5 m4_603_3_5
+rename m4_603c___6 m4_603_3_6
+rename m4_603c___96 m4_603_3_96
+rename m4_603c___98 m4_603_3_98
+rename m4_603c___99 m4_603_3_99
+rename m4_603c___998 m4_603_3_998
+rename m4_603c___999 m4_603_3_999
+rename m4_603c___888 m4_603_3_888
+rename other_thing_provided_3 m4_603_3_other
+
+rename bp_measured_701a m4_701a
+rename temperature_taken_702b m4_701b
+rename vaginal_exam_701c m4_701c
+rename blood_draw_701d m4_701d
+rename blood_test_using_finger_701e m4_701e
+rename hiv_test_701f m4_701f
+rename urine_test_701g m4_701g
+rename any_other_test_701h m4_701h
+rename specify_any_other_test m4_701h_other
+rename c_section_scar_702 m4_702
+
+rename since_the_delivery_did_703a m4_703a
+rename danger_sign_or_symptom_703b m4_703b
+rename level_of_anxiety_703c m4_703c
+rename family_planning_703d m4_703d
+rename resuming_sexual_703e m4_703e
+rename importance_of_exercise_703f m4_703f
+rename sleeping_importance_703g m4_703g
+
+rename psychological_counseling_704a m4_704a
+rename how_many_of_these_sessio_704b m4_704b
+rename c_how_many_minutes_did_thi m4_704c
+
+rename iron_or_folic_acid_801a m4_801a
+rename iron_injection_801b m4_801b
+rename since_we_last_spoke_did_801c m4_801c
+rename since_we_last_spoke_did_801d m4_801d
+rename since_we_last_spoke_did_801e m4_801e
+rename since_we_last_spoke_801f m4_801f
+rename since_we_last_spoke_801g m4_801g
+rename since_we_last_spoke_801h m4_801h
+rename since_we_last_spoke_801i m4_801i
+rename since_we_last_spoke_801j m4_801j
+rename since_we_last_spoke_801k m4_801k
+rename since_we_last_spoke_801l m4_801l
+rename since_we_last_spoke_801m m4_801m
+rename since_we_last_spoke_801n m4_801n
+rename since_we_last_spoke_801o m4_801o
+rename since_we_last_spoke_801p m4_801p
+rename since_we_last_spoke_801q m4_801q
+rename since_we_last_spoke_801r m4_801r
+rename specify_what_you_get_801 m4_801r_other 
+
+rename q802_baby1_iron m4_802a_1
+rename q802_baby2_iron_m4 m4_802a_2
+rename q802_baby3_iron_m4 m4_802a_3 
+
+rename q802_baby1_vita_m4 m4_802b_1
+rename q802_baby2_vita_m4 m4_802b_2
+rename q802_baby3_vita_m4 m4_802b_3
+
+rename q802_baby1_vitd_m4 m4_802c_1
+rename q802_baby2_vitd_m4 m4_802c_2
+rename q802_baby3_vitd_m4 m4_802c_3
+
+rename q802_ors_baby1_m4 m4_802d_1
+rename q802_ors_baby2_m4 m4_802d_2
+rename q802_ors_baby3_m4 m4_802d_3
+
+rename q802_baby1_antiseptic_m4 m4_802e_1
+rename q802_baby2_antiseptic_m4 m4_802e_2
+rename q802_baby3_antiseptic_m4 m4_802e_3
+
+rename q802_abx_baby1_m4 m4_802f_1
+rename q802_abx_baby2_m4 m4_802f_2
+rename q802_abx_baby3_m4 m4_802f_3
+
+rename q802_pneummed_baby1_m4 m4_802g_1
+rename q802_pneummed_baby2_m4 m4_802g_2
+rename q802_pneummed_baby3_m4 m4_802g_3
+
+rename q802_baby1_malmed_m4 m4_802h_1
+rename q802_baby2_malmed_m4 m4_802h_2
+rename q802_baby3_malmed_m4 m4_802h_3
+
+rename q802_baby1_hivmed_m4 m4_802i_1
+rename q802_baby2_hivmed_m4 m4_802i_2
+rename q802_baby3_hivmed_m4 m4_802i_3
+
+rename q802_othermed_baby1_m4 m4_802j_1
+rename q803_othermedspec_baby1_m4 m4_802j_1_other
+
+rename q802_othermed_baby2_m4 m4_802j_2
+rename q803_othermedspec_baby2_m4 m4_802j_2_other
+
+rename q802_othermed_baby3_m4 m4_802j_3
+rename q803_othermedspec_baby3_m4 m4_802j_3_other
+
+rename q803_bcg_baby1_m4 m4_803a_1
+rename q803_bcg_baby2_m4 m4_803a_2
+rename q803_bcg_baby3_m4 m4_803a_3
+
+rename q803_polio_baby1_m4 m4_803b_1
+rename q803_polio_baby2_m4 m4_803b_2
+rename q803_polio_baby3_m4 m4_803b_3
+
+rename q803_penta_baby1_m4 m4_803c_1
+rename q803_penta_baby2_m4 m4_803c_2
+rename q803_penta_baby3_m4 m4_803c_3
+
+rename q803_pneumococcal_baby1_m4 m4_803d_1
+rename q803_pneumococcal_baby2_m4 m4_803d_2
+rename q803_pneumococcal_baby3_m4 m4_803d_3
+
+rename q803_rotavirus_baby1_m4 m4_803e_1
+rename q803_rotavirus_baby2_m4 m4_803e_2
+rename q803_rotavirus_baby3_m4 m4_803e_3
+
+rename q803_othervax_baby1_m4 m4_803f_1
+rename q803_othervax_baby2_m4 m4_803f_2
+rename q803_othervax_baby3_m4 m4_803f_3
+
+rename q804_othervaxspec_baby1_m4 m4_803g_1
+rename q804_othervaxspec_baby2_m4 m4_803g_2
+rename q804_othervaxspec_baby3_m4 m4_803g_3
+
+rename q804_vaxloc_baby1_m4 m4_804_1
+rename q804_vaxloc_baby2_m4 m4_804_2
+rename q804_vaxloc_baby3_m4 m4_804_3 
+
+rename in_total_how_much_did_805 m4_805
+rename q901_oop_m4 m4_901 
+rename q902_registration_m4 m4_902a
+rename money_did_you_spend_registration m4_902a_amt
+rename q902_tests_m4 m4_902b
+rename how_much_money_did_903a m4_902b_amt
+rename q902_transport_m4 m4_902c
+rename how_much_money_did_902c m4_902c_amt
+rename q902_food_m4 m4_902d
+rename how_much_money_did_you_902d m4_902d_amt
+rename did_you_spend_money_902e m4_902e
+rename how_much_money_did_you_902e m4_902e_amt
+rename so_how_much_in_total_903 m4_903
+rename so_how_much_in_total_904 m4_904
+
+rename m4_905___1 m4_905_1
+rename m4_905___2 m4_905_2
+rename m4_905___3 m4_905_3
+rename m4_905___4 m4_905_4
+rename m4_905___5 m4_905_5
+rename m4_905___6 m4_905_6
+rename m4_905___96 m4_905_96
+rename m4_905___998 m4_905_998
+rename m4_905___999 m4_905_999
+rename m4_905___888 m4_905_888
+rename specify_other_sources_of_905 m4_905_other 
+rename outcme_of_the_phone_call m4_ot1
+rename specify_other_sources_of_906 m1_ot1_oth
+
+rename conclusion_dead_baby_m4 m4_conclusion_dead_baby // 2-12 SS: double check this has value labels below (same with m4_conclusion_live_babies)
 		
 *------------------------------------------------------------------------------*
 
