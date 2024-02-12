@@ -1,6 +1,6 @@
 * Ethiopia ECohort Data Cleaning File 
-* Created by K. Wright, S. Sabwa, C. Arsenault 
-* Updated: July 24 2023 
+* Created by K. Wright, S. Sabwa, C. Arsenault, E. Clarke-Deedler
+* Last Updated: Feb 12 2024
 
 *------------------------------------------------------------------------------*
 
@@ -49,7 +49,7 @@ drop m4_attempt_date-maternal_integrated_cards_comple
 		sort record_id order_redcap
 		
 		*2) Add any new vars here:
-		by record_id: carryforward hiv_status_109_m2 what_was_the_result_of_hiv module_1_baseline_face_to_face_e, replace
+		by record_id: carryforward hiv_status_109_m2 what_was_the_result_of_hiv module_1_baseline_face_to_face_e how_many_babies_do_you_303a, replace
 
 		
 			*Further cleaning of incomplete surveys:
@@ -73,11 +73,11 @@ drop m2_attempt_avail m2_attempt_bestnumber m2_attempt_contact m2_attempt_date m
 
 *------------------------------------------------------------------------------*
 	* STEPS: 
-		* STEP ONE: RENAME VARIABLES (starts at: line 29)
-		* STEP TW0: ADD VALUE LABELS/FORMATTING (starts at: line 214)
-		* STEP THREE: RECODING MISSING VALUES (starts at: line 903)
-		* STEP FOUR: LABELING VARIABLES (starts at: line 1688)
-		* STEP FIVE: ORDER VARIABLES (starts at: line 2379)
+		* STEP ONE: RENAME VARIABLES
+		* STEP TW0: ADD VALUE LABELS/FORMATTING
+		* STEP THREE: RECODING MISSING VALUES
+		* STEP FOUR: LABELING VARIABLES
+		* STEP FIVE: ORDER VARIABLES
 		* STEP SIX: SAVE DATA
 
 *------------------------------------------------------------------------------*
