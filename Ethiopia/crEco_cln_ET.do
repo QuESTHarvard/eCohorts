@@ -9,25 +9,8 @@ clear all
 
 *--------------------DATA FILE:
 import delimited using "$et_data/05Jan2024.csv", clear
-
-*---------------------
-
-** FOR STATISTICS OF COMPLETED SURVEYS:
-tab redcap_event_name
-tab redcap_repeat_instance
-
-keep if redcap_event_name == "module_1_arm_1" | redcap_event_name == "module_2_arm_1" | redcap_event_name == "module_3_arm_1" 
-		
-* filter for eligible participants only:
-recode is_the_respondent_eligible (. = .a) if redcap_event_name != "module_1_arm_1" // N =17 missing answer to eligiblity
-
-keep if is_the_respondent_eligible == 1 | is_the_respondent_eligible == .a | is_the_respondent_eligible == .
-
 gen country = "Ethiopia"
-
-*** Dropping M5 for cleaning purposes:
-drop ic_may_i_proceed_with_the-maternal_integrated_cards_comple
-
+*---------------------		
 ** Carryforward command: 
 
 		*1) Creating order (do not edit)
@@ -49,11 +32,16 @@ drop ic_may_i_proceed_with_the-maternal_integrated_cards_comple
 		sort record_id order_redcap
 		
 		*2) Add any new vars here:
-		by record_id: carryforward hiv_status_109_m2 what_was_the_result_of_hiv module_1_baseline_face_to_face_e how_many_babies_do_you_303a, replace
+		by record_id: carryforward hiv_status_109_m2 what_was_the_result_of_hiv module_1_baseline_face_to_face_e ///
+								   how_many_babies_do_you_303a is_the_respondent_eligible ///
+								   module_1_baseline_face_to_face_e, replace
 
-		
-			*Further cleaning of incomplete surveys:
+*---------------------
+* Filter for eligible participants only at module 1:
+*recode is_the_respondent_eligible (. = .a) if redcap_event_name != "module_1_arm_1" // N =17 missing answer to eligiblity
+keep if is_the_respondent_eligible == 1 & module_1_baseline_face_to_face_e ==2
 
+*Further cleaning of incomplete surveys:
 drop if record_id == "1" | record_id == "2" | record_id == "3" | ///
 		record_id == "4" | record_id == "5" | record_id == "6" | ///
 		record_id == "7" | record_id == "8" | record_id == "9" | ///
@@ -71,6 +59,9 @@ drop if module_1_baseline_face_to_face_e == 0
 *drop m2_complete (not useful) and drop call tracking questions/module (also not useful) - 1/24
 drop m2_attempt_avail m2_attempt_bestnumber m2_attempt_contact m2_attempt_date m2_attempt_goodtime m2_attempt_other m2_attempt_outcome m3_attempt_outcome m3_attempt_outcome_p2 m3_attempt_date m3_attempt_outcome2 module_2_phone_surveys_prenatal_
 
+*** Dropping M5 for cleaning purposes:
+drop ic_may_i_proceed_with_the-maternal_integrated_cards_comple		
+		
 *------------------------------------------------------------------------------*
 	* STEPS: 
 		* STEP ONE: RENAME VARIABLES
