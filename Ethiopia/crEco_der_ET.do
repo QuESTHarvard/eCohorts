@@ -127,18 +127,6 @@ u "$et_data_final/eco_m1-m3_et.dta", clear
 			egen specialist_hosp= rowmax(m1_724e m1_724c) 
 *------------------------------------------------------------------------------*	
 	* SECTION 8: CURRENT PREGNANCY
-			/* Gestational age at ANC1
-			Here we should recalculate the GA based on LMP (m1_802c and self-report m1_803 */
-			
-			*calculating GA - confirm with Catherine/Kate: 
-			
-			*this part needs to go into cleaning file - remove once that file is updated
-			gen ga = m1_802d_et 
-			replace ga = m1_803 if ga == . // ga based reported LMP or self report of weeks pregnant 
-			
-			recode ga (1/12.99999 = 1) (13/26.99999= 2) (27/50=3), gen(trimester)
-			lab def trimester2 1"1st trimester 0-12wks" 2"2nd trimester 13-26 wks" 3 "3rd trimester 27-42 wks"
-			lab val trimester trimester2 
 			
 			gen preg_intent = m1_807
 			* Reports danger signs
