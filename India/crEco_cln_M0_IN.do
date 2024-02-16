@@ -9,7 +9,7 @@ clear all
 
 *--------------------DATA FILE:
 
-import delimited "$in_data/FacilitySurvey_2024_01_20", clear
+import delimited "$in_data/FacilitySurvey_2024_01_20.dta", clear
 
 *------------------------------------------------------------------------------*
 	* STEPS: 
