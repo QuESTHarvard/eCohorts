@@ -6,15 +6,15 @@ global data "Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts 
 *------------------------------------------------------------------------------*
 * ETHIOPIA
 
-u "$user/$data/Ethiopia/02 recoded data/eco_m1m2_et_der.dta", clear	
-	keep if b7eligible==1  & m1_complete==2 // keep baseline data only
+u "$user/$data/Ethiopia/02 recoded data/eco_m1_et_der.dta", clear	
+	keep if redcap_event_name=="module_1_arm_1"
 	egen tag=tag(facility)
 	
 * ANC quality
-	gen ultrasound = anc1ultrasound if trimester>2 & trimester<.
-	gen edd = anc1edd if trimester>1 & trimester<.
-	gen calcium = anc1calcium if trimester>1 & trimester<.
-	gen deworm = anc1deworm if trimester>1 & trimester<.
+	gen ultrasound = anc1ultrasound if trimester>2 & trimester<. // 3rd trimester only
+	gen edd = anc1edd if trimester>1 & trimester<. // 2nd,3rd trimester only
+	gen calcium = anc1calcium if trimester>1 & trimester<. // 2nd,3rd trimester only
+	gen deworm = anc1deworm if trimester>1 & trimester<. // 2nd,3rd trimester only
 	gen tt= anc1tt
 	replace tt =. if  m1_714c>=5 &  m1_714c<98 // had 5 or more previous lifetime doses
 	replace tt =. if  m1_714c>=4 &  m1_714c<98 & m1_714e <=10 // had 4 or more incl. 1 in last 10 years
@@ -24,15 +24,16 @@ u "$user/$data/Ethiopia/02 recoded data/eco_m1m2_et_der.dta", clear
 			
 	egen anc1qual= rowmean(anc1bp anc1weight anc1height anc1muac anc1blood ///
 		anc1urine ultrasound anc1lmp anc1depression anc1danger_screen previous_preg ///
-		counsel_nutri counsel_exer counsel_complic counsel_birthplan edd ///
-		counsel_comeback anc1ifa calcium deworm tt anc1itn)
+		m1_counsel_nutri m1_counsel_exer m1_counsel_complic m1_counsel_birthplan edd ///
+		m1_counsel_comeback anc1ifa calcium deworm tt anc1itn)
+	
 	replace anc1qual = anc1qual*100
 	
 		egen phys_exam=rowmean(anc1bp anc1weight anc1height anc1muac)
 		egen diag=rowmean(anc1blood anc1urine ultrasound)
 		egen hist= rowmean(anc1lmp anc1depression anc1danger_screen previous_preg)
-		egen counsel=rowmean(counsel_nutri counsel_exer counsel_complic counsel_birthplan edd ///
-		counsel_comeback)
+		egen counsel=rowmean(m1_counsel_nutri m1_counsel_exer m1_counsel_complic m1_counsel_birthplan edd ///
+		m1_counsel_comeback)
 		egen tx=rowmean(anc1ifa calcium deworm tt anc1itn)
 	
 	xtile group_anc1qual=anc1qual, nquantiles(4)
@@ -47,9 +48,9 @@ u "$user/$data/Ethiopia/02 recoded data/eco_m1m2_et_der.dta", clear
 	| m1_203_other=="Hemorrhoids"  | m1_203_other=="Sinus" | m1_203_other=="Sinuse" ///
 	| m1_203_other=="Sinusitis" | m1_203_other=="gastric"
 	egen chronic = rowmax(m1_202a m1_202b m1_202c m1_202d m1_202e  m1_202g_et m1_203_et)
-	replace chronic=1 if HBP==1
-	rename malnutrition maln_underw
-	rename anemic_11 anemic
+	replace chronic=1 if m1_HBP==1
+	rename m1_malnutrition maln_underw
+	rename m1_anemic_11 anemic
 	
 	egen ipv=rowmax(m1_1101 m1_1103)
 	
@@ -65,15 +66,13 @@ u "$user/$data/Ethiopia/02 recoded data/eco_m1m2_et_der.dta", clear
 	
 * Demographics
 	gen second=educ_cat>=3
-	gen minority= m1_507
-	recode minority (1 2 4=0) (3 5 96=1) // protestants, indigenous & other
 	gen age_cat=enrollage
 	recode age_cat 15/19=1 20/35=2 36/60=3
 	lab def age_cat 1"15-19yrs" 2"20-35 yrs" 3 "36+yrs"
 	lab val age_cat age_cat
 	gen young= age_cat==1
 	gen older=age_cat==3
-	gen healthlit_corr=health_lit==4
+	gen healthlit_corr=m1_health_lit==4
 
 * Visit-level
 	encode date_m1, gen(month)
@@ -94,7 +93,7 @@ u "$user/$data/Ethiopia/02 recoded data/eco_m1m2_et_der.dta", clear
 	
 egen risk_score =rowtotal(young older multiple m1_202a m1_202b m1_202c m1_202d m1_202e  ///
 							m1_202g_et m1_203_et  stillbirth neodeath preterm PPH cesa ///
-							maln_underw anemic m1_814a m1_814b m1_814c m1_814d m1_814f m1_814g HBP )
+							maln_underw anemic m1_814a m1_814b m1_814c m1_814d m1_814f m1_814g m1_HBP )
 	g crisk=risk_score
 	recode risk_score 4/7=3
 save "$user/$analysis/ETtmp.dta", replace
@@ -270,30 +269,36 @@ u  "$user/$data/South Africa/02 recoded data/eco_m1_za_der.dta", clear
 		
 save "$user/$analysis/ZAtmp.dta", replace
 
-/*------------------------------------------------------------------------------*
+*------------------------------------------------------------------------------*
 * INDIA
-
 u "$user/$data/India/02 recoded data/eco_m1_in_der.dta", clear	
 
 * ANC quality
-		gen edd = anc1edd if trimester>1 & trimester<.
-		gen ultra =anc1ultrasound if trimester>2 & trimester<.
-		gen calcium = anc1calcium if trimester>1 & trimester<.
+		gen edd = anc1edd if trimester>1 & trimester<.  // 2nd or 3rd trimester only
+		gen ultra =anc1ultrasound if trimester>2 & trimester<. // 3rd trimester only
+		gen calcium = anc1calcium if trimester>1 & trimester<. // 2nd or 3rd trimester only
 		gen tt= anc1tt
 		replace tt =. if  m1_714c>=5 &  m1_714c<98 // had 5 or more previous lifetime doses
 		replace tt =. if  m1_714c>=4 &  m1_714c<98 & m1_714e <=10 // had 4 or more incl. 1 in last 10 years
 		replace tt =. if  m1_714c>=3 &  m1_714c<98 & m1_714e <=5 // had 3 or more incl. 1 in last 5 years
 		replace tt =. if  m1_714c>=2 &  m1_714c<98 & m1_714e <=3 // had 2 or more incl. 1 in last 3 years
+		
 		g previous_preg=m1_1011a 
 
-		egen anc1qual= rowmean(anc1bp anc1weight  anc1blood ///
+		egen anc1qual= rowmean(anc1bp anc1weight anc1blood ///
 		anc1urine ultra anc1lmp  previous_preg counsel_nutri  counsel_complic counsel_birthplan edd ///
-		counsel_comeback anc1ifa anc1deworm calcium tt )
+		counsel_comeback anc1ifa calcium anc1deworm tt )
+		
 		replace anc1qual = anc1qual*100
 		
+		egen phys_exam=rowmean(anc1bp anc1weight)
+		egen diag=rowmean(anc1blood anc1urine ultra )
+		egen hist= rowmean(anc1lmp previous_preg)
+		egen counsel=rowmean(counsel_nutri  counsel_complic counsel_birthplan edd counsel_comeback)
+		egen tx=rowmean(anc1ifa calcium anc1deworm tt )
+
 		egen ipv=rowmax(m1_1101 m1_1103)
 
-		
 * Medical risk factors
 		egen chronic= rowmax(m1_202a m1_202b m1_202c m1_202d m1_202e m1_203)
 		replace chronic=1 if HBP==1

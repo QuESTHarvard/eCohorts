@@ -3,7 +3,7 @@
 * C Arsenault
 
 /*
-	This file creates derived variables for analysis from the MNH ECohorts Kenya dataset. 
+	This file creates derived variables for analysis from the MNH ECohorts India dataset. 
 */
 
 u "$in_data_final/eco_m1_in.dta", clear
@@ -128,16 +128,20 @@ u "$in_data_final/eco_m1_in.dta", clear
 *------------------------------------------------------------------------------*	
 	* SECTION 8: CURRENT PREGNANCY
 			egen dangersigns = rowmax(m1_814a m1_814b m1_814c m1_814d m1_814f m1_814g)
-
-			/*gen ga = gest_age
-			replace ga = . if gest_age<1 | gest_age> 40
+	
+	* THE BELOW IS NOT CORRECT! WAITING FOR SHALOM TO ADJUST
+			gen m1_ga = gest_age
+			replace m1_ga = . if gest_age<1 | gest_age> 40 
 			
 			gen trimester = m1_804
-			replace trimester =. if trimester<1 | trimester >3 */
+			replace trimester =. if trimester<1 | trimester >3 
+			*brow gestational_age gestational_age_1 gest_age  m1_803a_in m1_803b_in m1_804 
 
 			* Asked about LMP
 			gen anc1lmp= m1_806
 			
+	* WAITING TO HEAR BACK ABOUT THESE DANGER SIGN VARIABLES
+	
 			/* Screened for danger signs 
 			egen anc1danger_screen = rowmax(m1_815a_1_in m1_815a_2_in m1_815a_3_in ///
 			m1_815a_4_in m1_815a_5_in m1_815a_6_in m1_815a_96_in m1_815b_1_in m1_815b_2_in m1_815b_3_in ///
@@ -152,7 +156,8 @@ u "$in_data_final/eco_m1_in.dta", clear
 	
 			replace anc1danger_screen= 0 if m1_815a_0_in==1 | m1_815b_0_in==1 |  ///
 				m1_815c_0_in==1 |  m1_815d_0_in==1 |  m1_815e_0_in==1 |  m1_815f_0_in==1 ///
-				| m1_815g_0_in==1 | m1_815h_0_in==1 
+				| m1_815g_0_in==1 | m1_815h_0_in==1
+				
 			replace anc1danger_screen =  m1_816 if anc1danger_screen==.a | ///
 				anc1danger_screen==. | anc1danger_screen==.d */
 				
