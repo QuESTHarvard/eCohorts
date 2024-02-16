@@ -116,8 +116,6 @@ rename (Q1303a Q1303b Q1303c Q1304a Q1304b Q1304c Q1305a Q1305b Q1305c Q1306 Q13
 	   bp_time_2_diastolic time_2_pulse_rate bp_time_3_systolic bp_time_3_diastolic pulse_rate_time_3 ///
 	   m1_1306 m1_1307 m1_1308 m1_1309 m1_1401)
 
-rename Gestational_age_new m1_804 //Q804 not in the dataset 
-
 rename PHQ2 m1_phq2_score
 
 rename (Q1102_1 Q1102_2 Q1102_3 Q1102_4 Q1102_5 Q1102_6 Q1102_7 Q1102_8 Q1102_9 Q1102_10 Q1102_96 ///
@@ -183,11 +181,34 @@ rename end m1_end_time
 
 *------------------------------------------------------------------------------*
 
+*fixing GA calculation:
+//change date format
+gen Date_of_interview = date(date_m1,"DMY")
+format Date_of_interview %td
+
+gen estimated_delivery_date = date(m1_802_date_in,"DMY")
+format estimated_delivery_date %td
+
+//Trimester calculation
+*drop already existing vars:
+drop gestational_age gestational_age_1 gest_age Gestational_age_new
+
+gen gestational_age = 40-((estimated_delivery_date - Date_of_interview)/7)
+gen gestational_age_1 =((m1_803a_in*4)+ m1_803b_in)
+gen gest_age = gestational_age
+replace gest_age = gestational_age_1 if gestational_age==.
+ta gest_age
+
+recode gest_age (0/12.9999=1 "Trimester 1") (12/27.9999=2 "Trimester 2") (28/40=3 "Trimester 3"), gen (Gestational_age_new)
+
+rename Gestational_age_new m1_804 //Q804 not in the dataset 
+
+*------------------------------------------------------------------------------*
+
 * dropping unncessary vars:
 
 drop SubmissionDate calc_start_time Calc_weeks_remaining_1 Calc_weeks_remaining_2 Calc_weeks_remaining ///
-	 start 
-	 *gest_age gestational_age gestational_age_1
+	 start gest_age gestational_age gestational_age_1
 
 *===============================================================================
 	
