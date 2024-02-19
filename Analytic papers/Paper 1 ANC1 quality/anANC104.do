@@ -7,6 +7,7 @@ global data "Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts 
 
 *------------------------------------------------------------------------------*	
 * APPENDING COUNTRIES FOR GRAPHS
+
 u "$user/$analysis/ETtmp.dta", clear
 recode site 2=0 // 0 ES 1 Adama
 save "$user/$analysis/allcountrytmp.dta", replace
@@ -17,10 +18,10 @@ lab drop a4
 append using "$user/$analysis/allcountrytmp.dta", force
 save "$user/$analysis/allcountrytmp.dta", replace
 
-/*u "$user/$analysis/INtmp.dta", clear
+u "$user/$analysis/INtmp.dta", clear
 recode state 1=4 2=5, g(site) // 4 Sonipat 5 Jodhpur
 append using "$user/$analysis/allcountrytmp.dta", force
-save "$user/$analysis/allcountrytmp.dta", replace*/
+save "$user/$analysis/allcountrytmp.dta", replace
 
 u "$user/$analysis/ZAtmp.dta", clear 
 recode site 1=7 2=6
@@ -29,26 +30,28 @@ append using "$user/$analysis/allcountrytmp.dta", force
 
 lab def site 0"East Shewa" 1"Adama" 2"Kitui" 3"Kiambu" 4"Sonipat" 5"Jodhpur" 6 "Nongoma" 7 "uMhlathuze", modify
 lab val site site
+
+encode country, gen(co)
+recode co 2=3 3=2
+lab def co 1"Ethiopia" 2"Kenya" 3"India" 4"South Africa", replace
+lab val co co 
 save "$user/$analysis/allcountrytmp.dta", replace
 *------------------------------------------------------------------------------*
-* BAR GRAPH BY CATEGORY AND SITE
+* FIG 1. BAR GRAPH BY CATEGORY AND SITE
 
 foreach v in phys_exam diag hist counsel tx{
 	replace `v'=`v'*100
 }
 
-graph bar phys_exam diag hist counsel tx, over(country) ylabel(0(20)100, labsize(small)) ///
+graph bar phys_exam diag hist counsel tx, over(co) ylabel(0(20)100, labsize(small)) ///
 		ytitle("Completeness of care %") asyvars  scheme(white_tableau)  ///
 		 blabel(bar, size(vsmall) position(outside) format(%2.1g)) ///
 		 legend(order(1 "Physical examinations" 2 "Diagnostic tests" 3 "History taking and screening" ///
 		 4 "Counselling" 5 "Preventive treatments or supplements") rows(2) position(12) size(small) )
 
 
-
-
-
 *------------------------------------------------------------------------------*
-* BOXPLOT BY SITE
+* FIG 2. ANC1 QUALITY BOXPLOT BY SITE
 
 keep anc1qual site
 

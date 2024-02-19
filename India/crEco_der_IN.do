@@ -60,6 +60,16 @@ u "$in_data_final/eco_m1_in.dta", clear
 			lab val educ_cat educ_cat
 			
 			recode m1_505 (1/4=0) (5/6=1), gen(marriedp) 
+			
+			recode m1_509b 0=1 1=0, g(mosquito)
+			recode m1_510b 0=1 1=0, g(tbherb)
+			recode m1_511 2=1 1=0 3/4=0, g(drink)
+			recode m1_512 2=1 1=0 3=0, g(smoke)
+			
+			egen m1_health_literacy=rowtotal(m1_509a mosquito m1_510a tbherb drink smoke), m
+			recode m1_health_literacy 0/3=1 4=2 5=3 6=4
+			lab def health_lit 1"Poor" 2"Fair" 3"Good" 4"Very good"
+			lab val m1_health_lit health_lit
 
 *------------------------------------------------------------------------------*	
 	* SECTION 6: USER EXPERIENCE
