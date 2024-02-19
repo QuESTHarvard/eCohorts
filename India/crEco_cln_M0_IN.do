@@ -9,7 +9,7 @@ clear all
 
 *--------------------DATA FILE:
 
-import delimited "$in_data/FacilitySurvey_2024_01_20.dta", clear
+use "$in_data/FacilitySurvey_2024_01_20.dta", clear
 
 *------------------------------------------------------------------------------*
 	* STEPS: 
@@ -22,8 +22,12 @@ import delimited "$in_data/FacilitySurvey_2024_01_20.dta", clear
 
 *------------------------------------------------------------------------------*
 
+drop SubmissionDate
+
 	* STEP ONE: RENAME VARAIBLES
-rename () ()
+rename A9 m0_gps_in
+
+rename (A1 A4 A5 A7 A2 A2_other) (m0_a1_date m0_a1_time m0_a4_site m0_id m0_facility m0_facility_other)
 	
 
 	* STEP TWO: ADD VALUE LABELS		                  
