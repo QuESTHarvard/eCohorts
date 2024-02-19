@@ -1,5 +1,3 @@
-
-
 * ETHIOPIA
 u "$user/$analysis/ETtmp.dta", clear
 cd "$user/$analysis"
@@ -17,6 +15,11 @@ global qualvarsET anc1bp anc1weight anc1height anc1muac anc1blood ///
 		summtab , contvars(enrollage ) catvars(second healthlit_corr young tertile marriedp ///
 		poorhealth depression_cat  m1_dangersigns primipara preg_intent trimester) mean by(site) excel ///
 		excelname(Table2) sheetname(ETH_demog) replace 
+		
+	* Fig 3 risk factors		
+		summtab , catvars(lvl_anemia chronic maln_underw overweight complic) mean by(site) excel ///
+		excelname(Fig3) sheetname(ETH_risk) replace 
+
 		
 	/* Table 3 Facility characteristics
 		summtab if tag==1, catvars(private facsecond ftdoc) contvars (sri_basicamenities ///
@@ -41,7 +44,11 @@ global qualvarsKE anc1bp anc1weight anc1height anc1muac anc1blood ///
 * Table 2 Demog & health 		
 		summtab , contvars(enrollage) catvars(second healthlit_corr young tertile marriedp ///
 		poorhealth depression_cat  dangersigns primipara preg_intent trimester) mean by(site) excel ///
-		excelname(Table2) sheetname(ETH_demog) replace 
+		excelname(Table2) sheetname(KEN_demog) replace 
+		
+	* Fig 3 risk factors		
+		summtab , catvars(lvl_anemia chronic maln_underw overweight complic) mean by(site) excel ///
+		excelname(Fig3) sheetname(KEN_risk) replace 
 		
 	/* Table 3 Facility characteristics
 		summtab if tag==1, catvars(private facsecond ftdoc) contvars (sri_basicamenities ///
@@ -82,7 +89,11 @@ global qualvarsZA anc1bp anc1weight anc1height anc1muac anc1blood ///
 * Table 2 Demog & health 		
 		summtab , contvars(enrollage) catvars(second healthlit_corr young tertile marriedp ///
 		poorhealth depression_cat  dangersigns primipara preg_intent trimester) mean by(site) excel ///
-		excelname(Table2) sheetname(ETH_demog) replace 
+		excelname(Table2) sheetname(ZAF_demog) replace 
+		
+	* Fig 3 risk factors		
+		summtab , catvars(lvl_anemia chronic maln_underw overweight complic) mean by(site) excel ///
+		excelname(Fig3) sheetname(ZAF_risk) replace 
 		
 		/* Table 3 Facility characteristics
 		summtab if tag==1, catvars(private facsecond ftdoc) contvars (sri_basicamenities ///
@@ -120,5 +131,15 @@ global qualvarsIND anc1bp anc1weight anc1blood ///
 		tabstat  $qualvarsIND if state==2, stat(mean count) col(stat) // Jodhpur
 		tabstat anc1qual, by(state) stat(mean p50 sd)
 		
+* Table 2 Demog & health 		
+		summtab , contvars(enrollage) catvars(second healthlit_corr young tertile marriedp ///
+		poorhealth depression_cat  dangersigns primipara preg_intent trimester) mean by(state) excel ///
+		excelname(Table2) sheetname(IND_demog) replace 
+		
+* Fig 3 risk factors		
+		summtab , catvars(lvl_anemia chronic maln_underw overweight complic) mean by(state) excel ///
+		excelname(Fig3) sheetname(IND_risk) replace 
+	
+	
 	
 
