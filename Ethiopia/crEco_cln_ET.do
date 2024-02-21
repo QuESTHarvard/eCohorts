@@ -34,7 +34,7 @@ gen country = "Ethiopia"
 		*2) Add any new vars here:
 		by record_id: carryforward hiv_status_109_m2 what_was_the_result_of_hiv module_1_baseline_face_to_face_e ///
 								   how_many_babies_do_you_303a is_the_respondent_eligible ///
-								   module_1_baseline_face_to_face_e, replace
+								   module_1_baseline_face_to_face_e date_of_interview_m1, replace
 
 *---------------------
 * Filter for eligible participants only at module 1:
@@ -80,7 +80,7 @@ drop ic_may_i_proceed_with_the-module_5_end_line_facetoface_sur
 	
 	rename record_id redcap_record_id
 	rename (study_id interviewer_id date_of_interview_m1 time_of_interview_m1) ///
-	       (study_id interviewer_id date_m1 m1_start_time)
+	       (study_id interviewer_id m1_date m1_start_time)
 	rename study_site_a4 study_site
 	rename other_study_site_a4 study_site_sd
 	rename facility_name_a5 facility
@@ -1177,28 +1177,76 @@ drop m2_drop
 
 
 *===============================================================================
-* Fixing gestational age (moved from derived vars)
+* Fixing gestational age:
 /* Gestational age at ANC1:
 			Here we should recalculate the GA based on LMP (m1_802c and self-report m1_803 */
 			gen m1_ga = m1_802d_et // GA based on LNMP
 			recode m1_803 98=.
 			replace m1_ga = m1_803 if m1_ga == . // ga based on self report of weeks pregnant if LMP not known
+			lab var m1_ga "Gestional age based on LNMP (calc)"
 			
 			recode m1_ga (1/12.99999 = 1) (13/26.99999= 2) (27/50=3), gen(trimester)
 			lab def trimester2 1"1st trimester 0-12wks" 2"2nd trimester 13-26 wks" 3 "3rd trimester 27-42 wks"
 			lab val trimester trimester2 	
 			
-			
+			*Carryfoward:
+			by redcap_record_id: carryforward m1_ga m1_803, replace
+				
 * Gestational age at follow-ups M2-M3:
 	* First, dropping ga vars from redcap (both LNMP and maternal estimation):
 	* raw var names: m2_107 m2_107b_ga m3_ga1 ga_birth_mat_estimated
 	drop m2_ga m2_ga_estimate m3_ga1 m3_ga2
 	
 	* Recalculated gestational age (Gestational age @ ANC1 + weeks since ANC1):
-		*calculate weeks since ANC1:
+		*format date vars:
+		*Date of M1
+		gen _m1_date_ = date(m1_date,"YMD")
+		drop m1_date
+		rename _m1_date_ m1_date
+		format m1_date %td	
 		
+		*Date of M2
+		gen _m2_date_ = date(m2_date,"YMD")
+		drop m2_date
+		rename _m2_date_ m2_date
+		format m2_date %td
 	
+		*Date of M3
+		gen _m3_date_ = date(m3_date,"YMD")
+		drop m3_date
+		rename _m3_date_ m3_date
+		format m3_date %td
+		
+		*calculate weeks since ANC1:
+		*M2 (need last date):
+		by redcap_record_id: egen m2_lastdate = max(m2_date)
+		format m2_lastdate %td
+		
+		generate time_between_m1m2 = (m2_lastdate - m1_date)/7
+		format time_between_m1m2
+		
+		generate time_between_m1m3 = (m3_date - m1_date)/7
+		
+		*New gestational age vars:
+		
+		generate m2_ga = m1_ga + time_between_m1m2
+		generate m3_ga = m1_ga + time_between_m1m3
 	
+		drop time_between_m1m2 time_between_m1m3 m2_lastdate
+		
+		*Extra cleaning from Emma's code:
+		* Recode birth dates with data entry errors
+		gen _m3_birth_or_ended_ = date(m3_birth_or_ended,"YMD")
+		drop m3_birth_or_ended
+		rename _m3_birth_or_ended_ m3_birth_or_ended
+		format m3_birth_or_ended %td
+		
+		replace m3_birth_or_ended = date("2023-11-29", "YMD") if redcap_record_id=="1712-65" // fixed year
+		replace m3_birth_or_ended = date("2023-12-30", "YMD") if redcap_record_id=="1686-21" // fixed year
+		replace m3_birth_or_ended = date("2023-12-25", "YMD") if redcap_record_id=="1697-40" // fixed year
+		replace m3_birth_or_ended = date("2023-12-28", "YMD") if redcap_record_id=="1707-38" // fixed year
+		replace m3_birth_or_ended = . if redcap_record_id=="1686-1" //date of birth was entered as being before the ANC1
+		
 *===============================================================================
 	
 	* STEP TWO: ADD VALUE LABELS 
@@ -2065,44 +2113,39 @@ label define m3_p2_outcome 1 "Completed respondent" 2 "Partially completed and s
 label values m3_p2_outcome m3_p2_outcome
 
 
-*Formatting dates/times:
-tostring m3_date, replace
-gen _date_ = date(m3_date,"YMD")
-drop m3_date
-rename _date_ m3_date
-format m3_date %dM_d,_CY	
+*Formatting dates/times:	
 
 gen double recm3_time = clock(m3_time, "hm") 
 format recm3_time %tc_HH:MM
 
 tostring m3_birth_or_ended, replace
-gen _date_ = date(m3_birth_or_ended,"YMD")
+gen _date1_ = date(m3_birth_or_ended,"YMD")
 drop m3_birth_or_ended
-rename _date_ m3_birth_or_ended
+rename _date1_ m3_birth_or_ended
 format m3_birth_or_ended %dM_d,_CY
 
 tostring m3_313a_baby1, replace
-gen _date_ = date(m3_313a_baby1,"YMD")
+gen _date2_ = date(m3_313a_baby1,"YMD")
 drop m3_313a_baby1
-rename _date_ m3_313a_baby1
+rename _date2_ m3_313a_baby1
 format m3_313a_baby1 %dM_d,_CY
 
 tostring m3_313a_baby2, replace
-gen _date_ = date(m3_313a_baby2,"YMD")
+gen _date3_ = date(m3_313a_baby2,"YMD")
 drop m3_313a_baby2
-rename _date_ m3_313a_baby2
+rename _date3_ m3_313a_baby2
 format m3_313a_baby2 %dM_d,_CY
 
 tostring m3_313a_baby3, replace
-gen _date_ = date(m3_313a_baby3,"YMD")
+gen _date4_ = date(m3_313a_baby3,"YMD")
 drop m3_313a_baby3
-rename _date_ m3_313a_baby3
+rename _date4_ m3_313a_baby3
 format m3_313a_baby3 %dM_d,_CY
 
 tostring m3_506a, replace
-gen _date_ = date(m3_506a,"YMD")
+gen _date5_ = date(m3_506a,"YMD")
 drop m3_506a
-rename _date_ m3_506a
+rename _date5_ m3_506a
 format m3_506a %dM_d,_CY
 
 /*
@@ -2114,15 +2157,15 @@ format m3_attempt_date %dM_d,_CY
 */
 
 tostring m3_p1_date_of_rescheduled, replace
-gen _date_ = date(m3_p1_date_of_rescheduled,"YMD")
+gen _date7_ = date(m3_p1_date_of_rescheduled,"YMD")
 drop m3_p1_date_of_rescheduled
-rename _date_ m3_p1_date_of_rescheduled
+rename _date7_ m3_p1_date_of_rescheduled
 format m3_p1_date_of_rescheduled %dM_d,_CY
 
 tostring m3_date_p2, replace
-gen _date_ = date(m3_date_p2,"YMD")
+gen _date8_ = date(m3_date_p2,"YMD")
 drop m3_date_p2
-rename _date_ m3_date_p2
+rename _date8_ m3_date_p2
 format m3_date_p2 %dM_d,_CY
 
 /*
@@ -2134,9 +2177,9 @@ format m3_attempt_outcome2 %dM_d,_CY
 */
 
 tostring m3_p2_date_of_rescheduled, replace
-gen _date_ = date(m3_p2_date_of_rescheduled,"YMD")
+gen _date9_ = date(m3_p2_date_of_rescheduled,"YMD")
 drop m3_p2_date_of_rescheduled
-rename _date_ m3_p2_date_of_rescheduled
+rename _date9_ m3_p2_date_of_rescheduled
 format m3_p2_date_of_rescheduled %dM_d,_CY
 
 gen double recm3_313b_baby1 = clock(m3_313b_baby1, "hm") 
@@ -3306,7 +3349,7 @@ recode m2_endstatus (. = .a) if m2_endtime == ""
 
 * MODULE 3:
 recode m3_permission (. = .a) if m3_start_p1 !=1
-recode m3_date recm3_time m3_birth_or_ended m3_ga1 m3_ga2 m3_303a (. = .a) if m3_permission !=1
+recode m3_date recm3_time m3_birth_or_ended m3_303a m3_ga (. = .a) if m3_permission !=1 // SS 2-21: removed m3_ga1 m3_ga2
 
 recode m3_303b (. = .a) if m3_303a == . | m3_303a == .a
 recode m3_303c (. = .a) if m3_303a == 1 | m3_303a == . | m3_303a == .a | m3_303a == .d | m3_303a == .r
@@ -3959,7 +4002,7 @@ label variable interviewer_id "Interviewer ID"
 
 	** MODULE 1:		
 
-lab var date_m1 "A2. Date of interview"
+lab var m1_date"A2. Date of interview"
 lab var m1_start_time "A3. Time of interview"
 lab var study_site "A4. Study site"
 lab var study_site_sd "A4_Other. Specify other study site"
@@ -4389,7 +4432,7 @@ label variable m2_date "102. Date of interview (D-M-Y)"
 label variable m2_time_start "103A. Time of interview started"
 label variable m2_maternal_death_reported "108. Maternal death reported"
 label variable m2_ga "107a. Gestational age at this call based on LNMP (in weeks)"
-label variable m2_ga_estimate "107b. Gestational age based on maternal estimation (in weeks)"
+*label variable m2_ga_estimate "107b. Gestational age based on maternal estimation (in weeks)"
 label variable m2_hiv_status "109. HIV status"
 label variable m2_date_of_maternal_death "110. Date of maternal death (D-M-Y)"
 label variable m2_maternal_death_learn "111. How did you learn about the maternal death?"
@@ -4625,8 +4668,8 @@ label variable m3_permission "CR1. Permission granted to conduct call"
 label variable m3_date "102. Date of interview (D-M-Y)"
 label variable m3_time "103A. Time of interview started"
 label variable m3_birth_or_ended "201a. On what date did you give birth or did the pregnancy end?"
-label variable m3_ga1 "201d. Gestational age at birth or end of pregnancy (based on LNMP)"
-label variable m3_ga2 "201e. Gestational age at birth or end of pregnancy (based on maternal estimation)"
+*label variable m3_ga1 "201d. Gestational age at birth or end of pregnancy (based on LNMP)"
+*label variable m3_ga2 "201e. Gestational age at birth or end of pregnancy (based on maternal estimation)"
 label variable m3_303a "301. If its ok with you, I would like to now ask some questions about the baby or babies. How many babies were you pregnant with?"
 label variable m3_303b "303a. Is the 1st baby alive?"
 label variable m3_303c "303b. Is the 2nd baby alive?"
@@ -5848,7 +5891,7 @@ drop first_name family_name phone_number m1_513b ///
 	 
 order m1_* m2_* m3_* m4_*, sequential
 
-order m2_start m2_date m2_date m2_permission m2_103 m2_time_start m2_maternal_death_reported m2_ga m2_ga_estimate m2_hiv_status ///
+order m2_start m2_date m2_date m2_permission m2_103 m2_time_start m2_maternal_death_reported m2_ga m2_hiv_status ///
 	 m2_date_of_maternal_death m2_maternal_death_learn m2_maternal_death_learn_other m2_111 m2_111_other m2_201,after(m1_end_time)
 
 order height_cm weight_kg bp_time_1_systolic bp_time_1_diastolic time_1_pulse_rate bp_time_2_systolic bp_time_2_diastolic time_2_pulse_rate bp_time_3_systolic bp_time_3_diastolic pulse_rate_time_3 muac m1_1306 m1_1307 m1_1309,after(m1_1223)
@@ -5856,7 +5899,7 @@ order height_cm weight_kg bp_time_1_systolic bp_time_1_diastolic time_1_pulse_ra
 order phq9a phq9b phq9c phq9d phq9e phq9f phq9g phq9h phq9i, after(m1_205e)
 
 order country redcap_record_id study_id interviewer_name_a7 redcap_event_name redcap_repeat_instrument redcap_repeat_instance ///
-	  redcap_data_access_group date_m1 m1_start_time country site study_site study_site_sd facility facility_other sampstrata ///
+	  redcap_data_access_group m1_date m1_start_time country site study_site study_site_sd facility facility_other sampstrata ///
 	  facility_type permission care_self site sampstrata study_site study_site_sd facility interviewer_id permission ///
 	  care_self zone_live b5anc b6anc_first b6anc_first_conf continuecare b7eligible respondentid mobile_phone ///
 	  flash kebele_malaria kebele_intworm
