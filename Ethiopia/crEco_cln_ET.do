@@ -1405,8 +1405,9 @@ label values m1_517 residence
 * Fixing gestational age (moved from derived vars)
 /* Gestational age at ANC1:
 			Here we should recalculate the GA based on LMP (m1_802c and self-report m1_803 */
-			gen m1_ga = m1_802d_et 
-			replace m1_ga = m1_803 if m1_ga == . // ga based reported LMP or self report of weeks pregnant 
+			gen m1_ga = m1_802d_et // GA based on LNMP
+			recode m1_803 98=.
+			replace m1_ga = m1_803 if m1_ga == . // ga based on self report of weeks pregnant if LMP not known
 			
 			recode m1_ga (1/12.99999 = 1) (13/26.99999= 2) (27/50=3), gen(trimester)
 			lab def trimester2 1"1st trimester 0-12wks" 2"2nd trimester 13-26 wks" 3 "3rd trimester 27-42 wks"

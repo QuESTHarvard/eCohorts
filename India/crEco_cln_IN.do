@@ -26,7 +26,6 @@ gen country = "India"
 		* STEP SIX: SAVE DATA
 *===============================================================================
 
-
 	* MERGE WITH DATASET CONTAINING STATE/URBAN/RURAL
 merge 1:1 Q103 using "$in_data/A4.dta"
 drop _merge

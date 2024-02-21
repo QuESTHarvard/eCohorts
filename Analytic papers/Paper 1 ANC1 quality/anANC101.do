@@ -5,8 +5,8 @@ u "$user/$analysis/ETtmp.dta", clear
 cd "$user/$analysis"
 global qualvarsET anc1bp anc1weight anc1height anc1muac anc1blood ///
 		anc1urine ultrasound anc1lmp anc1depression anc1danger_screen previous_preg ///
-		counsel_nutri counsel_exer counsel_complic counsel_birthplan edd ///
-		counsel_comeback anc1ifa calcium deworm tt anc1itn
+		m1_counsel_nutri m1_counsel_exer m1_counsel_complic m1_counsel_birthplan edd ///
+		m1_counsel_comeback anc1ifa calcium deworm tt anc1itn
 		
 	* Supp Table 1. ANC1 quality
 		tabstat  $qualvarsET if site==2, stat(mean count) col(stat) // East Shewa
@@ -137,3 +137,5 @@ global qualvarsZA anc1bp anc1weight anc1height anc1muac anc1blood ///
 		table quintile, stat(mean anc1qual)
 		table educ, stat(mean anc1qual)
 		
+*------------------------------------------------------------------------------*
+* INDIA		
