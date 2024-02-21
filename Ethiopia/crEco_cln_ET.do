@@ -60,7 +60,8 @@ drop if module_1_baseline_face_to_face_e == 0
 drop m2_attempt_avail m2_attempt_bestnumber m2_attempt_contact m2_attempt_date m2_attempt_goodtime m2_attempt_other m2_attempt_outcome m3_attempt_outcome m3_attempt_outcome_p2 m3_attempt_date m3_attempt_outcome2 module_2_phone_surveys_prenatal_
 
 *** Dropping M5 for cleaning purposes:
-drop ic_may_i_proceed_with_the-module_5_end_line_facetoface_sur		
+drop ic_may_i_proceed_with_the-module_5_end_line_facetoface_sur	
+
 		
 *------------------------------------------------------------------------------*
 	* STEPS: 
@@ -1172,8 +1173,32 @@ egen m2_drop = rowtotal(m2_201 m2_202 m2_203a m2_203b m2_203c m2_203d m2_203e m2
 
 drop if m2_drop == 0 & redcap_event_name == "module_2_arm_1"
 
-drop m2_drop		
+drop m2_drop	
+
+
+*===============================================================================
+* Fixing gestational age (moved from derived vars)
+/* Gestational age at ANC1:
+			Here we should recalculate the GA based on LMP (m1_802c and self-report m1_803 */
+			gen m1_ga = m1_802d_et // GA based on LNMP
+			recode m1_803 98=.
+			replace m1_ga = m1_803 if m1_ga == . // ga based on self report of weeks pregnant if LMP not known
+			
+			recode m1_ga (1/12.99999 = 1) (13/26.99999= 2) (27/50=3), gen(trimester)
+			lab def trimester2 1"1st trimester 0-12wks" 2"2nd trimester 13-26 wks" 3 "3rd trimester 27-42 wks"
+			lab val trimester trimester2 	
+			
+			
+* Gestational age at follow-ups M2-M3:
+	* First, dropping ga vars from redcap (both LNMP and maternal estimation):
+	* raw var names: m2_107 m2_107b_ga m3_ga1 ga_birth_mat_estimated
+	drop m2_ga m2_ga_estimate m3_ga1 m3_ga2
+	
+	* Recalculated gestational age (Gestational age @ ANC1 + weeks since ANC1):
+		*calculate weeks since ANC1:
 		
+	
+	
 *===============================================================================
 	
 	* STEP TWO: ADD VALUE LABELS 
@@ -1401,18 +1426,6 @@ label values m1_517 residence
 
 	label define insurance_type 1 "Community based health insurance" 2 "Employer-provided health insurance (reimbursement)" 3 "Private health insurance" 96 "Other (specify)" 98 "DK" 99 "NR/RF"
 	label values m1_1221 insurance_type
-	
-* Fixing gestational age (moved from derived vars)
-/* Gestational age at ANC1:
-			Here we should recalculate the GA based on LMP (m1_802c and self-report m1_803 */
-			gen m1_ga = m1_802d_et // GA based on LNMP
-			recode m1_803 98=.
-			replace m1_ga = m1_803 if m1_ga == . // ga based on self report of weeks pregnant if LMP not known
-			
-			recode m1_ga (1/12.99999 = 1) (13/26.99999= 2) (27/50=3), gen(trimester)
-			lab def trimester2 1"1st trimester 0-12wks" 2"2nd trimester 13-26 wks" 3 "3rd trimester 27-42 wks"
-			lab val trimester trimester2 
-	
 	
 	** MODULE 2:
 	
@@ -2052,7 +2065,7 @@ label define m3_p2_outcome 1 "Completed respondent" 2 "Partially completed and s
 label values m3_p2_outcome m3_p2_outcome
 
 
-*Formatting dates/ times:
+*Formatting dates/times:
 tostring m3_date, replace
 gen _date_ = date(m3_date,"YMD")
 drop m3_date
@@ -2441,6 +2454,7 @@ label values m4_ot1 m4_ot1
 
 label define m4_complete 0 "Incomplete" 1 "Unverified" 2 "Complete" 
 label values m4_complete m4_complete	
+
 	
 *===============================================================================
 		
