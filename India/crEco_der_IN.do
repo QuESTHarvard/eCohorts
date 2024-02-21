@@ -63,8 +63,8 @@ u "$in_data_final/eco_m1_in.dta", clear
 			
 			recode m1_509b 0=1 1=0, g(mosquito)
 			recode m1_510b 0=1 1=0, g(tbherb)
-			recode m1_511 2=1 1=0 3/4=0, g(drink)
-			recode m1_512 2=1 1=0 3=0, g(smoke)
+			recode m1_511 1=0 2=1 3/4=0, g(drink)
+			recode m1_512 1=0 2=1 3=0, g(smoke)
 			
 			egen m1_health_literacy=rowtotal(m1_509a mosquito m1_510a tbherb drink smoke), m
 			recode m1_health_literacy 0/3=1 4=2 5=3 6=4
@@ -138,8 +138,9 @@ u "$in_data_final/eco_m1_in.dta", clear
 *------------------------------------------------------------------------------*	
 	* SECTION 8: CURRENT PREGNANCY
 			egen dangersigns = rowmax(m1_814a m1_814b m1_814c m1_814d m1_814f m1_814g)
-	
-	* THE BELOW IS NOT CORRECT! WAITING FOR SHALOM TO ADJUST
+			gen preg_intent = m1_807
+			
+	* THE BELOW IS NOT CORRECT!SHALOM TO ADJUST
 			gen m1_ga = gest_age
 			replace m1_ga = . if gest_age<1 | gest_age> 40 
 			
@@ -181,6 +182,36 @@ u "$in_data_final/eco_m1_in.dta", clear
 			
 			gen stillbirths = m1_1002 - m1_1003 // nb of deliveries/births minus live births
 			replace stillbirths = 1 if stillbirths>1 & stillbirths<.
+*------------------------------------------------------------------------------*	
+	* SECTION 12: ECONOMIC STATUS AND OUTCOMES
+			
+			*Asset variables
+			recode  m1_1201 (2 4 6 96=0) (3=1), gen(safewater) // 96 is  tanker 
+			recode  m1_1202 (2=1) (3=0), gen(toilet) // flush/ pour flush toilet and pit laterine =improved 
+			gen electr = m1_1203
+			gen radio = m1_1204
+			gen tv = m1_1205
+			gen phone = m1_1206
+			gen refrig = m1_1207
+			recode m1_1208 (2=1) (4/7=0), gen(fuel) // electricity, gas (improved) charcoal, wood, dung, crop residuals (unimproved)
+			gen bicycle =  m1_1212 
+			gen motorbik = m1_1213
+			gen car = m1_1214 
+			gen bankacc = m1_1215
+			recode m1_1209 (96 1=0) (2/3=1), gen(floor) //Earth, dung (unimproved) wood planks, palm, polished wood, tiles (improved)
+			recode m1_1210 (1 2 5=0) (3/4 6/8=1) (96=0), gen(wall) // Grass, timber, poles, mud  (unimproved) bricks, cement, stones (improved)
+			recode m1_1211 (1/2=0) (3/5=1) (96=0), gen(roof)  // Iron sheets, Tiles, Concrete (improved) grass, leaves, mud, no roof (unimproved)
+			lab def imp 1"Improved" 0"Unimproved"
+			lab val safewater toilet fuel floor wall roof imp
+			
+			* I used the WFP's approach to create the wealth index
+			// the link can be found here https://docs.wfp.org/api/documents/WFP-0000022418/download/ 
+			pca safewater toilet electr radio tv phone refrig fuel bankacc car ///
+			motorbik bicycle roof wall floor 
+			estat kmo // all above 50
+			predict wealthindex
+			xtile quintile = wealthindex, nq(5)
+			xtile tertile = wealthindex, nq(3)
 				
 *------------------------------------------------------------------------------*	
 	* SECTION 13: HEALTH ASSESSMENTS AT BASELINE

@@ -49,17 +49,27 @@ graph bar phys_exam diag hist counsel tx, over(co) ylabel(0(20)100, labsize(smal
 		 legend(order(1 "Physical examinations" 2 "Diagnostic tests" 3 "History taking and screening" ///
 		 4 "Counselling" 5 "Preventive treatments or supplements") rows(2) position(12) size(small) )
 
-
 *------------------------------------------------------------------------------*
 * FIG 2. ANC1 QUALITY BOXPLOT BY SITE
 
 keep anc1qual site
 
 graph box anc1qual, over(site) ylabel(0(20)100, labsize(small)) ytitle("Antenatal Care Quality Index") asyvars ///
-box(1, fcolor(teal) lcolor(teal)) marker(1, mcolor(teal)) box(2, fcolor(teal) lcolor(teal)) marker(2, mcolor(teal)) ///
-box(3, fcolor(ebblue) lcolor(ebblue)) marker(3, mcolor(ebblue)) box(4, fcolor(ebblue) lcolor(ebblue)) marker(3, mcolor(ebblue)) ///
-box(5, fcolor(gold) lcolor(gold)) marker(3, mcolor(gold)) box(6, fcolor(gold) lcolor(gold)) marker(3, mcolor(gold)) ///
-box(7, fcolor(midgreen) lcolor(midgreen)) marker(3, mcolor(midgreen)) box(8, fcolor(midgreen) lcolor(midgreen)) marker(3, mcolor(midgreen)) 
+	box(1, fcolor(navy) lcolor(navy)) marker(1, mcolor(navy)) ///
+	box(2, fcolor(navy) lcolor(navy)) marker(2, mcolor(navy)) ///
+	box(3, fcolor(gold) lcolor(gold)) marker(3, mcolor(gold)) ///
+	box(4, fcolor(gold) lcolor(gold)) marker(3, mcolor(gold)) ///
+	box(5, fcolor(midgreen) lcolor(midgreen)) marker(3, mcolor(midgreen)) ///
+	box(6, fcolor(midgreen) lcolor(midgreen)) marker(3, mcolor(midgreen)) ///
+	box(7, fcolor(ebblue) lcolor(ebblue)) marker(3, mcolor(ebblue)) ///
+	box(8, fcolor(ebblue) lcolor(ebblue)) marker(3, mcolor(ebblue)) 
+
+*------------------------------------------------------------------------------*
+* FIG X. Quality by health status
+	table country anyrisk, stat(mean special)
+	table country m1_dangersign, stat(mean special)
+	table country poorhealth, stat(mean special)
+
 
 
 *------------------------------------------------------------------------------*

@@ -17,7 +17,7 @@ global qualvarsET anc1bp anc1weight anc1height anc1muac anc1blood ///
 		excelname(Table2) sheetname(ETH_demog) replace 
 		
 	* Fig 3 risk factors		
-		summtab , catvars(lvl_anemia chronic maln_underw overweight complic) mean by(site) excel ///
+		summtab , catvars(lvl_anemia chronic maln_underw overweight complic) mean  excel ///
 		excelname(Fig3) sheetname(ETH_risk) replace 
 
 		
@@ -47,7 +47,7 @@ global qualvarsKE anc1bp anc1weight anc1height anc1muac anc1blood ///
 		excelname(Table2) sheetname(KEN_demog) replace 
 		
 	* Fig 3 risk factors		
-		summtab , catvars(lvl_anemia chronic maln_underw overweight complic) mean by(site) excel ///
+		summtab , catvars(lvl_anemia chronic maln_underw overweight complic) mean excel ///
 		excelname(Fig3) sheetname(KEN_risk) replace 
 		
 	/* Table 3 Facility characteristics
@@ -92,7 +92,7 @@ global qualvarsZA anc1bp anc1weight anc1height anc1muac anc1blood ///
 		excelname(Table2) sheetname(ZAF_demog) replace 
 		
 	* Fig 3 risk factors		
-		summtab , catvars(lvl_anemia chronic maln_underw overweight complic) mean by(site) excel ///
+		summtab , catvars(lvl_anemia chronic maln_underw overweight complic) mean excel ///
 		excelname(Fig3) sheetname(ZAF_risk) replace 
 		
 		/* Table 3 Facility characteristics
@@ -137,7 +137,7 @@ global qualvarsIND anc1bp anc1weight anc1blood ///
 		excelname(Table2) sheetname(IND_demog) replace 
 		
 * Fig 3 risk factors		
-		summtab , catvars(lvl_anemia chronic maln_underw overweight complic) mean by(state) excel ///
+		summtab , catvars(lvl_anemia chronic maln_underw overweight complic) mean  excel ///
 		excelname(Fig3) sheetname(IND_risk) replace 
 	
 	

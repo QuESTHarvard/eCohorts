@@ -62,6 +62,7 @@ u "$user/$data/Ethiopia/02 recoded data/eco_m1_et_der.dta", clear
 	recode m1_Hb 0/6.999=1 7/10.999=2 11/30=3, gen(lvl_anemia)
 	lab def lvl_anemia 1"Severe anemia (<7gm/dl)" 2"Moderate, mild anemia (7-10.9gm/dl)" 3"Normal"
 	lab val lvl_anemia lvl_anemia
+	g severe_anemia=lvl_anemia==1
 	* Chronic illnesses
 	replace m1_203_et = 0 if m1_203_other=="Anemia" | m1_203_other=="Chgara" ///
 	| m1_203_other=="Chronic Gastritis" ///
@@ -87,14 +88,8 @@ u "$user/$data/Ethiopia/02 recoded data/eco_m1_et_der.dta", clear
 	egen complic = rowmax(cesa stillbirth preterm neodeath  PPH )
 	egen complic4=rowmax(late_misc stillbirth preterm neodeath)
 	
+egen anyrisk =rowmax(severe_anemia chronic overweight young old multiple complic )
 
-egen risk_score =rowtotal(young older multiple m1_202a m1_202b m1_202c m1_202d m1_202e  ///
-							m1_202g_et m1_203_et cesa stillbirth  preterm PPH neodeath  ///
-							 m1_anemic_7 m1_HBP)
-	g crisk=risk_score
-	recode risk_score 4/7=3
-	
-	
 * Visit time
 	encode m1_start_time, gen(time)
 	recode time 1/8=2 9/20=3 21/202=1 203/321=2 322/418=3
@@ -158,6 +153,7 @@ u "$user/$data/Kenya/02 recoded data/eco_m1_ke_der.dta", clear
 		recode Hb 0/6.999=1 7/10.999=2 11/30=3, gen(lvl_anemia)
 		lab def lvl_anemia 1"Severe anemia (<7gm/dl)" 2"Moderate, mild anemia (7-10.9gm/dl)" 3"Normal"
 		lab val lvl_anemia lvl_anemia
+		g severe_anemia=lvl_anemia==1
 		* Chronic illnesses
 		g other_chronic= 1 if m1_203_other=="Fibroids" | m1_203_other=="Peptic ulcers disease" ///
 		| m1_203_other=="PUD" | m1_203_other=="Gestational Hypertension in previous pregnancy" ///
@@ -188,12 +184,9 @@ u "$user/$data/Kenya/02 recoded data/eco_m1_ke_der.dta", clear
 		 lab def time2 1"Morning" 2"Afternoon" 3"Evening"
 		 lab val time time2
 
-		 egen risk_score =rowtotal(young older multiple m1_202a m1_202b m1_202c m1_202d m1_202e m1_203c_ke ///
-		m1_203d_ke m1_203e_ke m1_203f_ke m1_203g_ke m1_203h_ke m1_203i_ke ///
-		m1_203k_ke m1_203l_ke m1_203m_ke m1_203n_ke m1_203o_ke other_chronic HBP stillbirth ///
-		neodeath preterm PPH cesa maln_underw anemic m1_814a m1_814b m1_814c m1_814d  m1_814f m1_814g )
-		g crisk=risk_score
-		 recode risk_score 4/7=3
+egen anyrisk =rowmax(severe_anemia chronic overweight young old multiple complic )
+
+		rename dangersign m1_dangersigns
 save "$user/$analysis/KEtmp.dta", replace
 
 *------------------------------------------------------------------------------*	
@@ -250,6 +243,7 @@ u  "$user/$data/South Africa/02 recoded data/eco_m1_za_der.dta", clear
 		recode Hb 0/6.999=1 7/10.999=2 11/30=3, gen(lvl_anemia)
 		lab def lvl_anemia 1"Severe anemia (<7gm/dl)" 2"Moderate, mild anemia (7-10.9gm/dl)" 3"Normal"
 		lab val lvl_anemia lvl_anemia
+		g severe_anemia=lvl_anemia==1
 		* Chronic illnesses
 		egen chronic= rowmax(m1_202a m1_202b m1_202c m1_202d m1_202e)
 		encode m1_203, gen(prob)
@@ -282,13 +276,9 @@ u  "$user/$data/South Africa/02 recoded data/eco_m1_za_der.dta", clear
 		encode m1_203, gen(prob)
 		ta prob,g(dum)
 			
- egen risk_score =rowtotal(young older multiple m1_202a m1_202b m1_202c m1_202d m1_202e HBP ///
-				dum5 dum6 dum7 dum8 dum9 dum11 dum12 dum13 dum14 dum15 dum17 dum22 ///
-				dum23 dum25 dum26 dum27 dum30 dum31 dum32 stillbirth neodeath preterm ///
-				PPH maln_underw anemic m1_814a m1_814b m1_814c m1_814d  m1_814f m1_814g )
-		g crisk=risk_score
-		recode risk_score 4/9=3
-		
+egen anyrisk =rowmax(severe_anemia chronic overweight young old multiple complic)
+
+		rename dangersign m1_dangersigns
 save "$user/$analysis/ZAtmp.dta", replace
 
 *------------------------------------------------------------------------------*
@@ -340,6 +330,7 @@ u "$user/$data/India/02 recoded data/eco_m1_in_der.dta", clear
 		recode Hb 0/6.999=1 7/10.999=2 11/30=3, gen(lvl_anemia)
 		lab def lvl_anemia 1"Severe anemia (<7gm/dl)" 2"Moderate, mild anemia (7-10.9gm/dl)" 3"Normal"
 		lab val lvl_anemia lvl_anemia
+		g severe_anemia=lvl_anemia==1
 		* Chronic illnesses
 		egen chronic= rowmax(m1_202a m1_202b m1_202c m1_202d m1_202e m1_203)
 		replace chronic=1 if HBP==1
@@ -355,7 +346,9 @@ u "$user/$data/India/02 recoded data/eco_m1_in_der.dta", clear
 		gen PPH=m1_1006==1
 		egen complic = rowmax(stillbirth neodeath preterm PPH cesa)
 		egen complic4=rowmax(m1_1004 stillbirth m1_1005 m1_1010)
-		
+
+egen anyrisk =rowmax(severe_anemia chronic overweight young old multiple complic )
+	rename dangersign m1_dangersigns
 save "$user/$analysis/INtmp.dta", replace
 
 
