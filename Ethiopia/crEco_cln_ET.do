@@ -60,7 +60,7 @@ drop if module_1_baseline_face_to_face_e == 0
 drop m2_attempt_avail m2_attempt_bestnumber m2_attempt_contact m2_attempt_date m2_attempt_goodtime m2_attempt_other m2_attempt_outcome m3_attempt_outcome m3_attempt_outcome_p2 m3_attempt_date m3_attempt_outcome2 module_2_phone_surveys_prenatal_
 
 *** Dropping M5 for cleaning purposes:
-drop ic_may_i_proceed_with_the-maternal_integrated_cards_comple		
+drop ic_may_i_proceed_with_the-module_5_end_line_facetoface_sur		
 		
 *------------------------------------------------------------------------------*
 	* STEPS: 
