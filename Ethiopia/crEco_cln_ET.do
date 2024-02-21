@@ -88,7 +88,7 @@ drop ic_may_i_proceed_with_the-module_5_end_line_facetoface_sur
 	rename facility_type_a6 facility_type
 	rename b1_may_we_have_your_permis permission
 	rename b2_are_you_here_today_to_r care_self
-	rename b3_how_old_are_you enrollage
+	rename b3_how_old_are_you m1_enrollage
 	rename b4_which_zone_district zone_live
 	rename b5_are_you_here_to_receive b5anc
 	rename b6_is_this_the_first_time_you b6anc_first
@@ -277,7 +277,7 @@ drop ic_may_i_proceed_with_the-module_5_end_line_facetoface_sur
 			
 	rename (m1_1402___888 m1_1402___998 m1_1402___999) (m1_1402_888_et m1_1402_998_et m1_1402_999_et)
 	
-	rename (interview_end_time total_duration_of_intervie module_1_baseline_face_to_face_e) (m1_end_time interview_length m1_complete)
+	rename (interview_end_time total_duration_of_intervie module_1_baseline_face_to_face_e) (m1_end_time m1_interview_length m1_complete)
 	
 	
 * MODULE 2:
@@ -1146,7 +1146,6 @@ rename did_you_spend_money_902e m4_902e
 rename how_much_money_did_you_902e m4_902e_amt
 rename so_how_much_in_total_903 m4_903
 rename so_how_much_in_total_904 m4_904
-
 rename m4_905___1 m4_905_1
 rename m4_905___2 m4_905_2
 rename m4_905___3 m4_905_3
@@ -1160,10 +1159,43 @@ rename m4_905___888 m4_905_888
 rename specify_other_sources_of_905 m4_905_other 
 rename outcme_of_the_phone_call m4_ot1
 rename specify_other_sources_of_906 m4_ot1_oth
-
-rename conclusion_dead_baby_m4 m4_conclusion_dead_baby // 2-12 SS: double check this has value labels below (same with m4_conclusion_live_babies)
-
+rename conclusion_dead_baby_m4 m4_conclusion_dead_baby
 rename module_4_follow_up_phone_survey_ m4_complete
+
+
+	* MATERNAL CARDS:
+rename (q1501 date age gravid lmp edd para number_of_children_alive previous_stillbirth ///
+		history_of_3 birthweight2500 birthweight4000 last_pregnancy previous_survey) ///
+	    (mcard_consent mcard_date mcard_age mcard_gravid mcard_lmp mcard_edd mcard_para ///
+		mcard_number_of_children_alive mcard_previous_stillbirth mcard_hsitory mcard_babywgt2500 ///
+		mcard_babywgt4000 mcard_last_preg mcard_prev_survey)
+
+rename (diagnosed age_less_than_16_years age_more_than_40_years isoimmunization vaginal_bleeding ///
+		pelvic_mass diastolic diabetes_mellitus renal_disease chronic_hypertension substance_abuse ///
+		other_medical_disease pallor jaundice chest_abn___0) (mcard_dx mcard_age16 mcard_age40 mcard_iso ///
+		mcard_vag_bleed mcard_pelvic_mass mcard_diastolic mcard_dm mcard_renal mcard_htn mcard_sub_abuse ///
+		mcard_other_dx mcard_pallor mcard_jaundice mcard_chest_abn_no)
+
+rename (chest_abn___1 chest_abn___998 chest_abn___999 chest_abn___888 heart_abnormality valvar_ulcer ///
+		vaginal_discharge pelvic_mass1 uterine_size cervical_lesion danger_signs_in_pregnancy ///
+		delivery_advised birth_preparedness_advised mother_hiv_test_accepted hiv_test_result) ///
+		(mcard_chest_abn_yes mcard_chest_abn_unk mcard_chest_abn_ref mcard_chest_abn_no_info ///
+		mcard_heart_abnormality mcard_valvar_ulcer mcard_vaginal_dis mcard_pelvic_mass1 ///
+		mcard_uterine_size mcard_cervical_lesion mcard_danger_signs mcard_delivery_advised ///
+		mcard_birth_prep mcard_mother_hiv_test mcard_hiv_test_result)
+
+rename (hiv_test_result_receive counseled_infant_feeding referred_for_care partner_hiv_test_result ///
+		date_of_visit gestation_age_lmp bp_systolic bp_diastolic weight_kg_v1 pallor_v1 fetal_heartbeat ///
+		presentation urine_test_for_infection urine_test_for_protein rapid_syphilis_test) ///
+		(mcard_hiv_counsel mcard_feed_counsel mcard_referred mcard_partner_hiv_test mcard_fu_visit ///
+		mcard_ga_lmp mcard_bp_systolic mcard_bp_diastolic mcard_weight mcard_pallor2 mcard_fetal_heartbeat ///
+		mcard_presentation mcard_urine_infection mcard_urine_protein mcard_syphilis_test)
+
+rename (hemoglobin blood_group_and_rh tt_does iron_folic_acid mbendazole use_of_itn arv_px_type remarks ///
+		danger_signs action_advice_counseling appointment_next maternal_integrated_cards_comple) ///
+		(mcard_hemoglobin mcard_bloodgrp mcard_tt_doses mcard_iron mcard_mbendazole mcard_use_of_itn ///
+		mcard_arv_px_type mcard_remarks mcard_danger_signs2 mcard_action_advice_counseling ///
+		mcard_next_appt mcard_complete)
 		
 *------------------------------------------------------------------------------*
 
@@ -1185,9 +1217,9 @@ drop m2_drop
 			replace m1_ga = m1_803 if m1_ga == . // ga based on self report of weeks pregnant if LMP not known
 			lab var m1_ga "Gestional age based on LNMP (calc)"
 			
-			recode m1_ga (1/12.99999 = 1) (13/26.99999= 2) (27/50=3), gen(trimester)
+			recode m1_ga (1/12.99999 = 1) (13/26.99999= 2) (27/50=3), gen(m1_trimester)
 			lab def trimester2 1"1st trimester 0-12wks" 2"2nd trimester 13-26 wks" 3 "3rd trimester 27-42 wks"
-			lab val trimester trimester2 	
+			lab val m1_trimester trimester2 	
 			
 			*Carryfoward:
 			by redcap_record_id: carryforward m1_ga m1_803, replace
@@ -1223,8 +1255,6 @@ drop m2_drop
 		format m2_lastdate %td
 		
 		generate time_between_m1m2 = (m2_lastdate - m1_date)/7
-		format time_between_m1m2
-		
 		generate time_between_m1m3 = (m3_date - m1_date)/7
 		
 		*New gestational age vars:
@@ -1232,7 +1262,9 @@ drop m2_drop
 		generate m2_ga = m1_ga + time_between_m1m2
 		generate m3_ga = m1_ga + time_between_m1m3
 	
-		drop time_between_m1m2 time_between_m1m3 m2_lastdate
+		drop time_between_m1m2 time_between_m1m3
+		
+		order m2_lastdate, after(m2_date)
 		
 		*Extra cleaning from Emma's code:
 		* Recode birth dates with data entry errors
@@ -2533,8 +2565,8 @@ label values m4_complete m4_complete
 * MODULE 1:
 * Kept these recode commands here even though everyone has given permission 
 recode care_self (. = .a) if permission == 0
-recode enrollage (. = .a) if permission == 0
-recode zone_live (. = .a) if enrollage>15 
+recode m1_enrollage (. = .a) if permission == 0
+recode zone_live (. = .a) if m1_enrollage>15 
 recode b6anc_first (. = .a) if b5anc== 2
 recode b6anc_first_conf (.a = .a) if b5anc== 2
 recode continuecare (. = .a) if b6anc_first_conf ==2 
@@ -4012,7 +4044,7 @@ lab var facility_type "A5. Facility type"
 lab var interviewer_name_a7 "A7. Interviewer Name"
 lab var permission "B1. May we have your permission to explain why we are here today, and to ask some questions?"
 lab var care_self "B2. Are you here today to receive care for yourself or someone else?"
-lab var enrollage "B3. How old are you?"
+lab var m1_enrollage "B3. How old are you?"
 lab var zone_live "B4. In which zone/district/ sub city are you living?"
 lab var b5anc "B5. By that I mean care related to a pregnancy?"
 lab var b6anc_first "B6. Is this the first time you've come to a health facility to talk to a healthcare provider about this pregnancy?"
@@ -4420,7 +4452,7 @@ lab var m1_1402_888_et "1402. Unknown"
 lab var m1_1402_998_et "1402. Refuse to answer"
 lab var m1_1402_999_et "1402. No information"
 lab var m1_end_time "Interview end time"
-lab var interview_length "Total Duration of interview"
+lab var m1_interview_length "Total Duration of interview"
 lab var m1_complete "Complete?"
 
 
@@ -5889,7 +5921,7 @@ drop first_name family_name phone_number m1_513b ///
 	 m1_515b_zone m1_515c_ward m1_515d_house m1_516 m1_517 m1_518 m1_519_district ///
 	 m1_519_village m1_519_ward m1_714d order_redcap
 	 
-order m1_* m2_* m3_* m4_*, sequential
+order m1_* m2_* m3_* m4_* mcard_*, sequential
 
 order m2_start m2_date m2_date m2_permission m2_103 m2_time_start m2_maternal_death_reported m2_ga m2_hiv_status ///
 	 m2_date_of_maternal_death m2_maternal_death_learn m2_maternal_death_learn_other m2_111 m2_111_other m2_201,after(m1_end_time)
