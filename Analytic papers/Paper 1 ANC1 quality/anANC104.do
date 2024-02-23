@@ -7,6 +7,7 @@ global data "Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts 
 
 *------------------------------------------------------------------------------*	
 * APPENDING COUNTRIES FOR GRAPHS
+
 u "$user/$analysis/ETtmp.dta", clear
 recode site 2=0 // 0 ES 1 Adama
 save "$user/$analysis/allcountrytmp.dta", replace
@@ -17,10 +18,10 @@ lab drop a4
 append using "$user/$analysis/allcountrytmp.dta", force
 save "$user/$analysis/allcountrytmp.dta", replace
 
-/*u "$user/$analysis/INtmp.dta", clear
+u "$user/$analysis/INtmp.dta", clear
 recode state 1=4 2=5, g(site) // 4 Sonipat 5 Jodhpur
 append using "$user/$analysis/allcountrytmp.dta", force
-save "$user/$analysis/allcountrytmp.dta", replace*/
+save "$user/$analysis/allcountrytmp.dta", replace
 
 u "$user/$analysis/ZAtmp.dta", clear 
 recode site 1=7 2=6
@@ -29,34 +30,46 @@ append using "$user/$analysis/allcountrytmp.dta", force
 
 lab def site 0"East Shewa" 1"Adama" 2"Kitui" 3"Kiambu" 4"Sonipat" 5"Jodhpur" 6 "Nongoma" 7 "uMhlathuze", modify
 lab val site site
+
+encode country, gen(co)
+recode co 2=3 3=2
+lab def co 1"Ethiopia" 2"Kenya" 3"India" 4"South Africa", replace
+lab val co co 
 save "$user/$analysis/allcountrytmp.dta", replace
 *------------------------------------------------------------------------------*
-* BAR GRAPH BY CATEGORY AND SITE
+* FIG 1. BAR GRAPH BY CATEGORY AND SITE
 
 foreach v in phys_exam diag hist counsel tx{
 	replace `v'=`v'*100
 }
 
-graph bar phys_exam diag hist counsel tx, over(country) ylabel(0(20)100, labsize(small)) ///
+graph bar phys_exam diag hist counsel tx, over(co) ylabel(0(20)100, labsize(small)) ///
 		ytitle("Completeness of care %") asyvars  scheme(white_tableau)  ///
 		 blabel(bar, size(vsmall) position(outside) format(%2.1g)) ///
 		 legend(order(1 "Physical examinations" 2 "Diagnostic tests" 3 "History taking and screening" ///
 		 4 "Counselling" 5 "Preventive treatments or supplements") rows(2) position(12) size(small) )
 
-
-
-
-
 *------------------------------------------------------------------------------*
-* BOXPLOT BY SITE
+* FIG 2. ANC1 QUALITY BOXPLOT BY SITE
 
 keep anc1qual site
 
 graph box anc1qual, over(site) ylabel(0(20)100, labsize(small)) ytitle("Antenatal Care Quality Index") asyvars ///
-box(1, fcolor(teal) lcolor(teal)) marker(1, mcolor(teal)) box(2, fcolor(teal) lcolor(teal)) marker(2, mcolor(teal)) ///
-box(3, fcolor(ebblue) lcolor(ebblue)) marker(3, mcolor(ebblue)) box(4, fcolor(ebblue) lcolor(ebblue)) marker(3, mcolor(ebblue)) ///
-box(5, fcolor(gold) lcolor(gold)) marker(3, mcolor(gold)) box(6, fcolor(gold) lcolor(gold)) marker(3, mcolor(gold)) ///
-box(7, fcolor(midgreen) lcolor(midgreen)) marker(3, mcolor(midgreen)) box(8, fcolor(midgreen) lcolor(midgreen)) marker(3, mcolor(midgreen)) 
+	box(1, fcolor(navy) lcolor(navy)) marker(1, mcolor(navy)) ///
+	box(2, fcolor(navy) lcolor(navy)) marker(2, mcolor(navy)) ///
+	box(3, fcolor(gold) lcolor(gold)) marker(3, mcolor(gold)) ///
+	box(4, fcolor(gold) lcolor(gold)) marker(3, mcolor(gold)) ///
+	box(5, fcolor(midgreen) lcolor(midgreen)) marker(3, mcolor(midgreen)) ///
+	box(6, fcolor(midgreen) lcolor(midgreen)) marker(3, mcolor(midgreen)) ///
+	box(7, fcolor(ebblue) lcolor(ebblue)) marker(3, mcolor(ebblue)) ///
+	box(8, fcolor(ebblue) lcolor(ebblue)) marker(3, mcolor(ebblue)) 
+
+*------------------------------------------------------------------------------*
+* FIG X. Quality by health status
+	table country anyrisk, stat(mean special)
+	table country m1_dangersign, stat(mean special)
+	table country poorhealth, stat(mean special)
+
 
 
 *------------------------------------------------------------------------------*

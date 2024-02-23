@@ -11,7 +11,7 @@ global data "Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts 
 u "$user/$data/Ethiopia/02 recoded data/eco_m0_et.dta", clear
 * SERVICE READINESS INDICES 
 
-	/* Service readiness: basic amenities
+/* Service readiness: basic amenities
 	Average of 6 items: electricity, water, toilet, communication, computer & internet, ambulance */
 	gen elect= m0_206
 	replace elect= 0 if m0_207==1
@@ -25,7 +25,7 @@ u "$user/$data/Ethiopia/02 recoded data/eco_m0_et.dta", clear
 	gen ambulance = m0_221 // ambulance on site
 	egen sri_basicamenities =rowmean(elect water toilet communication comput_inter ambulance)
 	
-	* Service readiness: Basic equipment
+* Service readiness: Basic equipment
 	gen bp_st= m0_401a==1
 	gen scale_st= m0_402a==1
 	gen iscale_st= m0_403a==1
@@ -34,7 +34,7 @@ u "$user/$data/Ethiopia/02 recoded data/eco_m0_et.dta", clear
 	gen ultra_st = m0_433!=.
 	egen sri_equip=rowmean(bp_st scale_st iscale_st thermo_st  stetho_st ultra_st )
 
-	* Service readiness: diagnostic capacity 
+* Service readiness: diagnostic capacity 
 	* At least 1 rapid test available and valid today
 	gen malaria = m0_416 ==1 // at least one valid
 	gen syphi =  m0_417==1
@@ -51,13 +51,12 @@ u "$user/$data/Ethiopia/02 recoded data/eco_m0_et.dta", clear
 	egen sri_diag= rowmean(malaria syphi hiv preg uripro uriglu uriket blood_glu hemo genmicro elisa )
 
 	egen sri_score =rowmean(sri_basicamenities sri_equip sri_diag)
-	
-* STAFFING
+	egen sri_cat = cut(sri_score), group(3)
 
-	/* Total staff providing ANC: 
+/* Total staff providing ANC: 
 	GP, OBGYN Emergency surgical officers, health officer, diploma nurses, degree nurses, diploma midwife, degree midwives */
 	egen total_staff_onc=rowtotal(m0_1a_et m0_1b_et m0_1c_et m0_1d_et m0_1e_et m0_1f_et m0_1g_et m0_102d )
-	egen staff_cat= cut(total_staff_onc), group(3)
+	egen staff_cat = cut(total_staff_onc), group(3)
 	* At least one full time doctor
 	gen ftdoc= m0_101a - m0_101b
 	recode ftdoc (-5/-1=1) (1/20=1)
@@ -82,7 +81,7 @@ u "$user/$data/Ethiopia/02 recoded data/eco_m0_et.dta", clear
 		egen anc_annual= rowtotal (anc_tot*)
 		gen anc_mont = anc_annual/12
 	
-		* Volume per staff
+* Volume per staff
 		gen anc_vol_staff_onc = anc_mont / total_staff_onc
 	
 
@@ -98,7 +97,7 @@ u "$user/$data/Ethiopia/02 recoded data/eco_m0_et.dta", clear
 	lab var anc_mont "Average number of ANC visits per month"
 	lab var anc_vol_staff_onc "Average monthly number of ANC visits per staff providing obstetric care"
 	
-	keep facility sri_score sri_basicamenities sri_equip sri_diag total_staff staff_cat ///
+	keep facility sri_score sri_basicamenities sri_equip sri_diag sri_cat total_staff staff_cat ///
 	     anc_mont anc_vol_staff ftdoc beds m0_a8_fac_own m0_a6_fac_type
 	
 	gen private = m0_a8_fac_own
@@ -162,6 +161,7 @@ Average of 6 items: electricity, water, toilet, communication, computer & intern
 	egen sri_diag= rowmean(malaria syphi hiv preg uripro uriglu uriket blood_glu hemo genmicro elisa )
 
 	egen sri_score =rowmean(sri_basicamenities sri_equip sri_diag)
+	egen sri_cat=cut(sri_score), group(3)
 	
 * STAFFING
 
@@ -169,7 +169,7 @@ Average of 6 items: electricity, water, toilet, communication, computer & intern
 	Medical doc, OBGYN,  Midwife BSc, Nurse certificate Nurse BSc, Nurse diploma, 
 	Health officer, Family phsician */
 	egen total_staff_onc=rowtotal(m0_101d m0_102d  m0_108d m0_109d m0_110d m0_111d m0_112d  m0_famphy_d_ke )
-	egen staff_cat= cut(total_staff_onc), group(3)
+	egen staff_cat = cut(total_staff_onc), group(3)
 	
 	* At least one full time doctor
 	gen tmp1= m0_101a - m0_101b
@@ -213,7 +213,7 @@ Average of 6 items: electricity, water, toilet, communication, computer & intern
 	lab var anc_mont "Average number of ANC visits per month"
 	lab var anc_vol_staff_onc "Average monthly number of ANC visits per staff providing obstetric care"
 	
-	keep facility sri_score sri_basicamenities sri_equip sri_diag total_staff ///
+	keep facility sri_score sri_basicamenities sri_equip sri_diag sri_cat total_staff ///
 		 anc_mont anc_vol_staff ftdoc beds m0_facility_own m0_facility_type staff_cat
 	
 	gen private = m0_facility_own==2
@@ -273,14 +273,14 @@ Average of 6 items: electricity, water, toilet, communication, computer & intern
 	egen sri_diag= rowmean(malaria syphi hiv preg uripro uriglu uriket blood_glu hemo genmicro elisa )
 
 	egen sri_score =rowmean(sri_basicamenities sri_equip sri_diag)
-	
+	egen sri_cat = cut(sri_score), group(3)
 * STAFFING
 
 	/* Total staff providing obstetric and newborn care: 
 	Medical doc, OBGYN,  Midwife BSc, Midwife diploma,  Nurse BSc, Nurse diploma, 
 	Health officer,  */
 	egen total_staff_onc=rowtotal(m0_101d m0_102d m0_108d m0_109d m0_110d m0_111d m0_112d )
-	egen staff_cat=cut(total_staff_onc), group(3)
+	egen staff_cat = cut(total_staff_onc), group(3)
 	* At least one full time doctor
 	gen ftdoc= m0_101a - m0_101b
 	recode ftdoc (-1=0) (1/5=1)
@@ -307,7 +307,7 @@ Average of 6 items: electricity, water, toilet, communication, computer & intern
 	lab var anc_mont "Average number of ANC visits per month"
 	lab var anc_vol_staff_onc "Average monthly number of ANC visits per staff providing obstetric care"
 	
-	keep facility sri_score sri_basicamenities sri_equip sri_diag total_staff staff_cat ///
+	keep facility sri_score sri_basicamenities sri_equip sri_diag sri_cat total_staff staff_cat ///
 		  anc_mont anc_vol_staff ftdoc beds m0_facility_own m0_facility_type
 	
 

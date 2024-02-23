@@ -60,7 +60,7 @@ u "$et_data_final/eco_m1-m4_et.dta", clear
 			recode m1_511 2=1 1=0 3/4=0, g(drink)
 			recode m1_512 2=1 1=0 3=0, g(smoke)
 			
-			egen m1_health_literacy=rowtotal(m1_509a mosquito m1_510a tbherb drink smoke ), m
+			egen m1_health_literacy=rowtotal(m1_509a mosquito m1_510a tbherb drink smoke), m
 			recode m1_health_literacy 0/3=1 4=2 5=3 6=4
 			lab def health_lit 1"Poor" 2"Fair" 3"Good" 4"Very good"
 			lab val m1_health_lit health_lit
@@ -215,13 +215,11 @@ u "$et_data_final/eco_m1-m4_et.dta", clear
 			gen m1_Hb= m1_1309 // test done by E-Cohort data collector
 			gen Hb_card= m1_1307 // hemoglobin value taken from the card
 				replace Hb_card=11.3 if Hb_card==113
-			replace m1_Hb = Hb_card if Hb==.a // use the card value if the test wasn't done
+			replace m1_Hb = Hb_card if m1_Hb==.a // use the card value if the test wasn't done
 				// Reference value of 11 from: 2022 Ethiopian ANC guidelines ≥ 11 gm/dl is normal.
-			gen m1_anemic_11= 0 if Hb>=11 & Hb<. 
-			replace m1_anemic_11=1 if Hb<11
-			*gen anemic_12= 0 if Hb>=12 & Hb<. 
-			*replace anemic_12=1 if Hb<12
+			recode m1_Hb (0/10.9999=1) (11/30=0), gen(m1_anemic_11)
 			drop Hb_card
+			recode m1_Hb (0/6.9999=1) (7/30=0), gen(m1_anemic_7)
 			
 			* MUAC
 			recode muac (999=.)

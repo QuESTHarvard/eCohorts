@@ -6,82 +6,50 @@ global data "Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts 
 * Linear regressions: continuous score
 	u "$user/$analysis/ETtmp.dta", clear
 
-	mixed anc1qual i.risk_score  i.age second healthlit_corr i.tertile marriedp ///
-			primipara preg_intent  month day i.time private i.staff_cat ib(2).site || facility: 
-	margins risk_score, atmeans
+	mixed anc1qual i.anyrisk m1_dangersigns poorhealth i.age second healthlit_corr i.tertile marriedp  i.depression_cat ///
+			primipara preg_intent i.time private facsecond anc_mont i.sri_cat i.staff_cat ib(2).site || facility: 
+			
+	margins anyrisk, atmeans
 	marginsplot, recast(line) plot1opts(lcolor(gs8)) ciopt(color(black%20)) recastci(rarea) title("Quality of 1st ANC visit, Average Marginal Effects of risk profile") xtitle("Risk score") ytitle("Predicted ANC quality") ylabel(40(20)85, labsize(small) ) 
 
 	
 	u "$user/$analysis/KEtmp.dta", clear
 	
-	mixed anc1qual i.risk_score  i.age second healthlit_corr i.tertile marriedp ///
-			primipara preg_intent  month day i.time private i.staff_cat ib(2).site || facility: 
-	margins risk_score, atmeans
+	mixed anc1qual i.anyrisk m1_dangersigns poorhealth ib(2).age second healthlit_corr i.tertile marriedp  i.depression_cat ///
+			primipara preg_intent i.time private facsecond anc_mont i.sri_cat i.staff_cat ib(2).site || facility: 
+	margins anyrisk, atmeans
 	marginsplot, recast(line) plot1opts(lcolor(gs8)) ciopt(color(black%20)) recastci(rarea) title("Quality of 1st ANC visit, Average Marginal Effects of risk profile") xtitle("Risk score") ytitle("Predicted ANC quality") ylabel(40(20)85, labsize(small) ) 
 	
 
 	u "$user/$analysis/ZAtmp.dta", clear
 	
-	mixed anc1qual i.risk_score  i.age second healthlit_corr i.tertile marriedp ///
-			primipara preg_intent  month day i.time  i.staff_cat ib(2).site || facility: 
+	mixed anc1qual i.anyrisk m1_dangersigns poorhealth ib(2).age second healthlit_corr  marriedp  i.depression_cat ///
+			primipara preg_intent i.time  anc_mont i.sri_cat i.staff_cat ib(2).site  || facility: 
+	margins anyrisk, atmeans
 	margins risk_score, atmeans
 	marginsplot, recast(line) plot1opts(lcolor(gs8)) ciopt(color(black%20)) recastci(rarea) title("Quality of 1st ANC visit, Average Marginal Effects of risk profile") xtitle("Risk score") ytitle("Predicted ANC quality") ylabel(40(20)85, labsize(small) ) 
 
-*------------------------------------------------------------------------------*	
-	
-* Logit regressions: top quartile
+* Linear regressions: continuous score
+	u "$user/$analysis/INtmp.dta", clear
+
+	mixed anc1qual i.anyrisk dangersigns poorhealth i.age second healthlit_corr i.tertile marriedp  i.depression_cat ///
+			primipara preg_intent  ib(2).state || facility: 
+	margins anyrisk, atmeans
+	marginsplot, recast(line) plot1opts(lcolor(gs8)) ciopt(color(black%20)) recastci(rarea) title("Quality of 1st ANC visit, Average Marginal Effects of risk profile") xtitle("Risk score") ytitle("Predicted ANC quality") ylabel(40(20)85, labsize(small) ) 
+
+*-------------------------------------------------------------------------------	
+* Logistic regression: top quartile of quality
 	u "$user/$analysis/ETtmp.dta", clear
 
-	xtmixed q4 i.risk_score  ib(2).age i.educ_cat  healthlit_corr ib(3).tertile marriedp ///
-			primipara preg_intent  private facsecond anc_vol_staff_onc  sri_score ib(2).site || facility: 
-			
-	margins risk_score, atmeans
-	marginsplot, recast(line) plot1opts(lcolor(gs8)) ciopt(color(black%20)) recastci(rarea) title("Quality of 1st ANC visit, Average Marginal Effects of risk profile") xtitle("Risk score") ytitle("Predicted ANC quality") ylabel(40(20)85, labsize(small) ) 
-
+	xtmixed q4_anc1	 i.anyrisk m1_dangersigns poorhealth i.age second ///
+			healthlit_corr i.tertile marriedp  i.depression_cat ///
+			primipara preg_intent i.time private i.staff_cat ib(2).site || facility: 
 	
 	u "$user/$analysis/KEtmp.dta", clear
+	xtmixed q4_anc1	 i.anyrisk dangersigns poorhealth i.age second ///
+			healthlit_corr i.tertile marriedp  i.depression_cat ///
+			primipara preg_intent i.time private i.staff_cat ib(2).site || facility: 
 	
-	xtmixed q4 i.risk_score  ib(2).age i.educ_cat  healthlit_corr ib(3).tertile marriedp ///
-			primipara preg_intent  private facsecond anc_vol_staff_onc  sri_score ib(2).site || facility: 
-	margins risk_score, atmeans
-	marginsplot, recast(line) plot1opts(lcolor(gs8)) ciopt(color(black%20)) recastci(rarea) title("Quality of 1st ANC visit, Average Marginal Effects of risk profile") xtitle("Risk score") ytitle("Predicted ANC quality") ylabel(40(20)85, labsize(small) ) 
-	
-
-	u "$user/$analysis/ZAtmp.dta", clear
-	
-	xtmixed q4 i.risk_score  ib(2).age i.educ_cat  healthlit_corr ib(3).tertile marriedp ///
-			primipara preg_intent  anc_vol_staff_onc  sri_score ib(2).site || facility:
-	margins risk_score, atmeans
-	marginsplot, recast(line) plot1opts(lcolor(gs8)) ciopt(color(black%20)) recastci(rarea) title("Quality of 1st ANC visit, Average Marginal Effects of risk profile") xtitle("Risk score") ytitle("Predicted ANC quality") ylabel(40(20)85, labsize(small) ) 
-	
-*------------------------------------------------------------------------------*	
-	
-* Logit regressions: score >60%
-	u "$user/$analysis/ETtmp.dta", clear
-
-	xtmixed q60 i.risk_score  ib(2).age i.educ_cat  healthlit_corr ib(3).tertile marriedp ///
-			primipara preg_intent i.time private facsecond anc_vol_staff_onc  sri_score ib(2).site || facility: 
-			
-	margins risk_score, atmeans
-	marginsplot, recast(line) plot1opts(lcolor(gs8)) ciopt(color(black%20)) recastci(rarea) title("Quality of 1st ANC visit, Average Marginal Effects of risk profile") xtitle("Risk score") ytitle("Predicted ANC quality") ylabel(40(20)85, labsize(small) ) 
-
-	
-	u "$user/$analysis/KEtmp.dta", clear
-	
-xtmixed q60 i.risk_score  ib(2).age i.educ_cat  healthlit_corr ib(3).tertile marriedp ///
-			primipara preg_intent i.time private facsecond anc_vol_staff_onc  sri_score ib(2).site || facility: 
-	margins risk_score, atmeans
-	marginsplot, recast(line) plot1opts(lcolor(gs8)) ciopt(color(black%20)) recastci(rarea) title("Quality of 1st ANC visit, Average Marginal Effects of risk profile") xtitle("Risk score") ytitle("Predicted ANC quality") ylabel(40(20)85, labsize(small) ) 
-	
-
-	u "$user/$analysis/ZAtmp.dta", clear
-	
-	xtmixed q4 i.risk_score  ib(2).age i.educ_cat  healthlit_corr ib(3).tertile marriedp ///
-			primipara preg_intent  anc_vol_staff_onc  sri_score ib(2).site || facility:
-	margins risk_score, atmeans
-	marginsplot, recast(line) plot1opts(lcolor(gs8)) ciopt(color(black%20)) recastci(rarea) title("Quality of 1st ANC visit, Average Marginal Effects of risk profile") xtitle("Risk score") ytitle("Predicted ANC quality") ylabel(40(20)85, labsize(small) ) 
-	
-			
 		
 		
 /* MULTI COUNTRY REGRESSION 	
