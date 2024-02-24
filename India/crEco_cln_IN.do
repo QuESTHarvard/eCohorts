@@ -6,16 +6,15 @@
 * Import Data 
 clear all 
 
-use "$in_data/Module_1_Baseline_Data.dta", clear
-
+*use "$in_data/Archive/Module_1_Baseline_Data.dta", clear
+u "$in_data/Module_1.dta", clear 
 *------------------------------------------------------------------------------*
+* Dataset was originally sent in upper cap
+foreach var of varlist _all  {
+  rename `var' `=strupper("`var'")'
+}
 
-* Create sample
-
-* keeping eligible participants:
-keep if B7 == 1
 gen country = "India"
-
 *===============================================================================
 	* STEPS: 
 		* STEP ONE: RENAME VARIABLES (starts at: line __)
@@ -26,91 +25,88 @@ gen country = "India"
 		* STEP SIX: SAVE DATA
 *===============================================================================
 
-	* MERGE WITH DATASET CONTAINING STATE/URBAN/RURAL
-merge 1:1 Q103 using "$in_data/A4.dta"
-drop _merge
-
 	* STEP ONE: RENAME VARAIBLES
     
 	* MODULE 1:
 	
-rename (A2 A3 A4 A5 A5_other) (date_m1 m1_start_time study_site facility facility_other)
+rename (A2 A3 A4 A5 A5_OTHER) (date_m1 m1_start_time study_site facility facility_other)
 
 rename (B1 B2 B3 B5 B6) (permission care_self enrollage b5anc b6anc_first)
 		
 rename (B7 Q103 Q104 Q106) (b7eligible respondentid mobile_phone flash)
 
-rename (Q201 Q202_a Q202_b Q202_c Q202_d Q202_e) (m1_201 m1_202a m1_202b m1_202c m1_202d m1_202e)
+rename (Q201 Q202_A Q202_B Q202_C Q202_D Q202_E) (m1_201 m1_202a m1_202b m1_202c m1_202d m1_202e)
 
 rename (Q203 Q204) (m1_203 m1_204)
 
-rename (Q205a Q205b Q205c Q205d Q205e Q206_a Q206_b Q206_c Q206_d Q206_e Q206_f Q206_g Q206_h ///
-		Q206_i Q207 Q301 Q302 Q303 Q304 Q305_a Q305_b Q401 Q401_other) (m1_205a m1_205b m1_205c ///
+rename (Q205A Q205B Q205C Q205D Q205E Q206_A Q206_B Q206_C Q206_D Q206_E Q206_F Q206_G Q206_H ///
+		Q206_I Q207 Q301 Q302 Q303 Q304 Q305_A Q305_B Q401 Q401_OTHER) (m1_205a m1_205b m1_205c ///
 		m1_205d m1_205e phq9a phq9b phq9c phq9d phq9e phq9f phq9g phq9h phq9i m1_207 m1_301 ///
 		m1_302 m1_303 m1_304 m1_305a m1_305b m1_401 m1_401_other)
 		
-rename (Q_402 Q402_a Q402_b) (m1_402 m1_402a_in m1_402b_in)
+rename (Q_402 Q402_A Q402_B) (m1_402 m1_402a_in m1_402b_in)
 
-rename (Q403 Q404 Q405 Q405_other Q501 Q501_other) (m1_403b m1_404 m1_405 m1_405_other ///
+rename (Q403 Q404 Q405 Q405_OTHER Q501 Q501_OTHER) (m1_403b m1_404 m1_405 m1_405_other ///
 		m1_501 m1_501_other)
 
-rename (Q502 Q503 Q504 Q504_a Q505 Q506 Q506_other Q507 Q507_other Q508 Q509a Q509b Q510a ///
-		Q510b Q511 Q512) (m1_502 m1_503 m1_504 m1_504a_in m1_505 m1_506 m1_506_other ///
+rename (Q502 Q503 Q504 Q504_A Q505 Q506 Q506_OTHER Q507 Q507_OTHER Q508 Q509A Q509B Q510A ///
+		Q510B Q511 Q512) (m1_502 m1_503 m1_504 m1_504a_in m1_505 m1_506 m1_506_other ///
 		m1_507 m1_507_other m1_508 m1_509a m1_509b m1_510a m1_510b m1_511 m1_512)
 
 rename (C6 C7 Q601 Q602 Q603 Q604_1 Q604_2) (m1_c6_in m1_c7_in m1_601 m1_602 m1_603 ///
 		m1_604a_in m1_604b_in)
 
-rename (Q605_a Q605_b Q605_c Q605_d Q605_e Q605_f Q605_g Q605_h) (m1_605a m1_605b m1_605c m1_605d ///
+rename (Q605_A Q605_B Q605_C Q605_D Q605_E Q605_F Q605_G Q605_H) (m1_605a m1_605b m1_605c m1_605d ///
 		m1_605e m1_605f m1_605g m1_605h)
 
-rename (Q700 Q701 Q702 Q703 Q704 Q705 Q706 Q707 Q708a Q708b Q708c Q708d Q708e Q708f) (m1_700 ///
+rename (Q700 Q701 Q702 Q703 Q704 Q705 Q706 Q707 Q708A Q708B Q708C Q708D Q708E Q708F) (m1_700 ///
 		m1_701 m1_702 m1_703 m1_704 m1_705 m1_706 m1_707 m1_708a m1_708b m1_708c m1_708d m1_708e ///
 		m1_708f)
 
-rename (Q709a Q709b) (m1_709a m1_709b)		
+rename (Q709A Q709B) (m1_709a m1_709b)		
 		
-rename (Q710a Q710b Q710c Q711a Q711b Q712) (m1_710a m1_710b m1_710c m1_711a m1_711b m1_712)
+rename (Q710A Q710B Q710C Q711A Q711B Q712) (m1_710a m1_710b m1_710c m1_711a m1_711b m1_712)
 		
-rename (Q701_a Q701_b Q701_c Q701_e Q701_f Q701_g Q701_i Q701_d Q701_j Q701_k) (m1_713a ///
+rename (Q701_A Q701_B Q701_C Q701_E Q701_F Q701_G Q701_I Q701_D Q701_J Q701_K) (m1_713a ///
 		m1_713_in_za m1_713b m1_713c m1_713d m1_713e m1_713f m1_713g m1_713h m1_713i)		
 		
-rename (Q701_h Q701_l Q714a Q714b Q714c Q714d Q714e Q715 Q716_a Q716_b Q716_c Q716_d Q716_e ///
-		Q717 Q718 Q719 Q720 Q721 Q722 Q723 Q724a Q724b Q724c Q724d Q724e Q724f Q724g Q724h ///
-		Q724i Q801) (m1_713k m1_713l m1_714a m1_714b m1_714c m1_714d m1_714e m1_715 m1_716a ///
+rename (Q701_H Q701_L Q714A Q714B Q714C Q714D Q714E Q715 Q716_A Q716_B Q716_C Q716_D Q716_E ///
+		Q717 Q718 Q719 Q720 Q721 Q722 Q723 Q724A Q724B Q724C Q724D Q724E Q724F Q724G Q724H ///
+		Q724I Q801) (m1_713k m1_713l m1_714a m1_714b m1_714c m1_714d m1_714e m1_715 m1_716a ///
 		m1_716b m1_716c m1_716d m1_716e m1_717 m1_718 m1_719 m1_720 m1_721 m1_722 m1_723 ///
 		m1_724a m1_724b m1_724c m1_724d m1_724e m1_724f m1_724g m1_724h m1_724i m1_801)
 
-rename (Q802 Q803_1 Q803_2 Q805 Q806 Q807 Q808 Q808_other Q809 Q810a Q810b Q812a ///
-		Q812b Q812b_other Q813a Q813b) (m1_802a m1_803a_in m1_803b_in m1_805 m1_806 ///
+rename (Q802 Q803_1 Q803_2 Q805 Q806 Q807 Q808 Q808_OTHER Q809 Q810A Q810B Q812A ///
+		Q812B Q812B_OTHER Q813A Q813B) (m1_802a m1_803a_in m1_803b_in m1_805 m1_806 ///
 		m1_807 m1_808 m1_808_other m1_809 m1_810a m1_810b m1_812a m1_812b m1_812b_other m1_813a m1_813b)
 
-rename (Q814_a Q814_b Q814_c Q814_d Q814_e Q814_f Q814_g Q814_h) (m1_814a m1_814b m1_814c m1_814d ///
+rename (Q814_A Q814_B Q814_C Q814_D Q814_E Q814_F Q814_G Q814_H) (m1_814a m1_814b m1_814c m1_814d ///
 		m1_814e m1_814f m1_814g m1_814h)		
 		
-rename (Q815_a Q815_a_other Q815_b Q815_b_other Q815_c Q815_c_other Q815_d Q815_d_other ///
-		Q815_e Q815_e_other Q815_f Q815_f_other Q815_g Q815_g_other Q815_h Q815_h_other ///
+rename (Q815_A Q815_A_OTHER Q815_B Q815_B_OTHER Q815_C Q815_C_OTHER Q815_D Q815_D_OTHER ///
+		Q815_E Q815_E_OTHER Q815_F Q815_F_OTHER Q815_G Q815_G_OTHER Q815_H Q815_H_OTHER ///
 		Q816 Q901 Q902) (m1_815a_in m1_815a_other_in m1_815b_in m1_815b_other_in m1_815c_in ///
 		m1_815c_other_in m1_815d_in m1_815d_other_in m1_815e_in m1_815e_other_in m1_815f_in ///
-		m1_815f_other_in m1_815g_in m1_815g_other_in m1_815h_in m1_815h_other_in m1_816 m1_901 m1_902)		
-rename (Q905 Q906 Q907 Q1001 Q1002 Q1003 Q1004 Q1005 Q1006 Q1007 Q1008 Q1009 Q1010 Q1011_a Q1011_b ///
-		Q1011_c Q1011_d Q1011_e Q1011_f Q1101 Q1102 Q1102_other Q1103 Q1104) (m1_905 m1_906 m1_907 ///
+		m1_815f_other_in m1_815g_in m1_815g_other_in m1_815h_in m1_815h_other_in m1_816 m1_901 m1_902)	
+		
+rename (Q905 Q906 Q907 Q1001 Q1002 Q1003 Q1004 Q1005 Q1006 Q1007 Q1008 Q1009 Q1010 Q1011_A Q1011_B ///
+		Q1011_C Q1011_D Q1011_E Q1011_F Q1101 Q1102 Q1102_OTHER Q1103 Q1104) (m1_905 m1_906 m1_907 ///
 		m1_1001 m1_1002 m1_1003 m1_1004 m1_1005 m1_1006 m1_1007 m1_1008 m1_1009 m1_1010 m1_1011a ///
 		m1_1011b m1_1011c m1_1011d m1_1011e m1_1011f m1_1101 m1_1102 m1_1102_other m1_1103 m1_1104)		
 		
-rename (Q1104_other Q1105 Q1201 Q1201_other Q1202 Q1202_other Q1203 Q1204 Q1205 Q1206 Q1207 ///
-		Q1208 Q1208_other Q1209 Q1209_other Q1210 Q1210_other Q1211 Q1211_other Q1212 Q1213 ///
+rename (Q1104_OTHER Q1105 Q1201 Q1201_OTHER Q1202 Q1202_OTHER Q1203 Q1204 Q1205 Q1206 Q1207 ///
+		Q1208 Q1208_OTHER Q1209 Q1209_OTHER Q1210 Q1210_OTHER Q1211 Q1211_OTHER Q1212 Q1213 ///
 		Q1214 Q1215 Q1216 Q1217) (m1_1104_other m1_1105 m1_1201 m1_1201_other m1_1202 m1_1202_other ///
 		m1_1203 m1_1204 m1_1205 m1_1206 m1_1207 m1_1208 m1_1208_other m1_1209 m1_1209_other m1_1210 ///
 		m1_1210_other m1_1211 m1_1211_other m1_1212 m1_1213 m1_1214 m1_1215 m1_1216b m1_1217)
 
-rename (Q1218_a Q1218_b Q1218_c Q1218_d Q1218_e Q1218_6_other Q1218_f Q1219 Q1220) ///
+rename (Q1218_A Q1218_B Q1218_C Q1218_D Q1218_E Q1218_6_OTHER Q1218_F Q1219 Q1220) ///
 	   (m1_1218a_1 m1_1218b_1 m1_1218c_1 m1_1218d_1 m1_1218e_1 m1_1218f_other m1_1218f_1 m1_1219 m1_1220)
 
-rename (Q1220_other Q1221 Q1222 Q1222_other Q1223 Q1301 Q1302) (m1_1220_other m1_1221 m1_1222 ///
+rename (Q1220_OTHER Q1221 Q1222 Q1222_OTHER Q1223 Q1301 Q1302) (m1_1220_other m1_1221 m1_1222 ///
 		m1_1222_other m1_1223 height_cm weight_kg)
 
-rename (Q1303a Q1303b Q1303c Q1304a Q1304b Q1304c Q1305a Q1305b Q1305c Q1306 Q1307 Q1308 Q1309 Q1401) ///
+rename (Q1303A Q1303B Q1303C Q1304A Q1304B Q1304C Q1305A Q1305B Q1305C Q1306 Q1307 Q1308 Q1309 Q1401) ///
 	   (bp_time_1_systolic bp_time_1_diastolic time_1_pulse_rate bp_time_2_systolic ///
 	   bp_time_2_diastolic time_2_pulse_rate bp_time_3_systolic bp_time_3_diastolic pulse_rate_time_3 ///
 	   m1_1306 m1_1307 m1_1308 m1_1309 m1_1401)
@@ -132,51 +128,51 @@ rename (Q405_1 Q405_2 Q405_3 Q405_4 Q405_5 Q405_6 Q405_7 Q405_8 Q405_9 Q405_10 Q
 	   (m1_405a_in m1_405b_in m1_405c_in m1_405d_in m1_405e_in m1_405f_in m1_405g_in m1_405h_in ///
 	   m1_405i_in m1_405j_in m1_405_96_in m1_405_99_in)		
 		
-rename Q802_date m1_802_date_in		
+rename Q802_DATE m1_802_date_in		
 
 rename (Q808_0 Q808_1 Q808_2 Q808_3 Q808_4 Q808_5 Q808_6 Q808_7 Q808_8 Q808_10 Q808_11 Q808_12 ///
 		Q808_9 Q808_96 Q808_99) (m1_808_0 m1_808_1 m1_808_2 m1_808_3 m1_808_4 m1_808_5 m1_808_6 ///
 		m1_808_7 m1_808_8 m1_808_9 m1_808_10 m1_808_11 m1_808_13_in m1_808_96 m1_808_99)
 
-rename (Q815_a_0 Q815_a_1 Q815_a_2 Q815_a_3 Q815_a_4 Q815_a_5 Q815_a_6 Q815_a_96 Q815_a_98 Q815_a_99) ///
+rename (Q815_A_0 Q815_A_1 Q815_A_2 Q815_A_3 Q815_A_4 Q815_A_5 Q815_A_6 Q815_A_96 Q815_A_98 Q815_A_99) ///
 	   (m1_815a_0_in m1_815a_1_in m1_815a_2_in m1_815a_3_in m1_815a_4_in m1_815a_5_in m1_815a_6_in ///
 	   m1_815a_96_in m1_815a_98_in m1_815a_99_in)
 
-rename (Q815_b_0 Q815_b_1 Q815_b_2 Q815_b_3 Q815_b_4 Q815_b_5 Q815_b_6 Q815_b_96 Q815_b_98 Q815_b_99) ///
+rename (Q815_B_0 Q815_B_1 Q815_B_2 Q815_B_3 Q815_B_4 Q815_B_5 Q815_B_6 Q815_B_96 Q815_B_98 Q815_B_99) ///
        (m1_815b_0_in m1_815b_1_in m1_815b_2_in m1_815b_3_in m1_815b_4_in m1_815b_5_in m1_815b_6_in ///
 	   m1_815b_96_in m1_815b_98_in m1_815b_99_in)
 
-rename (Q815_c_0 Q815_c_1 Q815_c_2 Q815_c_3 Q815_c_4 Q815_c_5 Q815_c_6 Q815_c_96 Q815_c_98 Q815_c_99) ///
+rename (Q815_C_0 Q815_C_1 Q815_C_2 Q815_C_3 Q815_C_4 Q815_C_5 Q815_C_6 Q815_C_96 Q815_C_98 Q815_C_99) ///
        (m1_815c_0_in m1_815c_1_in m1_815c_2_in m1_815c_3_in m1_815c_4_in m1_815c_5_in m1_815c_6_in ///
 	   m1_815c_96_in m1_815c_98_in m1_815c_99_in)
 
-rename (Q815_d_0 Q815_d_1 Q815_d_2 Q815_d_3 Q815_d_4 Q815_d_5 Q815_d_6 Q815_d_96 Q815_d_98 Q815_d_99) ///
+rename (Q815_D_0 Q815_D_1 Q815_D_2 Q815_D_3 Q815_D_4 Q815_D_5 Q815_D_6 Q815_D_96 Q815_D_98 Q815_D_99) ///
 	   (m1_815d_0_in m1_815d_1_in m1_815d_2_in m1_815d_3_in m1_815d_4_in m1_815d_5_in m1_815d_6_in ///
 	   m1_815d_96_in m1_815d_98_in m1_815d_99_in)
 
-rename (Q815_e_0 Q815_e_1 Q815_e_2 Q815_e_3 Q815_e_4 Q815_e_5 Q815_e_6 Q815_e_96 Q815_e_98 Q815_e_99) ///
+rename (Q815_E_0 Q815_E_1 Q815_E_2 Q815_E_3 Q815_E_4 Q815_E_5 Q815_E_6 Q815_E_96 Q815_E_98 Q815_E_99) ///
        (m1_815e_0_in m1_815e_1_in m1_815e_2_in m1_815e_3_in m1_815e_4_in m1_815e_5_in m1_815e_6_in ///
 	   m1_815e_96_in m1_815e_98_in m1_815e_99_in)
 
-rename (Q815_f_0 Q815_f_1 Q815_f_2 Q815_f_3 Q815_f_4 Q815_f_5 Q815_f_6 Q815_f_96 Q815_f_98 Q815_f_99) ///
+rename (Q815_F_0 Q815_F_1 Q815_F_2 Q815_F_3 Q815_F_4 Q815_F_5 Q815_F_6 Q815_F_96 Q815_F_98 Q815_F_99) ///
        (m1_815f_0_in m1_815f_1_in m1_815f_2_in m1_815f_3_in m1_815f_4_in m1_815f_5_in m1_815f_6_in ///
 	   m1_815f_96_in m1_815f_98_in m1_815f_99_in)
 
-rename (Q815_g_0 Q815_g_1 Q815_g_2 Q815_g_3 Q815_g_4 Q815_g_5 Q815_g_6 Q815_g_96 Q815_g_98 Q815_g_99) ///
+rename (Q815_G_0 Q815_G_1 Q815_G_2 Q815_G_3 Q815_G_4 Q815_G_5 Q815_G_6 Q815_G_96 Q815_G_98 Q815_G_99) ///
        (m1_815g_0_in m1_815g_1_in m1_815g_2_in m1_815g_3_in m1_815g_4_in m1_815g_5_in m1_815g_6_in ///
 	   m1_815g_96_in m1_815g_98_in m1_815g_99_in)
 
-rename (Q815_h_0 Q815_h_1 Q815_h_2 Q815_h_3 Q815_h_4 Q815_h_5 Q815_h_6 Q815_h_96 Q815_h_98 Q815_h_99) ///
+rename (Q815_H_0 Q815_H_1 Q815_H_2 Q815_H_3 Q815_H_4 Q815_H_5 Q815_H_6 Q815_H_96 Q815_H_98 Q815_H_99) ///
        (m1_815h_0_in m1_815h_1_in m1_815h_2_in m1_815h_3_in m1_815h_4_in m1_815h_5_in m1_815h_6_in ///
 	   m1_815h_96_in m1_815h_98_in m1_815h_99_in)
 	   
 rename Q_C m1_interview_split
 
-rename Total_Cost m1_totalcost_in
+rename TOTAL_COST m1_totalcost_in
 
-rename id study_id
+rename ID study_id
 
-rename end m1_end_time
+rename END m1_end_time
 
 *------------------------------------------------------------------------------*
 
@@ -190,7 +186,7 @@ format estimated_delivery_date %td
 
 //Trimester calculation
 *drop already existing vars:
-drop gestational_age gestational_age_1 gest_age Gestational_age_new
+drop GESTATIONAL_AGE GESTATIONAL_AGE_1 GEST_AGE GESTATIONAL_AGE_NEW
 
 gen gestational_age = 40-((estimated_delivery_date - Date_of_interview)/7)
 gen gestational_age_1 =((m1_803a_in*4)+ m1_803b_in)
@@ -206,8 +202,8 @@ rename Gestational_age_new m1_804 //Q804 not in the dataset
 
 * dropping unncessary vars:
 
-drop SubmissionDate calc_start_time Calc_weeks_remaining_1 Calc_weeks_remaining_2 Calc_weeks_remaining ///
-	 start gest_age gestational_age gestational_age_1
+drop SUBMISSIONDATE CALC_START_TIME CALC_WEEKS_REMAINING_1 CALC_WEEKS_REMAINING_2 CALC_WEEKS_REMAINING ///
+	 START 
 
 *===============================================================================
 	
@@ -286,7 +282,7 @@ recode m1_504  m1_504a_in (. = .a) if m1_503 != 2 | m1_503 != 3 | m1_503 != 4 | 
 recode m1_509b (.  = .a) if m1_509a == 0 | m1_509a == . | m1_509a == .r
 recode m1_510b (.  = .a) if m1_510a == 0 | m1_510a == . | m1_510a == .r
 
-recode m1_c6_in m1_c7_in (. = .a) if m1_interview_split !=1
+* recode m1_c6_in m1_c7_in (. = .a) if m1_interview_split !=1 // string var in new dataset ss fix
 
 recode m1_708b m1_708c m1_708d m1_708e m1_708f m1_709a m1_709b (. = .a) if m1_708a !=1
 
@@ -317,7 +313,7 @@ recode m1_724f (. = .a) if m1_705 !=0
 recode m1_724g (. = .a) if  m1_707 !=0
 recode m1_724h (. = .a) if m1_708a !=0 
 recode m1_724i (. = .a) if m1_712 !=0
-recode m1_802_date_in m1_802a (. = .a) if m1_802a !=1
+*recode m1_802_date_in m1_802a (. = .a) if m1_802a !=1 // string in new ds ss fix
 recode m1_803a_in m1_803b_in (. = .a) if m1_802a ==1 
 recode m1_808_0 m1_808_1 m1_808_2 m1_808_3 m1_808_4 m1_808_5 m1_808_6 m1_808_7 ///
 	   m1_808_8 m1_808_13_in m1_808_9 m1_808_10 m1_808_11 m1_808_96 m1_808_99 ///
@@ -352,7 +348,7 @@ recode m1_815e_in m1_815e_0_in m1_815e_1_in m1_815e_2_in m1_815e_3_in m1_815e_4_
 
 recode m1_815e_other_in (. = .a) if m1_815e_96_in !=1 
 
-replace m1_815f_in = ".a" if m1_814d !=1 
+replace m1_815f_in = .a if m1_814d !=1 
 
 recode m1_815f_0_in m1_815f_1_in m1_815f_2_in m1_815f_3_in m1_815f_4_in m1_815f_5_in m1_815f_6_in m1_815f_96_in m1_815f_98_in m1_815f_99_in (. = .a) if m1_814f !=1
 
@@ -362,9 +358,12 @@ recode m1_815g_in m1_815g_0_in m1_815g_1_in m1_815g_2_in m1_815g_3_in m1_815g_4_
 
 replace m1_815g_other_in = ".a" if m1_815g_96_in !=1 
 
-recode m1_815h_in m1_815h_0_in m1_815h_1_in m1_815h_2_in m1_815h_3_in m1_815h_4_in m1_815h_5_in m1_815h_6_in m1_815h_96_in m1_815h_98_in m1_815h_99_in (. = .a) if m1_814h !=1
+destring m1_815h_1_in, replace
+destring  m1_815h_6_in, replace
+destring m1_815h_96_in, replace
+*recode m1_815h_in m1_815h_0_in m1_815h_1_in m1_815h_2_in m1_815h_3_in m1_815h_4_in m1_815h_5_in m1_815h_6_in m1_815h_96_in m1_815h_98_in m1_815h_99_in (. = .a) if m1_814h !=1 // ss fix
 
-recode m1_815h_other_in (. = .a) if m1_815h_96_in !=1 
+*recode m1_815h_other_in (. = .a) if m1_815h_96_in !=1 // ss fix
 
 egen m1_symptoms = rowtotal(m1_814a m1_814b m1_814c m1_814d m1_814e m1_814f m1_814g m1_814h)
 
@@ -445,6 +444,9 @@ recode m1_1307 (. = .a) if m1_1306 !=1
 recode m1_1308 (.  = .a) if m1_1306 == 1 | m1_1306 == .a | m1_1306 == .d | m1_1306 == .r
 
 recode m1_1309 (.  = .a) if m1_1308 !=1		
+
+
+
 	
 *===============================================================================					   
 	

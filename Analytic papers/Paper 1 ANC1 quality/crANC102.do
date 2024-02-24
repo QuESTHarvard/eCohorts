@@ -80,7 +80,7 @@ u "$user/$data/Ethiopia/02 recoded data/eco_m0_et.dta", clear
 		
 		egen anc_annual= rowtotal (anc_tot*)
 		gen anc_mont = anc_annual/12
-	
+		egen vol_cat = cut(anc_mont), group(3)
 * Volume per staff
 		gen anc_vol_staff_onc = anc_mont / total_staff_onc
 	
@@ -98,7 +98,7 @@ u "$user/$data/Ethiopia/02 recoded data/eco_m0_et.dta", clear
 	lab var anc_vol_staff_onc "Average monthly number of ANC visits per staff providing obstetric care"
 	
 	keep facility sri_score sri_basicamenities sri_equip sri_diag sri_cat total_staff staff_cat ///
-	     anc_mont anc_vol_staff ftdoc beds m0_a8_fac_own m0_a6_fac_type
+	     vol_cat anc_mont anc_vol_staff ftdoc beds m0_a8_fac_own m0_a6_fac_type
 	
 	gen private = m0_a8_fac_own
 	recode private (1=0) (2/4=1)
@@ -197,7 +197,7 @@ Average of 6 items: electricity, water, toilet, communication, computer & intern
 	
 	    egen anc_annual= rowtotal (anc_tot*)
 		gen anc_mont = anc_annual/12
-	
+		egen vol_cat = cut(anc_mont), group(3)
 		* Volume per staff
 		gen anc_vol_staff_onc = anc_mont / total_staff_onc
 	
@@ -214,7 +214,7 @@ Average of 6 items: electricity, water, toilet, communication, computer & intern
 	lab var anc_vol_staff_onc "Average monthly number of ANC visits per staff providing obstetric care"
 	
 	keep facility sri_score sri_basicamenities sri_equip sri_diag sri_cat total_staff ///
-		 anc_mont anc_vol_staff ftdoc beds m0_facility_own m0_facility_type staff_cat
+		   vol_cat anc_mont anc_vol_staff ftdoc beds m0_facility_own m0_facility_type staff_cat
 	
 	gen private = m0_facility_own==2
 	gen facsecond= m0_facility_type==2
@@ -292,6 +292,7 @@ Average of 6 items: electricity, water, toilet, communication, computer & intern
 * VOLUMES 
 	egen anc_annual= rowtotal (m0_801_*)
 	gen anc_mont = anc_annual/12
+	egen vol_cat = cut(anc_mont), group(3)
 	
 	* Volume per staff
 	gen anc_vol_staff_onc = anc_mont / total_staff_onc
@@ -308,7 +309,7 @@ Average of 6 items: electricity, water, toilet, communication, computer & intern
 	lab var anc_vol_staff_onc "Average monthly number of ANC visits per staff providing obstetric care"
 	
 	keep facility sri_score sri_basicamenities sri_equip sri_diag sri_cat total_staff staff_cat ///
-		  anc_mont anc_vol_staff ftdoc beds m0_facility_own m0_facility_type
+		    vol_cat anc_mont anc_vol_staff ftdoc beds m0_facility_own m0_facility_type
 	
 
 * MERGING WITH M1 INDIVIDUAL-LEVEL DATA

@@ -21,14 +21,13 @@ global qualvarsET anc1bp anc1weight anc1height anc1muac anc1blood ///
 		excelname(Fig3) sheetname(ETH_risk) replace 
 
 		
-	/* Table 3 Facility characteristics
-		summtab if tag==1, catvars(private facsecond ftdoc) contvars (sri_basicamenities ///
-		sri_equip sri_diag total_staff anc_mont anc_vol_staff_onc beds) mean by(site) excel ///
-		excelname(Table3) sheetname(ET) replace 
+	* Table 3 Facility characteristics
+		summtab if tag==1, catvars(private facsecond ) contvars (sri_score total_staff ///
+		anc_mont ) mean by(site) excel excelname(Table3) sheetname(ET) replace 
+		
 		
 *------------------------------------------------------------------------------*/	
 * KENYA
-
 u "$user/$analysis/KEtmp.dta", clear
 cd "$user/$analysis"
 global qualvarsKE anc1bp anc1weight anc1height anc1muac anc1blood ///
@@ -41,7 +40,7 @@ global qualvarsKE anc1bp anc1weight anc1height anc1muac anc1blood ///
 		tabstat  $qualvarsKE if site==1, stat(mean count) col(stat) // Kiambu
 		tabstat anc1qual, by(site) stat(mean sd)
 	
-* Table 2 Demog & health 		
+	* Table 2 Demog & health 		
 		summtab , contvars(enrollage) catvars(second healthlit_corr young tertile marriedp ///
 		poorhealth depression_cat  dangersigns primipara preg_intent trimester) mean by(site) excel ///
 		excelname(Table2) sheetname(KEN_demog) replace 
@@ -50,27 +49,10 @@ global qualvarsKE anc1bp anc1weight anc1height anc1muac anc1blood ///
 		summtab , catvars(lvl_anemia chronic maln_underw overweight complic) mean excel ///
 		excelname(Fig3) sheetname(KEN_risk) replace 
 		
-	/* Table 3 Facility characteristics
-		summtab if tag==1, catvars(private facsecond ftdoc) contvars (sri_basicamenities ///
-		sri_equip sri_diag total_staff anc_mont anc_vol_staff_onc beds) mean by(site) excel ///
-		excelname(Table3) sheetname(KE) replace 
-	
-		* Figure 1
-		ttest anc1qual, by(chronic)
-		ttest anc1qual, by(anemic)
-		ttest anc1qual, by(maln_underw)
-		ttest anc1qual, by(dangersigns)
-		ttest anc1qual, by(cesa)
-		ttest anc1qual, by(complic)
-				
-		ttest timespent, by(chronic)
-		ttest timespent, by(anemic)
-		ttest timespent, by(maln_underw)
-		ttest timespent, by(dangersigns)
-		ttest timespent, by(cesa)
-		ttest timespent, by(complic)
-		
-		scatter anc1qual sri_score
+	* Table 3 Facility characteristics
+		summtab if tag==1, catvars(private facsecond ) contvars (sri_score total_staff ///
+		anc_mont ) mean by(site) excel excelname(Table3) sheetname(KE) replace 
+
 		
 *------------------------------------------------------------------------------*/		
 * ZAF
@@ -86,7 +68,7 @@ global qualvarsZA anc1bp anc1weight anc1height anc1muac anc1blood ///
 		tabstat  $qualvarsZA if site==1, stat(mean count) col(stat) // uMhlathuze
 		tabstat anc1qual, by(site) stat(mean sd)
 		
-* Table 2 Demog & health 		
+	* Table 2 Demog & health 		
 		summtab , contvars(enrollage) catvars(second healthlit_corr young tertile marriedp ///
 		poorhealth depression_cat  dangersigns primipara preg_intent trimester) mean by(site) excel ///
 		excelname(Table2) sheetname(ZAF_demog) replace 
@@ -95,29 +77,10 @@ global qualvarsZA anc1bp anc1weight anc1height anc1muac anc1blood ///
 		summtab , catvars(lvl_anemia chronic maln_underw overweight complic) mean excel ///
 		excelname(Fig3) sheetname(ZAF_risk) replace 
 		
-		/* Table 3 Facility characteristics
-		summtab if tag==1, catvars(private facsecond ftdoc) contvars (sri_basicamenities ///
-		sri_equip sri_diag total_staff anc_mont anc_vol_staff_onc beds) mean by(site) excel ///
-		excelname(Table3) sheetname(ZA) replace 
+	* Table 3 Facility characteristics
+		summtab if tag==1,  contvars (sri_score total_staff ///
+		anc_mont ) mean by(site) excel excelname(Table3) sheetname(ZA) replace 
 
-		* Figure 1
-		ttest anc1qual, by(chronic)
-		ttest anc1qual, by(anemic)
-		ttest anc1qual, by(maln_underw)
-		ttest anc1qual, by(dangersigns)
-		ttest anc1qual, by(cesa)
-		ttest anc1qual, by(complic)
-		
-		ttest timespent, by(chronic)
-		ttest timespent, by(anemic)
-		ttest timespent, by(maln_underw)
-		ttest timespent, by(dangersigns)
-		ttest timespent, by(cesa)
-		ttest timespent, by(complic)
-			
-		table quintile, stat(mean anc1qual)
-		table educ, stat(mean anc1qual) */
-		
 *------------------------------------------------------------------------------*
 * INDIA	
 u "$user/$analysis/INtmp.dta", clear 
@@ -131,12 +94,12 @@ global qualvarsIND anc1bp anc1weight anc1blood ///
 		tabstat  $qualvarsIND if state==2, stat(mean count) col(stat) // Jodhpur
 		tabstat anc1qual, by(state) stat(mean p50 sd)
 		
-* Table 2 Demog & health 		
+		* Table 2 Demog & health 		
 		summtab , contvars(enrollage) catvars(second healthlit_corr young tertile marriedp ///
-		poorhealth depression_cat  dangersigns primipara preg_intent trimester) mean by(state) excel ///
+		poorhealth depression_cat  m1_dangersigns primipara preg_intent trimester) mean by(state) excel ///
 		excelname(Table2) sheetname(IND_demog) replace 
 		
-* Fig 3 risk factors		
+		* Fig 3 risk factors		
 		summtab , catvars(lvl_anemia chronic maln_underw overweight complic) mean  excel ///
 		excelname(Fig3) sheetname(IND_risk) replace 
 	
