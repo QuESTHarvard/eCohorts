@@ -56,6 +56,7 @@ u "$user/$data/Ethiopia/02 recoded data/eco_m1_et_der.dta", clear
 	recode m1_phq9 4/5=3, gen(depression_cat)
 	lab def depression_cat 1"none-minimal 0-4" 2"Mild 5-9" 3"Moderate to severe 10+"
 	lab val depression_cat depression_cat
+	recode depression_cat 1=0 2/3=1, g(depress)
 	
 * Medical risk factors
 	* Anemia
@@ -76,8 +77,6 @@ u "$user/$data/Ethiopia/02 recoded data/eco_m1_et_der.dta", clear
 	rename m1_malnutrition maln_underw
 	recode m1_BMI 0/29.999=0 30/100=1, g(overweight)
 	
-	egen ipv=rowmax(m1_1101 m1_1103)
-	
 * Obstetric risk factors
 	gen multiple= m1_805 >1 &  m1_805<.
 	gen cesa= m1_1007==1
@@ -86,7 +85,6 @@ u "$user/$data/Ethiopia/02 recoded data/eco_m1_et_der.dta", clear
 	gen PPH=m1_1006==1
 	rename m1_1004 late_misc
 	egen complic = rowmax(cesa stillbirth preterm neodeath  PPH )
-	egen complic4=rowmax(late_misc stillbirth preterm neodeath)
 	
 egen anyrisk =rowmax(severe_anemia chronic overweight young old multiple complic )
 
@@ -147,6 +145,7 @@ u "$user/$data/Kenya/02 recoded data/eco_m1_ke_der.dta", clear
 		recode phq9_cat 4/5=3, gen(depression_cat)
 		lab def depression_cat 1"none-minimal 0-4" 2"Mild 5-9" 3"Moderate to severe 10+"
 		lab val depression_cat depression_cat
+		recode depression_cat 1=0 2/3=1, g(depress)
 			
 *Medical risk factors
 		* Anemia
@@ -176,8 +175,7 @@ u "$user/$data/Kenya/02 recoded data/eco_m1_ke_der.dta", clear
 		gen preterm = m1_1005 ==1
 		gen PPH=m1_1006==1
 		egen complic = rowmax(stillbirth neodeath preterm PPH cesa)
-		egen complic4=rowmax(m1_1004 stillbirth m1_1005 m1_1010)
-		
+	
 * Visit time
 		 extrdate hh time  = m1_start_time
 		 recode time 9/11=1 12/14=2 15/23=3
@@ -237,6 +235,7 @@ u  "$user/$data/South Africa/02 recoded data/eco_m1_za_der.dta", clear
 		recode phq9_cat 4/5=3, gen(depression_cat)
 		lab def depression_cat 1"none-minimal 0-4" 2"Mild 5-9" 3"Moderate to severe 10+"
 		lab val depression_cat depression_cat
+		recode depression_cat 1=0 2/3=1, g(depress)
 
 * Medical risk factors
 		* Anemia
@@ -265,7 +264,6 @@ u  "$user/$data/South Africa/02 recoded data/eco_m1_za_der.dta", clear
 		gen preterm = m1_1005 ==1
 		gen PPH=m1_1006==1
 		egen complic = rowmax(stillbirth neodeath preterm PPH cesa)
-		egen complic4=rowmax(m1_1004 stillbirth m1_1005 m1_1010)
 			
 * Visit time
 		encode m1_start_time, gen(time)
@@ -284,7 +282,7 @@ save "$user/$analysis/ZAtmp.dta", replace
 *------------------------------------------------------------------------------*
 * INDIA
 u "$user/$data/India/02 recoded data/eco_m1_in_der.dta", clear	
-
+egen tag=tag(facility)
 * ANC quality
 		gen edd = anc1edd if trimester>1 & trimester<.  // 2nd or 3rd trimester only
 		gen ultra =anc1ultrasound if trimester>2 & trimester<. // 3rd trimester only
@@ -307,9 +305,7 @@ u "$user/$data/India/02 recoded data/eco_m1_in_der.dta", clear
 		egen diag=rowmean(anc1blood anc1urine ultra )
 		egen hist= rowmean(anc1lmp previous_preg)
 		egen counsel=rowmean(counsel_nutri  counsel_complic counsel_birthplan edd counsel_comeback)
-		egen tx=rowmean(anc1ifa calcium anc1deworm tt )
-
-		egen ipv=rowmax(m1_1101 m1_1103)
+		egen tx=rowmean(anc1ifa calcium anc1deworm tt)
 
 * Demographics & health 
 		recode educ_cat 1/2=0 3/4=1, gen(second)
@@ -324,6 +320,7 @@ u "$user/$data/India/02 recoded data/eco_m1_in_der.dta", clear
 		recode phq9_cat 4/5=3, gen(depression_cat)
 		lab def depression_cat 1"none-minimal 0-4" 2"Mild 5-9" 3"Moderate to severe 10+"
 		lab val depression_cat depression_cat
+		recode depression_cat 1=0 2/3=1, g(depress)
 		
 * Medical risk factors
 		* Anemia
@@ -345,10 +342,11 @@ u "$user/$data/India/02 recoded data/eco_m1_in_der.dta", clear
 		gen preterm = m1_1005 ==1
 		gen PPH=m1_1006==1
 		egen complic = rowmax(stillbirth neodeath preterm PPH cesa)
-		egen complic4=rowmax(m1_1004 stillbirth m1_1005 m1_1010)
 
 egen anyrisk =rowmax(severe_anemia chronic overweight young old multiple complic )
-	rename dangersign m1_dangersigns
+	
+		drop if anc1qual==. // 1 woman had no data on ANC content
+	
 save "$user/$analysis/INtmp.dta", replace
 
 

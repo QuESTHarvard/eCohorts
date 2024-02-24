@@ -15,29 +15,26 @@ u "$user/$analysis/ETtmp.dta", clear
 	ta m1_721 if  m1_202d ==1
 	ta m1_722 if m1_202e ==1
 	
-	
 	* Prior obstetric complications
-	egen complic4=rowmax(m1_1004 stillbirth m1_1005 m1_1010)
-	tabstat m1_1004 stillbirth m1_1005 m1_1010, stat(sum N) col(stat) // late miscarriage, stillbirth (deliv>live births), preterm, neodeath
-	ta m1_1011b if m1_1004 ==1 
+	egen complic4=rowmax(late_misc stillbirth m1_1005 m1_1010)
+	tabstat late_misc stillbirth m1_1005 m1_1010, stat(sum N) col(stat) // late miscarriage, stillbirth (deliv>live births), preterm, neodeath
+	ta m1_1011b if late_misc ==1 
 	ta m1_1011c if stillbirth ==1 
 	ta m1_1011d if m1_1005 ==1 
 	ta m1_1011f if m1_1010 ==1 
 	
 	* Depression
-	recode phq9_cat (1=0) (2/5=1), gen(depression)
-	g depression_address = m1_716c if depression==1
+	g depression_address = m1_716c if depress==1
 	
 	* Anemia
-	ta anemic
-	ta anc1blood if anemic==1
+	g anemia_address= anc1blood if lvl_anemia<3
 	
 	* Danger signs (one of 6)
-	ta dangersign
+	ta m1_dangersign
 	egen danger_address = rowmax(m1_815_1-m1_815_96) 
 	replace danger_address = 0 if m1_815_other=="I told her the problem but she said nothing"
 	replace danger_address= 0 if  m1_815_0==1 // did not discuss the danger sign 
-	replace danger_address=. if dangersign==0
+	replace danger_address=. if m1_dangersign==0
 *------------------------------------------------------------------------------*	
 * Kenya
 u "$user/$analysis/KEtmp.dta", clear
@@ -60,21 +57,19 @@ u "$user/$analysis/KEtmp.dta", clear
 	ta m1_1011f if m1_1010 ==1 
 	
 	* Depression
-	recode phq9_cat (1=0) (2/5=1), gen(depression)
-	g depression_address = m1_716c if depression==1
+	g depression_address = m1_716c if depress==1
 	
 	* Anemia
-	ta anemic
-	g anemia_address= anc1blood if anemic==1
+	g anemia_address= anc1blood if lvl_anemia<3
 	
 	* Danger signs (one of 6)
-	ta dangersign
+	ta m1_dangersign
 	egen danger_address = rowmax(m1_815_2 m1_815_3 m1_815_4 m1_815_5 m1_815_6 m1_815_7 m1_815_96) 
 	replace danger_address = 0 if m1_815_other=="We discussed but there was no answer from provider" ///
 	| m1_815_other=="Didn't discuss because it happened twice only."  | m1_815_other=="Never informed the care provider" ///
 	| m1_815_other=="No response given by the nurse"
 	replace danger_address= 0 if   m1_815_1==1 // did not discuss the danger sign 
-	replace danger_address=. if dangersign==0
+	replace danger_address=. if m1_dangersign==0
 			
 *------------------------------------------------------------------------------*		
 * ZAF
@@ -97,18 +92,58 @@ u "$user/$analysis/ZAtmp.dta", clear
 	ta m1_1011d if m1_1005 ==1 
 	ta m1_1011f if m1_1010 ==1 
 	* Depression
-	recode phq9_cat (1=0) (2/5=1), gen(depression)
-	g depression_address = m1_716c if depression==1
+	g depression_address = m1_716c if depress==1
 	
 	* Anemia
-	ta anemic
-	g anemia_address= anc1blood if anemic==1
+	g anemia_address= anc1blood if lvl_anemia<3
 	
 	* Danger signs (one of 6)
-	ta dangersign
+	ta m1_dangersign
 	recode m1_815 (1=0) (2/96=1) (.a .d .r=.) , gen(danger_address)
 	replace danger_address = 0 if m1_815_other=="She told the nurse that she bleeds and the nurse said there is no such thing"
-	replace danger_address=. if dangersign==0		
+	replace danger_address=. if m1_dangersign==0		
+			
+------------------------------------------------------------------------------*		
+* INDIA
+u "$user/$analysis/INtmp.dta", clear 			
+	
+	* Diabetes, HTN, cardiac problem, mental health problem, HIV
+	egen chronic5=rowmax(m1_202a m1_202b m1_202c m1_202d m1_202e)
+	tabstat m1_202a m1_202b m1_202c m1_202d m1_202e, stat(sum N) col(stat)
+	ta m1_718 if m1_202a  ==1 
+	ta m1_719 if m1_202b  ==1
+	ta m1_720 if m1_202c ==1
+	ta m1_721 if  m1_202d ==1
+	ta m1_722 if m1_202e ==1
+	
+	* Prior obstetric complications
+	egen complic4=rowmax(m1_1004 stillbirth m1_1005 m1_1010)
+	tabstat m1_1004 stillbirth m1_1005 m1_1010, stat(sum N) col(stat) // late miscarriage, stillbirth (deliv>live births), preterm, neodeath
+	ta m1_1011b if m1_1004 ==1 
+	ta m1_1011c if stillbirth ==1 
+	ta m1_1011d if m1_1005 ==1 
+	ta m1_1011f if m1_1010 ==1 
+	* Depression
+	g depression_address = m1_716c if depress==1
+	
+	* Anemia
+	g anemia_address= anc1blood if lvl_anemia<3
+	
+	* Danger signs (one of 6)
+	ta m1_dangersign
+	egen danger_address = rowmax(m1_815a_1_in m1_815a_2_in m1_815a_3_in m1_815a_4_in ///
+	m1_815a_5_in m1_815a_6_in m1_815b_1_in m1_815b_2_in m1_815b_3_in m1_815b_4_in ///
+	m1_815b_5_in m1_815b_6_in m1_815c_1_in m1_815c_2_in m1_815c_3_in m1_815c_4_in ///
+	m1_815c_5_in m1_815c_6_in m1_815d_1_in m1_815d_2_in m1_815d_3_in m1_815d_4_in ///
+	m1_815d_5_in m1_815d_6_in m1_815e_1_in m1_815e_2_in m1_815e_3_in m1_815e_4_in ///
+	m1_815e_5_in m1_815e_6_in m1_815f_1_in m1_815f_2_in m1_815f_3_in m1_815f_4_in ///
+	m1_815f_5_in m1_815f_6_in m1_815g_1_in m1_815g_2_in m1_815g_3_in m1_815g_4_in ///
+	m1_815g_5_in m1_815g_6_in m1_815h_1_in m1_815h_2_in m1_815h_3_in m1_815h_4_in m1_815h_5_in m1_815h_6_in) 
+	replace danger_address=. if m1_dangersign==0		
+			
+			
+			
+			
 			
 			
 			
