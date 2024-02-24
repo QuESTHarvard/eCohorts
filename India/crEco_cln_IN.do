@@ -282,7 +282,7 @@ recode m1_504  m1_504a_in (. = .a) if m1_503 != 2 | m1_503 != 3 | m1_503 != 4 | 
 recode m1_509b (.  = .a) if m1_509a == 0 | m1_509a == . | m1_509a == .r
 recode m1_510b (.  = .a) if m1_510a == 0 | m1_510a == . | m1_510a == .r
 
-* recode m1_c6_in m1_c7_in (. = .a) if m1_interview_split !=1 // string var in new dataset
+* recode m1_c6_in m1_c7_in (. = .a) if m1_interview_split !=1 // string var in new dataset ss fix
 
 recode m1_708b m1_708c m1_708d m1_708e m1_708f m1_709a m1_709b (. = .a) if m1_708a !=1
 
@@ -313,7 +313,7 @@ recode m1_724f (. = .a) if m1_705 !=0
 recode m1_724g (. = .a) if  m1_707 !=0
 recode m1_724h (. = .a) if m1_708a !=0 
 recode m1_724i (. = .a) if m1_712 !=0
-*recode m1_802_date_in m1_802a (. = .a) if m1_802a !=1 // string in new ds
+*recode m1_802_date_in m1_802a (. = .a) if m1_802a !=1 // string in new ds ss fix
 recode m1_803a_in m1_803b_in (. = .a) if m1_802a ==1 
 recode m1_808_0 m1_808_1 m1_808_2 m1_808_3 m1_808_4 m1_808_5 m1_808_6 m1_808_7 ///
 	   m1_808_8 m1_808_13_in m1_808_9 m1_808_10 m1_808_11 m1_808_96 m1_808_99 ///
@@ -358,9 +358,12 @@ recode m1_815g_in m1_815g_0_in m1_815g_1_in m1_815g_2_in m1_815g_3_in m1_815g_4_
 
 replace m1_815g_other_in = ".a" if m1_815g_96_in !=1 
 
-*recode m1_815h_in m1_815h_0_in m1_815h_1_in m1_815h_2_in m1_815h_3_in m1_815h_4_in m1_815h_5_in m1_815h_6_in m1_815h_96_in m1_815h_98_in m1_815h_99_in (. = .a) if m1_814h !=1
+destring m1_815h_1_in, replace
+destring  m1_815h_6_in, replace
+destring m1_815h_96_in, replace
+*recode m1_815h_in m1_815h_0_in m1_815h_1_in m1_815h_2_in m1_815h_3_in m1_815h_4_in m1_815h_5_in m1_815h_6_in m1_815h_96_in m1_815h_98_in m1_815h_99_in (. = .a) if m1_814h !=1 // ss fix
 
-*recode m1_815h_other_in (. = .a) if m1_815h_96_in !=1 
+*recode m1_815h_other_in (. = .a) if m1_815h_96_in !=1 // ss fix
 
 egen m1_symptoms = rowtotal(m1_814a m1_814b m1_814c m1_814d m1_814e m1_814f m1_814g m1_814h)
 
@@ -441,6 +444,9 @@ recode m1_1307 (. = .a) if m1_1306 !=1
 recode m1_1308 (.  = .a) if m1_1306 == 1 | m1_1306 == .a | m1_1306 == .d | m1_1306 == .r
 
 recode m1_1309 (.  = .a) if m1_1308 !=1		
+
+
+
 	
 *===============================================================================					   
 	

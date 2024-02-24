@@ -12,30 +12,25 @@ u "$in_data_final/eco_m1_in.dta", clear
 * MODULE 1
 *------------------------------------------------------------------------------*
 	* SECTION A: META DATA
-	recode facility (8 9 10 = 1 "JRP")(1 2 3 4 5 6 24=2 "JUP")(11 12=3 "JUS") ///
-	(14 15 23=4 "JRS") (20=5 "SUS")(26=6 "SRS")(25 27 28 29 30 31 32 33 34=7 "SRP") ///
-	(35 36 39=8 "SUP"), g (facility_type)
-
+	recode facility (8 9 10 40= 1 "JRP")(1 2 3 4 5 6 24 42=2 "JUP")(11 12 43=3 "JUS") ///
+	(14 15 23 41=4 "JRS") (20 39 47=5 "SUS")(26 45=6 "SRS")(25 27 28 29 30 31 32 33 18 34 44=7 "SRP") ///
+	(35 36 46=8 "SUP"), g (facility_type)
+ 
 	recode facility_type (1 4=1 "Rural_Jodhpur") (2 3=2 "Urban_Jodhpur") ///
 	(6 7=3 "Sonipath_Rural") (8 5=4 "Sonopath_Urban"), gen (residence)
-
-	* THIS IS NOT CORRECT, PHFI TO SEND URBAN/RURAL categories for remaining 211 women
 	
-	/*g site=study_site
-	replace site = 1 if site==3 & residence==2
-	replace site = 2 if site==3 & residence==1
-	recode site 3=.
+	order facility_type, after(facility)
 	
-	lab def site 1"India Urban" 2"India Rural"
-	lab val site site */
+	recode facility_type (1 4 6 7=0) (2/3 5 8  =1), g(urban)
+	lab def urban 1"urban" 0"rural"
+	lab val urban urban
+	
+	recode facility (1/2 7/8=1) (3/6=2), g(facility_lvl)
+	lab def facility_lvl 1"Primary" 2"Secondary"
+	* There are 33 unique facilities. Subhojit to send
 	
 	recode study_site (2=1 "Sonipat") (3=2 "Jodhpur"), g(state)
-	
-	
-	recode facility_type 1=1 2=1 3=2 4=2 5=2 6=2 7=1 8=1 18/96=. , g(facility_lvl)
-	lab def facility_lvl 1"Primary" 2"Secondary"
-	lab val facility_lvl facility_lvl
-	
+
 *------------------------------------------------------------------------------*	
 	* SECTION 2: HEALTH PROFILE
 			egen phq9_cat = rowtotal(phq9*)
@@ -137,22 +132,18 @@ u "$in_data_final/eco_m1_in.dta", clear
 			
 *------------------------------------------------------------------------------*	
 	* SECTION 8: CURRENT PREGNANCY
-			egen dangersigns = rowmax(m1_814a m1_814b m1_814c m1_814d m1_814f m1_814g)
+			egen m1_dangersigns = rowmax(m1_814a m1_814b m1_814c m1_814d m1_814f m1_814g)
 			gen preg_intent = m1_807
 			
 	* THE BELOW IS NOT CORRECT!SHALOM TO ADJUST
 			gen m1_ga = gest_age
-			replace m1_ga = . if gest_age<1 | gest_age> 40 
 			
-			gen trimester = m1_804
-			replace trimester =. if trimester<1 | trimester >3 
-			*brow gestational_age gestational_age_1 gest_age  m1_803a_in m1_803b_in m1_804 
-
+			*recode m1_ga (0/12=1) (12.1/27=2) (27.1/40=3), g(trimester)
+			g trimester=m1_804
+			
 			* Asked about LMP
 			gen anc1lmp= m1_806
 			
-	* WAITING TO HEAR BACK ABOUT THESE DANGER SIGN VARIABLES
-	
 			/* Screened for danger signs 
 			egen anc1danger_screen = rowmax(m1_815a_1_in m1_815a_2_in m1_815a_3_in ///
 			m1_815a_4_in m1_815a_5_in m1_815a_6_in m1_815a_96_in m1_815b_1_in m1_815b_2_in m1_815b_3_in ///
@@ -165,12 +156,15 @@ u "$in_data_final/eco_m1_in.dta", clear
 			m1_815g_5_in m1_815g_6_in m1_815g_96_in m1_815h_1_in m1_815h_2_in m1_815h_3_in ///
 			m1_815h_4_in m1_815h_5_in m1_815h_6_in m1_815h_96_in) 
 	
-			replace anc1danger_screen= 0 if m1_815a_0_in==1 | m1_815b_0_in==1 |  ///
-				m1_815c_0_in==1 |  m1_815d_0_in==1 |  m1_815e_0_in==1 |  m1_815f_0_in==1 ///
-				| m1_815g_0_in==1 | m1_815h_0_in==1
+			
+			egen tmp = rowmax(m1_815a_0_in m1_815b_0_in m1_815c_0_in m1_815d_0_in m1_815e_0_in ///
+			m1_815f_0_in m1_815g_0_in m1_815h_0_in )
+			
+			replace anc1danger_screen = 0 if tmp == 1 & anc1danger_screen==.
+			drop tmp
 				
-			replace anc1danger_screen =  m1_816 if anc1danger_screen==.a | ///
-				anc1danger_screen==. | anc1danger_screen==.d */
+			replace anc1danger_screen =  m1_816 if anc1danger_screen==. 
+			* Programming error: 816 is missing for most women with no danger signs*/
 				
 *------------------------------------------------------------------------------*	
 	* SECTION 10: OBSTETRIC HISTORY
