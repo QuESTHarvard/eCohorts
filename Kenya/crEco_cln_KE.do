@@ -23,10 +23,9 @@ gen country = "Kenya"
 drop q101 q102 q105 q513b q513d q513e_1 q513e_2 q513f_1 q513f_2 q513g_1 q513g_2 ///
 	 q513h_1 q513h_2 q513i_1 q513i_2 text_audit mean_sound_level min_sound_level ///
 	 max_sound_level sd_sound_level pct_sound_between0_60 pct_sound_above80 ///
-	 pct_conversation subscriberid simid enum_name 
+	 pct_conversation subscriberid simid enum_name pref_language_ke pref_language_1_ke pref_language_2_ke pref_language_3_ke pref_language_4_ke pref_language_96_ke pref_language_other_ke formdef_version 
 
 *------------------------------------------------------------------------------*	 
-	 
 * Append module 2:
 
 append using "$ke_data/Module 2/KEMRI_Module_2_ANC_period.dta", force
@@ -37,11 +36,14 @@ replace module = 2 if attempts != .
 
 drop care_reason_ante_label_1 care_reason_ref_label_1 care_visit_reas_rpt_grp_count_1 care_vis_idx_1_1 care_visit_res_1_1 care_vis_idx_1_2 care_visit_res_1_2 care_reason_other_label_pre_1 care_reason_other_label_1 care_reason_label_1 q_303_label_2 q_304_label_2
 
+* fixing duplicate var names
+rename facility_name m2_site
+
 *------------------------------------------------------------------------------*
 * de-identifying dataset and remove extra variables
 
 drop q_102 resp_other_name resp_worker availability module_2_success ///
-     module_2_first module_2_freq name_confirm name_full date_confirm time_start_full ///
+     module_2_first module_2_freq mod_2_freq_label module_2_oth name_confirm name_full date_confirm time_start_full ///
 	 text_audit consent_audio section6_audio mean_sound_leve min_sound_level ///
 	 max_sound_level sd_sound_level pct_sound_between0_60 pct_sound_above80 ///
 	 pct_conversation q_104_calc q_105 q_106 full_name phone1 phone2 phone3 ///
@@ -56,9 +58,15 @@ drop q_203a_calc_e q_203b_calc_e q_203c_calc_e q_203d_calc_e q_203e_calc_e ///
 	 
 drop q_205a_calc q_205b_calc
 
-drop repeat_g303 q_303_rpt_grp q_303_indx_1 q_303_indx_st_1 q_303_indx_nd_1 q_303_indx_rd_1 q_303_indx_x_1 q_303_indx_2 q_303_indx_st_2 q_303_indx_nd_2 q_303_indx_rd_2 q_303_indx_x_2 q_303_indx_3 q_303_indx_st_3 q_303_indx_nd_3 q_303_indx_rd_3 q_303_indx_x_3 q_303_indx_4 q_303_indx_st_4 q_303_indx_nd_4 q_303_indx_rd_4 q_303_indx_x_4 q_303_indx_5 q_303_indx_st_5 q_303_indx_nd_5 q_303_indx_rd_5 q_303_indx_x_5 care_reason_ante_label_2 care_reason_ref_label_2 care_visit_reas_rpt_grp_count_2 care_vis_idx_2_1 care_visit_res_2_1 care_vis_idx_2_2 care_visit_res_2_2 care_reason_other_label_pre_2 care_reason_other_label_2 care_reason_label_2 q_303_indx_3 q_303_indx_st_3 q_303_indx_nd_3 q_303_indx_rd_3 q_303_indx_x_3 care_reason_ante_label_3 care_reason_ref_label_3 care_visit_reas_rpt_grp_count_3 care_vis_idx_3_1 care_visit_res_3_1 care_vis_idx_3_2 care_visit_res_3_2 care_reason_other_label_pre_3 care_reason_other_label_3 care_reason_label_3 q_303_indx_4 q_303_indx_st_4 q_303_indx_nd_4 q_303_indx_rd_4 q_303_indx_x_4 q_303_label_4 q_304_label_4 care_reason_ante_label_4 care_reason_ref_label_4 care_visit_reas_rpt_grp_count_4 care_vis_idx_4_1 care_visit_res_4_1 care_vis_idx_4_2 care_visit_res_4_2 care_reason_other_label_pre_4 care_reason_other_label_4 care_reason_label_4 q_303_indx_5 q_303_indx_st_5 q_303_indx_nd_5 q_303_indx_rd_5 q_303_indx_x_5 q_304_label_5 q_303_5 q_303_label_5 care_reason_ante_label_5 care_reason_ref_label_5 care_visit_reas_rpt_grp_count_5 care_vis_idx_5_1 care_visit_res_5_1 care_vis_idx_5_2 care_visit_res_5_2 care_reason_other_label_pre_5 care_reason_other_label_5 care_reason_label_5
+drop repeat_g303 q_303_rpt_grp q_303_indx_1 q_303_indx_st_1 q_303_indx_nd_1 q_303_indx_rd_1 q_303_indx_x_1 q_303_indx_2 q_303_indx_st_2 q_303_indx_nd_2 q_303_indx_rd_2 q_303_indx_x_2 q_303_indx_3 q_303_indx_st_3 q_303_indx_nd_3 q_303_indx_rd_3 q_303_indx_x_3 q_303_indx_4 q_303_indx_st_4 q_303_indx_nd_4 q_303_indx_rd_4 q_303_indx_x_4 q_303_indx_5 q_303_indx_st_5 q_303_indx_nd_5 q_303_indx_rd_5 q_303_indx_x_5 care_reason_ante_label_2 care_reason_ref_label_2 care_visit_reas_rpt_grp_count_2 care_vis_idx_2_1 care_visit_res_2_1 care_vis_idx_2_2 care_visit_res_2_2 care_reason_other_label_pre_2 care_reason_other_label_2 care_reason_label_2 q_303_indx_3 q_303_indx_st_3 q_303_indx_nd_3 q_303_indx_rd_3 q_303_indx_x_3 care_reason_ante_label_3 care_reason_ref_label_3 care_visit_reas_rpt_grp_count_3 care_vis_idx_3_1 care_visit_res_3_1 care_vis_idx_3_2 care_visit_res_3_2 care_reason_other_label_pre_3 care_reason_other_label_3 care_reason_label_3 q_303_indx_4 q_303_indx_st_4 q_303_indx_nd_4 q_303_indx_rd_4 q_303_indx_x_4 q_303_label_4 q_304_label_4 care_reason_ante_label_4 care_reason_ref_label_4 care_visit_reas_rpt_grp_count_4 care_vis_idx_4_1 care_visit_res_4_1 care_vis_idx_4_2 care_visit_res_4_2 care_reason_other_label_pre_4 care_reason_other_label_4 care_reason_label_4 q_303_indx_5 q_303_indx_st_5 q_303_indx_nd_5 q_303_indx_rd_5 q_303_indx_x_5 q_304_label_5 q_303_label_5 care_reason_ante_label_5 care_reason_ref_label_5 care_visit_reas_rpt_grp_count_5 care_vis_idx_5_1 care_visit_res_5_1 care_vis_idx_5_2 care_visit_res_5_2 care_reason_other_label_pre_5 care_reason_other_label_5 care_reason_label_5
 
-*drop q_307_1 q_307_2 q_320 
+drop q814a_calc_e q814b_calc_e q814c_calc_e q814d_calc_e q814e_calc_e q814f_calc_e q814g_calc_e q814h_calc_e q814_calc_e q814a_calc_ki q814b_calc_ki q814c_calc_ki q814d_calc_ki q814e_calc_ki q814f_calc_ki q814g_calc_ki q814h_calc_ki q814_calc_ki q814a_calc_ka q814b_calc_ka q814c_calc_ka q814d_calc_ka q814e_calc_ka q814f_calc_ka q814g_calc_ka q814h_calc_ka q814_calc_ka q_107_trim q_303_label_1 q_304_label_1 q_303_label_3 q_304_label_3
+
+drop q_501 outcome_text confirm_gestational // SS: confirm dropping outcome_text because the same data is in "m2_202_other"
+
+drop user_experience_rpt_grp_count user_exp_idx_1 user_visit_reason_1 user_facility_type_1 user_facility_name_1 user_exp_idx_2 user_visit_reason_2 user_facility_type_2 user_facility_name_2 user_exp_idx_3 user_visit_reason_3 user_facility_type_3 user_facility_name_3 user_exp_idx_4 user_visit_reason_4 user_facility_type_4 user_facility_name_4 user_exp_idx_5 user_visit_reason_5 user_facility_type_5 user_facility_name_5
+
+drop q_602_filter q_702_discrepancy
 
 *------------------------------------------------------------------------------*
 	* STEPS: 
@@ -77,12 +85,13 @@ drop repeat_g303 q_303_rpt_grp q_303_indx_1 q_303_indx_st_1 q_303_indx_nd_1 q_30
 rename duration interview_length
 rename a1 interviewer_id
 rename a4 study_site
+rename a5 facility_name
 rename b1 permission
 rename (b2 b3) (care_self enrollage)
 rename (b4 b4_oth b5 b6) (zone_live zone_live_other b5anc b6anc_first)
 rename a2 device_date_ke
 rename consent b7eligible
-rename (q_104 q104 q106) (respondentid mobile_phone flash)
+rename (q103 q104 q106) (respondentid mobile_phone flash)
 rename q201 m1_201
 rename (q202a q202b q202c q202d q202e) (m1_202a m1_202b m1_202c m1_202d m1_202e)
 rename q203 m1_203
@@ -187,7 +196,7 @@ rename (q1306 q1307 q1308 q1309 q1401 preferred_phone_oth preferred_phone_confir
 		(m1_1306 m1_1307 m1_1308 m1_1309 m1_1401 m1_1401a_ke m1_1401b_ke m1_end_time)		
 rename noconsent_why noconsent_why_ke		
 rename end_comment m1_end_comment_ke	
-rename submissiondate date_m1
+rename submissiondate m1_date
 rename starttime m1_start_time
 rename (q1401_1 q1401_2 q1401_3 q1401_4) (m1_1401_1_ke m1_1401_2_ke m1_1401_3_ke m1_1401_4_ke)
 rename total_cost m1_1218g
@@ -199,6 +208,8 @@ rename (preferred_language preferred_language_1 preferred_language_2 preferred_l
 		preferred_language_4 preferred_language__96 preferred_language_oth) (pref_language_ke ///
 		pref_language_1_ke pref_language_2_ke pref_language_3_ke pref_language_4_ke pref_language_96_ke ///
 		pref_language_other_ke)
+		
+rename noconsent_why_ke m1_noconsent_why_ke
 		
 	* MODULE 2:
 
@@ -215,7 +226,7 @@ rename (mod_2_round intro_yn) (m2_completed_attempts m2_consent_recording)
 rename today_date m2_date 
 rename q_103 m2_time_start
 rename q_101 m2_interviewer
-*rename q_104 m2_respondentid
+rename q_104 m2_respondentid
 rename gest_age_baseline m2_baseline_ga
 rename date_survey_baseline m2_baseline_date
 rename q_109 m2_maternal_death_reported
@@ -223,10 +234,12 @@ rename q_107 m2_ga
 rename gestational_update m2_ga_estimate
 rename q_108 m2_hiv_status
 
-rename (facility_name county enum_name date_death_knows) /// 
-       (m2_site m2_county m2_enum m2_date_of_maternal_death_yesno) 
+rename (county enum_name date_death_knows) /// 
+       (m2_county m2_enum m2_date_of_maternal_death_yesno) 
 	   
 rename q_110 m2_date_of_maternal_death
+rename q_111 m2_maternal_death_learn
+rename q_111_oth m2_maternal_death_learn_other
 		
 rename (q_201 q_202) (m2_201 m2_202) 
 rename q_202_oth m2_202_other
@@ -263,47 +276,54 @@ rename (q_305_5 q_306_5 q_307_1_5 q_307_2_5 q_307_3_5 q_307_4_5 q_307_5_5 q_307_
 rename (q_320_0 q_320_1 q_320_2 q_320_3 q_320_4 q_320_5 q_320_6 q_320_7 q_320_8 ///
         q_320_9 q_320_10 q_320_11 q_320_12 q_320__96 q_320__99 q_320_other) ///
 	   (m2_320_0 m2_320_1 m2_320_2 m2_320_3 m2_320_4 m2_320_5 m2_320_6 m2_320_7 /// 
-	    m2_320_8 m2_320_9 m2_320_10 m2_320_11 m2_312_ke m2_320_96 m2_320_99 m2_3220_other)
+	    m2_320_8 m2_320_9 m2_320_10 m2_320_11 m2_312_ke m2_320_96 m2_320_99 m2_320_other)
 		
 rename q_321 m2_321
 
 rename (q_401_1 q_401_2 q_401_3 q_401_4 q_401_5) (m2_401 m2_402 m2_403 m2_404 m2_405)
 rename (q_501_1 q_501_2 q_501_3 q_501_4 q_501_5 q_501_6 q_501__96 q_501_0 q_501_other) ///
        (m2_501a m2_501b m2_501c m2_501d m2_501e m2_501f m2_501g  m2_501_0 m2_501g_other)
+	   
+rename (q_502 q_503) (m2_502 m2_503)	   
 rename (q_503_1 q_503_2 q_503_3 q_503_4 q_503_5 q_503_6 q_503_0) ///
        (m2_503a m2_503b m2_503c m2_503d m2_503e m2_503f m2_503_0)	   
 rename (q_504 q_504_specify) (m2_504 m2_504_other)
 rename (q_505a q_505b q_505c q_505d q_505e q_505f q_505g) ///
 	   (m2_505a m2_505b m2_505c m2_505d m2_505e m2_505f m2_505g)
-rename (q_506_1 q_506_2 q_506_3 q_506_4 q_506_0) ///
-       (m2_506a m2_506b m2_506c m2_506d m2_506_0)
-rename (q_507_1 q_507_2 q_507_3 q_507_4 q_507_5 q_507_6 q_507_7 q_507__96 q_507_other) /// 
-       (m2_507_1_ke m2_507_2_ke m2_507_3_ke m2_507_4_ke m2_507_5_ke m2_507_6_ke ///
+rename (q_506 q_506_1 q_506_2 q_506_3 q_506_4 q_506_0) ///
+       (m2_506 m2_506a m2_506b m2_506c m2_506d m2_506_0)
+rename (q_507 q_507_1 q_507_2 q_507_3 q_507_4 q_507_5 q_507_6 q_507_7 q_507__96 q_507_other) /// 
+       (m2_507 m2_507_1_ke m2_507_2_ke m2_507_3_ke m2_507_4_ke m2_507_5_ke m2_507_6_ke ///
 	    m2_507_7_ke m2_507_96_ke m2_507_other_ke)
 rename (q_508a q_508b q_508c) (m2_508a m2_508b_last m2_508d)	  
-rename (q_509_1 q_509_2 q_509_3 q_509_0) (m2_509a m2_509b m2_509c m2_509_0_ke) 
-rename (q_601_1 q_601_2 q_601_3 q_601_4 q_601_5 q_601_6 q_601_7 q_601_8 q_601_9 ///
-        q_601_10 q_601_11 q_601_12 q_601_13 q_601_14 q_601_other q_601_0) ///
-       (m2_601a m2_601b m2_601c m2_601d m2_601e m2_601f m2_601g m2_601h m2_601i ///
-	    m2_601j m2_601k m2_601l m2_601m m2_601n m2_601n_other m2_601_0_ke)
+rename (q_509 q_509_1 q_509_2 q_509_3 q_509_0) (m2_509 m2_509a m2_509b m2_509c m2_509_0_ke) 
+
+rename (q_601 q_601_1 q_601_3 q_601_4 q_601_5 q_601_6 q_601_7 q_601_8 q_601_9 ///
+		q_601_10 q_601_11 q_601_12 q_601_13 q_601_14 q_601__96 q_601_2 q_601_other ///
+		q_601_0) (m2_601 m2_601a m2_601b m2_601c m2_601d m2_601e m2_601f m2_601g ///
+		m2_601h m2_601i m2_601j m2_601k m2_601l m2_601m m2_601n m2_601o ///
+		m2_601n_other m2_601_0_ke)
 rename q_602 m2_602b 
 rename q_603 m2_603 
 rename q_701 m2_701
-rename (q_702a q_702b q_702c q_702d q_702e) ///
-       (m2_702a_other m2_702b_other m2_702c_other m2_702d_other m2_702e_other)
-rename q_701_total m2_703
+
+rename (q_702a q_702b q_702c q_702d q_702e q_702e_other) ///
+       (m2_702a_cost m2_702b_cost m2_702c_cost m2_702d_cost m2_702e_cost m2_702_other_ke)
+	   
+rename q_703 m2_703
 rename q_702_medication m2_702_meds_ke
-rename q_702_total m2_704_other
+rename q_702_total m2_704_confirm
 rename q_705 m2_705
 rename (q_705_1 q_705_2 q_705_3 q_705_4 q_705_5 q_705_6 q_705__96 q_705_other) ///
        (m2_705__1 m2_705__2 m2_705__3 m2_705__4 m2_705__5 m2_705__6 m2_705__96 m2_705_other)
 rename call_status m2_complete
 
+
 *===============================================================================
 	
 	* STEP TWO: ADD VALUE LABELS (NA in KENYA, already labeled)
 	
-	encode facility_name, generate(facility)
+	*encode facility_name, generate(facility) // SS 2-27: looks like facility_name is already numeric
 	/*
 	label def facility 1 "Githunguri health centre" 2 "Igegania sub district hospital" ///
 					   3 "Ikutha Sub County Hospital" 4 "Kalimoni mission hospital" ///
@@ -371,6 +391,8 @@ replace m1_815_0=".r" if m1_815_0== "999"
 
 
     ** MODULE 2: 
+	
+
 
 recode m2_203a m2_203b m2_203c m2_203d m2_203e m2_203f m2_203g m2_204i (-99 = .r)
 
@@ -1078,8 +1100,7 @@ drop username time_start_full time_start time_start_v2 deviceid	today_date today
 	 q814d_calc_e q814e_calc_e q814f_calc_e q814g_calc_e q814h_calc_e q814_calc_e q814a_calc_ki ///
 	 q814b_calc_ki q814c_calc_ki q814d_calc_ki q814e_calc_ki q814f_calc_ki q814g_calc_ki q814h_calc_ki ///
 	 q814_calc_ki q814a_calc_ka q814b_calc_ka q814c_calc_ka q814e_calc_ka q814g_calc_ka q814h_calc_ka ///
-	 q814d_calc_ka q814f_calc_ka q814_calc_ka device_date_ke date_survey_baseline county_eligibility_oth ///
-	 a5 key formdef_version m1_1202_other m1_1209_other
+	 q814d_calc_ka q814f_calc_ka q814_calc_ka device_date_ke date_survey_baseline county_eligibility_oth key formdef_version m1_1202_other m1_1209_other
 
 order m1_*, sequential
 order country module interviewer_id date_m1 m1_start_time study_site facility ///
