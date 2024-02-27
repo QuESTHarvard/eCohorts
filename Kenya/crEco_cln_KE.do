@@ -17,10 +17,13 @@ drop if q105 == . // 3 ids dropped
 gen country = "Kenya"
 
 * fixing duplicate var names
+rename duration interview_length
 rename gest_age_baseline gest_age_baseline_ke
 rename consent b7eligible
 rename starttime m1_start_time
 rename time_start_full m1_date_time
+rename endtime m1_end_time
+rename date_survey_baseline m1_date
 
 *------------------------------------------------------------------------------*	 
 * Append module 2:
@@ -31,10 +34,11 @@ gen module = .
 replace module = 1 if a4 !=.
 replace module = 2 if attempts != .
 
+* ga at baseline and date_survey_baseline are duplicate vars
 drop care_reason_ante_label_1 care_reason_ref_label_1 care_visit_reas_rpt_grp_count_1 ///
      care_vis_idx_1_1 care_visit_res_1_1 care_vis_idx_1_2 care_visit_res_1_2 ///
 	 care_reason_other_label_pre_1 care_reason_other_label_1 care_reason_label_1 ///
-	 q_303_label_2 q_304_label_2 gest_age_baseline // ga at baseline is a duplicate var
+	 q_303_label_2 q_304_label_2 gest_age_baseline date_survey_baseline submissiondate 
 
 * fixing duplicate var names
 rename facility_name m2_site 
@@ -47,11 +51,25 @@ rename q_301 m2_301
 rename (q_303_1 q_303_2) (m2_303a m2_303b)
 rename (q_304_1 q_304_oth_1 q_304_2 q_304_oth_2) ///
 	   (m2_304a m2_304a_other m2_304b m2_304b_other)
+rename (q_305_1 q_306_1 q_307_1_1) (m2_305 m2_306 m2_306_1)	   
+rename q_305_2 m2_308
+rename q_306_2 m2_309
+rename q_501 m2_501
+rename (q_502 q_503) (m2_502 m2_503)
+rename q_506 m2_506
+rename q_507 m2_507
+rename q_509 m2_509
+rename q_701 m2_701
+rename q_705 m2_705
+rename endtime m2_endtime
 
 *------------------------------------------------------------------------------*	 
 * Append module 3:
 
 append using "$ke_data/Module 3/KEMRI_Module_3.dta", force
+
+
+*drop q_307_2 q_307_3 q_307_4 q_307_5 q_320
 
 * fixing duplicate var names
 rename facility_name m3_site
@@ -63,6 +81,19 @@ rename q_302 m3_birth_or_ended_date
 rename q_301 m3_303a
 rename (q_303_1 q_303_2) (m3_303b m3_303c)
 rename (q_304_1 q_304_2) (m3_baby1_name m3_baby2_name)
+rename (q_305_1 q_306_1 q_307_1) (m3_baby1_gender m3_baby1_age_weeks m3_baby1_size)
+rename q_305_2 m3_baby2_gender
+rename q_306_2 m3_baby2_age_weeks
+rename q_501 m3_501
+rename (q_502 q_503) (m3_502 m3_503)
+rename q_506 m3_506
+rename q_507 m3_507
+rename q_509 m3_509
+rename q_701 m3_701
+rename q_705 m3_705
+rename endtime m3_endtime
+rename duration m3_duration
+
 
 *------------------------------------------------------------------------------*
 * de-identifying dataset and remove extra variables
@@ -91,9 +122,9 @@ drop q_205a_calc q_205b_calc
 
 drop repeat_g303 q_303_rpt_grp q_303_indx_1 q_303_indx_st_1 q_303_indx_nd_1 q_303_indx_rd_1 q_303_indx_x_1 q_303_indx_2 q_303_indx_st_2 q_303_indx_nd_2 q_303_indx_rd_2 q_303_indx_x_2 q_303_indx_3 q_303_indx_st_3 q_303_indx_nd_3 q_303_indx_rd_3 q_303_indx_x_3 q_303_indx_4 q_303_indx_st_4 q_303_indx_nd_4 q_303_indx_rd_4 q_303_indx_x_4 q_303_indx_5 q_303_indx_st_5 q_303_indx_nd_5 q_303_indx_rd_5 q_303_indx_x_5 care_reason_ante_label_2 care_reason_ref_label_2 care_visit_reas_rpt_grp_count_2 care_vis_idx_2_1 care_visit_res_2_1 care_vis_idx_2_2 care_visit_res_2_2 care_reason_other_label_pre_2 care_reason_other_label_2 care_reason_label_2 q_303_indx_3 q_303_indx_st_3 q_303_indx_nd_3 q_303_indx_rd_3 q_303_indx_x_3 care_reason_ante_label_3 care_reason_ref_label_3 care_visit_reas_rpt_grp_count_3 care_vis_idx_3_1 care_visit_res_3_1 care_vis_idx_3_2 care_visit_res_3_2 care_reason_other_label_pre_3 care_reason_other_label_3 care_reason_label_3 q_303_indx_4 q_303_indx_st_4 q_303_indx_nd_4 q_303_indx_rd_4 q_303_indx_x_4 q_303_label_4 q_304_label_4 care_reason_ante_label_4 care_reason_ref_label_4 care_visit_reas_rpt_grp_count_4 care_vis_idx_4_1 care_visit_res_4_1 care_vis_idx_4_2 care_visit_res_4_2 care_reason_other_label_pre_4 care_reason_other_label_4 care_reason_label_4 q_303_indx_5 q_303_indx_st_5 q_303_indx_nd_5 q_303_indx_rd_5 q_303_indx_x_5 q_304_label_5 q_303_label_5 care_reason_ante_label_5 care_reason_ref_label_5 care_visit_reas_rpt_grp_count_5 care_vis_idx_5_1 care_visit_res_5_1 care_vis_idx_5_2 care_visit_res_5_2 care_reason_other_label_pre_5 care_reason_other_label_5 care_reason_label_5
 
-drop q814a_calc_e q814b_calc_e q814c_calc_e q814d_calc_e q814e_calc_e q814f_calc_e q814g_calc_e q814h_calc_e q814_calc_e q814a_calc_ki q814b_calc_ki q814c_calc_ki q814d_calc_ki q814e_calc_ki q814f_calc_ki q814g_calc_ki q814h_calc_ki q814_calc_ki q814a_calc_ka q814b_calc_ka q814c_calc_ka q814d_calc_ka q814e_calc_ka q814f_calc_ka q814g_calc_ka q814h_calc_ka q814_calc_ka q_107_trim q_303_label_1 q_304_label_1 q_303_label_3 q_304_label_3
+drop q814a_calc_e q814b_calc_e q814c_calc_e q814d_calc_e q814e_calc_e q814f_calc_e q814g_calc_e q814h_calc_e q814_calc_e q814a_calc_ki q814b_calc_ki q814c_calc_ki q814d_calc_ki q814e_calc_ki q814f_calc_ki q814g_calc_ki q814h_calc_ki q814_calc_ki q814a_calc_ka q814b_calc_ka q814c_calc_ka q814d_calc_ka q814e_calc_ka q814f_calc_ka q814g_calc_ka q814h_calc_ka q814_calc_ka q_107_trim q_303_label_1 q_304_label_1 q_303_label_3 q_304_label_3 a2 county_eligibility_oth key   
 
-drop q_501 outcome_text confirm_gestational // SS: confirm dropping outcome_text because the same data is in "m2_202_other"
+drop outcome_text confirm_gestational // SS: confirm dropping outcome_text because the same data is in "m2_202_other"
 
 drop user_experience_rpt_grp_count user_exp_idx_1 user_visit_reason_1 user_facility_type_1 user_facility_name_1 user_exp_idx_2 user_visit_reason_2 user_facility_type_2 user_facility_name_2 user_exp_idx_3 user_visit_reason_3 user_facility_type_3 user_facility_name_3 user_exp_idx_4 user_visit_reason_4 user_facility_type_4 user_facility_name_4 user_exp_idx_5 user_visit_reason_5 user_facility_type_5 user_facility_name_5
 
@@ -118,14 +149,13 @@ drop unavailable_reschedule reschedule_full_noavail confirm_phone phone_noavail 
 	* STEP ONE: RENAME VARAIBLES
     
 	* MODULE 1:
-rename duration interview_length
 rename a1 interviewer_id
 rename a4 study_site
 rename a5 facility_name
 rename b1 permission
 rename (b2 b3) (care_self enrollage)
 rename (b4 b4_oth b5 b6) (zone_live zone_live_other b5anc b6anc_first)
-rename a2 device_date_ke
+*rename a2 device_date_ke
 rename (q103 q104 q106) (respondentid mobile_phone flash)
 rename q201 m1_201
 rename (q202a q202b q202c q202d q202e) (m1_202a m1_202b m1_202c m1_202d m1_202e)
@@ -227,11 +257,10 @@ rename (q1301 q1302 bp_count q1303a_1 q1303b_1 q1303c_1 q1303a_2 q1303b_2 q1303c
 		q1303a_3 q1303b_3 q1303c_3) (height_cm weight_kg m1_bp_count_ke bp_time_1_systolic ///
 		bp_time_1_diastolic time_1_pulse_rate bp_time_2_systolic bp_time_2_diastolic time_2_pulse_rate ///
 		bp_time_3_systolic bp_time_3_diastolic pulse_rate_time_3)
-rename (q1306 q1307 q1308 q1309 q1401 preferred_phone_oth preferred_phone_confirm endtime) ///
-		(m1_1306 m1_1307 m1_1308 m1_1309 m1_1401 m1_1401a_ke m1_1401b_ke m1_end_time)		
-rename noconsent_why noconsent_why_ke		
+rename (q1306 q1307 q1308 q1309 q1401 preferred_phone_oth preferred_phone_confirm) ///
+		(m1_1306 m1_1307 m1_1308 m1_1309 m1_1401 m1_1401a_ke m1_1401b_ke)		
+rename noconsent_why m1_noconsent_why_ke		
 rename end_comment m1_end_comment_ke	
-rename submissiondate m1_date
 rename (q1401_1 q1401_2 q1401_3 q1401_4) (m1_1401_1_ke m1_1401_2_ke m1_1401_3_ke m1_1401_4_ke)
 rename total_cost m1_1218g
 rename (q1402 q1402_0 q1402_1 q1402_2 q1402_3 q1402_4 q1402_5 q1402_6 q1402_7) ///
@@ -245,10 +274,7 @@ rename (preferred_language preferred_language_1 preferred_language_2 preferred_l
 		pref_language_other_ke)
 */
 		
-rename noconsent_why_ke m1_noconsent_why_ke
-		
 	* MODULE 2:
-
 rename (attempts attempts_oth call_response resp_language resp_language_no ///
        resp_language_no_oth resp_other resp_other_oth resp_available ///
 	   best_phone_reconfirm best_phone_resp resp_available_when reschedule_resp ///
@@ -263,7 +289,7 @@ rename q_103 m2_time_start
 rename q_101 m2_interviewer
 rename q_104 m2_respondentid
 *rename gest_age_baseline m2_baseline_ga //this was M1 ga so I dropped so it's not confusing
-rename date_survey_baseline m2_baseline_date
+*rename date_survey_baseline m2_baseline_date // this is the m1 surveydate, dropped for now
 rename q_109 m2_maternal_death_reported
 rename q_107 m2_ga
 rename gestational_update m2_ga_estimate
@@ -296,11 +322,9 @@ rename (q_304_3 q_304_oth_3 q_304_4 ///
 	   (m2_304c m2_304c_other m2_304d ///
 	    m2_304d_other m2_304e m2_304e_other)
 
-drop q_307_1 q_307_2 q_307_3 q_307_4 q_307_5 q_320
+rename (q_307_2_1 q_307_3_1 q_307_4_1 q_307_5_1 q_307__96_1 q_307_oth_1) (m2_306_2 m2_306_3 m2_306_4 m2_306_5 m2_306_96 m2_307_other)
 
-rename (q_305_1 q_306_1 q_307_1_1 q_307_2_1 q_307_3_1 q_307_4_1 q_307_5_1 q_307__96_1 q_307_oth_1) (m2_305 m2_306 m2_306_1 m2_306_2 m2_306_3 m2_306_4 m2_306_5 m2_306_96 m2_307_other)
-
-rename (q_305_2 q_306_2 q_307_1_2 q_307_2_2 q_307_3_2 q_307_4_2 q_307_5_2 q_307__96_2 q_307_oth_2) (m2_308 m2_309 m2_308_1 m2_308_2 m2_308_3 m2_308_4 m2_308_5 m2_308_96 m2_310_other)
+rename (q_307_1_2 q_307_2_2 q_307_3_2 q_307_4_2 q_307_5_2 q_307__96_2 q_307_oth_2) (m2_308_1 m2_308_2 m2_308_3 m2_308_4 m2_308_5 m2_308_96 m2_310_other)
 
 rename (q_305_3 q_306_3 q_307_1_3 q_307_2_3 q_307_3_3 q_307_4_3 q_307_5_3 q_307__96_3 q_307_oth_3) (m2_311 m2_312 m2_311_1 m2_311_2 m2_311_3 m2_311_4 m2_311_5 m2_311_96 m2_313_other)
 
@@ -319,19 +343,18 @@ rename (q_401_1 q_401_2 q_401_3 q_401_4 q_401_5) (m2_401 m2_402 m2_403 m2_404 m2
 rename (q_501_1 q_501_2 q_501_3 q_501_4 q_501_5 q_501_6 q_501__96 q_501_0 q_501_other) ///
        (m2_501a m2_501b m2_501c m2_501d m2_501e m2_501f m2_501g  m2_501_0 m2_501g_other)
 	   
-rename (q_502 q_503) (m2_502 m2_503)	   
 rename (q_503_1 q_503_2 q_503_3 q_503_4 q_503_5 q_503_6 q_503_0) ///
        (m2_503a m2_503b m2_503c m2_503d m2_503e m2_503f m2_503_0)	   
 rename (q_504 q_504_specify) (m2_504 m2_504_other)
 rename (q_505a q_505b q_505c q_505d q_505e q_505f q_505g) ///
 	   (m2_505a m2_505b m2_505c m2_505d m2_505e m2_505f m2_505g)
-rename (q_506 q_506_1 q_506_2 q_506_3 q_506_4 q_506_0) ///
-       (m2_506 m2_506a m2_506b m2_506c m2_506d m2_506_0)
-rename (q_507 q_507_1 q_507_2 q_507_3 q_507_4 q_507_5 q_507_6 q_507_7 q_507__96 q_507_other) /// 
-       (m2_507 m2_507_1_ke m2_507_2_ke m2_507_3_ke m2_507_4_ke m2_507_5_ke m2_507_6_ke ///
-	    m2_507_7_ke m2_507_96_ke m2_507_other_ke)
+rename (q_506_1 q_506_2 q_506_3 q_506_4 q_506_0) ///
+       (m2_506a m2_506b m2_506c m2_506d m2_506_0)
+rename (q_507_1 q_507_2 q_507_3 q_507_4 q_507_5 q_507_6 q_507_7 q_507__96 ///
+		q_507_other) (m2_507_1_ke m2_507_2_ke m2_507_3_ke m2_507_4_ke ///
+		m2_507_5_ke m2_507_6_ke m2_507_7_ke m2_507_96_ke m2_507_other_ke)
 rename (q_508a q_508b q_508c) (m2_508a m2_508b_last m2_508d)	  
-rename (q_509 q_509_1 q_509_2 q_509_3 q_509_0) (m2_509 m2_509a m2_509b m2_509c m2_509_0_ke) 
+rename (q_509_1 q_509_2 q_509_3 q_509_0) (m2_509a m2_509b m2_509c m2_509_0_ke) 
 
 rename (q_601 q_601_1 q_601_3 q_601_4 q_601_5 q_601_6 q_601_7 q_601_8 q_601_9 ///
 		q_601_10 q_601_11 q_601_12 q_601_13 q_601_14 q_601__96 q_601_2 q_601_other ///
@@ -340,7 +363,6 @@ rename (q_601 q_601_1 q_601_3 q_601_4 q_601_5 q_601_6 q_601_7 q_601_8 q_601_9 //
 		m2_601n_other m2_601_0_ke)
 rename q_602 m2_602b 
 rename q_603 m2_603 
-rename q_701 m2_701
 
 rename (q_702a q_702b q_702c q_702d q_702e q_702e_other) ///
        (m2_702a_cost m2_702b_cost m2_702c_cost m2_702d_cost m2_702e_cost m2_702_other_ke)
@@ -348,7 +370,6 @@ rename (q_702a q_702b q_702c q_702d q_702e q_702e_other) ///
 rename q_701_total m2_703
 rename q_702_medication m2_702_meds_ke
 rename q_702_total m2_704_confirm
-rename q_705 m2_705
 rename (q_705_1 q_705_2 q_705_3 q_705_4 q_705_5 q_705_6 q_705__96 q_705_other) ///
        (m2_705__1 m2_705__2 m2_705__3 m2_705__4 m2_705__5 m2_705__6 m2_705__96 m2_705_other)
 rename call_status m2_complete
@@ -356,18 +377,20 @@ rename refused_why m2_refused_why
 
 
 		** MODULE 3:
-rename (consent q_302a q_302b gest_age_delivery_final) (m3_start_p1 m3_birth_or_ended ///
-	    m3_birth_or_ended_provided m3_ga_final)
-rename (q_305_1 q_305_2 q_306_1 q_306_2 q_308_1 q_308_2 q_307_1 q_307_2 q_309_1 ///
-		q_309_2) (m3_baby1_gender m3_baby2_gender m3_baby1_age_weeks ///
-		m3_baby2_age_weeks m3_baby1_weight m3_baby2_weight m3_baby1_size m3_baby2_size m3_baby1_health ///
-		m3_baby2_health)
-       
+rename (consent q_302a q_302b gest_age_delivery_final) ///
+       (m3_start_p1 m3_birth_or_ended m3_birth_or_ended_provided m3_ga_final)
+rename q_308_1 m3_baby1_weight
+rename q_308_2 m3_baby2_weight 
+rename (q_307_2 q_309_1 q_309_2) (m3_baby2_size m3_baby1_health m3_baby2_health)
+ 
+* SS: confirm with Wen-Chien if we can remove. doesn't seem necessary
+/* 
 	   ** q_308_1 q_308_2 are numeric variables (baby weight), some values are -98 or 98 
 replace q_308_1 = q_308_1 if q_308_1 != 98 | q_308_1 != - 98
 replace q_308_1 = -98 if q_308_1 == 98 
 replace q_308_2 = q_308_2 if q_308_1 != - 98
 rename (q_308_1 q_308_2) (m3_baby1_weight m3_baby2_weight)
+*/
 		
        ** These 16 variables are string variables: use replace if and then rename 
        ** q_310a_1_1 q_310a_2_1 q_310a_3_1 q_310a_4_1 q_310a_5_1 q_310a_6_1 q_310a_7_1 q_310a_8_1 q_310a__99_1 (line 40 to line 66)
@@ -517,10 +540,13 @@ rename (q_405__96_3) (m3_consultation3_reason_96)
 
 rename (q_412a_1 q_412b_1 q_412c_1 q_412d_1 q_412e_1 q_412f_1 q_412g_1 q_412g_oth_1 q_412i_1) ///
        (m3_412a m3_412b m3_412c m3_412d m3_412e m3_412f m3_412g m3_412g_other m3_412i)	
-rename (q_501 q_502 q_503 q_504_n q_504_c q_504_r q_503_final q_506_pre q_506_pre_oth q_506 q_507 q_508 q_509 q_508_oth q_513a q_513b_n q_513b_c q_513_r ///
-        q_513_calc q_514 q_515 q_516 q_517 q_518_oth_del q_518_oth q_519 q_519_oth q_520 q_521 q_521_unit)(m3_501 m3_502 m3_503 m3_504a m3_504b ///
-		m3_504c m3_503_final m3_506_pre m3_506_pre_oth m3_506 m3_507 m3_508 m3_509 m3_509_other m3_513a m3_513_outside_zone_other m3_513b2 m3_513b3 ///
-		m3_513_final m3_514 m3_515 m3_516 m3_517 m3_518_other_complications m3_518_other m3_519 m3_519_other m3_520 m3_521_ke m3_521_ke_unit)
+rename (q_504_n q_504_c q_504_r q_503_final q_506_pre q_506_pre_oth q_508 ///
+ 		q_508_oth q_513a q_513b_n q_513b_c q_513_r q_513_calc q_514 q_515 q_516 ///
+		q_517 q_518_oth_del q_518_oth q_519 q_519_oth q_520 q_521 q_521_unit) ///
+		(m3_504a m3_504b m3_504c m3_503_final m3_506_pre m3_506_pre_oth ///
+		m3_508 m3_509_other m3_513a m3_513_outside_zone_other m3_513b2 m3_513b3 ///
+		m3_513_final m3_514 m3_515 m3_516 m3_517 m3_518_other_complications ///
+		m3_518_other m3_519 m3_519_other m3_520 m3_521_ke m3_521_ke_unit)
 
        ** q_518 is a string variables: use replace if and then rename (line 191 to 206)
 replace q_518 = "The provider did not give a reason" if q_518 == "0"
@@ -562,8 +588,10 @@ rename (q_621a)(m3_621a)
 rename (q_311a_1 q_311a_2 q_311b_1 q_311b_2 q_311c_1 q_311c_2 q_311d_1 q_311d_2 q_311e_1 q_311e_2 q_311f_1 q_311f_2 q_311g_1 q_311g_2)(m3_baby1_sleep ///
         m3_baby2_sleep m3_baby1_feed m3_baby2_feed m3_baby1_breath m3_baby2_breath m3_baby1_stool m3_baby2_stool m3_baby1_mood m3_baby2_mood ///
 		m3_baby1_skin m3_baby2_skin m3_baby1_interactivity m3_baby2_interactivity)
-rename (q_701 q_702 q_703 q_704a q_704b q_704c q_704d q_704e q_704f q_704g q_705 q_706 q_707 q_707_unit q_708_1 q_708_2)(m3_701 m3_702 m3_703 m3_704a ///
-        m3_704b m3_704c m3_704d m3_704e m3_704f m3_704g m3_705 m3_706 m3_707_ke m3_707_ke_unit m3_baby1_issues m3_baby2_issues)   
+rename (q_702 q_703 q_704a q_704b q_704c q_704d q_704e q_704f q_704g  ///
+		q_706 q_707 q_707_unit q_708_1 q_708_2)(m3_702 m3_703 m3_704a ///
+        m3_704b m3_704c m3_704d m3_704e m3_704f m3_704g m3_706 ///
+		m3_707_ke m3_707_ke_unit m3_baby1_issues m3_baby2_issues)   
 
        ** These 8 variables are string variables : use replace if and then rename (line 235 to 258)
        ** q_708_1_1 q_708_2_1 q_708_3_1 q_708_4_1 q_708_5_1 q_708_6_1 q_708__98_1 q_708__99_1 
@@ -708,9 +736,8 @@ replace q_1004h = q_1004h_4 if q_1004h_1==. & q_1004h_2==. & q_1004h_3==. & q_10
 replace q_1004h = q_1004h_5 if q_1004h_1==. & q_1004h_2==. & q_1004h_3==. & q_1004h_4==. & q_1004h_6==. & q_1004h_7==.
 replace q_1004h = q_1004h_6 if q_1004h_1==. & q_1004h_2==. & q_1004h_3==. & q_1004h_4==. & q_1004h_5==. & q_1004h_7==.
 replace q_1004h = q_1004h_7 if q_1004h_1==. & q_1004h_2==. & q_1004h_3==. & q_1004h_4==. & q_1004h_5==. & q_1004h_6==.
-rename (q_1004h)(m3_1004h)
+rename (q_1004a q_1004h)(m3_1004a m3_1004h)
 
-rename (q_1004a endtime duration)(m3_1004a m3_endtime m3_duration)
 
 *===============================================================================
 	
@@ -830,6 +857,9 @@ recode m2_203a m2_203b m2_203c m2_203d m2_203e m2_203f m2_203g m2_203h m2_204i m
 
 
 	   * MODULE 3:
+recode m3_baby1_weight (98 = .d)	
+
+recode m3_baby1_weight m3_baby2_weight (-98 = .d)	   
 	   
 	   
 *------------------------------------------------------------------------------*
@@ -847,6 +877,7 @@ recode care_self (. = .a) if permission == 0
 
 destring(enrollage), gen(recenrollage)
 recode recenrollage (. = .a) if permission == 0
+drop enrollage
 
 recode b6anc_first (. = .a) if b5anc== 2
 recode flash (.  = .a) if mobile_phone == 0 | mobile_phone == . 
@@ -1058,11 +1089,13 @@ replace m1_1201_other = ".a" if m1_1201 != -96
 
 * where is the "other value"- doesn't exist in dataset because no one selected other, will drop
 *replace m1_1202_other = ".a" if m1_1202 != 96	
+drop m1_1202_other
 
 replace m1_1208_other = ".a" if m1_1208 != -96	
 
 * where is the "other value" - doesn't exist in dataset because no one selected other, will drop
 *replace m1_1209_other = ".a" if m1_1209 != 96	
+drop m1_1209_other
 
 replace m1_1210_other = ".a" if m1_1210 != -96	
 
@@ -1109,7 +1142,7 @@ recode m1_1308 (.  = .a) if m1_1306 == 1 | m1_1306 == .
 
 recode m1_1309 (.  = .a) if m1_1308 == 0 | m1_1308 == . | m1_1308 == .a	  
 
-replace pref_language_other_ke = ".a" if pref_language_96_ke != 1
+*replace pref_language_other_ke = ".a" if pref_language_96_ke != 1
 
 *===============================================================================					   
 	
@@ -1119,7 +1152,7 @@ ren rec* *
 	** MODULE 1:		
 lab var country "Country"
 lab var interviewer_id "Interviewer ID"
-lab var date_m1 "A2. Date of interview"
+lab var m1_date "A2. Date of interview"
 lab var m1_start_time "A3. Time of interview"
 lab var study_site "A4. Study site"
 lab var facility "A5. Facility name"
@@ -1439,7 +1472,7 @@ lab var m1_1105 "1105. During the visit today, did the health provider discuss w
 lab var m1_1201 "1201. What is the main source of drinking water for members of your household?"
 lab var m1_1201_other "1201_Other. Specify other source of drink water"
 lab var m1_1202 "1202. What kind of toilet facilities does your household have?"
-lab var m1_1202_other "1202_Other. Specify other kind of toilet facility"
+*lab var m1_1202_other "1202_Other. Specify other kind of toilet facility"
 lab var m1_1203 "1203. Does your household have electricity?"
 lab var m1_1204 "1204. Does your household have a radio?"
 lab var m1_1205 "1205. Does your household have a television?"
@@ -1448,7 +1481,7 @@ lab var m1_1207 "1207. Does your household have a refrigerator?"
 lab var m1_1208 "1208. What type of fuel does your household mainly use for cooking?"
 lab var m1_1208_other "1208_Other. Specify other fuel type for cooking"
 lab var m1_1209 "1209. What is the main material of your floor?"
-lab var m1_1209_other "1209_Other. Specify other fuel type for cooking"
+*lab var m1_1209_other "1209_Other. Specify other fuel type for cooking"
 lab var m1_1210 "1210. What is the main material your walls are made of?"
 lab var m1_1210_other "1210_Other. Specify other fuel type for cooking"
 lab var m1_1211 "1211. What is the main material your roof is made of?"
@@ -1527,15 +1560,14 @@ lab var pref_language_other_ke "KE only: Specify other preferred language"
 
 */
 
-
 	** MODULE 2:
 	
 	** MODULE 3:
 
 lab var m3_start_p1 "M3-IIC. May I proceed with the interview?"
 lab var m3_date "M3-102. Date of interview (D-M-Y)"
-lab var m3_date_confirm "M3-102-confirm. Confirm date of interview" // SS: duplicate var in multiple module, dropping for now
-lab var m3_time "M3-102-time. Time of interview started"
+lab var m3_date_confirm "M3-102-confirm. Confirm date of interview" 
+lab var m3_start_time "M3-102-time. Time of interview started"
 lab var m3_date_time "M3-102-date-time. Time of interview started and date of interview"
 lab var m3_birth_or_ended "M3-201a. On what date did you give birth or did the pregnancy end?"
 lab var m3_birth_or_ended_provided "M3-201a-YN. Did the respondent provide the date?"
@@ -1903,20 +1935,14 @@ lab var m3_1204 "M3-1204. Overall, how would you rate the quality of care that y
 			
 lab var m3_endtime "Time of interview ended"
 lab var m3_duration "Total duration of interview"
+
 *===============================================================================
 
 	* STEP FIVE: ORDER VARIABLES
-drop q814a_calc_e q814b_calc_e q814c_calc_e ///
-	 q814d_calc_e q814e_calc_e q814f_calc_e q814g_calc_e q814h_calc_e q814_calc_e q814a_calc_ki ///
-	 q814b_calc_ki q814c_calc_ki q814d_calc_ki q814e_calc_ki q814f_calc_ki q814g_calc_ki q814h_calc_ki ///
-	 q814_calc_ki q814a_calc_ka q814b_calc_ka q814c_calc_ka q814e_calc_ka q814g_calc_ka q814h_calc_ka ///
-	 q814d_calc_ka q814f_calc_ka q814_calc_ka device_date_ke date_survey_baseline county_eligibility_oth ///
-	 key formdef_version m1_1202_other m1_1209_other
-
 order m1_*, sequential
-order country module interviewer_id date_m1 m1_start_time study_site facility ///
+order country module interviewer_id m1_date m1_start_time study_site facility ///
       permission care_self enrollage dob ///
-	  zone_live zone_live_other b5anc b6anc_first b7eligible noconsent_why_ke ///
+	  zone_live zone_live_other b5anc b6anc_first b7eligible m1_noconsent_why_ke ///
 	  respondentid mobile_phone flash
 
 order phq9a phq9b phq9c phq9d phq9e phq9f phq9g phq9h phq9i, after(m1_205e)
