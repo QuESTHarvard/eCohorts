@@ -16,14 +16,9 @@ drop if q105 == . // 3 ids dropped
 
 gen country = "Kenya"
 
-* recode a1 = ids and drop names
 
-* de-identifying dataset and remove extra variables
-
-drop q101 q102 q105 q513b q513d q513e_1 q513e_2 q513f_1 q513f_2 q513g_1 q513g_2 ///
-	 q513h_1 q513h_2 q513i_1 q513i_2 text_audit mean_sound_level min_sound_level ///
-	 max_sound_level sd_sound_level pct_sound_between0_60 pct_sound_above80 ///
-	 pct_conversation subscriberid simid enum_name pref_language_ke pref_language_1_ke pref_language_2_ke pref_language_3_ke pref_language_4_ke pref_language_96_ke pref_language_other_ke formdef_version 
+* fixing duplicate var names
+rename gest_age_baseline gest_age_baseline_ke
 
 *------------------------------------------------------------------------------*	 
 * Append module 2:
@@ -34,7 +29,10 @@ gen module = .
 replace module = 1 if a4 !=.
 replace module = 2 if attempts != .
 
-drop care_reason_ante_label_1 care_reason_ref_label_1 care_visit_reas_rpt_grp_count_1 care_vis_idx_1_1 care_visit_res_1_1 care_vis_idx_1_2 care_visit_res_1_2 care_reason_other_label_pre_1 care_reason_other_label_1 care_reason_label_1 q_303_label_2 q_304_label_2
+drop care_reason_ante_label_1 care_reason_ref_label_1 care_visit_reas_rpt_grp_count_1 ///
+     care_vis_idx_1_1 care_visit_res_1_1 care_vis_idx_1_2 care_visit_res_1_2 ///
+	 care_reason_other_label_pre_1 care_reason_other_label_1 care_reason_label_1 ///
+	 q_303_label_2 q_304_label_2 gest_age_baseline // ga at baseline is a duplicate var
 
 * fixing duplicate var names
 rename facility_name m2_site
@@ -42,11 +40,21 @@ rename facility_name m2_site
 *------------------------------------------------------------------------------*
 * de-identifying dataset and remove extra variables
 
-drop q_102 resp_other_name resp_worker availability module_2_success ///
-     module_2_first module_2_freq mod_2_freq_label module_2_oth name_confirm name_full date_confirm time_start_full ///
-	 text_audit consent_audio section6_audio mean_sound_leve min_sound_level ///
+* de-identifying dataset and remove extra variables
+
+drop q101 q102 q105 q513b q513d q513e_1 q513e_2 q513f_1 q513f_2 q513g_1 q513g_2 ///
+	 q513h_1 q513h_2 q513i_1 q513i_2 text_audit mean_sound_level min_sound_level ///
 	 max_sound_level sd_sound_level pct_sound_between0_60 pct_sound_above80 ///
-	 pct_conversation q_104_calc q_105 q_106 full_name phone1 phone2 phone3 ///
+	 pct_conversation subscriberid simid enum_name preferred_language preferred_language_1 ///
+	 preferred_language_2 preferred_language_3 preferred_language_4 preferred_language__96 ///
+	 preferred_language_oth formdef_version time_start_v2 username time_start deviceid today_date_d ///
+     county_label agree_phone county_eligibility
+
+drop q_102 resp_other_name resp_worker availability module_2_success ///
+     module_2_first module_2_freq mod_2_freq_label module_2_oth name_confirm ///
+	 name_full date_confirm time_start_full ///
+     consent_audio section6_audio q_104_calc ///
+	 q_105 q_106 full_name phone1 phone2 phone3 ///
 	 phone4 phone_combi 
 	 
 drop q_203a_calc_e q_203b_calc_e q_203c_calc_e q_203d_calc_e q_203e_calc_e ///
@@ -66,7 +74,12 @@ drop q_501 outcome_text confirm_gestational // SS: confirm dropping outcome_text
 
 drop user_experience_rpt_grp_count user_exp_idx_1 user_visit_reason_1 user_facility_type_1 user_facility_name_1 user_exp_idx_2 user_visit_reason_2 user_facility_type_2 user_facility_name_2 user_exp_idx_3 user_visit_reason_3 user_facility_type_3 user_facility_name_3 user_exp_idx_4 user_visit_reason_4 user_facility_type_4 user_facility_name_4 user_exp_idx_5 user_visit_reason_5 user_facility_type_5 user_facility_name_5
 
-drop q_602_filter q_702_discrepancy
+drop q_602_filter q_702_discrepancy days_callback_mod3 q202_oth_continue 
+
+*these vars should be dropped for de-identification purposes
+drop registered_phone mobile_money_name mobile_prov phone_used phone_used_oth
+
+drop unavailable_reschedule reschedule_full_noavail confirm_phone phone_noavail unavailable_reschedule
 
 *------------------------------------------------------------------------------*
 	* STEPS: 
@@ -134,8 +147,8 @@ rename (q716a q716b q716c q716d q716e q717 q718 q719 q720 q721 q722 q723 q724a q
 		q724d q724e q724f q724g q724h q724i q801 q802a q802) (m1_716a m1_716b m1_716c m1_716d ///
 		m1_716e m1_717 m1_718 m1_719 m1_720 m1_721 m1_722 m1_723 m1_724a m1_724b m1_724c m1_724d ///
 		m1_724e m1_724f m1_724g m1_724h m1_724i m1_801 m1_802_ke m1_802a)
-rename (q803 edd_chart gest_age_baseline q804 q805 expected_babies q806 q807 q808 q808_oth) (m1_803 ///
-		edd_chart_ke gest_age_baseline_ke m1_804 m1_805 m1_805a_ke m1_806 m1_807 m1_808 m1_808_other)
+rename (q803 edd_chart q804 q805 expected_babies q806 q807 q808 q808_oth) (m1_803 ///
+		edd_chart_ke m1_804 m1_805 m1_805a_ke m1_806 m1_807 m1_808 m1_808_other)
 rename (q809 q810a q810b q810b_oth) (m1_809 m1_810a m1_810b m1_810b_other)
 rename (q812a q812b q812b_oth q813a q813b) (m1_812a m1_812b m1_812b_other m1_813a m1_813b)
 rename (q812b_0 q812b_1 q812b_2 q812b_3 q812b_4 q812b_5 q812b__96 q812b_998 q812b_999) ///
@@ -203,11 +216,13 @@ rename total_cost m1_1218g
 rename (q1402 q1402_0 q1402_1 q1402_2 q1402_3 q1402_4 q1402_5 q1402_6 q1402_7) ///
 	   (m1_1402_ke m1_1402_0_ke m1_1402_1_ke m1_1402_2_ke m1_1402_3_ke m1_1402_4_ke ///
 	   m1_1402_5_ke m1_1402_6_ke m1_1402_7_ke)
-	   
+
+/*
 rename (preferred_language preferred_language_1 preferred_language_2 preferred_language_3 ///
 		preferred_language_4 preferred_language__96 preferred_language_oth) (pref_language_ke ///
 		pref_language_1_ke pref_language_2_ke pref_language_3_ke pref_language_4_ke pref_language_96_ke ///
 		pref_language_other_ke)
+*/
 		
 rename noconsent_why_ke m1_noconsent_why_ke
 		
@@ -227,7 +242,7 @@ rename today_date m2_date
 rename q_103 m2_time_start
 rename q_101 m2_interviewer
 rename q_104 m2_respondentid
-rename gest_age_baseline m2_baseline_ga
+*rename gest_age_baseline m2_baseline_ga //this was M1 ga so I dropped so it's not confusing
 rename date_survey_baseline m2_baseline_date
 rename q_109 m2_maternal_death_reported
 rename q_107 m2_ga
@@ -242,7 +257,9 @@ rename q_111 m2_maternal_death_learn
 rename q_111_oth m2_maternal_death_learn_other
 		
 rename (q_201 q_202) (m2_201 m2_202) 
+rename date_delivery m2_202_delivery_date
 rename q_202_oth m2_202_other
+rename date_q202_oth m2_202_other_date
 
 rename (q_203a q_203b q_203c q_203d q_203e q_203f q_203g q_203h) /// 
        (m2_203a m2_203b m2_203c m2_203d m2_203e m2_203f m2_203g m2_203h)
@@ -310,14 +327,14 @@ rename q_701 m2_701
 rename (q_702a q_702b q_702c q_702d q_702e q_702e_other) ///
        (m2_702a_cost m2_702b_cost m2_702c_cost m2_702d_cost m2_702e_cost m2_702_other_ke)
 	   
-rename q_703 m2_703
+rename q_701_total m2_703
 rename q_702_medication m2_702_meds_ke
 rename q_702_total m2_704_confirm
 rename q_705 m2_705
 rename (q_705_1 q_705_2 q_705_3 q_705_4 q_705_5 q_705_6 q_705__96 q_705_other) ///
        (m2_705__1 m2_705__2 m2_705__3 m2_705__4 m2_705__5 m2_705__6 m2_705__96 m2_705_other)
 rename call_status m2_complete
-
+rename refused_why m2_refused_why
 
 *===============================================================================
 	
@@ -364,41 +381,50 @@ drop if gest_age_baseline_ke == -33 | gest_age_baseline_ke == -12 | gest_age_bas
 		* Note: .a means NA, .r means refused, .d is don't know, . is missing 
 
 	** MODULE 1:
-
-recode m1_402 m1_403b m1_404 m1_506 m1_509b m1_510b  m1_700 m1_702 m1_703 m1_704 m1_705 m1_706 ///
-	   m1_707 m1_708a ///
-	   m1_708b m1_708e m1_708f m1_709a m1_709b m1_710a m1_710b  m1_711a m1_712 ///
-	   m1_714a m1_714b m1_714c m1_716a m1_716b m1_716c m1_716d m1_716e m1_717  ///
-	   m1_719 m1_724a m1_724b m1_724c m1_724d m1_724e m1_724g m1_724i m1_801 m1_803 ////
-	   m1_805 m1_805a_ke m1_806 m1_809 m1_810a m1_812a m1_813b m1_814d ///
-	   m1_807 m1_810a m1_814e m1_814f m1_814g m1_814h m1_906 m1_907 ///
-	   m1_1006 m1_1008 m1_1011a m1_1103 m1_1203 m1_1204 m1_1209 ///
-	   m1_1210 m1_1216b m1_1222 m1_802_ke  (998 = .d)
+recode m1_402 m1_403b m1_404 m1_506 m1_507 m1_509b m1_510b m1_511 m1_700 m1_701 ///
+	   m1_702 m1_703 m1_704 m1_705 m1_706 m1_707 m1_708a m1_708b m1_708c m1_708d m1_708e ///
+	   m1_708f m1_709a m1_709b m1_710a m1_710b m1_711a m1_712 ///
+	   m1_714a m1_714b m1_714c m1_716a m1_716b m1_716c m1_716d m1_716e m1_717 m1_718 ///
+	   m1_719 m1_720 m1_721 m1_722 m1_723 m1_724a m1_724b m1_724c m1_724d m1_724e m1_724f ///
+	   m1_724g m1_724h m1_724i m1_801 m1_802_ke m1_803 m1_805 m1_805a_ke m1_806 m1_807 ///
+	   m1_809 m1_810a m1_812a m1_813a m1_813b m1_814a m1_814b m1_814c m1_814d m1_814e ///
+	   m1_814f m1_814g m1_814h m1_902 m1_904 m1_906 m1_907 m1_1004 m1_1005 m1_1006 m1_1007 ///
+	   m1_1008 m1_1010 m1_1011a m1_1011b m1_1011c m1_1011d m1_1011e m1_1011f m1_1101 ///
+	   m1_1103 m1_1105 m1_1201 m1_1202 m1_1203 m1_1204 m1_1205 m1_1206 m1_1207 m1_1208 ///
+	   m1_1209 m1_1210 m1_1211 m1_1216b m1_1222 m1_802_ke (998 = .d)
 
 recode m1_711b m1_713a m1_713b m1_713c m1_713d m1_713e m1_713f m1_713g m1_713h ///
 	   m1_713i m1_901 (4 = .d)
 
-recode m1_303 m1_304 m1_305a m1_402 m1_405 m1_504 m1_505 m1_507 m1_509a m1_509b ///
-	   m1_510a m1_510b  m1_605b m1_605e ///
-	   m1_605f m1_605h m1_701 m1_702 m1_708b m1_710a m1_710b ///
-	   m1_716a m1_716c m1_716d m1_724c m1_805 m1_807 m1_808 m1_809 m1_810a m1_812a ///
-	   m1_813a m1_813b m1_814g m1_901 m1_1004 m1_1005 m1_1010 m1_1011a m1_1209 ///
-	   m1_1210 m1_1211 m1_1216b phq9f phq9g m1_301 m1_903 (999 = .r)
+recode mobile_phone m1_201 m1_204 m1_205a m1_205b m1_205c m1_205d m1_205e phq9a  ///
+	   phq9b phq9c phq9d phq9e phq9f phq9g phq9h phq9i m1_301 m1_302 ///
+	   m1_303 m1_304 m1_305a m1_402 m1_404 m1_405 m1_503 m1_504 m1_505 m1_506 ///
+	   m1_507 m1_509a m1_509b m1_510a m1_510b m1_601 m1_602 m1_605a m1_605b ///
+	   m1_605c m1_605d m1_605e m1_605f m1_605g m1_605h m1_700 m1_701 m1_702 m1_703 ///
+	   m1_704 m1_705 m1_706 m1_707 m1_708a m1_708b m1_708c m1_708d m1_708e m1_708f ///
+	   m1_709a m1_709b m1_710a m1_710b m1_710c m1_711a m1_711b m1_712 m1_713a m1_713j_ke ///
+	   m1_713b m1_713g m1_713c m1_713d m1_713e m1_713k m1_713f m1_713h m1_713i m1_713l ///
+	   m1_714a m1_714b m1_716a m1_716b m1_716c m1_716d m1_716e m1_717 m1_718 m1_719 ///
+	   m1_720 m1_721 m1_722 m1_723 m1_724a m1_724c m1_724d m1_724e m1_724f m1_724g m1_724h ///
+	   m1_724i m1_801 m1_802_ke m1_805 m1_806 m1_807 m1_808 m1_809 m1_810a m1_812a m1_813a ///
+	   m1_813b m1_814a m1_814b m1_814c m1_814d m1_814e m1_814f m1_814g m1_814h m1_901 ///
+	   m1_902 m1_903 m1_904 m1_907 m1_1004 m1_1005 m1_1006 m1_1007 m1_1008 m1_1010 ///
+	   m1_1011a m1_1011b m1_1011c m1_1011d m1_1011e m1_1011f m1_1101 m1_1103 m1_1105 m1_1201 ///
+	   m1_1202 m1_1203 m1_1204 m1_1205 m1_1206 m1_1207 m1_1208 m1_1209 m1_1210 m1_1211 ///
+	   m1_1216b m1_1222 phq9f phq9g m1_301 m1_903 (999 = .r)
   	
 replace m1_812b=".d" if m1_812b== "998"	
 replace m1_815_0=".d" if m1_815_0== "998"	
 replace m1_815_0=".r" if m1_815_0== "999"	
 
-
     ** MODULE 2: 
-	
-
-
 recode m2_203a m2_203b m2_203c m2_203d m2_203e m2_203f m2_203g m2_204i (-99 = .r)
 
 recode m2_303a (-99 = .r)
 
 recode m2_303a (-98 = .d)
+
+recode    (999 = .r)
 
 *------------------------------------------------------------------------------*
 
@@ -1084,6 +1110,7 @@ lab var interview_length "Interview length"
 lab var gest_age_baseline_ke "KE only: Calculated gestational age"
 lab var edd_chart_ke "KE only: Data collector: Check from the chart, is the expected delivery date recorded?"
 lab var edd "KE only: Check from the chart, what is the expected delivery date recorded?"
+/*
 lab var pref_language_ke "KE only: In which language(s) do you feel most comfortable for the follow-up interviews?"
 lab var pref_language_1_ke "KE only: English"
 lab var pref_language_2_ke "KE only: Kiswahili"
@@ -1091,16 +1118,16 @@ lab var pref_language_3_ke "KE only: Kikuyu"
 lab var pref_language_4_ke "KE only: Kamba"
 lab var pref_language_96_ke "KE only: Other (specify)"
 lab var pref_language_other_ke "KE only: Specify other preferred language"
-
+*/
 *===============================================================================
 
 	* STEP FIVE: ORDER VARIABLES
-drop username time_start_full time_start time_start_v2 deviceid	today_date today_date_d ///
-     county_label agree_phone county_eligibility q814a_calc_e q814b_calc_e q814c_calc_e ///
+drop q814a_calc_e q814b_calc_e q814c_calc_e ///
 	 q814d_calc_e q814e_calc_e q814f_calc_e q814g_calc_e q814h_calc_e q814_calc_e q814a_calc_ki ///
 	 q814b_calc_ki q814c_calc_ki q814d_calc_ki q814e_calc_ki q814f_calc_ki q814g_calc_ki q814h_calc_ki ///
 	 q814_calc_ki q814a_calc_ka q814b_calc_ka q814c_calc_ka q814e_calc_ka q814g_calc_ka q814h_calc_ka ///
-	 q814d_calc_ka q814f_calc_ka q814_calc_ka device_date_ke date_survey_baseline county_eligibility_oth key formdef_version m1_1202_other m1_1209_other
+	 q814d_calc_ka q814f_calc_ka q814_calc_ka device_date_ke date_survey_baseline county_eligibility_oth ///
+	 key formdef_version m1_1202_other m1_1209_other
 
 order m1_*, sequential
 order country module interviewer_id date_m1 m1_start_time study_site facility ///
