@@ -6,7 +6,7 @@
 * Import Data 
 clear all 
 
-use "$ke_data/KEMRI_Module_1_ANC_2023z-9-6.dta"
+use "$ke_data/Module 1/KEMRI_Module_1_ANC_2023z-9-6.dta"
 
 *------------------------------------------------------------------------------*
 * Create sample: (M1 = 1,007)
@@ -16,9 +16,11 @@ drop if q105 == . // 3 ids dropped
 
 gen country = "Kenya"
 
-
 * fixing duplicate var names
 rename gest_age_baseline gest_age_baseline_ke
+rename consent b7eligible
+rename starttime m1_start_time
+rename time_start_full m1_date_time
 
 *------------------------------------------------------------------------------*	 
 * Append module 2:
@@ -35,11 +37,34 @@ drop care_reason_ante_label_1 care_reason_ref_label_1 care_visit_reas_rpt_grp_co
 	 q_303_label_2 q_304_label_2 gest_age_baseline // ga at baseline is a duplicate var
 
 * fixing duplicate var names
-rename facility_name m2_site
+rename facility_name m2_site 
+rename today_date m2_date 
+rename date_confirm m2_date_confirm
+rename starttime m2_start_time
+rename time_start_full m2_date_time
+rename q_302 m2_302
+rename q_301 m2_301
+rename (q_303_1 q_303_2) (m2_303a m2_303b)
+rename (q_304_1 q_304_oth_1 q_304_2 q_304_oth_2) ///
+	   (m2_304a m2_304a_other m2_304b m2_304b_other)
+
+*------------------------------------------------------------------------------*	 
+* Append module 3:
+
+append using "$ke_data/Module 3/KEMRI_Module_3.dta", force
+
+* fixing duplicate var names
+rename facility_name m3_site
+rename date_confirm m3_date_confirm
+rename today_date m3_date 
+rename starttime m3_start_time
+rename time_start_full m3_date_time
+rename q_302 m3_birth_or_ended_date
+rename q_301 m3_303a
+rename (q_303_1 q_303_2) (m3_303b m3_303c)
+rename (q_304_1 q_304_2) (m3_baby1_name m3_baby2_name)
 
 *------------------------------------------------------------------------------*
-* de-identifying dataset and remove extra variables
-
 * de-identifying dataset and remove extra variables
 
 drop q101 q102 q105 q513b q513d q513e_1 q513e_2 q513f_1 q513f_2 q513g_1 q513g_2 ///
@@ -52,9 +77,7 @@ drop q101 q102 q105 q513b q513d q513e_1 q513e_2 q513f_1 q513f_2 q513g_1 q513g_2 
 
 drop q_102 resp_other_name resp_worker availability module_2_success ///
      module_2_first module_2_freq mod_2_freq_label module_2_oth name_confirm ///
-	 name_full date_confirm time_start_full ///
-     consent_audio section6_audio q_104_calc ///
-	 q_105 q_106 full_name phone1 phone2 phone3 ///
+	 name_full consent_audio section6_audio q_104_calc q_105 q_106 full_name phone1 phone2 phone3 ///
 	 phone4 phone_combi 
 	 
 drop q_203a_calc_e q_203b_calc_e q_203c_calc_e q_203d_calc_e q_203e_calc_e ///
@@ -103,7 +126,6 @@ rename b1 permission
 rename (b2 b3) (care_self enrollage)
 rename (b4 b4_oth b5 b6) (zone_live zone_live_other b5anc b6anc_first)
 rename a2 device_date_ke
-rename consent b7eligible
 rename (q103 q104 q106) (respondentid mobile_phone flash)
 rename q201 m1_201
 rename (q202a q202b q202c q202d q202e) (m1_202a m1_202b m1_202c m1_202d m1_202e)
@@ -210,7 +232,6 @@ rename (q1306 q1307 q1308 q1309 q1401 preferred_phone_oth preferred_phone_confir
 rename noconsent_why noconsent_why_ke		
 rename end_comment m1_end_comment_ke	
 rename submissiondate m1_date
-rename starttime m1_start_time
 rename (q1401_1 q1401_2 q1401_3 q1401_4) (m1_1401_1_ke m1_1401_2_ke m1_1401_3_ke m1_1401_4_ke)
 rename total_cost m1_1218g
 rename (q1402 q1402_0 q1402_1 q1402_2 q1402_3 q1402_4 q1402_5 q1402_6 q1402_7) ///
@@ -237,8 +258,7 @@ rename (attempts attempts_oth call_response resp_language resp_language_no ///
 	   m2_attempt_goodtime m2_reschedule_resp m2_reschedule_date_resp) 
 
 rename (mod_2_round intro_yn) (m2_completed_attempts m2_consent_recording)	
-	
-rename today_date m2_date 
+
 rename q_103 m2_time_start
 rename q_101 m2_interviewer
 rename q_104 m2_respondentid
@@ -268,14 +288,12 @@ rename (q_204 q_204_specify) (m2_204i m2_204i_other)
 rename (q_205a q_205b) (m2_205a m2_205b)
 rename phq_score m2_phq2_ke 
 rename  q_206 m2_206
-rename (q_301 q_302) (m2_301 m2_302) 
 
-rename (q_303_1 q_303_2 q_303_3 q_303_4 q_303_5) ///
-       (m2_303a m2_303b m2_303 m2_303d m2_303e)
+rename (q_303_3 q_303_4 q_303_5) (m2_303 m2_303d m2_303e)
 	   
-rename (q_304_1 q_304_oth_1 q_304_2 q_304_oth_2 q_304_3 q_304_oth_3 q_304_4 ///
+rename (q_304_3 q_304_oth_3 q_304_4 ///
         q_304_oth_4 q_304_5 q_304_oth_5) ///
-	   (m2_304a m2_304a_other m2_304b m2_304b_other m2_304c m2_304c_other m2_304d ///
+	   (m2_304c m2_304c_other m2_304d ///
 	    m2_304d_other m2_304e m2_304e_other)
 
 drop q_307_1 q_307_2 q_307_3 q_307_4 q_307_5 q_320
@@ -336,10 +354,370 @@ rename (q_705_1 q_705_2 q_705_3 q_705_4 q_705_5 q_705_6 q_705__96 q_705_other) /
 rename call_status m2_complete
 rename refused_why m2_refused_why
 
+
+		** MODULE 3:
+rename (consent q_302a q_302b gest_age_delivery_final) (m3_start_p1 m3_birth_or_ended ///
+	    m3_birth_or_ended_provided m3_ga_final)
+rename (q_305_1 q_305_2 q_306_1 q_306_2 q_308_1 q_308_2 q_307_1 q_307_2 q_309_1 ///
+		q_309_2) (m3_baby1_gender m3_baby2_gender m3_baby1_age_weeks ///
+		m3_baby2_age_weeks m3_baby1_weight m3_baby2_weight m3_baby1_size m3_baby2_size m3_baby1_health ///
+		m3_baby2_health)
+       
+	   ** q_308_1 q_308_2 are numeric variables (baby weight), some values are -98 or 98 
+replace q_308_1 = q_308_1 if q_308_1 != 98 | q_308_1 != - 98
+replace q_308_1 = -98 if q_308_1 == 98 
+replace q_308_2 = q_308_2 if q_308_1 != - 98
+rename (q_308_1 q_308_2) (m3_baby1_weight m3_baby2_weight)
+		
+       ** These 16 variables are string variables: use replace if and then rename 
+       ** q_310a_1_1 q_310a_2_1 q_310a_3_1 q_310a_4_1 q_310a_5_1 q_310a_6_1 q_310a_7_1 q_310a_8_1 q_310a__99_1 (line 40 to line 66)
+       ** q_310a_1_2 q_310a_2_2 q_310a_3_2 q_310a_4_2 q_310a_5_2 q_310a_6_2 q_310a_7_2 q_310a_8_2 q_310a__99_2 (line 68 to line 94)
+replace q_310a_1_1 = "No" if q_310a_1_1 == "0"
+replace q_310a_1_1 = "Yes" if q_310a_1_1 == "1"
+rename (q_310a_1_1) (m3_baby1_feed_a)
+replace q_310a_2_1 = "No" if q_310a_2_1 == "0"
+replace q_310a_2_1 = "Yes" if q_310a_2_1 == "1"
+rename (q_310a_2_1) (m3_baby1_feed_b)
+replace q_310a_3_1 = "No" if q_310a_3_1 == "0"
+replace q_310a_3_1 = "Yes" if q_310a_3_1 == "1"
+rename (q_310a_3_1) (m3_baby1_feed_c)
+replace q_310a_4_1 = "No" if q_310a_4_1 == "0"
+replace q_310a_4_1 = "Yes" if q_310a_4_1 == "1"
+rename (q_310a_4_1) (m3_baby1_feed_d)
+replace q_310a_5_1 = "No" if q_310a_5_1 == "0"
+replace q_310a_5_1 = "Yes" if q_310a_5_1 == "1"
+rename (q_310a_5_1) (m3_baby1_feed_e)
+replace q_310a_6_1 = "No" if q_310a_6_1 == "0"
+replace q_310a_6_1 = "Yes" if q_310a_6_1 == "1"
+rename (q_310a_6_1) (m3_baby1_feed_f)
+replace q_310a_7_1 = "No" if q_310a_7_1 == "0"
+replace q_310a_7_1 = "Yes" if q_310a_7_1 == "1"
+rename (q_310a_7_1) (m3_baby1_feed_g)
+replace q_310a_8_1 = "No" if q_310a_8_1 == "0"
+replace q_310a_8_1 = "Yes" if q_310a_8_1 == "1"
+rename (q_310a_8_1) (m3_baby1_feed_h)
+replace q_310a__99_1 = "No" if q_310a__99_1 == "0"
+replace q_310a__99_1 = "Yes" if q_310a__99_1== "1"
+rename (q_310a__99_1) (m3_baby1_feed_99)
+
+replace q_310a_1_2 = "No" if q_310a_1_2 == "0"
+replace q_310a_1_2 = "Yes" if q_310a_1_2 == "1"
+rename (q_310a_1_2) (m3_baby2_feed_a)
+replace q_310a_2_2 = "No" if q_310a_2_2 == "0"
+replace q_310a_2_2 = "Yes" if q_310a_2_2 == "1"
+rename (q_310a_2_2) (m3_baby2_feed_b)
+replace q_310a_3_2 = "No" if q_310a_3_2 == "0"
+replace q_310a_3_2 = "Yes" if q_310a_3_2 == "1"
+rename (q_310a_3_2) (m3_baby2_feed_c)
+replace q_310a_4_2 = "No" if q_310a_4_2 == "0"
+replace q_310a_4_2 = "Yes" if q_310a_4_2 == "1"
+rename (q_310a_4_2) (m3_baby2_feed_d)
+replace q_310a_5_2 = "No" if q_310a_5_2 == "0"
+replace q_310a_5_2 = "Yes" if q_310a_5_2 == "1"
+rename (q_310a_5_2) (m3_baby2_feed_e)
+replace q_310a_6_2 = "No" if q_310a_6_2 == "0"
+replace q_310a_6_2 = "Yes" if q_310a_6_2 == "1"
+rename (q_310a_6_2) (m3_baby2_feed_f)
+replace q_310a_7_2 = "No" if q_310a_7_2 == "0"
+replace q_310a_7_2 = "Yes" if q_310a_7_2 == "1"
+rename (q_310a_7_2) (m3_baby2_feed_g)
+replace q_310a_8_2 = "No" if q_310a_8_2 == "0"
+replace q_310a_8_2 = "Yes" if q_310a_8_2 == "1"
+rename (q_310a_8_2) (m3_baby2_feed_h)
+replace q_310a__99_2 = "No" if q_310a__99_2 == "0"
+replace q_310a__99_2 = "Yes" if q_310a__99_2 == "1"
+rename (q_310a__99_2) (m3_baby2_feed_99)
+
+rename (q_310b_1 q_310b_2)(m3_breastfeeding m3_breastfeeding_2)
+rename (q_312_1 q_312a_1 q_312_2 q_312a_2 q_313a_1 q_313b_1 q_313b_unit_1 q_313a_2 q_313b_2 q_313b_unit_2 q_314_1 q_314_oth_1 q_314_2 q_314_oth_2 q_1201 ///
+        q_1202 q_1203 q_1204) (m3_baby1_born_alive1 m3_baby1_born_alive2 m3_baby2_born_alive1 m3_baby2_born_alive2 m3_313a_baby1 m3_313c_baby1 ///
+		m3_313d_baby1 m3_313a_baby2 m3_313c_baby2 m3_313d_baby2 m3_death_cause_baby1 m3_death_cause_baby1_other m3_death_cause_baby2 /// 
+		m3_death_cause_baby2_other m3_1201 m3_1202 m3_1203 m3_1204)
+rename (q_401 q_402 q_403_1 q_404_1 q_405_oth_1)(m3_401 m3_402 m3_consultation_1 m3_consultation_referral_1 m3_consultation1_reason_other)	
+rename (q_403_2 q_404_2 q_405_oth_2)(m3_consultation_2 m3_consultation_referral_2 m3_consultation2_reason_other)
+rename (q_403_3 q_404_3 q_405_3 q_405_oth_3) (m3_consultation_3 m3_consultation_referral_3 m3_consultation3_reason m3_consultation3_reason_other)	
+
+       ** q_405_1 q_405_2 are string variables: use replace if and then rename (line 106 to 112, line 114 to 120)
+replace q_405_1 = "A new health problem, including an emergency or an injury" if q_405_1  == "1"
+replace q_405_1 = "An existing health problem" if q_405_1  == "2"
+replace q_405_1 = "A lab test, x-ray, or ultrasound" if q_405_1  == "3"
+replace q_405_1 = "To pick up medicine" if q_405_1  == "4"
+replace q_405_1 = "To get a vaccine" if q_405_1  == "5"
+replace q_405_1 = "Other reasons, please specify" if q_405_1  == "-96"
+rename (q_405_1) (m3_consultation1_reason)
+
+replace q_405_2 = "A new health problem, including an emergency or an injury" if q_405_2  == "1"
+replace q_405_2 = "An existing health problem" if q_405_2  == "2"
+replace q_405_2 = "A lab test, x-ray, or ultrasound" if q_405_2  == "3"
+replace q_405_2 = "To pick up medicine" if q_405_2 == "4"
+replace q_405_2 = "To get a vaccine" if q_405_2 == "5"
+replace q_405_2 = "Other reasons, please specify" if q_405_2  == "-96"
+rename (q_405_2) (m3_consultation2_reason)
+
+       ** These 16 variables are string variables: use replace if and then rename 
+       ** q_405_1_1 q_405_2_1 q_405_3_1 q_405_4_1 q_405_5_1 q_405__96_1 (line 126 to 143)
+       ** q_405_1_2 q_405_2_2 q_405_3_2 q_405_4_2 q_405_5_2 q_405__96_2 (line 145 to 162)
+       ** q_405_1_3 q_405_2_3 q_405_3_3 q_405_4_3 q_405_5_3 q_405__96_3 (line 164 to 181)
+replace q_405_1_1 = "Yes" if q_405_1_1 == "1"
+replace q_405_1_1 = "No" if q_405_1_1 == "0"
+rename (q_405_1_1) (m3_consultation1_reason_a)
+replace q_405_2_1 = "Yes" if q_405_2_1 == "1"
+replace q_405_2_1 = "No" if q_405_2_1 == "0"
+rename (q_405_2_1) (m3_consultation1_reason_b)
+replace q_405_3_1 = "Yes" if q_405_3_1 == "1"
+replace q_405_3_1 = "No" if q_405_3_1 == "0"
+rename (q_405_3_1) (m3_consultation1_reason_c)
+replace q_405_4_1 = "Yes" if q_405_4_1 == "1"
+replace q_405_4_1 = "No" if q_405_4_1 == "0"
+rename (q_405_4_1) (m3_consultation1_reason_d)
+replace q_405_5_1 = "Yes" if q_405_5_1 == "1"
+replace q_405_5_1 = "No" if q_405_5_1 == "0"
+rename (q_405_5_1) (m3_consultation1_reason_e)
+replace q_405__96_1 = "Yes" if q_405__96_1 == "1"
+replace q_405__96_1 = "No" if q_405__96_1 == "0"
+rename (q_405__96_1) (m3_consultation1_reason_96)
+
+replace q_405_1_2 = "Yes" if q_405_1_2 == "1"
+replace q_405_1_2 = "No" if q_405_1_2 == "0"
+rename (q_405_1_2) (m3_consultation2_reason_a)
+replace q_405_2_2 = "Yes" if q_405_2_2 == "1"
+replace q_405_2_2 = "No" if q_405_2_2 == "0"
+rename (q_405_2_2) (m3_consultation2_reason_b)
+replace q_405_3_2 = "Yes" if q_405_3_2 == "1"
+replace q_405_3_2 = "No" if q_405_3_2 == "0"
+rename (q_405_3_2) (m3_consultation2_reason_c)
+replace q_405_4_2 = "Yes" if q_405_4_2 == "1"
+replace q_405_4_2 = "No" if q_405_4_2 == "0"
+rename (q_405_4_2) (m3_consultation2_reason_d)
+replace q_405_5_2 = "Yes" if q_405_5_2 == "1"
+replace q_405_5_2 = "No" if q_405_5_2 == "0"
+rename (q_405_5_2) (m3_consultation2_reason_e)
+replace q_405__96_2 = "Yes" if q_405__96_2 == "1"
+replace q_405__96_2 = "No" if q_405__96_2 == "0"
+rename (q_405__96_2) (m3_consultation2_reason_96)
+
+replace q_405_1_3 = "Yes" if q_405_1_3 == "1"
+replace q_405_1_3 = "No" if q_405_1_3 == "0"
+rename (q_405_1_3) (m3_consultation3_reason_a)
+replace q_405_2_3 = "Yes" if q_405_2_3 == "1"
+replace q_405_2_3 = "No" if q_405_2_3 == "0"
+rename (q_405_2_3) (m3_consultation3_reason_b)
+replace q_405_3_3 = "Yes" if q_405_3_3 == "1"
+replace q_405_3_3 = "No" if q_405_3_3 == "0"
+rename (q_405_3_3) (m3_consultation3_reason_c)
+replace q_405_4_3 = "Yes" if q_405_4_3 == "1"
+replace q_405_4_3 = "No" if q_405_4_3 == "0"
+rename (q_405_4_3) (m3_consultation3_reason_d)
+replace q_405_5_3 = "Yes" if q_405_5_3 == "1"
+replace q_405_5_3 = "No" if q_405_5_3 == "0"
+rename (q_405_5_3) (m3_consultation3_reason_e)
+replace q_405__96_3 = "Yes" if q_405__96_3 == "1"
+replace q_405__96_3 = "No" if q_405__96_3 == "0"
+rename (q_405__96_3) (m3_consultation3_reason_96)
+
+rename (q_412a_1 q_412b_1 q_412c_1 q_412d_1 q_412e_1 q_412f_1 q_412g_1 q_412g_oth_1 q_412i_1) ///
+       (m3_412a m3_412b m3_412c m3_412d m3_412e m3_412f m3_412g m3_412g_other m3_412i)	
+rename (q_501 q_502 q_503 q_504_n q_504_c q_504_r q_503_final q_506_pre q_506_pre_oth q_506 q_507 q_508 q_509 q_508_oth q_513a q_513b_n q_513b_c q_513_r ///
+        q_513_calc q_514 q_515 q_516 q_517 q_518_oth_del q_518_oth q_519 q_519_oth q_520 q_521 q_521_unit)(m3_501 m3_502 m3_503 m3_504a m3_504b ///
+		m3_504c m3_503_final m3_506_pre m3_506_pre_oth m3_506 m3_507 m3_508 m3_509 m3_509_other m3_513a m3_513_outside_zone_other m3_513b2 m3_513b3 ///
+		m3_513_final m3_514 m3_515 m3_516 m3_517 m3_518_other_complications m3_518_other m3_519 m3_519_other m3_520 m3_521_ke m3_521_ke_unit)
+
+       ** q_518 is a string variables: use replace if and then rename (line 191 to 206)
+replace q_518 = "The provider did not give a reason" if q_518 == "0"
+replace q_518 = "No space or no bed available" if q_518 == "1"
+replace q_518 = "Facility did not provide delivery care" if q_518 == "2"
+replace q_518 = "Prolonged labor" if q_518 == "3"
+replace q_518 = "Obstructed labor" if q_518 == "4"
+replace q_518 = "Eclampsia/pre-eclampsia" if q_518 == "5"
+replace q_518 = "Previous cesarean section scar" if q_518 == "6"
+replace q_518 = "Fetal distress" if q_518 == "7"
+replace q_518 = "Fetal presentations" if q_518 == "8"
+replace q_518 = "No fetal movement" if q_518 == "9"
+replace q_518 = "Bleeding" if q_518 == "10"
+replace q_518 = "Other delivery complications (s" if q_518 == "-96"
+replace q_518 = "Other reasons(specify)" if q_518 == "-97"
+replace q_518 = "Don't Know" if q_518 == "-98"
+replace q_518 = "NR/RF" if q_518 == "-99"
+rename (q_518)(m3_518)
+********When tabulate q_518, there are a few strange observations (8 -97, 8 9). I did not label them.
+		
+rename (q_601a q_601b q_601c q_602a q_602b q_603a q_603b q_603c q_604a q_604b q_605a q_605b q_605c q_605c_oth q_606 q_607 q_608 q_609 q_610a q_610b ///
+        q_611 q_612 q_612_unit q_613 q_614 q_614_unit q_615_1 q_615_2 q_616_1 q_616_unit_1 q_616_2 q_616_unit_2 q_617_1 q_617_2 q_618a_1 q_618b_1 ///
+		q_618c_1 q_618a_2 q_618b_2 q_618c_2) (m3_601_hiv m3_601b m3_601c m3_602a m3_602b m3_603a m3_603b m3_603c m3_604a m3_604b m3_605a m3_605b ///
+		m3_605c m3_605c_other m3_606 m3_607 m3_608 m3_609 m3_610a m3_610b m3_611 m3_612_ke m3_612_ke_unit m3_613 m3_614_ke m3_614_ke_unit m3_615a m3_615b ///
+		m3_616c_1 m3_616c_1_unit m3_616c_2 m3_616c_2_unit m3_617a m3_617b m3_618a_1 m3_618b_1 m3_618c_1 m3_618a_2 m3_618b_2 m3_618c_2)
+rename (q_619a q_619b q_619c q_619d q_619e q_619f q_619g q_620_1 q_620_2 q_621b q_621c q_621c_unit q_622a q_622b q_622c)(m3_619a m3_619b m3_619c ///
+        m3_619d m3_619e m3_619g m3_619h m3_620_1 m3_620_2 m3_621b m3_621c_ke m3_621c_ke_unit m3_622a m3_622b m3_622c)
+
+       ** q_621a is a string variables: use replace if and then rename (line 219 to 226)		
+replace q_621a = "A relative or a friend" if q_621a == "1"
+replace q_621a = "A traditional birth attendant" if q_621a == "2"
+replace q_621a = "A community health worker" if q_621a == "3"
+replace q_621a = "A nurse" if q_621a == "4"
+replace q_621a = "A midwife" if q_621a == "5"
+replace q_621a = "Don´t know [DO NOT READ]" if q_621a == "-98"
+replace q_621a = "NR/RF" if q_621a == "-99"
+rename (q_621a)(m3_621a)
+
+rename (q_311a_1 q_311a_2 q_311b_1 q_311b_2 q_311c_1 q_311c_2 q_311d_1 q_311d_2 q_311e_1 q_311e_2 q_311f_1 q_311f_2 q_311g_1 q_311g_2)(m3_baby1_sleep ///
+        m3_baby2_sleep m3_baby1_feed m3_baby2_feed m3_baby1_breath m3_baby2_breath m3_baby1_stool m3_baby2_stool m3_baby1_mood m3_baby2_mood ///
+		m3_baby1_skin m3_baby2_skin m3_baby1_interactivity m3_baby2_interactivity)
+rename (q_701 q_702 q_703 q_704a q_704b q_704c q_704d q_704e q_704f q_704g q_705 q_706 q_707 q_707_unit q_708_1 q_708_2)(m3_701 m3_702 m3_703 m3_704a ///
+        m3_704b m3_704c m3_704d m3_704e m3_704f m3_704g m3_705 m3_706 m3_707_ke m3_707_ke_unit m3_baby1_issues m3_baby2_issues)   
+
+       ** These 8 variables are string variables : use replace if and then rename (line 235 to 258)
+       ** q_708_1_1 q_708_2_1 q_708_3_1 q_708_4_1 q_708_5_1 q_708_6_1 q_708__98_1 q_708__99_1 
+replace q_708_1_1 = "No" if q_708_1_1 == "0"   
+replace q_708_1_1 = "Yes" if q_708_1_1 == "1"
+rename (q_708_1_1)(m3_baby1_issues_a)
+replace q_708_2_1 = "No" if q_708_2_1 == "0"  
+replace q_708_2_1 = "Yes" if q_708_2_1 == "1"
+rename (q_708_2_1)(m3_baby1_issues_b)
+replace q_708_3_1 = "No" if q_708_3_1 == "0"  
+replace q_708_3_1 = "Yes" if q_708_3_1 == "1"
+rename (q_708_3_1)(m3_baby1_issues_c)
+replace q_708_4_1 = "No" if q_708_4_1 == "0"  
+replace q_708_4_1 = "Yes" if q_708_4_1 == "1"
+rename (q_708_4_1)(m3_baby1_issues_d)
+replace q_708_5_1 = "No" if q_708_5_1 == "0"
+replace q_708_5_1 = "Yes" if q_708_5_1  == "1"
+rename (q_708_5_1)(m3_baby1_issues_e)
+replace q_708_6_1 = "No" if q_708_6_1 == "0"  
+replace q_708_6_1 = "Yes" if q_708_6_1  == "1"
+rename (q_708_6_1)(m3_baby1_issues_f)
+replace q_708__98_1 = "No" if q_708__98_1 == "0"
+replace q_708__98_1 = "Yes" if q_708__98_1  == "1"
+rename (q_708__98_1)(m3_baby1_issues_98)
+replace q_708__99_1 = "No" if q_708__99_1 == "0"
+replace q_708__99_1 = "Yes" if q_708__99_1 == "1"
+rename (q_708__99_1)(m3_baby1_issues_99)
+
+       ** These 8 variables are string variables : use replace if and then rename (line 2625 to 285)
+       ** q_708_1_2 q_708_2_2 q_708_3_2 q_708_4_2 q_708_5_2 q_708_6_2 q_708__98_2 q_708__99_2
+replace q_708_1_2 = "No" if q_708_1_2 == "0"  
+replace q_708_1_2 = "Yes" if q_708_1_2 == "1"
+rename (q_708_1_2)(m3_baby2_issues_a)
+replace q_708_2_2 = "No" if q_708_2_2 == "0"  
+replace q_708_2_2 = "Yes" if q_708_2_2 == "1"
+rename (q_708_2_2)(m3_baby2_issues_b)
+replace q_708_3_2 = "No" if q_708_3_2 == "0"  
+replace q_708_3_2 = "Yes" if q_708_3_2 == "1"
+rename (q_708_3_2)(m3_baby2_issues_c)
+replace q_708_4_2 = "No" if q_708_4_2 == "0" 
+replace q_708_4_2 = "Yes" if q_708_4_2 == "1"
+rename (q_708_4_2)(m3_baby2_issues_d)
+replace q_708_5_2 = "No" if q_708_5_2 == "0"  
+replace q_708_5_2 = "Yes" if q_708_5_2  == "1"
+rename (q_708_5_2)(m3_baby2_issues_e)
+replace q_708_6_2 = "No" if q_708_6_2 == "0"  
+replace q_708_6_2 = "Yes" if q_708_6_2  == "1"
+rename (q_708_6_2)(m3_baby2_issues_f)
+replace q_708__98_2 = "No" if q_708__98_2 == "0"  
+replace q_708__98_2 = "Yes" if q_708__98_2  == "1"
+rename (q_708__98_2)(m3_baby2_issues_98)
+replace q_708__99_2 = "No" if q_708__99_2 == "0"  
+replace q_708__99_2 = "Yes" if q_708__99_2 == "1"
+rename (q_708__99_2)(m3_baby2_issues_99)
+
+rename (q_709_1 q_709_o_1 q_709_2 q_709_o_2 q_710_1 q_710_2 q_711_1 q_711_unit_1 q_711_2 q_711_unit_2) (m3_708_oth_1 m3_708a m3_708_oth_2 m3_708b ///
+        m3_710a m3_710b m3_711c_1 m3_711c_1_unit m3_711c_2 m3_711c_2_unit)
+		
+rename (q_801a q_801b q_802a q_802b q_802c q_803a q_803b q_803c q_803d q_803e q_803f q_803g q_803h q_804 q_804_oth q_805 q_806 q_807 q_808a q_808b ///
+        q_808b_oth q_809)(m3_801a m3_801b m3_802a m3_802b m3_802c m3_803a m3_803b m3_803c m3_803d m3_803e m3_803f m3_803g m3_803h m3_803j m3_803j_other ///
+		m3_805 m3_806 m3_807 m3_808a m3_808b m3_808b_other m3_809)
+
+rename (q_901a q_901b q_901c q_901d q_901de q_901f q_901g q_901h q_901i q_901j q_901k q_901l q_901m q_901n q_901o q_901p q_901q q_901r q_901r_oth) ///
+       (m3_901a m3_901b m3_901c m3_901d m3_901e m3_901f m3_901g m3_901h m3_901i m3_901j m3_901k m3_901l m3_901m m3_901n m3_901o m3_901p m3_901q m3_901r ///
+	    m3_901r_other)
+
+rename (q_902a_1 q_902a_2 q_902b_1 q_902b_2 q_902c_1 q_902c_2 q_902d_1 q_902d_2 q_902e_1 q_902e_2 q_902f_1 q_902f_2 q_902g_1 q_902g_2 q_902h_1 q_902h_2 ///
+        q_902i_1 q_902i_2 q_902j_1 q_902j_oth_1 q_902j_2 q_902j_oth_2)(m3_902a_baby1 m3_902a_baby2 m3_902b_baby1 m3_902b_baby2 m3_902c_baby1 ///
+		m3_902c_baby2 m3_902d_baby1 m3_902d_baby2 m3_902e_baby1 m3_902e_baby2 m3_902f_baby1 m3_902f_baby2 m3_902g_baby1 m3_902g_baby2 m3_902h_baby1 ///
+		m3_902h_baby2 m3_902i_baby1 m3_902i_baby2 m3_902j_baby1 m3_902j_baby1_other m3_902j_baby2 m3_902j_baby2_other)		
+
+rename (q_1001 q_1002 q_1003 q_1005a q_1005b q_1005c q_1005d q_1005e q_1005f q_1005g q_1005h q_1006a q_1006b q_1006c q_1007a q_1007b q_1007c q_1101 ///
+        q_1102a q_1102b q_1102c q_1102d q_1102e q_1102f q_1102f_oth q_1103 q_1104 q_1104_oth q_1105)(m3_1001 m3_1002 m3_1003 m3_1005a m3_1005b m3_1005c ///
+		m3_1005d m3_1005e m3_1005f m3_1005g m3_1005h m3_1006a m3_1006b m3_1006c m3_1007a m3_1007b m3_1007c m3_1101 m3_1102a_amt m3_1102b_amt ///
+		m3_1102c_amt m3_1102d_amt m3_1102e_amt m3_1102f_amt m3_1102f_oth m3_1103 m3_1105 m3_1105_other m3_1106)
+
+	   ** Create q_1004b to collapse q_1004b_1 q_1004b_2 q_1004b_3 q_1004b_4 q_1004b_5 q_1004b_6 q_1004b_7 (line 309 to 316)
+gen q_1004b = q_1004b_1 if q_1004b_2==. & q_1004b_3==. & q_1004b_4==. & q_1004b_5==. & q_1004b_6==. & q_1004b_7==.
+replace q_1004b = q_1004b_2 if q_1004b_1==. & q_1004b_3==. & q_1004b_4==. & q_1004b_5==. & q_1004b_6==. & q_1004b_7==.
+replace q_1004b = q_1004b_3 if q_1004b_1==. & q_1004b_2==. & q_1004b_4==. & q_1004b_5==. & q_1004b_6==. & q_1004b_7==.
+replace q_1004b = q_1004b_4 if q_1004b_1==. & q_1004b_2==. & q_1004b_3==. & q_1004b_5==. & q_1004b_6==. & q_1004b_7==.
+replace q_1004b = q_1004b_5 if q_1004b_1==. & q_1004b_2==. & q_1004b_3==. & q_1004b_4==. & q_1004b_6==. & q_1004b_7==.
+replace q_1004b = q_1004b_6 if q_1004b_1==. & q_1004b_2==. & q_1004b_3==. & q_1004b_4==. & q_1004b_5==. & q_1004b_7==.
+replace q_1004b = q_1004b_7 if q_1004b_1==. & q_1004b_2==. & q_1004b_3==. & q_1004b_4==. & q_1004b_5==. & q_1004b_6==.
+rename (q_1004b)(m3_1004b)
+
+	   ** Create q_1004c to collapse q_1004c_1 q_1004c_2 q_1004c_3 q_1004c_4 q_1004c_5 q_1004c_6 q_1004c_7 (line 319 to 326)
+gen q_1004c = q_1004c_1 if q_1004c_2==. & q_1004c_3==. & q_1004c_4==. & q_1004c_5==. & q_1004c_6==. & q_1004c_7==.
+replace q_1004c = q_1004c_2 if q_1004c_1==. & q_1004c_3==. & q_1004c_4==. & q_1004c_5==. & q_1004c_6==. & q_1004c_7==.
+replace q_1004c = q_1004c_3 if q_1004c_1==. & q_1004c_2==. & q_1004c_4==. & q_1004c_5==. & q_1004c_6==. & q_1004c_7==.
+replace q_1004c = q_1004c_4 if q_1004c_1==. & q_1004c_2==. & q_1004c_3==. & q_1004c_5==. & q_1004c_6==. & q_1004c_7==.
+replace q_1004c = q_1004c_5 if q_1004c_1==. & q_1004c_2==. & q_1004c_3==. & q_1004c_4==. & q_1004c_6==. & q_1004c_7==.
+replace q_1004c = q_1004c_6 if q_1004c_1==. & q_1004c_2==. & q_1004c_3==. & q_1004c_4==. & q_1004c_5==. & q_1004c_7==.
+replace q_1004c = q_1004c_7 if q_1004c_1==. & q_1004c_2==. & q_1004c_3==. & q_1004c_4==. & q_1004c_5==. & q_1004c_6==.
+rename (q_1004c)(m3_1004c)
+
+	   ** Create q_1004d to collapse q_1004d_1 q_1004d_2 q_1004d_3 q_1004d_4 q_1004d_5 q_1004d_6 q_1004d_7 (line 329 to 336)
+gen q_1004d = q_1004d_1 if q_1004d_2==. & q_1004d_3==. & q_1004d_4==. & q_1004d_5==. & q_1004d_6==. & q_1004d_7==.
+replace q_1004d = q_1004d_2 if q_1004d_1==. & q_1004d_3==. & q_1004d_4==. & q_1004d_5==. & q_1004d_6==. & q_1004d_7==.
+replace q_1004d = q_1004d_3 if q_1004d_1==. & q_1004d_2==. & q_1004d_4==. & q_1004d_5==. & q_1004d_6==. & q_1004d_7==.
+replace q_1004d = q_1004d_4 if q_1004d_1==. & q_1004d_2==. & q_1004d_3==. & q_1004d_5==. & q_1004d_6==. & q_1004d_7==.
+replace q_1004d = q_1004d_5 if q_1004d_1==. & q_1004d_2==. & q_1004d_3==. & q_1004d_4==. & q_1004d_6==. & q_1004d_7==.
+replace q_1004d = q_1004d_6 if q_1004d_1==. & q_1004d_2==. & q_1004d_3==. & q_1004d_4==. & q_1004d_5==. & q_1004d_7==.
+replace q_1004d = q_1004d_7 if q_1004d_1==. & q_1004d_2==. & q_1004d_3==. & q_1004d_4==. & q_1004d_5==. & q_1004d_6==.
+rename (q_1004d)(m3_1004d)
+
+	   ** Create q_1004e to collapse q_1004e_1 q_1004e_2 q_1004e_3 q_1004e_4 q_1004e_5 q_1004e_6 q_1004e_7 (line 339 to 346)
+gen q_1004e = q_1004e_1 if q_1004e_2==. & q_1004e_3==. & q_1004e_4==. & q_1004e_5==. & q_1004e_6==. & q_1004e_7==.
+replace q_1004e = q_1004e_2 if q_1004e_1==. & q_1004e_3==. & q_1004e_4==. & q_1004e_5==. & q_1004e_6==. & q_1004e_7==.
+replace q_1004e = q_1004e_3 if q_1004e_1==. & q_1004e_2==. & q_1004e_4==. & q_1004e_5==. & q_1004e_6==. & q_1004e_7==.
+replace q_1004e = q_1004e_4 if q_1004e_1==. & q_1004e_2==. & q_1004e_3==. & q_1004e_5==. & q_1004e_6==. & q_1004e_7==.
+replace q_1004e = q_1004e_5 if q_1004e_1==. & q_1004e_2==. & q_1004e_3==. & q_1004e_4==. & q_1004e_6==. & q_1004e_7==.
+replace q_1004e = q_1004e_6 if q_1004e_1==. & q_1004e_2==. & q_1004e_3==. & q_1004e_4==. & q_1004e_5==. & q_1004e_7==.
+replace q_1004e = q_1004e_7 if q_1004e_1==. & q_1004e_2==. & q_1004e_3==. & q_1004e_4==. & q_1004e_5==. & q_1004e_6==.
+rename (q_1004e)(m3_1004e)
+
+	   ** Create q_1004f to collapse q_1004f_1 q_1004f_2 q_1004f_3 q_1004f_4 q_1004f_5 q_1004f_6 q_1004f_7 (line 349 to 356)
+gen q_1004f = q_1004f_1 if q_1004f_2==. & q_1004f_3==. & q_1004f_4==. & q_1004f_5==. & q_1004f_6==. & q_1004f_7==.
+replace q_1004f = q_1004f_2 if q_1004f_1==. & q_1004f_3==. & q_1004f_4==. & q_1004f_5==. & q_1004f_6==. & q_1004f_7==.
+replace q_1004f = q_1004f_3 if q_1004f_1==. & q_1004f_2==. & q_1004f_4==. & q_1004f_5==. & q_1004f_6==. & q_1004f_7==.
+replace q_1004f = q_1004f_4 if q_1004f_1==. & q_1004f_2==. & q_1004f_3==. & q_1004f_5==. & q_1004f_6==. & q_1004f_7==.
+replace q_1004f = q_1004f_5 if q_1004f_1==. & q_1004f_2==. & q_1004f_3==. & q_1004f_4==. & q_1004f_6==. & q_1004f_7==.
+replace q_1004f = q_1004f_6 if q_1004f_1==. & q_1004f_2==. & q_1004f_3==. & q_1004f_4==. & q_1004f_5==. & q_1004f_7==.
+replace q_1004f = q_1004f_7 if q_1004f_1==. & q_1004f_2==. & q_1004f_3==. & q_1004f_4==. & q_1004f_5==. & q_1004f_6==.
+rename (q_1004f)(m3_1004f)
+
+	   ** Create q_1004g to collapse q_1004g_1 q_1004g_2 q_1004g_3 q_1004g_4 q_1004g_5 q_1004g_6 q_1004g_7 (line 359 to 366)
+gen q_1004g = q_1004g_1 if q_1004g_2==. & q_1004g_3==. & q_1004g_4==. & q_1004g_5==. & q_1004g_6==. & q_1004g_7==.
+replace q_1004g = q_1004g_2 if q_1004g_1==. & q_1004g_3==. & q_1004g_4==. & q_1004g_5==. & q_1004g_6==. & q_1004g_7==.
+replace q_1004g = q_1004g_3 if q_1004g_1==. & q_1004g_2==. & q_1004g_4==. & q_1004g_5==. & q_1004g_6==. & q_1004g_7==.
+replace q_1004g = q_1004g_4 if q_1004g_1==. & q_1004g_2==. & q_1004g_3==. & q_1004g_5==. & q_1004g_6==. & q_1004g_7==.
+replace q_1004g = q_1004g_5 if q_1004g_1==. & q_1004g_2==. & q_1004g_3==. & q_1004g_4==. & q_1004g_6==. & q_1004g_7==.
+replace q_1004g = q_1004g_6 if q_1004g_1==. & q_1004g_2==. & q_1004g_3==. & q_1004g_4==. & q_1004g_5==. & q_1004g_7==.
+replace q_1004g = q_1004g_7 if q_1004g_1==. & q_1004g_2==. & q_1004g_3==. & q_1004g_4==. & q_1004g_5==. & q_1004g_6==.
+rename (q_1004g)(m3_1004g)
+
+	   ** Create q_1004h to collapse q_1004h_1 q_1004h_2 q_1004h_3 q_1004h_4 q_1004h_5 q_1004h_6 q_1004h_7 (line 368 to 376)
+gen q_1004h = q_1004h_1 if q_1004h_2==. & q_1004h_3==. & q_1004h_4==. & q_1004h_5==. & q_1004h_6==. & q_1004h_7==.
+replace q_1004h = q_1004h_2 if q_1004h_1==. & q_1004h_3==. & q_1004h_4==. & q_1004h_5==. & q_1004h_6==. & q_1004h_7==.
+replace q_1004h = q_1004h_3 if q_1004h_1==. & q_1004h_2==. & q_1004h_4==. & q_1004h_5==. & q_1004h_6==. & q_1004h_7==.
+replace q_1004h = q_1004h_4 if q_1004h_1==. & q_1004h_2==. & q_1004h_3==. & q_1004h_5==. & q_1004h_6==. & q_1004h_7==.
+replace q_1004h = q_1004h_5 if q_1004h_1==. & q_1004h_2==. & q_1004h_3==. & q_1004h_4==. & q_1004h_6==. & q_1004h_7==.
+replace q_1004h = q_1004h_6 if q_1004h_1==. & q_1004h_2==. & q_1004h_3==. & q_1004h_4==. & q_1004h_5==. & q_1004h_7==.
+replace q_1004h = q_1004h_7 if q_1004h_1==. & q_1004h_2==. & q_1004h_3==. & q_1004h_4==. & q_1004h_5==. & q_1004h_6==.
+rename (q_1004h)(m3_1004h)
+
+rename (q_1004a endtime duration)(m3_1004a m3_endtime m3_duration)
+
 *===============================================================================
 	
 	* STEP TWO: ADD VALUE LABELS (NA in KENYA, already labeled)
 	
+	
+	** MODULE 1:
 	*encode facility_name, generate(facility) // SS 2-27: looks like facility_name is already numeric
 	/*
 	label def facility 1 "Githunguri health centre" 2 "Igegania sub district hospital" ///
@@ -359,6 +737,28 @@ rename refused_why m2_refused_why
 	
 	label define q515_2 20 "Kitui East", modify
 	label define q519_2 20 "Kitui East", modify
+	
+	
+	** MODULE 2:
+	
+	
+	** MODULE 3:
+label define m3_death_cause_baby2 0 "Not told anything" 1 "The baby was premature" 2 "An infection" 3 "A congenital abnormality" 4 "A birth injury or asphyxia" 5 "Difficulties breathing" 6 "Unexplained causes" 7 "You decided to have an abortion" -96 "Other (specify)"
+label values m3_death_cause_baby2 m3_death_cause_baby2
+		
+label define m3_baby1_weight -98 "DO NOT KNOW"
+label values m3_baby1_weight m3_baby1_weight
+label define m3_baby2_weight -98 "DO NOT KNOW"
+label values m3_baby2_weight m3_baby2_weight
+	
+label define YN_m3 1 "Yes" 0 "No"
+label values m3_708_oth_2 m3_902j_baby2 YN_m3
+
+label define m3_303a 1 "One" 2 "Two" 3 "Three or more" -98 "Don't Know" -99 "NR/RF"
+label values m3_303a m3_303a	
+
+label define m3_807 0 "Not at all" 1 "1" 2 "2" 3 "3" 4 "4" 5 "5" 6 "6" 7 "7" 8 "8" 9 "9" 10 "A great deal"
+label values m3_807 m3_807
 
 *===============================================================================
 * Generate new vars (KE only):
@@ -418,14 +818,20 @@ replace m1_815_0=".d" if m1_815_0== "998"
 replace m1_815_0=".r" if m1_815_0== "999"	
 
     ** MODULE 2: 
-recode m2_203a m2_203b m2_203c m2_203d m2_203e m2_203f m2_203g m2_204i (-99 = .r)
+recode m2_201 m2_203a m2_203b m2_203c m2_203d m2_203e m2_203f m2_203g m2_203h m2_204i ///
+	   m2_303a m2_205a m2_205b m2_206 m2_301 m2_305 m2_306 m2_308 m2_309 m2_311 m2_312 ///
+	   m2_314 m2_315 m2_317 m2_318 m2_321 m2_401 m2_402 m2_403 m2_404 m2_405 m2_502 m2_505a ///
+	   m2_505b m2_505c m2_505d m2_505e m2_505f m2_504 m2_505g m2_508a m2_603 m2_701 (-99 = .r)
 
-recode m2_303a (-99 = .r)
+recode m2_203a m2_203b m2_203c m2_203d m2_203e m2_203f m2_203g m2_203h m2_204i m2_206 ///
+       m2_301 m2_303a m2_305 m2_306 m2_308 m2_309 m2_311 m2_312 m2_314 m2_315 m2_317 ///
+	   m2_318 m2_321 m2_502 m2_505a m2_505b m2_505c m2_505d m2_505e m2_505f m2_504 ///
+	   m2_505g m2_508a m2_603 m2_701 (-98 = .d)
 
-recode m2_303a (-98 = .d)
 
-recode    (999 = .r)
-
+	   * MODULE 3:
+	   
+	   
 *------------------------------------------------------------------------------*
 
 * recoding for skip pattern logic:	   
@@ -1118,7 +1524,385 @@ lab var pref_language_3_ke "KE only: Kikuyu"
 lab var pref_language_4_ke "KE only: Kamba"
 lab var pref_language_96_ke "KE only: Other (specify)"
 lab var pref_language_other_ke "KE only: Specify other preferred language"
+
 */
+
+
+	** MODULE 2:
+	
+	** MODULE 3:
+
+lab var m3_start_p1 "M3-IIC. May I proceed with the interview?"
+lab var m3_date "M3-102. Date of interview (D-M-Y)"
+lab var m3_date_confirm "M3-102-confirm. Confirm date of interview" // SS: duplicate var in multiple module, dropping for now
+lab var m3_time "M3-102-time. Time of interview started"
+lab var m3_date_time "M3-102-date-time. Time of interview started and date of interview"
+lab var m3_birth_or_ended "M3-201a. On what date did you give birth or did the pregnancy end?"
+lab var m3_birth_or_ended_provided "M3-201a-YN. Did the respondent provide the date?"
+lab var m3_birth_or_ended_date "M3-201a-date. Date of giving birth or pregnancy ended calculation."
+lab var m3_ga_final "M3-201d. Gestational age at delivery (final)"
+
+lab var m3_303a "M3-301. If its ok with you, I would like to now ask some questions about the baby or babies. How many babies were you pregnant with?"
+lab var m3_303b "M3-303a. Is the 1st baby alive?"
+lab var m3_303c "M3-303b. Is the 2nd baby alive?"
+lab var m3_baby1_name "M3-304a. What is the 1st babys name?"
+lab var m3_baby2_name "M3-304b. What is the 2nd babys name?"
+lab var m3_baby1_gender "M3-305a. What is 1st baby's's gender?"
+lab var m3_baby2_gender "M3-305b. what is the second baby's gender?"
+lab var m3_baby1_age_weeks "M3-306a. How old is the 1st baby in weeks?" 
+lab var m3_baby2_age_weeks "M3-306b. How old is the second baby in weeks"
+lab var m3_baby1_weight "M3-307a. How much did the 1st baby weigh at birth?"
+lab var m3_baby2_weight "M3-307b.How much did the second baby weigh at birth?"
+lab var m3_baby1_size "M3-308a. When the 1st baby was born, were they: very large, larger than average, average, smaller than average or very small?"
+lab var m3_baby2_size "M3-308b. When the second baby was born, were they: very large, larger than average, average, smaller than average or very small?"
+lab var m3_baby1_health "M3-309a. In general, how would you rate the 1st baby's overall health?"
+lab var m3_baby2_health "M3-309b. In general, how would you rate the second baby's overall health?"
+
+lab var m3_baby1_feed_a "M3-310a-1. Please indicate how you have fed the 1st baby in the last 7 days? (choice=Breast milk)"
+lab var m3_baby1_feed_b "M3-310a-1. Please indicate how you have fed the 1st baby in the last 7 days? (choice=Formula/Cow milk)"
+lab var m3_baby1_feed_c "M3-310a-1. Please indicate how you have fed the 1st baby in the last 7 days? (choice=Water)"
+lab var m3_baby1_feed_d "M3-310a-1. Please indicate how you have fed the 1st baby in the last 7 days? (choice=Juice)"
+lab var m3_baby1_feed_e "M3-310a-1. Please indicate how you have fed the 1st baby in the last 7 days? (choice=Broth)"
+lab var m3_baby1_feed_f "M3-310a-1. Please indicate how you have fed the 1st baby in the last 7 days? (choice=Baby food)"
+lab var m3_baby1_feed_g "M3-310a-1. Please indicate how you have fed the 1st baby in the last 7 days? (choice=Local food)"
+lab var m3_baby1_feed_h "M3-310a-1. Please indicate how you have fed the 1st baby in the last 7 days? (choice=Fresh milk)"
+lab var m3_baby1_feed_99 "M3-310a-1. Please indicate how you have fed the 1st baby in the last 7 days? (choice=NR/RF)"
+lab var m3_baby2_feed_a "M3-310a-2. Please indicate how you have fed the 2nd baby in the last 7 days? (choice=Breast milk)"
+lab var m3_baby2_feed_b "M3-310a-2. Please indicate how you have fed the 2nd baby in the last 7 days? (choice=Formula/Cow milk)"
+lab var m3_baby2_feed_c "M3-310a-2. Please indicate how you have fed the 2nd aby in the last 7 days? (choice=Water)"
+lab var m3_baby2_feed_d "M3-310a-2. Please indicate how you have fed the 2nd baby in the last 7 days? (choice=Juice)"
+lab var m3_baby2_feed_e "M3-310a-2. Please indicate how you have fed the 2nd baby in the last 7 days? (choice=Broth)"
+lab var m3_baby2_feed_f "M3-310a-2. Please indicate how you have fed the 2nd baby in the last 7 days? (choice=Baby food)"
+lab var m3_baby2_feed_g "M3-310a-2. Please indicate how you have fed the 2nd baby in the last 7 days? (choice=Local food)"
+lab var m3_baby2_feed_h "M3-310a-2. Please indicate how you have fed the 2nd baby in the last 7 days? (choice=Fresh milk)"
+lab var m3_baby2_feed_99 "M3-310a-2. Please indicate how you have fed the second baby in the last 7 days? (choice=NR/RF)"
+lab var m3_breastfeeding "M3-310b. As of today, how confident do you feel about breastfeeding your 1st baby?"
+lab var m3_breastfeeding_2 "M3-310b. As of today, how confident do you feel about breastfeeding your second baby?"
+
+lab var m3_baby1_born_alive1 "M3-312-1.I am very sorry to hear this. I hope that you will find the strength to deal with that event. If it's okay with you, I would like to ask a few more questions about the baby. Was the 1st baby born alive?"
+lab var m3_baby1_born_alive2 "M3-312a-1.Did the 1st baby cry, make any movement, sound, or effort to breathe, or show any other signs of life even if for a very short time?"
+lab var m3_baby2_born_alive1 "M3-312-2.I am very sorry to hear this. I hope that you will find the strength to deal with that event. If it's okay with you, I would like to ask a few more questions about the baby. Was the 2nd baby born alive?"
+lab var m3_baby2_born_alive2 "M3-312a-2.Did the 2nd baby cry, make any movement, sound, or effort to breathe, or show any other signs of life even if for a very short time?"
+lab var m3_313a_baby1 "M3-313a-1. On what day did the 1st baby baby die (i.e. the date of death)?"
+lab var m3_313c_baby1 "M3-313c-1. After how many days or hours did the baby die?"   
+lab var m3_313d_baby1 "M3-313d-1. The unit of time."
+lab var m3_313a_baby2 "M3-313a-2. On what day did the second baby baby die (i.e. the date of death)?"
+lab var m3_313c_baby2 "M3-313c-2. After how many days or hours did the second baby die?"   
+lab var m3_313d_baby2 "M3-313d-2. The unit of time."
+lab var m3_death_cause_baby1 "M3-314-1. What were you told was the cause of death for the 1st baby, or were you not told?"
+lab var m3_death_cause_baby1_other "M3-314-oth-1. Specify the cause of death for the 1st baby"		
+lab var m3_death_cause_baby2 "M3-314-2. What were you told was the cause of death for the second baby, or were you not told?"
+lab var m3_death_cause_baby2_other "M3-314-oth-2. Specify the cause of death for the second baby"
+
+lab var m3_401 "M3-401. Before we talk about the delivery, I would like to ask about any additional health care you may have received since you last spoke to us and BEFORE the delivery. We are interested in ALL NEW healthcare consultations that you may have had for yourself between the time of the last survey and the delivery. Since you last spoke to us, did you have any new healthcare consultations for yourself before the delivery?"
+lab var m3_402 "M3-402. How many new healthcare consultations did you have?"
+
+lab var m3_consultation_1 "M3-403. Was the 1st consultation for a routine antenatal care visit?"
+lab var m3_consultation_referral_1 "M3-404. Was the 1st for referral from your antenatal care provider?"
+lab var m3_consultation1_reason_a "M3-405. Was the 1st visit for any of the following? (choice=A new health problem, including an emergency or an injury)"
+lab var m3_consultation1_reason_b "M3-405. Was the 1st visit for any of the following? (choice=An existing health problem)"
+lab var m3_consultation1_reason_c "M3-405. Was the 1st visit for any of the following? (choice=A lab test, x-ray, or ultrasound)"
+lab var m3_consultation1_reason_d "M3-405. Was the 1st visit for any of the following? (choice=To pick up medicine)"
+lab var m3_consultation1_reason_e "M3-405. Was the 1st visit for any of the following? (choice=To get a vaccine)"
+lab var m3_consultation1_reason_96 "M3-405. Was the 1st visit for any of the following? (choice=Other reasons, please specify)"
+lab var m3_consultation1_reason_other "M3-405-oth. Other reasons, please specify"
+
+lab var m3_consultation_2 "M3-406. Was the 2nd consultation for a routine antenatal care visit?"
+lab var m3_consultation_referral_2 "M3-407. Was the 2nd for referral from your antenatal care provider?"
+lab var m3_consultation2_reason "M3-408. Was the 2nd visit for any of the following?"
+lab var m3_consultation2_reason_a "M3-408. Was the 2nd visit for any of the following? (choice=A new health problem, including an emergency or an injury)"
+lab var m3_consultation2_reason_b "M3-408. Was the 2nd visit for any of the following? (choice=An existing health problem)"
+lab var m3_consultation2_reason_c "M3-408. Was the 2nd visit for any of the following? (choice=A lab test, x-ray, or ultrasound)"
+lab var m3_consultation2_reason_d "M3-408. Was the 2nd visit for any of the following? (choice=To pick up medicine)"
+lab var m3_consultation2_reason_e "M3-408. Was the 2nd visit for any of the following? (choice=To get a vaccine)"
+lab var m3_consultation2_reason_96 "M3-408. Was the 2nd visit for any of the following? (choice=Other reasons, please specify)"
+lab var m3_consultation2_reason_other "M3-408-oth. Other reasons, please specify"
+		
+lab var m3_consultation_3 "M3-409. Was the 3rd consultation for a routine antenatal care visit?"
+lab var m3_consultation_referral_3 "M3-410. Was the 3rd for referral from your antenatal care provider?"
+lab var m3_consultation3_reason "M3-408. Was the 3rd visit for any of the following?"
+lab var m3_consultation3_reason_a "M3-411. Was the 3rd visit for any of the following? (choice=A new health problem, including an emergency or an injury)"
+lab var m3_consultation3_reason_b "M3-411. Was the 3rd visit for any of the following? (choice=An existing health problem)"
+lab var m3_consultation3_reason_c "M3-411. Was the 3rd visit for any of the following? (choice=A lab test, x-ray, or ultrasound)"
+lab var m3_consultation3_reason_d "M3-411. Was the 3rd visit for any of the following? (choice=To pick up medicine)"
+lab var m3_consultation3_reason_e "M3-411. Was the 3rd visit for any of the following? (choice=To get a vaccine)"
+lab var m3_consultation3_reason_96 "M3-411. Was the 3rd visit for any of the following? (choice=Other reasons, please specify)"
+lab var m3_consultation3_reason_other "M3-411-oth. Other reasons, please specify"
+
+lab var m3_412a "M3-412a. Between the time that you last spoke to us and before the delivery, did you get your blood pressure measured (with a cuff around your arm)"
+lab var m3_412b "M3-412b. Between the time that you last spoke to us and before the delivery, did you get your weight taken (using a scale)?"
+lab var m3_412c "M3-412c. Between the time that you last spoke to us and before the delivery, did you get a blood draw (that is, taking blood from your arm with a syringe?"
+lab var m3_412d "M3-412d. Between the time that you last spoke to us and before the delivery, did you get a blood test using a finger prick (that is, taking a drop of blood from your finger)?"
+lab var m3_412e "M3-412e. Between the time that you last spoke to us and before the delivery, did you get a urine test (that is, where you peed in a container)?"
+lab var m3_412f "M3-412f. Between the time that you last spoke to us and before the delivery, did you get an ultrasound (that is, when a probe is moved on your belly to produce a video of the baby on a screen)?"
+lab var m3_412g "M3-412g. Between the time that you last spoke to us and before the delivery, did you get any other test?"
+lab var m3_412g_other "M3-412g-oth . Specify other tests you got between the time that you last spoke to us and before the delivery"
+lab var m3_412i "M3-412i  Between the time that you last spoke to us and before the delivery, did you get any other test? (Choice=None)"
+
+lab var m3_501 "M3-501. Did you deliver in a health facility?"
+lab var m3_502 "M3-502. What kind of facility was it?"
+lab var m3_503 "M3-503. What is the name of the facility where you delivered?"
+lab var m3_504a "M3-504a. Where region was this facility located?"
+lab var m3_504b "M3-504b. Where was the city/sub-city/district this facility located?"
+lab var m3_504c "M3-504c. Where was the county this facility located?"
+lab var m3_503_final "M3-503-final. What is the name of the facility where you delivered? (final)"
+lab var m3_506_pre "M3-506-pre. Are you able to name the day and time the labor started - that is, when contractions started and did not stop, or when your water broke?"
+lab var m3_506_pre_oth "M3-506-pre-oth. Other reason, specify"
+lab var m3_506 "M3-506. What day and time did the labor start – that is, when contractions started and did not stop, or when your water broke?"
+lab var m3_507 "M3-507. At what time did you leave for the facility?"
+lab var m3_508 "M3-508. At any point during labor or delivery did you try to go to a facility?"
+lab var m3_509 "M3-509. What was the main reason for giving birth at home instead of a health facility?"
+lab var m3_509_other "M3-509_Oth. Specify other reasons for giving birth at home instead of a health facility"
+
+lab var m3_513a "M3-513a. What is the name of the facility you went to 1st?"
+lab var m3_513_outside_zone_other "M3-513a_97. Other outside of the zone"
+lab var m3_513b2 "M3-513b2. Where city/sub-city/district was this facility located?"
+lab var m3_513b3 "M3-513b3. Which county was this facility located??"
+lab var m3_513_final "M3-513-final. What is the name of the facility you went to 1st? (final)"
+lab var m3_514 "M3-514. At what time did you arrive at the facility you went to 1st?"
+lab var m3_515 "M3-515. Why did you go to the facility you went to 1st after going to the facility you delivered at?"
+lab var m3_516 "M3-516. Why did you or your family member decide to leave the facility you went to 1st and come to the facility you delivered at? Select only one main reason"
+lab var m3_517 "M3-517. Did the provider inform you why they referred you?"
+lab var m3_518 "M3-518. Why did the provider refer you to the facility you delivered at?"
+lab var m3_518_other_complications "M3-518_96. Other delivery complications, specify"
+lab var m3_518_other "M3-518_97. Other reasons, specify"
+lab var m3_519 "M3-519. What was the main reason you decided that you wanted to deliver at the facility you delivered at?"
+lab var m3_519_other "M3-519_Oth. Other, specify"
+lab var m3_520 "M3-520. At what time did you arrive at the facility you delivered at?"
+lab var m3_521_ke "M3-521-ke. Once you got to the facility, how long did you wait until a healthcare worker checked on you?"
+lab var m3_521_ke_unit "M3-521-ke-unit. The unit of time."
+
+lab var m3_601_hiv "M3-601-hiv. Once you were 1st checked by a health care provider at the facility you delivered at, did the health care provider ask about your HIV status?"
+lab var m3_601b "M3-601b. Once you were 1st checked by a health care provider at the facility you delivered at, did the health care provider take your blood pressure (with a cuff around your arm)?"
+lab var m3_601c "M3-601c. Once you were 1st checked by a health care provider at the facility you delivered at, did the health care provider Explain what will happen during labor?"
+lab var m3_602a "M3-602a. Did the health care provider, look at your integrated maternal child health card?"
+lab var m3_602b "M3-602b. Did the health care provider have information about your antenatal care (e.g. your tests results) from health facility records?"
+lab var m3_603a "M3-603a. During your time in the health facility while in labor or giving birth Were you told you could walk around and move during labour?"
+lab var m3_603b "M3-603b. During your time in the health facility while in labor or giving birth Were you allowed to have a birth companion present? For example, this includes your husband, a friend, sister, mother-in-law etc.?"
+lab var m3_603c "M3-603c. During your time in the health facility while in labor or giving birth Did you have a needle inserted in your arm with a drip?"
+lab var m3_604a "M3-604a. While you were in labor and giving birth, what were you sitting or lying on?"
+lab var m3_604b "M3-604b. While you were giving birth, were curtains, partitions or other measures used to provide privacy from other people not involved in your care?"
+lab var m3_605a "M3-605a. Did you have a caesarean? (That means, did they cut your belly open to take the baby out?)"
+lab var m3_605b "M3-605b. When was the decision made to have the caesarean section? Was it before or after your labor pains started?"
+lab var m3_605c "M3-605c. What was the reason for having a caesarean? "
+lab var m3_605c_other "M3-605c-oth. Specify other reason for having a caesarean"
+
+lab var m3_606 "M3-606. Did the provider perform a cut near your vagina to help the baby come out?"
+lab var m3_607 "M3-607. Did you receive stiches near your vagina after the delivery?"		
+lab var m3_608 "M3-608. Immediately after delivery: Did a health care provider give you an injection or pill to stop the bleeding?"
+lab var m3_609 "M3-609. Immediately after delivery, did a health care provider dry the baby/babies with a towel?"
+lab var m3_610a "M3-610a. Immediately after delivery, was/were the baby/babies put on your chest?"
+lab var m3_610b "M3-610b. Immediately after delivery, was/were the babys/babies bare skin touching your bare skin?"
+lab var m3_611 "M3-611. Immediately after delivery, did a health care provider help you with breastfeeding the baby/babies?"
+lab var m3_612_ke "M3-612-ke. How long after the baby/babies was born did you 1st breastfeed he/she/them?"
+lab var m3_612_ke_unit "M3-612-ke-unit. The unit of time for m3_612_ke."
+lab var m3_613 "M3-613. I would like to talk to you about checks on your health after the delivery, for example, someone asking you questions about your health or examining you. Did anyone check on your health while you were still in the facility?"
+lab var m3_614_ke "M3-614-ke. How long after delivery did the 1st check take place?"
+lab var m3_614_ke_unit "M3-614-ke-unit. The unit of time for m3_614_ke"		
+lab var m3_615a "M3-615a. Did anyone check on the 1st baby's health while you were still in the facility?"
+lab var m3_615b "M3-615b. Did anyone check on the 2nd baby's health while you were still in the facility?"
+lab var m3_616c_1 "M3-616c-1. How long after delivery was the 1st baby health 1st checked? "
+lab var m3_616c_1_unit "M3-616c-1-unit. The unit of time for m3_616c_1."
+lab var m3_616c_2 "M3-616c-2. How long after delivery was the second baby health 1st checked? "
+lab var m3_616c_2_unit "M3-616c-1-unit. he unit of time for m3_616c_2."
+lab var m3_617a "M3-617a. Did the 1st baby receive a vaccine for BCG while you were still in the facility? That is an injection in the arm that can sometimes cause a scar"
+lab var m3_617b "M3-617b. Did the second baby receive a vaccine for BCG while you were still in the facility? That is an injection in the arm that can sometimes cause a scar"
+lab var m3_618a_1 "M3-618a-1. Was the 1st baby tested for HIV after birth?" 
+lab var m3_618b_1 "M3-618b-1. What was the result of the baby's HIV test?"
+lab var m3_618c_1 "M3-618c-1. Was the 1st baby given medication to prevent HIV/AIDS (ARVs)?"
+lab var m3_618a_2 "M3-618a-2. Was the second bay tested for HIV after birth?"
+lab var m3_618b_2 "M3-618b-2. What was the result of the baby's HIV test?"
+lab var m3_618c_2 "M3-618c-2. Was the second baby given medication to prevent HIV/AIDS (ARVs)?"
+	
+lab var m3_619a "M3-619a. Before you left the facility, did you receive advice on what the baby should eat (only breastmilk or No other foods)?"
+lab var m3_619b "M3-619b. Before you left the facility, did you receive advice on care of the umbilical cord?"
+lab var m3_619c "M3-619c. Before you left the facility, did you receive advice on avoid chilling of baby?"
+lab var m3_619d "M3-619d. Before you left the facility, did you receive advice on when to return for vaccinations for the baby?"
+lab var m3_619e "M3-619e. Before you left the facility, did you receive advice on hand washing with soap/water before touching the baby?"
+lab var m3_619g "M3-619g. Before you left the facility, did you receive advice on danger signs or symptoms you should watch out for in the baby that would mean you should go to a health facility?"
+lab var m3_619h "M3-619h. Before you left the facility, did you receive advice on danger signs or symptoms you should watch out for in yourself that would mean you should go to a health facility?"
+lab var m3_620_1 "M3-620-1. During any point of your pregnancy or after birth, were you given a mother & child booklet for the 1st baby to take home with you?"
+lab var m3_620_2 "M3-620-2. During any point of your pregnancy or after birth, were you given a mother & child booklet for the 1st baby to take home with you?"
+lab var m3_621a "M3-621a. Who assisted you in the delivery?"
+lab var m3_621b "M3-621b. Did someone come to check on you after you gave birth? For example, someone asking you questions about  your health or examining you?"
+lab var m3_621c_ke "M3-621c-ke. How long after giving birth did the checkup take place?"
+lab var m3_621c_ke_unit "M3-621c-ke-unit. The unit of time for m3_621c_ke."
+lab var m3_622a "M3-622a. Around the time of delivery, were you told that  you will need to go to a facility for a checkup for you or your baby?"
+lab var m3_622b "M3-622b. When were you told to go to a health facility for postnatal checkups? How many days after delivery?"
+lab var m3_622c "M3-622c. Around the time of delivery, were you told that someone would come to visit you at your home to check on you or your babys health?"
+
+lab var m3_baby1_sleep "M3-311a. Regarding sleep, which response best describes the 1st baby today?"
+lab var m3_baby2_sleep "M3-311a. Regarding sleep, which response best describes the second baby today?"
+lab var m3_baby1_feed "M3-311b. Regarding feeding, which response best describes the 1st baby today?"
+lab var m3_baby2_feed "M3-311b. Regarding feeding, which response best describes the second baby today?"
+lab var m3_baby1_breath "M3-311c. Regarding breathing, which response best describes the 1st baby today?"
+lab var m3_baby2_breath "M3-311c. Regarding breathing, which response best describes the second baby today?"
+lab var m3_baby1_stool "M3-311d. Regarding stooling/poo, which response best describes the 1st baby today?"
+lab var m3_baby2_stool "M3-311d. Regarding stooling/poo, which response best describes the second baby today?"
+lab var m3_baby1_mood "M3-311e. Regarding their mood, which response best describes the 1st baby today?"
+lab var m3_baby2_mood "M3-311e. Regarding their mood, which response best describes the second baby today?"
+lab var m3_baby1_skin "M3-311f. Regarding their skin, which response best describes the 1st baby today?"
+lab var m3_baby2_skin "M3-311f. Regarding their skin, which response best describes the second baby today?"
+lab var m3_baby1_interactivity "M3-311g. Regarding interactivity, which response best describes the 1st baby today?"
+lab var m3_baby2_interactivity "M3-311g. Regarding interactivity, which response best describes the second baby today?"	
+
+lab var m3_701 "M3-701. At any time during labor, delivery, or after delivery did you suffer from any health problems?"
+lab var m3_702 "M3-702. What health problems did you have?"
+lab var m3_703 "M3-703. Would you say this problem was severe?"
+lab var m3_704a "M3-704a. During your delivery, did you experience seizures, or not?"
+lab var m3_704b "M3-704b. During your delivery, did you experience blurred vision, or not?"
+lab var m3_704c "M3-704c. During your delivery, did you experience severe headaches, or not?"
+lab var m3_704d "M3-704d. Did you experience swelling in hands/feet during your delivery, or not?"
+lab var m3_704e "M3-704e. Did you experience labor over 12 hours during your delivery, or not?"
+lab var m3_704f "M3-704f. Did you experience Excessive bleeding during your delivery, or not?"
+lab var m3_704g "M3-704g. During your delivery, did you experience fever, or not?"
+lab var m3_705 "M3-705. Did you receive a blood transfusion around the time of your delivery?"
+lab var m3_706 "M3-706. Were you admitted to an intensive care unit?"
+
+lab var m3_707_ke "M3-707-ke. How long did you stay at the facility that you delivered at after the delivery?"
+lab var m3_707_ke_unit "M3-707-ke-unit. The unit of time for m3_707_ke"
+lab var m3_baby1_issues "M3-708ba Did the 1st baby experience any of the following issues in the 1st day of life?"
+lab var m3_baby1_issues_a "M3-708a. Did the 1st baby experience any of the following issues in the 1st day of life? Tell me all that apply. (choice=Trouble breathing)"
+lab var m3_baby1_issues_b "M3-708a. Did the 1st baby experience any of the following issues in the 1st day of life? Tell me all that apply. (choice=Fever)"
+lab var m3_baby1_issues_c "M3-708a. Did the 1st baby experience any of the following issues in the 1st day of life? Tell me all that apply. (choice=Trouble feeding)"
+lab var m3_baby1_issues_d "M3-708a. Did the baby the 1st baby experience any of the following issues in the 1st day of life? Tell me all that apply. (choice=Jaundice (yellow color of the skin))"
+lab var m3_baby1_issues_e "M3-708a. Did the 1st baby experience any of the following issues in the 1st day of life? Tell me all that apply. (choice=Low birth weight)"
+lab var m3_baby1_issues_f "M3-708a. Did the 1st baby experience any of the following issues in the 1st day of life? Tell me all that apply. (choice=No complications)"
+lab var m3_baby1_issues_98 "M3-708a. Did the 1st baby experience any of the following issues in the 1st day of life? Tell me all that apply. (choice=DK)"
+lab var m3_baby1_issues_99 "M3-708a. Did the 1st baby experience any of the following issues in the 1st day of life? Tell me all that apply. (choice=NR/RF)"
+lab var m3_baby2_issues "M3-708b. Did the second baby experience any of the following issues in the 1st day of life?"
+lab var m3_baby2_issues_a "M3-708b. Did the second baby experience any of the following issues in the 1st day of life? Tell me all that apply. (choice=Trouble breathing)"
+lab var m3_baby2_issues_b "M3-708b. Did the second baby experience any of the following issues in the 1st day of life? Tell me all that apply. (choice=Fever, low temperature, or infection)"
+lab var m3_baby2_issues_c "M3-708b. Did the second baby experience any of the following issues in the 1st day of life? Tell me all that apply. (choice=Trouble feeding)"
+lab var m3_baby2_issues_d "M3-708b. Did the second baby experience any of the following issues in the 1st day of life? Tell me all that apply. (choice=Jaundice (yellow color of the skin))"
+lab var m3_baby2_issues_e "M3-708b. Did the second baby experience any of the following issues in the 1st day of life? Tell me all that apply. (choice=Low birth weight)"
+lab var m3_baby2_issues_f "M3-708b. Did the second baby experience any of the following issues in the 1st day of life? Tell me all that apply. (choice=No complications)"
+lab var m3_baby2_issues_98 "M3-708b. Did the second baby experience any of the following issues in the 1st day of life? Tell me all that apply. (choice=DK)"
+lab var m3_baby2_issues_99 "M3-708b. Did the second baby experience any of the following issues in the 1st day of life? Tell me all that apply. (choice=NR/RF)"		
+
+lab var m3_708_oth_1 "M3-708-oth-1. Did the 1st baby experience any other health problems in the 1st day of life?"
+lab var m3_708a "M3-709a. Write down the 1st baby's experiences any other health problems in the 1st day of life"
+lab var m3_708_oth_2 "M3-708-oth-2. Did the second baby experience any other health problems in the 1st day of life?"
+lab var m3_708b "M3-709b. Write down the second baby's experiences any other health problems in the 1st day of life"
+lab var m3_710a "M3-710a. Did the 1st baby spend time in a special care nursery or intensive care unit before discharge?"
+lab var m3_710b "M3-710b. Did the second baby spend time in a special care nursery or intensive care unit before discharge?"			
+lab var m3_711c_1 "M3-711c-1. How long did the 1st baby stay at the health facility after being born?"
+lab var m3_711c_1_unit "M3-711c-1-unit. The unit of time for m3_711c_1"
+lab var m3_711c_2 "M3-711c-2. How long did the second baby stay at the health facility after being born?"
+lab var m3_711c_2_unit "M3-711c-2-unit. The unit of time for m3_711c_2"
+
+lab var m3_801a "M3-801a. Over the past 2 weeks, on how many days have you been bothered little interest or pleasure in doing things?"
+lab var m3_801b "M3-801b. Over the past 2 weeks, on how many days have you been bothered feeling down, depressed, or hopeless in doing things?"
+lab var m3_802a "M3-802a. Since you last spoke to us, did you have a session of psychological counseling or therapy with any type of professional?  This could include seeing a mental health professional (like a phycologist, social worker, nurse, spiritual advisor or healer) for problems with your emotions or nerves?"
+lab var m3_802b "M3-802b. How many of these sessions did you have since you last spoke to us?"
+lab var m3_802c "M3-802c. How many minutes did this/these visit(s) last on average?"
+lab var m3_803a "M3-803a. Since giving birth, have you experienced severe or persistent headaches?"
+lab var m3_803b "M3-803b. Since giving birth, have you experienced a fever?"
+lab var m3_803c "M3-803c. Since giving birth, have you experienced severe abdominal pain, not just discomfort?"
+lab var m3_803d "M3-803d. Since giving birth, have you experienced a lot of difficulty breathing even when you are resting?"
+lab var m3_803e "M3-803e. Since giving birth, have you experienced convulsions or seizures?"
+lab var m3_803f "M3-803f. Since giving birth, have you experienced repeated fainting or loss of consciousness?"
+lab var m3_803g "M3-803g. Since giving birth, have you experienced continued heavy vaginal bleeding?"
+lab var m3_803h "M3-803h. Since giving birth, have you experienced foul smelling vaginal discharge?"	
+lab var m3_803j "M3-803j. Since giving birth, have you experienced any other major health problems since you gave birth?"
+lab var m3_803j_other "M3-803j-oth. Specify any other major health problems since you gave birth"
+lab var m3_805 "M3-805. Sometimes a woman can have a problem such that she experiences a constant leakage of urine or stool from her vagina during the day and night. This problem can occur after a difficult childbirth. Since you gave birth have you experienced a constant leakage of urine or stool from your vagina during the day and night?"
+lab var m3_806 "M3-806. How many days after giving birth did these symptoms start?"
+lab var m3_807 "M3-807. Overall, how much does this problem interfere with your everyday life? Please select a number between 0 (not at all) and 10 (a great deal)."
+lab var m3_808a "M3-808a. Have you sought treatment for this condition?"
+lab var m3_808b "M3-808b. Why have you not sought treatment?"
+lab var m3_808b_other "M3-808b-oth. Specify other reasons why have you not sought treatment"
+lab var m3_809 "M3-809. Did the treatment stop the problem?"
+
+lab var m3_901a "M3-901a. Since last spoke, did you get iron or folic acid pills for yourself?"
+lab var m3_901b "M3-901b. Since we last spoke, did you get iron injection?"
+lab var m3_901c "M3-901c. Since we last spoke, did you get calcium pills?"
+lab var m3_901d "M3-901d. Since we last spoke, did you get multivitamins?"
+lab var m3_901e "M3-901e. Since we last spoke, did you get food supplements like Super Cereal or Plumpynut?"
+lab var m3_901f "M3-901f. Since we last spoke, did you get medicine for intestinal worms [endemic areas]?"
+lab var m3_901g "M3-901g. Since we last spoke, did you get medicine for malaria [endemic areas]?"
+lab var m3_901h "M3-901h. Since we last spoke, did you get Medicine for HIV?"
+lab var m3_901i "M3-901i. Since we last spoke, did you get medicine for your emotions, nerves, depression, or mental health?"
+lab var m3_901j "M3-901j. Since we last spoke, did you get medicine for hypertension?"
+lab var m3_901k "M3-901k. Since we last spoke, did you get medicine for diabetes, including injections of insulin?"
+lab var m3_901l "M3-901l. Since we last spoke, did you get antibiotics for an infection?"
+lab var m3_901m "M3-901m. Since we last spoke, did you get aspirin?"
+lab var m3_901n "M3-901n. Since we last spoke, did you get paracetamol, or other pain relief drugs?"
+lab var m3_901o "M3-901o. Since we last spoke, did you get contraceptive pills?"
+lab var m3_901p "M3-901p. Since we last spoke, did you get contraceptive injection?"
+lab var m3_901q "M3-901q. Since we last spoke, did you get other contraception method?"
+lab var m3_901r "M3-901r. Since we last spoke, did you get any other medicine or supplement?"
+lab var m3_901r_other "M3-901r-oth. Specify other treatment you took"
+
+lab var m3_902a_baby1 "M3-902a. Since they were born, did the 1st baby get iron supplements?"
+lab var m3_902a_baby2 "M3-902a. Since they were born, did the second baby get iron supplements?"
+lab var m3_902b_baby1 "M3-902b. Since they were born, did the 1st baby get Vitamin A supplements?"
+lab var m3_902b_baby2 "M3-902b. Since they were born, did the second baby get Vitamin A supplements?"
+lab var m3_902c_baby1 "M3-902c. Since they were born, did the 1st baby get Vitamin D supplements?"
+lab var m3_902c_baby2 "M3-902c. Since they were born, did the second baby get Vitamin D supplements?"
+lab var m3_902d_baby1 "M3-902d. Since they were born, did the 1st baby get Oral rehydration salts?"
+lab var m3_902d_baby2 "M3-902d. Since they were born, did the second baby get Oral rehydration salts?"
+lab var m3_902e_baby1 "M3-902e. Since they were born, did the 1st baby get antidiarrheal?"
+lab var m3_902e_baby2 "M3-902e. Since they were born, did the second baby get antidiarrheal?"
+lab var m3_902f_baby1 "M3-902f. Since they were born, did the 1st baby get Antibiotics for an infection?"
+lab var m3_902f_baby2 "M3-902f. Since they were born, did the second baby get Antibiotics for an infection?"
+lab var m3_902g_baby1 "M3-902g. Since they were born, did the 1st baby get medicine to prevent pneumonia?"
+lab var m3_902g_baby2 "M3-902g. Since they were born, did the second baby get medicine to prevent pneumonia?"
+lab var m3_902h_baby1 "M3-902h. Since they were born, did the 1st baby get medicine for malaria [endemic areas]?"
+lab var m3_902h_baby2 "M3-902h. Since they were born, did the second baby get medicine for malaria [endemic areas]?"
+lab var m3_902i_baby1 "M3-902i. Since they were born, did the 1st baby get medicine for HIV (HIV+ mothers only)?"
+lab var m3_902i_baby2 "M3-902i. Since they were born, did the second baby get medicine for HIV (HIV+ mothers only)?"
+lab var m3_902j_baby1 "M3-902j. Since they were born, did the 1st baby get other medicine or supplement, please specify"
+lab var m3_902j_baby1_other "M3-902j-oth-1. Any other medicine or supplement for the 1st baby please specify"
+lab var m3_902j_baby2 "M3-902j. Since they were born, did the second baby get other medicine or supplement, please specify"
+lab var m3_902j_baby2_other "M3-902j-oth-2. Any other medicine or supplement for the second baby please specify"		
+
+lab var m3_1001 "M3-1001. Overall, taking everything into account, how would you rate the quality of care that you received for your delivery at the facility you delivered at?"
+lab var m3_1002 "M3-1002. How likely are you to recommend this provider to a family member or friend for childbirth?"
+lab var m3_1003 "M3-1003. Did staff suggest or ask you (or your family or friends) for a bribe, and informal payment or gift?"
+label variable m3_1004a "1004a. Thinking about the care you received during labor and delivery, how would you rate the knowledge and skills of your provider?"
+label variable m3_1004b "1004b. Thinking about the care you received during labor and delivery, how would you rate the equipment and supplies that the provider had available such as medical equipment or access to lab tests?"
+label variable m3_1004c "1004c. Thinking about the care you received during labor and delivery, how would you rate the level of respect the provider showed you?"
+label variable m3_1004d "1004d. Thinking about the care you received during labor and delivery, how would you rate clarity of the providers explanations?"
+label variable m3_1004e "1004e. Thinking about the care you received during labor and delivery, how would you rate degree to which the provider involved you as much as you wanted to be in decisions about your care?"
+label variable m3_1004f "1004f. Thinking about the care you received during labor and delivery, how would you rate amount of time the provider spent with you?"
+label variable m3_1004g "1004g. Thinking about the care you received during labor and delivery, how would you rate the amount of time you waited before being seen?"
+label variable m3_1004h "1004h. Thinking about the care you received during labor and delivery, how would you rate the courtesy and helpfulness of the healthcare facility staff, other than your provider? "
+lab var m3_1005a "M3-1005a. During your time at the health facility for labor and delivery, were you pinched by a health worker or other staff?"
+lab var m3_1005b "M3-1005b. During your time at the health facility for labor and delivery, were slapped by a health worker or other staff?"
+lab var m3_1005c "M3-1005c. During your time at the health facility for labor and delivery, were were physically tied to the bed or held down to the bed forcefully by a health worker or other staff?"
+lab var m3_1005d "M3-1005d. During your time at the health facility for labor and delivery, had forceful downward pressure placed on your abdomen before the baby came out?"
+lab var m3_1005e "M3-1005e. During your time at the health facility for labor and delivery, were shouted or screamed at by a health worker or other staff?"
+lab var m3_1005f "M3-1005f. During your time at the health facility for labor and delivery, were scolded by a health worker or other staff?"
+lab var m3_1005g "M3-1005g. During your time at the health facility for labor and delivery, the health worker or other staff member made negative comments to you regarding your sexual activity?"
+lab var m3_1005h "M3-1005h. DDuring your time at the health facility for labor and delivery, the health worker or other staff threatened that if you did not comply, you or your baby would have a poor outcome?"
+lab var m3_1006a "M3-1006a. During labor and delivery, women sometimes receive a vaginal examination. Did you receive a vaginal examination at any point in the health facility?"
+lab var m3_1006b "M3-1006b. Did the health care provider ask permission before performing the vaginal examination?"
+lab var m3_1006c "M3-1006c. Were vaginal examinations conducted privately (in a way that other people could not see)?"
+lab var m3_1007a "M3-1007a. During your time in the facility, were you offered any form of pain relief?"
+lab var m3_1007b "M3-1007b. Did you request pain relief during your time in the facility?"
+lab var m3_1007c "M3-1007c. Did you receive pain relief during your time in the facility?"
+
+lab var m3_1101 "M3-1101. I would like to ask you about the cost of the delivery. Did you pay money out of your pocket for the delivery, including for the consultation or other indirect costs like your transport to the facility?"
+lab var m3_1102a_amt "M3-1102a_1. How much money did you spend on registration/consultation?"
+lab var m3_1102b_amt "M3-1102b. How much money did you spend on medicine/vaccines (including outside purchase)?"
+lab var m3_1102c_amt "M3-1102c.	How much money did you spend test/investigations (x-ray, lab etc.)?"
+lab var m3_1102d_amt "M3-1102d. How much money did you spend on transport (round trip) including that of person accompanying you?"
+lab var m3_1102e_amt "M3-1102e. How much money did you spend money on food and accommodation including that of person accompanying you?"
+lab var m3_1102f_amt "M3-1102f. How much money did you spend on other items?"
+lab var m3_1102f_oth "M3-1102f-oth. Specify item"
+lab var m3_1103 "M3-1103. So in total you spent:_____ Is that correct?"
+lab var m3_1105 "M3-1105. Which of the following financial sources did your household use to pay for this?"
+lab var m3_1105_other "M3-1105-oth. Other specify"
+lab var m3_1106 "M3-1106. To conclude this survey, overall, please tell me how satisfied you are  with the health services you received during labor and delivery?" 
+
+lab var m3_1201 "M3-1201. Im sorry to hear you had a miscarriage. If its ok with you I would like to ask a few more questions. When the miscarriage occurred, did you go to a health facility for follow-up?"
+lab var m3_1202 "M3-1202. Overall, how would you rate the quality of care that you received for your miscarriage?"
+lab var m3_1203 "M3-1203. Did you go to a health facility to receive this abortion?"
+lab var m3_1204 "M3-1204. Overall, how would you rate the quality of care that you received for your abortion?"
+			
+lab var m3_endtime "Time of interview ended"
+lab var m3_duration "Total duration of interview"
 *===============================================================================
 
 	* STEP FIVE: ORDER VARIABLES
@@ -1146,7 +1930,7 @@ order m1_1218_total_ke, after(m1_1218_other_total_ke)
 *===============================================================================
 	* STEP SIX: SAVE DATA TO RECODED FOLDER
 
-	save "$ke_data_final/eco_m1_ke.dta", replace
+	*save "$ke_data_final/eco_m1-m3_ke.dta", replace
 
 *===============================================================================
 
