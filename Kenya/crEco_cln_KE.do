@@ -136,12 +136,13 @@ drop registered_phone mobile_money_name mobile_prov phone_used phone_used_oth
 drop unavailable_reschedule reschedule_full_noavail confirm_phone phone_noavail unavailable_reschedule
 
 *------------------------------------------------------------------------------*
+	
 	* STEPS: 
-		* STEP ONE: RENAME VARIABLES (starts at: line 76)
+		* STEP ONE: RENAME VARIABLES 
 		* STEP TW0: ADD VALUE LABELS - NA in KENYA 
-		* STEP THREE: RECODING MISSING VALUES (starts at: line 496)
-		* STEP FOUR: LABELING VARIABLES (starts at: line 954)
-		* STEP FIVE: ORDER VARIABLES (starts at: line )
+		* STEP THREE: RECODING MISSING VALUES 
+		* STEP FOUR: LABELING VARIABLES
+		* STEP FIVE: ORDER VARIABLES
 		* STEP SIX: SAVE DATA
 
 *------------------------------------------------------------------------------*
@@ -761,7 +762,6 @@ rename (q_1004a q_1004h)(m3_1004a m3_1004h)
  	*/
 	
 	label define b4 19 "Mwingi West" 20 "Kitui East", modify
-	
 	label define q515_2 20 "Kitui East", modify
 	label define q519_2 20 "Kitui East", modify
 	
@@ -858,7 +858,6 @@ recode m2_203a m2_203b m2_203c m2_203d m2_203e m2_203f m2_203g m2_203h m2_204i m
 
 	   * MODULE 3:
 recode m3_baby1_weight (98 = .d)	
-
 recode m3_baby1_weight m3_baby2_weight (-98 = .d)	   
 	   
 	   
