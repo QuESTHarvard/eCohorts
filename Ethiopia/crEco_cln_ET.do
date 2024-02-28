@@ -4,6 +4,15 @@
 
 *------------------------------------------------------------------------------*
 
+	* STEPS: 
+		* STEP ONE: RENAME VARIABLES
+		* STEP TW0: ADD VALUE LABELS/FORMATTING
+		* STEP THREE: RECODING MISSING VALUES
+		* STEP FOUR: LABELING VARIABLES
+		* STEP FIVE: ORDER VARIABLES
+		* STEP SIX: SAVE DATA
+
+*------------------------------------------------------------------------------*
 * Import Data 
 clear all 
 
@@ -63,15 +72,6 @@ drop m2_attempt_avail m2_attempt_bestnumber m2_attempt_contact m2_attempt_date m
 drop ic_may_i_proceed_with_the-module_5_end_line_facetoface_sur	
 
 		
-*------------------------------------------------------------------------------*
-	* STEPS: 
-		* STEP ONE: RENAME VARIABLES
-		* STEP TW0: ADD VALUE LABELS/FORMATTING
-		* STEP THREE: RECODING MISSING VALUES
-		* STEP FOUR: LABELING VARIABLES
-		* STEP FIVE: ORDER VARIABLES
-		* STEP SIX: SAVE DATA
-
 *------------------------------------------------------------------------------*
 
 	* STEP ONE: RENAME VARAIBLES

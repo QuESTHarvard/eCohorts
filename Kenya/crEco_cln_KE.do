@@ -1,6 +1,17 @@
 * Kenya MNH ECohort Data Cleaning File 
 * Created by S. Sabwa, K. Wright
 * Last Updated: 20 Dec 2023
+
+*------------------------------------------------------------------------------*
+	
+	* STEPS: 
+		* STEP ONE: RENAME VARIABLES 
+		* STEP TW0: ADD VALUE LABELS - NA in KENYA 
+		* STEP THREE: RECODING MISSING VALUES 
+		* STEP FOUR: LABELING VARIABLES
+		* STEP FIVE: ORDER VARIABLES
+		* STEP SIX: SAVE DATA
+
 *------------------------------------------------------------------------------*
 
 * Import Data 
@@ -134,16 +145,6 @@ drop q_602_filter q_702_discrepancy days_callback_mod3 q202_oth_continue
 drop registered_phone mobile_money_name mobile_prov phone_used phone_used_oth
 
 drop unavailable_reschedule reschedule_full_noavail confirm_phone phone_noavail unavailable_reschedule
-
-*------------------------------------------------------------------------------*
-	
-	* STEPS: 
-		* STEP ONE: RENAME VARIABLES 
-		* STEP TW0: ADD VALUE LABELS - NA in KENYA 
-		* STEP THREE: RECODING MISSING VALUES 
-		* STEP FOUR: LABELING VARIABLES
-		* STEP FIVE: ORDER VARIABLES
-		* STEP SIX: SAVE DATA
 
 *------------------------------------------------------------------------------*
 	
@@ -834,11 +835,11 @@ recode mobile_phone m1_201 m1_204 m1_205a m1_205b m1_205c m1_205d m1_205e phq9a 
 	   m1_714a m1_714b m1_716a m1_716b m1_716c m1_716d m1_716e m1_717 m1_718 m1_719 ///
 	   m1_720 m1_721 m1_722 m1_723 m1_724a m1_724c m1_724d m1_724e m1_724f m1_724g m1_724h ///
 	   m1_724i m1_801 m1_802_ke m1_805 m1_806 m1_807 m1_808 m1_809 m1_810a m1_812a m1_813a ///
-	   m1_813b m1_814a m1_814b m1_814c m1_814d m1_814e m1_814f m1_814g m1_814h m1_901 ///
+	   m1_813b m1_814a m1_814b m1_814c m1_814d m1_814e m1_814f m1_814g m1_814h m1_901 m1_903 ///
 	   m1_902 m1_903 m1_904 m1_907 m1_1004 m1_1005 m1_1006 m1_1007 m1_1008 m1_1010 ///
 	   m1_1011a m1_1011b m1_1011c m1_1011d m1_1011e m1_1011f m1_1101 m1_1103 m1_1105 m1_1201 ///
 	   m1_1202 m1_1203 m1_1204 m1_1205 m1_1206 m1_1207 m1_1208 m1_1209 m1_1210 m1_1211 ///
-	   m1_1216b m1_1222 phq9f phq9g m1_301 m1_903 (999 = .r)
+	   m1_1216b m1_1222 (999 = .r)
   	
 replace m1_812b=".d" if m1_812b== "998"	
 replace m1_815_0=".d" if m1_815_0== "998"	
@@ -846,19 +847,69 @@ replace m1_815_0=".r" if m1_815_0== "999"
 
     ** MODULE 2: 
 recode m2_201 m2_203a m2_203b m2_203c m2_203d m2_203e m2_203f m2_203g m2_203h m2_204i ///
-	   m2_303a m2_205a m2_205b m2_206 m2_301 m2_305 m2_306 m2_308 m2_309 m2_311 m2_312 ///
+	   m2_205a m2_205b m2_206 m2_301 m2_303a m2_305 m2_306 m2_308 m2_309 m2_311 m2_312 ///
 	   m2_314 m2_315 m2_317 m2_318 m2_321 m2_401 m2_402 m2_403 m2_404 m2_405 m2_502 m2_505a ///
-	   m2_505b m2_505c m2_505d m2_505e m2_505f m2_504 m2_505g m2_508a m2_603 m2_701 (-99 = .r)
+	   m2_505b m2_505c m2_505d m2_505e m2_505f m2_504 m2_505g m2_508a m2_603 m2_701 m3_303a ///
+	   m3_303a m3_303b m3_baby1_gender m3_baby1_health m3_breastfeeding (-99 = .r)
 
 recode m2_203a m2_203b m2_203c m2_203d m2_203e m2_203f m2_203g m2_203h m2_204i m2_206 ///
        m2_301 m2_303a m2_305 m2_306 m2_308 m2_309 m2_311 m2_312 m2_314 m2_315 m2_317 ///
 	   m2_318 m2_321 m2_502 m2_505a m2_505b m2_505c m2_505d m2_505e m2_505f m2_504 ///
-	   m2_505g m2_508a m2_603 m2_701 (-98 = .d)
+	   m2_505g m2_508a m2_603 m2_701 m3_303a m3_baby1_gender m3_baby1_weight (-98 = .d)
 
+recode m2_attempt_relationship (4 = .d)	   
 
-	   * MODULE 3:
-recode m3_baby1_weight (98 = .d)	
-recode m3_baby1_weight m3_baby2_weight (-98 = .d)	   
+recode m2_complete (5 = .r)
+
+	   ** MODULE 3:
+recode m3_303a m3_303b m3_baby1_gender m3_baby1_health m3_breastfeeding m3_baby1_born_alive1 ///
+	   m3_baby1_born_alive2 m3_303c m3_baby2_gender m3_baby2_health m3_breastfeeding_2 ///
+	   m3_baby2_born_alive1 m3_baby2_born_alive2 m3_401 m3_consultation_1 m3_consultation_referral_1 ///
+	   m3_412a m3_412b m3_412c m3_412d m3_412e m3_412f m3_412g m3_412g_other m3_412i m3_consultation_2 ///
+	   m3_consultation_referral_2 q_412a_2 q_412b_2 q_412c_2 q_412d_2 q_412e_2 q_412f_2 q_412g_2 ///
+	   q_412i_2 m3_consultation_3 m3_consultation_referral_3 q_412a_3 q_412b_3 q_412c_3 q_412d_3 ///
+	   q_412e_3 q_412f_3 q_412i_3 m3_501 m3_503 m3_502 m3_509 q_510 q_512_1 q_512_2 m3_513a m3_516 ///
+	   m3_517 m3_519 m3_601_hiv m3_601b m3_601c m3_602a q_603_note m3_603a m3_603b m3_603c m3_604a ///
+	   m3_604b m3_605a m3_605b m3_606 m3_607 m3_608 m3_609 m3_610a m3_610b m3_611 m3_613 m3_615a ///
+	   m3_617a m3_618a_1 m3_618b_1 m3_618c_1 m3_620_1 m3_615b m3_617b m3_618a_2 m3_618b_2 m3_618c_2 ///
+	   m3_620_2 m3_619a m3_619b m3_619c m3_619d m3_619e m3_619g m3_619h m3_621b m3_622a m3_622c ///
+	   m3_701 m3_703 q_704_note m3_704a m3_704b m3_704c m3_704d m3_704e m3_704f m3_704g m3_705 ///
+	   m3_706 m3_708_oth_1 m3_710a m3_710b q_801_note m3_802a m3_803a m3_803b m3_803c m3_803d m3_803e ///
+	   m3_803f m3_803g m3_803h m3_803j m3_805 m3_808a m3_809 m3_901a m3_901b m3_901c m3_901d m3_901e ///
+	   m3_901f m3_901g m3_901h m3_901i m3_901j m3_901k m3_901l m3_901m m3_901n m3_901o m3_901p m3_901q ///
+	   m3_901r m3_902a_baby1 m3_902b_baby1 m3_902c_baby1 m3_902d_baby1 m3_902e_baby1 m3_902f_baby1 ///
+	   m3_902g_baby1 m3_902h_baby1 m3_902i_baby1 m3_902j_baby1 m3_902a_baby2 m3_902b_baby2 m3_902c_baby2 ///
+	   m3_902d_baby2 m3_902e_baby2 m3_902f_baby2 m3_902g_baby2 m3_902h_baby2 m3_902i_baby2 m3_1001 ///
+	   m3_1002 m3_1003 m3_1004a q_1004b_1 q_1004c_1 q_1004d_1 q_1004e_1 q_1004f_1 q_1004g_1 q_1004h_1 ///
+	   q_1004b_2 q_1004c_2 q_1004d_2 q_1004e_2 q_1004f_2 q_1004g_2 q_1004h_2 q_1004b_3 q_1004c_3 ///
+	   q_1004d_3 q_1004e_3 q_1004f_3 q_1004g_3 q_1004h_3 q_1004b_4 q_1004c_4 q_1004d_4 q_1004e_4 ///
+	   q_1004f_4 q_1004g_4 q_1004h_4 q_1004b_5 q_1004c_5 q_1004d_5 q_1004e_5 q_1004f_5 q_1004g_5 ///
+	   q_1004h_5 q_1004b_6 q_1004c_6 q_1004d_6 q_1004e_6 q_1004f_6 q_1004g_6 q_1004h_6 q_1004b_7 ///
+	   q_1004c_7 q_1004d_7 q_1004e_7 q_1004f_7 q_1004g_7 q_1004h_7 m3_1005a m3_1005b m3_1005c ///
+	   m3_1005d m3_1005e m3_1005f m3_1005g m3_1005h m3_1006a m3_1006b m3_1006c m3_1007a m3_1007b ///
+	   m3_1007c m3_1101 m3_1106 m3_1201 m3_1202 m3_1203 m3_1204 (-99 = .r)
+
+recode m3_303a m3_baby1_gender m3_baby1_weight m3_baby2_weight m3_baby1_born_alive1 ///
+	   m3_baby1_born_alive2 m3_baby2_gender m3_baby2_weight m3_baby2_born_alive1 ///
+	   m3_baby2_born_alive2 m3_401 m3_consultation_1 m3_consultation_referral_1 ///
+	   m3_412a m3_412b m3_412c m3_412d m3_412e m3_412f m3_412g m3_412g_other m3_412i ///
+	   m3_consultation_2 m3_consultation_referral_2 q_412a_2 q_412b_2 q_412c_2 q_412d_2 ///
+	   q_412e_2 q_412f_2 q_412g_2 q_412i_2 m3_consultation_3 m3_consultation_referral_3 ///
+	   q_412a_3 q_412b_3 q_412c_3 q_412d_3 q_412e_3 q_412f_3 q_412i_3 m3_501 m3_503 m3_502 ///
+	   q_510 q_512_1 q_512_2 m3_513a m3_517 m3_519 m3_601_hiv m3_601b m3_601c m3_602a m3_602b ///
+	   q_603_note m3_603a m3_603b m3_603c m3_604a m3_604b m3_605a m3_605b m3_606 m3_607 m3_608 ///
+	   m3_609 m3_610a m3_610b m3_611 m3_613 m3_615a m3_617a m3_618a_1 m3_618b_1 m3_618c_1 ///
+	   m3_620_1 m3_615b m3_617b m3_618a_2 m3_618b_2 m3_618c_2 m3_620_2 m3_619a m3_619b ///
+	   m3_619c m3_619d m3_619e m3_619g m3_619h m3_621b m3_622a m3_622c m3_701 m3_703 q_704_note ///
+	   m3_704a m3_704b m3_704c m3_704d m3_704e m3_704f m3_704g m3_705 m3_706 m3_708_oth_1 ///
+	   m3_710a m3_710b q_801_note m3_802a m3_803a m3_803b m3_803c m3_803d m3_803e m3_803f ///
+	   m3_803g m3_803h m3_803j m3_805 m3_808a m3_809 m3_901a m3_901b m3_901c m3_901d m3_901e ///
+	   m3_901f m3_901g m3_901h m3_901i m3_901j m3_901k m3_901l m3_901m m3_901n m3_901o m3_901p ///
+	   m3_901q m3_901r m3_902a_baby1 m3_902b_baby1 m3_902c_baby1 m3_902d_baby1 m3_902e_baby1 ///
+	   m3_902f_baby1 m3_902g_baby1 m3_902h_baby1 m3_902i_baby1 m3_902j_baby1 m3_902a_baby2 m3_902b_baby2 ///
+	   m3_902d_baby2 m3_902e_baby2 m3_902f_baby2 m3_902g_baby2 m3_902h_baby2 m3_902i_baby2 m3_1002 ///
+	   m3_1003 m3_1005a m3_1005b m3_1005c m3_1005d m3_1005e m3_1005f m3_1005g m3_1005h m3_1006a ///
+	   m3_1006b m3_1006c m3_1007a m3_1007b m3_1007c m3_1101 m3_1106 m3_1201 m3_1203 (-98 = .d)	 
 	   
 	   
 *------------------------------------------------------------------------------*
