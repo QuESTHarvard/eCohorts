@@ -2228,7 +2228,7 @@ lab var m3_duration "Total duration of interview"
 *===============================================================================
 
 	* STEP FIVE: ORDER VARIABLES
-order m1_*, sequential
+order m1_* m2_* m3_*, sequential
 order country module interviewer_id m1_date m1_start_time study_site facility ///
       permission care_self enrollage dob ///
 	  zone_live zone_live_other b5anc b6anc_first b7eligible m1_noconsent_why_ke ///
