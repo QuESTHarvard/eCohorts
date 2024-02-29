@@ -57,6 +57,7 @@ rename today_date m2_date
 rename date_confirm m2_date_confirm
 rename starttime m2_start_time
 rename time_start_full m2_date_time
+rename gestational_update m2_ga_estimate
 rename q_302 m2_302
 rename q_301 m2_301
 rename (q_303_1 q_303_2) (m2_303a m2_303b)
@@ -79,9 +80,6 @@ rename endtime m2_endtime
 
 append using "$ke_data/Module 3/KEMRI_Module_3.dta", force
 
-
-*drop q_307_2 q_307_3 q_307_4 q_307_5 q_320
-
 * fixing duplicate var names
 rename facility_name m3_site
 rename date_confirm m3_date_confirm
@@ -89,6 +87,7 @@ rename today_date m3_date
 rename starttime m3_start_time
 rename time_start_full m3_date_time
 rename q_302 m3_birth_or_ended_date
+rename gestational_update m3_ga2_ke
 rename q_301 m3_303a
 rename (q_303_1 q_303_2) (m3_303b m3_303c)
 rename (q_304_1 q_304_2) (m3_baby1_name m3_baby2_name)
@@ -135,7 +134,7 @@ drop repeat_g303 q_303_rpt_grp q_303_indx_1 q_303_indx_st_1 q_303_indx_nd_1 q_30
 
 drop q814a_calc_e q814b_calc_e q814c_calc_e q814d_calc_e q814e_calc_e q814f_calc_e q814g_calc_e q814h_calc_e q814_calc_e q814a_calc_ki q814b_calc_ki q814c_calc_ki q814d_calc_ki q814e_calc_ki q814f_calc_ki q814g_calc_ki q814h_calc_ki q814_calc_ki q814a_calc_ka q814b_calc_ka q814c_calc_ka q814d_calc_ka q814e_calc_ka q814f_calc_ka q814g_calc_ka q814h_calc_ka q814_calc_ka q_107_trim q_303_label_1 q_304_label_1 q_303_label_3 q_304_label_3 a2 county_eligibility_oth key   
 
-drop outcome_text confirm_gestational // SS: confirm dropping outcome_text because the same data is in "m2_202_other"
+drop outcome_text gest_age_delivery // SS: confirm dropping outcome_text because the same data is in "m2_202_other"
 
 drop user_experience_rpt_grp_count user_exp_idx_1 user_visit_reason_1 user_facility_type_1 user_facility_name_1 user_exp_idx_2 user_visit_reason_2 user_facility_type_2 user_facility_name_2 user_exp_idx_3 user_visit_reason_3 user_facility_type_3 user_facility_name_3 user_exp_idx_4 user_visit_reason_4 user_facility_type_4 user_facility_name_4 user_exp_idx_5 user_visit_reason_5 user_facility_type_5 user_facility_name_5
 
@@ -145,6 +144,8 @@ drop q_602_filter q_702_discrepancy days_callback_mod3 q202_oth_continue
 drop registered_phone mobile_money_name mobile_prov phone_used phone_used_oth
 
 drop unavailable_reschedule reschedule_full_noavail confirm_phone phone_noavail unavailable_reschedule
+
+drop baby_repeat_count baby_index_1
 
 *------------------------------------------------------------------------------*
 	
@@ -294,7 +295,6 @@ rename q_104 m2_respondentid
 *rename date_survey_baseline m2_baseline_date // this is the m1 surveydate, dropped for now
 rename q_109 m2_maternal_death_reported
 rename q_107 m2_ga
-rename gestational_update m2_ga_estimate
 rename q_108 m2_hiv_status
 
 rename (county enum_name date_death_knows) /// 
@@ -381,6 +381,10 @@ rename refused_why m2_refused_why
 		** MODULE 3:
 rename (consent q_302a q_302b gest_age_delivery_final) ///
        (m3_start_p1 m3_birth_or_ended m3_birth_or_ended_provided m3_ga_final)
+	   
+rename (confirm_gestational weeks_from_outcome after2weeks_call) ///
+	   (m3_ga1_ke m3_weeks_from_outcome_ke m3_after2weeks_call_ke)	   
+	   
 rename q_308_1 m3_baby1_weight
 rename q_308_2 m3_baby2_weight 
 rename (q_307_2 q_309_1 q_309_2) (m3_baby2_size m3_baby1_health m3_baby2_health)
@@ -452,6 +456,8 @@ rename (q_310a_8_2) (m3_baby2_feed_h)
 replace q_310a__99_2 = "No" if q_310a__99_2 == "0"
 replace q_310a__99_2 = "Yes" if q_310a__99_2 == "1"
 rename (q_310a__99_2) (m3_baby2_feed_99)
+
+rename q_310a_1 m3_baby_feeding
 
 rename (q_310b_1 q_310b_2)(m3_breastfeeding m3_breastfeeding_2)
 rename (q_312_1 q_312a_1 q_312_2 q_312a_2 q_313a_1 q_313b_1 q_313b_unit_1 q_313a_2 q_313b_2 q_313b_unit_2 q_314_1 q_314_oth_1 q_314_2 q_314_oth_2 q_1201 ///
@@ -541,7 +547,16 @@ replace q_405__96_3 = "No" if q_405__96_3 == "0"
 rename (q_405__96_3) (m3_consultation3_reason_96)
 
 rename (q_412a_1 q_412b_1 q_412c_1 q_412d_1 q_412e_1 q_412f_1 q_412g_1 q_412g_oth_1 q_412i_1) ///
-       (m3_412a m3_412b m3_412c m3_412d m3_412e m3_412f m3_412g m3_412g_other m3_412i)	
+       (m3_412a_1_ke m3_412b_1_ke m3_412c_1_ke m3_412d_1_ke m3_412e_1_ke m3_412f_1_ke m3_412g_1_ke ///
+	   m3_412g_1_other m3_412i_1_ke )	
+
+rename (q_412a_2 q_412a_3 q_412b_2 q_412b_3 q_412c_2 q_412c_3 q_412d_2 q_412d_3 q_412e_2 ///
+		q_412e_3 q_412f_2 q_412f_3 q_412g_2 q_412g_3 q_412i_2 q_412i_3)(m3_412a_2_ke m3_412a_3_ke ///
+		m3_412b_2_ke m3_412b_3_ke m3_412c_2 m3_412c_3 m3_412d_2_ke m3_412d_3_ke m3_412e_2_ke ///
+		m3_412e_3_ke m3_412f_2_ke m3_412f_3_ke m3_412g_2_ke m3_412g_3_ke m3_412i_2_ke m3_412i_3_ke)
+		
+rename (q_412g_oth_2 q_412g_oth_3) (m3_412g_2_other m3_412g_3_other)		
+	   
 rename (q_504_n q_504_c q_504_r q_503_final q_506_pre q_506_pre_oth q_508 ///
  		q_508_oth q_513a q_513b_n q_513b_c q_513_r q_513_calc q_514 q_515 q_516 ///
 		q_517 q_518_oth_del q_518_oth q_519 q_519_oth q_520 q_521 q_521_unit) ///
@@ -865,9 +880,9 @@ recode m3_303a m3_303b m3_baby1_gender m3_baby1_health m3_breastfeeding m3_baby1
 	   m3_baby1_born_alive2 m3_303c m3_baby2_gender m3_baby2_health m3_breastfeeding_2 ///
 	   m3_baby2_born_alive1 m3_baby2_born_alive2 m3_401 m3_consultation_1 m3_consultation_referral_1 ///
 	   m3_412a m3_412b m3_412c m3_412d m3_412e m3_412f m3_412g m3_412g_other m3_412i m3_consultation_2 ///
-	   m3_consultation_referral_2 q_412a_2 q_412b_2 q_412c_2 q_412d_2 q_412e_2 q_412f_2 q_412g_2 ///
-	   q_412i_2 m3_consultation_3 m3_consultation_referral_3 q_412a_3 q_412b_3 q_412c_3 q_412d_3 ///
-	   q_412e_3 q_412f_3 q_412i_3 m3_501 m3_503 m3_502 m3_509 q_510 q_512_1 q_512_2 m3_513a m3_516 ///
+	   m3_consultation_referral_2 m3_412a_2_ke m3_412b_2_ke m3_412c_2 m3_412d_2_ke m3_412e_2_ke m3_412f_2_ke m3_412g_2_ke ///
+	   m3_412i_2_ke m3_consultation_3 m3_consultation_referral_3 m3_412a_3_ke m3_412b_3_ke m3_412c_3 m3_412d_3_ke ///
+	   m3_412e_3_ke m3_412f_3_ke m3_412i_3_ke m3_501 m3_503 m3_502 m3_509 q_510 q_512_1 q_512_2 m3_513a m3_516 ///
 	   m3_517 m3_519 m3_601_hiv m3_601b m3_601c m3_602a q_603_note m3_603a m3_603b m3_603c m3_604a ///
 	   m3_604b m3_605a m3_605b m3_606 m3_607 m3_608 m3_609 m3_610a m3_610b m3_611 m3_613 m3_615a ///
 	   m3_617a m3_618a_1 m3_618b_1 m3_618c_1 m3_620_1 m3_615b m3_617b m3_618a_2 m3_618b_2 m3_618c_2 ///
