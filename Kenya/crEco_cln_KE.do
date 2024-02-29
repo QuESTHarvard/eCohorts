@@ -1,6 +1,6 @@
 * Kenya MNH ECohort Data Cleaning File 
-* Created by S. Sabwa, K. Wright
-* Last Updated: 20 Dec 2023
+* Updated by S. Sabwa, K. Wright, W. Chien
+* Last Updated: 29 Feb 2024 (adding M2 and M3)
 
 *------------------------------------------------------------------------------*
 	
@@ -145,7 +145,18 @@ drop registered_phone mobile_money_name mobile_prov phone_used phone_used_oth
 
 drop unavailable_reschedule reschedule_full_noavail confirm_phone phone_noavail unavailable_reschedule
 
-drop baby_repeat_count baby_index_1
+drop baby_repeat_count baby_index_1 baby_index_2 survey1no_maternal_death1consent isvalidated
+
+drop v619 v620 v621 v622 v599 v600 v601 v602 v584 v585 v586 v587 v583 v581 v582 v520 v521 v522 v523 v519 v524 q_314_o_1 v238 submissiondate gest_age_ad_less20 q_804_o q_902_o_1 q_1104_o gest_age_ad // SS: what are these variables from M3?
+
+drop q_307_3 q_307_4 q_307_5 q_320
+
+drop q_1004_rand_order_count q_1004_rand_1 q_1004_rand_2 q_1004_rand_3 q_1004_rand_4 q_1004_rand_5 q_1004_rand_6 q_1004_rand_7 q_1004_order_count
+
+drop q_1102a_cost q_1102b_cost q_1102c_cost q_1102d_cost q_1102e_cost q_1102f_cost q_1102f_oth
+
+drop baby_repeat_issues_count baby_index_issues_1 baby_name_issues_1 baby_label_issues_1 baby_index_issues_2 baby_name_issues_2 baby_label_issues_2 q_801_note q_801a_calc q_801b_calc q_901r_oth baby_list_meds  baby_index_meds_1 baby_name_meds_1 baby_label_meds_1 baby_index_meds_2 baby_name_meds_2 baby_label_meds_2 date_mod4
+
 
 *------------------------------------------------------------------------------*
 	
@@ -259,7 +270,7 @@ rename (q515_5 q515_3 q515_4 q515_1 q515_1_oth q515_2 q515_2_oth q516 q517 q519_
 rename (q1301 q1302 bp_count q1303a_1 q1303b_1 q1303c_1 q1303a_2 q1303b_2 q1303c_2 ///
 		q1303a_3 q1303b_3 q1303c_3) (height_cm weight_kg m1_bp_count_ke bp_time_1_systolic ///
 		bp_time_1_diastolic time_1_pulse_rate bp_time_2_systolic bp_time_2_diastolic time_2_pulse_rate ///
-		bp_time_3_systolic bp_time_3_diastolic pulse_rate_time_3)
+		bp_time_3_systolic bp_time_3_diastolic time_3_pulse_rate)
 rename (q1306 q1307 q1308 q1309 q1401 preferred_phone_oth preferred_phone_confirm) ///
 		(m1_1306 m1_1307 m1_1308 m1_1309 m1_1401 m1_1401a_ke m1_1401b_ke)		
 rename noconsent_why m1_noconsent_why_ke		
@@ -357,6 +368,8 @@ rename (q_507_1 q_507_2 q_507_3 q_507_4 q_507_5 q_507_6 q_507_7 q_507__96 ///
 		m2_507_5_ke m2_507_6_ke m2_507_7_ke m2_507_96_ke m2_507_other_ke)
 rename (q_508a q_508b q_508c) (m2_508a m2_508b_last m2_508d)	  
 rename (q_509_1 q_509_2 q_509_3 q_509_0) (m2_509a m2_509b m2_509c m2_509_0_ke) 
+
+rename (q_510 q_511 q_512_1 q_512_2) (m3_510 m3_511 m3_512_1_ke m3_512_2_ke)
 
 rename (q_601 q_601_1 q_601_3 q_601_4 q_601_5 q_601_6 q_601_7 q_601_8 q_601_9 ///
 		q_601_10 q_601_11 q_601_12 q_601_13 q_601_14 q_601__96 q_601_2 q_601_other ///
@@ -457,13 +470,17 @@ replace q_310a__99_2 = "No" if q_310a__99_2 == "0"
 replace q_310a__99_2 = "Yes" if q_310a__99_2 == "1"
 rename (q_310a__99_2) (m3_baby2_feed_99)
 
-rename q_310a_1 m3_baby_feeding
+rename q_310a_1 m3_baby1_feeding
+rename q_310a_2 m3_baby2_feeding
 
 rename (q_310b_1 q_310b_2)(m3_breastfeeding m3_breastfeeding_2)
 rename (q_312_1 q_312a_1 q_312_2 q_312a_2 q_313a_1 q_313b_1 q_313b_unit_1 q_313a_2 q_313b_2 q_313b_unit_2 q_314_1 q_314_oth_1 q_314_2 q_314_oth_2 q_1201 ///
         q_1202 q_1203 q_1204) (m3_baby1_born_alive1 m3_baby1_born_alive2 m3_baby2_born_alive1 m3_baby2_born_alive2 m3_313a_baby1 m3_313c_baby1 ///
 		m3_313d_baby1 m3_313a_baby2 m3_313c_baby2 m3_313d_baby2 m3_death_cause_baby1 m3_death_cause_baby1_other m3_death_cause_baby2 /// 
 		m3_death_cause_baby2_other m3_1201 m3_1202 m3_1203 m3_1204)
+
+rename miscarriage m3_miscarriage		
+		
 rename (q_401 q_402 q_403_1 q_404_1 q_405_oth_1)(m3_401 m3_402 m3_consultation_1 m3_consultation_referral_1 m3_consultation1_reason_other)	
 rename (q_403_2 q_404_2 q_405_oth_2)(m3_consultation_2 m3_consultation_referral_2 m3_consultation2_reason_other)
 rename (q_403_3 q_404_3 q_405_3 q_405_oth_3) (m3_consultation_3 m3_consultation_referral_3 m3_consultation3_reason m3_consultation3_reason_other)	
@@ -670,22 +687,36 @@ rename (q_709_1 q_709_o_1 q_709_2 q_709_o_2 q_710_1 q_710_2 q_711_1 q_711_unit_1
 rename (q_801a q_801b q_802a q_802b q_802c q_803a q_803b q_803c q_803d q_803e q_803f q_803g q_803h q_804 q_804_oth q_805 q_806 q_807 q_808a q_808b ///
         q_808b_oth q_809)(m3_801a m3_801b m3_802a m3_802b m3_802c m3_803a m3_803b m3_803c m3_803d m3_803e m3_803f m3_803g m3_803h m3_803j m3_803j_other ///
 		m3_805 m3_806 m3_807 m3_808a m3_808b m3_808b_other m3_809)
+		
+rename phq2_score m3_phq2_score
 
-rename (q_901a q_901b q_901c q_901d q_901de q_901f q_901g q_901h q_901i q_901j q_901k q_901l q_901m q_901n q_901o q_901p q_901q q_901r q_901r_oth) ///
+rename (q_901a q_901b q_901c q_901d q_901de q_901f q_901g q_901h q_901i q_901j q_901k q_901l q_901m q_901n q_901o q_901p q_901q q_901r q_901_o) ///
        (m3_901a m3_901b m3_901c m3_901d m3_901e m3_901f m3_901g m3_901h m3_901i m3_901j m3_901k m3_901l m3_901m m3_901n m3_901o m3_901p m3_901q m3_901r ///
 	    m3_901r_other)
+		
+rename (q_901_cost q_902_cost_2) (m3_901_1_cost m3_901_2_cost)
 
 rename (q_902a_1 q_902a_2 q_902b_1 q_902b_2 q_902c_1 q_902c_2 q_902d_1 q_902d_2 q_902e_1 q_902e_2 q_902f_1 q_902f_2 q_902g_1 q_902g_2 q_902h_1 q_902h_2 ///
         q_902i_1 q_902i_2 q_902j_1 q_902j_oth_1 q_902j_2 q_902j_oth_2)(m3_902a_baby1 m3_902a_baby2 m3_902b_baby1 m3_902b_baby2 m3_902c_baby1 ///
 		m3_902c_baby2 m3_902d_baby1 m3_902d_baby2 m3_902e_baby1 m3_902e_baby2 m3_902f_baby1 m3_902f_baby2 m3_902g_baby1 m3_902g_baby2 m3_902h_baby1 ///
 		m3_902h_baby2 m3_902i_baby1 m3_902i_baby2 m3_902j_baby1 m3_902j_baby1_other m3_902j_baby2 m3_902j_baby2_other)		
+		
+rename baby_repeat_meds_count m3_baby_meds_count		
+		
+rename (q_1001 q_1002 q_1003 q_1005a q_1005b q_1005c q_1005d q_1005e q_1005f q_1005g q_1005h q_1006a q_1006b ///
+		q_1006c q_1007a q_1007b q_1007c q_1101 q_1102a q_1102b q_1102c q_1102d q_1102e q_1102f q_1102f_o ///
+		q_1103 q_1104 q_1104_oth q_1105)(m3_1001 m3_1002 m3_1003 m3_1005a m3_1005b m3_1005c ///
+		m3_1005d m3_1005e m3_1005f m3_1005g m3_1005h m3_1006a m3_1006b m3_1006c m3_1007a m3_1007b ///
+		m3_1007c m3_1101 m3_1102a_amt m3_1102b_amt m3_1102c_amt m3_1102d_amt m3_1102e_amt m3_1102f_amt ///
+		m3_1102f_oth m3_1103 m3_1105 m3_1105_other m3_1106)
+		
+rename (q_1104_1 q_1104_2 q_1104_3 q_1104_4 q_1104_5 q_1104_6 q_1104_7 q_1104__96) ///
+	   (m3_1105a_ke m3_1105b_ke m3_1105c_ke m3_1105d_ke m3_1105e_ke m3_1105f_ke ///
+	   m3_1105g_ke m3_1105_96_ke)		
+		
+rename q_1102_total_spent m3_1102_total		
 
-rename (q_1001 q_1002 q_1003 q_1005a q_1005b q_1005c q_1005d q_1005e q_1005f q_1005g q_1005h q_1006a q_1006b q_1006c q_1007a q_1007b q_1007c q_1101 ///
-        q_1102a q_1102b q_1102c q_1102d q_1102e q_1102f q_1102f_oth q_1103 q_1104 q_1104_oth q_1105)(m3_1001 m3_1002 m3_1003 m3_1005a m3_1005b m3_1005c ///
-		m3_1005d m3_1005e m3_1005f m3_1005g m3_1005h m3_1006a m3_1006b m3_1006c m3_1007a m3_1007b m3_1007c m3_1101 m3_1102a_amt m3_1102b_amt ///
-		m3_1102c_amt m3_1102d_amt m3_1102e_amt m3_1102f_amt m3_1102f_oth m3_1103 m3_1105 m3_1105_other m3_1106)
-
-	   ** Create q_1004b to collapse q_1004b_1 q_1004b_2 q_1004b_3 q_1004b_4 q_1004b_5 q_1004b_6 q_1004b_7 (line 309 to 316)
+	   ** Create q_1004b to collapse q_1004b_1 q_1004b_2 q_1004b_3 q_1004b_4 q_1004b_5 q_1004b_6 q_1004b_7
 gen q_1004b = q_1004b_1 if q_1004b_2==. & q_1004b_3==. & q_1004b_4==. & q_1004b_5==. & q_1004b_6==. & q_1004b_7==.
 replace q_1004b = q_1004b_2 if q_1004b_1==. & q_1004b_3==. & q_1004b_4==. & q_1004b_5==. & q_1004b_6==. & q_1004b_7==.
 replace q_1004b = q_1004b_3 if q_1004b_1==. & q_1004b_2==. & q_1004b_4==. & q_1004b_5==. & q_1004b_6==. & q_1004b_7==.
@@ -695,7 +726,9 @@ replace q_1004b = q_1004b_6 if q_1004b_1==. & q_1004b_2==. & q_1004b_3==. & q_10
 replace q_1004b = q_1004b_7 if q_1004b_1==. & q_1004b_2==. & q_1004b_3==. & q_1004b_4==. & q_1004b_5==. & q_1004b_6==.
 rename (q_1004b)(m3_1004b)
 
-	   ** Create q_1004c to collapse q_1004c_1 q_1004c_2 q_1004c_3 q_1004c_4 q_1004c_5 q_1004c_6 q_1004c_7 (line 319 to 326)
+drop q_1004b_1 q_1004b_2 q_1004b_3 q_1004b_4 q_1004b_5 q_1004b_6 q_1004b_7
+
+	   ** Create q_1004c to collapse q_1004c_1 q_1004c_2 q_1004c_3 q_1004c_4 q_1004c_5 q_1004c_6 q_1004c_7
 gen q_1004c = q_1004c_1 if q_1004c_2==. & q_1004c_3==. & q_1004c_4==. & q_1004c_5==. & q_1004c_6==. & q_1004c_7==.
 replace q_1004c = q_1004c_2 if q_1004c_1==. & q_1004c_3==. & q_1004c_4==. & q_1004c_5==. & q_1004c_6==. & q_1004c_7==.
 replace q_1004c = q_1004c_3 if q_1004c_1==. & q_1004c_2==. & q_1004c_4==. & q_1004c_5==. & q_1004c_6==. & q_1004c_7==.
@@ -705,7 +738,9 @@ replace q_1004c = q_1004c_6 if q_1004c_1==. & q_1004c_2==. & q_1004c_3==. & q_10
 replace q_1004c = q_1004c_7 if q_1004c_1==. & q_1004c_2==. & q_1004c_3==. & q_1004c_4==. & q_1004c_5==. & q_1004c_6==.
 rename (q_1004c)(m3_1004c)
 
-	   ** Create q_1004d to collapse q_1004d_1 q_1004d_2 q_1004d_3 q_1004d_4 q_1004d_5 q_1004d_6 q_1004d_7 (line 329 to 336)
+drop q_1004c_1 q_1004c_2 q_1004c_3 q_1004c_4 q_1004c_5 q_1004c_6 q_1004c_7
+
+	   ** Create q_1004d to collapse q_1004d_1 q_1004d_2 q_1004d_3 q_1004d_4 q_1004d_5 q_1004d_6 q_1004d_7
 gen q_1004d = q_1004d_1 if q_1004d_2==. & q_1004d_3==. & q_1004d_4==. & q_1004d_5==. & q_1004d_6==. & q_1004d_7==.
 replace q_1004d = q_1004d_2 if q_1004d_1==. & q_1004d_3==. & q_1004d_4==. & q_1004d_5==. & q_1004d_6==. & q_1004d_7==.
 replace q_1004d = q_1004d_3 if q_1004d_1==. & q_1004d_2==. & q_1004d_4==. & q_1004d_5==. & q_1004d_6==. & q_1004d_7==.
@@ -715,7 +750,9 @@ replace q_1004d = q_1004d_6 if q_1004d_1==. & q_1004d_2==. & q_1004d_3==. & q_10
 replace q_1004d = q_1004d_7 if q_1004d_1==. & q_1004d_2==. & q_1004d_3==. & q_1004d_4==. & q_1004d_5==. & q_1004d_6==.
 rename (q_1004d)(m3_1004d)
 
-	   ** Create q_1004e to collapse q_1004e_1 q_1004e_2 q_1004e_3 q_1004e_4 q_1004e_5 q_1004e_6 q_1004e_7 (line 339 to 346)
+drop q_1004d_1 q_1004d_2 q_1004d_3 q_1004d_4 q_1004d_5 q_1004d_6 q_1004d_7
+
+	   ** Create q_1004e to collapse q_1004e_1 q_1004e_2 q_1004e_3 q_1004e_4 q_1004e_5 q_1004e_6 q_1004e_7
 gen q_1004e = q_1004e_1 if q_1004e_2==. & q_1004e_3==. & q_1004e_4==. & q_1004e_5==. & q_1004e_6==. & q_1004e_7==.
 replace q_1004e = q_1004e_2 if q_1004e_1==. & q_1004e_3==. & q_1004e_4==. & q_1004e_5==. & q_1004e_6==. & q_1004e_7==.
 replace q_1004e = q_1004e_3 if q_1004e_1==. & q_1004e_2==. & q_1004e_4==. & q_1004e_5==. & q_1004e_6==. & q_1004e_7==.
@@ -725,7 +762,9 @@ replace q_1004e = q_1004e_6 if q_1004e_1==. & q_1004e_2==. & q_1004e_3==. & q_10
 replace q_1004e = q_1004e_7 if q_1004e_1==. & q_1004e_2==. & q_1004e_3==. & q_1004e_4==. & q_1004e_5==. & q_1004e_6==.
 rename (q_1004e)(m3_1004e)
 
-	   ** Create q_1004f to collapse q_1004f_1 q_1004f_2 q_1004f_3 q_1004f_4 q_1004f_5 q_1004f_6 q_1004f_7 (line 349 to 356)
+drop q_1004e_1 q_1004e_2 q_1004e_3 q_1004e_4 q_1004e_5 q_1004e_6 q_1004e_7
+
+	   ** Create q_1004f to collapse q_1004f_1 q_1004f_2 q_1004f_3 q_1004f_4 q_1004f_5 q_1004f_6 q_1004f_7
 gen q_1004f = q_1004f_1 if q_1004f_2==. & q_1004f_3==. & q_1004f_4==. & q_1004f_5==. & q_1004f_6==. & q_1004f_7==.
 replace q_1004f = q_1004f_2 if q_1004f_1==. & q_1004f_3==. & q_1004f_4==. & q_1004f_5==. & q_1004f_6==. & q_1004f_7==.
 replace q_1004f = q_1004f_3 if q_1004f_1==. & q_1004f_2==. & q_1004f_4==. & q_1004f_5==. & q_1004f_6==. & q_1004f_7==.
@@ -735,7 +774,9 @@ replace q_1004f = q_1004f_6 if q_1004f_1==. & q_1004f_2==. & q_1004f_3==. & q_10
 replace q_1004f = q_1004f_7 if q_1004f_1==. & q_1004f_2==. & q_1004f_3==. & q_1004f_4==. & q_1004f_5==. & q_1004f_6==.
 rename (q_1004f)(m3_1004f)
 
-	   ** Create q_1004g to collapse q_1004g_1 q_1004g_2 q_1004g_3 q_1004g_4 q_1004g_5 q_1004g_6 q_1004g_7 (line 359 to 366)
+drop q_1004f_1 q_1004f_2 q_1004f_3 q_1004f_4 q_1004f_5 q_1004f_6 q_1004f_7
+
+	   ** Create q_1004g to collapse q_1004g_1 q_1004g_2 q_1004g_3 q_1004g_4 q_1004g_5 q_1004g_6 q_1004g_7
 gen q_1004g = q_1004g_1 if q_1004g_2==. & q_1004g_3==. & q_1004g_4==. & q_1004g_5==. & q_1004g_6==. & q_1004g_7==.
 replace q_1004g = q_1004g_2 if q_1004g_1==. & q_1004g_3==. & q_1004g_4==. & q_1004g_5==. & q_1004g_6==. & q_1004g_7==.
 replace q_1004g = q_1004g_3 if q_1004g_1==. & q_1004g_2==. & q_1004g_4==. & q_1004g_5==. & q_1004g_6==. & q_1004g_7==.
@@ -745,7 +786,9 @@ replace q_1004g = q_1004g_6 if q_1004g_1==. & q_1004g_2==. & q_1004g_3==. & q_10
 replace q_1004g = q_1004g_7 if q_1004g_1==. & q_1004g_2==. & q_1004g_3==. & q_1004g_4==. & q_1004g_5==. & q_1004g_6==.
 rename (q_1004g)(m3_1004g)
 
-	   ** Create q_1004h to collapse q_1004h_1 q_1004h_2 q_1004h_3 q_1004h_4 q_1004h_5 q_1004h_6 q_1004h_7 (line 368 to 376)
+drop q_1004g_1 q_1004g_2 q_1004g_3 q_1004g_4 q_1004g_5 q_1004g_6 q_1004g_7
+
+	   ** Create q_1004h to collapse q_1004h_1 q_1004h_2 q_1004h_3 q_1004h_4 q_1004h_5 q_1004h_6 q_1004h_7 
 gen q_1004h = q_1004h_1 if q_1004h_2==. & q_1004h_3==. & q_1004h_4==. & q_1004h_5==. & q_1004h_6==. & q_1004h_7==.
 replace q_1004h = q_1004h_2 if q_1004h_1==. & q_1004h_3==. & q_1004h_4==. & q_1004h_5==. & q_1004h_6==. & q_1004h_7==.
 replace q_1004h = q_1004h_3 if q_1004h_1==. & q_1004h_2==. & q_1004h_4==. & q_1004h_5==. & q_1004h_6==. & q_1004h_7==.
@@ -754,6 +797,8 @@ replace q_1004h = q_1004h_5 if q_1004h_1==. & q_1004h_2==. & q_1004h_3==. & q_10
 replace q_1004h = q_1004h_6 if q_1004h_1==. & q_1004h_2==. & q_1004h_3==. & q_1004h_4==. & q_1004h_5==. & q_1004h_7==.
 replace q_1004h = q_1004h_7 if q_1004h_1==. & q_1004h_2==. & q_1004h_3==. & q_1004h_4==. & q_1004h_5==. & q_1004h_6==.
 rename (q_1004a q_1004h)(m3_1004a m3_1004h)
+
+drop q_1004h_1 q_1004h_2 q_1004h_3 q_1004h_4 q_1004h_5 q_1004h_6 q_1004h_7
 
 
 *===============================================================================
@@ -880,10 +925,11 @@ recode m3_303a m3_303b m3_baby1_gender m3_baby1_health m3_breastfeeding m3_baby1
 	   m3_baby1_born_alive2 m3_303c m3_baby2_gender m3_baby2_health m3_breastfeeding_2 ///
 	   m3_baby2_born_alive1 m3_baby2_born_alive2 m3_401 m3_consultation_1 m3_consultation_referral_1 ///
 	   m3_412a m3_412b m3_412c m3_412d m3_412e m3_412f m3_412g m3_412g_other m3_412i m3_consultation_2 ///
-	   m3_consultation_referral_2 m3_412a_2_ke m3_412b_2_ke m3_412c_2 m3_412d_2_ke m3_412e_2_ke m3_412f_2_ke m3_412g_2_ke ///
+	   m3_consultation_referral_2 m3_412a_2_ke m3_412b_2_ke m3_412c_2 m3_412d_2_ke m3_412e_2_ke ///
+	   m3_412f_2_ke m3_412g_2_ke ///
 	   m3_412i_2_ke m3_consultation_3 m3_consultation_referral_3 m3_412a_3_ke m3_412b_3_ke m3_412c_3 m3_412d_3_ke ///
-	   m3_412e_3_ke m3_412f_3_ke m3_412i_3_ke m3_501 m3_503 m3_502 m3_509 q_510 q_512_1 q_512_2 m3_513a m3_516 ///
-	   m3_517 m3_519 m3_601_hiv m3_601b m3_601c m3_602a q_603_note m3_603a m3_603b m3_603c m3_604a ///
+	   m3_412e_3_ke m3_412f_3_ke m3_412i_3_ke m3_501 m3_503 m3_502 m3_509 m3_510 m3_512_1_ke m3_512_2_ke ///
+	   m3_513a m3_516 m3_517 m3_519 m3_601_hiv m3_601b m3_601c m3_602a q_603_note m3_603a m3_603b m3_603c m3_604a ///
 	   m3_604b m3_605a m3_605b m3_606 m3_607 m3_608 m3_609 m3_610a m3_610b m3_611 m3_613 m3_615a ///
 	   m3_617a m3_618a_1 m3_618b_1 m3_618c_1 m3_620_1 m3_615b m3_617b m3_618a_2 m3_618b_2 m3_618c_2 ///
 	   m3_620_2 m3_619a m3_619b m3_619c m3_619d m3_619e m3_619g m3_619h m3_621b m3_622a m3_622c ///
