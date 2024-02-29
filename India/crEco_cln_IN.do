@@ -8,6 +8,13 @@ clear all
 
 *use "$in_data/Archive/Module_1_Baseline_Data.dta", clear
 u "$in_data/Module_1.dta", clear 
+
+* Adjusting to unique facility names
+drop a5
+merge 1:1 q103 using "$in_data/facility_29_02_24.dta"
+drop _merge 
+order a5, after(a4)
+
 *------------------------------------------------------------------------------*
 * Dataset was originally sent in upper cap
 foreach var of varlist _all  {
