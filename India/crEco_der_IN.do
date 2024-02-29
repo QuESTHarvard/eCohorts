@@ -12,17 +12,16 @@ u "$in_data_final/eco_m1_in.dta", clear
 * MODULE 1
 *------------------------------------------------------------------------------*
 	* SECTION A: META DATA
-	recode facility (8 9 10 40= 1 "JRP")(1 2 3 4 5 6 24 42=2 "JUP")(11 12 43=3 "JUS") ///
-	(14 15 23 41=4 "JRS") (20 39 47=5 "SUS")(26 45=6 "SRS")(25 27 28 29 30 31 32 33 18 34 44=7 "SRP") ///
-	(35 36 46=8 "SUP"), g (facility_type)
+	recode facility (8 9 10 = 1 "JRP")(1 2 3 4 5 6 24=2 "JUP")(11 12=3 "JUS")(14 15 23=4 "JRS") ///
+	(20 38 39 =5 "SUS")(26=6 "SRS")(25 27 28 29 30 31 32 33 18 34=7 "SRP")(35 36 37 = 8 "SUP"), g (facility_type)
  
-	recode facility_type (1 4=1 "Rural_Jodhpur") (2 3=2 "Urban_Jodhpur") ///
-	(6 7=3 "Sonipath_Rural") (8 5=4 "Sonopath_Urban"), gen (residence)
-	
+	recode facility_type (1 4=1 "Rural_Jodhpur") (2 3=2 "Urban_Jodhpur") (6 7=3 "Sonipath_Rural") ///
+	(8 5=4 "Sonopath_Urban"), gen (residence)
+		
 	order facility_type, after(facility)
 	
 	recode facility_type (1 4 6 7=0) (2/3 5 8  =1), g(urban)
-	lab def urban 1"urban" 0"rural"
+	lab def urban 1"urban" 0"rural" 
 	lab val urban urban
 	
 	recode facility (1/2 7/8=1) (3/6=2), g(facility_lvl)
