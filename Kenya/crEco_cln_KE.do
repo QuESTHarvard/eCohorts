@@ -142,7 +142,7 @@ drop user_experience_rpt_grp_count user_exp_idx_1 user_visit_reason_1 user_facil
 
 drop q_602_filter q_702_discrepancy days_callback_mod3 q202_oth_continue 
 
-drop registered_phone mobile_money_name mobile_prov phone_used phone_used_oth baby_list name_baby1 name_baby2 name_baby3 name_baby4 name_baby_alive1 name_baby_alive2 name_baby_alive3 name_baby_alive4 name_baby_bornalive1 name_baby_bornalive2 name_baby_bornalive3 name_baby_bornalive4 //*these vars should be dropped for de-identification purposes
+drop registered_phone mobile_money_name mobile_prov phone_used phone_used_oth baby_list name_baby1 name_baby2 name_baby3 name_baby4 name_baby_alive1 name_baby_alive2 name_baby_alive3 name_baby_alive4 name_baby_bornalive1 name_baby_bornalive2 name_baby_bornalive3 name_baby_bornalive4 baby_list_checks baby_repeat_checks_count baby_index_checks_1 baby_name_checks_1 baby_label_checks_1 baby_index_checks_2 baby_name_checks_2 baby_label_checks_2 //*these vars should be dropped for de-identification purposes
 
 drop unavailable_reschedule confirm_phone phone_noavail  reschedule_full_noavail
 
@@ -156,7 +156,7 @@ drop q_1004_rand_order_count q_1004_rand_1 q_1004_rand_2 q_1004_rand_3 q_1004_ra
 
 drop q_1102a_cost q_1102b_cost q_1102c_cost q_1102d_cost q_1102e_cost q_1102f_cost q_1102f_oth
 
-drop baby_repeat_issues_count baby_index_issues_1 baby_name_issues_1 baby_label_issues_1 baby_index_issues_2 baby_name_issues_2 baby_label_issues_2 q_801_note q_801a_calc q_801b_calc q_901r_oth baby_list_meds  baby_index_meds_1 baby_name_meds_1 baby_label_meds_1 baby_index_meds_2 baby_name_meds_2 baby_label_meds_2 date_mod4 q_603_note q_519_oth q_605c_oth still_pregnant section7_audio q_704_note trim_update gest_age_ad_less28 gest_age_today check_continue new_consultations_index_1 new_consultations_index_2 new_consultations_index_3
+drop baby_repeat_issues_count baby_index_issues_1 baby_name_issues_1 baby_label_issues_1 baby_index_issues_2 baby_name_issues_2 baby_label_issues_2 q_801_note q_801a_calc q_801b_calc q_901r_oth baby_list_meds  baby_index_meds_1 baby_name_meds_1 baby_label_meds_1 baby_index_meds_2 baby_name_meds_2 baby_label_meds_2 date_mod4 q_603_note q_519_oth q_605c_oth still_pregnant section7_audio q_704_note trim_update gest_age_ad_less28 gest_age_today check_continue new_consultations_index_1 new_consultations_index_2 new_consultations_index_3 baby_list_issues other_facility_before_repeat_ind other_facility_before_repeat_cou new_consultations_count
 
 drop q_314_1 q_314_2 // same data in "baby_death" vars
 
@@ -479,10 +479,15 @@ rename q_310a_1 m3_baby1_feeding
 rename q_310a_2 m3_baby2_feeding
 
 rename (q_310b_1 q_310b_2)(m3_breastfeeding m3_breastfeeding_2)
-rename (q_312_1 q_312a_1 q_312_2 q_312a_2 q_313a_1 q_313b_1 q_313b_unit_1 q_313a_2 q_313b_2 q_313b_unit_2 baby_death1 q_314_oth_1 baby_death2 q_314_oth_2 q_1201 ///
-        q_1202 q_1203 q_1204) (m3_baby1_born_alive1 m3_baby1_born_alive2 m3_baby2_born_alive1 m3_baby2_born_alive2 m3_313a_baby1 m3_313c_baby1 ///
-		m3_313d_baby1 m3_313a_baby2 m3_313c_baby2 m3_313d_baby2 m3_death_cause_baby1 m3_death_cause_baby1_other m3_death_cause_baby2 /// 
+
+rename (q_312_1 q_312a_1 q_312_2 q_312a_2 q_313a_1 q_313b_1 q_313b_unit_1 q_313a_2 q_313b_2 ///
+		q_313b_unit_2 baby_death1 q_314_oth_1 q_314_oth_2 q_1201 ///
+		q_1202 q_1203 q_1204) (m3_baby1_born_alive1 m3_baby1_born_alive2 m3_baby2_born_alive1 ///
+		m3_baby2_born_alive2 m3_313a_baby1 m3_313c_baby1 m3_313d_baby1 m3_313a_baby2 ///
+		m3_313c_baby2 m3_313d_baby2 m3_death_cause_baby1 m3_death_cause_baby1_other /// 
 		m3_death_cause_baby2_other m3_1201 m3_1202 m3_1203 m3_1204)
+		
+encode baby_death2, gen(m3_death_cause_baby2)		
 		
 rename (baby_death3 baby_death4) (m3_death_cause_baby3 m3_death_cause_baby4)
 
@@ -629,6 +634,7 @@ rename (q_601a q_601b q_601c q_602a q_602b q_603a q_603b q_603c q_604a q_604b q_
 rename (q_619a q_619b q_619c q_619d q_619e q_619f q_619g q_620_1 q_620_2 q_621b q_621c q_621c_unit q_622a q_622b q_622c)(m3_619a m3_619b m3_619c ///
         m3_619d m3_619e m3_619g m3_619h m3_620_1 m3_620_2 m3_621b m3_621c_ke m3_621c_ke_unit m3_622a m3_622b m3_622c)
 
+/* SS: 621a is a multiple checkbox field that has the answers in "yes" and "no" in 621a_1 - 621a_99		
        ** q_621a is a string variables: use replace if and then rename (line 219 to 226)		
 replace q_621a = "A relative or a friend" if q_621a == "1"
 replace q_621a = "A traditional birth attendant" if q_621a == "2"
@@ -637,7 +643,11 @@ replace q_621a = "A nurse" if q_621a == "4"
 replace q_621a = "A midwife" if q_621a == "5"
 replace q_621a = "Don´t know [DO NOT READ]" if q_621a == "-98"
 replace q_621a = "NR/RF" if q_621a == "-99"
-rename (q_621a)(m3_621a)
+*/
+
+rename (q_621a q_621a_1 q_621a_2 q_621a_3 q_621a_4 q_621a_5 q_621a_6 q_621a__98 q_621a__99) ////
+	   (m3_621a m3_621a_1_ke m3_621a_2_ke m3_621a_3_ke m3_621a_4_ke m3_621a_5_ke m3_621a_6_ke ///
+	   m3_621a_98_ke m3_621a_99_ke)
 
 rename (q_311a_1 q_311a_2 q_311b_1 q_311b_2 q_311c_1 q_311c_2 q_311d_1 q_311d_2 q_311e_1 q_311e_2 q_311f_1 q_311f_2 q_311g_1 q_311g_2)(m3_baby1_sleep ///
         m3_baby2_sleep m3_baby1_feed m3_baby2_feed m3_baby1_breath m3_baby2_breath m3_baby1_stool m3_baby2_stool m3_baby1_mood m3_baby2_mood ///
@@ -822,7 +832,7 @@ drop q_1004h_1 q_1004h_2 q_1004h_3 q_1004h_4 q_1004h_5 q_1004h_6 q_1004h_7
 
 
 *===============================================================================
-	
+
 	* STEP TWO: ADD VALUE LABELS (NA in KENYA, already labeled)
 	
 	
@@ -846,12 +856,14 @@ drop q_1004h_1 q_1004h_2 q_1004h_3 q_1004h_4 q_1004h_5 q_1004h_6 q_1004h_7
 	label define q515_2 20 "Kitui East", modify
 	label define q519_2 20 "Kitui East", modify
 	
-	
 	** MODULE 2:
+
 	
 	
+	
+/*		
 	** MODULE 3:
-label define m3_death_cause_baby2 0 "Not told anything" 1 "The baby was premature" 2 "An infection" 3 "A congenital abnormality" 4 "A birth injury or asphyxia" 5 "Difficulties breathing" 6 "Unexplained causes" 7 "You decided to have an abortion" -96 "Other (specify)"
+label define m3_death_cause_baby2 0 "Not told anything" 1 "The baby was premature" 2 "An infection" 3 "A congenital abnormality" 4 "A birth injury or asphyxia" 5 "Difficulties breathing" 6 "Unexplained causes" 7 "You decided to have an abortion" -96 "Other (specify)",modify
 label values m3_death_cause_baby2 m3_death_cause_baby2
 		
 label define m3_baby1_weight -98 "DO NOT KNOW"
@@ -867,6 +879,8 @@ label values m3_303a m3_303a
 
 label define m3_807 0 "Not at all" 1 "1" 2 "2" 3 "3" 4 "4" 5 "5" 6 "6" 7 "7" 8 "8" 9 "9" 10 "A great deal"
 label values m3_807 m3_807
+
+*/
 
 *===============================================================================
 * Generate new vars (KE only):
