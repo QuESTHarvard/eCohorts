@@ -142,21 +142,23 @@ drop user_experience_rpt_grp_count user_exp_idx_1 user_visit_reason_1 user_facil
 
 drop q_602_filter q_702_discrepancy days_callback_mod3 q202_oth_continue 
 
-drop registered_phone mobile_money_name mobile_prov phone_used phone_used_oth //*these vars should be dropped for de-identification purposes
+drop registered_phone mobile_money_name mobile_prov phone_used phone_used_oth baby_list name_baby1 name_baby2 name_baby3 name_baby4 name_baby_alive1 name_baby_alive2 name_baby_alive3 name_baby_alive4 name_baby_bornalive1 name_baby_bornalive2 name_baby_bornalive3 name_baby_bornalive4 //*these vars should be dropped for de-identification purposes
 
 drop unavailable_reschedule confirm_phone phone_noavail  reschedule_full_noavail
 
 drop baby_repeat_count baby_index_1 baby_index_2 survey1no_maternal_death1consent isvalidated
 
-drop v619 v620 v621 v622 v599 v600 v601 v602 v584 v585 v586 v587 v583 v581 v582 v520 v521 v522 v523 v519 v524 q_314_o_1 v238 submissiondate gest_age_ad_less20 q_804_o q_902_o_1 q_1104_o gest_age_ad v258 // SS: what are these variables from M3? The "v" variables are too long for stata (32 characters)
+drop v619 v620 v621 v622 v599 v600 v601 v602 v584 v585 v586 v587 v583 v581 v582 v520 v521 v522 v523 v519 v524  v238 v258 // SS: what are these variables from M3? The "v" variables are too long for stata (32 characters)
 
-drop q_307_3 q_307_4 q_307_5 q_320
+drop q_307_3 q_307_4 q_307_5 q_320 submissiondate gest_age_ad_less20 q_804_o q_902_o_1 q_1104_o q_314_o_1 gest_age_ad 
 
 drop q_1004_rand_order_count q_1004_rand_1 q_1004_rand_2 q_1004_rand_3 q_1004_rand_4 q_1004_rand_5 q_1004_rand_6 q_1004_rand_7 q_1004_order_count
 
 drop q_1102a_cost q_1102b_cost q_1102c_cost q_1102d_cost q_1102e_cost q_1102f_cost q_1102f_oth
 
-drop baby_repeat_issues_count baby_index_issues_1 baby_name_issues_1 baby_label_issues_1 baby_index_issues_2 baby_name_issues_2 baby_label_issues_2 q_801_note q_801a_calc q_801b_calc q_901r_oth baby_list_meds  baby_index_meds_1 baby_name_meds_1 baby_label_meds_1 baby_index_meds_2 baby_name_meds_2 baby_label_meds_2 date_mod4 q_603_note q_519_oth q_605c_oth still_pregnant section7_audio q_704_note 
+drop baby_repeat_issues_count baby_index_issues_1 baby_name_issues_1 baby_label_issues_1 baby_index_issues_2 baby_name_issues_2 baby_label_issues_2 q_801_note q_801a_calc q_801b_calc q_901r_oth baby_list_meds  baby_index_meds_1 baby_name_meds_1 baby_label_meds_1 baby_index_meds_2 baby_name_meds_2 baby_label_meds_2 date_mod4 q_603_note q_519_oth q_605c_oth still_pregnant section7_audio q_704_note trim_update gest_age_ad_less28 gest_age_today check_continue new_consultations_index_1 new_consultations_index_2 new_consultations_index_3
+
+drop q_314_1 q_314_2 // same data in "baby_death" vars
 
 
 *------------------------------------------------------------------------------*
@@ -477,12 +479,17 @@ rename q_310a_1 m3_baby1_feeding
 rename q_310a_2 m3_baby2_feeding
 
 rename (q_310b_1 q_310b_2)(m3_breastfeeding m3_breastfeeding_2)
-rename (q_312_1 q_312a_1 q_312_2 q_312a_2 q_313a_1 q_313b_1 q_313b_unit_1 q_313a_2 q_313b_2 q_313b_unit_2 q_314_1 q_314_oth_1 q_314_2 q_314_oth_2 q_1201 ///
+rename (q_312_1 q_312a_1 q_312_2 q_312a_2 q_313a_1 q_313b_1 q_313b_unit_1 q_313a_2 q_313b_2 q_313b_unit_2 baby_death1 q_314_oth_1 baby_death2 q_314_oth_2 q_1201 ///
         q_1202 q_1203 q_1204) (m3_baby1_born_alive1 m3_baby1_born_alive2 m3_baby2_born_alive1 m3_baby2_born_alive2 m3_313a_baby1 m3_313c_baby1 ///
 		m3_313d_baby1 m3_313a_baby2 m3_313c_baby2 m3_313d_baby2 m3_death_cause_baby1 m3_death_cause_baby1_other m3_death_cause_baby2 /// 
 		m3_death_cause_baby2_other m3_1201 m3_1202 m3_1203 m3_1204)
+		
+rename (baby_death3 baby_death4) (m3_death_cause_baby3 m3_death_cause_baby4)
 
 rename miscarriage m3_miscarriage		
+rename abortion m3_abortion
+rename alive_babies m3_num_alive_babies
+rename dead_babies m3_num_dead_babies
 		
 rename (q_401 q_402 q_403_1 q_404_1 q_405_oth_1)(m3_401 m3_402 m3_consultation_1 m3_consultation_referral_1 m3_consultation1_reason_other)	
 rename (q_403_2 q_404_2 q_405_oth_2)(m3_consultation_2 m3_consultation_referral_2 m3_consultation2_reason_other)
@@ -586,9 +593,9 @@ rename (q_504_n q_504_c q_504_r q_503_final q_506_pre q_506_pre_oth q_508 ///
 		m3_518_other m3_519 m3_519_other m3_520 m3_521_ke m3_521_ke_unit)
 		
 rename (q_518 q_518_0 q_518_1 q_518_2 q_518_3 q_518_4 q_518_5 q_518_6 q_518_7 q_518_8 ///
-		q_518_9 q_518__96 q_518__97 q_518__98 q_518__99) (m3_518 m3_518a_ke m3_518b_ke ///
+		q_518_9 q_518_10 q_518__96 q_518__97 q_518__98 q_518__99) (m3_518 m3_518a_ke m3_518b_ke ///
 		m3_518c_ke m3_518d_ke m3_518e_ke m3_518f_ke m3_518g_ke m3_518h_ke m3_518i_ke ///
-		m3_518j_ke m3_518_96_ke m3_518_97_ke m3_518_98_ke m3_518_99_ke)
+		m3_518j_ke m3_518k_ke m3_518_96_ke m3_518_97_ke m3_518_98_ke m3_518_99_ke)
 		
 		
 /* SS: q_518 answers are stored as 0/1 in q_518_0 - q_518_99
@@ -934,13 +941,15 @@ recode m2_attempt_relationship (4 = .d)
 recode m2_complete (5 = .r)
 
 	   ** MODULE 3:
+	   * Notes: m3_412g_2_other is the only "g other" that is string
 recode m3_303a m3_303b m3_baby1_gender m3_baby1_health m3_breastfeeding m3_baby1_born_alive1 ///
 	   m3_baby1_born_alive2 m3_303c m3_baby2_gender m3_baby2_health m3_breastfeeding_2 ///
 	   m3_baby2_born_alive1 m3_baby2_born_alive2 m3_401 m3_consultation_1 m3_consultation_referral_1 ///
-	   m3_412a m3_412b m3_412c m3_412d m3_412e m3_412f m3_412g m3_412g_other m3_412i m3_consultation_2 ///
-	   m3_consultation_referral_2 m3_412a_2_ke m3_412b_2_ke m3_412c_2 m3_412d_2_ke m3_412e_2_ke ///
-	   m3_412f_2_ke m3_412g_2_ke ///
-	   m3_412i_2_ke m3_consultation_3 m3_consultation_referral_3 m3_412a_3_ke m3_412b_3_ke m3_412c_3 m3_412d_3_ke ///
+	   m3_412a_1_ke m3_412b_1_ke m3_412c_1_ke m3_412d_1_ke m3_412e_1_ke m3_412f_1_ke m3_412g_1_ke ///
+	   m3_412g_1_other m3_412g_3_other m3_412i_1_ke ///
+	   m3_consultation_2 m3_consultation_referral_2 m3_412a_2_ke m3_412b_2_ke m3_412c_2 m3_412d_2_ke m3_412e_2_ke ///
+	   m3_412f_2_ke m3_412g_2_ke m3_412i_2_ke m3_consultation_3 m3_consultation_referral_3 m3_412a_3_ke ///
+	   m3_412b_3_ke m3_412c_3 m3_412d_3_ke ///
 	   m3_412e_3_ke m3_412f_3_ke m3_412i_3_ke m3_501 m3_503 m3_502 m3_509 m3_510 m3_512_1_ke m3_512_2_ke ///
 	   m3_513a m3_516 m3_517 m3_519 m3_601_hiv m3_601b m3_601c m3_602a m3_603a m3_603b m3_603c m3_604a ///
 	   m3_604b m3_605a m3_605b m3_606 m3_607 m3_608 m3_609 m3_610a m3_610b m3_611 m3_613 m3_615a ///
@@ -960,15 +969,16 @@ recode m3_303a m3_303b m3_baby1_gender m3_baby1_health m3_breastfeeding m3_baby1
 recode m3_303a m3_baby1_gender m3_baby1_weight m3_baby2_weight m3_baby1_born_alive1 ///
 	   m3_baby1_born_alive2 m3_baby2_gender m3_baby2_weight m3_baby2_born_alive1 ///
 	   m3_baby2_born_alive2 m3_401 m3_consultation_1 m3_consultation_referral_1 ///
-	   m3_412a m3_412b m3_412c m3_412d m3_412e m3_412f m3_412g m3_412g_other m3_412i ///
-	   m3_consultation_2 m3_consultation_referral_2 q_412a_2 q_412b_2 q_412c_2 q_412d_2 ///
-	   q_412e_2 q_412f_2 q_412g_2 q_412i_2 m3_consultation_3 m3_consultation_referral_3 ///
-	   q_412a_3 q_412b_3 q_412c_3 q_412d_3 q_412e_3 q_412f_3 q_412i_3 m3_501 m3_503 m3_502 ///
-	   q_510 q_512_1 q_512_2 m3_513a m3_517 m3_519 m3_601_hiv m3_601b m3_601c m3_602a m3_602b ///
-	   m3_603a m3_603b m3_603c m3_604a m3_604b m3_605a m3_605b m3_606 m3_607 m3_608 ///
+	   m3_412a_1_ke m3_412b_1_ke m3_412c_1_ke m3_412d_1_ke m3_412e_1_ke m3_412f_1_ke m3_412g_1_ke ///
+	   m3_412g_1_other m3_412g_3_other m3_412i_1_ke ///
+	   m3_consultation_2 m3_consultation_referral_2 m3_412a_2_ke m3_412b_2_ke m3_412c_2 m3_412d_2_ke ///
+	   m3_412e_2_ke m3_412f_2_ke m3_412g_2_ke m3_412i_2_ke m3_consultation_3 m3_consultation_referral_3 ///
+	   m3_412a_3_ke m3_412b_3_ke m3_412c_3 m3_412d_3_ke m3_412e_3_ke m3_412f_3_ke m3_412i_3_ke m3_501 ///
+	   m3_503 m3_502 m3_510 m3_512_1_ke m3_512_2_ke m3_513a m3_517 m3_519 m3_601_hiv m3_601b m3_601c ///
+	   m3_602a m3_602b m3_603a m3_603b m3_603c m3_604a m3_604b m3_605a m3_605b m3_606 m3_607 m3_608 ///
 	   m3_609 m3_610a m3_610b m3_611 m3_613 m3_615a m3_617a m3_618a_1 m3_618b_1 m3_618c_1 ///
 	   m3_620_1 m3_615b m3_617b m3_618a_2 m3_618b_2 m3_618c_2 m3_620_2 m3_619a m3_619b ///
-	   m3_619c m3_619d m3_619e m3_619g m3_619h m3_621b m3_622a m3_622c m3_701 m3_703 q_704_note ///
+	   m3_619c m3_619d m3_619e m3_619g m3_619h m3_621b m3_622a m3_622c m3_701 m3_703 ///
 	   m3_704a m3_704b m3_704c m3_704d m3_704e m3_704f m3_704g m3_705 m3_706 m3_708_oth_1 ///
 	   m3_710a m3_710b m3_802a m3_803a m3_803b m3_803c m3_803d m3_803e m3_803f ///
 	   m3_803g m3_803h m3_803j m3_805 m3_808a m3_809 m3_901a m3_901b m3_901c m3_901d m3_901e ///
@@ -1261,11 +1271,803 @@ recode m1_1308 (.  = .a) if m1_1306 == 1 | m1_1306 == .
 recode m1_1309 (.  = .a) if m1_1308 == 0 | m1_1308 == . | m1_1308 == .a	  
 
 *replace pref_language_other_ke = ".a" if pref_language_96_ke != 1
-
+/*
 	** MODULE 2 (EDIT FOR KE!!):
+	
+	
+recode m2_permission (. = .a) if m2_start == 0
+recode m2_maternal_death_reported (. = .a) if m2_permission==0
+
+recode m2_hiv_status (. = .a) if m2_maternal_death_reported == 1 | m1_708b == 1
+
+* SS: Fix in redcap? error says recode only allows numeric vars but it works below
+* recode date_of_maternal_death (. = .a) if maternal_death_reported == 0 | ///
+										  *maternal_death_reported == . | ///
+										  *maternal_death_reported == .a
+
+recode m2_maternal_death_learn (. = .a) if m2_maternal_death_reported == 0
+
+recode m2_maternal_death_learn_other (. = .a) if m2_maternal_death_learn == 1 | m2_maternal_death_learn == 2 | m2_maternal_death_learn == 3 | m2_maternal_death_learn == 4
+
+recode m2_201 m2_202 (. = .a) if m2_maternal_death_reported == 2 | m2_maternal_death_reported == 3
+
+* SS: fix
+recode m2_date_of_maternal_death_2 (. = .a) if m2_maternal_death_reported == 0 | ///
+											m2_maternal_death_reported == . | ///
+											m2_maternal_death_reported == .a
+
+recode m2_203a m2_203b m2_203c m2_203d m2_203e ///
+	   m2_203f m2_203g m2_203h m2_203i m2_204a ///
+	   m2_204b m2_204c m2_204d m2_204e m2_204f ///
+	   m2_204g m2_204h m2_204i m2_205a m2_205b ///
+	   m2_205c m2_205d m2_205e m2_205f m2_205g ///
+	   m2_205h m2_205i m2_206 m2_207 m2_208 m2_301 (. = .a) if m2_202 == 0
+
+recode m2_302 (. = .a) if m2_301 == 0 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
+
+recode m2_303a (. = .a) if m2_302 == . | m2_302 == .a
+
+recode m2_303b (. = .a) if m2_302 == . | m2_302 == 1 |  m2_302 == .a
+
+recode m2_303c (. = .a) if m2_302 == . | m2_302 == 1 | m2_302 == 2 | m2_302 == .a
+
+recode m2_303d (. = .a) if m2_302 == . | m2_302 == 1 | m2_302 == 2 | m2_302 == 3 | m2_302 == .a
+
+recode m2_303e (. = .a) if m2_302 == . | m2_302 == 1 | m2_302 == 2 | m2_302 == 3 | m2_302 == 4 | m2_302 == .a
+
+recode m2_304a (. = .a) if m2_303a == 1 | m2_303a == 2 | m2_302 == . | m2_302 == .a
+
+recode m2_304b (. = .a) if m2_303b == 1 | m2_303b == 2 | m2_302 == . | m2_302 == 1 | m2_302 == .a
+
+recode m2_304c (. = .a) if m2_302 == . | m2_302 == 1 | m2_302 ==2  | m2_303c == 1 | m2_303c == 2 | m2_302 == .a
+
+recode m2_304d (. = .a) if m2_302 == . | m2_302 == 1 | m2_302 == 2 | m2_302 == 3 | m2_303d == 1 | m2_303d == 2 | m2_302 == .a
+
+recode m2_304e (. = .a) if m2_302 == . | m2_302 == 1 | m2_302 == 2 | m2_302 == 3  | m2_302 == 4 | m2_303e == 1 | m2_303e == 2 | m2_302 == .a
+
+recode m2_305 (. = .a) if m2_302 == . | m2_302 == .a
+
+recode m2_306 (. = .a) if m2_305 == 1 | m2_305 == 98 | m2_305 == 99
+
+recode m2_306_1 (0 = .a) if m2_306 == 1 | m2_306 == 98 | m2_306 == 99
+recode m2_306_1 (0 = .) if m2_306 == 0
+
+recode m2_306_2 (0 = .a) if m2_306 == 1 | m2_306 == 98 | m2_306 == 99
+recode m2_306_2 (0 = .) if m2_306 == 0
+
+recode m2_306_3 (0 = .a) if m2_306 == 1 | m2_306 == 98 | m2_306 == 99
+recode m2_306_3 (0 = .) if m2_306 == 0
+
+recode m2_306_4 (0 = .a) if m2_306 == 1 | m2_306 == 98 | m2_306 == 99
+recode m2_306_4 (0 = .) if m2_306 == 0
+
+recode m2_306_5 (0 = .a) if m2_306 == 1 | m2_306 == 98 | m2_306 == 99
+recode m2_306_5 (0 = .) if m2_306 == 0
+
+recode m2_306_96 (0 = .a) if m2_306 == 1 | m2_306 == 98 | m2_306 == 99
+recode m2_306_96 (0 = .) if m2_306 == 0
+
+replace m2_307_other = ".a" if m2_306_96 ==1
+
+recode m2_308 (. = .a) if m2_302 == 1 | m2_302 == . | m2_302 == .a
+
+recode m2_309 (. = .a) if m2_308 == 1 | m2_308 == 98 | m2_308 == 99
+
+recode m2_308_1 (0 = .a) if m2_306 == 1 | m2_306 == 98 | m2_306 == 99
+recode m2_308_1 (0 = .) if m2_306 == 0
+
+recode m2_308_2 (0 = .a) if m2_309 == 1 | m2_309 == 98 | m2_309 == 99
+recode m2_308_2 (0 = .) if m2_309 == 0
+
+recode m2_308_3 (0 = .a) if m2_309 == 1 | m2_309 == 98 | m2_309 == 99
+recode m2_308_3 (0 = .) if m2_309 == 0
+
+recode m2_308_4 (0 = .a) if m2_309 == 1 | m2_309 == 98 | m2_309 == 99
+recode m2_308_4 (0 = .) if m2_309 == 0
+
+recode m2_308_5 (0 = .a) if m2_309 == 1 | m2_309 == 98 | m2_309 == 99
+recode m2_308_5 (0 = .) if m2_309 == 0
+
+recode m2_308_96 (0 = .a) if m2_309 == 1 | m2_309 == 98 | m2_309 == 99
+recode m2_308_96 (0 = .) if m2_309 == 0
+
+replace m2_310_other = ".a" if m2_308_96 ==1
+
+recode m2_311 (. = .a) if m2_302 == 1 | m2_302 == . | m2_302 == .a | m2_302 == 2
+
+recode m2_312 (. = .a) if m2_311 == 1 | m2_311 == 98 | m2_311 == 99
+
+recode m2_311_1 (0 = .a) if m2_312 == 1 | m2_312 == 98 | m2_312 == 99
+recode m2_311_1 (0 = .) if m2_312 == 0
+
+recode m2_311_2 (0 = .a) if m2_312 == 1 | m2_312 == 98 | m2_312 == 99
+recode m2_311_2 (0 = .) if m2_312 == 0
+
+recode m2_311_3 (0 = .a) if m2_312 == 1 | m2_312 == 98 | m2_312 == 99
+recode m2_311_3 (0 = .) if m2_312 == 0
+
+recode m2_311_4 (0 = .a) if m2_312 == 1 | m2_312 == 98 | m2_312 == 99
+recode m2_311_4 (0 = .) if m2_312 == 0
+
+recode m2_311_5 (0 = .a) if m2_312 == 1 | m2_312 == 98 | m2_312 == 99
+recode m2_311_5 (0 = .) if m2_312 == 0
+
+recode m2_311_96 (0 = .a) if m2_312 == 1 | m2_312 == 98 | m2_312 == 99
+recode m2_311_96 (0 = .) if m2_312 == 0
+
+replace m2_313_other = ".a" if m2_311_96 ==1
+
+recode m2_314 (. = .a) if m2_302 == 1 | m2_302 == . | m2_302 == .a | m2_302 == 2 | m2_302 == 3
+
+recode m2_315 (. = .a) if m2_314 == 1 | m2_314 == 98 | m2_314 == 99
+
+recode m2_314_1 (0 = .a) if m2_315 == 1 | m2_315 == 98 | m2_315 == 99
+recode m2_314_1 (0 = .) if m2_315 == 0
+
+recode m2_314_2 (0 = .a) if m2_315 == 1 | m2_315 == 98 | m2_315 == 99
+recode m2_314_2 (0 = .) if m2_315 == 0
+
+recode m2_314_3 (0 = .a) if m2_315 == 1 | m2_315 == 98 | m2_315 == 99
+recode m2_314_3 (0 = .) if m2_315 == 0
+
+recode m2_314_4 (0 = .a) if m2_315 == 1 | m2_315 == 98 | m2_315 == 99
+recode m2_314_4 (0 = .) if m2_315 == 0
+
+recode m2_314_5 (0 = .a) if m2_315 == 1 | m2_315 == 98 | m2_315 == 99
+recode m2_314_5 (0 = .) if m2_315 == 0
+
+recode m2_314_96 (0 = .a) if m2_315 == 1 | m2_315 == 98 | m2_315 == 99
+recode m2_314_96 (0 = .) if m2_315 == 0
+
+replace m2_316_other = ".a" if m2_314_96 ==1
+
+recode m2_317 (. = .a) if m2_302 == 1 | m2_302 == . | m2_302 == .a | m2_302 == 2 | m2_302 == 3 | m2_302 == 4
+recode m2_318 (. = .a) if m2_317 == 1 | m2_317 == 98 | m2_317 == 99
+
+recode m2_317_1 (0 = .a) if m2_318 == 1 | m2_318 == 98 | m2_318 == 99
+recode m2_317_1 (0 = .) if m2_318 == 0
+
+recode m2_317_2 (0 = .a) if m2_318 == 1 | m2_318 == 98 | m2_318 == 99
+recode m2_317_2 (0 = .) if m2_318 == 0
+
+recode m2_317_3 (0 = .a) if m2_318 == 1 | m2_318 == 98 | m2_318 == 99
+recode m2_317_3 (0 = .) if m2_318 == 0
+
+recode m2_317_4 (0 = .a) if m2_318 == 1 | m2_318 == 98 | m2_318 == 99
+recode m2_317_4 (0 = .) if m2_318 == 0
+
+recode m2_317_5 (0 = .a) if m2_318 == 1 | m2_318 == 98 | m2_318 == 99
+recode m2_317_5 (0 = .) if m2_318 == 0
+
+recode m2_317_96 (0 = .a) if m2_318 == 1 | m2_318 == 98 | m2_318 == 99
+recode m2_317_96 (0 = .) if m2_318 == 0
+
+replace m2_319_other = .a if m2_317_96 == 1
+
+recode m2_320_0 (0 = .a) if m2_202 == 0 | m2_202 == 98 | m2_202 == 99 | m2_301 == 1 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
+recode m2_320_0 (0 = .) if m2_202 == 1 & m2_301 == 0
+
+recode m2_320_1 (0 = .a) if m2_202 == 0 | m2_202 == 98 | m2_202 == 99 | m2_301 == 1 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
+recode m2_320_1 (0 = .) if m2_202 == 1 & m2_301 == 0
+
+recode m2_320_2 (0 = .a) if m2_202 == 0 | m2_202 == 98 | m2_202 == 99 | m2_301 == 1 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
+recode m2_320_2 (0 = .) if m2_202 == 1 & m2_301 == 0
+
+recode m2_320_3 (0 = .a) if m2_202 == 0 | m2_202 == 98 | m2_202 == 99 | m2_301 == 1 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
+recode m2_320_3 (0 = .) if m2_202 == 1 & m2_301 == 0
+
+recode m2_320_4 (0 = .a) if m2_202 == 0 | m2_202 == 98 | m2_202 == 99 | m2_301 == 1 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
+recode m2_320_4 (0 = .) if m2_202 == 1 & m2_301 == 0
+
+recode m2_320_5 (0 = .a) if m2_202 == 0 | m2_202 == 98 | m2_202 == 99 | m2_301 == 1 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
+recode m2_320_5 (0 = .) if m2_202 == 1 & m2_301 == 0
+
+recode m2_320_6 (0 = .a) if m2_202 == 0 | m2_202 == 98 | m2_202 == 99 | m2_301 == 1 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
+recode m2_320_6 (0 = .) if m2_202 == 1 & m2_301 == 0
+
+recode m2_320_7 (0 = .a) if m2_202 == 0 | m2_202 == 98 | m2_202 == 99 | m2_301 == 1 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
+recode m2_320_7 (0 = .) if m2_202 == 1 & m2_301 == 0
+
+recode m2_320_8 (0 = .a) if m2_202 == 0 | m2_202 == 98 | m2_202 == 99 | m2_301 == 1 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
+recode m2_320_8 (0 = .) if m2_202 == 1 & m2_301 == 0
+
+recode m2_320_9 (0 = .a) if m2_202 == 0 | m2_202 == 98 | m2_202 == 99 | m2_301 == 1 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
+recode m2_320_9 (0 = .) if m2_202 == 1 & m2_301 == 0
+
+recode m2_320_10 (0 = .a) if m2_202 == 0 | m2_202 == 98 | m2_202 == 99 | m2_301 == 1 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
+recode m2_320_10 (0 = .) if m2_202 == 1 & m2_301 == 0
+
+recode m2_320_11 (0 = .a) if m2_202 == 0 | m2_202 == 98 | m2_202 == 99 | m2_301 == 1 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
+recode m2_320_11 (0 = .) if m2_202 == 1 & m2_301 == 0
+
+recode m2_320_96 (0 = .a) if m2_202 == 0 | m2_202 == 98 | m2_202 == 99 | m2_301 == 1 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
+recode m2_320_96 (0 = .) if m2_202 == 1 & m2_301 == 0
+
+recode m2_320_99 (0 = .a) if m2_202 == 0 | m2_202 == 98 | m2_202 == 99 | m2_301 == 1 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
+recode m2_320_99 (0 = .) if m2_202 == 1 & m2_301 == 0
+
+recode m2_321 (. = .a) if m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a
+                       
+recode m2_401 (. = .a) if (m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a) | (m2_302 == . | m2_302 == .a)
+
+recode m2_402 (. = .a) if (m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a) | (m2_302 == 1 | m2_302 == . | m2_302 == .a)				   
+
+recode m2_403 (. = .a) if (m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a) | (m2_302 == 1 | m2_302 == . | m2_302 == .a | m2_302 == 2)	
+
+recode m2_404 (. = .a) if (m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a) | (m2_302 == 1 | m2_302 == . | m2_302 == .a | m2_302 == 2 | m2_302 == 3)			   
+recode m2_405 (. = .a) if (m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a) | (m2_302 == 1 | m2_302 == . | m2_302 == .a | m2_302 == 2 | m2_302 == 3 | m2_302 == 4)
+
+recode m2_501a (. = .a) if m2_301 == 0 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
+recode m2_501b (. = .a) if m2_301 == 0 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
+recode m2_501c (. = .a) if m2_301 == 0 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
+recode m2_501d (. = .a) if m2_301 == 0 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
+recode m2_501e (. = .a) if m2_301 == 0 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
+recode m2_501f (. = .a) if m2_301 == 0 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
+recode m2_501g (. = .a) if m2_301 == 0 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
+
+recode m2_502 (. = .a) if m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a | m2_301 == 0 | m2_301 == 98 | m2_301 == 99  | m2_301 == . | m2_301 == .a
+
+recode m2_503a (. = .a) if m2_502 == 0 | m2_502 == 98 | m2_502 == 99
+recode m2_503b (. = .a) if m2_502 == 0 | m2_502 == 98 | m2_502 == 99
+recode m2_503c (. = .a) if m2_502 == 0 | m2_502 == 98 | m2_502 == 99
+recode m2_503d (. = .a) if m2_502 == 0 | m2_502 == 98 | m2_502 == 99
+recode m2_503e (. = .a) if m2_502 == 0 | m2_502 == 98 | m2_502 == 99
+recode m2_503f (. = .a) if m2_502 == 0 | m2_502 == 98 | m2_502 == 99
+recode m2_504 (. = .a) if m2_502 == 0 | m2_502 == 98 | m2_502 == 99
+
+recode m2_505a (. = .a) if m2_503a == 0 | m2_503a == 98 | m2_503a == 99
+recode m2_505b (. = .a) if m2_503b == 0 | m2_503b == 98 | m2_503b == 99
+recode m2_506c (. = .a) if m2_503c == 0 | m2_503c == 98 | m2_503c == 99
+recode m2_505d (. = .a) if m2_503d == 0 | m2_503d == 98 | m2_503d == 99
+recode m2_505e (. = .a) if m2_503e == 0 | m2_503e == 98 | m2_503e == 99
+recode m2_505f (. = .a) if m2_503f == 0 | m2_503f == 98 | m2_503f == 99
+*recode m2_505g (. = .a) if m2_504 == 0 | m2_504 == 98 | m2_504 == 99
+
+recode m2_506a (. = .a) if m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a | m2_301 == 0 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
+
+recode m2_506b (. = .a) if m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a | m2_301 == 0 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
+
+recode m2_506c (. = .a) if m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a | m2_301 == 0 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
+
+recode m2_506d (. = .a) if m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a | m2_301 == 0 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
+
+recode m2_507 (. = .a) if m2_203a == 0 & m2_203b == 0 & m2_203c == 0 & m2_203d == 0 & m2_203e == 0 & m2_203f == 0 & m2_203g == 0 & m2_203h == 0 & m2_203i == 0 | m2_301 == 0 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
+
+*double check this:
+recode m2_508a (. = .a) if (m2_205a+m2_205b) < 3
+
+recode m2_508b_number (. = .a) if m2_508a == 0 | m2_508a == 98 | m2_508a == 99  | m2_508a == . | m2_508a == .a 
+
+recode m2_508b_last (. = .a) if m2_508b_number == 0 | m2_508b_number == 98 | m2_508b_number == 99 | m2_508b_number == . | m2_508b_number == .a  
+
+recode m2_508c (. = .a) if m2_508b_number == 0 | m2_508b_number == 98 | m2_508b_number == 99 | m2_508b_number == . | m2_508b_number == .a
+ 
+recode m2_508d (. = .a) if m2_508c == 0 | m2_508c == 98 | m2_508c == 99 | m2_508c == . | m2_508c == .a
+
+recode m2_509a (. = .a) if m2_301 == 0 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
+recode m2_509b (. = .a) if m2_301 == 0 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
+recode m2_509c (. = .a) if m2_301 == 0 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
+
+recode m2_601a (. = .a) if m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a
+recode m2_601b (. = .a) if m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a
+recode m2_601c (. = .a) if m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a
+recode m2_601c (. = .a) if m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a
+recode m2_601d (. = .a) if m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a
+recode m2_601e (. = .a) if m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a
+recode m2_601f (. = .a) if m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a
+recode m2_601g (. = .a) if m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a
+recode m2_601h (. = .a) if m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a
+recode m2_601i (. = .a) if m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a
+recode m2_601j (. = .a) if m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a
+recode m2_601l (. = .a) if m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a
+recode m2_601m (. = .a) if m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a
+recode m2_601n (. = .a) if m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a
+
+recode m2_602a (. = .a) if (m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a )| ///
+						  (m2_601a !=1 & m2_601b !=1 & m2_601c !=1 & m2_601d !=1 & m2_601e !=1 & ///
+						  m2_601f !=1 & m2_601g !=1 & m2_601h !=1 & m2_601i !=1 & m2_601j !=1 & ///
+						  m2_601k !=1 & m2_601l !=1 & m2_601m !=1 & m2_601n !=1)
+						  
+recode m2_602b (. = .a) if m2_602a == 0 | m2_602a == 98 | m2_602a == 99	| m2_602a == . | m2_602a == .a
+
+recode m2_603 (. = .a) if m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a 
+recode m2_604 (. = .a) if m2_603 == 2 | m2_603 == 3 | m2_603 == . | m2_603 == .a 
+			
+recode m2_701 (. = .a) if m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a | m2_301 == 0 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
+
+recode m2_702a (. = .a) if m2_701 == 0 | m2_701 == 98 | m2_701 == 99 | m2_701 ==. | m2_701 == .a
+recode m2_702a_other (. = .a) if m2_702a !=1
+
+recode m2_702b (. = .a) if m2_701 == 0 | m2_701 == 98 | m2_701 == 99 | m2_701 ==. | m2_701 == .a
+recode m2_702b_other (. = .a) if m2_702b !=1
+
+recode m2_702c (. = .a) if m2_701 == 0 | m2_701 == 98 | m2_701 == 99 | m2_701 ==. | m2_701 == .a
+recode m2_702c_other (. = .a) if m2_702c !=1
+
+recode m2_702d (. = .a) if m2_701 == 0 | m2_701 == 98 | m2_701 == 99 | m2_701 ==. | m2_701 == .a
+recode m2_702d_other (. = .a) if m2_702d !=1
+
+recode m2_702e (. = .a) if m2_701 == 0 | m2_701 == 98 | m2_701 == 99 | m2_701 ==. | m2_701 == .a
+recode m2_702e_other (. = .a) if m2_702e !=1
+
+* SS: Ask Kate if we should add 98 into branching logic for 704_other
+recode m2_703 m2_704 (. = .a) if m2_701 == 0 | m2_701 == 98 | m2_701 == 99 | m2_701 ==. | m2_701 == .a
+
+recode m2_704_other (. = .a) if m2_704 != 1 
+
+recode m2_705_1 (0 = .a) if m2_701 == 0 | m2_701 == 98 | m2_701 == 99 | m2_701 ==. | m2_701 == .a
+recode m2_705_1 (0 = .) if m2_701 == 1
+
+recode m2_705_2 (0 = .a) if m2_701 == 0 | m2_701 == 98 | m2_701 == 99 | m2_701 ==. | m2_701 == .a
+recode m2_705_2 (0 = .) if m2_701 == 1
+
+recode m2_705_3 (0 = .a) if m2_701 == 0 | m2_701 == 98 | m2_701 == 99 | m2_701 ==. | m2_701 == .a
+recode m2_705_3 (0 = .) if m2_701 == 1
+
+recode m2_705_4 (0 = .a) if m2_701 == 0 | m2_701 == 98 | m2_701 == 99 | m2_701 ==. | m2_701 == .a
+recode m2_705_4 (0 = .) if m2_701 == 1
+
+recode m2_705_5 (0 = .a) if m2_701 == 0 | m2_701 == 98 | m2_701 == 99 | m2_701 ==. | m2_701 == .a
+recode m2_705_5 (0 = .) if m2_701 == 1
+
+recode m2_705_6 (0 = .a) if m2_701 == 0 | m2_701 == 98 | m2_701 == 99 | m2_701 ==. | m2_701 == .a
+recode m2_705_6 (0 = .) if m2_701 == 1
+
+recode m2_705_96 (0 = .a) if m2_701 == 0 | m2_701 == 98 | m2_701 == 99 | m2_701 ==. | m2_701 == .a
+recode m2_705_96 (0 = .) if m2_701 == 1
+
+recode m2_interview_inturrupt (. = .a) if m2_permission == 0 | m2_permission == . | m2_permission == .a | m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a 
+ 
+recode m2_interview_restarted (. = .a) if m2_permission == 0 | m2_permission == . | m2_permission == .a | m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a  | m2_interview_inturrupt == 0 | m2_interview_inturrupt == . | m2_interview_inturrupt == .a
+
+recode m2_int_duration (. = .a) if m2_permission == 0 | m2_permission == . | m2_permission == .a | m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a 
+
+recode m2_endstatus (. = .a) if m2_endtime == ""
 	
 	** MODULE 3 (EDIT FOR KE!!):
 
+recode m3_permission (. = .a) if m3_start_p1 !=1
+recode m3_date recm3_time m3_birth_or_ended m3_303a m3_ga (. = .a) if m3_permission !=1 // SS 2-21: removed m3_ga1 m3_ga2
+
+recode m3_303b (. = .a) if m3_303a == . | m3_303a == .a
+recode m3_303c (. = .a) if m3_303a == 1 | m3_303a == . | m3_303a == .a | m3_303a == .d | m3_303a == .r
+recode m3_303d (. = .a) if m3_303a == 1 |  m3_303a == 2 | m3_303a == . | m3_303a == .a | m3_303a == .d | m3_303a == .r
+
+replace m3_baby1_name = ".a" if m3_303b == . | m3_303b == .a | m3_303b == .r // branching logic was incorrect in redcap
+replace m3_baby2_name = ".a" if m3_303c == . | m3_303c == .a
+replace m3_baby3_name = ".a" if m3_303d == . | m3_303d == .a
+
+recode m3_baby1_gender (. = .a) if m3_303b !=1
+recode m3_baby2_gender (. = .a) if m3_303c !=1
+recode m3_baby3_gender (. = .a) if m3_303d !=1
+
+recode m3_baby1_age (. = .a) if m3_303b !=1 & m3_303c !=1 & m3_303d !=1
+
+recode m3_baby1_weight (. = .a) if m3_303b !=1
+recode m3_baby2_weight (. = .a) if m3_303c !=1
+recode m3_baby3_weight (. = .a) if m3_303d !=1
+
+recode m3_baby1_size (. = .a) if m3_303b !=1
+recode m3_baby2_size (. = .a) if m3_303c !=1
+recode m3_baby3_size (. = .a) if m3_303d !=1
+
+recode m3_baby1_health (. = .a) if m3_303b !=1 
+recode m3_baby1_health (. = .a) if m3_303c !=1
+recode m3_baby1_health (. = .a) if m3_303d !=1
+
+recode m3_baby1_feed_a m3_baby1_feed_b m3_baby1_feed_c m3_baby1_feed_d m3_baby1_feed_e ///
+	   m3_baby1_feed_f m3_baby1_feed_g m3_baby1_feed_96 m3_baby1_feed_99 m3_baby1_feed_998 ///
+	   m3_baby1_feed_999 m3_baby1_feed_888 (. = .a) if m3_303b !=1
+
+replace m3_baby1_feed_other = ".a" if m3_baby1_feed_96 != 1
+
+recode m3_baby2_feed_a m3_baby2_feed_b m3_baby2_feed_c m3_baby2_feed_d m3_baby2_feed_e ///
+	   m3_baby2_feed_f m3_baby2_feed_g m3_baby2_feed_96 m3_baby2_feed_99 m3_baby2_feed_998 ///
+	   m3_baby2_feed_999 m3_baby2_feed_888 (. = .a) if m3_303c !=1
+
+replace m3_baby2_feed_other = ".a" if m3_baby2_feed_96 != 1 
+
+recode m3_baby3_feed_a m3_baby3_feed_b m3_baby3_feed_c m3_baby3_feed_d m3_baby3_feed_e ///
+	   m3_baby3_feed_f m3_baby3_feed_g m3_baby3_feed_96 m3_baby3_feed_99 m3_baby3_feed_998 ///
+	   m3_baby3_feed_999 m3_baby3_feed_888 (. = .a) if m3_303d !=1
+
+recode m3_baby3_feed_other (. = .a) if m3_baby3_feed_96 != 1 // SS: why is this numeric? will probably have to change to string once data is entered
+
+recode m3_breastfeeding (. = .a) if (m3_303b !=1 & m3_303c !=1 & m3_303d !=1) | (m3_baby1_feed_a !=1 & m3_baby2_feed_a !=1 & m3_baby3_feed_a !=1) // SS: double check
+
+recode m3_breastfeeding_fx_et (. = .a) if (m3_303b !=1 & m3_303c !=1 & m3_303d !=1) | (m3_baby1_feed_a !=1 & m3_baby2_feed_a !=1 & m3_baby3_feed_a !=1) // SS: double check
+
+recode m3_baby1_born_alive (. = .a) if m3_303b !=0
+
+recode m3_202 (. = .a) if m3_303b !=0 & m3_303c !=0 & m3_303d !=0
+
+recode m3_baby2_born_alive (. = .a) if m3_303c !=0
+
+recode m3_baby3_born_alive (. = .a) if m3_303d !=0
+
+recode m3_313a_baby1 (. = .a) if m3_303b !=0 | m3_baby1_born_alive !=0
+
+recode recm3_313b_baby1 (. = .a) if m3_303b !=0 | m3_baby1_born_alive !=0
+
+recode m3_313a_baby2 (. = .a) if m3_303c !=0 | m3_baby2_born_alive !=0
+
+recode m3_313b_baby2 (. = .a) if m3_303c !=0 | m3_baby2_born_alive !=0
+
+recode m3_313a_baby3 (. = .a) if m3_303d !=0 | m3_baby3_born_alive !=0
+
+recode m3_313b_baby3 (. = .a) if m3_303d !=0 | m3_baby3_born_alive !=0
+
+recode m3_death_cause_baby1_a m3_death_cause_baby1_b m3_death_cause_baby1_c m3_death_cause_baby1_d ///
+	   m3_death_cause_baby1_e m3_death_cause_baby1_f m3_death_cause_baby1_g m3_death_cause_baby1_96 ///
+	   m3_death_cause_baby1_998 m3_death_cause_baby1_999 m3_death_cause_baby1_888 (. = .a) if ///
+	   m3_303b !=0 | m3_202 == 4 | m3_202 == 5
+
+replace m3_death_cause_baby1_other = ".a" if m3_death_cause_baby1_96 !=1	   
+	   
+recode m3_death_cause_baby2_a m3_death_cause_baby2_b m3_death_cause_baby2_c m3_death_cause_baby2_d ///
+	   m3_death_cause_baby2_e m3_death_cause_baby2_f m3_death_cause_baby2_g m3_death_cause_baby2_96 ///
+	   m3_death_cause_baby2_998 m3_death_cause_baby2_999 m3_death_cause_baby2_888 (. = .a) if ///
+	   m3_303c !=0 | m3_202 == 4 | m3_202 == 5
+
+*replace m3_death_cause_baby2_other = ".a" if m3_death_cause_baby2_96 !=1  // numeric because of 0 obs
+
+recode m3_death_cause_baby3_a m3_death_cause_baby3_b m3_death_cause_baby3_c m3_death_cause_baby3_d ///
+	   m3_death_cause_baby3_e m3_death_cause_baby3_f m3_death_cause_baby3_g m3_death_cause_baby3_96 ///
+	   m3_death_cause_baby3_998 m3_death_cause_baby3_999 m3_death_cause_baby3_888 (. = .a) if ///
+	   m3_303d !=0 | m3_202 == 4 | m3_202 == 5
+
+*replace m3_death_cause_baby3_other = ".a" if m3_death_cause_baby3_96 !=1  // numeric because of 0 obs	   
+
+recode m3_1201 (. = .a) if m3_202 !=4
+
+recode m3_1202 (. = .a) if m3_1201 !=1
+
+recode m3_1203 (. = .a) if m3_202 !=5
+
+recode m3_1204 (. = .a) if m3_1203 !=1
+
+recode m3_401 (. = .a) if (m3_303b !=1 & m3_303c !=1 & m3_303d !=1) | m3_202 !=3 | ///
+						  (m3_baby1_born_alive != 1 & m3_baby2_born_alive !=1 & m3_baby3_born_alive !=1)
+
+recode m3_402 (. = .a) if m3_401 !=1 & m3_consultation_3 !=1
+
+recode m3_consultation_1 (. = .a) if m3_402 !=1 & m3_402 !=2 & m3_402 !=3 & m3_402 !=4 & m3_402 !=5
+						  
+recode m3_consultation_referral_1 (. = .a) if m3_consultation_1 !=0						  
+
+recode m3_consultation1_reason_a m3_consultation1_reason_b m3_consultation1_reason_c ///
+	   m3_consultation1_reason_d m3_consultation1_reason_e m3_consultation1_reason_96 ///
+	   m3_consultation1_reason_998 m3_consultation1_reason_999 m3_consultation1_reason_888 ///
+	   (. = .a) if m3_consultation_referral_1 !=0
+	   
+replace m3_consultation1_reason_other = ".a" if m3_consultation1_reason_96 !=1
+
+recode m3_consultation_2 (. = .a) if m3_402 !=2 & m3_402 !=3 & m3_402 !=4 & m3_402 !=5
+
+recode m3_consultation_referral_2 (. = .a) if m3_consultation_2 !=0
+	   
+recode m3_consultation2_reason_a m3_consultation2_reason_b m3_consultation2_reason_c ///
+	   m3_consultation2_reason_d m3_consultation2_reason_e m3_consultation2_reason_96 ///
+	   m3_consultation2_reason_998 m3_consultation2_reason_999 m3_consultation2_reason_888 ///
+	   (. = .a) if m3_consultation_referral_2 !=0
+	   
+replace m3_consultation2_reason_other = ".a" if m3_consultation2_reason_96 !=1	   
+	   
+recode m3_consultation_3 (. = .a) if m3_402 !=3 & m3_402 !=4 & m3_402 !=5
+
+recode m3_consultation_referral_3 (. = .a) if m3_consultation_3 !=0
+	   
+recode m3_consultation3_reason_a m3_consultation3_reason_b m3_consultation3_reason_c ///
+	   m3_consultation3_reason_d m3_consultation3_reason_e m3_consultation3_reason_96 ///
+	   m3_consultation3_reason_998 m3_consultation3_reason_999 m3_consultation3_reason_888 ///
+	   (. = .a)	if m3_consultation_referral_3 !=0
+	   
+replace m3_consultation3_reason_other = ".a" if m3_consultation3_reason_96 !=1		
+
+recode m3_consultation_4 (. = .a) if m3_402 !=4 & m3_402 !=5
+
+recode m3_consultation_referral_4 (. = .a) if m3_consultation_4 !=0
+
+recode m3_consultation4_reason_a m3_consultation4_reason_b m3_consultation4_reason_c ///
+	   m3_consultation4_reason_d m3_consultation4_reason_e m3_consultation4_reason_96 ///
+	   m3_consultation4_reason_998 m3_consultation4_reason_999 m3_consultation4_reason_888 ///
+	   (. = .a) if m3_consultation_referral_4 !=0
+	   
+replace m3_consultation4_reason_other = ".a" if m3_consultation4_reason_96 !=1	
+
+recode m3_consultation_5 (. = .a) if m3_402 !=5
+
+recode m3_consultation_referral_5 (. = .a) if m3_consultation_5 !=0 
+
+recode m3_consultation5_reason_a m3_consultation5_reason_b m3_consultation5_reason_c ///
+	   m3_consultation5_reason_d m3_consultation5_reason_e m3_consultation5_reason_96 ///
+	   m3_consultation5_reason_998 m3_consultation5_reason_999 m3_consultation5_reason_888 ///
+	   (. = .a) if m3_consultation_referral_5 !=0
+	   
+*replace m3_consultation5_reason_other = ".a" if m3_consultation5_reason_96 !=1 // numeric because of 0 obs
+
+recode m3_412a m3_412b m3_412c m3_412d m3_412e m3_412f m3_412g (. =.a) if m3_401 !=1
+
+replace m3_412g_other = ".a" if m3_412g !=1
+
+recode m3_501 (. = .a) if (m3_303b !=1 & m3_303c !=1 & m3_303d !=1) & (m3_baby1_born_alive !=1 & m3_baby2_born_alive !=1 & m3_baby3_born_alive !=1) & m3_202 !=3
+
+recode m3_502 m3_503 (. = .a) if m3_501 !=1
+
+replace m3_503_inside_zone_other = ".a" if m3_503 !=96
+
+replace m3_503_outside_zone_other = ".a" if m3_503 !=97
+
+replace m3_504a = ".a" if m3_503 !=97
+
+replace m3_504b= ".a" if m3_503 !=97
+
+recode m3_505a (. = .a) if m3_501 !=1
+
+recode m3_505b (. = .a) if m3_505a !=1
+
+recode m3_506a recm3_506b recm3_507 (. = .a) if m3_501 !=1
+
+recode m3_506b_unknown (. = .a) if m3_501 !=1 & recm3_506b != . | recm3_506b != .a
+
+recode m3_507_unknown (. = .a) if m3_501 !=1 & recm3_507 != . | recm3_507 != .a
+
+recode m3_508 m3_509 (. = .a) if m3_501 !=0
+
+replace m3_509_other = ".a" if m3_509 !=96
+
+recode m3_510 (. = .a) if m3_501 !=1
+
+recode m3_511 m3_512 (. = .a) if m3_510 !=1
+
+*replace m3_512_outside_zone_other = ".a" if m3_512 !=97 // numeric because of 0 obs
+
+recode m3_513a (. = .a) if m3_510 !=1
+
+replace m3_513_inside_zone_other = ".a" if m3_513a != 96
+
+replace m3_513_outside_zone_other = ".a" if m3_513a != 97
+
+replace m3_513b1 = ".a" if m3_513a != 97
+
+replace m3_513b2 = ".a" if m3_513a !=97
+
+recode recm3_514 (. = .a) if m3_510 !=1
+
+recode m3_514_unknown (. = .a) if m3_510 !=1 | (recm3_514 != . | recm3_514 !=.a)
+
+recode m3_515 (. = .a) if m3_510 !=1 
+
+recode m3_516 (. = .a) if m3_515 !=4 & m3_515 !=5
+
+replace m3_516_other = ".a" if m3_516 !=96 
+
+recode m3_517 (. = .a) if m3_515 !=2 & m3_515 !=3
+
+recode m3_518 (. = .a) if m3_517 !=1
+
+replace m3_518_other_complications = ".a" if m3_518 !=96
+
+replace m3_518_other = ".a" if m3_518 !=97
+
+recode m3_519 (. = .a) if m3_510 !=0
+
+replace m3_519_other = ".a" if m3_519 !=96 
+
+recode recm3_520 (. = .a) if m3_501 !=1 & m3_515 !=1
+
+recode m3_520_unknown (. = .a) if m3_501 !=1 & (recm3_520 !=. | recm3_520 !=.a)
+
+recode m3_521 (. = .a) if m3_501 !=1
+
+recode m3_521_unknown (. = .a) if m3_501 !=1 | (m3_521 !=. | m3_521 !=.a)
+
+*recode m3_p1_date_of_rescheduled m3_p1_time_of_rescheduled (. = .a) if m3_attempt_outcome !=6
+
+recode m3_permission_p2 (. = .a) if m3_start_p2 !=1
+
+recode m3_date_p2 recm3_time_p2 (. = .a) if m3_permission_p2 !=1
+
+recode m3_201a (. = .a) if m3_permission_p2 !=1 | m3_303b !=1
+
+recode m3_201b (. = .a) if m3_permission_p2 !=1 | m3_303c !=1
+
+recode m3_201c (. = .a) if m3_permission_p2 !=1 | m3_303d !=1
+
+recode m3_601a m3_601b m3_601c m3_602a m3_603a m3_603b m3_603c m3_603d ///
+	   m3_604a m3_604b m3_605a (. = .a) if m3_permission_p2 !=1 | m3_501 !=1
+
+recode m3_602b (. = .a) if m3_permission_p2 !=1 | m3_501 !=1 | (m3_602a !=0 & m3_602a !=2 & ///
+						   m3_602a !=98 & m3_602a !=99)
+
+recode m3_605b m3_605c_a m3_605c_b m3_605c_c m3_605c_d m3_605c_96 m3_605c_99 ///
+	   m3_605c_998 m3_605c_999 m3_605c_888 (. = .a) if m3_605a !=1
+
+replace m3_605c_other = ".a" if m3_605c_96 !=1
+
+recode m3_606 m3_607 (. = .a) if m3_605a !=0
+
+recode m3_607a_et m3_607b_et m3_607c_et m3_607d_et m3_607e_et m3_608 ///
+	   (. = .a) if m3_permission_p2 !=1 | m3_501 !=1
+
+recode m3_609 m3_610a m3_611 m3_612 (. = .a) if m3_permission_p2 !=1 | m3_501 !=1 | ///
+	  (m3_303b !=1 & m3_303c !=1 & m3_303d !=1 & m3_baby1_born_alive !=1 & ///
+	  m3_baby2_born_alive !=1 & m3_baby3_born_alive !=1)
+	  
+recode m3_610b (. = .a) if m3_610a !=1
+
+recode m3_613 (. = .a) if m3_permission_p2 !=1 | m3_501 !=1	  
+
+recode m3_614 (. = .a) if m3_613 !=1
+
+recode m3_615a (. = .a) if m3_permission_p2 !=1 | m3_501 !=1 | (m3_201a !=1 & m3_baby1_born_alive !=1)
+
+recode m3_615b (. = .a) if m3_permission_p2 !=1 | m3_501 !=1 | (m3_201b !=1 & m3_baby2_born_alive !=1)
+
+recode m3_615c (. = .a) if m3_permission_p2 !=1 | m3_501 !=1 | (m3_201c !=1 & m3_baby3_born_alive !=1)
+
+recode m3_616a (. = .a) if m3_615a !=1
+
+recode m3_616b (. = .a) if m3_615b !=1
+
+recode m3_616c (. = .a) if m3_615c !=1
+
+recode m3_617a (. = .a) if m3_permission_p2 !=1 | m3_501 !=1 | (m3_201a !=1 & m3_baby1_born_alive !=1)
+
+recode m3_617b (. = .a) if m3_permission_p2 !=1 | m3_501 !=1 | (m3_201b !=1 & m3_baby2_born_alive !=1)
+
+recode m3_617c (. = .a) if m3_permission_p2 !=1 | m3_501 !=1 | (m3_201c !=1 & m3_baby3_born_alive !=1)
+
+recode m3_617d_et (. = .a) if m3_permission_p2 !=1 | m3_501 !=1 | (m3_201a !=1 & m3_baby1_born_alive !=1)
+
+recode m3_617e_et (. = .a) if m3_permission_p2 !=1 | m3_501 !=1 | (m3_201b !=1 & m3_baby2_born_alive !=1)
+
+recode m3_617f_et (. = .a) if m3_permission_p2 !=1 | m3_501 !=1 | (m3_201c !=1 & m3_baby3_born_alive !=1)
+
+recode m3_617g_et (. = .a) if m3_permission_p2 !=1 | m3_501 !=1 | (m3_201a !=1 & m3_baby1_born_alive !=1)
+
+recode m3_617h_et (. = .a) if m3_permission_p2 !=1 | m3_501 !=1 | (m3_201b !=1 & m3_baby2_born_alive !=1)
+
+recode m3_617i_et (. = .a) if m3_permission_p2 !=1 | m3_501 !=1 | (m3_201c !=1 & m3_baby3_born_alive !=1)
+
+recode m3_619a m3_619b m3_619c m3_619d m3_619e m3_619f m3_619g m3_619h m3_619i m3_619j ///
+	   m3_620 (. = .a) if m3_permission_p2 !=1 | m3_501 !=1 | (m3_201a !=1 & m3_201b !=1 & ///
+	   m3_201c !=1 & m3_baby1_born_alive !=1 & m3_baby2_born_alive !=1 & m3_baby3_born_alive !=1)
+						   
+recode m3_621a m3_621b (. = .a) if m3_permission_p2 !=1 | m3_501 !=0			   
+						   
+recode m3_621c (. = .a) if m3_621b !=1
+
+recode m3_622a m3_622c m3_701 m3_704a m3_704b m3_704c m3_704d m3_704e m3_704f m3_704g ///
+	   (. = .a) if m3_permission_p2 !=1
+
+recode m3_622b (. = .a) if m3_622a !=1 
+
+recode m3_baby1_sleep m3_baby1_feed m3_baby1_breath m3_baby1_stool m3_baby1_mood ///
+	   m3_baby1_skin m3_baby1_interactivity (. = .a) if m3_permission_p2 !=1 | m3_201a !=1
+
+recode m3_baby2_sleep m3_baby2_feed m3_baby2_breath m3_baby2_stool m3_baby2_mood ///
+	   m3_baby2_skin m3_baby2_interactivity (. = .a) if m3_permission_p2 !=1 | m3_201b !=1
+
+recode m3_baby3_sleep m3_baby3_feed m3_baby3_breath m3_baby3_stool m3_baby3_mood ///
+	   m3_baby3_skin m3_baby3_interactivity (. = .a) if m3_permission_p2 !=1 | m3_201c !=1
+
+replace m3_702 = ".a" if m3_701 !=1
+
+recode m3_703 (. = .a) if m3_701 !=1
+
+recode m3_705 m3_706 m3_707 (. = .a) if m3_permission_p2 !=1 | m3_501 !=1
+
+recode m3_707_unknown (. = .a) if m3_permission_p2 !=1 | m3_707 != . | m3_707 != .a // SS: why is this numeric instead of string?
+
+recode m3_baby1_issues_a m3_baby1_issues_b m3_baby1_issues_c m3_baby1_issues_d m3_baby1_issues_e ///
+	   m3_baby1_issues_f m3_baby1_issues_96 m3_baby1_issues_98 m3_baby1_issues_99 m3_baby1_issues_998 ///
+	   m3_baby1_issues_999 m3_baby1_issues_888 (. = .a) if m3_permission_p2 !=1 | m3_baby1_born_alive !=1
+	   
+recode m3_baby2_issues_a m3_baby2_issues_b m3_baby2_issues_c m3_baby2_issues_d m3_baby2_issues_e ///
+	   m3_baby2_issues_f m3_baby2_issues_96 m3_baby2_issues_98 m3_baby2_issues_99 m3_baby2_issues_998 ///
+	   m3_baby2_issues_999 m3_baby2_issues_888 (. = .a) if m3_permission_p2 !=1 | m3_baby2_born_alive !=1
+	   
+recode m3_baby3_issues_a m3_baby3_issues_b m3_baby3_issues_c m3_baby3_issues_d m3_baby3_issues_e ///
+       m3_baby3_issues_f m3_baby3_issues_96 m3_baby3_issues_98 m3_baby3_issues_99 m3_baby3_issues_998 ///
+	   m3_baby3_issues_999 m3_baby3_issues_888 (. = .a) if m3_permission_p2 !=1 | m3_baby3_born_alive !=1
+ 
+replace m3_708a = ".a" if m3_baby1_issues_96 !=1
+
+recode m3_708b (. = .a) if m3_baby2_issues_96 !=1 // numeric because of 0 obs
+
+recode m3_709c (. = .a) if m3_baby3_issues_96 !=1 // numeric because of 0 obs
+ 
+recode m3_710a m3_711a (. = .a) if m3_permission_p2 !=1 | m3_501 !=1 | m3_baby1_born_alive !=1
+
+recode m3_710b m3_711b (. = .a) if m3_permission_p2 !=1 | m3_501 !=1 | m3_baby2_born_alive !=1
+
+recode m3_710c m3_711c (. = .a) if m3_permission_p2 !=1 | m3_501 !=1 | m3_baby3_born_alive !=1
+
+recode m3_801a m3_801b m3_803a m3_803b m3_803c m3_803d m3_803e m3_803f m3_803g m3_803h ///
+	   m3_803i m3_803j m3_805 m3_901a m3_901b m3_901c m3_901d m3_901e m3_901f m3_901g ///
+	   m3_901h m3_901i m3_901j m3_901k m3_901l m3_901m m3_901n m3_901o m3_901p m3_901q ///
+	   m3_901r (. = .a) if m3_permission_p2 !=1
+ 
+recode m3_802a (. = .a) if (m3_801a !=0 | m3_801b !=3) & (m3_801a !=1 | m3_801b !=2) & ///
+	   (m3_801a !=2 | m3_801b !=1) & (m3_801a !=3 | m3_801b !=0) & (m3_801a !=1 | m3_801b !=3) & ///
+	   (m3_801a !=2 | m3_801b !=3) & (m3_801a !=2 | m3_801b !=2) & (m3_801a !=3 | m3_801b !=3) & ///
+	   (m3_801a !=3 | m3_801b !=1) & (m3_801a !=3 | m3_801b !=2)
+	   
+recode m3_802b m3_802c (. = .a) if m3_802a !=1
+
+replace m3_803j_other = ".a" if m3_803j !=1
+
+recode m3_806 m3_807 m3_808a (. = .a) if m3_805 !=1
+
+recode m3_808b (. = .a) if m3_805 !=1 | m3_808a !=0
+
+replace m3_808b_other = ".a" if m3_808b !=96
+
+recode m3_809 (. = .a) if m3_805 !=1 | m3_808a !=1
+
+replace m3_901r_other = ".a" if m3_901r !=1
+
+recode m3_902a_baby1 m3_902b_baby1 m3_902c_baby1 m3_902d_baby1 m3_902e_baby1 m3_902f_baby1 m3_902g_baby1 m3_902h_baby1 (. = .a) if m3_permission_p2 !=1 | m3_201a !=1
+
+recode m3_902a_baby2 m3_902b_baby2 m3_902c_baby2 m3_902d_baby2 m3_902e_baby2 m3_902f_baby2 m3_902g_baby2 m3_902h_baby2 (. = .a) if m3_permission_p2 !=1 | m3_201b !=1
+
+recode m3_902a_baby3 m3_902b_baby3 m3_902c_baby3 m3_902d_baby3 m3_902e_baby3 m3_902f_baby3 m3_902g_baby3 m3_902h_baby3 (. = .a) if m3_permission_p2 !=1 | m3_201c !=1
+
+recode m3_902i_baby1 (. = .a) if (m3_permission_p2 !=1 | m3_201a !=1 | m1_202e !=1) & (m1_708b !=1 & m2_hiv_status !=1 & m2_505b !=1)
+
+recode m3_902i_baby2 (. = .a) if (m3_permission_p2 !=1 | m3_201b !=1 | m1_202e !=1) & (m1_708b !=1 & m2_hiv_status !=1 & m2_505b !=1)
+  
+recode m3_902i_baby3 (. = .a) if (m3_permission_p2 !=1 | m3_201c !=1 | m1_202e !=1) & (m1_708b !=1 & m2_hiv_status !=1 & m2_505b !=1) 
+ 
+recode m3_902j_baby1 (. = .a) if m3_permission_p2 !=1 | m3_201a !=1
+
+replace m3_902j_baby1_other = ".a" if m3_902j_baby1 !=1
+
+recode m3_902j_baby2 (. = .a) if m3_permission_p2 !=1 | m3_201b !=1
+ 
+recode m3_902j_baby2_other (. = .a) if m3_902j_baby2 !=1 // numeric because of 0 obs
+
+recode m3_902j_baby3 (. = .a) if m3_permission_p2 !=1 | m3_201c !=1
+
+recode m3_902j_baby3_other (. = .a) if m3_902j_baby3 !=1 // numeric because of 0 obs
+
+recode m3_1001 m3_1002 m3_1003 m3_1004a m3_1004b m3_1004c m3_1004d m3_1004e m3_1004f ///
+	   m3_1004g m3_1004h m3_1004i m3_1004j m3_1004k m3_1005a m3_1005b m3_1005c m3_1005d ///
+	   m3_1005e m3_1005f m3_1005g m3_1005h m3_1006a m3_1007a m3_1007b m3_1007c m3_1101 ///
+	   (. = .a) if m3_permission_p2 !=1 | m3_501 !=1
+ 
+recode m3_1006b m3_1006c (. = .a) if m3_1006a !=1
+
+recode m3_1102a m3_1102b m3_1102c m3_1102d m3_1102e m3_1102f m3_1103 m3_1105 (. = .a) if m3_1101 !=1
+
+recode m3_1102a_amt (. = .a) if m3_1102a !=1
+
+recode m3_1102b_amt (. = .a) if m3_1102b !=1
+
+recode m3_1102c_amt (. = .a) if m3_1102c !=1
+
+recode m3_1102d_amt (. = .a) if m3_1102d !=1
+
+recode m3_1102e_amt (. = .a) if m3_1102e !=1
+
+recode m3_1102f_amt (. = .a) if m3_1102f !=1
+
+recode m3_1103_confirm (. = .a) if (m3_1103 == . |  m3_1103 == .a)
+
+recode m3_1104 (. = .a) if m3_1103_confirm !=0
+
+replace m3_1105_other = ".a" if m3_1105 !=96
+
+recode m3_1106 m3_p2_outcome (. = .a) if m3_permission_p2 !=1
+
+recode recm3_endtime recm3_duration (. = .a) if m3_permission_p2 !=1 | (m3_303b !=1  & m3_303c !=1 & m3_303d !=1 & m3_202 !=3)
+
+recode m3_p2_outcome_other (. = .a) if m3_p2_outcome !=96 // numeric because of 0 obs
+
+*recode m3_p2_date_of_rescheduled recm3_p2_time_of_rescheduled (. = .a) if m3_attempt_outcome_p2 !=6
+	
+*/	
 *===============================================================================					   
 	
 	* STEP FOUR: LABELING VARIABLES
@@ -1642,7 +2444,7 @@ lab var bp_time_2_diastolic "Time 2 (Diastolic)"
 lab var time_2_pulse_rate "Time 2 (Heart Rate)"
 lab var bp_time_3_systolic "Time 3 (Systolic)"
 lab var bp_time_3_diastolic "Time 3 (Diastolic)"
-lab var pulse_rate_time_3 "Time 3 (Heart Rate)"
+lab var time_3_pulse_rate "Time 3 (Heart Rate)"
 lab var m1_1306 "1306. Hemoglobin level available in maternal health card"
 lab var m1_1307 "1307. HEMOGLOBIN LEVEL FROM MATERNAL HEALTH CARD "
 lab var m1_1308 "1308. Will you take the anemia test?"
@@ -1681,7 +2483,7 @@ lab var pref_language_96_ke "KE only: Other (specify)"
 lab var pref_language_other_ke "KE only: Specify other preferred language"
 
 */
-
+/*
 	** MODULE 2 (EDIT FOR KE!!):
 	label variable m2_start "IIC. May I proceed with the interview?"
 label variable m2_103 "102. Date of interview (D-M-Y)"
@@ -2293,7 +3095,7 @@ lab var m3_1204 "M3-1204. Overall, how would you rate the quality of care that y
 			
 lab var m3_endtime "Time of interview ended"
 lab var m3_duration "Total duration of interview"
-
+*/
 *===============================================================================
 
 	* STEP FIVE: ORDER VARIABLES
@@ -2306,7 +3108,6 @@ order country module interviewer_id m1_date m1_start_time study_site facility //
 order phq9a phq9b phq9c phq9d phq9e phq9f phq9g phq9h phq9i, after(m1_205e)
 order edd_chart_ke edd gest_age_baseline_ke, after(m1_803)
 order m1_1218_ke, after(m1_1218c_1)
-*order m1_clinic_cost_ke, after(m1_1218_ke)
 order m1_1218_other_total_ke, after(m1_1218f_1)
 order m1_1218_total_ke, after(m1_1218_other_total_ke)
 
