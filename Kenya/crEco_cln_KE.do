@@ -80,6 +80,8 @@ rename endtime m2_endtime
 
 append using "$ke_data/Module 3/KEMRI_Module_3.dta", force
 
+replace module = 3 if today_date !=""
+
 * fixing duplicate var names
 rename facility_name m3_site
 rename date_confirm m3_date_confirm
@@ -140,14 +142,13 @@ drop user_experience_rpt_grp_count user_exp_idx_1 user_visit_reason_1 user_facil
 
 drop q_602_filter q_702_discrepancy days_callback_mod3 q202_oth_continue 
 
-*these vars should be dropped for de-identification purposes
-drop registered_phone mobile_money_name mobile_prov phone_used phone_used_oth
+drop registered_phone mobile_money_name mobile_prov phone_used phone_used_oth //*these vars should be dropped for de-identification purposes
 
-drop unavailable_reschedule reschedule_full_noavail confirm_phone phone_noavail unavailable_reschedule
+drop unavailable_reschedule confirm_phone phone_noavail  reschedule_full_noavail
 
 drop baby_repeat_count baby_index_1 baby_index_2 survey1no_maternal_death1consent isvalidated
 
-drop v619 v620 v621 v622 v599 v600 v601 v602 v584 v585 v586 v587 v583 v581 v582 v520 v521 v522 v523 v519 v524 q_314_o_1 v238 submissiondate gest_age_ad_less20 q_804_o q_902_o_1 q_1104_o gest_age_ad // SS: what are these variables from M3?
+drop v619 v620 v621 v622 v599 v600 v601 v602 v584 v585 v586 v587 v583 v581 v582 v520 v521 v522 v523 v519 v524 q_314_o_1 v238 submissiondate gest_age_ad_less20 q_804_o q_902_o_1 q_1104_o gest_age_ad v258 // SS: what are these variables from M3? The "v" variables are too long for stata (32 characters)
 
 drop q_307_3 q_307_4 q_307_5 q_320
 
@@ -155,7 +156,7 @@ drop q_1004_rand_order_count q_1004_rand_1 q_1004_rand_2 q_1004_rand_3 q_1004_ra
 
 drop q_1102a_cost q_1102b_cost q_1102c_cost q_1102d_cost q_1102e_cost q_1102f_cost q_1102f_oth
 
-drop baby_repeat_issues_count baby_index_issues_1 baby_name_issues_1 baby_label_issues_1 baby_index_issues_2 baby_name_issues_2 baby_label_issues_2 q_801_note q_801a_calc q_801b_calc q_901r_oth baby_list_meds  baby_index_meds_1 baby_name_meds_1 baby_label_meds_1 baby_index_meds_2 baby_name_meds_2 baby_label_meds_2 date_mod4 q_603_note q_519_oth q_605c_oth
+drop baby_repeat_issues_count baby_index_issues_1 baby_name_issues_1 baby_label_issues_1 baby_index_issues_2 baby_name_issues_2 baby_label_issues_2 q_801_note q_801a_calc q_801b_calc q_901r_oth baby_list_meds  baby_index_meds_1 baby_name_meds_1 baby_label_meds_1 baby_index_meds_2 baby_name_meds_2 baby_label_meds_2 date_mod4 q_603_note q_519_oth q_605c_oth still_pregnant section7_audio q_704_note 
 
 
 *------------------------------------------------------------------------------*
@@ -395,6 +396,8 @@ rename refused_why m2_refused_why
 rename (consent q_302a q_302b gest_age_delivery_final) ///
        (m3_start_p1 m3_birth_or_ended m3_birth_or_ended_provided m3_ga_final)
 	   
+rename reschedule_noavail  m3_datetime_rescheduled
+	   
 rename (confirm_gestational weeks_from_outcome after2weeks_call) ///
 	   (m3_ga1_ke m3_weeks_from_outcome_ke m3_after2weeks_call_ke)	   
 	   
@@ -582,8 +585,8 @@ rename (q_504_n q_504_c q_504_r q_503_final q_506_pre q_506_pre_oth q_508 ///
 		m3_513_final m3_514 m3_515 m3_516 m3_517 m3_518_other_complications ///
 		m3_518_other m3_519 m3_519_other m3_520 m3_521_ke m3_521_ke_unit)
 		
-rename (q_518_0 q_518_1 q_518_2 q_518_3 q_518_4 q_518_5 q_518_6 q_518_7 q_518_8 ///
-		q_518_9 q_518__96 q_518__97 q_518__98 q_518__99) (m3_518a_ke m3_518b_ke ///
+rename (q_518 q_518_0 q_518_1 q_518_2 q_518_3 q_518_4 q_518_5 q_518_6 q_518_7 q_518_8 ///
+		q_518_9 q_518__96 q_518__97 q_518__98 q_518__99) (m3_518 m3_518a_ke m3_518b_ke ///
 		m3_518c_ke m3_518d_ke m3_518e_ke m3_518f_ke m3_518g_ke m3_518h_ke m3_518i_ke ///
 		m3_518j_ke m3_518_96_ke m3_518_97_ke m3_518_98_ke m3_518_99_ke)
 		
@@ -704,7 +707,7 @@ rename (q_901a q_901b q_901c q_901d q_901de q_901f q_901g q_901h q_901i q_901j q
        (m3_901a m3_901b m3_901c m3_901d m3_901e m3_901f m3_901g m3_901h m3_901i m3_901j m3_901k m3_901l m3_901m m3_901n m3_901o m3_901p m3_901q m3_901r ///
 	    m3_901r_other)
 		
-rename (q_901_cost q_902_cost_2) (m3_901_1_cost m3_901_2_cost)
+rename (q_901_cost q_902_cost_1 q_902_cost_2) (m3_901_cost m3_901_1_cost m3_901_2_cost)
 
 rename (q_902a_1 q_902a_2 q_902b_1 q_902b_2 q_902c_1 q_902c_2 q_902d_1 q_902d_2 q_902e_1 q_902e_2 q_902f_1 q_902f_2 q_902g_1 q_902g_2 q_902h_1 q_902h_2 ///
         q_902i_1 q_902i_2 q_902j_1 q_902j_oth_1 q_902j_2 q_902j_oth_2)(m3_902a_baby1 m3_902a_baby2 m3_902b_baby1 m3_902b_baby2 m3_902c_baby1 ///
@@ -943,19 +946,14 @@ recode m3_303a m3_303b m3_baby1_gender m3_baby1_health m3_breastfeeding m3_baby1
 	   m3_604b m3_605a m3_605b m3_606 m3_607 m3_608 m3_609 m3_610a m3_610b m3_611 m3_613 m3_615a ///
 	   m3_617a m3_618a_1 m3_618b_1 m3_618c_1 m3_620_1 m3_615b m3_617b m3_618a_2 m3_618b_2 m3_618c_2 ///
 	   m3_620_2 m3_619a m3_619b m3_619c m3_619d m3_619e m3_619g m3_619h m3_621b m3_622a m3_622c ///
-	   m3_701 m3_703 q_704_note m3_704a m3_704b m3_704c m3_704d m3_704e m3_704f m3_704g m3_705 ///
-	   m3_706 m3_708_oth_1 m3_710a m3_710b q_801_note m3_802a m3_803a m3_803b m3_803c m3_803d m3_803e ///
+	   m3_701 m3_703 m3_704a m3_704b m3_704c m3_704d m3_704e m3_704f m3_704g m3_705 ///
+	   m3_706 m3_708_oth_1 m3_710a m3_710b m3_802a m3_803a m3_803b m3_803c m3_803d m3_803e ///
 	   m3_803f m3_803g m3_803h m3_803j m3_805 m3_808a m3_809 m3_901a m3_901b m3_901c m3_901d m3_901e ///
 	   m3_901f m3_901g m3_901h m3_901i m3_901j m3_901k m3_901l m3_901m m3_901n m3_901o m3_901p m3_901q ///
 	   m3_901r m3_902a_baby1 m3_902b_baby1 m3_902c_baby1 m3_902d_baby1 m3_902e_baby1 m3_902f_baby1 ///
 	   m3_902g_baby1 m3_902h_baby1 m3_902i_baby1 m3_902j_baby1 m3_902a_baby2 m3_902b_baby2 m3_902c_baby2 ///
 	   m3_902d_baby2 m3_902e_baby2 m3_902f_baby2 m3_902g_baby2 m3_902h_baby2 m3_902i_baby2 m3_1001 ///
-	   m3_1002 m3_1003 m3_1004a q_1004b_1 q_1004c_1 q_1004d_1 q_1004e_1 q_1004f_1 q_1004g_1 q_1004h_1 ///
-	   q_1004b_2 q_1004c_2 q_1004d_2 q_1004e_2 q_1004f_2 q_1004g_2 q_1004h_2 q_1004b_3 q_1004c_3 ///
-	   q_1004d_3 q_1004e_3 q_1004f_3 q_1004g_3 q_1004h_3 q_1004b_4 q_1004c_4 q_1004d_4 q_1004e_4 ///
-	   q_1004f_4 q_1004g_4 q_1004h_4 q_1004b_5 q_1004c_5 q_1004d_5 q_1004e_5 q_1004f_5 q_1004g_5 ///
-	   q_1004h_5 q_1004b_6 q_1004c_6 q_1004d_6 q_1004e_6 q_1004f_6 q_1004g_6 q_1004h_6 q_1004b_7 ///
-	   q_1004c_7 q_1004d_7 q_1004e_7 q_1004f_7 q_1004g_7 q_1004h_7 m3_1005a m3_1005b m3_1005c ///
+	   m3_1002 m3_1003 m3_1004a m3_1005a m3_1005b m3_1005c ///
 	   m3_1005d m3_1005e m3_1005f m3_1005g m3_1005h m3_1006a m3_1006b m3_1006c m3_1007a m3_1007b ///
 	   m3_1007c m3_1101 m3_1106 m3_1201 m3_1202 m3_1203 m3_1204 (-99 = .r)
 
@@ -972,7 +970,7 @@ recode m3_303a m3_baby1_gender m3_baby1_weight m3_baby2_weight m3_baby1_born_ali
 	   m3_620_1 m3_615b m3_617b m3_618a_2 m3_618b_2 m3_618c_2 m3_620_2 m3_619a m3_619b ///
 	   m3_619c m3_619d m3_619e m3_619g m3_619h m3_621b m3_622a m3_622c m3_701 m3_703 q_704_note ///
 	   m3_704a m3_704b m3_704c m3_704d m3_704e m3_704f m3_704g m3_705 m3_706 m3_708_oth_1 ///
-	   m3_710a m3_710b q_801_note m3_802a m3_803a m3_803b m3_803c m3_803d m3_803e m3_803f ///
+	   m3_710a m3_710b m3_802a m3_803a m3_803b m3_803c m3_803d m3_803e m3_803f ///
 	   m3_803g m3_803h m3_803j m3_805 m3_808a m3_809 m3_901a m3_901b m3_901c m3_901d m3_901e ///
 	   m3_901f m3_901g m3_901h m3_901i m3_901j m3_901k m3_901l m3_901m m3_901n m3_901o m3_901p ///
 	   m3_901q m3_901r m3_902a_baby1 m3_902b_baby1 m3_902c_baby1 m3_902d_baby1 m3_902e_baby1 ///
