@@ -155,7 +155,7 @@ drop q_1004_rand_order_count q_1004_rand_1 q_1004_rand_2 q_1004_rand_3 q_1004_ra
 
 drop q_1102a_cost q_1102b_cost q_1102c_cost q_1102d_cost q_1102e_cost q_1102f_cost q_1102f_oth
 
-drop baby_repeat_issues_count baby_index_issues_1 baby_name_issues_1 baby_label_issues_1 baby_index_issues_2 baby_name_issues_2 baby_label_issues_2 q_801_note q_801a_calc q_801b_calc q_901r_oth baby_list_meds  baby_index_meds_1 baby_name_meds_1 baby_label_meds_1 baby_index_meds_2 baby_name_meds_2 baby_label_meds_2 date_mod4
+drop baby_repeat_issues_count baby_index_issues_1 baby_name_issues_1 baby_label_issues_1 baby_index_issues_2 baby_name_issues_2 baby_label_issues_2 q_801_note q_801a_calc q_801b_calc q_901r_oth baby_list_meds  baby_index_meds_1 baby_name_meds_1 baby_label_meds_1 baby_index_meds_2 baby_name_meds_2 baby_label_meds_2 date_mod4 q_603_note q_519_oth q_605c_oth
 
 
 *------------------------------------------------------------------------------*
@@ -576,12 +576,19 @@ rename (q_412g_oth_2 q_412g_oth_3) (m3_412g_2_other m3_412g_3_other)
 	   
 rename (q_504_n q_504_c q_504_r q_503_final q_506_pre q_506_pre_oth q_508 ///
  		q_508_oth q_513a q_513b_n q_513b_c q_513_r q_513_calc q_514 q_515 q_516 ///
-		q_517 q_518_oth_del q_518_oth q_519 q_519_oth q_520 q_521 q_521_unit) ///
+		q_517 q_518_oth_del q_518_oth q_519 q_519_o q_520 q_521 q_521_unit) ///
 		(m3_504a m3_504b m3_504c m3_503_final m3_506_pre m3_506_pre_oth ///
 		m3_508 m3_509_other m3_513a m3_513_outside_zone_other m3_513b2 m3_513b3 ///
 		m3_513_final m3_514 m3_515 m3_516 m3_517 m3_518_other_complications ///
 		m3_518_other m3_519 m3_519_other m3_520 m3_521_ke m3_521_ke_unit)
-
+		
+rename (q_518_0 q_518_1 q_518_2 q_518_3 q_518_4 q_518_5 q_518_6 q_518_7 q_518_8 ///
+		q_518_9 q_518__96 q_518__97 q_518__98 q_518__99) (m3_518a_ke m3_518b_ke ///
+		m3_518c_ke m3_518d_ke m3_518e_ke m3_518f_ke m3_518g_ke m3_518h_ke m3_518i_ke ///
+		m3_518j_ke m3_518_96_ke m3_518_97_ke m3_518_98_ke m3_518_99_ke)
+		
+		
+/* SS: q_518 answers are stored as 0/1 in q_518_0 - q_518_99
        ** q_518 is a string variables: use replace if and then rename (line 191 to 206)
 replace q_518 = "The provider did not give a reason" if q_518 == "0"
 replace q_518 = "No space or no bed available" if q_518 == "1"
@@ -600,8 +607,11 @@ replace q_518 = "Don't Know" if q_518 == "-98"
 replace q_518 = "NR/RF" if q_518 == "-99"
 rename (q_518)(m3_518)
 ********When tabulate q_518, there are a few strange observations (8 -97, 8 9). I did not label them.
+*/		
 		
-rename (q_601a q_601b q_601c q_602a q_602b q_603a q_603b q_603c q_604a q_604b q_605a q_605b q_605c q_605c_oth q_606 q_607 q_608 q_609 q_610a q_610b ///
+		
+		
+rename (q_601a q_601b q_601c q_602a q_602b q_603a q_603b q_603c q_604a q_604b q_605a q_605b q_605c q_605c_o q_606 q_607 q_608 q_609 q_610a q_610b ///
         q_611 q_612 q_612_unit q_613 q_614 q_614_unit q_615_1 q_615_2 q_616_1 q_616_unit_1 q_616_2 q_616_unit_2 q_617_1 q_617_2 q_618a_1 q_618b_1 ///
 		q_618c_1 q_618a_2 q_618b_2 q_618c_2) (m3_601_hiv m3_601b m3_601c m3_602a m3_602b m3_603a m3_603b m3_603c m3_604a m3_604b m3_605a m3_605b ///
 		m3_605c m3_605c_other m3_606 m3_607 m3_608 m3_609 m3_610a m3_610b m3_611 m3_612_ke m3_612_ke_unit m3_613 m3_614_ke m3_614_ke_unit m3_615a m3_615b ///
@@ -929,7 +939,7 @@ recode m3_303a m3_303b m3_baby1_gender m3_baby1_health m3_breastfeeding m3_baby1
 	   m3_412f_2_ke m3_412g_2_ke ///
 	   m3_412i_2_ke m3_consultation_3 m3_consultation_referral_3 m3_412a_3_ke m3_412b_3_ke m3_412c_3 m3_412d_3_ke ///
 	   m3_412e_3_ke m3_412f_3_ke m3_412i_3_ke m3_501 m3_503 m3_502 m3_509 m3_510 m3_512_1_ke m3_512_2_ke ///
-	   m3_513a m3_516 m3_517 m3_519 m3_601_hiv m3_601b m3_601c m3_602a q_603_note m3_603a m3_603b m3_603c m3_604a ///
+	   m3_513a m3_516 m3_517 m3_519 m3_601_hiv m3_601b m3_601c m3_602a m3_603a m3_603b m3_603c m3_604a ///
 	   m3_604b m3_605a m3_605b m3_606 m3_607 m3_608 m3_609 m3_610a m3_610b m3_611 m3_613 m3_615a ///
 	   m3_617a m3_618a_1 m3_618b_1 m3_618c_1 m3_620_1 m3_615b m3_617b m3_618a_2 m3_618b_2 m3_618c_2 ///
 	   m3_620_2 m3_619a m3_619b m3_619c m3_619d m3_619e m3_619g m3_619h m3_621b m3_622a m3_622c ///
@@ -957,7 +967,7 @@ recode m3_303a m3_baby1_gender m3_baby1_weight m3_baby2_weight m3_baby1_born_ali
 	   q_412e_2 q_412f_2 q_412g_2 q_412i_2 m3_consultation_3 m3_consultation_referral_3 ///
 	   q_412a_3 q_412b_3 q_412c_3 q_412d_3 q_412e_3 q_412f_3 q_412i_3 m3_501 m3_503 m3_502 ///
 	   q_510 q_512_1 q_512_2 m3_513a m3_517 m3_519 m3_601_hiv m3_601b m3_601c m3_602a m3_602b ///
-	   q_603_note m3_603a m3_603b m3_603c m3_604a m3_604b m3_605a m3_605b m3_606 m3_607 m3_608 ///
+	   m3_603a m3_603b m3_603c m3_604a m3_604b m3_605a m3_605b m3_606 m3_607 m3_608 ///
 	   m3_609 m3_610a m3_610b m3_611 m3_613 m3_615a m3_617a m3_618a_1 m3_618b_1 m3_618c_1 ///
 	   m3_620_1 m3_615b m3_617b m3_618a_2 m3_618b_2 m3_618c_2 m3_620_2 m3_619a m3_619b ///
 	   m3_619c m3_619d m3_619e m3_619g m3_619h m3_621b m3_622a m3_622c m3_701 m3_703 q_704_note ///
