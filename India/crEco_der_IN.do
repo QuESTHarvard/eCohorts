@@ -16,7 +16,7 @@ u "$in_data_final/eco_m1_in.dta", clear
 	(20 38 39 =5 "SUS")(26=6 "SRS")(25 27 28 29 30 31 32 33 18 34=7 "SRP")(35 36 37 = 8 "SUP"), g (facility_type)
  
 	recode facility_type (1 4=1 "Rural_Jodhpur") (2 3=2 "Urban_Jodhpur") (6 7=3 "Sonipath_Rural") ///
-	(8 5=4 "Sonopath_Urban"), gen (residence)
+	(8 5=4 "Sonipath_Urban"), gen (residence)
 		
 	order facility_type, after(facility)
 	
@@ -24,9 +24,9 @@ u "$in_data_final/eco_m1_in.dta", clear
 	lab def urban 1"urban" 0"rural" 
 	lab val urban urban
 	
-	recode facility (1/2 7/8=1) (3/6=2), g(facility_lvl)
+	recode facility_type (1/2 7/8=1) (3/6=2), g(facility_lvl)
 	lab def facility_lvl 1"Primary" 2"Secondary"
-	* There are 33 unique facilities. Subhojit to send
+	lab val facility_lvl facility_lvl 
 	
 	recode study_site (2=1 "Sonipat") (3=2 "Jodhpur"), g(state)
 
