@@ -3,7 +3,10 @@ global user "/Users/catherine.arsenault"
 global analysis "Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH E-Cohorts-internal/Analyses/Manuscripts/Paper 1 ANC1 quality"
 global data "Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data"
 
-*------------------------------------------------------------------------------*
+*------------------------------------------------------------------------------- 
+* RECODES MODULE 1 VARIABLES
+
+*-------------------------------------------------------------------------------
 * ETHIOPIA
 
 u "$user/$data/Ethiopia/02 recoded data/eco_m1_et_der.dta", clear	
@@ -86,7 +89,7 @@ u "$user/$data/Ethiopia/02 recoded data/eco_m1_et_der.dta", clear
 	rename m1_1004 late_misc
 	egen complic = rowmax(cesa stillbirth preterm neodeath  PPH )
 	
-egen anyrisk =rowmax(severe_anemia chronic overweight young old multiple complic )
+egen anyrisk =rowmax(m1_anemic_11 chronic maln_underw overweight young old multiple complic )
 
 * Visit time
 	encode m1_start_time, gen(time)
@@ -94,6 +97,11 @@ egen anyrisk =rowmax(severe_anemia chronic overweight young old multiple complic
 	lab def time2 1"Morning" 2"Afternoon" 3"Evening"
 	lab val time time2
 	
+* MERGING WITH M0 DATA
+	merge m:1 facility using "$user/$analysis/ETtmpfac.dta"
+	keep if _merge==3 
+	drop _merge 
+	save  "$user/$analysis/ETtmp.dta", replace		
 
 save "$user/$analysis/ETtmp.dta", replace
 
@@ -181,10 +189,16 @@ u "$user/$data/Kenya/02 recoded data/eco_m1_ke_der.dta", clear
 		 recode time 9/11=1 12/14=2 15/23=3
 		 lab def time2 1"Morning" 2"Afternoon" 3"Evening"
 		 lab val time time2
-
-egen anyrisk =rowmax(severe_anemia chronic overweight young old multiple complic )
+	
+egen anyrisk =rowmax(anemic chronic maln_underw overweight young old multiple complic )
 
 		rename dangersign m1_dangersigns
+		
+* MERGING WITH M0 DATA
+	merge m:1 facility using "$user/$analysis/KEtmpfac.dta"
+	keep if _merge==3 
+	drop _merge 
+	
 save "$user/$analysis/KEtmp.dta", replace
 
 *------------------------------------------------------------------------------*	
@@ -274,9 +288,14 @@ u  "$user/$data/South Africa/02 recoded data/eco_m1_za_der.dta", clear
 		encode m1_203, gen(prob)
 		ta prob,g(dum)
 			
-egen anyrisk =rowmax(severe_anemia chronic overweight young old multiple complic)
+egen anyrisk =rowmax(anemic chronic maln_underw overweight young old multiple complic )
 
 		rename dangersign m1_dangersigns
+		
+* MERGING WITH M0 DATA
+	merge m:1 facility using "$user/$analysis/ZAtmpfac.dta"
+	keep if _merge==3 
+	drop _merge 
 save "$user/$analysis/ZAtmp.dta", replace
 
 *------------------------------------------------------------------------------*
@@ -343,13 +362,16 @@ egen tag=tag(facility)
 		gen PPH=m1_1006==1
 		egen complic = rowmax(stillbirth neodeath preterm PPH cesa)
 
-egen anyrisk =rowmax(severe_anemia chronic overweight young old multiple complic )
+egen anyrisk =rowmax(anemic chronic maln_underw overweight young old multiple complic )
 	
 		drop if anc1qual==. // 1 woman had no data on ANC content
 	
+* MERGING WITH M0 FACILITY-LEVEL DATA
+	merge m:1 facility using "$user/$analysis/INtmpfac.dta"
+	keep if _merge==3  // dropping 18 women for which we dont have Module 0. 
+	drop _merge 
+	
 save "$user/$analysis/INtmp.dta", replace
-
-
 
 
 
