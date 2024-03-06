@@ -138,7 +138,7 @@ drop q_205a_calc q_205b_calc
 
 drop repeat_g303 q_303_rpt_grp q_303_indx_1 q_303_indx_st_1 q_303_indx_nd_1 q_303_indx_rd_1 q_303_indx_x_1 q_303_indx_2 q_303_indx_st_2 q_303_indx_nd_2 q_303_indx_rd_2 q_303_indx_x_2 q_303_indx_3 q_303_indx_st_3 q_303_indx_nd_3 q_303_indx_rd_3 q_303_indx_x_3 q_303_indx_4 q_303_indx_st_4 q_303_indx_nd_4 q_303_indx_rd_4 q_303_indx_x_4 q_303_indx_5 q_303_indx_st_5 q_303_indx_nd_5 q_303_indx_rd_5 q_303_indx_x_5 care_reason_ante_label_2 care_reason_ref_label_2 care_visit_reas_rpt_grp_count_2 care_vis_idx_2_1 care_visit_res_2_1 care_vis_idx_2_2 care_visit_res_2_2 care_reason_other_label_pre_2 care_reason_other_label_2 care_reason_label_2 q_303_indx_3 q_303_indx_st_3 q_303_indx_nd_3 q_303_indx_rd_3 q_303_indx_x_3 care_reason_ante_label_3 care_reason_ref_label_3 care_visit_reas_rpt_grp_count_3 care_vis_idx_3_1 care_visit_res_3_1 care_vis_idx_3_2 care_visit_res_3_2 care_reason_other_label_pre_3 care_reason_other_label_3 care_reason_label_3 q_303_indx_4 q_303_indx_st_4 q_303_indx_nd_4 q_303_indx_rd_4 q_303_indx_x_4 q_303_label_4 q_304_label_4 care_reason_ante_label_4 care_reason_ref_label_4 care_visit_reas_rpt_grp_count_4 care_vis_idx_4_1 care_visit_res_4_1 care_vis_idx_4_2 care_visit_res_4_2 care_reason_other_label_pre_4 care_reason_other_label_4 care_reason_label_4 q_303_indx_5 q_303_indx_st_5 q_303_indx_nd_5 q_303_indx_rd_5 q_303_indx_x_5 q_304_label_5 q_303_label_5 care_reason_ante_label_5 care_reason_ref_label_5 care_visit_reas_rpt_grp_count_5 care_vis_idx_5_1 care_visit_res_5_1 care_vis_idx_5_2 care_visit_res_5_2 care_reason_other_label_pre_5 care_reason_other_label_5 care_reason_label_5
 
-drop q814a_calc_e q814b_calc_e q814c_calc_e q814d_calc_e q814e_calc_e q814f_calc_e q814g_calc_e q814h_calc_e q814_calc_e q814a_calc_ki q814b_calc_ki q814c_calc_ki q814d_calc_ki q814e_calc_ki q814f_calc_ki q814g_calc_ki q814h_calc_ki q814_calc_ki q814a_calc_ka q814b_calc_ka q814c_calc_ka q814d_calc_ka q814e_calc_ka q814f_calc_ka q814g_calc_ka q814h_calc_ka q814_calc_ka q_107_trim q_303_label_1 q_304_label_1 q_303_label_3 q_304_label_3 a2 county_eligibility_oth key   
+drop q814a_calc_e q814b_calc_e q814c_calc_e q814d_calc_e q814e_calc_e q814f_calc_e q814g_calc_e q814h_calc_e q814_calc_e q814a_calc_ki q814b_calc_ki q814c_calc_ki q814d_calc_ki q814e_calc_ki q814f_calc_ki q814g_calc_ki q814h_calc_ki q814_calc_ki q814a_calc_ka q814b_calc_ka q814c_calc_ka q814d_calc_ka q814e_calc_ka q814f_calc_ka q814g_calc_ka q814h_calc_ka q814_calc_ka q_303_label_1 q_304_label_1 q_303_label_3 q_304_label_3 a2 county_eligibility_oth key   
 
 drop outcome_text gest_age_delivery // SS: confirm dropping outcome_text because the same data is in "m2_202_other"
 
@@ -1104,6 +1104,11 @@ recode m3_303a m3_baby1_gender m3_baby1_weight m3_baby2_weight m3_baby1_born_ali
 	drop m2_date_time
 	rename _m2_date_time_ m2_date_time
 	format m2_date_time %td  
+	
+	gen _m2_date_ = date(m2_date,"YMD")
+	drop m2_date
+	rename _m2_date_ m2_date
+	format m2_date %td  
 	   
 	/* SS: need to figure out how to do this without adding the "01jan1960 infront of the time" 
 	*https://www.reed.edu/psychology/stata/gs/tutorials/datesandtimes.html 
@@ -1639,20 +1644,23 @@ replace m2_refused_why = ".a" if m3_start_p1 !=0
 replace m2_enum = ".a" if module !=2 | m2_start_time == .
 recode m2_start_time (. = .a) if module !=2
 
-*lala
 recode m2_attempt_avail (. = .a) if m2_attempt_relationship !=4
 recode m2_completed_attempts (. = .a) if m2_complete !=1 | m2_consent_recording !=1
 
 *Note: i dropped "availability" which is the filtering var for the consent for recording so this is another way I filtered it
 *recode m2_consent_recording (. = .a) if m2_attempt_avail == 0
 
-recode m2_date_confirm (. = .a) if 
-recode m2_ga (. = .a) if
-recode m2_ga_estimate (. = .a) if  
-recode m2_endtime (. = .a) if 
+recode m2_date (. = .a) if m2_202 !=1
+recode m2_date_confirm (. = .a) if m2_date == . | m2_202 !=1
+
+recode m2_ga (. = .a) if m2_date == . | m2_202 !=1 | m2_complete == 1
+recode m2_ga_estimate (. = .a) if m2_date == . | m2_202 !=1 | q_107_trim != "NA"
+drop q_107_trim
+
+recode m2_endtime (. = .a) if m2_date == . | m2_202 != 1 | m2_complete !=1
 
 
-	
+*lala	
 	/*
 	** MODULE 3 (EDIT FOR KE!!):
 
