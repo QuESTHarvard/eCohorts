@@ -63,13 +63,17 @@ rename q_301 m2_301
 rename (q_303_1 q_303_2) (m2_303a m2_303b)
 rename (q_304_1 q_304_oth_1 q_304_2 q_304_oth_2) ///
 	   (m2_304a m2_304a_other m2_304b m2_304b_other)
-rename (q_305_1 q_306_1 q_307_1_1) (m2_305 m2_306 m2_306_1)	   
+rename (q_305_1 q_306_1) (m2_305 m2_306)	 
+encode q_307_1_1, gen(m2_306_1)
+drop q_307_1_1
+  
 rename q_305_2 m2_308
 rename q_306_2 m2_309
 rename q_501 m2_501
 rename (q_502 q_503) (m2_502 m2_503)
 rename q_506 m2_506
 rename q_507 m2_507
+
 rename q_509 m2_509
 rename q_701 m2_701
 rename q_705 m2_705
@@ -142,7 +146,7 @@ drop user_experience_rpt_grp_count user_exp_idx_1 user_visit_reason_1 user_facil
 
 drop q_602_filter q_702_discrepancy days_callback_mod3 q202_oth_continue 
 
-drop registered_phone mobile_money_name mobile_prov phone_used phone_used_oth baby_list name_baby1 name_baby2 name_baby3 name_baby4 name_baby_alive1 name_baby_alive2 name_baby_alive3 name_baby_alive4 name_baby_bornalive1 name_baby_bornalive2 name_baby_bornalive3 name_baby_bornalive4 baby_list_checks baby_repeat_checks_count baby_index_checks_1 baby_name_checks_1 baby_label_checks_1 baby_index_checks_2 baby_name_checks_2 baby_label_checks_2 //*these vars should be dropped for de-identification purposes
+drop registered_phone mobile_money_name mobile_prov phone_used phone_used_oth baby_list name_baby1 name_baby2 name_baby3 name_baby4 name_baby_alive1 name_baby_alive2 name_baby_alive3 name_baby_alive4 name_baby_bornalive1 name_baby_bornalive2 name_baby_bornalive3 name_baby_bornalive4 baby_list_checks baby_repeat_checks_count baby_index_checks_1 baby_name_checks_1 baby_label_checks_1 baby_index_checks_2 baby_name_checks_2 baby_label_checks_2 best_phone_resp //*these vars should be dropped for de-identification purposes
 
 drop unavailable_reschedule confirm_phone phone_noavail  reschedule_full_noavail
 
@@ -156,9 +160,11 @@ drop q_1004_rand_order_count q_1004_rand_1 q_1004_rand_2 q_1004_rand_3 q_1004_ra
 
 drop q_1102a_cost q_1102b_cost q_1102c_cost q_1102d_cost q_1102e_cost q_1102f_cost q_1102f_oth
 
-drop baby_repeat_issues_count baby_index_issues_1 baby_name_issues_1 baby_label_issues_1 baby_index_issues_2 baby_name_issues_2 baby_label_issues_2 q_801_note q_801a_calc q_801b_calc q_901r_oth baby_list_meds  baby_index_meds_1 baby_name_meds_1 baby_label_meds_1 baby_index_meds_2 baby_name_meds_2 baby_label_meds_2 date_mod4 q_603_note q_519_oth q_605c_oth still_pregnant section7_audio q_704_note trim_update gest_age_ad_less28 gest_age_today check_continue new_consultations_index_1 new_consultations_index_2 new_consultations_index_3 baby_list_issues other_facility_before_repeat_ind other_facility_before_repeat_cou new_consultations_count
+drop baby_repeat_issues_count baby_index_issues_1 baby_name_issues_1 baby_label_issues_1 baby_index_issues_2 baby_name_issues_2 baby_label_issues_2 q_801_note q_801a_calc q_801b_calc q_901r_oth baby_list_meds  baby_index_meds_1 baby_name_meds_1 baby_label_meds_1 baby_index_meds_2 baby_name_meds_2 baby_label_meds_2 date_mod4 q_603_note q_519_oth q_605c_oth still_pregnant section7_audio q_704_note trim_update gest_age_ad_less28 gest_age_today check_continue new_consultations_index_1 new_consultations_index_2 new_consultations_index_3 baby_list_issues other_facility_before_repeat_ind other_facility_before_repeat_cou new_consultations_count 
 
 drop q_314_1 q_314_2 // same data in "baby_death" vars
+
+drop language_label reschedule_resp
 
 
 *------------------------------------------------------------------------------*
@@ -294,25 +300,41 @@ rename (preferred_language preferred_language_1 preferred_language_2 preferred_l
 	* MODULE 2:
 rename (attempts attempts_oth call_response resp_language resp_language_no ///
        resp_language_no_oth resp_other resp_other_oth resp_available ///
-	   best_phone_reconfirm best_phone_resp resp_available_when reschedule_resp ///
-	   reschedule_date_resp) (m2_attempt_number m2_attempt_number_other m2_attempt_outcome ///
-	   m2_resp_language m2_resp_language_no m2_resp_language_no_oth m2_attempt_relationship ///
-	   m2_attempt_other m2_attempt_avail m2_attempt_contact m2_attempt_bestnumber ///
-	   m2_attempt_goodtime m2_reschedule_resp m2_reschedule_date_resp) 
+	   best_phone_reconfirm resp_available_when ///
+	   ) (m2_attempt_number m2_attempt_number_other m2_attempt_outcome ///
+	   m2_resp_lang1 m2_resp_lang2 m2_resp_lang_other m2_attempt_relationship ///
+	   m2_attempt_other m2_attempt_avail m2_attempt_contact ///
+	   m2_attempt_goodtime) 
+	   
+encode reschedule_date_resp ,gen(m2_reschedule_resp)
+drop reschedule_date_resp	   
+	   
+rename intro_yn m2_consent_recording
 
-rename (mod_2_round intro_yn) (m2_completed_attempts m2_consent_recording)	
+encode mod_2_round,generate(m2_completed_attempts)
+drop mod_2_round
 
 rename q_103 m2_time_start
 rename q_101 m2_interviewer
-rename q_104 m2_respondentid
+
+ 
+encode q_104, gen(m2_respondentid)
+drop q_104
+
 *rename gest_age_baseline m2_baseline_ga //this was M1 ga so I dropped so it's not confusing
 *rename date_survey_baseline m2_baseline_date // this is the m1 surveydate, dropped for now
 rename q_109 m2_maternal_death_reported
-rename q_107 m2_ga
-rename q_108 m2_hiv_status
 
-rename (county enum_name date_death_knows) /// 
-       (m2_county m2_enum m2_date_of_maternal_death_yesno) 
+encode q_107, gen(m2_ga)
+drop q_107
+
+encode q_108, generate(m2_hiv_status)
+drop q_108
+
+encode county, generate(m2_county)
+
+rename (enum_name date_death_knows) /// 
+       (m2_enum m2_date_of_maternal_death_yesno) 
 	   
 rename q_110 m2_date_of_maternal_death
 rename q_111 m2_maternal_death_learn
@@ -328,25 +350,85 @@ rename (q_203a q_203b q_203c q_203d q_203e q_203f q_203g q_203h) ///
 rename (q_204 q_204_specify) (m2_204i m2_204i_other) 
 
 rename (q_205a q_205b) (m2_205a m2_205b)
-rename phq_score m2_phq2_ke 
+encode phq_score, gen(m2_phq2_ke)
+drop phq_score
+
 rename  q_206 m2_206
 
-rename (q_303_3 q_303_4 q_303_5) (m2_303 m2_303d m2_303e)
+rename (q_303_3 q_303_4 q_303_5) (m2_303c m2_303d m2_303e)
 	   
 rename (q_304_3 q_304_oth_3 q_304_4 ///
         q_304_oth_4 q_304_5 q_304_oth_5) ///
 	   (m2_304c m2_304c_other m2_304d ///
 	    m2_304d_other m2_304e m2_304e_other)
 
-rename (q_307_2_1 q_307_3_1 q_307_4_1 q_307_5_1 q_307__96_1 q_307_oth_1) (m2_306_2 m2_306_3 m2_306_4 m2_306_5 m2_306_96 m2_307_other)
+rename q_307_oth_1 m2_307_other
 
-rename (q_307_1_2 q_307_2_2 q_307_3_2 q_307_4_2 q_307_5_2 q_307__96_2 q_307_oth_2) (m2_308_1 m2_308_2 m2_308_3 m2_308_4 m2_308_5 m2_308_96 m2_310_other)
+encode q_307_2_1,gen(m2_306_2)
+drop q_307_2_1
+encode q_307_3_1,gen(m2_306_3)
+drop q_307_3_1
+encode q_307_4_1,gen(m2_306_4)
+drop q_307_4_1
+encode q_307_5_1,gen(m2_306_5)
+drop q_307_5_1
+encode q_307__96_1,gen(m2_306_96)
+drop q_307__96_1
 
-rename (q_305_3 q_306_3 q_307_1_3 q_307_2_3 q_307_3_3 q_307_4_3 q_307_5_3 q_307__96_3 q_307_oth_3) (m2_311 m2_312 m2_311_1 m2_311_2 m2_311_3 m2_311_4 m2_311_5 m2_311_96 m2_313_other)
+rename q_307_oth_2 m2_310_other
 
-rename (q_305_4 q_306_4 q_307_1_4 q_307_2_4 q_307_3_4 q_307_4_4 q_307_5_4 q_307__96_4 q_307_oth_4) (m2_314 m2_315 m2_314_1 m2_314_2 m2_314_3 m2_314_4 m2_314_5 m2_314_96 m2_316_other)
+encode q_307_1_2,gen(m2_308_1)
+encode q_307_2_2,gen(m2_308_2)
+encode q_307_3_2,gen(m2_308_3)
+encode q_307_4_2,gen(m2_308_4)
+encode q_307_5_2,gen(m2_308_5)
+encode q_307__96_2, gen(m2_308_96)
 
-rename (q_305_5 q_306_5 q_307_1_5 q_307_2_5 q_307_3_5 q_307_4_5 q_307_5_5 q_307__96_5 q_307_oth_5) (m2_317 m2_318 m2_317_1 m2_317_2 m2_317_3 m2_317_4 m2_317_5 m2_317_96 m2_319_other)
+rename (q_305_3 q_306_3 q_307_oth_3) (m2_311 m2_312 m2_313_other)
+
+encode q_307_1_3,gen(m2_311_1)
+drop q_307_1_3
+encode q_307_2_3,gen(m2_311_2)
+drop q_307_2_3
+encode q_307_3_3,gen(m2_311_3)
+drop q_307_3_3
+encode q_307_4_3,gen(m2_311_4)
+drop q_307_4_3
+encode q_307_5_3,gen(m2_311_5)
+drop q_307_5_3
+encode q_307__96_3,gen(m2_311_96)
+drop q_307__96_3
+
+rename (q_305_4 q_306_4 q_307_oth_4) (m2_314 m2_315 m2_316_other) 
+
+encode q_307_1_4,gen(m2_314_1)
+drop q_307_1_4
+encode q_307_2_4,gen(m2_314_2)
+drop q_307_2_4
+encode q_307_3_4,gen(m2_314_3)
+drop q_307_3_4
+encode q_307_4_4,gen(m2_314_4)
+drop q_307_4_4
+encode q_307_5_4,gen(m2_314_5)
+drop q_307_5_4
+encode q_307__96_4,gen(m2_314_96)
+drop q_307__96_4
+
+rename (q_305_5 q_306_5 q_307_oth_5) (m2_317 m2_318 m2_319_other)  
+
+encode q_307_1_5, gen(m2_317_1)
+drop q_307_1_5
+encode q_307_2_5, gen(m2_317_2)
+drop q_307_2_5
+encode q_307_3_5, gen(m2_317_3) 
+drop q_307_3_5
+encode q_307_4_5, gen(m2_317_4) 
+drop q_307_4_5
+encode q_307_5_5, gen(m2_317_5)
+drop q_307_5_5
+encode q_307__96_5, gen(m2_317_96)
+drop q_307__96_5
+
 
 rename (q_320_0 q_320_1 q_320_2 q_320_3 q_320_4 q_320_5 q_320_6 q_320_7 q_320_8 ///
         q_320_9 q_320_10 q_320_11 q_320_12 q_320__96 q_320__99 q_320_other) ///
@@ -385,11 +467,13 @@ rename q_603 m2_603
 rename (q_702a q_702b q_702c q_702d q_702e q_702e_other) ///
        (m2_702a_cost m2_702b_cost m2_702c_cost m2_702d_cost m2_702e_cost m2_702_other_ke)
 	   
-rename q_701_total m2_703
+encode q_701_total, generate(m2_703)
+drop q_701_total
+
 rename q_702_medication m2_702_meds_ke
 rename q_702_total m2_704_confirm
 rename (q_705_1 q_705_2 q_705_3 q_705_4 q_705_5 q_705_6 q_705__96 q_705_other) ///
-       (m2_705__1 m2_705__2 m2_705__3 m2_705__4 m2_705__5 m2_705__6 m2_705__96 m2_705_other)
+       (m2_705_1 m2_705_2 m2_705_3 m2_705_4 m2_705_5 m2_705_6 m2_705_96 m2_705_other)
 rename call_status m2_complete
 rename refused_why m2_refused_why
 
@@ -954,6 +1038,12 @@ recode m2_attempt_relationship (4 = .d)
 
 recode m2_complete (5 = .r)
 
+recode m2_ga_estimate (998 = .d) 
+
+recode m2_602b (-999 = .r) // SS: double check with KE team
+
+recode m2_702_meds_ke m2_702a_cost m2_702b_cost m2_702c_cost m2_702d_cost m2_702e_cost  m2_704_confirm (999 = .d)
+
 	   ** MODULE 3:
 	   * Notes: m3_412g_2_other is the only "g other" that is string
 recode m3_303a m3_303b m3_baby1_gender m3_baby1_health m3_breastfeeding m3_baby1_born_alive1 ///
@@ -1003,6 +1093,25 @@ recode m3_303a m3_baby1_gender m3_baby1_weight m3_baby2_weight m3_baby1_born_ali
 	   m3_1003 m3_1005a m3_1005b m3_1005c m3_1005d m3_1005e m3_1005f m3_1005g m3_1005h m3_1006a ///
 	   m3_1006b m3_1006c m3_1007a m3_1007b m3_1007c m3_1101 m3_1106 m3_1201 m3_1203 (-98 = .d)	 
 	   
+	   
+* Formatting Dates (SS: do this for all dates in all modules)	 
+
+* Module 1:
+
+* Module 2:
+	*Date and time of M2
+	gen _m2_date_time_ = date(m2_date_time,"YMDhms")
+	drop m2_date_time
+	rename _m2_date_time_ m2_date_time
+	format m2_date_time %td  
+	   
+	/* SS: need to figure out how to do this without adding the "01jan1960 infront of the time" 
+	*https://www.reed.edu/psychology/stata/gs/tutorials/datesandtimes.html 
+	Time
+	gen double _m2_time_start_ = clock(m2_time_start,"hm")
+	drop m2_time_start
+	rename _m2_time_start_ m2_time_start
+	format m2_time_start %tc */
 	   
 *------------------------------------------------------------------------------*
 
@@ -1285,39 +1394,49 @@ recode m1_1308 (.  = .a) if m1_1306 == 1 | m1_1306 == .
 recode m1_1309 (.  = .a) if m1_1308 == 0 | m1_1308 == . | m1_1308 == .a	  
 
 *replace pref_language_other_ke = ".a" if pref_language_96_ke != 1
-/*
-	** MODULE 2 (EDIT FOR KE!!):
-	
-	
-recode m2_permission (. = .a) if m2_start == 0
-recode m2_maternal_death_reported (. = .a) if m2_permission==0
 
-recode m2_hiv_status (. = .a) if m2_maternal_death_reported == 1 | m1_708b == 1
+	** MODULE 2: 
+recode m2_date_time m2_interviewer m2_respondentid m2_county m2_attempt_number m2_attempt_number_other m2_attempt_outcome m2_resp_lang1 m2_resp_lang2 m2_attempt_relationship m2_attempt_avail m2_attempt_contact m2_reschedule_resp m2_completed_attempts m3_start_p1 m2_ga_estimate (. = .a) if module !=2
 
-* SS: Fix in redcap? error says recode only allows numeric vars but it works below
-* recode date_of_maternal_death (. = .a) if maternal_death_reported == 0 | ///
-										  *maternal_death_reported == . | ///
-										  *maternal_death_reported == .a
+recode m2_attempt_number_other (. = .a) if m2_attempt_number !=96
 
-recode m2_maternal_death_learn (. = .a) if m2_maternal_death_reported == 0
+recode m2_resp_lang1 (. = .a) if m2_attempt_outcome !=1
 
-recode m2_maternal_death_learn_other (. = .a) if m2_maternal_death_learn == 1 | m2_maternal_death_learn == 2 | m2_maternal_death_learn == 3 | m2_maternal_death_learn == 4
+recode m2_resp_lang2 (. = .a) if m2_resp_lang1 !=0
 
-recode m2_201 m2_202 (. = .a) if m2_maternal_death_reported == 2 | m2_maternal_death_reported == 3
+replace m2_resp_lang_other = ".a" if m2_resp_lang2 !=-96
 
-* SS: fix
-recode m2_date_of_maternal_death_2 (. = .a) if m2_maternal_death_reported == 0 | ///
-											m2_maternal_death_reported == . | ///
-											m2_maternal_death_reported == .a
+recode m2_attempt_relationship (. = .a) if m2_attempt_outcome !=2
 
-recode m2_203a m2_203b m2_203c m2_203d m2_203e ///
-	   m2_203f m2_203g m2_203h m2_203i m2_204a ///
-	   m2_204b m2_204c m2_204d m2_204e m2_204f ///
-	   m2_204g m2_204h m2_204i m2_205a m2_205b ///
-	   m2_205c m2_205d m2_205e m2_205f m2_205g ///
-	   m2_205h m2_205i m2_206 m2_207 m2_208 m2_301 (. = .a) if m2_202 == 0
+replace m2_attempt_other = ".a" if m2_attempt_relationship !=96
 
-recode m2_302 (. = .a) if m2_301 == 0 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
+recode m2_attempt_avail (. = .a) if m2_attempt_outcome !=2
+
+recode m2_attempt_contact m2_attempt_goodtime (. = .a) if m2_attempt_avail !=0 | m2_maternal_death_reported ==1
+
+recode m2_reschedule_resp (. = .a) if m2_attempt_goodtime !=1
+
+recode m2_maternal_death_reported (. = .a) if m2_attempt_avail != 0
+
+recode m2_date_of_maternal_death_yesno m2_date_of_maternal_death (. = .a) if m2_maternal_death_reported !=1
+
+recode m2_hiv_status (. = .a) if m1_202e != 0 | m1_202e != 1
+
+recode m2_date_of_maternal_death (. = .a) if m2_maternal_death_reported !=1
+
+recode m2_maternal_death_learn (. = .a) if m2_maternal_death_reported !=1
+
+replace m2_maternal_death_learn_other = ".a" if m2_maternal_death_learn != -96
+
+recode m2_201 m2_202 (. = .a) if module !=2 | m2_consent_recording !=1
+
+replace m2_202_other = ".a" if m2_202 !=3
+
+recode m2_ga_estimate (. = .a) if m2_ga == .
+
+recode m2_203a m2_203b m2_203c m2_203d m2_203e m2_203f m2_203g m2_203h m2_204i m2_205a m2_205b m2_phq2_ke m2_206 m2_301 (. = .a) if m2_202 !=1
+
+recode m2_302 (. = .a) if m2_301 !=1
 
 recode m2_303a (. = .a) if m2_302 == . | m2_302 == .a
 
@@ -1340,165 +1459,75 @@ recode m2_304d (. = .a) if m2_302 == . | m2_302 == 1 | m2_302 == 2 | m2_302 == 3
 recode m2_304e (. = .a) if m2_302 == . | m2_302 == 1 | m2_302 == 2 | m2_302 == 3  | m2_302 == 4 | m2_303e == 1 | m2_303e == 2 | m2_302 == .a
 
 recode m2_305 (. = .a) if m2_302 == . | m2_302 == .a
+recode m2_306 (. = .a) if m2_305 !=0
 
-recode m2_306 (. = .a) if m2_305 == 1 | m2_305 == 98 | m2_305 == 99
-
-recode m2_306_1 (0 = .a) if m2_306 == 1 | m2_306 == 98 | m2_306 == 99
-recode m2_306_1 (0 = .) if m2_306 == 0
-
-recode m2_306_2 (0 = .a) if m2_306 == 1 | m2_306 == 98 | m2_306 == 99
-recode m2_306_2 (0 = .) if m2_306 == 0
-
-recode m2_306_3 (0 = .a) if m2_306 == 1 | m2_306 == 98 | m2_306 == 99
-recode m2_306_3 (0 = .) if m2_306 == 0
-
-recode m2_306_4 (0 = .a) if m2_306 == 1 | m2_306 == 98 | m2_306 == 99
-recode m2_306_4 (0 = .) if m2_306 == 0
-
-recode m2_306_5 (0 = .a) if m2_306 == 1 | m2_306 == 98 | m2_306 == 99
-recode m2_306_5 (0 = .) if m2_306 == 0
-
-recode m2_306_96 (0 = .a) if m2_306 == 1 | m2_306 == 98 | m2_306 == 99
-recode m2_306_96 (0 = .) if m2_306 == 0
-
-replace m2_307_other = ".a" if m2_306_96 ==1
+recode m2_306_1 (. = .a) if m2_306 !=0
+recode m2_306_2 (. = .a) if m2_306 !=0
+recode m2_306_3 (. = .a) if m2_306 !=0
+recode m2_306_4 (. = .a) if m2_306 !=0
+recode m2_306_5 (. = .a) if m2_306 !=0
+recode m2_306_96 (. = .a) if m2_306 !=0
+replace m2_307_other = ".a" if m2_306_96 !=2
 
 recode m2_308 (. = .a) if m2_302 == 1 | m2_302 == . | m2_302 == .a
+recode m2_309 (. = .a) if m2_308 !=0
 
-recode m2_309 (. = .a) if m2_308 == 1 | m2_308 == 98 | m2_308 == 99
+recode m2_308_1 (. = .a) if m2_308 !=0 | m2_308 !=1
+recode m2_308_2 (. = .a) if m2_308 !=0 | m2_308 !=1
+recode m2_308_3 (. = .a) if m2_308 !=0 | m2_308 !=1
+recode m2_308_4 (. = .a) if m2_308 !=0 | m2_308 !=1
+recode m2_308_5 (. = .a) if m2_308 !=0 | m2_308 !=1
+recode m2_308_96 (. = .a) if m2_308 !=0 | m2_308 !=1
+replace m2_310_other = ".a" if m2_308_96 !=2
 
-recode m2_308_1 (0 = .a) if m2_306 == 1 | m2_306 == 98 | m2_306 == 99
-recode m2_308_1 (0 = .) if m2_306 == 0
+recode m2_311 (. = .a) if m2_302 == 2 | m2_302 == 1 | m2_302 == . | m2_302 == .a
+recode m2_312 (. = .a) if m2_311 !=0
 
-recode m2_308_2 (0 = .a) if m2_309 == 1 | m2_309 == 98 | m2_309 == 99
-recode m2_308_2 (0 = .) if m2_309 == 0
+recode m2_311_1 (. = .a) if m2_311 !=0 | m2_311 !=1
+recode m2_311_2 (. = .a) if m2_311 !=0 | m2_311 !=1
+recode m2_311_3 (. = .a) if m2_311 !=0 | m2_311 !=1
+recode m2_311_4 (. = .a) if m2_311 !=0 | m2_311 !=1
+recode m2_311_5 (. = .a) if m2_311 !=0 | m2_311 !=1
+recode m2_311_96 (. = .a) if m2_311 !=0 | m2_311 !=1
+replace m2_313_other = ".a" if m2_311_96 !=2
 
-recode m2_308_3 (0 = .a) if m2_309 == 1 | m2_309 == 98 | m2_309 == 99
-recode m2_308_3 (0 = .) if m2_309 == 0
+recode m2_314 (. = .a) if m2_302 == 3 | m2_302 == 2 | m2_302 == 1 | m2_302 == . | m2_302 == .a
+recode m2_315 (. = .a) if m2_314 !=0
 
-recode m2_308_4 (0 = .a) if m2_309 == 1 | m2_309 == 98 | m2_309 == 99
-recode m2_308_4 (0 = .) if m2_309 == 0
+recode m2_314_1 (. = .a) if m2_314 !=0 | m2_314 !=1
+recode m2_314_2 (. = .a) if m2_314 !=0 | m2_314 !=1
+recode m2_314_3 (. = .a) if m2_314 !=0 | m2_314 !=1
+recode m2_314_4 (. = .a) if m2_314 !=0 | m2_314 !=1
+recode m2_314_5 (. = .a) if m2_314 !=0 | m2_314 !=1
+recode m2_314_96 (. = .a) if m2_314 !=0 | m2_314 !=1
+replace m2_316_other = ".a" if m2_314_96 !=2
 
-recode m2_308_5 (0 = .a) if m2_309 == 1 | m2_309 == 98 | m2_309 == 99
-recode m2_308_5 (0 = .) if m2_309 == 0
+recode m2_317 (. = .a) if m2_302 == 4 | m2_302 == 3 | m2_302 == 2 | m2_302 == 1 | m2_302 == . | m2_302 == .a
+recode m2_318 (. = .a) if m2_317 !=0
 
-recode m2_308_96 (0 = .a) if m2_309 == 1 | m2_309 == 98 | m2_309 == 99
-recode m2_308_96 (0 = .) if m2_309 == 0
+recode m2_317_1 (0 = .a) if m2_314 !=0 | m2_314 !=1
+recode m2_317_2 (0 = .a) if m2_314 !=0 | m2_314 !=1
+recode m2_317_3 (0 = .a) if m2_314 !=0 | m2_314 !=1
+recode m2_317_4 (0 = .a) if m2_314 !=0 | m2_314 !=1
+recode m2_317_5 (0 = .a) if m2_314 !=0 | m2_314 !=1
+recode m2_317_96 (0 = .a) if m2_314 !=0 | m2_314 !=1
+replace m2_319_other = ".a" if m2_317_96 !=2
 
-replace m2_310_other = ".a" if m2_308_96 ==1
+recode m2_320_0 (. = .a) if m2_301 !=0
+recode m2_320_1 (. = .a) if m2_301 !=0
+recode m2_320_2 (. = .a) if m2_301 !=0
+recode m2_320_3 (. = .a) if m2_301 !=0
+recode m2_320_4 (. = .a) if m2_301 !=0
+recode m2_320_5 (. = .a) if m2_301 !=0
+recode m2_320_6 (. = .a) if m2_301 !=0
+recode m2_320_7 (. = .a) if m2_301 !=0
+recode m2_320_8 (. = .a) if m2_301 !=0
+recode m2_320_9 (. = .a) if m2_301 !=0
+recode m2_320_10 (. = .a) if m2_301 !=0
+recode m2_320_11 (. = .a) if m2_301 !=0
+recode m2_320_96 (. = .a) if m2_301 !=0
+recode m2_320_99 (. = .a) if m2_301 !=0
 
-recode m2_311 (. = .a) if m2_302 == 1 | m2_302 == . | m2_302 == .a | m2_302 == 2
-
-recode m2_312 (. = .a) if m2_311 == 1 | m2_311 == 98 | m2_311 == 99
-
-recode m2_311_1 (0 = .a) if m2_312 == 1 | m2_312 == 98 | m2_312 == 99
-recode m2_311_1 (0 = .) if m2_312 == 0
-
-recode m2_311_2 (0 = .a) if m2_312 == 1 | m2_312 == 98 | m2_312 == 99
-recode m2_311_2 (0 = .) if m2_312 == 0
-
-recode m2_311_3 (0 = .a) if m2_312 == 1 | m2_312 == 98 | m2_312 == 99
-recode m2_311_3 (0 = .) if m2_312 == 0
-
-recode m2_311_4 (0 = .a) if m2_312 == 1 | m2_312 == 98 | m2_312 == 99
-recode m2_311_4 (0 = .) if m2_312 == 0
-
-recode m2_311_5 (0 = .a) if m2_312 == 1 | m2_312 == 98 | m2_312 == 99
-recode m2_311_5 (0 = .) if m2_312 == 0
-
-recode m2_311_96 (0 = .a) if m2_312 == 1 | m2_312 == 98 | m2_312 == 99
-recode m2_311_96 (0 = .) if m2_312 == 0
-
-replace m2_313_other = ".a" if m2_311_96 ==1
-
-recode m2_314 (. = .a) if m2_302 == 1 | m2_302 == . | m2_302 == .a | m2_302 == 2 | m2_302 == 3
-
-recode m2_315 (. = .a) if m2_314 == 1 | m2_314 == 98 | m2_314 == 99
-
-recode m2_314_1 (0 = .a) if m2_315 == 1 | m2_315 == 98 | m2_315 == 99
-recode m2_314_1 (0 = .) if m2_315 == 0
-
-recode m2_314_2 (0 = .a) if m2_315 == 1 | m2_315 == 98 | m2_315 == 99
-recode m2_314_2 (0 = .) if m2_315 == 0
-
-recode m2_314_3 (0 = .a) if m2_315 == 1 | m2_315 == 98 | m2_315 == 99
-recode m2_314_3 (0 = .) if m2_315 == 0
-
-recode m2_314_4 (0 = .a) if m2_315 == 1 | m2_315 == 98 | m2_315 == 99
-recode m2_314_4 (0 = .) if m2_315 == 0
-
-recode m2_314_5 (0 = .a) if m2_315 == 1 | m2_315 == 98 | m2_315 == 99
-recode m2_314_5 (0 = .) if m2_315 == 0
-
-recode m2_314_96 (0 = .a) if m2_315 == 1 | m2_315 == 98 | m2_315 == 99
-recode m2_314_96 (0 = .) if m2_315 == 0
-
-replace m2_316_other = ".a" if m2_314_96 ==1
-
-recode m2_317 (. = .a) if m2_302 == 1 | m2_302 == . | m2_302 == .a | m2_302 == 2 | m2_302 == 3 | m2_302 == 4
-recode m2_318 (. = .a) if m2_317 == 1 | m2_317 == 98 | m2_317 == 99
-
-recode m2_317_1 (0 = .a) if m2_318 == 1 | m2_318 == 98 | m2_318 == 99
-recode m2_317_1 (0 = .) if m2_318 == 0
-
-recode m2_317_2 (0 = .a) if m2_318 == 1 | m2_318 == 98 | m2_318 == 99
-recode m2_317_2 (0 = .) if m2_318 == 0
-
-recode m2_317_3 (0 = .a) if m2_318 == 1 | m2_318 == 98 | m2_318 == 99
-recode m2_317_3 (0 = .) if m2_318 == 0
-
-recode m2_317_4 (0 = .a) if m2_318 == 1 | m2_318 == 98 | m2_318 == 99
-recode m2_317_4 (0 = .) if m2_318 == 0
-
-recode m2_317_5 (0 = .a) if m2_318 == 1 | m2_318 == 98 | m2_318 == 99
-recode m2_317_5 (0 = .) if m2_318 == 0
-
-recode m2_317_96 (0 = .a) if m2_318 == 1 | m2_318 == 98 | m2_318 == 99
-recode m2_317_96 (0 = .) if m2_318 == 0
-
-replace m2_319_other = .a if m2_317_96 == 1
-
-recode m2_320_0 (0 = .a) if m2_202 == 0 | m2_202 == 98 | m2_202 == 99 | m2_301 == 1 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
-recode m2_320_0 (0 = .) if m2_202 == 1 & m2_301 == 0
-
-recode m2_320_1 (0 = .a) if m2_202 == 0 | m2_202 == 98 | m2_202 == 99 | m2_301 == 1 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
-recode m2_320_1 (0 = .) if m2_202 == 1 & m2_301 == 0
-
-recode m2_320_2 (0 = .a) if m2_202 == 0 | m2_202 == 98 | m2_202 == 99 | m2_301 == 1 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
-recode m2_320_2 (0 = .) if m2_202 == 1 & m2_301 == 0
-
-recode m2_320_3 (0 = .a) if m2_202 == 0 | m2_202 == 98 | m2_202 == 99 | m2_301 == 1 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
-recode m2_320_3 (0 = .) if m2_202 == 1 & m2_301 == 0
-
-recode m2_320_4 (0 = .a) if m2_202 == 0 | m2_202 == 98 | m2_202 == 99 | m2_301 == 1 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
-recode m2_320_4 (0 = .) if m2_202 == 1 & m2_301 == 0
-
-recode m2_320_5 (0 = .a) if m2_202 == 0 | m2_202 == 98 | m2_202 == 99 | m2_301 == 1 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
-recode m2_320_5 (0 = .) if m2_202 == 1 & m2_301 == 0
-
-recode m2_320_6 (0 = .a) if m2_202 == 0 | m2_202 == 98 | m2_202 == 99 | m2_301 == 1 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
-recode m2_320_6 (0 = .) if m2_202 == 1 & m2_301 == 0
-
-recode m2_320_7 (0 = .a) if m2_202 == 0 | m2_202 == 98 | m2_202 == 99 | m2_301 == 1 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
-recode m2_320_7 (0 = .) if m2_202 == 1 & m2_301 == 0
-
-recode m2_320_8 (0 = .a) if m2_202 == 0 | m2_202 == 98 | m2_202 == 99 | m2_301 == 1 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
-recode m2_320_8 (0 = .) if m2_202 == 1 & m2_301 == 0
-
-recode m2_320_9 (0 = .a) if m2_202 == 0 | m2_202 == 98 | m2_202 == 99 | m2_301 == 1 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
-recode m2_320_9 (0 = .) if m2_202 == 1 & m2_301 == 0
-
-recode m2_320_10 (0 = .a) if m2_202 == 0 | m2_202 == 98 | m2_202 == 99 | m2_301 == 1 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
-recode m2_320_10 (0 = .) if m2_202 == 1 & m2_301 == 0
-
-recode m2_320_11 (0 = .a) if m2_202 == 0 | m2_202 == 98 | m2_202 == 99 | m2_301 == 1 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
-recode m2_320_11 (0 = .) if m2_202 == 1 & m2_301 == 0
-
-recode m2_320_96 (0 = .a) if m2_202 == 0 | m2_202 == 98 | m2_202 == 99 | m2_301 == 1 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
-recode m2_320_96 (0 = .) if m2_202 == 1 & m2_301 == 0
-
-recode m2_320_99 (0 = .a) if m2_202 == 0 | m2_202 == 98 | m2_202 == 99 | m2_301 == 1 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
-recode m2_320_99 (0 = .) if m2_202 == 1 & m2_301 == 0
 
 recode m2_321 (. = .a) if m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a
                        
@@ -1511,31 +1540,32 @@ recode m2_403 (. = .a) if (m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .
 recode m2_404 (. = .a) if (m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a) | (m2_302 == 1 | m2_302 == . | m2_302 == .a | m2_302 == 2 | m2_302 == 3)			   
 recode m2_405 (. = .a) if (m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a) | (m2_302 == 1 | m2_302 == . | m2_302 == .a | m2_302 == 2 | m2_302 == 3 | m2_302 == 4)
 
-recode m2_501a (. = .a) if m2_301 == 0 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
-recode m2_501b (. = .a) if m2_301 == 0 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
-recode m2_501c (. = .a) if m2_301 == 0 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
-recode m2_501d (. = .a) if m2_301 == 0 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
-recode m2_501e (. = .a) if m2_301 == 0 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
-recode m2_501f (. = .a) if m2_301 == 0 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
-recode m2_501g (. = .a) if m2_301 == 0 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
+recode m2_501a (. = .a) if m2_301 !=1
+recode m2_501b (. = .a) if m2_301 !=1
+recode m2_501c (. = .a) if m2_301 !=1
+recode m2_501d (. = .a) if m2_301 !=1
+recode m2_501e (. = .a) if m2_301 !=1
+recode m2_501f (. = .a) if m2_301 !=1
+recode m2_501g (. = .a) if m2_301 !=1
 
-recode m2_502 (. = .a) if m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a | m2_301 == 0 | m2_301 == 98 | m2_301 == 99  | m2_301 == . | m2_301 == .a
 
-recode m2_503a (. = .a) if m2_502 == 0 | m2_502 == 98 | m2_502 == 99
-recode m2_503b (. = .a) if m2_502 == 0 | m2_502 == 98 | m2_502 == 99
-recode m2_503c (. = .a) if m2_502 == 0 | m2_502 == 98 | m2_502 == 99
-recode m2_503d (. = .a) if m2_502 == 0 | m2_502 == 98 | m2_502 == 99
-recode m2_503e (. = .a) if m2_502 == 0 | m2_502 == 98 | m2_502 == 99
-recode m2_503f (. = .a) if m2_502 == 0 | m2_502 == 98 | m2_502 == 99
-recode m2_504 (. = .a) if m2_502 == 0 | m2_502 == 98 | m2_502 == 99
+recode m2_503a (. = .a) if m2_502 !=1
+recode m2_503b (. = .a) if m2_502 !=1
+recode m2_503c (. = .a) if m2_502 !=1
+recode m2_503d (. = .a) if m2_502 !=1
+recode m2_503e (. = .a) if m2_502 !=1
+recode m2_503f (. = .a) if m2_502 !=1
+recode m2_504 (. = .a) if m2_502 !=1
 
-recode m2_505a (. = .a) if m2_503a == 0 | m2_503a == 98 | m2_503a == 99
-recode m2_505b (. = .a) if m2_503b == 0 | m2_503b == 98 | m2_503b == 99
-recode m2_506c (. = .a) if m2_503c == 0 | m2_503c == 98 | m2_503c == 99
-recode m2_505d (. = .a) if m2_503d == 0 | m2_503d == 98 | m2_503d == 99
-recode m2_505e (. = .a) if m2_503e == 0 | m2_503e == 98 | m2_503e == 99
-recode m2_505f (. = .a) if m2_503f == 0 | m2_503f == 98 | m2_503f == 99
-*recode m2_505g (. = .a) if m2_504 == 0 | m2_504 == 98 | m2_504 == 99
+replace m2_504_other = ".a" if m2_504 !=1
+
+recode m2_505a (. = .a) if m2_503a !=1
+recode m2_505b (. = .a) if m2_503b !=1
+recode m2_506c (. = .a) if m2_503c !=1
+recode m2_505d (. = .a) if m2_503d !=1
+recode m2_505e (. = .a) if m2_503e !=1
+recode m2_505f (. = .a) if m2_503f !=1
+recode m2_505g (. = .a) if m2_504 !=1
 
 recode m2_506a (. = .a) if m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a | m2_301 == 0 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
 
@@ -1545,99 +1575,85 @@ recode m2_506c (. = .a) if m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .
 
 recode m2_506d (. = .a) if m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a | m2_301 == 0 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
 
-recode m2_507 (. = .a) if m2_203a == 0 & m2_203b == 0 & m2_203c == 0 & m2_203d == 0 & m2_203e == 0 & m2_203f == 0 & m2_203g == 0 & m2_203h == 0 & m2_203i == 0 | m2_301 == 0 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
+/* m2_507 is a multi-checkbox string
+recode m2_507 (. = .a) if (m2_203a == 0 & m2_203b == 0 & m2_203c == 0 & ///
+						  m2_203d == 0 & m2_203e == 0 & m2_203f == 0 & ///
+						  m2_203g == 0 & m2_203h == 0) | ///
+						  (m2_301 == 0 | m2_301 == . | m2_301 == .a)*/
 
-*double check this:
-recode m2_508a (. = .a) if (m2_205a+m2_205b) < 3
+recode m2_508a (. = .a) if (m2_205a+m2_205b) <3 | m2_202 !=1
+recode m2_508b_last (. = .a) if m2_508a !=1
+recode m2_508d (. = .a) if m2_508a !=1
 
-recode m2_508b_number (. = .a) if m2_508a == 0 | m2_508a == 98 | m2_508a == 99  | m2_508a == . | m2_508a == .a 
+recode m2_509a (. = .a) if m2_301 !=1
+recode m2_509b (. = .a) if m2_301 !=1
+recode m2_509c (. = .a) if m2_301 !=1
 
-recode m2_508b_last (. = .a) if m2_508b_number == 0 | m2_508b_number == 98 | m2_508b_number == 99 | m2_508b_number == . | m2_508b_number == .a  
+recode m2_601a (. = .a) if m2_202 !=1
+recode m2_601b (. = .a) if m2_202 !=1
+recode m2_601c (. = .a) if m2_202 !=1
+recode m2_601c (. = .a) if m2_202 !=1
+recode m2_601d (. = .a) if m2_202 !=1
+recode m2_601e (. = .a) if m2_202 !=1
+recode m2_601f (. = .a) if m2_202 !=1
+recode m2_601g (. = .a) if m2_202 !=1
+recode m2_601h (. = .a) if m2_202 !=1
+recode m2_601i (. = .a) if m2_202 !=1
+recode m2_601j (. = .a) if m2_202 !=1
+recode m2_601l (. = .a) if m2_202 !=1
+recode m2_601m (. = .a) if m2_202 !=1
+recode m2_601n (. = .a) if m2_202 !=1
+recode m2_601_0_ke (. = .a) if m2_202 !=1
+replace m2_601n_other = ".a" if m2_601n !=1
 
-recode m2_508c (. = .a) if m2_508b_number == 0 | m2_508b_number == 98 | m2_508b_number == 99 | m2_508b_number == . | m2_508b_number == .a
- 
-recode m2_508d (. = .a) if m2_508c == 0 | m2_508c == 98 | m2_508c == 99 | m2_508c == . | m2_508c == .a
+egen meds = rowtotal(m2_601a m2_601o m2_601b m2_601c m2_601d m2_601e m2_601f m2_601g m2_601h m2_601i m2_601j m2_601k m2_601l m2_601m m2_601n m2_601_0_ke)
 
-recode m2_509a (. = .a) if m2_301 == 0 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
-recode m2_509b (. = .a) if m2_301 == 0 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
-recode m2_509c (. = .a) if m2_301 == 0 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
+recode m2_602b (. = .a) if meds==0 | meds==1
+drop meds
 
-recode m2_601a (. = .a) if m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a
-recode m2_601b (. = .a) if m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a
-recode m2_601c (. = .a) if m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a
-recode m2_601c (. = .a) if m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a
-recode m2_601d (. = .a) if m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a
-recode m2_601e (. = .a) if m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a
-recode m2_601f (. = .a) if m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a
-recode m2_601g (. = .a) if m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a
-recode m2_601h (. = .a) if m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a
-recode m2_601i (. = .a) if m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a
-recode m2_601j (. = .a) if m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a
-recode m2_601l (. = .a) if m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a
-recode m2_601m (. = .a) if m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a
-recode m2_601n (. = .a) if m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a
+recode m2_603 (. = .a) if m2_202 !=1 | m2_601a ==1
+recode m2_701 (. = .a) if m2_202 !=1 | m2_301 !=1
 
-recode m2_602a (. = .a) if (m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a )| ///
-						  (m2_601a !=1 & m2_601b !=1 & m2_601c !=1 & m2_601d !=1 & m2_601e !=1 & ///
-						  m2_601f !=1 & m2_601g !=1 & m2_601h !=1 & m2_601i !=1 & m2_601j !=1 & ///
-						  m2_601k !=1 & m2_601l !=1 & m2_601m !=1 & m2_601n !=1)
-						  
-recode m2_602b (. = .a) if m2_602a == 0 | m2_602a == 98 | m2_602a == 99	| m2_602a == . | m2_602a == .a
+recode m2_702a_cost (. = .a) if m2_701 !=1
+recode m2_702b_cost (. = .a) if m2_701 !=1
+recode m2_702c_cost (. = .a) if m2_701 !=1
+recode m2_702d_cost (. = .a) if m2_701 !=1
+recode m2_702e_cost (. = .a) if m2_701 !=1
+replace m2_702_other_ke = ".a" if m2_702e_cost !=1
 
-recode m2_603 (. = .a) if m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a 
-recode m2_604 (. = .a) if m2_603 == 2 | m2_603 == 3 | m2_603 == . | m2_603 == .a 
-			
-recode m2_701 (. = .a) if m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a | m2_301 == 0 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
+recode m2_703 m2_704_confirm (. = .a) if m2_701 !=1 | m2_702_meds_ke ==.
 
-recode m2_702a (. = .a) if m2_701 == 0 | m2_701 == 98 | m2_701 == 99 | m2_701 ==. | m2_701 == .a
-recode m2_702a_other (. = .a) if m2_702a !=1
+recode m2_705_1 (. = .a) if m2_701 !=1
+recode m2_705_2 (. = .a) if m2_701 !=1
+recode m2_705_3 (. = .a) if m2_701 !=1
+recode m2_705_4 (. = .a) if m2_701 !=1
+recode m2_705_5 (. = .a) if m2_701 !=1
+recode m2_705_6 (. = .a) if m2_701 !=1
+recode m2_705_96 (. = .a) if m2_701 !=1
 
-recode m2_702b (. = .a) if m2_701 == 0 | m2_701 == 98 | m2_701 == 99 | m2_701 ==. | m2_701 == .a
-recode m2_702b_other (. = .a) if m2_702b !=1
+replace m2_705_other = ".a" if m2_705_96 !=1
 
-recode m2_702c (. = .a) if m2_701 == 0 | m2_701 == 98 | m2_701 == 99 | m2_701 ==. | m2_701 == .a
-recode m2_702c_other (. = .a) if m2_702c !=1
+recode m2_complete (. = .a) if module !=2
+replace m2_refused_why = ".a" if m3_start_p1 !=0 
 
-recode m2_702d (. = .a) if m2_701 == 0 | m2_701 == 98 | m2_701 == 99 | m2_701 ==. | m2_701 == .a
-recode m2_702d_other (. = .a) if m2_702d !=1
+replace m2_enum = ".a" if module !=2 | m2_start_time == .
+recode m2_start_time (. = .a) if module !=2
 
-recode m2_702e (. = .a) if m2_701 == 0 | m2_701 == 98 | m2_701 == 99 | m2_701 ==. | m2_701 == .a
-recode m2_702e_other (. = .a) if m2_702e !=1
+*lala
+recode m2_attempt_avail (. = .a) if m2_attempt_relationship !=4
+recode m2_completed_attempts (. = .a) if m2_complete !=1 | m2_consent_recording !=1
 
-* SS: Ask Kate if we should add 98 into branching logic for 704_other
-recode m2_703 m2_704 (. = .a) if m2_701 == 0 | m2_701 == 98 | m2_701 == 99 | m2_701 ==. | m2_701 == .a
+*Note: i dropped "availability" which is the filtering var for the consent for recording so this is another way I filtered it
+*recode m2_consent_recording (. = .a) if m2_attempt_avail == 0
 
-recode m2_704_other (. = .a) if m2_704 != 1 
+recode m2_date_confirm (. = .a) if 
+recode m2_ga (. = .a) if
+recode m2_ga_estimate (. = .a) if  
+recode m2_endtime (. = .a) if 
 
-recode m2_705_1 (0 = .a) if m2_701 == 0 | m2_701 == 98 | m2_701 == 99 | m2_701 ==. | m2_701 == .a
-recode m2_705_1 (0 = .) if m2_701 == 1
 
-recode m2_705_2 (0 = .a) if m2_701 == 0 | m2_701 == 98 | m2_701 == 99 | m2_701 ==. | m2_701 == .a
-recode m2_705_2 (0 = .) if m2_701 == 1
-
-recode m2_705_3 (0 = .a) if m2_701 == 0 | m2_701 == 98 | m2_701 == 99 | m2_701 ==. | m2_701 == .a
-recode m2_705_3 (0 = .) if m2_701 == 1
-
-recode m2_705_4 (0 = .a) if m2_701 == 0 | m2_701 == 98 | m2_701 == 99 | m2_701 ==. | m2_701 == .a
-recode m2_705_4 (0 = .) if m2_701 == 1
-
-recode m2_705_5 (0 = .a) if m2_701 == 0 | m2_701 == 98 | m2_701 == 99 | m2_701 ==. | m2_701 == .a
-recode m2_705_5 (0 = .) if m2_701 == 1
-
-recode m2_705_6 (0 = .a) if m2_701 == 0 | m2_701 == 98 | m2_701 == 99 | m2_701 ==. | m2_701 == .a
-recode m2_705_6 (0 = .) if m2_701 == 1
-
-recode m2_705_96 (0 = .a) if m2_701 == 0 | m2_701 == 98 | m2_701 == 99 | m2_701 ==. | m2_701 == .a
-recode m2_705_96 (0 = .) if m2_701 == 1
-
-recode m2_interview_inturrupt (. = .a) if m2_permission == 0 | m2_permission == . | m2_permission == .a | m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a 
- 
-recode m2_interview_restarted (. = .a) if m2_permission == 0 | m2_permission == . | m2_permission == .a | m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a  | m2_interview_inturrupt == 0 | m2_interview_inturrupt == . | m2_interview_inturrupt == .a
-
-recode m2_int_duration (. = .a) if m2_permission == 0 | m2_permission == . | m2_permission == .a | m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a 
-
-recode m2_endstatus (. = .a) if m2_endtime == ""
 	
+	/*
 	** MODULE 3 (EDIT FOR KE!!):
 
 recode m3_permission (. = .a) if m3_start_p1 !=1
@@ -2081,11 +2097,10 @@ recode m3_p2_outcome_other (. = .a) if m3_p2_outcome !=96 // numeric because of 
 
 *recode m3_p2_date_of_rescheduled recm3_p2_time_of_rescheduled (. = .a) if m3_attempt_outcome_p2 !=6
 	
-*/	
+	
 *===============================================================================					   
 	
 	* STEP FOUR: LABELING VARIABLES
-ren rec* *
 	
 	** MODULE 1:		
 lab var country "Country"
@@ -2487,7 +2502,6 @@ lab var interview_length "Interview length"
 lab var gest_age_baseline_ke "KE only: Calculated gestational age"
 lab var edd_chart_ke "KE only: Data collector: Check from the chart, is the expected delivery date recorded?"
 lab var edd "KE only: Check from the chart, what is the expected delivery date recorded?"
-/*
 lab var pref_language_ke "KE only: In which language(s) do you feel most comfortable for the follow-up interviews?"
 lab var pref_language_1_ke "KE only: English"
 lab var pref_language_2_ke "KE only: Kiswahili"
@@ -2496,8 +2510,8 @@ lab var pref_language_4_ke "KE only: Kamba"
 lab var pref_language_96_ke "KE only: Other (specify)"
 lab var pref_language_other_ke "KE only: Specify other preferred language"
 
-*/
-/*
+
+
 	** MODULE 2 (EDIT FOR KE!!):
 	label variable m2_start "IIC. May I proceed with the interview?"
 label variable m2_103 "102. Date of interview (D-M-Y)"
@@ -3108,11 +3122,14 @@ lab var m3_1203 "M3-1203. Did you go to a health facility to receive this aborti
 lab var m3_1204 "M3-1204. Overall, how would you rate the quality of care that you received for your abortion?"
 			
 lab var m3_endtime "Time of interview ended"
-lab var m3_duration "Total duration of interview"
+
+
 */
 *===============================================================================
 
 	* STEP FIVE: ORDER VARIABLES
+	
+ren rec* *	
 order m1_* m2_* m3_*, sequential
 order country module interviewer_id m1_date m1_start_time study_site facility ///
       permission care_self enrollage dob ///
