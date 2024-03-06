@@ -9,12 +9,23 @@ u "$user/$analysis/ETtmp.dta", clear
 	* Diabetes, HTN, cardiac problem, mental health problem, HIV
 	egen chronic5=rowmax(m1_202a m1_202b m1_202c m1_202d m1_202e)
 	tabstat m1_202a m1_202b m1_202c m1_202d m1_202e, stat(sum N) col(stat)
-	ta m1_718 if m1_202a  ==1 
-	ta m1_719 if m1_202b  ==1
-	ta m1_720 if m1_202c ==1
-	ta m1_721 if  m1_202d ==1
-	ta m1_722 if m1_202e ==1
+	ta m1_718 if m1_202a  ==1 // DM
+	ta m1_719 if m1_202b  ==1 // HTN
+	ta m1_720 if m1_202c ==1 // cardiac
+	ta m1_721 if  m1_202d ==1 // mental
+	ta m1_722 if m1_202e ==1 // hiv
 	
+	egen diabetes_tx = rowmax(anc1diabetes m1_specialist_hosp )
+	egen hypertension_tx = rowmax(anc1hypertension m1_specialist_hosp)	
+	egen mental_tx=rowmax(m1_724d anc1mental_health_drug m1_specialist_hosp)	
+	egen hiv_tx = rowmax( m1_708c m1_specialist_hosp m1_204)	
+	
+	ta diabetes_tx if m1_202a  ==1
+	ta hypertension_tx if m1_202b  ==1
+	ta m1_specialist_hosp if m1_202c ==1 
+	ta mental_tx if m1_202d ==1 
+	ta hiv_tx if  m1_202e ==1 
+
 	* Prior obstetric complications
 	egen complic4=rowmax(late_misc stillbirth m1_1005 m1_1010)
 	tabstat late_misc stillbirth m1_1005 m1_1010, stat(sum N) col(stat) // late miscarriage, stillbirth (deliv>live births), preterm, neodeath
@@ -23,11 +34,15 @@ u "$user/$analysis/ETtmp.dta", clear
 	ta m1_1011d if m1_1005 ==1 
 	ta m1_1011f if m1_1010 ==1 
 	
+	ta m1_specialist_hosp if complic4==1
+	
 	* Depression
 	g depression_address = m1_716c if depress==1
-	
+	egen depress_tx=rowmax(m1_724d anc1mental_health_drug)
+	ta depress_tx if depress==1
 	* Anemia
 	g anemia_address= anc1blood if lvl_anemia<3
+	ta anc1ifa if lvl_anemia<3
 	
 	* Danger signs (one of 6)
 	ta m1_dangersign
@@ -35,6 +50,8 @@ u "$user/$analysis/ETtmp.dta", clear
 	replace danger_address = 0 if m1_815_other=="I told her the problem but she said nothing"
 	replace danger_address= 0 if  m1_815_0==1 // did not discuss the danger sign 
 	replace danger_address=. if m1_dangersign==0
+	
+	ta m1_specialist_hosp if m1_dangersign==1
 *------------------------------------------------------------------------------*	
 * Kenya
 u "$user/$analysis/KEtmp.dta", clear
@@ -47,6 +64,17 @@ u "$user/$analysis/KEtmp.dta", clear
 	ta m1_720 if m1_202c ==1
 	ta m1_721 if  m1_202d ==1
 	ta m1_722 if m1_202e ==1
+	
+	egen diabetes_tx = rowmax(anc1diabetes specialist_hosp)
+	egen hypertension_tx = rowmax(anc1hypertension specialist_hosp)	
+	egen mental_tx=rowmax(m1_724d anc1mental_health_drug specialist_hosp)	
+	egen hiv_tx = rowmax(m1_713k m1_708c specialist_hosp)
+	
+	ta diabetes_tx if m1_202a  ==1
+	ta hypertension_tx if m1_202b  ==1
+	ta m1_specialist_hosp if m1_202c ==1 
+	ta mental_tx if m1_202d ==1 
+	ta hiv_tx if  m1_202e ==1 
 	
 	* Prior obstetric complications
 	egen complic4=rowmax(m1_1004 stillbirth m1_1005 m1_1010)
@@ -83,6 +111,10 @@ u "$user/$analysis/ZAtmp.dta", clear
 	ta m1_720 if m1_202c ==1
 	ta m1_721 if  m1_202d ==1
 	ta m1_722 if m1_202e ==1
+	
+	
+	egen hiv_tx = rowmax(m1_713k m1_708c m1_708c_2_za m1_specialist_hosp)	
+
 	
 	* Prior obstetric complications
 	egen complic4=rowmax(m1_1004 stillbirth m1_1005 m1_1010)

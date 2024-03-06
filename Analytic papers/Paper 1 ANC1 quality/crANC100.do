@@ -162,9 +162,9 @@ Average of 6 items: electricity, water, toilet, communication, computer & intern
 
 	/* Total staff providing obstetric and newborn care: 
 	Medical doc, OBGYN,  Midwife BSc, Nurse certificate Nurse BSc, Nurse diploma, 
-	Health officer, Family phsician */
-	egen total_staff_onc=rowtotal(m0_101d m0_102d  m0_108d m0_109d m0_110d m0_111d m0_112d  m0_famphy_d_ke )
-	egen staff_cat = cut(total_staff_onc), group(3)
+	Health officer */
+	egen total_staff_onc=rowtotal(m0_101d m0_102d  m0_108d m0_109d m0_110d m0_111d m0_112d )
+	xtile staff_cat = total_staff_onc, nquant(3)
 	
 	* At least one full time doctor
 	gen tmp1= m0_101a - m0_101b
