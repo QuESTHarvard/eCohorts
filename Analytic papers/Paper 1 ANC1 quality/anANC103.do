@@ -29,10 +29,19 @@ global data "Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts 
 	mixed anc1qual i.anyrisk m1_dangersigns poorhealth ib(2).age second healthlit_corr i.tertile   ///
 			primipara preg_intent i.time private facsecond i.sri_cat  i.staff_cat ib(2).site || facility:  , vce(robust) 
 			estat icc
-			
-	reg anc1qual i.anyrisk m1_dangersigns poorhealth ib(2).age i.educ3 healthlit_corr i.tertile   ///
-			primipara preg_intent i.time private facsecond i.sri_cat  i.staff_cat ib(2).site
-			estat vif
+	* Collinearity
+	reg anc1qual i.anyrisk m1_dangersigns poorhealth ib(2).age second healthlit_corr i.tertile   ///
+			primipara preg_intent i.time private facsecond i.sri_cat i.staff_cat i.vol_cat ib(2).site
+			estat vif 
+	
+	* Variance analysis
+	quiet mixed anc1qual i.anyrisk m1_dangersigns poorhealth ib(2).age second healthlit_corr i.tertile   ///
+			primipara preg_intent i.time private facsecond i.sri_cat  i.staff_cat ib(2).site || facility:  , vce(robust) 
+	
+	mixed anc1qual if e(sample)==1 || facility:  , vce(robust) // variance null model
+	 estat icc
+	
+	
 *-------------------------------------------------------------------------------	
 	* INDIA + vol
 	u "$user/$analysis/INtmp.dta", clear
@@ -40,22 +49,35 @@ global data "Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts 
 	mixed anc1qual i.anyrisk m1_dangersigns poorhealth ib(2).age second healthlit_corr i.tertile  ///
 			primipara preg_intent i.facility_lvl i.sri_cat  i.staff_cat i.vol_cat  i.urban || facility: , vce(robust)
 			estat icc	
-			
+	* Collinearity
 	reg anc1qual i.anyrisk m1_dangersigns poorhealth ib(2).age second healthlit_corr i.tertile  ///
-			primipara preg_intent i.facility_lvl i.sri_cat  i.staff_cat i.vol_cat i.urban
-			estat vif
-*-------------------------------------------------------------------------------	
+			primipara preg_intent i.facility_lvl i.sri_cat  i.staff_cat i.vol_cat  i.urban , vce(robust)
+			estat vif 
+			
+	* Variance analysis
+	quiet mixed anc1qual i.anyrisk m1_dangersigns poorhealth ib(2).age second healthlit_corr i.tertile  ///
+			primipara preg_intent i.facility_lvl i.sri_cat  i.staff_cat i.vol_cat  i.urban || facility: , vce(robust)
+	
+	mixed anc1qual if e(sample)==1 || facility:  , vce(robust) // variance null model
+	
+*-----------------------------------------------------------------------------	
 	* ZAF	+ vol	 	
 	u "$user/$analysis/ZAtmp.dta", clear
 	
 	mixed anc1qual i.anyrisk m1_dangersigns poorhealth ib(2).age second healthlit_corr i.tertile  ///
 			primipara preg_intent i.time  i.sri_cat  i.staff_cat  i.vol_cat ib(2).site || facility: , vce(robust)
 			estat icc
-			
-	reg anc1qual i.anyrisk m1_dangersigns poorhealth ib(2).age i.educ3 healthlit_corr i.tertile  ///
-			primipara preg_intent i.time  i.sri_cat  i.staff_cat  i.vol_cat ib(2).site
-			estat vif
+	* Collinearity
+	reg anc1qual i.anyrisk m1_dangersigns poorhealth ib(2).age second healthlit_corr i.tertile  ///
+			primipara preg_intent i.time  i.sri_cat  i.staff_cat  i.vol_cat ib(2).site  , vce(robust)
+	estat vif
 	
+	* Variance analysis
+	quiet mixed anc1qual i.anyrisk m1_dangersigns poorhealth ib(2).age second healthlit_corr i.tertile  ///
+			primipara preg_intent i.time  i.sri_cat  i.staff_cat  i.vol_cat ib(2).site || facility: , vce(robust)
+			
+	mixed anc1qual if e(sample)==1 || facility:  , vce(robust) // variance null model
+
 *-------------------------------------------------------------------------------	
 	/*margins anyrisk, atmeans
 	marginsplot, recast(line) plot1opts(lcolor(gs8)) ciopt(color(black%20)) recastci(rarea) title("Quality of 1st ANC visit, Average Marginal Effects of risk profile") xtitle("Risk score") ytitle("Predicted ANC quality") ylabel(40(20)85, labsize(small) ) 
