@@ -49,7 +49,8 @@ replace module = 2 if attempts != .
 drop care_reason_ante_label_1 care_reason_ref_label_1 care_visit_reas_rpt_grp_count_1 ///
      care_vis_idx_1_1 care_visit_res_1_1 care_vis_idx_1_2 care_visit_res_1_2 ///
 	 care_reason_other_label_pre_1 care_reason_other_label_1 care_reason_label_1 ///
-	 q_303_label_2 q_304_label_2 gest_age_baseline date_survey_baseline submissiondate 
+	 q_303_label_2 q_304_label_2 gest_age_baseline date_survey_baseline submissiondate ///
+	 q_307_1 q_307_2 q_307_3 q_307_4 q_307_5 q_320 q_702_discrepancy
 
 * fixing duplicate var names
 rename facility_name m2_site 
@@ -97,7 +98,9 @@ rename gestational_update m3_ga2_ke
 rename q_301 m3_303a
 rename (q_303_1 q_303_2) (m3_303b m3_303c)
 rename (q_304_1 q_304_2) (m3_baby1_name m3_baby2_name)
-rename (q_305_1 q_306_1 q_307_1) (m3_baby1_gender m3_baby1_age_weeks m3_baby1_size)
+rename q_305_1 m3_baby1_gender
+rename q_306_1 m3_baby1_age_weeks
+rename q_307_1 m3_baby1_size
 rename q_305_2 m3_baby2_gender
 rename q_306_2 m3_baby2_age_weeks
 rename q_501 m3_501
@@ -144,7 +147,7 @@ drop outcome_text gest_age_delivery // SS: confirm dropping outcome_text because
 
 drop user_experience_rpt_grp_count user_exp_idx_1 user_visit_reason_1 user_facility_type_1 user_facility_name_1 user_exp_idx_2 user_visit_reason_2 user_facility_type_2 user_facility_name_2 user_exp_idx_3 user_visit_reason_3 user_facility_type_3 user_facility_name_3 user_exp_idx_4 user_visit_reason_4 user_facility_type_4 user_facility_name_4 user_exp_idx_5 user_visit_reason_5 user_facility_type_5 user_facility_name_5
 
-drop q_602_filter q_702_discrepancy days_callback_mod3 q202_oth_continue 
+drop q_602_filter days_callback_mod3 q202_oth_continue 
 
 drop registered_phone mobile_money_name mobile_prov phone_used phone_used_oth baby_list name_baby1 name_baby2 name_baby3 name_baby4 name_baby_alive1 name_baby_alive2 name_baby_alive3 name_baby_alive4 name_baby_bornalive1 name_baby_bornalive2 name_baby_bornalive3 name_baby_bornalive4 baby_list_checks baby_repeat_checks_count baby_index_checks_1 baby_name_checks_1 baby_label_checks_1 baby_index_checks_2 baby_name_checks_2 baby_label_checks_2 best_phone_resp //*these vars should be dropped for de-identification purposes
 
@@ -154,7 +157,7 @@ drop baby_repeat_count baby_index_1 baby_index_2 survey1no_maternal_death1consen
 
 drop v619 v620 v621 v622 v599 v600 v601 v602 v584 v585 v586 v587 v583 v581 v582 v520 v521 v522 v523 v519 v524  v238 v258 // SS: what are these variables from M3? The "v" variables are too long for stata (32 characters)
 
-drop q_307_3 q_307_4 q_307_5 q_320 submissiondate gest_age_ad_less20 q_804_o q_902_o_1 q_1104_o q_314_o_1 gest_age_ad 
+drop submissiondate gest_age_ad_less20 q_804_o q_902_o_1 q_1104_o q_314_o_1 gest_age_ad 
 
 drop q_1004_rand_order_count q_1004_rand_1 q_1004_rand_2 q_1004_rand_3 q_1004_rand_4 q_1004_rand_5 q_1004_rand_6 q_1004_rand_7 q_1004_order_count
 
@@ -378,11 +381,17 @@ drop q_307__96_1
 rename q_307_oth_2 m2_310_other
 
 encode q_307_1_2,gen(m2_308_1)
+drop q_307_1_2
 encode q_307_2_2,gen(m2_308_2)
+drop q_307_2_2
 encode q_307_3_2,gen(m2_308_3)
+drop q_307_3_2
 encode q_307_4_2,gen(m2_308_4)
+drop q_307_4_2
 encode q_307_5_2,gen(m2_308_5)
+drop q_307_5_2
 encode q_307__96_2, gen(m2_308_96)
+drop q_307__96_2
 
 rename (q_305_3 q_306_3 q_307_oth_3) (m2_311 m2_312 m2_313_other)
 
@@ -483,81 +492,58 @@ rename (consent q_302a q_302b gest_age_delivery_final) ///
        (m3_start_p1 m3_birth_or_ended m3_birth_or_ended_provided m3_ga_final)
 	   
 rename reschedule_noavail  m3_datetime_rescheduled
+	    
+rename confirm_gestational m3_ga1_ke 
 	   
-rename (confirm_gestational weeks_from_outcome after2weeks_call) ///
-	   (m3_ga1_ke m3_weeks_from_outcome_ke m3_after2weeks_call_ke)	   
+encode weeks_from_outcome,gen(m3_weeks_from_outcome_ke)   
+drop weeks_from_outcome
+encode after2weeks_call,gen(m3_after2weeks_call_ke)
+drop after2weeks_call
 	   
 rename q_308_1 m3_baby1_weight
 rename q_308_2 m3_baby2_weight 
 rename (q_307_2 q_309_1 q_309_2) (m3_baby2_size m3_baby1_health m3_baby2_health)
  
-* SS: confirm with Wen-Chien if we can remove. doesn't seem necessary
-/* 
-	   ** q_308_1 q_308_2 are numeric variables (baby weight), some values are -98 or 98 
-replace q_308_1 = q_308_1 if q_308_1 != 98 | q_308_1 != - 98
-replace q_308_1 = -98 if q_308_1 == 98 
-replace q_308_2 = q_308_2 if q_308_1 != - 98
-rename (q_308_1 q_308_2) (m3_baby1_weight m3_baby2_weight)
-*/
-		
-       ** These 16 variables are string variables: use replace if and then rename 
-       ** q_310a_1_1 q_310a_2_1 q_310a_3_1 q_310a_4_1 q_310a_5_1 q_310a_6_1 q_310a_7_1 q_310a_8_1 q_310a__99_1 (line 40 to line 66)
-       ** q_310a_1_2 q_310a_2_2 q_310a_3_2 q_310a_4_2 q_310a_5_2 q_310a_6_2 q_310a_7_2 q_310a_8_2 q_310a__99_2 (line 68 to line 94)
 replace q_310a_1_1 = "No" if q_310a_1_1 == "0"
 replace q_310a_1_1 = "Yes" if q_310a_1_1 == "1"
-rename (q_310a_1_1) (m3_baby1_feed_a)
-replace q_310a_2_1 = "No" if q_310a_2_1 == "0"
-replace q_310a_2_1 = "Yes" if q_310a_2_1 == "1"
-rename (q_310a_2_1) (m3_baby1_feed_b)
-replace q_310a_3_1 = "No" if q_310a_3_1 == "0"
-replace q_310a_3_1 = "Yes" if q_310a_3_1 == "1"
-rename (q_310a_3_1) (m3_baby1_feed_c)
-replace q_310a_4_1 = "No" if q_310a_4_1 == "0"
-replace q_310a_4_1 = "Yes" if q_310a_4_1 == "1"
-rename (q_310a_4_1) (m3_baby1_feed_d)
-replace q_310a_5_1 = "No" if q_310a_5_1 == "0"
-replace q_310a_5_1 = "Yes" if q_310a_5_1 == "1"
-rename (q_310a_5_1) (m3_baby1_feed_e)
-replace q_310a_6_1 = "No" if q_310a_6_1 == "0"
-replace q_310a_6_1 = "Yes" if q_310a_6_1 == "1"
-rename (q_310a_6_1) (m3_baby1_feed_f)
-replace q_310a_7_1 = "No" if q_310a_7_1 == "0"
-replace q_310a_7_1 = "Yes" if q_310a_7_1 == "1"
-rename (q_310a_7_1) (m3_baby1_feed_g)
-replace q_310a_8_1 = "No" if q_310a_8_1 == "0"
-replace q_310a_8_1 = "Yes" if q_310a_8_1 == "1"
-rename (q_310a_8_1) (m3_baby1_feed_h)
-replace q_310a__99_1 = "No" if q_310a__99_1 == "0"
-replace q_310a__99_1 = "Yes" if q_310a__99_1== "1"
-rename (q_310a__99_1) (m3_baby1_feed_99)
 
-replace q_310a_1_2 = "No" if q_310a_1_2 == "0"
-replace q_310a_1_2 = "Yes" if q_310a_1_2 == "1"
-rename (q_310a_1_2) (m3_baby2_feed_a)
-replace q_310a_2_2 = "No" if q_310a_2_2 == "0"
-replace q_310a_2_2 = "Yes" if q_310a_2_2 == "1"
-rename (q_310a_2_2) (m3_baby2_feed_b)
-replace q_310a_3_2 = "No" if q_310a_3_2 == "0"
-replace q_310a_3_2 = "Yes" if q_310a_3_2 == "1"
-rename (q_310a_3_2) (m3_baby2_feed_c)
-replace q_310a_4_2 = "No" if q_310a_4_2 == "0"
-replace q_310a_4_2 = "Yes" if q_310a_4_2 == "1"
-rename (q_310a_4_2) (m3_baby2_feed_d)
-replace q_310a_5_2 = "No" if q_310a_5_2 == "0"
-replace q_310a_5_2 = "Yes" if q_310a_5_2 == "1"
-rename (q_310a_5_2) (m3_baby2_feed_e)
-replace q_310a_6_2 = "No" if q_310a_6_2 == "0"
-replace q_310a_6_2 = "Yes" if q_310a_6_2 == "1"
-rename (q_310a_6_2) (m3_baby2_feed_f)
-replace q_310a_7_2 = "No" if q_310a_7_2 == "0"
-replace q_310a_7_2 = "Yes" if q_310a_7_2 == "1"
-rename (q_310a_7_2) (m3_baby2_feed_g)
-replace q_310a_8_2 = "No" if q_310a_8_2 == "0"
-replace q_310a_8_2 = "Yes" if q_310a_8_2 == "1"
-rename (q_310a_8_2) (m3_baby2_feed_h)
-replace q_310a__99_2 = "No" if q_310a__99_2 == "0"
-replace q_310a__99_2 = "Yes" if q_310a__99_2 == "1"
-rename (q_310a__99_2) (m3_baby2_feed_99)
+encode q_310a_1_1,gen(m3_baby1_feed_a)
+drop q_310a_1_1
+encode q_310a_2_1,gen(m3_baby1_feed_b)
+drop q_310a_2_1
+encode q_310a_3_1,gen(m3_baby1_feed_c)
+drop q_310a_3_1
+encode q_310a_4_1,gen(m3_baby1_feed_d)
+drop q_310a_4_1
+encode q_310a_5_1,gen(m3_baby1_feed_e)
+drop q_310a_5_1
+encode q_310a_6_1,gen(m3_baby1_feed_f)
+drop q_310a_6_1
+encode q_310a_7_1,gen(m3_baby1_feed_g)
+drop q_310a_7_1
+encode q_310a_8_1,gen(m3_baby1_feed_h)
+drop q_310a_8_1
+encode q_310a__99_1,gen(m3_baby1_feed_99)
+drop q_310a__99_1
+
+encode q_310a_1_2,gen(m3_baby2_feed_a)
+drop q_310a_1_2
+encode q_310a_2_2,gen(m3_baby2_feed_b)
+drop q_310a_2_2
+encode q_310a_3_2,gen(m3_baby2_feed_c)
+drop q_310a_3_2
+encode q_310a_4_2,gen(m3_baby2_feed_d)
+drop q_310a_4_2
+encode q_310a_5_2,gen(m3_baby2_feed_e)
+drop q_310a_5_2
+encode q_310a_6_2,gen(m3_baby2_feed_f)
+drop q_310a_6_2
+encode q_310a_7_2,gen(m3_baby2_feed_g)
+drop q_310a_7_2
+encode q_310a_8_2,gen(m3_baby2_feed_h)
+drop q_310a_8_2
+encode q_310a__99_2,gen(m3_baby2_feed_99)
+drop q_310a__99_2
 
 rename q_310a_1 m3_baby1_feeding
 rename q_310a_2 m3_baby2_feeding
@@ -565,13 +551,17 @@ rename q_310a_2 m3_baby2_feeding
 rename (q_310b_1 q_310b_2)(m3_breastfeeding m3_breastfeeding_2)
 
 rename (q_312_1 q_312a_1 q_312_2 q_312a_2 q_313a_1 q_313b_1 q_313b_unit_1 q_313a_2 q_313b_2 ///
-		q_313b_unit_2 baby_death1 q_314_oth_1 q_314_oth_2 q_1201 ///
+		q_313b_unit_2 q_314_oth_1 q_314_oth_2 q_1201 ///
 		q_1202 q_1203 q_1204) (m3_baby1_born_alive1 m3_baby1_born_alive2 m3_baby2_born_alive1 ///
 		m3_baby2_born_alive2 m3_313a_baby1 m3_313c_baby1 m3_313d_baby1 m3_313a_baby2 ///
-		m3_313c_baby2 m3_313d_baby2 m3_death_cause_baby1 m3_death_cause_baby1_other /// 
+		m3_313c_baby2 m3_313d_baby2 m3_death_cause_baby1_other /// 
 		m3_death_cause_baby2_other m3_1201 m3_1202 m3_1203 m3_1204)
 		
-encode baby_death2, gen(m3_death_cause_baby2)		
+		
+encode baby_death1,gen(m3_death_cause_baby1)	
+drop baby_death1
+encode baby_death2, gen(m3_death_cause_baby2)	
+drop baby_death2
 		
 rename (baby_death3 baby_death4) (m3_death_cause_baby3 m3_death_cause_baby4)
 
@@ -1092,6 +1082,9 @@ recode m3_303a m3_baby1_gender m3_baby1_weight m3_baby2_weight m3_baby1_born_ali
 	   m3_902d_baby2 m3_902e_baby2 m3_902f_baby2 m3_902g_baby2 m3_902h_baby2 m3_902i_baby2 m3_1002 ///
 	   m3_1003 m3_1005a m3_1005b m3_1005c m3_1005d m3_1005e m3_1005f m3_1005g m3_1005h m3_1006a ///
 	   m3_1006b m3_1006c m3_1007a m3_1007b m3_1007c m3_1101 m3_1106 m3_1201 m3_1203 (-98 = .d)	 
+
+* SS: confirm m3_ga2_ke 999 = .d	   
+recode m3_ga2_ke (999 = .d)	   
 	   
 	   
 * Formatting Dates (SS: do this for all dates in all modules)	 
@@ -1117,6 +1110,24 @@ recode m3_303a m3_baby1_gender m3_baby1_weight m3_baby2_weight m3_baby1_born_ali
 	drop m2_time_start
 	rename _m2_time_start_ m2_time_start
 	format m2_time_start %tc */
+
+* Module 3:
+	*Date and time of M2
+	gen _m3_date_time_ = date(m3_date_time,"YMDhms")
+	drop m3_date_time
+	rename _m3_date_time_ m3_date_time
+	format m3_date_time %td  	
+	
+	gen _m3_date_ = date(m3_date,"YMD")
+	drop m3_date
+	rename _m3_date_ m3_date
+	format m3_date %td  
+	
+	gen _m3_birth_or_ended_date_ = date(m3_birth_or_ended_date,"YMD")
+	drop m3_birth_or_ended_date
+	rename _m3_birth_or_ended_date_ m3_birth_or_ended_date
+	format m3_birth_or_ended_date %td  
+	
 	   
 *------------------------------------------------------------------------------*
 
@@ -1658,110 +1669,57 @@ recode m2_ga_estimate (. = .a) if m2_date == . | m2_202 !=1 | q_107_trim != "NA"
 drop q_107_trim
 
 recode m2_endtime (. = .a) if m2_date == . | m2_202 != 1 | m2_complete !=1
+	
+	
+	** MODULE 3:
+recode m3_start_p1 (. = .a) if module !=3
+	
+recode m3_date m3_date_confirm m3_start_time m3_date_time (. = .a) if m3_start_p1 !=1 | module !=3
 
+recode m3_birth_or_ended m3_birth_or_ended_provided m3_birth_or_ended_date (. = .a) if m2_202 !=2 |  m2_202 !=3 | module !=3
 
-*lala	
-	/*
-	** MODULE 3 (EDIT FOR KE!!):
+recode m3_ga1_ke  (. = .a) if module !=3 | m2_202 !=2 |  m2_202 !=3 
 
-recode m3_permission (. = .a) if m3_start_p1 !=1
-recode m3_date recm3_time m3_birth_or_ended m3_303a m3_ga (. = .a) if m3_permission !=1 // SS 2-21: removed m3_ga1 m3_ga2
+recode m3_ga2_ke (. = .a) if m3_ga1_ke !=0 | m2_202 !=2 |  m2_202 !=3 
 
-recode m3_303b (. = .a) if m3_303a == . | m3_303a == .a
-recode m3_303c (. = .a) if m3_303a == 1 | m3_303a == . | m3_303a == .a | m3_303a == .d | m3_303a == .r
-recode m3_303d (. = .a) if m3_303a == 1 |  m3_303a == 2 | m3_303a == . | m3_303a == .a | m3_303a == .d | m3_303a == .r
+recode m3_weeks_from_outcome_ke m3_after2weeks_call_ke m3_ga_final (. = .a) if m2_202 !=2 |  m2_202 !=3 | module !=3
 
-replace m3_baby1_name = ".a" if m3_303b == . | m3_303b == .a | m3_303b == .r // branching logic was incorrect in redcap
-replace m3_baby2_name = ".a" if m3_303c == . | m3_303c == .a
-replace m3_baby3_name = ".a" if m3_303d == . | m3_303d == .a
+recode m3_303a (. = .a) if module !=3 | m2_202 !=2 |  m2_202 !=3 
 
-recode m3_baby1_gender (. = .a) if m3_303b !=1
-recode m3_baby2_gender (. = .a) if m3_303c !=1
-recode m3_baby3_gender (. = .a) if m3_303d !=1
+recode m3_303b (. = .a) if m3_303a !=1 // SS: missing date on N=17 women?
+recode m3_303c (. = .a) if m3_303a !=2 
 
-recode m3_baby1_age (. = .a) if m3_303b !=1 & m3_303c !=1 & m3_303d !=1
+replace m3_baby1_name = ".a" if m3_303b !=1
+replace m3_baby2_name = ".a" if m3_303c !=1
 
-recode m3_baby1_weight (. = .a) if m3_303b !=1
-recode m3_baby2_weight (. = .a) if m3_303c !=1
-recode m3_baby3_weight (. = .a) if m3_303d !=1
+recode m3_baby1_gender m3_baby1_weight m3_baby1_size m3_baby1_age_weeks m3_baby1_health (. = .a) if m3_303b !=1 // SS: fix data labels
+recode m3_baby2_gender m3_baby2_weight m3_baby2_size m3_baby2_age_weeks m3_baby1_health (. = .a) if m3_303c !=1
 
-recode m3_baby1_size (. = .a) if m3_303b !=1
-recode m3_baby2_size (. = .a) if m3_303c !=1
-recode m3_baby3_size (. = .a) if m3_303d !=1
-
-recode m3_baby1_health (. = .a) if m3_303b !=1 
-recode m3_baby1_health (. = .a) if m3_303c !=1
-recode m3_baby1_health (. = .a) if m3_303d !=1
-
-recode m3_baby1_feed_a m3_baby1_feed_b m3_baby1_feed_c m3_baby1_feed_d m3_baby1_feed_e ///
-	   m3_baby1_feed_f m3_baby1_feed_g m3_baby1_feed_96 m3_baby1_feed_99 m3_baby1_feed_998 ///
-	   m3_baby1_feed_999 m3_baby1_feed_888 (. = .a) if m3_303b !=1
-
-replace m3_baby1_feed_other = ".a" if m3_baby1_feed_96 != 1
+recode m3_baby1_feed_a m3_baby1_feed_b m3_baby1_feed_c m3_baby1_feed_d m3_baby1_feed_e m3_baby1_feed_f m3_baby1_feed_g m3_baby1_feed_h m3_baby1_feed_99 (. = .a) if m3_303b !=1
 
 recode m3_baby2_feed_a m3_baby2_feed_b m3_baby2_feed_c m3_baby2_feed_d m3_baby2_feed_e ///
-	   m3_baby2_feed_f m3_baby2_feed_g m3_baby2_feed_96 m3_baby2_feed_99 m3_baby2_feed_998 ///
-	   m3_baby2_feed_999 m3_baby2_feed_888 (. = .a) if m3_303c !=1
+	   m3_baby2_feed_f m3_baby2_feed_g m3_baby2_feed_99 (. = .a) if m3_303c !=1
 
-replace m3_baby2_feed_other = ".a" if m3_baby2_feed_96 != 1 
+recode m3_breastfeeding (. = .a) if m3_303b !=1 
+recode m3_breastfeeding_2 (. = .a) if m3_303c !=1
 
-recode m3_baby3_feed_a m3_baby3_feed_b m3_baby3_feed_c m3_baby3_feed_d m3_baby3_feed_e ///
-	   m3_baby3_feed_f m3_baby3_feed_g m3_baby3_feed_96 m3_baby3_feed_99 m3_baby3_feed_998 ///
-	   m3_baby3_feed_999 m3_baby3_feed_888 (. = .a) if m3_303d !=1
+recode m3_baby1_born_alive1 (. = .a) if m3_303b !=1
+recode m3_baby1_born_alive2  (. = .a) if m3_303b !=1
 
-recode m3_baby3_feed_other (. = .a) if m3_baby3_feed_96 != 1 // SS: why is this numeric? will probably have to change to string once data is entered
+recode m3_baby2_born_alive1 (. = .a) if m3_303c !=2
+recode m3_baby2_born_alive2 (. = .a) if m3_303c !=2
 
-recode m3_breastfeeding (. = .a) if (m3_303b !=1 & m3_303c !=1 & m3_303d !=1) | (m3_baby1_feed_a !=1 & m3_baby2_feed_a !=1 & m3_baby3_feed_a !=1) // SS: double check
+recode m3_313a_baby1 m3_313c_baby1 m3_313d_baby1 m3_death_cause_baby1 (. = .a) if m3_303b !=0 | m3_baby1_born_alive1 !=0 | m3_baby1_born_alive2 ==0
 
-recode m3_breastfeeding_fx_et (. = .a) if (m3_303b !=1 & m3_303c !=1 & m3_303d !=1) | (m3_baby1_feed_a !=1 & m3_baby2_feed_a !=1 & m3_baby3_feed_a !=1) // SS: double check
+replace m3_death_cause_baby1_other = ".a" if m3_death_cause_baby1 !=1
 
-recode m3_baby1_born_alive (. = .a) if m3_303b !=0
+recode m3_313a_baby2 m3_313c_baby2 m3_313d_baby2 m3_death_cause_baby2 (. = .a) if m3_303c !=0 | m3_baby2_born_alive1 !=0 | m3_baby2_born_alive2 ==0
 
-recode m3_202 (. = .a) if m3_303b !=0 & m3_303c !=0 & m3_303d !=0
+*replace m3_death_cause_baby2_other = ".a" if m3_death_cause_baby2 !=1 // numeric bc of 0 obs
 
-recode m3_baby2_born_alive (. = .a) if m3_303c !=0
-
-recode m3_baby3_born_alive (. = .a) if m3_303d !=0
-
-recode m3_313a_baby1 (. = .a) if m3_303b !=0 | m3_baby1_born_alive !=0
-
-recode recm3_313b_baby1 (. = .a) if m3_303b !=0 | m3_baby1_born_alive !=0
-
-recode m3_313a_baby2 (. = .a) if m3_303c !=0 | m3_baby2_born_alive !=0
-
-recode m3_313b_baby2 (. = .a) if m3_303c !=0 | m3_baby2_born_alive !=0
-
-recode m3_313a_baby3 (. = .a) if m3_303d !=0 | m3_baby3_born_alive !=0
-
-recode m3_313b_baby3 (. = .a) if m3_303d !=0 | m3_baby3_born_alive !=0
-
-recode m3_death_cause_baby1_a m3_death_cause_baby1_b m3_death_cause_baby1_c m3_death_cause_baby1_d ///
-	   m3_death_cause_baby1_e m3_death_cause_baby1_f m3_death_cause_baby1_g m3_death_cause_baby1_96 ///
-	   m3_death_cause_baby1_998 m3_death_cause_baby1_999 m3_death_cause_baby1_888 (. = .a) if ///
-	   m3_303b !=0 | m3_202 == 4 | m3_202 == 5
-
-replace m3_death_cause_baby1_other = ".a" if m3_death_cause_baby1_96 !=1	   
-	   
-recode m3_death_cause_baby2_a m3_death_cause_baby2_b m3_death_cause_baby2_c m3_death_cause_baby2_d ///
-	   m3_death_cause_baby2_e m3_death_cause_baby2_f m3_death_cause_baby2_g m3_death_cause_baby2_96 ///
-	   m3_death_cause_baby2_998 m3_death_cause_baby2_999 m3_death_cause_baby2_888 (. = .a) if ///
-	   m3_303c !=0 | m3_202 == 4 | m3_202 == 5
-
-*replace m3_death_cause_baby2_other = ".a" if m3_death_cause_baby2_96 !=1  // numeric because of 0 obs
-
-recode m3_death_cause_baby3_a m3_death_cause_baby3_b m3_death_cause_baby3_c m3_death_cause_baby3_d ///
-	   m3_death_cause_baby3_e m3_death_cause_baby3_f m3_death_cause_baby3_g m3_death_cause_baby3_96 ///
-	   m3_death_cause_baby3_998 m3_death_cause_baby3_999 m3_death_cause_baby3_888 (. = .a) if ///
-	   m3_303d !=0 | m3_202 == 4 | m3_202 == 5
-
-*replace m3_death_cause_baby3_other = ".a" if m3_death_cause_baby3_96 !=1  // numeric because of 0 obs	   
-
-recode m3_1201 (. = .a) if m3_202 !=4
-
+recode m3_1201 (. = .a) if m3_abortion != "1"
 recode m3_1202 (. = .a) if m3_1201 !=1
-
-recode m3_1203 (. = .a) if m3_202 !=5
-
+recode m3_1203 (. = .a) if m3_abortion != "1"
 recode m3_1204 (. = .a) if m3_1203 !=1
 
 recode m3_401 (. = .a) if (m3_303b !=1 & m3_303c !=1 & m3_303d !=1) | m3_202 !=3 | ///
@@ -1769,6 +1727,8 @@ recode m3_401 (. = .a) if (m3_303b !=1 & m3_303c !=1 & m3_303d !=1) | m3_202 !=3
 
 recode m3_402 (. = .a) if m3_401 !=1 & m3_consultation_3 !=1
 
+
+/* lala
 recode m3_consultation_1 (. = .a) if m3_402 !=1 & m3_402 !=2 & m3_402 !=3 & m3_402 !=4 & m3_402 !=5
 						  
 recode m3_consultation_referral_1 (. = .a) if m3_consultation_1 !=0						  
