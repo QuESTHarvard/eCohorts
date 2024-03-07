@@ -575,6 +575,7 @@ rename (q_403_2 q_404_2 q_405_oth_2)(m3_consultation_2 m3_consultation_referral_
 rename (q_403_3 q_404_3 q_405_3 q_405_oth_3) (m3_consultation_3 m3_consultation_referral_3 m3_consultation3_reason m3_consultation3_reason_other)	
 
 
+encode q_405_1,gen(m3_consultation1_reason)
 drop q_405_1
 encode q_405_2,gen(m3_consultation2_reason)
 drop q_405_2
