@@ -142,6 +142,7 @@ u "$user/$data/Kenya/02 recoded data/eco_m1_ke_der.dta", clear
 
 * Demographics & health 
 		recode educ_cat 1/2=0 3/4=1, gen(second)
+		recode educ_cat 1/2=1 3=2 4=3, gen(educ3)
 		gen healthlit_corr=health_lit==4
 		gen age_cat=enrollage
 		recode age_cat 15/19=1 20/35=2 36/60=3
@@ -238,6 +239,8 @@ u  "$user/$data/South Africa/02 recoded data/eco_m1_za_der.dta", clear
 
 * Demographics & health 
 		recode educ_cat 1/2=0 3/4=1, gen(second)
+		recode educ_cat 1/2=1 3=2 4=3, gen(educ3)
+		
 		gen healthlit_corr=health_lit==4
 		gen age_cat=enrollage
 		recode age_cat 15/19=1 20/35=2 36/60=3
@@ -258,12 +261,16 @@ u  "$user/$data/South Africa/02 recoded data/eco_m1_za_der.dta", clear
 		lab val lvl_anemia lvl_anemia
 		g severe_anemia=lvl_anemia==1
 		* Chronic illnesses
-		egen chronic= rowmax(m1_202a m1_202b m1_202c m1_202d m1_202e)
+		egen chronic= rowmax(m1_202a m1_202b m1_202c m1_202d m1_202e )  // I need to include the newly diagnosed HIV women! + recollected HIV!
+		egen chronic_nohiv=rowmax(m1_202a m1_202b m1_202c m1_202d)
 		encode m1_203, gen(prob)
 		recode prob (1/4 10 16 18/21 24 28 29 30 33 34 28 =0 ) (5/9 11/15 17 22 23 25 26 27 31 32=1)
 		replace chronic = 1 if prob==1
+		replace chronic_nohiv=1 if prob==1
 		drop prob
 		replace chronic=1 if HBP==1 // measured BP
+		replace chronic_nohiv=1 if HBP==1
+		
 		* Underweight/overweight
 		rename low_BMI maln_underw
 		recode BMI 0/29.999=0 30/100=1, g(overweight)
@@ -289,6 +296,7 @@ u  "$user/$data/South Africa/02 recoded data/eco_m1_za_der.dta", clear
 		ta prob,g(dum)
 			
 egen anyrisk =rowmax(anemic chronic maln_underw overweight young old multiple complic )
+egen anyrisk_nohiv=rowmax(anemic chronic_nohiv maln_underw overweight young old multiple complic )
 
 		rename dangersign m1_dangersigns
 		
@@ -328,6 +336,7 @@ egen tag=tag(facility)
 
 * Demographics & health 
 		recode educ_cat 1/2=0 3/4=1, gen(second)
+		recode educ_cat 1/2=1 3=2 4=3, g(educ3)
 		gen healthlit_corr=m1_health_lit==4
 		gen age_cat=enrollage
 		recode age_cat 15/19=1 20/35=2 36/60=3

@@ -107,6 +107,7 @@ u "$user/$data/Ethiopia/02 recoded data/eco_m0_et.dta", clear
 	gen facsecond = m0_a6_fac_type
 	recode facsecond 1/2=1 3/4=0
 	
+	table staff_cat, stat(max total_staff_onc)
 save  "$user/$analysis/ETtmpfac.dta", replace  
 		    
 *------------------------------------------------------------------------------*
@@ -307,6 +308,8 @@ Average of 6 items: electricity, water, toilet, communication, computer & intern
 	
 	keep facility sri_score sri_basicamenities sri_equip sri_diag sri_cat total_staff staff_cat ///
 		    vol_cat anc_mont anc_vol_staff* ftdoc beds bedcat m0_facility_own m0_facility_type	
+			
+	table vol_cat, stat(min anc_mont)
 
 save  "$user/$analysis/ZAtmpfac.dta", replace  
 
