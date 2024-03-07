@@ -19,7 +19,7 @@ append using "$user/$analysis/allcountrytmp.dta", force
 save "$user/$analysis/allcountrytmp.dta", replace
 
 u "$user/$analysis/INtmp.dta", clear
-recode state 1=4 2=5, g(site) // 4 Sonipat 5 Jodhpur
+recode urban 0=4 1=5, g(site) // 4 Rural 5 Urban
 append using "$user/$analysis/allcountrytmp.dta", force
 save "$user/$analysis/allcountrytmp.dta", replace
 
@@ -28,7 +28,7 @@ recode site 1=7 2=6
 lab drop study_site_sd
 append using "$user/$analysis/allcountrytmp.dta", force
 
-lab def site 0"East Shewa" 1"Adama" 2"Kitui" 3"Kiambu" 4"Sonipat" 5"Jodhpur" 6 "Nongoma" 7 "uMhlathuze", modify
+lab def site 0"Rural-ETH" 1"Urban-ETH" 2"Rural-KEN" 3"Urban-KEN" 4"Rural-IND" 5"Urban-IND" 6 "Rural-ZAF" 7 "Urban-ZAF", modify
 lab val site site
 
 encode country, gen(co)
@@ -51,8 +51,8 @@ graph bar phys_exam diag hist counsel tx, over(co) ylabel(0(20)100, labsize(smal
 		 
 		 */
 		 
-by co, sort: tabstat phys_exam diag hist counsel tx, stat (mean) col(stat)
-
+tabstat phys_exam diag hist counsel tx, stat (mean)  by(co)
+tabstat phys_exam diag hist counsel tx, stat (mean) col(stat)
 *------------------------------------------------------------------------------*
 * FIG 2. ANC1 QUALITY BOXPLOT BY SITE
 

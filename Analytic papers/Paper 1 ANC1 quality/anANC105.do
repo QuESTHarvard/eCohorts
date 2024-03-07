@@ -53,6 +53,11 @@ u "$user/$analysis/ETtmp.dta", clear
 	replace danger_address=. if m1_dangersign==0
 	
 	ta m1_specialist_hosp if m1_dangersign==1
+	
+	* Undernourished
+	ta anc1muac if maln_under==1
+	ta anc1food if maln_under==1
+
 
 *------------------------------------------------------------------------------*	
 * Kenya
@@ -143,19 +148,28 @@ u "$user/$analysis/ZAtmp.dta", clear
 	ta m1_1011c if stillbirth ==1 
 	ta m1_1011d if m1_1005 ==1 
 	ta m1_1011f if m1_1010 ==1 
+	
+	ta specialist_hosp if complic4==1
+	
 	* Depression
 	g depression_address = m1_716c if depress==1
-	
+	egen depress_tx=rowmax(m1_724d anc1mental_health_drug)
+	ta depress_tx if depress==1
+
 	* Anemia
 	g anemia_address= anc1blood if lvl_anemia<3
-	 * + iron injection 
-	 
-	 
+	recode m1_713_za_in 0=1 2/3=0
+	egen anemia_tx= rowmax(anc1ifa m1_713_za_in ) // ifa or iron injection
+	ta anemia_tx if lvl_anemia<3
+
 	* Danger signs (one of 6)
 	ta m1_dangersign
 	recode m1_815 (1=0) (2/96=1) (.a .d .r=.) , gen(danger_address)
 	replace danger_address = 0 if m1_815_other=="She told the nurse that she bleeds and the nurse said there is no such thing"
-	replace danger_address=. if m1_dangersign==0		
+	replace danger_address=. if m1_dangersign==0
+	
+	ta specialist_hosp if m1_dangersign==1		
+		
 			
 ------------------------------------------------------------------------------*		
 * INDIA
@@ -199,7 +213,9 @@ u "$user/$analysis/INtmp.dta", clear
 	
 	* Anemia
 	g anemia_address= anc1blood if lvl_anemia<3
-	ta anc1ifa if lvl_anemia<3
+	recode m1_713_in_za 2=1 3=0
+	egen anemia_tx=rowmax(anc1ifa m1_713_in_za) // ifa or iron injection
+	ta anemia_tx if lvl_anemia<3
 	
 	
 	* Danger signs (one of 6)
@@ -216,7 +232,10 @@ u "$user/$analysis/INtmp.dta", clear
 			
 	ta specialist_hosp if m1_dangersign==1		
 			
-			
+	* Undernourished
+	ta anc1muac if maln_under==1
+	ta anc1food if maln_under==1
+		
 			
 			
 			
