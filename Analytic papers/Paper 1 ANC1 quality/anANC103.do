@@ -4,26 +4,57 @@ global analysis "Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH E-Coh
 global data "Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data"
 
 * Linear regressions: continuous score
+*-------------------------------------------------------------------------------	
+	* ETHIOPIA
 	u "$user/$analysis/ETtmp.dta", clear
 
-	mixed anc1qual i.anyrisk m1_dangersigns poorhealth i.age second healthlit_corr i.tertile marriedp  depress ///
-			primipara preg_intent i.time private facsecond i.sri_cat i.vol_cat i.staff_cat ib(2).site || facility: 
-
-	u "$user/$analysis/KEtmp.dta", clear
-	mixed anc1qual i.anyrisk m1_dangersigns poorhealth i.age second healthlit_corr i.tertile marriedp  depress ///
-			primipara preg_intent i.time private facsecond i.sri_cat i.vol_cat i.staff_cat ib(2).site || facility: 
+	mixed anc1qual i.anyrisk m1_dangersigns poorhealth ib(2).age second healthlit_corr i.tertile   ///
+			primipara preg_intent i.time private facsecond i.sri_cat  i.staff_cat ib(2).site || facility:  , vce(robust)
+			estat icc
 	
-	u "$user/$analysis/ZAtmp.dta", clear
-	mixed anc1qual i.anyrisk m1_dangersigns poorhealth i.age second healthlit_corr i.tertile marriedp  depress ///
-			primipara preg_intent i.time  i.sri_cat i.vol_cat i.staff_cat ib(2).site || facility: 
-
-
-* Linear regressions: continuous score
+	* Collinearity	
+	reg anc1qual i.anyrisk m1_dangersigns poorhealth ib(2).age second healthlit_corr i.tertile   ///
+			primipara preg_intent i.time private facsecond i.sri_cat  i.staff_cat ib(2).site   , vce(robust)
+			estat vif
+	* Variance analysis
+	quiet mixed anc1qual i.anyrisk m1_dangersigns poorhealth ib(2).age second healthlit_corr i.tertile   ///
+			primipara preg_intent i.time private facsecond i.sri_cat  i.staff_cat ib(2).site || facility:  , vce(robust)
+			
+	 mixed anc1qual if e(sample)==1 || facility:  , vce(robust) // variance null model
+	 estat icc
+*-------------------------------------------------------------------------------	
+	* KENYA
+	u "$user/$analysis/KEtmp.dta", clear
+	
+	mixed anc1qual i.anyrisk m1_dangersigns poorhealth ib(2).age second healthlit_corr i.tertile   ///
+			primipara preg_intent i.time private facsecond i.sri_cat  i.staff_cat ib(2).site || facility:  , vce(robust) 
+			estat icc
+			
+	reg anc1qual i.anyrisk m1_dangersigns poorhealth ib(2).age i.educ3 healthlit_corr i.tertile   ///
+			primipara preg_intent i.time private facsecond i.sri_cat  i.staff_cat ib(2).site
+			estat vif
+*-------------------------------------------------------------------------------	
+	* INDIA + vol
 	u "$user/$analysis/INtmp.dta", clear
-	mixed anc1qual i.anyrisk m1_dangersigns poorhealth i.age second healthlit_corr i.tertile marriedp  depress ///
-			primipara preg_intent ib(2).state || facility: 
-
-
+		
+	mixed anc1qual i.anyrisk m1_dangersigns poorhealth ib(2).age second healthlit_corr i.tertile  ///
+			primipara preg_intent i.facility_lvl i.sri_cat  i.staff_cat i.vol_cat  i.urban || facility: , vce(robust)
+			estat icc	
+			
+	reg anc1qual i.anyrisk m1_dangersigns poorhealth ib(2).age second healthlit_corr i.tertile  ///
+			primipara preg_intent i.facility_lvl i.sri_cat  i.staff_cat i.vol_cat i.urban
+			estat vif
+*-------------------------------------------------------------------------------	
+	* ZAF	+ vol	 	
+	u "$user/$analysis/ZAtmp.dta", clear
+	
+	mixed anc1qual i.anyrisk m1_dangersigns poorhealth ib(2).age second healthlit_corr i.tertile  ///
+			primipara preg_intent i.time  i.sri_cat  i.staff_cat  i.vol_cat ib(2).site || facility: , vce(robust)
+			estat icc
+			
+	reg anc1qual i.anyrisk m1_dangersigns poorhealth ib(2).age i.educ3 healthlit_corr i.tertile  ///
+			primipara preg_intent i.time  i.sri_cat  i.staff_cat  i.vol_cat ib(2).site
+			estat vif
 	
 *-------------------------------------------------------------------------------	
 	/*margins anyrisk, atmeans
