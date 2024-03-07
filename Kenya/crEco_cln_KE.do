@@ -574,83 +574,48 @@ rename (q_401 q_402 q_403_1 q_404_1 q_405_oth_1)(m3_401 m3_402 m3_consultation_1
 rename (q_403_2 q_404_2 q_405_oth_2)(m3_consultation_2 m3_consultation_referral_2 m3_consultation2_reason_other)
 rename (q_403_3 q_404_3 q_405_3 q_405_oth_3) (m3_consultation_3 m3_consultation_referral_3 m3_consultation3_reason m3_consultation3_reason_other)	
 
-       ** q_405_1 q_405_2 are string variables: use replace if and then rename (line 106 to 112, line 114 to 120)
-replace q_405_1 = "A new health problem, including an emergency or an injury" if q_405_1  == "1"
-replace q_405_1 = "An existing health problem" if q_405_1  == "2"
-replace q_405_1 = "A lab test, x-ray, or ultrasound" if q_405_1  == "3"
-replace q_405_1 = "To pick up medicine" if q_405_1  == "4"
-replace q_405_1 = "To get a vaccine" if q_405_1  == "5"
-replace q_405_1 = "Other reasons, please specify" if q_405_1  == "-96"
-rename (q_405_1) (m3_consultation1_reason)
 
-replace q_405_2 = "A new health problem, including an emergency or an injury" if q_405_2  == "1"
-replace q_405_2 = "An existing health problem" if q_405_2  == "2"
-replace q_405_2 = "A lab test, x-ray, or ultrasound" if q_405_2  == "3"
-replace q_405_2 = "To pick up medicine" if q_405_2 == "4"
-replace q_405_2 = "To get a vaccine" if q_405_2 == "5"
-replace q_405_2 = "Other reasons, please specify" if q_405_2  == "-96"
-rename (q_405_2) (m3_consultation2_reason)
+drop q_405_1
+encode q_405_2,gen(m3_consultation2_reason)
+drop q_405_2
+encode q_405_1_1,gen(m3_consultation1_reason_a)
+drop q_405_1_1
+encode q_405_2_1,gen(m3_consultation1_reason_b)
+drop q_405_2_1
+encode q_405_3_1,gen(m3_consultation1_reason_c)
+drop q_405_3_1
+encode q_405_4_1,gen(m3_consultation1_reason_d)
+drop q_405_4_1
+encode q_405_5_1,gen(m3_consultation1_reason_e)
+drop q_405_5_1
+encode q_405__96_1,gen(m3_consultation1_reason_96)
+drop q_405__96_1
 
-       ** These 16 variables are string variables: use replace if and then rename 
-       ** q_405_1_1 q_405_2_1 q_405_3_1 q_405_4_1 q_405_5_1 q_405__96_1 (line 126 to 143)
-       ** q_405_1_2 q_405_2_2 q_405_3_2 q_405_4_2 q_405_5_2 q_405__96_2 (line 145 to 162)
-       ** q_405_1_3 q_405_2_3 q_405_3_3 q_405_4_3 q_405_5_3 q_405__96_3 (line 164 to 181)
-replace q_405_1_1 = "Yes" if q_405_1_1 == "1"
-replace q_405_1_1 = "No" if q_405_1_1 == "0"
-rename (q_405_1_1) (m3_consultation1_reason_a)
-replace q_405_2_1 = "Yes" if q_405_2_1 == "1"
-replace q_405_2_1 = "No" if q_405_2_1 == "0"
-rename (q_405_2_1) (m3_consultation1_reason_b)
-replace q_405_3_1 = "Yes" if q_405_3_1 == "1"
-replace q_405_3_1 = "No" if q_405_3_1 == "0"
-rename (q_405_3_1) (m3_consultation1_reason_c)
-replace q_405_4_1 = "Yes" if q_405_4_1 == "1"
-replace q_405_4_1 = "No" if q_405_4_1 == "0"
-rename (q_405_4_1) (m3_consultation1_reason_d)
-replace q_405_5_1 = "Yes" if q_405_5_1 == "1"
-replace q_405_5_1 = "No" if q_405_5_1 == "0"
-rename (q_405_5_1) (m3_consultation1_reason_e)
-replace q_405__96_1 = "Yes" if q_405__96_1 == "1"
-replace q_405__96_1 = "No" if q_405__96_1 == "0"
-rename (q_405__96_1) (m3_consultation1_reason_96)
+encode q_405_1_2,gen(m3_consultation2_reason_a)
+drop q_405_1_2
+encode q_405_2_2,gen(m3_consultation2_reason_b)
+drop q_405_2_2
+encode q_405_3_2,gen(m3_consultation2_reason_c)
+drop q_405_3_2
+encode q_405_4_2,gen(m3_consultation2_reason_d)
+drop q_405_4_2
+encode q_405_5_2,gen(m3_consultation2_reason_e)
+drop q_405_5_2
+encode q_405__96_2,gen(m3_consultation2_reason_96)
+drop q_405__96_2
 
-replace q_405_1_2 = "Yes" if q_405_1_2 == "1"
-replace q_405_1_2 = "No" if q_405_1_2 == "0"
-rename (q_405_1_2) (m3_consultation2_reason_a)
-replace q_405_2_2 = "Yes" if q_405_2_2 == "1"
-replace q_405_2_2 = "No" if q_405_2_2 == "0"
-rename (q_405_2_2) (m3_consultation2_reason_b)
-replace q_405_3_2 = "Yes" if q_405_3_2 == "1"
-replace q_405_3_2 = "No" if q_405_3_2 == "0"
-rename (q_405_3_2) (m3_consultation2_reason_c)
-replace q_405_4_2 = "Yes" if q_405_4_2 == "1"
-replace q_405_4_2 = "No" if q_405_4_2 == "0"
-rename (q_405_4_2) (m3_consultation2_reason_d)
-replace q_405_5_2 = "Yes" if q_405_5_2 == "1"
-replace q_405_5_2 = "No" if q_405_5_2 == "0"
-rename (q_405_5_2) (m3_consultation2_reason_e)
-replace q_405__96_2 = "Yes" if q_405__96_2 == "1"
-replace q_405__96_2 = "No" if q_405__96_2 == "0"
-rename (q_405__96_2) (m3_consultation2_reason_96)
-
-replace q_405_1_3 = "Yes" if q_405_1_3 == "1"
-replace q_405_1_3 = "No" if q_405_1_3 == "0"
-rename (q_405_1_3) (m3_consultation3_reason_a)
-replace q_405_2_3 = "Yes" if q_405_2_3 == "1"
-replace q_405_2_3 = "No" if q_405_2_3 == "0"
-rename (q_405_2_3) (m3_consultation3_reason_b)
-replace q_405_3_3 = "Yes" if q_405_3_3 == "1"
-replace q_405_3_3 = "No" if q_405_3_3 == "0"
-rename (q_405_3_3) (m3_consultation3_reason_c)
-replace q_405_4_3 = "Yes" if q_405_4_3 == "1"
-replace q_405_4_3 = "No" if q_405_4_3 == "0"
-rename (q_405_4_3) (m3_consultation3_reason_d)
-replace q_405_5_3 = "Yes" if q_405_5_3 == "1"
-replace q_405_5_3 = "No" if q_405_5_3 == "0"
-rename (q_405_5_3) (m3_consultation3_reason_e)
-replace q_405__96_3 = "Yes" if q_405__96_3 == "1"
-replace q_405__96_3 = "No" if q_405__96_3 == "0"
-rename (q_405__96_3) (m3_consultation3_reason_96)
+encode q_405_1_3,gen(m3_consultation3_reason_a)
+drop q_405_1_3
+encode q_405_2_3,gen(m3_consultation3_reason_b)
+drop q_405_2_3
+encode q_405_3_3,gen(m3_consultation3_reason_c)
+drop q_405_3_3
+encode q_405_4_3,gen(m3_consultation3_reason_d)
+drop q_405_4_3
+encode q_405_5_3,gen(m3_consultation3_reason_e)
+drop q_405_5_3
+encode q_405__96_3,gen(m3_consultation3_reason_96)
+drop q_405__96_3
 
 rename (q_412a_1 q_412b_1 q_412c_1 q_412d_1 q_412e_1 q_412f_1 q_412g_1 q_412g_oth_1 q_412i_1) ///
        (m3_412a_1_ke m3_412b_1_ke m3_412c_1_ke m3_412d_1_ke m3_412e_1_ke m3_412f_1_ke m3_412g_1_ke ///
@@ -1722,21 +1687,20 @@ recode m3_1202 (. = .a) if m3_1201 !=1
 recode m3_1203 (. = .a) if m3_abortion != "1"
 recode m3_1204 (. = .a) if m3_1203 !=1
 
-recode m3_401 (. = .a) if (m3_303b !=1 & m3_303c !=1 & m3_303d !=1) | m3_202 !=3 | ///
-						  (m3_baby1_born_alive != 1 & m3_baby2_born_alive !=1 & m3_baby3_born_alive !=1)
+recode m3_401 (. = .a) if (m3_303b !=1 & m3_303c !=1) |  ///
+						  (m3_baby1_born_alive1 !=1 & m3_baby1_born_alive2!=1) | ///
+						  (m3_baby2_born_alive1 !=1 & m3_baby2_born_alive2 !=1)
 
-recode m3_402 (. = .a) if m3_401 !=1 & m3_consultation_3 !=1
+recode m3_402 (. = .a) if m3_401 !=1 
 
-
-/* lala
-recode m3_consultation_1 (. = .a) if m3_402 !=1 & m3_402 !=2 & m3_402 !=3 & m3_402 !=4 & m3_402 !=5
+recode m3_consultation_1 (. = .a) if m3_402 == 0 | m3_402 == . | m3_402 == .a
 						  
 recode m3_consultation_referral_1 (. = .a) if m3_consultation_1 !=0						  
 
-recode m3_consultation1_reason_a m3_consultation1_reason_b m3_consultation1_reason_c ///
-	   m3_consultation1_reason_d m3_consultation1_reason_e m3_consultation1_reason_96 ///
-	   m3_consultation1_reason_998 m3_consultation1_reason_999 m3_consultation1_reason_888 ///
-	   (. = .a) if m3_consultation_referral_1 !=0
+/* lala
+recode m3_consultation1_reason m3_consultation1_reason_a m3_consultation1_reason_b ///
+		m3_consultation1_reason_c m3_consultation1_reason_d m3_consultation1_reason_e ///
+		m3_consultation1_reason_96 (. = .a) if m3_consultation_referral_1 !=0
 	   
 replace m3_consultation1_reason_other = ".a" if m3_consultation1_reason_96 !=1
 
@@ -1783,6 +1747,7 @@ recode m3_consultation5_reason_a m3_consultation5_reason_b m3_consultation5_reas
 	   (. = .a) if m3_consultation_referral_5 !=0
 	   
 *replace m3_consultation5_reason_other = ".a" if m3_consultation5_reason_96 !=1 // numeric because of 0 obs
+
 
 recode m3_412a m3_412b m3_412c m3_412d m3_412e m3_412f m3_412g (. =.a) if m3_401 !=1
 
