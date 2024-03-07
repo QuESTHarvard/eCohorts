@@ -572,13 +572,15 @@ rename dead_babies m3_num_dead_babies
 		
 rename (q_401 q_402 q_403_1 q_404_1 q_405_oth_1)(m3_401 m3_402 m3_consultation_1 m3_consultation_referral_1 m3_consultation1_reason_other)	
 rename (q_403_2 q_404_2 q_405_oth_2)(m3_consultation_2 m3_consultation_referral_2 m3_consultation2_reason_other)
-rename (q_403_3 q_404_3 q_405_3 q_405_oth_3) (m3_consultation_3 m3_consultation_referral_3 m3_consultation3_reason m3_consultation3_reason_other)	
-
+rename (q_403_3 q_404_3 q_405_oth_3) ///
+	   (m3_consultation_3 m3_consultation_referral_3 m3_consultation3_reason_other)	
 
 encode q_405_1,gen(m3_consultation1_reason)
 drop q_405_1
 encode q_405_2,gen(m3_consultation2_reason)
 drop q_405_2
+encode q_405_3,gen(m3_consultation3_reason)
+drop q_405_3
 encode q_405_1_1,gen(m3_consultation1_reason_a)
 drop q_405_1_1
 encode q_405_2_1,gen(m3_consultation1_reason_b)
@@ -1694,11 +1696,9 @@ recode m3_401 (. = .a) if (m3_303b !=1 & m3_303c !=1) |  ///
 
 recode m3_402 (. = .a) if m3_401 !=1 
 
-recode m3_consultation_1 (. = .a) if m3_402 == 0 | m3_402 == . | m3_402 == .a
-						  
+recode m3_consultation_1 (. = .a) if m3_402 == 0 | m3_402 == . | m3_402 == .a		  
 recode m3_consultation_referral_1 (. = .a) if m3_consultation_1 !=0						  
 
-/* lala
 recode m3_consultation1_reason m3_consultation1_reason_a m3_consultation1_reason_b ///
 		m3_consultation1_reason_c m3_consultation1_reason_d m3_consultation1_reason_e ///
 		m3_consultation1_reason_96 (. = .a) if m3_consultation_referral_1 !=0
@@ -1706,24 +1706,21 @@ recode m3_consultation1_reason m3_consultation1_reason_a m3_consultation1_reason
 replace m3_consultation1_reason_other = ".a" if m3_consultation1_reason_96 !=1
 
 recode m3_consultation_2 (. = .a) if m3_402 !=2 & m3_402 !=3 & m3_402 !=4 & m3_402 !=5
-
 recode m3_consultation_referral_2 (. = .a) if m3_consultation_2 !=0
 	   
-recode m3_consultation2_reason_a m3_consultation2_reason_b m3_consultation2_reason_c ///
-	   m3_consultation2_reason_d m3_consultation2_reason_e m3_consultation2_reason_96 ///
-	   m3_consultation2_reason_998 m3_consultation2_reason_999 m3_consultation2_reason_888 ///
-	   (. = .a) if m3_consultation_referral_2 !=0
+recode m3_consultation2_reason m3_consultation2_reason_a m3_consultation2_reason_b ///
+	   m3_consultation2_reason_c m3_consultation2_reason_d m3_consultation2_reason_e ///
+	   m3_consultation2_reason_96 (. = .a) if m3_consultation_referral_2 !=0
 	   
 replace m3_consultation2_reason_other = ".a" if m3_consultation2_reason_96 !=1	   
 	   
 recode m3_consultation_3 (. = .a) if m3_402 !=3 & m3_402 !=4 & m3_402 !=5
-
 recode m3_consultation_referral_3 (. = .a) if m3_consultation_3 !=0
-	   
-recode m3_consultation3_reason_a m3_consultation3_reason_b m3_consultation3_reason_c ///
-	   m3_consultation3_reason_d m3_consultation3_reason_e m3_consultation3_reason_96 ///
-	   m3_consultation3_reason_998 m3_consultation3_reason_999 m3_consultation3_reason_888 ///
-	   (. = .a)	if m3_consultation_referral_3 !=0
+
+*lala	   
+recode m3_consultation3_reason m3_consultation3_reason_a m3_consultation3_reason_b ///
+	   m3_consultation3_reason_c m3_consultation3_reason_d m3_consultation3_reason_e ///
+	   m3_consultation3_reason_96 (. = .a) if m3_consultation_referral_3 !=0
 	   
 replace m3_consultation3_reason_other = ".a" if m3_consultation3_reason_96 !=1		
 
@@ -1746,7 +1743,7 @@ recode m3_consultation5_reason_a m3_consultation5_reason_b m3_consultation5_reas
 	   m3_consultation5_reason_d m3_consultation5_reason_e m3_consultation5_reason_96 ///
 	   m3_consultation5_reason_998 m3_consultation5_reason_999 m3_consultation5_reason_888 ///
 	   (. = .a) if m3_consultation_referral_5 !=0
-	   
+/* lala	   
 *replace m3_consultation5_reason_other = ".a" if m3_consultation5_reason_96 !=1 // numeric because of 0 obs
 
 
