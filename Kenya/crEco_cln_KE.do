@@ -113,7 +113,6 @@ rename q_705 m3_705
 rename endtime m3_endtime
 rename duration m3_duration
 
-
 *------------------------------------------------------------------------------*
 * de-identifying dataset and remove extra variables
 
@@ -356,7 +355,7 @@ rename (q_205a q_205b) (m2_205a m2_205b)
 encode phq_score, gen(m2_phq2_ke)
 drop phq_score
 
-rename  q_206 m2_206
+rename q_206 m2_206
 
 rename (q_303_3 q_303_4 q_303_5) (m2_303c m2_303d m2_303e)
 	   
@@ -626,7 +625,7 @@ rename (q_412a_1 q_412b_1 q_412c_1 q_412d_1 q_412e_1 q_412f_1 q_412g_1 q_412g_ot
 
 rename (q_412a_2 q_412a_3 q_412b_2 q_412b_3 q_412c_2 q_412c_3 q_412d_2 q_412d_3 q_412e_2 ///
 		q_412e_3 q_412f_2 q_412f_3 q_412g_2 q_412g_3 q_412i_2 q_412i_3)(m3_412a_2_ke m3_412a_3_ke ///
-		m3_412b_2_ke m3_412b_3_ke m3_412c_2 m3_412c_3 m3_412d_2_ke m3_412d_3_ke m3_412e_2_ke ///
+		m3_412b_2_ke m3_412b_3_ke m3_412c_2_ke m3_412c_3_ke m3_412d_2_ke m3_412d_3_ke m3_412e_2_ke ///
 		m3_412e_3_ke m3_412f_2_ke m3_412f_3_ke m3_412g_2_ke m3_412g_3_ke m3_412i_2_ke m3_412i_3_ke)
 		
 rename (q_412g_oth_2 q_412g_oth_3) (m3_412g_2_other m3_412g_3_other)		
@@ -699,59 +698,38 @@ rename (q_702 q_703 q_704a q_704b q_704c q_704d q_704e q_704f q_704g  ///
         m3_704b m3_704c m3_704d m3_704e m3_704f m3_704g m3_706 ///
 		m3_707_ke m3_707_ke_unit m3_baby1_issues m3_baby2_issues)   
 
-       ** These 8 variables are string variables : use replace if and then rename (line 235 to 258)
-       ** q_708_1_1 q_708_2_1 q_708_3_1 q_708_4_1 q_708_5_1 q_708_6_1 q_708__98_1 q_708__99_1 
-replace q_708_1_1 = "No" if q_708_1_1 == "0"   
-replace q_708_1_1 = "Yes" if q_708_1_1 == "1"
-rename (q_708_1_1)(m3_baby1_issues_a)
-replace q_708_2_1 = "No" if q_708_2_1 == "0"  
-replace q_708_2_1 = "Yes" if q_708_2_1 == "1"
-rename (q_708_2_1)(m3_baby1_issues_b)
-replace q_708_3_1 = "No" if q_708_3_1 == "0"  
-replace q_708_3_1 = "Yes" if q_708_3_1 == "1"
-rename (q_708_3_1)(m3_baby1_issues_c)
-replace q_708_4_1 = "No" if q_708_4_1 == "0"  
-replace q_708_4_1 = "Yes" if q_708_4_1 == "1"
-rename (q_708_4_1)(m3_baby1_issues_d)
-replace q_708_5_1 = "No" if q_708_5_1 == "0"
-replace q_708_5_1 = "Yes" if q_708_5_1  == "1"
-rename (q_708_5_1)(m3_baby1_issues_e)
-replace q_708_6_1 = "No" if q_708_6_1 == "0"  
-replace q_708_6_1 = "Yes" if q_708_6_1  == "1"
-rename (q_708_6_1)(m3_baby1_issues_f)
-replace q_708__98_1 = "No" if q_708__98_1 == "0"
-replace q_708__98_1 = "Yes" if q_708__98_1  == "1"
-rename (q_708__98_1)(m3_baby1_issues_98)
-replace q_708__99_1 = "No" if q_708__99_1 == "0"
-replace q_708__99_1 = "Yes" if q_708__99_1 == "1"
-rename (q_708__99_1)(m3_baby1_issues_99)
-
-       ** These 8 variables are string variables : use replace if and then rename (line 2625 to 285)
-       ** q_708_1_2 q_708_2_2 q_708_3_2 q_708_4_2 q_708_5_2 q_708_6_2 q_708__98_2 q_708__99_2
-replace q_708_1_2 = "No" if q_708_1_2 == "0"  
-replace q_708_1_2 = "Yes" if q_708_1_2 == "1"
-rename (q_708_1_2)(m3_baby2_issues_a)
-replace q_708_2_2 = "No" if q_708_2_2 == "0"  
-replace q_708_2_2 = "Yes" if q_708_2_2 == "1"
-rename (q_708_2_2)(m3_baby2_issues_b)
-replace q_708_3_2 = "No" if q_708_3_2 == "0"  
-replace q_708_3_2 = "Yes" if q_708_3_2 == "1"
-rename (q_708_3_2)(m3_baby2_issues_c)
-replace q_708_4_2 = "No" if q_708_4_2 == "0" 
-replace q_708_4_2 = "Yes" if q_708_4_2 == "1"
-rename (q_708_4_2)(m3_baby2_issues_d)
-replace q_708_5_2 = "No" if q_708_5_2 == "0"  
-replace q_708_5_2 = "Yes" if q_708_5_2  == "1"
-rename (q_708_5_2)(m3_baby2_issues_e)
-replace q_708_6_2 = "No" if q_708_6_2 == "0"  
-replace q_708_6_2 = "Yes" if q_708_6_2  == "1"
-rename (q_708_6_2)(m3_baby2_issues_f)
-replace q_708__98_2 = "No" if q_708__98_2 == "0"  
-replace q_708__98_2 = "Yes" if q_708__98_2  == "1"
-rename (q_708__98_2)(m3_baby2_issues_98)
-replace q_708__99_2 = "No" if q_708__99_2 == "0"  
-replace q_708__99_2 = "Yes" if q_708__99_2 == "1"
-rename (q_708__99_2)(m3_baby2_issues_99)
+encode q_708_1_1,gen(m3_baby1_issues_a)
+drop q_708_1_1
+encode q_708_2_1,gen(m3_baby1_issues_b)
+drop q_708_2_1
+encode q_708_3_1,gen(m3_baby1_issues_c)
+drop q_708_3_1
+encode q_708_4_1,gen(m3_baby1_issues_d)
+drop q_708_4_1
+encode q_708_5_1,gen(m3_baby1_issues_e)
+drop q_708_5_1
+encode q_708_6_1,gen(m3_baby1_issues_f)
+drop q_708_6_1
+encode q_708__98_1,gen(m3_baby1_issues_98)
+drop q_708__98_1
+encode q_708__99_1,gen(m3_baby1_issues_99)
+drop q_708__99_1
+encode q_708_1_2,gen(m3_baby2_issues_a)
+drop q_708_1_2
+encode q_708_2_2,gen(m3_baby2_issues_b)
+drop q_708_2_2
+encode q_708_3_2,gen(m3_baby2_issues_c)
+drop q_708_3_2
+encode q_708_4_2,gen(m3_baby2_issues_d)
+drop q_708_4_2
+encode q_708_5_2,gen(m3_baby2_issues_e)
+drop q_708_5_2
+encode q_708_6_2,gen(m3_baby2_issues_f)
+drop q_708_6_2
+encode q_708__98_2,gen(m3_baby2_issues_98)
+drop q_708__98_2
+encode q_708__99_2,gen(m3_baby2_issues_99)
+drop q_708__99_2
 
 rename (q_709_1 q_709_o_1 q_709_2 q_709_o_2 q_710_1 q_710_2 q_711_1 q_711_unit_1 q_711_2 q_711_unit_2) (m3_708_oth_1 m3_708a m3_708_oth_2 m3_708b ///
         m3_710a m3_710b m3_711c_1 m3_711c_1_unit m3_711c_2 m3_711c_2_unit)
@@ -760,13 +738,14 @@ rename (q_801a q_801b q_802a q_802b q_802c q_803a q_803b q_803c q_803d q_803e q_
         q_808b_oth q_809)(m3_801a m3_801b m3_802a m3_802b m3_802c m3_803a m3_803b m3_803c m3_803d m3_803e m3_803f m3_803g m3_803h m3_803j m3_803j_other ///
 		m3_805 m3_806 m3_807 m3_808a m3_808b m3_808b_other m3_809)
 		
-rename phq2_score m3_phq2_score
+encode phq2_score,gen(m3_phq2_score)
+drop phq2_score
 
 rename (q_901a q_901b q_901c q_901d q_901de q_901f q_901g q_901h q_901i q_901j q_901k q_901l q_901m q_901n q_901o q_901p q_901q q_901r q_901_o) ///
        (m3_901a m3_901b m3_901c m3_901d m3_901e m3_901f m3_901g m3_901h m3_901i m3_901j m3_901k m3_901l m3_901m m3_901n m3_901o m3_901p m3_901q m3_901r ///
 	    m3_901r_other)
 		
-rename (q_901_cost q_902_cost_1 q_902_cost_2) (m3_901_cost m3_901_1_cost m3_901_2_cost)
+rename (q_901_cost q_902_cost_1 q_902_cost_2) (m3_901_cost m3_902_1_cost m3_902_2_cost)
 
 rename (q_902a_1 q_902a_2 q_902b_1 q_902b_2 q_902c_1 q_902c_2 q_902d_1 q_902d_2 q_902e_1 q_902e_2 q_902f_1 q_902f_2 q_902g_1 q_902g_2 q_902h_1 q_902h_2 ///
         q_902i_1 q_902i_2 q_902j_1 q_902j_oth_1 q_902j_2 q_902j_oth_2)(m3_902a_baby1 m3_902a_baby2 m3_902b_baby1 m3_902b_baby2 m3_902c_baby1 ///
@@ -786,7 +765,8 @@ rename (q_1104_1 q_1104_2 q_1104_3 q_1104_4 q_1104_5 q_1104_6 q_1104_7 q_1104__9
 	   (m3_1105a_ke m3_1105b_ke m3_1105c_ke m3_1105d_ke m3_1105e_ke m3_1105f_ke ///
 	   m3_1105g_ke m3_1105_96_ke)		
 		
-rename q_1102_total_spent m3_1102_total		
+encode q_1102_total_spent,gen(m3_1102_total)
+drop q_1102_total_spent	
 
 	   ** Create q_1004b to collapse q_1004b_1 q_1004b_2 q_1004b_3 q_1004b_4 q_1004b_5 q_1004b_6 q_1004b_7
 gen q_1004b = q_1004b_1 if q_1004b_2==. & q_1004b_3==. & q_1004b_4==. & q_1004b_5==. & q_1004b_6==. & q_1004b_7==.
@@ -899,9 +879,6 @@ drop q_1004h_1 q_1004h_2 q_1004h_3 q_1004h_4 q_1004h_5 q_1004h_6 q_1004h_7
 	label define q519_2 20 "Kitui East", modify
 	
 	** MODULE 2:
-
-	
-	
 	
 /*		
 	** MODULE 3:
@@ -923,6 +900,10 @@ label define m3_807 0 "Not at all" 1 "1" 2 "2" 3 "3" 4 "4" 5 "5" 6 "6" 7 "7" 8 "
 label values m3_807 m3_807
 
 */
+
+recode m3_phq2_score (1 = 0) (2 = 1) (3 = 2) (4 = 3) (5 = 4) (6 = 5)
+label define m3_phq2_score 1 "1" 2 "2" 3 "3" 4 "4" 5 "5", modify
+
 
 *===============================================================================
 * Generate new vars (KE only):
@@ -1009,9 +990,9 @@ recode m3_303a m3_303b m3_baby1_gender m3_baby1_health m3_breastfeeding m3_baby1
 	   m3_baby2_born_alive1 m3_baby2_born_alive2 m3_401 m3_consultation_1 m3_consultation_referral_1 ///
 	   m3_412a_1_ke m3_412b_1_ke m3_412c_1_ke m3_412d_1_ke m3_412e_1_ke m3_412f_1_ke m3_412g_1_ke ///
 	   m3_412g_1_other m3_412g_3_other m3_412i_1_ke ///
-	   m3_consultation_2 m3_consultation_referral_2 m3_412a_2_ke m3_412b_2_ke m3_412c_2 m3_412d_2_ke m3_412e_2_ke ///
+	   m3_consultation_2 m3_consultation_referral_2 m3_412a_2_ke m3_412b_2_ke m3_412c_2_ke m3_412d_2_ke m3_412e_2_ke ///
 	   m3_412f_2_ke m3_412g_2_ke m3_412i_2_ke m3_consultation_3 m3_consultation_referral_3 m3_412a_3_ke ///
-	   m3_412b_3_ke m3_412c_3 m3_412d_3_ke ///
+	   m3_412b_3_ke m3_412c_3_ke m3_412d_3_ke ///
 	   m3_412e_3_ke m3_412f_3_ke m3_412i_3_ke m3_501 m3_503 m3_502 m3_509 m3_510 m3_512_1_ke m3_512_2_ke ///
 	   m3_513a m3_516 m3_517 m3_519 m3_601_hiv m3_601b m3_601c m3_602a m3_603a m3_603b m3_603c m3_604a ///
 	   m3_604b m3_605a m3_605b m3_606 m3_607 m3_608 m3_609 m3_610a m3_610b m3_611 m3_613 m3_615a ///
@@ -1024,18 +1005,18 @@ recode m3_303a m3_303b m3_baby1_gender m3_baby1_health m3_breastfeeding m3_baby1
 	   m3_901r m3_902a_baby1 m3_902b_baby1 m3_902c_baby1 m3_902d_baby1 m3_902e_baby1 m3_902f_baby1 ///
 	   m3_902g_baby1 m3_902h_baby1 m3_902i_baby1 m3_902j_baby1 m3_902a_baby2 m3_902b_baby2 m3_902c_baby2 ///
 	   m3_902d_baby2 m3_902e_baby2 m3_902f_baby2 m3_902g_baby2 m3_902h_baby2 m3_902i_baby2 m3_1001 ///
-	   m3_1002 m3_1003 m3_1004a m3_1005a m3_1005b m3_1005c ///
-	   m3_1005d m3_1005e m3_1005f m3_1005g m3_1005h m3_1006a m3_1006b m3_1006c m3_1007a m3_1007b ///
-	   m3_1007c m3_1101 m3_1106 m3_1201 m3_1202 m3_1203 m3_1204 (-99 = .r)
+	   m3_1002 m3_1003 m3_1004a m3_1005a m3_1005b m3_1005c m3_1005d m3_1005e m3_1005f m3_1005g m3_1005h ///
+	   m3_1006a m3_1006b m3_1006c m3_1007a m3_1007b m3_1007c m3_1101 m3_1106 m3_1201 m3_1202 m3_1203 ///
+	   m3_1204 m3_1102a_amt m3_1102b_amt m3_1102c_amt m3_1102d_amt m3_1102e_amt m3_1102f_amt (-99 = .r)
 
 recode m3_303a m3_baby1_gender m3_baby1_weight m3_baby2_weight m3_baby1_born_alive1 ///
 	   m3_baby1_born_alive2 m3_baby2_gender m3_baby2_weight m3_baby2_born_alive1 ///
 	   m3_baby2_born_alive2 m3_401 m3_consultation_1 m3_consultation_referral_1 ///
 	   m3_412a_1_ke m3_412b_1_ke m3_412c_1_ke m3_412d_1_ke m3_412e_1_ke m3_412f_1_ke m3_412g_1_ke ///
 	   m3_412g_1_other m3_412g_3_other m3_412i_1_ke ///
-	   m3_consultation_2 m3_consultation_referral_2 m3_412a_2_ke m3_412b_2_ke m3_412c_2 m3_412d_2_ke ///
+	   m3_consultation_2 m3_consultation_referral_2 m3_412a_2_ke m3_412b_2_ke m3_412c_2_ke m3_412d_2_ke ///
 	   m3_412e_2_ke m3_412f_2_ke m3_412g_2_ke m3_412i_2_ke m3_consultation_3 m3_consultation_referral_3 ///
-	   m3_412a_3_ke m3_412b_3_ke m3_412c_3 m3_412d_3_ke m3_412e_3_ke m3_412f_3_ke m3_412i_3_ke m3_501 ///
+	   m3_412a_3_ke m3_412b_3_ke m3_412c_3_ke m3_412d_3_ke m3_412e_3_ke m3_412f_3_ke m3_412i_3_ke m3_501 ///
 	   m3_503 m3_502 m3_510 m3_512_1_ke m3_512_2_ke m3_513a m3_517 m3_519 m3_601_hiv m3_601b m3_601c ///
 	   m3_602a m3_602b m3_603a m3_603b m3_603c m3_604a m3_604b m3_605a m3_605b m3_606 m3_607 m3_608 ///
 	   m3_609 m3_610a m3_610b m3_611 m3_613 m3_615a m3_617a m3_618a_1 m3_618b_1 m3_618c_1 ///
@@ -1049,10 +1030,13 @@ recode m3_303a m3_baby1_gender m3_baby1_weight m3_baby2_weight m3_baby1_born_ali
 	   m3_902f_baby1 m3_902g_baby1 m3_902h_baby1 m3_902i_baby1 m3_902j_baby1 m3_902a_baby2 m3_902b_baby2 ///
 	   m3_902d_baby2 m3_902e_baby2 m3_902f_baby2 m3_902g_baby2 m3_902h_baby2 m3_902i_baby2 m3_1002 ///
 	   m3_1003 m3_1005a m3_1005b m3_1005c m3_1005d m3_1005e m3_1005f m3_1005g m3_1005h m3_1006a ///
-	   m3_1006b m3_1006c m3_1007a m3_1007b m3_1007c m3_1101 m3_1106 m3_1201 m3_1203 (-98 = .d)	 
+	   m3_1006b m3_1006c m3_1007a m3_1007b m3_1007c m3_1101 m3_1106 m3_1201 m3_1203 m3_614_ke ///
+	   m3_616c_1 m3_1102a_amt m3_1102b_amt m3_1102c_amt m3_1102d_amt m3_1102e_amt m3_1102f_amt (-98 = .d)	 
 
 * SS: confirm m3_ga2_ke 999 = .d	   
 recode m3_ga2_ke (999 = .d)	   
+
+recode m3_901_cost (-999 = .d) // SS: confirm
 	   
 	   
 * Formatting Dates (SS: do this for all dates in all modules)	 
@@ -1717,17 +1701,16 @@ replace m3_consultation2_reason_other = ".a" if m3_consultation2_reason_96 !=1
 recode m3_consultation_3 (. = .a) if m3_402 !=3 & m3_402 !=4 & m3_402 !=5
 recode m3_consultation_referral_3 (. = .a) if m3_consultation_3 !=0
 
-*lala	   
+  
 recode m3_consultation3_reason m3_consultation3_reason_a m3_consultation3_reason_b ///
 	   m3_consultation3_reason_c m3_consultation3_reason_d m3_consultation3_reason_e ///
 	   m3_consultation3_reason_96 (. = .a) if m3_consultation_referral_3 !=0
 	   
 replace m3_consultation3_reason_other = ".a" if m3_consultation3_reason_96 !=1		
 
+/* No consultation 4-5 in this dataset
 recode m3_consultation_4 (. = .a) if m3_402 !=4 & m3_402 !=5
-
 recode m3_consultation_referral_4 (. = .a) if m3_consultation_4 !=0
-
 recode m3_consultation4_reason_a m3_consultation4_reason_b m3_consultation4_reason_c ///
 	   m3_consultation4_reason_d m3_consultation4_reason_e m3_consultation4_reason_96 ///
 	   m3_consultation4_reason_998 m3_consultation4_reason_999 m3_consultation4_reason_888 ///
@@ -1736,224 +1719,217 @@ recode m3_consultation4_reason_a m3_consultation4_reason_b m3_consultation4_reas
 replace m3_consultation4_reason_other = ".a" if m3_consultation4_reason_96 !=1	
 
 recode m3_consultation_5 (. = .a) if m3_402 !=5
-
 recode m3_consultation_referral_5 (. = .a) if m3_consultation_5 !=0 
-
 recode m3_consultation5_reason_a m3_consultation5_reason_b m3_consultation5_reason_c ///
 	   m3_consultation5_reason_d m3_consultation5_reason_e m3_consultation5_reason_96 ///
 	   m3_consultation5_reason_998 m3_consultation5_reason_999 m3_consultation5_reason_888 ///
 	   (. = .a) if m3_consultation_referral_5 !=0
-/* lala	   
+   
 *replace m3_consultation5_reason_other = ".a" if m3_consultation5_reason_96 !=1 // numeric because of 0 obs
+*/
 
 
-recode m3_412a m3_412b m3_412c m3_412d m3_412e m3_412f m3_412g (. =.a) if m3_401 !=1
+recode m3_412a_1_ke m3_412a_2_ke m3_412a_3_ke m3_412b_1_ke m3_412b_2_ke m3_412b_3_ke m3_412c_1_ke m3_412c_2_ke m3_412c_3_ke m3_412d_1_ke m3_412d_2_ke m3_412d_3_ke m3_412e_1_ke m3_412e_2_ke m3_412e_3_ke m3_412f_1_ke m3_412f_2_ke m3_412f_3_ke m3_412g_1_ke m3_412g_2_ke m3_412g_3_ke m3_412i_1_ke m3_412i_2_ke m3_412i_3_ke (. = .a) if m3_401 !=1
+ 
+recode m3_412a_1_ke m3_412b_1_ke m3_412c_1_ke m3_412d_1_ke m3_412e_1_ke m3_412f_1_ke m3_412g_1_ke m3_412i_1_ke (. = .a) if m3_402 !=1
 
-replace m3_412g_other = ".a" if m3_412g !=1
+recode m3_412i_1_ke (. = .a) if m3_412a_1_ke ==1 | m3_412b_1_ke ==1 | m3_412c_1_ke ==1 | ///
+								m3_412d_1_ke ==1 | m3_412e_1_ke ==1 | m3_412f_1_ke ==1 | ///
+								m3_412g_1_ke ==1 
 
-recode m3_501 (. = .a) if (m3_303b !=1 & m3_303c !=1 & m3_303d !=1) & (m3_baby1_born_alive !=1 & m3_baby2_born_alive !=1 & m3_baby3_born_alive !=1) & m3_202 !=3
+recode m3_412g_1_other (. = .a) if m3_412g_1_ke !=1 // numeric bc of 0 obs
+
+recode m3_412a_2_ke m3_412b_2_ke m3_412c_2_ke m3_412d_2_ke m3_412e_2_ke m3_412f_2_ke m3_412g_2_ke m3_412i_2_ke (. = .a) if m3_402 !=2
+
+recode m3_412i_2_ke (. = .a) if m3_412a_2_ke ==1 | m3_412b_2_ke ==1 | m3_412c_2_ke ==1 | ///
+								m3_412d_2_ke ==1 | m3_412e_2_ke ==1 | m3_412f_2_ke ==1 | ///
+								m3_412g_2_ke ==1 
+
+replace m3_412g_2_other = ".a" if m3_412g_2_ke !=1
+
+recode m3_412a_3_ke m3_412b_3_ke m3_412c_3_ke m3_412d_3_ke m3_412e_3_ke m3_412f_3_ke m3_412g_3_ke m3_412i_3_ke (. = .a) if m3_402 !=3
+
+recode m3_412i_3_ke (. = .a) if m3_412a_3_ke ==1 | m3_412b_3_ke ==1 | m3_412c_3_ke ==1 | ///
+								m3_412d_3_ke ==1 | m3_412e_3_ke ==1 | m3_412f_3_ke ==1 | ///
+								m3_412g_3_ke ==1 
+
+recode m3_412g_3_other (. = .a) if m3_412g_3_ke !=1 // numeric bc of 0 obs
+
+recode m3_501 (. = .a) if m2_202 !=2 | m2_202 !=3
 
 recode m3_502 m3_503 (. = .a) if m3_501 !=1
 
-replace m3_503_inside_zone_other = ".a" if m3_503 !=96
+replace m3_504a = ".a" if m3_503 !=-96
 
-replace m3_503_outside_zone_other = ".a" if m3_503 !=97
+replace m3_504b= ".a" if m3_503 !=-96
 
-replace m3_504a = ".a" if m3_503 !=97
+replace m3_504c= ".a" if m3_503 !=-96
 
-replace m3_504b= ".a" if m3_503 !=97
+replace m3_503_final= ".a" if m3_503 !=-96
+replace m3_503_final = ".d" if m3_503_final == "999"
 
-recode m3_505a (. = .a) if m3_501 !=1
+recode m3_506_pre (. = .a) if m3_501 !=1
 
-recode m3_505b (. = .a) if m3_505a !=1
+replace m3_506_pre_oth = ".a" if m3_506_pre != -96
 
-recode m3_506a recm3_506b recm3_507 (. = .a) if m3_501 !=1
-
-recode m3_506b_unknown (. = .a) if m3_501 !=1 & recm3_506b != . | recm3_506b != .a
-
-recode m3_507_unknown (. = .a) if m3_501 !=1 & recm3_507 != . | recm3_507 != .a
+recode m3_507 (. = .a) if m3_501 !=1
 
 recode m3_508 m3_509 (. = .a) if m3_501 !=0
 
-replace m3_509_other = ".a" if m3_509 !=96
+replace m3_509_other = ".a" if m3_509 !=-96
 
 recode m3_510 (. = .a) if m3_501 !=1
 
-recode m3_511 m3_512 (. = .a) if m3_510 !=1
+recode m3_511 (. = .a) if m3_510 !=1
 
-*replace m3_512_outside_zone_other = ".a" if m3_512 !=97 // numeric because of 0 obs
+recode m3_512_1_ke m3_512_2_ke (. = .a) if m3_510 !=1
+
+recode m3_512_1_ke (. = .a) if m3_511 !=1
+
+recode m3_512_2_ke (. = .a) if m3_511 !=2
 
 recode m3_513a (. = .a) if m3_510 !=1
 
-replace m3_513_inside_zone_other = ".a" if m3_513a != 96
+replace m3_513_outside_zone_other = ".a" if m3_513a != -96
 
-replace m3_513_outside_zone_other = ".a" if m3_513a != 97
+replace m3_513b2 = ".a" if m3_513a != -96
 
-replace m3_513b1 = ".a" if m3_513a != 97
+replace m3_513b3 = ".a" if m3_513a != -96
 
-replace m3_513b2 = ".a" if m3_513a !=97
+replace m3_513_final = ".a" if m3_513a !=-96
 
-recode recm3_514 (. = .a) if m3_510 !=1
-
-recode m3_514_unknown (. = .a) if m3_510 !=1 | (recm3_514 != . | recm3_514 !=.a)
+replace m3_514 = ".a" if m3_510 !=1
 
 recode m3_515 (. = .a) if m3_510 !=1 
 
 recode m3_516 (. = .a) if m3_515 !=4 & m3_515 !=5
 
-replace m3_516_other = ".a" if m3_516 !=96 
-
 recode m3_517 (. = .a) if m3_515 !=2 & m3_515 !=3
 
-recode m3_518 (. = .a) if m3_517 !=1
+recode m3_518_96_ke m3_518_97_ke m3_518_98_ke m3_518_99_ke m3_518a_ke ///
+	   m3_518b_ke m3_518c_ke m3_518d_ke m3_518e_ke m3_518f_ke m3_518g_ke m3_518h_ke ///
+	   m3_518i_ke m3_518j_ke m3_518k_ke (. = .a) if m3_517 !=1
 
-replace m3_518_other_complications = ".a" if m3_518 !=96
+replace m3_518_other_complications = ".a" if m3_518_96_ke !=1
 
-replace m3_518_other = ".a" if m3_518 !=97
+replace m3_518_other = ".a" if m3_518_97_ke !=1
 
-recode m3_519 (. = .a) if m3_510 !=0
+recode m3_519 (. = .a) if m3_510 !=0 | m3_517 == 1
 
-replace m3_519_other = ".a" if m3_519 !=96 
+replace m3_519_other = ".a" if m3_519 !=-96 
 
-recode recm3_520 (. = .a) if m3_501 !=1 & m3_515 !=1
+replace m3_520 =".a" if m3_501 !=1 & m3_515 !=1
 
-recode m3_520_unknown (. = .a) if m3_501 !=1 & (recm3_520 !=. | recm3_520 !=.a)
+recode m3_521_ke m3_521_ke_unit (. = .a) if m3_501 !=1
 
-recode m3_521 (. = .a) if m3_501 !=1
+recode m3_601_hiv m3_601b m3_601c m3_602a m3_603a m3_603b m3_603c ///
+	   m3_604a m3_604b m3_605a (. = .a) if m3_503_final == "." | ///
+	   m3_503_final == "" | m3_503_final == ".d" | m3_503_final == ".a" | m3_501 !=1 // N= 4 missings
 
-recode m3_521_unknown (. = .a) if m3_501 !=1 | (m3_521 !=. | m3_521 !=.a)
+recode m3_602b (. = .a) if m3_501 !=1 | m3_602a !=0
 
-*recode m3_p1_date_of_rescheduled m3_p1_time_of_rescheduled (. = .a) if m3_attempt_outcome !=6
+recode m3_605b m3_605c(. = .a) if m3_605a !=1
 
-recode m3_permission_p2 (. = .a) if m3_start_p2 !=1
-
-recode m3_date_p2 recm3_time_p2 (. = .a) if m3_permission_p2 !=1
-
-recode m3_201a (. = .a) if m3_permission_p2 !=1 | m3_303b !=1
-
-recode m3_201b (. = .a) if m3_permission_p2 !=1 | m3_303c !=1
-
-recode m3_201c (. = .a) if m3_permission_p2 !=1 | m3_303d !=1
-
-recode m3_601a m3_601b m3_601c m3_602a m3_603a m3_603b m3_603c m3_603d ///
-	   m3_604a m3_604b m3_605a (. = .a) if m3_permission_p2 !=1 | m3_501 !=1
-
-recode m3_602b (. = .a) if m3_permission_p2 !=1 | m3_501 !=1 | (m3_602a !=0 & m3_602a !=2 & ///
-						   m3_602a !=98 & m3_602a !=99)
-
-recode m3_605b m3_605c_a m3_605c_b m3_605c_c m3_605c_d m3_605c_96 m3_605c_99 ///
-	   m3_605c_998 m3_605c_999 m3_605c_888 (. = .a) if m3_605a !=1
-
-replace m3_605c_other = ".a" if m3_605c_96 !=1
+replace m3_605c_other = ".a" if m3_605c !=-96
 
 recode m3_606 m3_607 (. = .a) if m3_605a !=0
 
-recode m3_607a_et m3_607b_et m3_607c_et m3_607d_et m3_607e_et m3_608 ///
-	   (. = .a) if m3_permission_p2 !=1 | m3_501 !=1
+recode m3_608 (. = .a) if m3_501 !=1
 
-recode m3_609 m3_610a m3_611 m3_612 (. = .a) if m3_permission_p2 !=1 | m3_501 !=1 | ///
-	  (m3_303b !=1 & m3_303c !=1 & m3_303d !=1 & m3_baby1_born_alive !=1 & ///
-	  m3_baby2_born_alive !=1 & m3_baby3_born_alive !=1)
+recode m3_609 m3_610a m3_611 m3_612_ke m3_612_ke_unit (. = .a) if m3_501 !=1 | bornalive_babies == "0"  | bornalive_babies == ""
 	  
-recode m3_610b (. = .a) if m3_610a !=1
+recode m3_610b (. = .a) if m3_610a !=1 | bornalive_babies == "0" | bornalive_babies == ""
 
-recode m3_613 (. = .a) if m3_permission_p2 !=1 | m3_501 !=1	  
+recode m3_613 (. = .a) if m3_501 !=1	  
 
-recode m3_614 (. = .a) if m3_613 !=1
+recode m3_614_ke m3_614_ke_unit (. = .a) if m3_613 !=1
 
-recode m3_615a (. = .a) if m3_permission_p2 !=1 | m3_501 !=1 | (m3_201a !=1 & m3_baby1_born_alive !=1)
+recode m3_615a (. = .a) if m3_501 !=1 | (m3_baby1_born_alive1 !=1 | m3_baby1_born_alive2 !=1)
 
-recode m3_615b (. = .a) if m3_permission_p2 !=1 | m3_501 !=1 | (m3_201b !=1 & m3_baby2_born_alive !=1)
+recode m3_615b (. = .a) if m3_501 !=1 | (m3_baby2_born_alive1 !=1 | m3_baby2_born_alive2 !=1)
 
-recode m3_615c (. = .a) if m3_permission_p2 !=1 | m3_501 !=1 | (m3_201c !=1 & m3_baby3_born_alive !=1)
+recode m3_616c_1 m3_616c_1_unit (. = .a) if m3_615a !=1
 
-recode m3_616a (. = .a) if m3_615a !=1
+recode m3_616c_2 m3_616c_2_unit (. = .a) if m3_615b !=1
 
-recode m3_616b (. = .a) if m3_615b !=1
+recode m3_617a (. = .a) if m3_501 !=1 | m3_baby1_born_alive1 !=1 | m3_baby1_born_alive2 !=1
 
-recode m3_616c (. = .a) if m3_615c !=1
+recode m3_617b (. = .a) if m3_501 !=1 | m3_baby2_born_alive1 !=1 | m3_baby2_born_alive2 !=1
 
-recode m3_617a (. = .a) if m3_permission_p2 !=1 | m3_501 !=1 | (m3_201a !=1 & m3_baby1_born_alive !=1)
+recode m3_618a_1 (. = .a) if m3_501 !=1 | m3_baby1_born_alive1 !=1 | m3_baby1_born_alive2 !=1
 
-recode m3_617b (. = .a) if m3_permission_p2 !=1 | m3_501 !=1 | (m3_201b !=1 & m3_baby2_born_alive !=1)
+recode m3_618a_2 (. = .a) if m3_501 !=1 | m3_baby2_born_alive1 !=1 | m3_baby2_born_alive2 !=1
 
-recode m3_617c (. = .a) if m3_permission_p2 !=1 | m3_501 !=1 | (m3_201c !=1 & m3_baby3_born_alive !=1)
+recode m3_618b_1 (. = .a) if m3_618a_1 !=1
 
-recode m3_617d_et (. = .a) if m3_permission_p2 !=1 | m3_501 !=1 | (m3_201a !=1 & m3_baby1_born_alive !=1)
+recode m3_618b_2 (. = .a) if  m3_618a_2 !=1
 
-recode m3_617e_et (. = .a) if m3_permission_p2 !=1 | m3_501 !=1 | (m3_201b !=1 & m3_baby2_born_alive !=1)
+recode m3_618c_1 (. = .a) if m3_618b_1 !=1
 
-recode m3_617f_et (. = .a) if m3_permission_p2 !=1 | m3_501 !=1 | (m3_201c !=1 & m3_baby3_born_alive !=1)
+recode m3_618c_2 (. = .a) if m3_618b_2 !=1
 
-recode m3_617g_et (. = .a) if m3_permission_p2 !=1 | m3_501 !=1 | (m3_201a !=1 & m3_baby1_born_alive !=1)
+recode m3_619a m3_619b m3_619c m3_619d m3_619e m3_619g m3_619h m3_620_1 m3_620_2 (. = .a) if ///
+	   m3_501 !=1 | bornalive_babies == "0" | bornalive_babies == ""
 
-recode m3_617h_et (. = .a) if m3_permission_p2 !=1 | m3_501 !=1 | (m3_201b !=1 & m3_baby2_born_alive !=1)
+recode m3_620_1 (. = .a) if m3_303b !=1
 
-recode m3_617i_et (. = .a) if m3_permission_p2 !=1 | m3_501 !=1 | (m3_201c !=1 & m3_baby3_born_alive !=1)
+recode m3_620_2 (. = .a) if m3_303c !=1
+	   
+replace m3_621a = ".a" if m3_501 !=0			   
 
-recode m3_619a m3_619b m3_619c m3_619d m3_619e m3_619f m3_619g m3_619h m3_619i m3_619j ///
-	   m3_620 (. = .a) if m3_permission_p2 !=1 | m3_501 !=1 | (m3_201a !=1 & m3_201b !=1 & ///
-	   m3_201c !=1 & m3_baby1_born_alive !=1 & m3_baby2_born_alive !=1 & m3_baby3_born_alive !=1)
+recode m3_621a_1_ke m3_621a_2_ke m3_621a_3_ke m3_621a_4_ke m3_621a_5_ke m3_621a_6_ke ////
+	   m3_621a_98_ke m3_621a_99_ke (. = .a) if m3_501 !=0		
+	   
+recode m3_621b (. = .a) if m3_501 !=0   
 						   
-recode m3_621a m3_621b (. = .a) if m3_permission_p2 !=1 | m3_501 !=0			   
-						   
-recode m3_621c (. = .a) if m3_621b !=1
+recode m3_621c_ke m3_621c_ke_unit (. = .a) if m3_621b !=1
 
-recode m3_622a m3_622c m3_701 m3_704a m3_704b m3_704c m3_704d m3_704e m3_704f m3_704g ///
-	   (. = .a) if m3_permission_p2 !=1
+recode m3_622a m3_622c (. = .a) if m3_501 !=0   
 
 recode m3_622b (. = .a) if m3_622a !=1 
 
-recode m3_baby1_sleep m3_baby1_feed m3_baby1_breath m3_baby1_stool m3_baby1_mood ///
-	   m3_baby1_skin m3_baby1_interactivity (. = .a) if m3_permission_p2 !=1 | m3_201a !=1
-
-recode m3_baby2_sleep m3_baby2_feed m3_baby2_breath m3_baby2_stool m3_baby2_mood ///
-	   m3_baby2_skin m3_baby2_interactivity (. = .a) if m3_permission_p2 !=1 | m3_201b !=1
-
-recode m3_baby3_sleep m3_baby3_feed m3_baby3_breath m3_baby3_stool m3_baby3_mood ///
-	   m3_baby3_skin m3_baby3_interactivity (. = .a) if m3_permission_p2 !=1 | m3_201c !=1
+recode m3_701 (. = .a) if m2_202 !=2 | m2_202 !=3   
 
 replace m3_702 = ".a" if m3_701 !=1
 
 recode m3_703 (. = .a) if m3_701 !=1
 
-recode m3_705 m3_706 m3_707 (. = .a) if m3_permission_p2 !=1 | m3_501 !=1
+recode m3_704a m3_704b m3_704c m3_704d m3_704e m3_704f m3_704g (. = .a) if m2_202 !=2 | m2_202 !=3   
 
-recode m3_707_unknown (. = .a) if m3_permission_p2 !=1 | m3_707 != . | m3_707 != .a // SS: why is this numeric instead of string?
+recode m3_705 m3_706 m3_707_ke m3_707_ke_unit (. = .a) if m3_501 !=1
 
+recode m3_baby1_sleep m3_baby1_feed m3_baby1_breath m3_baby1_stool m3_baby1_mood ///
+	   m3_baby1_skin m3_baby1_interactivity (. = .a) if m3_303b !=1
+
+recode m3_baby2_sleep m3_baby2_feed m3_baby2_breath m3_baby2_stool m3_baby2_mood ///
+	   m3_baby2_skin m3_baby2_interactivity (. = .a) if m3_303c !=1
+	   
 recode m3_baby1_issues_a m3_baby1_issues_b m3_baby1_issues_c m3_baby1_issues_d m3_baby1_issues_e ///
-	   m3_baby1_issues_f m3_baby1_issues_96 m3_baby1_issues_98 m3_baby1_issues_99 m3_baby1_issues_998 ///
-	   m3_baby1_issues_999 m3_baby1_issues_888 (. = .a) if m3_permission_p2 !=1 | m3_baby1_born_alive !=1
+	   m3_baby1_issues_f m3_baby1_issues_98 m3_baby1_issues_99 (. = .a) if ///
+	   m3_baby1_born_alive1 !=1 | m3_baby1_born_alive2 !=1
 	   
 recode m3_baby2_issues_a m3_baby2_issues_b m3_baby2_issues_c m3_baby2_issues_d m3_baby2_issues_e ///
-	   m3_baby2_issues_f m3_baby2_issues_96 m3_baby2_issues_98 m3_baby2_issues_99 m3_baby2_issues_998 ///
-	   m3_baby2_issues_999 m3_baby2_issues_888 (. = .a) if m3_permission_p2 !=1 | m3_baby2_born_alive !=1
+	   m3_baby2_issues_f m3_baby2_issues_98 m3_baby2_issues_99 (. = .a) if ///
+	   m3_baby2_born_alive1 !=1 | m3_baby2_born_alive2 !=1
+
+recode m3_708_oth_1 (.=.a) if bornalive_babies == "0" | bornalive_babies == "" 
+
+recode m3_708_oth_2 (.=.a) if bornalive_babies == "0" | bornalive_babies == "" 
 	   
-recode m3_baby3_issues_a m3_baby3_issues_b m3_baby3_issues_c m3_baby3_issues_d m3_baby3_issues_e ///
-       m3_baby3_issues_f m3_baby3_issues_96 m3_baby3_issues_98 m3_baby3_issues_99 m3_baby3_issues_998 ///
-	   m3_baby3_issues_999 m3_baby3_issues_888 (. = .a) if m3_permission_p2 !=1 | m3_baby3_born_alive !=1
+replace m3_708a = ".a" if m3_708_oth_1 !=1
+
+replace m3_708b = ".a" if m3_708_oth_2 !=1
  
-replace m3_708a = ".a" if m3_baby1_issues_96 !=1
+recode m3_710a m3_710b m3_711c_1 m3_711c_1_unit m3_711c_2 m3_711c_2_unit (. = .a) if m3_501 !=1 | bornalive_babies == "0" | bornalive_babies == "" 
 
-recode m3_708b (. = .a) if m3_baby2_issues_96 !=1 // numeric because of 0 obs
-
-recode m3_709c (. = .a) if m3_baby3_issues_96 !=1 // numeric because of 0 obs
- 
-recode m3_710a m3_711a (. = .a) if m3_permission_p2 !=1 | m3_501 !=1 | m3_baby1_born_alive !=1
-
-recode m3_710b m3_711b (. = .a) if m3_permission_p2 !=1 | m3_501 !=1 | m3_baby2_born_alive !=1
-
-recode m3_710c m3_711c (. = .a) if m3_permission_p2 !=1 | m3_501 !=1 | m3_baby3_born_alive !=1
+recode m3_711c_2 m3_711c_2_unit (. = .a) if m3_303c !=1
 
 recode m3_801a m3_801b m3_803a m3_803b m3_803c m3_803d m3_803e m3_803f m3_803g m3_803h ///
-	   m3_803i m3_803j m3_805 m3_901a m3_901b m3_901c m3_901d m3_901e m3_901f m3_901g ///
-	   m3_901h m3_901i m3_901j m3_901k m3_901l m3_901m m3_901n m3_901o m3_901p m3_901q ///
-	   m3_901r (. = .a) if m3_permission_p2 !=1
+	   m3_803j m3_805 m3_901a m3_901b m3_901c m3_901d m3_901e m3_901f m3_901g ///
+	   m3_901h m3_901j m3_901k m3_901l m3_901m m3_901n m3_901o m3_901p m3_901q ///
+	   m3_901r (. = .a) if module !=3 | m2_202 !=2 | m2_202 !=3   
  
-recode m3_802a (. = .a) if (m3_801a !=0 | m3_801b !=3) & (m3_801a !=1 | m3_801b !=2) & ///
-	   (m3_801a !=2 | m3_801b !=1) & (m3_801a !=3 | m3_801b !=0) & (m3_801a !=1 | m3_801b !=3) & ///
-	   (m3_801a !=2 | m3_801b !=3) & (m3_801a !=2 | m3_801b !=2) & (m3_801a !=3 | m3_801b !=3) & ///
-	   (m3_801a !=3 | m3_801b !=1) & (m3_801a !=3 | m3_801b !=2)
+recode m3_802a (. = .a) if m3_phq2_score<3 | m3_phq2_score ==. | m3_phq2_score ==.a | module !=3
 	   
 recode m3_802b m3_802c (. = .a) if m3_802a !=1
 
@@ -1963,72 +1939,79 @@ recode m3_806 m3_807 m3_808a (. = .a) if m3_805 !=1
 
 recode m3_808b (. = .a) if m3_805 !=1 | m3_808a !=0
 
-replace m3_808b_other = ".a" if m3_808b !=96
+recode m3_808b_other (. = .a) if m3_808b !=-96 // numeric because of 0 obs
 
 recode m3_809 (. = .a) if m3_805 !=1 | m3_808a !=1
 
 replace m3_901r_other = ".a" if m3_901r !=1
 
-recode m3_902a_baby1 m3_902b_baby1 m3_902c_baby1 m3_902d_baby1 m3_902e_baby1 m3_902f_baby1 m3_902g_baby1 m3_902h_baby1 (. = .a) if m3_permission_p2 !=1 | m3_201a !=1
+recode m3_901_cost (. = .a) if (m3_901a !=1 & m3_901b !=1 & m3_901c & ///
+					 m3_901d !=1 & m3_901e !=1 & m3_901f !=1 & m3_901g !=1 & m3_901h !=1 & m3_901i !=1 &  ///
+					 m3_901j !=1 & m3_901k !=1 & m3_901l !=1 & m3_901m !=1 & m3_901n !=1 & m3_901o !=1 &  ///
+					 m3_901p !=1 & m3_901q !=1 & m3_901r !=1) | module !=3 | m2_202 !=2 | m2_202 !=3   
+					 
+recode m3_902_1_cost (. = .a) if m3_902a_baby1 !=1 & m3_902b_baby1 !=1 & m3_902c_baby1 !=1 &  ///
+								 m3_902d_baby1 !=1 & m3_902e_baby1 !=1 & m3_902f_baby1 !=1 & ///
+								 m3_902g_baby1 !=1 & m3_902h_baby1 !=1 & m3_902i_baby1 !=1 & m3_902j_baby1 !=1 
+					 
+recode m3_902_2_cost (. = .a) if m3_902a_baby2 !=1 & m3_902b_baby2 !=1 & m3_902c_baby2 !=1 & m3_902d_baby2 !=1 & ///
+								 m3_902e_baby2 !=1 &  m3_902f_baby2 !=1 &  m3_902g_baby2 !=1 & ///
+								 m3_902h_baby2 !=1 &  m3_902i_baby2 !=1 &  m3_902j_baby2 !=1					 
+					 
+recode m3_902a_baby1 m3_902b_baby1 m3_902c_baby1 m3_902d_baby1 m3_902e_baby1 m3_902f_baby1 m3_902g_baby1 m3_902h_baby1 (. = .a) if m3_303b !=1
 
-recode m3_902a_baby2 m3_902b_baby2 m3_902c_baby2 m3_902d_baby2 m3_902e_baby2 m3_902f_baby2 m3_902g_baby2 m3_902h_baby2 (. = .a) if m3_permission_p2 !=1 | m3_201b !=1
+recode m3_902a_baby2 m3_902b_baby2 m3_902c_baby2 m3_902d_baby2 m3_902e_baby2 m3_902f_baby2 m3_902g_baby2 m3_902h_baby2 (. = .a) if m3_303c !=1
 
-recode m3_902a_baby3 m3_902b_baby3 m3_902c_baby3 m3_902d_baby3 m3_902e_baby3 m3_902f_baby3 m3_902g_baby3 m3_902h_baby3 (. = .a) if m3_permission_p2 !=1 | m3_201c !=1
+recode m3_902i_baby1 (. = .a) if  m2_hiv_status | module !=3 | m3_303b !=1 | bornalive_babies == "0" | bornalive_babies == "" 
 
-recode m3_902i_baby1 (. = .a) if (m3_permission_p2 !=1 | m3_201a !=1 | m1_202e !=1) & (m1_708b !=1 & m2_hiv_status !=1 & m2_505b !=1)
+recode m3_902i_baby2 (. = .a) if  m2_hiv_status !=1 | module !=3 | m3_303c !=1 | bornalive_babies == "0" | bornalive_babies == "" | bornalive_babies == "1" 
 
-recode m3_902i_baby2 (. = .a) if (m3_permission_p2 !=1 | m3_201b !=1 | m1_202e !=1) & (m1_708b !=1 & m2_hiv_status !=1 & m2_505b !=1)
-  
-recode m3_902i_baby3 (. = .a) if (m3_permission_p2 !=1 | m3_201c !=1 | m1_202e !=1) & (m1_708b !=1 & m2_hiv_status !=1 & m2_505b !=1) 
- 
-recode m3_902j_baby1 (. = .a) if m3_permission_p2 !=1 | m3_201a !=1
+recode m3_902j_baby1 (. = .a) if module !=3 | m3_303b !=1 | m3_baby1_born_alive1 !=1 | m3_baby1_born_alive2 !=1
 
 replace m3_902j_baby1_other = ".a" if m3_902j_baby1 !=1
 
-recode m3_902j_baby2 (. = .a) if m3_permission_p2 !=1 | m3_201b !=1
- 
-recode m3_902j_baby2_other (. = .a) if m3_902j_baby2 !=1 // numeric because of 0 obs
+recode m3_902j_baby2 (. = .a) if module !=3 | m3_303c !=1 | m3_baby2_born_alive1 !=1 | m3_baby2_born_alive2 !=1
 
-recode m3_902j_baby3 (. = .a) if m3_permission_p2 !=1 | m3_201c !=1
-
-recode m3_902j_baby3_other (. = .a) if m3_902j_baby3 !=1 // numeric because of 0 obs
+replace m3_902j_baby2_other = ".a"  if m3_902j_baby2 !=1 
 
 recode m3_1001 m3_1002 m3_1003 m3_1004a m3_1004b m3_1004c m3_1004d m3_1004e m3_1004f ///
-	   m3_1004g m3_1004h m3_1004i m3_1004j m3_1004k m3_1005a m3_1005b m3_1005c m3_1005d ///
+	   m3_1004g m3_1004h m3_1005a m3_1005b m3_1005c m3_1005d ///
 	   m3_1005e m3_1005f m3_1005g m3_1005h m3_1006a m3_1007a m3_1007b m3_1007c m3_1101 ///
-	   (. = .a) if m3_permission_p2 !=1 | m3_501 !=1
+	   (. = .a) if module !=3 | m3_501 !=1
  
 recode m3_1006b m3_1006c (. = .a) if m3_1006a !=1
 
-recode m3_1102a m3_1102b m3_1102c m3_1102d m3_1102e m3_1102f m3_1103 m3_1105 (. = .a) if m3_1101 !=1
+recode m3_1102a_amt (. = .a) if m3_1101 !=1
 
-recode m3_1102a_amt (. = .a) if m3_1102a !=1
+recode m3_1102b_amt (. = .a) if m3_1101 !=1
 
-recode m3_1102b_amt (. = .a) if m3_1102b !=1
+recode m3_1102c_amt (. = .a) if m3_1101 !=1
 
-recode m3_1102c_amt (. = .a) if m3_1102c !=1
+recode m3_1102d_amt (. = .a) if m3_1101 !=1
 
-recode m3_1102d_amt (. = .a) if m3_1102d !=1
+recode m3_1102e_amt (. = .a) if m3_1101 !=1
 
-recode m3_1102e_amt (. = .a) if m3_1102e !=1
+recode m3_1102f_amt (. = .a) if m3_1101 !=1
 
-recode m3_1102f_amt (. = .a) if m3_1102f !=1
+replace m3_1102f_oth = ".a" if m3_1102f_amt ==0 | m3_1102f_amt == . | m3_1102f_amt ==.a | m3_1102f_amt ==.d
 
-recode m3_1103_confirm (. = .a) if (m3_1103 == . |  m3_1103 == .a)
+recode m3_1102_total (. = .a) if (m3_1102a_amt ==0 | m3_1102a_amt == . | m3_1102a_amt == .a | m3_1102a_amt ==.d) & ///
+								 (m3_1102b_amt ==0 | m3_1102b_amt == . | m3_1102b_amt == .a | m3_1102b_amt ==.d) & ///
+								 (m3_1102c_amt ==0 | m3_1102c_amt == . | m3_1102c_amt == .a | m3_1102c_amt ==.d) & ///
+								 (m3_1102d_amt ==0 | m3_1102d_amt == . | m3_1102d_amt == .a | m3_1102d_amt ==.d) & ///
+							     (m3_1102e_amt ==0 | m3_1102e_amt == . | m3_1102e_amt == .a | m3_1102e_amt ==.d) & ///
+								 (m3_1102f_amt ==0 | m3_1102f_amt == . | m3_1102f_amt == .a | m3_1102f_amt ==.d) | ///
+								 module !=3 | m3_501 !=1
+						 
+recode m3_1103 m3_1105_96_ke m3_1105a_ke m3_1105b_ke m3_1105c_ke m3_1105d_ke m3_1105e_ke m3_1105f_ke m3_1105g_ke (. = .a) if (m3_1102_total == . |  m3_1102_total == .a)
 
-recode m3_1104 (. = .a) if m3_1103_confirm !=0
+replace m3_1105_other = ".a" if m3_1105_96_ke !=1
 
-replace m3_1105_other = ".a" if m3_1105 !=96
+recode m3_1106 (. = .a) if module !=3 | m2_202 !=2 | m2_202 !=3   
 
-recode m3_1106 m3_p2_outcome (. = .a) if m3_permission_p2 !=1
-
-recode recm3_endtime recm3_duration (. = .a) if m3_permission_p2 !=1 | (m3_303b !=1  & m3_303c !=1 & m3_303d !=1 & m3_202 !=3)
-
-recode m3_p2_outcome_other (. = .a) if m3_p2_outcome !=96 // numeric because of 0 obs
-
-*recode m3_p2_date_of_rescheduled recm3_p2_time_of_rescheduled (. = .a) if m3_attempt_outcome_p2 !=6
+recode m3_endtime (. = .a) if module !=3 | (m3_303b !=1  & m3_303c !=1)
 	
-	
+replace m3_duration = ".a" if module !=3 | (m3_303b !=1  & m3_303c !=1)
 *===============================================================================					   
 	
 	* STEP FOUR: LABELING VARIABLES
@@ -2094,7 +2077,7 @@ lab var phq9g "206g. Over the past 2 weeks, on how many days have you been bothe
 lab var phq9h "206h. Over the past 2 weeks, on how many days have you been bothered by moving or speaking so slowly that other people could have noticed? Or so fidgety or restless that you have been moving a lot more than usual?"
 lab var phq9i "206i. Over the past 2 weeks, on how many days have you been bothered by Thoughts that you would be better off dead, or thoughts of hurting yourself in some way?"
 lab var m1_207 "207. Over the past 2 weeks, on how many days did health problems affect your productivity while you were working? Work may include formal employment, a business, sales or farming, but also work you do around the house, childcare, or studying. Think about days you were limited in the amount or kind of work you could do, days you accomplished less than you would like, or days you could not do your work as carefully as usual."
-lab var m1_301 "301. How would you rate the overall quality of medical care in Ethiopia?"
+lab var m1_301 "301. How would you rate the overall quality of medical care in Kenya?"
 lab var m1_302 "302. Overall view of the health care system in your country"
 lab var m1_303 "303. Confidence that you would receive good quality healthcare from the health system if you got very sick?"
 lab var m1_304 "304. Confidence you would be able to afford the healthcare you needed if you became very sick?"
@@ -2488,7 +2471,6 @@ label variable m2_205g "205g. Over the past 2 weeks, on how many days have you b
 label variable m2_205h "205h. Over the past 2 weeks, on how many days have you been bothered by moving or speaking so slowly that other people could have noticed? Or so fidgety or restless that you have been moving a lot more than usual?"
 label variable m2_205i "205i. Over the past 2 weeks, on how many days have you been bothered by Thoughts that you would be better off dead, or thoughts of hurting yourself in some way?"
 label variable m2_206 "206. How often do you currently smoke cigarettes or use any other type of tobacco? Types of tobacco includes: Snuff tobacco, Chewing tobacco,  Cigar"
-label variable m2_207 "207. How often do you currently chewing khat?(Interviewer: Inform that Khat is a leaf green plant use as stimulant and chewed in Ethiopia)"
 label variable m2_208 "208. How often do you currently drink alcohol or use any other type of alcoholic?   A standard drink is any drink containing about 10g of alcohol, 1 standard drink= 1 tasa or wancha of (tella or korefe or borde or shameta), ½ birile of  Tej, 1 melekiya of Areke, 1 bottle of beer, 1 single of draft, 1 melkiya of spris(Uzo, Gine, Biheraw etc) and 1 melekiya of Apratives"
 label variable m2_301 "301. Since we last spoke, did you have any new healthcare consultations for yourself, or not?"
 label variable m2_302 "302. Since we last spoke, how many new healthcare consultations have you had for yourself?"
@@ -2515,9 +2497,6 @@ label variable m2_306_3 "307. Was the first consultation for any of the followin
 label variable m2_306_4 "307. Was the first consultation for any of the following? To pick up medicine"
 label variable m2_306_5 "307. Was the first consultation for any of the following? To get a vaccine"
 label variable m2_306_96 "307. Was the first consultation for any of the following? Other reasons"
-label variable m2_306_888_et "307. No information"
-label variable m2_306_998_et "307. Unknown"
-label variable m2_306_999_et "307. Refuse to answer"
 label variable m2_307_other "307-oth. Specify other reason for the 1st visit"
 label variable m2_308 "308. Was the second consultation is for a routine antenatal care visit?"
 label variable m2_309 "309. Was the second consultation is for a referral from your antenatal care provider?"
@@ -2527,9 +2506,6 @@ label variable m2_308_3 "310. Was the second consultation for any of the followi
 label variable m2_308_4 "310. Was the second consultation for any of the following? To pick up medicine"
 label variable m2_308_5 "310. Was the second consultation for any of the following? To get a vaccine"
 label variable m2_308_96 "310. Was the second consultation for any of the following? Other reasons"
-label variable m2_308_888_et "310. No information"
-label variable m2_308_998_et "310. Unknown"
-label variable m2_308_999_et "310. Refuse to answer"
 label variable m2_310_other "310-oth. Specify other reason for second consultation"
 label variable m2_311 "311. Was the third consultation is for a routine antenatal care visit?"
 label variable m2_312 "312. Was the third consultation is for a referral from your antenatal care provider?"
@@ -2539,9 +2515,6 @@ label variable m2_311_3 "313. Was the third consultation for any of the followin
 label variable m2_311_4 "313. Was the third consultation for any of the following? To pick up medicine"
 label variable m2_311_5 "313. Was the third consultation for any of the following? To get a vaccine"
 label variable m2_311_96 "313. Was the third onsultation for any of the following? Other reasons"
-label variable m2_311_888_et "313. No information"
-label variable m2_311_998_et "313. Unknown"
-label variable m2_311_999_et "313. Refuse to answer"
 label variable m2_313_other "313-oth. Specify any other reason for the third consultation"
 label variable m2_314 "314. Was the fourth consultation is for a routine antenatal care visit?"
 label variable m2_315 "315. Was the fourth consultation is for a referral from your antenatal care provider?"
@@ -2551,9 +2524,6 @@ label variable m2_314_3 "316. Was the fourth consultation for any of the followi
 label variable m2_314_4 "316. Was the fourth consultation for any of the following? To pick up medicine"
 label variable m2_314_5 "316. Was the fourth consultation for any of the following? To get a vaccine"
 label variable m2_314_96 "316. Was the fourth onsultation for any of the following? Other reasons"
-label variable m2_314_888_et "316. No information"
-label variable m2_314_998_et "316. Unknown"
-label variable m2_314_999_et "316. Refuse to answer"
 label variable m2_316_other "316-oth. Specify other reason for the fourth consultation"
 label variable m2_317 "317. Was the fifth consultation is for a routine antenatal care visit?"
 label variable m2_318 "318. Was the fifth consultation is for a referral from your antenatal care provider?"
@@ -2563,9 +2533,6 @@ label variable m2_317_3 "319. Was the fifth consultation is for any of the follo
 label variable m2_317_4 "319. Was the fifth consultation is for any of the following? To pick up medicine"
 label variable m2_317_5 "319. Was the fifth consultation is for any of the following? To get a vaccine"
 label variable m2_317_96 "319. Was the fifth consultation is for any of the following? Other reasons"
-label variable m2_317_888_et "319. No information"
-label variable m2_317_998_et "319. Unknown"
-label variable m2_317_999_et "319. Refuse to answer"
 label variable m2_319_other "319-oth. Specify other reason for the fifth consultation"
 label variable m2_320_0 "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? No reason or you didn't need it"
 label variable m2_320_1 "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? You tried but were sent away (e.g., no appointment available) "
@@ -2581,9 +2548,6 @@ label variable m2_320_10 "320. Are there any reasons that prevented you from rec
 label variable m2_320_11 "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? Fear of discovering serious problem"
 label variable m2_320_96 "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? Other, specify"
 label variable m2_320_99 "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? Refused"
-label variable m2_320_888_et "320. No information"
-label variable m2_320_998_et "320. Unknown"
-label variable m2_320_999_et "320. Refuse to answer"
 label variable m2_320_other "320-oth. Specify other reason preventing receiving more antenatal care"
 label variable m2_321 "321. Other than in-person visits, did you have contacted with a health care provider by phone, SMS, or web regarding your pregnancy?"
 label variable m2_401 "401. Overall, how would you rate the quality of care that you received from the health facility where you took the 1st consultation?"
@@ -2668,9 +2632,6 @@ label variable m2_705_4 "705. Which of the following financial sources did your 
 label variable m2_705_5 "705. Which of the following financial sources did your household use to pay for this? Family members or friends from outside the household"
 label variable m2_705_6 "705. Which of the following financial sources did your household use to pay for this? Borrowed (from someone other than a friend or family)"
 label variable m2_705_96 "705. Which of the following financial sources did your household use to pay for this? Other (please specify)"
-label variable m2_705_888_et "705. No information"
-label variable m2_705_998_et "705. Unknown"
-label variable m2_705_999_et "705. Refuse to answer"
 label variable m2_705_other "705-oth. Please specify"
 label variable m2_interview_inturrupt "Is the interview inturrupted?"
 label variable m2_interupt_time "At what time it is interrupted?"
