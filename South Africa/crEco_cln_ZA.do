@@ -454,7 +454,7 @@ label define meds 1 "Provider gave it directly" ///
 label values m1_713a m1_713b m1_713c m1_713d m1_713e m1_713f m1_713g m1_713h m1_713i m1_713k m1_713l meds
 
 lab def m1_713_za_in 0 "Provider gave it directly" 1 "Provider gave a prescription or told you to get it somewhere else" 2 "Neither" 3 "Don't know" 4 "NR/RF"
-lab var m1_713_za_in m1_713_za_in
+lab val m1_713_za_in m1_713_za_in
 
 label define itn 1 "Yes" 0 "No" 2 "Already have one"
 label values m1_715 itn
