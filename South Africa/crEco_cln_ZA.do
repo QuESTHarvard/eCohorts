@@ -1384,17 +1384,17 @@ save "$za_data_final/eco_m1_za.dta", replace
 
 *===============================================================================
 
-append using "$za_data/MODULE 2 DATA SET_SOUTH AFRICA 27 Jan 2024.dta"
+merge 1:m respondentid using "/Users/shs8688/Dropbox (Harvard University)/SPH-Kruk Team/QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data/South Africa/01 raw data/MODULE 2 DATA SET_SOUTH AFRICA 27 Jan 2024_SS.dta"
 
 *drop MOD2_Identification_106 
 drop PrimaryLast 
 drop filter__  
 drop VAR00001
 drop __9999998
-drop RESPONSE_QuestionnaireID RESPONSE_QuestionnaireName RESPONSE_QuestionnaireVersion
-drop RESPONSE_Location RESPONSE_Lattitude RESPONSE_Longitude	
+*drop RESPONSE_QuestionnaireID RESPONSE_QuestionnaireName RESPONSE_QuestionnaireVersion
+*drop RESPONSE_Location RESPONSE_Lattitude RESPONSE_Longitude	
 
-replace module = 2 if MOD2_Permission_Granted !=1
+replace module = 2 if V2 !=.
 
 *===============================================================================
 
@@ -1406,7 +1406,7 @@ rename MOD2_Permission_Granted m2_permission
 rename MOD2_Identification_101 m2_interviewer
 rename MOD2_Identification_102 m2_date
 rename MOD2_Identification_103 m2_time_start
-rename CRHID m2_respondentid	
+*rename CRHID m2_respondentid	
 rename MOD2_Identification_107 m2_ga
 rename MOD2_Identification_108 m2_hiv_status
 rename MOD2_Identification_109 m2_maternal_death_reported
@@ -2297,8 +2297,14 @@ label variable m2_705_other "705-Other. Other financial sources, specify"
 	* STEP FIVE: SAVE DATA TO RECODED FOLDER/ORDER VARIABLES
 	
 	* MODULE 2:
-order module m2_attempt_number m2_permission m2_date m2_time_start m2_interviewer m2_respondentid ///
+order module m2_attempt_number m2_permission m2_date m2_time_start m2_interviewer ///
 	  m2_maternal_death_reported m2_ga m2_hiv_status m2_date_of_maternal_death ///
 	  m2_maternal_death_learn m2_maternal_death_learn_other, before(m2_201)
 
-*save "$za_data_final/eco_m1m2_za.dta", replace
+save "$za_data_final/eco_m1m2_za.dta", replace
+
+codebookout "/Users/shs8688/Dropbox (Harvard University)/SPH-Kruk Team/QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data/Data documents/Country-specific data dictionaries/South Africa/South-Africa_Mod1-2_codebook.xls", replace
+
+
+codebookout "D:ZA missing codebook.xls", replace
+
