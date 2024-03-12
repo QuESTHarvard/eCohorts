@@ -2775,7 +2775,6 @@ lab var m3_507 "507. At what time did you leave for the facility?"
 lab var m3_508 "508. At any point during labor or delivery did you try to go to a facility?"
 lab var m3_509 "509. What was the main reason for giving birth at home instead of a health facility?"
 lab var m3_509_other "509_Oth. Specify other reasons for giving birth at home instead of a health facility"
-
 lab var m3_513a "513a. What is the name of the facility you went to 1st?"
 lab var m3_513_outside_zone_other "513a_97. Other outside of the zone"
 lab var m3_513b2 "513b2. Where city/sub-city/district was this facility located?"
@@ -2793,7 +2792,6 @@ lab var m3_519_other "519_Oth. Other, specify"
 lab var m3_520 "520. At what time did you arrive at the facility you delivered at?"
 lab var m3_521_ke "521-ke. Once you got to the facility, how long did you wait until a healthcare worker checked on you?"
 lab var m3_521_ke_unit "521-ke-unit. The unit of time."
-
 lab var m3_601_hiv "601-hiv. Once you were 1st checked by a health care provider at the facility you delivered at, did the health care provider ask about your HIV status?"
 lab var m3_601b "601b. Once you were 1st checked by a health care provider at the facility you delivered at, did the health care provider take your blood pressure (with a cuff around your arm)?"
 lab var m3_601c "601c. Once you were 1st checked by a health care provider at the facility you delivered at, did the health care provider Explain what will happen during labor?"
@@ -2808,7 +2806,6 @@ lab var m3_605a "605a. Did you have a caesarean? (That means, did they cut your 
 lab var m3_605b "605b. When was the decision made to have the caesarean section? Was it before or after your labor pains started?"
 lab var m3_605c "605c. What was the reason for having a caesarean? "
 lab var m3_605c_other "605c-Other. Specify other reason for having a caesarean"
-
 lab var m3_606 "606. Did the provider perform a cut near your vagina to help the baby come out?"
 lab var m3_607 "607. Did you receive stiches near your vagina after the delivery?"		
 lab var m3_608 "608. Immediately after delivery: Did a health care provider give you an injection or pill to stop the bleeding?"
@@ -2835,7 +2832,6 @@ lab var m3_618c_1 "618c-1. Was the 1st baby given medication to prevent HIV/AIDS
 lab var m3_618a_2 "618a-2. Was the second bay tested for HIV after birth?"
 lab var m3_618b_2 "618b-2. What was the result of the baby's HIV test?"
 lab var m3_618c_2 "618c-2. Was the second baby given medication to prevent HIV/AIDS (ARVs)?"
-	
 lab var m3_619a "619a. Before you left the facility, did you receive advice on what the baby should eat (only breastmilk or No other foods)?"
 lab var m3_619b "619b. Before you left the facility, did you receive advice on care of the umbilical cord?"
 lab var m3_619c "619c. Before you left the facility, did you receive advice on avoid chilling of baby?"
@@ -2852,7 +2848,6 @@ lab var m3_621c_ke_unit "621c-ke-unit. The unit of time for m3_621c_ke."
 lab var m3_622a "622a. Around the time of delivery, were you told that  you will need to go to a facility for a checkup for you or your baby?"
 lab var m3_622b "622b. When were you told to go to a health facility for postnatal checkups? How many days after delivery?"
 lab var m3_622c "622c. Around the time of delivery, were you told that someone would come to visit you at your home to check on you or your babys health?"
-
 lab var m3_baby1_sleep "311a. Regarding sleep, which response best describes the 1st baby today?"
 lab var m3_baby2_sleep "311a. Regarding sleep, which response best describes the second baby today?"
 lab var m3_baby1_feed "311b. Regarding feeding, which response best describes the 1st baby today?"
@@ -2867,7 +2862,6 @@ lab var m3_baby1_skin "311f. Regarding their skin, which response best describes
 lab var m3_baby2_skin "311f. Regarding their skin, which response best describes the second baby today?"
 lab var m3_baby1_interactivity "311g. Regarding interactivity, which response best describes the 1st baby today?"
 lab var m3_baby2_interactivity "311g. Regarding interactivity, which response best describes the second baby today?"	
-
 lab var m3_701 "701. At any time during labor, delivery, or after delivery did you suffer from any health problems?"
 lab var m3_702 "702. What health problems did you have?"
 lab var m3_703 "703. Would you say this problem was severe?"
@@ -2880,7 +2874,6 @@ lab var m3_704f "704f. Did you experience Excessive bleeding during your deliver
 lab var m3_704g "704g. During your delivery, did you experience fever, or not?"
 lab var m3_705 "705. Did you receive a blood transfusion around the time of your delivery?"
 lab var m3_706 "706. Were you admitted to an intensive care unit?"
-
 lab var m3_707_ke "707-ke. How long did you stay at the facility that you delivered at after the delivery?"
 lab var m3_707_ke_unit "707-ke-unit. The unit of time for m3_707_ke"
 lab var m3_baby1_issues "708ba Did the 1st baby experience any of the following issues in the 1st day of life?"
@@ -2901,7 +2894,6 @@ lab var m3_baby2_issues_e "708b. Did the second baby experience any of the follo
 lab var m3_baby2_issues_f "708b. Did the second baby experience any of the following issues in the 1st day of life? Tell me all that apply. (choice=No complications)"
 lab var m3_baby2_issues_98 "708b. Did the second baby experience any of the following issues in the 1st day of life? Tell me all that apply. (choice=DK)"
 lab var m3_baby2_issues_99 "708b. Did the second baby experience any of the following issues in the 1st day of life? Tell me all that apply. (choice=NR/RF)"		
-
 lab var m3_708_oth_1 "708-Other. Did the 1st baby experience any other health problems in the 1st day of life?"
 lab var m3_708a "709a. Write down the 1st baby's experiences any other health problems in the 1st day of life"
 lab var m3_708_oth_2 "708-Other. Did the second baby experience any other health problems in the 1st day of life?"
@@ -2912,7 +2904,6 @@ lab var m3_711c_1 "711c-1. How long did the 1st baby stay at the health facility
 lab var m3_711c_1_unit "711c-1-unit. The unit of time for m3_711c_1"
 lab var m3_711c_2 "711c-2. How long did the second baby stay at the health facility after being born?"
 lab var m3_711c_2_unit "711c-2-unit. The unit of time for m3_711c_2"
-
 lab var m3_801a "801a. Over the past 2 weeks, on how many days have you been bothered little interest or pleasure in doing things?"
 lab var m3_801b "801b. Over the past 2 weeks, on how many days have you been bothered feeling down, depressed, or hopeless in doing things?"
 lab var m3_802a "802a. Since you last spoke to us, did you have a session of psychological counseling or therapy with any type of professional?  This could include seeing a mental health professional (like a phycologist, social worker, nurse, spiritual advisor or healer) for problems with your emotions or nerves?"
@@ -2935,7 +2926,6 @@ lab var m3_808a "808a. Have you sought treatment for this condition?"
 lab var m3_808b "808b. Why have you not sought treatment?"
 lab var m3_808b_other "808b-Other. Specify other reasons why have you not sought treatment"
 lab var m3_809 "809. Did the treatment stop the problem?"
-
 lab var m3_901a "901a. Since last spoke, did you get iron or folic acid pills for yourself?"
 lab var m3_901b "901b. Since we last spoke, did you get iron injection?"
 lab var m3_901c "901c. Since we last spoke, did you get calcium pills?"
@@ -2955,7 +2945,6 @@ lab var m3_901p "901p. Since we last spoke, did you get contraceptive injection?
 lab var m3_901q "901q. Since we last spoke, did you get other contraception method?"
 lab var m3_901r "901r. Since we last spoke, did you get any other medicine or supplement?"
 lab var m3_901r_other "901r-Other. Specify other treatment you took"
-
 lab var m3_902a_baby1 "902a. Since they were born, did the 1st baby get iron supplements?"
 lab var m3_902a_baby2 "902a. Since they were born, did the second baby get iron supplements?"
 lab var m3_902b_baby1 "902b. Since they were born, did the 1st baby get Vitamin A supplements?"
@@ -2978,7 +2967,6 @@ lab var m3_902j_baby1 "902j. Since they were born, did the 1st baby get other me
 lab var m3_902j_baby1_other "902j-Other-1. Any other medicine or supplement for the 1st baby please specify"
 lab var m3_902j_baby2 "902j. Since they were born, did the second baby get other medicine or supplement, please specify"
 lab var m3_902j_baby2_other "902j-Other-2. Any other medicine or supplement for the second baby please specify"		
-
 lab var m3_1001 "1001. Overall, taking everything into account, how would you rate the quality of care that you received for your delivery at the facility you delivered at?"
 lab var m3_1002 "1002. How likely are you to recommend this provider to a family member or friend for childbirth?"
 lab var m3_1003 "1003. Did staff suggest or ask you (or your family or friends) for a bribe, and informal payment or gift?"
@@ -3004,7 +2992,6 @@ lab var m3_1006c "1006c. Were vaginal examinations conducted privately (in a way
 lab var m3_1007a "1007a. During your time in the facility, were you offered any form of pain relief?"
 lab var m3_1007b "1007b. Did you request pain relief during your time in the facility?"
 lab var m3_1007c "1007c. Did you receive pain relief during your time in the facility?"
-
 lab var m3_1101 "1101. I would like to ask you about the cost of the delivery. Did you pay money out of your pocket for the delivery, including for the consultation or other indirect costs like your transport to the facility?"
 lab var m3_1102a_amt "1102a. How much money did you spend on registration/consultation?"
 lab var m3_1102b_amt "1102b. How much money did you spend on medicine/vaccines (including outside purchase)?"
@@ -3023,15 +3010,29 @@ lab var m3_1203 "1203. Did you go to a health facility to receive this abortion?
 lab var m3_1204 "1204. Overall, how would you rate the quality of care that you received for your abortion?"
 lab var m3_endtime "Time of interview ended"
 
-
-*/
 *===============================================================================
 
 drop baby_alive_list baby_died_list baby_bornalive_list bornalive_babies
 
+*===============================================================================
+	
+	* STEP SIX: SAVE DATA TO RECODED FOLDER
+
+	save "$ke_data_final/eco_m1-m3_ke.dta", replace
+
+*===============================================================================
+	 
+* Append module 4:
+
+append using "$ke_data_final\eco_m4_ke.dta", force
+
+*------------------------------------------------------------------------------*
+
+drop first_name last_name full_name phone1 phone2 phone3 phone4 phone_combi name_baby1 name_baby2 name_baby3 name_baby4 baby_name_1 baby_label_1 baby_list baby_alive_list baby_died_list name_baby_alive1 name_baby_alive2 name_baby_alive3 name_baby_alive4 name_baby_died1 name_baby_died2 name_baby_died3 name_baby_died4
+
 	* STEP FIVE: ORDER VARIABLES
 	
-order m1_* m2_* m3_*, sequential
+order m1_* m2_* m3_* m4_*, sequential
 
 * Module 1:
 order country module interviewer_id m1_date m1_start_time study_site facility ///
@@ -3102,10 +3103,11 @@ order m3_endtime m3_duration, after(m3_1106)
 
 order m3_num_alive_babies m3_num_dead_babies, after(m3_miscarriage)
 
+
 *===============================================================================
+	
 	* STEP SIX: SAVE DATA TO RECODED FOLDER
 
-	save "$ke_data_final/eco_m1-m3_ke.dta", replace
+	save "$ke_data_final/eco_m1-m4_ke.dta", replace
 
 *===============================================================================
-
