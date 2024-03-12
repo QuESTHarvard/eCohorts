@@ -35,11 +35,12 @@ rename starttime m1_start_time
 rename time_start_full m1_date_time
 rename endtime m1_end_time
 rename date_survey_baseline m1_date
+rename q103 respondentid
 
 *------------------------------------------------------------------------------*	 
 * Append module 2:
 
-append using "$ke_data/Module 2/KEMRI_Module_2_ANC_period.dta", force
+merge 1:m respondentid using "/Users/shs8688/Dropbox (Harvard University)/SPH-Kruk Team/QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data/Kenya/01 raw data/Module 2/KEMRI_Module_2_ANC_period_SS.dta"
 
 gen module = .
 replace module = 1 if a4 !=.
@@ -80,10 +81,12 @@ rename q_701 m2_701
 rename q_705 m2_705
 rename endtime m2_endtime
 
+rename _merge merge1
+
 *------------------------------------------------------------------------------*	 
 * Append module 3:
 
-append using "$ke_data/Module 3/KEMRI_Module_3.dta", force
+merge m:m respondentid using "/Users/shs8688/Dropbox (Harvard University)/SPH-Kruk Team/QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data/Kenya/01 raw data/Module 2/KEMRI_Module_3_SS.dta", force
 
 replace module = 3 if today_date !=""
 
@@ -112,6 +115,8 @@ rename q_701 m3_701
 rename q_705 m3_705
 rename endtime m3_endtime
 rename duration m3_duration
+
+rename _merge merge2
 
 *------------------------------------------------------------------------------*
 * de-identifying dataset and remove extra variables
@@ -181,7 +186,7 @@ rename b1 permission
 rename (b2 b3) (care_self enrollage)
 rename (b4 b4_oth b5 b6) (zone_live zone_live_other b5anc b6anc_first)
 *rename a2 device_date_ke
-rename (q103 q104 q106) (respondentid mobile_phone flash)
+rename (q104 q106) (mobile_phone flash)
 rename q201 m1_201
 rename (q202a q202b q202c q202d q202e) (m1_202a m1_202b m1_202c m1_202d m1_202e)
 rename q203 m1_203
@@ -318,10 +323,6 @@ drop mod_2_round
 
 rename q_103 m2_time_start
 rename q_101 m2_interviewer
-
- 
-encode q_104, gen(m2_respondentid)
-drop q_104
 
 *rename gest_age_baseline m2_baseline_ga //this was M1 ga so I dropped so it's not confusing
 *rename date_survey_baseline m2_baseline_date // this is the m1 surveydate, dropped for now
@@ -1364,7 +1365,7 @@ recode m1_1309 (.  = .a) if m1_1308 == 0 | m1_1308 == . | m1_1308 == .a
 *replace pref_language_other_ke = ".a" if pref_language_96_ke != 1
 
 	** MODULE 2: 
-recode m2_date_time m2_interviewer m2_respondentid m2_county m2_attempt_number m2_attempt_number_other m2_attempt_outcome m2_resp_lang1 m2_resp_lang2 m2_attempt_relationship m2_attempt_avail m2_attempt_contact m2_reschedule_resp m2_completed_attempts m3_start_p1 m2_ga_estimate (. = .a) if module !=2
+recode m2_date_time m2_interviewer m2_county m2_attempt_number m2_attempt_number_other m2_attempt_outcome m2_resp_lang1 m2_resp_lang2 m2_attempt_relationship m2_attempt_avail m2_attempt_contact m2_reschedule_resp m2_completed_attempts m3_start_p1 m2_ga_estimate (. = .a) if module !=2
 
 recode m2_attempt_number_other (. = .a) if m2_attempt_number !=96
 
@@ -2037,7 +2038,7 @@ lab var b6anc_first "B6. Is this the first time you've come to a health facility
 lab var b7eligible "B7. Is the respondent eligible to participate in the study AND signed a consent form?"
 *lab var first_name "101. What is your first name?"
 *lab var family_name "102. What is your family name?"
-lab var respondentid "103. Assign respondent ID"
+lab var respondentid "103. Respondent ID"
 lab var mobile_phone "104. Do you have a mobile phone with you today?"
 *lab var phone_number "105. What is your phone number?"
 lab var flash "106. Can I 'flash' this number now to make sure I have noted it correctly?"
@@ -2436,18 +2437,13 @@ label variable m2_attempt_goodtime "Do you know when would be a good time to rea
 label variable m2_reschedule_resp "Could you let me know at which date and time the participant would be available"
 label variable m2_completed_attempts "Module 2 completed attempts"
 label variable m2_consent_recording	"Consent to audio recording"
-	
 label variable m2_start_time "Start date and time"
 label variable m2_date "102. Date of interview (D-M-Y)"
 label variable m2_date_time "Start time (YYYY:MM:DD HH:MM:SS)"
 label variable m2_date_confirm "The date on this device is (m2_date), is this the correct date?"
 label variable m2_time_start "103. Time of interview started"
 label variable m2_county "County"
-
-
 label variable m2_interviewer "Interviewer name"
-label variable m2_respondentid "Respondent ID"
-
 label variable m2_maternal_death_reported "108. Maternal death reported"
 label variable m2_ga "107a. Gestational age at this call based on LNMP (in weeks)"
 label variable m2_hiv_status "109. HIV status"
@@ -3021,10 +3017,12 @@ drop baby_alive_list baby_died_list baby_bornalive_list bornalive_babies
 	save "$ke_data_final/eco_m1-m3_ke.dta", replace
 
 *===============================================================================
-	 
+ 
 * Append module 4:
 
-append using "$ke_data_final\eco_m4_ke.dta", force
+merge m:m respondentid using "/Users/shs8688/Dropbox (Harvard University)/SPH-Kruk Team/QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data/Kenya/02 recoded data/eco_m4_ke_SS.dta", force
+
+rename _merge merge3
 
 *------------------------------------------------------------------------------*
 
@@ -3035,10 +3033,10 @@ drop first_name last_name full_name phone1 phone2 phone3 phone4 phone_combi name
 order m1_* m2_* m3_* m4_*, sequential
 
 * Module 1:
-order country module interviewer_id m1_date m1_start_time study_site facility ///
+order country module respondentid interviewer_id m1_date m1_start_time study_site facility ///
       county permission care_self enrollage dob language language_oth ///
 	  zone_live zone_live_other b5anc b6anc_first b7eligible m1_noconsent_why_ke ///
-	  respondentid mobile_phone flash
+	  mobile_phone flash
 order height_cm weight_kg bp_time_1_systolic bp_time_1_diastolic time_1_pulse_rate ///
 	  bp_time_2_systolic bp_time_2_diastolic time_2_pulse_rate bp_time_3_systolic ///
 	  bp_time_3_diastolic time_3_pulse_rate, after(m1_1223)
@@ -3055,7 +3053,7 @@ order m2_attempt_number m2_attempt_number_other m2_attempt_outcome m2_resp_lang1
 	  m2_attempt_avail m2_attempt_contact m2_attempt_goodtime ///
 	  m2_reschedule_resp m2_completed_attempts m2_consent_recording m2_consent ///
 	  m2_date m2_start_time m2_date_time m2_time_start m2_date_confirm m2_interviewer m2_enum ///
-	  m2_respondentid m2_site m2_county ///
+	  m2_site m2_county ///
 	  m2_maternal_death_reported m2_date_of_maternal_death ///
 	  m2_ga m2_ga_estimate gest_update_calc gest_age_baseline date_survey_baseline m2_hiv_status m2_maternal_death_learn m2_maternal_death_learn_other, before(m2_201)
 
