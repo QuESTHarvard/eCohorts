@@ -982,7 +982,7 @@ recode m2_ga_estimate (998 = .d)
 
 recode m2_602b (-999 = .r) // SS: double check with KE team
 
-recode m2_702_meds_ke m2_702a_cost m2_702b_cost m2_702c_cost m2_702d_cost m2_702e_cost  m2_704_confirm (999 = .d)
+recode m2_702_meds_ke m2_702a_cost m2_702b_cost m2_702c_cost m2_702d_cost m2_702e_cost  m2_704_confirm (999 = .d) // SS: double check with KE team
 
 	   ** MODULE 3:
 	   * Notes: m3_412g_2_other is the only "g other" that is string
@@ -1152,7 +1152,7 @@ recode m1_510b (.  = .a) if m1_510a == 0 | m1_510a == . | m1_510a == .r
 
 recode m1_513c (. = .a) if m1_513a_2 != 1
  
-* SS: confirm what is the skip pattern for m1_513c? Is there one?
+* SS: Skip pattern for m1_513c: selected (${q513a}, '1')
 recode m1_514a (. = .a) if m1_513c != .
 recode m1_514b (. = .a) if m1_514a == . | m1_514a == .a
 recode m1_514c_ke (. = .a) if m1_514a == . | m1_514a == .a
