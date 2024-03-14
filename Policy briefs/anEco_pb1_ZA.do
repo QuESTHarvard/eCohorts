@@ -137,7 +137,8 @@ u "$za_data_final/eco_m1_za_der.dta", clear
 			ta m1_719 if HTN==1
 			ta m1_720 if cardiac==1
 			ta m1_721 if MH==1
-			ta m1_722 if hiv==1
+			*ta m1_722 if hiv==1
+			
 			ta diabetes_tx if DM==1
 			ta hypertension_tx if HTN==1
 			ta specialist_hosp if cardiac==1
