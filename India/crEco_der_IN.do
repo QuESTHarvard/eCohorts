@@ -1,7 +1,7 @@
 * MNH: ECohorts derived variable creation (India)
 * Created Jan 24, 2024
 * C Arsenault
-
+* this is test
 /*
 	This file creates derived variables for analysis from the MNH ECohorts India dataset. 
 */
@@ -205,6 +205,15 @@ u "$in_data_final/eco_m1_in.dta", clear
 			predict wealthindex
 			xtile quintile = wealthindex, nq(5)
 			xtile tertile = wealthindex, nq(3)
+			
+			gen registration_cost= m1_1218a_1 // registration
+				replace registration = . if registr==0
+			gen med_vax_cost =  m1_1218b_1 // med or vax
+				replace med_vax_cost = . if med_vax_cost==0
+			gen labtest_cost =  m1_1218c_1 // lab tests
+				replace labtest_cost= . if labtest_cost==0
+			egen indirect_cost = rowtotal (m1_1218d_1 m1_1218e_1  )
+				replace indirect = . if indirect==0
 				
 *------------------------------------------------------------------------------*	
 	* SECTION 13: HEALTH ASSESSMENTS AT BASELINE

@@ -192,14 +192,15 @@ u "$za_data_final/eco_m1_za.dta", clear
 			predict wealthindex
 			xtile tertile = wealthindex, nq(4)
 
+			* Cost of ANC1
 			gen registration_cost= m1_1218a_1 // registration
-			replace registration = . if registr==0
+				replace registration = . if registr==0
 			gen med_vax_cost =  m1_1218b_1 // med or vax
-			replace med_vax_cost = . if med_vax_cost==0
+				replace med_vax_cost = . if med_vax_cost==0
 			gen labtest_cost =  m1_1218c_1 // lab tests
-			replace labtest_cost= . if labtest_cost==0
+				replace labtest_cost= . if labtest_cost==0
 			egen indirect_cost = rowtotal (m1_1218d_1 m1_1218e_1  )
-			replace indirect = . if indirect==0
+				replace indirect = . if indirect==0
 *------------------------------------------------------------------------------*	
 	* SECTION 13: HEALTH ASSESSMENTS AT BASELINE
 
