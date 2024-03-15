@@ -34,13 +34,9 @@ gen country = "Ethiopia"
 		replace order_redcap = 7 if redcap_event_name == "module_2_arm_1" & redcap_repeat_instance == 6
 		replace order_redcap = 8 if redcap_event_name == "module_2_arm_1" & redcap_repeat_instance == 7
 		replace order_redcap = 9 if redcap_event_name == "module_2_arm_1" & redcap_repeat_instance == 8
-		replace order_redcap = 10 if redcap_event_name == "module_2_arm_1" & redcap_repeat_instance == 9
-		replace order_redcap = 11 if redcap_event_name == "module_2_arm_1" & redcap_repeat_instance == 10
-		replace order_redcap = 12 if redcap_event_name == "module_2_arm_1" & redcap_repeat_instance == 11
-		replace order_redcap = 13 if redcap_event_name == "module_2_arm_1" & redcap_repeat_instance == 12
-		replace order_redcap = 14 if redcap_event_name == "module_3_arm_1" 
-		replace order_redcap = 15 if redcap_event_name == "module_4_arm_1"
-		replace order_redcap = 16 if redcap_event_name == "module_5_arm_1"
+		replace order_redcap = 10 if redcap_event_name == "module_3_arm_1" 
+		replace order_redcap = 11 if redcap_event_name == "module_4_arm_1"
+		replace order_redcap = 12 if redcap_event_name == "module_5_arm_1"
 		sort record_id order_redcap
 	
 		
@@ -239,10 +235,10 @@ drop ic_may_i_proceed_with_the-module_5_end_line_facetoface_sur
 	rename (m1_1102___1 m1_1102___2 m1_1102___3 m1_1102___4 m1_1102___5 m1_1102___6 ///
 			m1_1102___7 m1_1102___8 m1_1102___9 m1_1102___10 m1_1102___96 m1_1102___98 ///
 			m1_1102___99) (m1_1102_a m1_1102_b m1_1102_c m1_1102_d m1_1102_e m1_1102_f ///
-			m1_1102_g m1_1102_h m1_1102_i m1_1102_j m1_1102_96 m1_1102_98 m1_1102_99)
+			m1_1102_g m1_1102_h m1_1102_i m1_1102_j  m1_1102_96  m1_1102_98  m1_1102_99)
 	
 	rename (m1_1102___998 m1_1102___999 m1_1102___888) ///
-		   (m1_1102_998_et m1_1102_999_et m1_1102_888_et)
+		   ( m1_1102_98_et  m1_1102_99_et  m1_1102_88_et)
 		   
 	rename (specify_who_else_hit_1102) (m1_1102_other)
 	
@@ -250,8 +246,8 @@ drop ic_may_i_proceed_with_the-module_5_end_line_facetoface_sur
 	
 	rename (m1_1104___1 m1_1104___2 m1_1104___3 m1_1104___4 m1_1104___5 m1_1104___6 ///
 			m1_1104___7 m1_1104___8 m1_1104___9 m1_1104___10 m1_1104___96 m1_1104___98 ///
-			m1_1104___99) (m1_1104_1 m1_1104_2 m1_1104_3 m1_1104_4 m1_1104_5 ///
-			m1_1104_6 m1_1104_7 m1_1104_8 m1_1104_9 m1_1104_10 m1_1104_96 ///
+			m1_1104___99) (m1_1104_a m1_1104_b m1_1104_c m1_1104_d m1_1104_e ///
+			m1_1104_f m1_1104_g m1_1104_h m1_1104_i m1_1104_j m1_1104_96 ///
 			m1_1104_98 m1_1104_99)
 	
 	rename (m1_1104___998 m1_1104___999 m1_1104___888) (m1_1104_998_et m1_1104_999_et m1_1104_888_et)
@@ -836,16 +832,16 @@ rename other_in_east_shewa404c m4_404c_other_1
 rename other_ourside_east_shew_3 m4_404c_other_2
 rename q405_pnc_visit1_m4 m4_405
 
-rename q406_reason_visit1_m4___1 m4_406_1
-rename q406_reason_visit1_m4___2 m4_406_2
-rename q406_reason_visit1_m4___3 m4_406_3
-rename q406_reason_visit1_m4___4 m4_406_4
-rename q406_reason_visit1_m4___5 m4_406_5
-rename q406_reason_visit1_m4___6 m4_406_6
-rename q406_reason_visit1_m4___7 m4_406_7
-rename q406_reason_visit1_m4___8 m4_406_8
-rename q406_reason_visit1_m4___9 m4_406_9
-rename q406_reason_visit1_m4___10 m4_406_10
+rename q406_reason_visit1_m4___1 m4_406_a
+rename q406_reason_visit1_m4___2 m4_406_b
+rename q406_reason_visit1_m4___3 m4_406_c
+rename q406_reason_visit1_m4___4 m4_406_d
+rename q406_reason_visit1_m4___5 m4_406_e
+rename q406_reason_visit1_m4___6 m4_406_f
+rename q406_reason_visit1_m4___7 m4_406_g
+rename q406_reason_visit1_m4___8 m4_406_h
+rename q406_reason_visit1_m4___9 m4_406_i
+rename q406_reason_visit1_m4___10 m4_406_j
 rename q406_reason_visit1_m4___96 m4_406_96
 rename q406_reason_visit1_m4___998 m4_406_998
 rename q406_reason_visit1_m4___999 m4_406_999
@@ -854,16 +850,16 @@ rename q406_other_visit1_m4 m4_406_other
 
 rename q407_pnc_visit2_m4 m4_407
 
-rename q408_reason_visit2_m4___1 m4_408_1
-rename q408_reason_visit2_m4___2 m4_408_2
-rename q408_reason_visit2_m4___3 m4_408_3
-rename q408_reason_visit2_m4___4 m4_408_4
-rename q408_reason_visit2_m4___5 m4_408_5
-rename q408_reason_visit2_m4___6 m4_408_6
-rename q408_reason_visit2_m4___7 m4_408_7
-rename q408_reason_visit2_m4___8 m4_408_8
-rename q408_reason_visit2_m4___9 m4_408_9
-rename q408_reason_visit2_m4___10 m4_408_10
+rename q408_reason_visit2_m4___1 m4_408_a
+rename q408_reason_visit2_m4___2 m4_408_b
+rename q408_reason_visit2_m4___3 m4_408_c
+rename q408_reason_visit2_m4___4 m4_408_d
+rename q408_reason_visit2_m4___5 m4_408_e
+rename q408_reason_visit2_m4___6 m4_408_f
+rename q408_reason_visit2_m4___7 m4_408_g
+rename q408_reason_visit2_m4___8 m4_408_h
+rename q408_reason_visit2_m4___9 m4_408_i
+rename q408_reason_visit2_m4___10 m4_408_j
 rename q408_reason_visit2_m4___96 m4_408_96
 rename q408_reason_visit2_m4___998 m4_408_998
 rename q408_reason_visit2_m4___999 m4_408_999
@@ -872,16 +868,16 @@ rename q408_other_visit2_m4 m4_408_other
 
 rename q409_pnc_visit3_m4 m4_409
 
-rename q410_reason_visit3_m4___1 m4_410_1
-rename q410_reason_visit3_m4___2 m4_410_2
-rename q410_reason_visit3_m4___3 m4_410_3
-rename q410_reason_visit3_m4___4 m4_410_4
-rename q410_reason_visit3_m4___5 m4_410_5
-rename q410_reason_visit3_m4___6 m4_410_6
-rename q410_reason_visit3_m4___7 m4_410_7
-rename q410_reason_visit3_m4___8 m4_410_8
-rename q410_reason_visit3_m4___9 m4_410_9
-rename q410_reason_visit3_m4___10 m4_410_10
+rename q410_reason_visit3_m4___1 m4_410_a
+rename q410_reason_visit3_m4___2 m4_410_b
+rename q410_reason_visit3_m4___3 m4_410_c
+rename q410_reason_visit3_m4___4 m4_410_d
+rename q410_reason_visit3_m4___5 m4_410_e
+rename q410_reason_visit3_m4___6 m4_410_f
+rename q410_reason_visit3_m4___7 m4_410_g
+rename q410_reason_visit3_m4___8 m4_410_h
+rename q410_reason_visit3_m4___9 m4_410_i
+rename q410_reason_visit3_m4___10 m4_410_j
 rename q410_reason_visit3_m4___96 m4_410_96
 rename q410_reason_visit3_m4___998 m4_410_998
 rename q410_reason_visit3_m4___999 m4_410_999
@@ -2428,19 +2424,19 @@ label values m4_404b m4_404a
 label values m4_404c m4_404a
 label values m4_405 m4_401a
 
-foreach var of varlist m4_406_1 - m4_406_888  {
+foreach var of varlist m4_406_a - m4_406_888  {
                  label values `var' m4_203_1_1
           }
 
 label values m4_407 m4_401a
 
-foreach var of varlist m4_408_1 - m4_408_888  {
+foreach var of varlist m4_408_a - m4_408_888  {
                  label values `var' m4_203_1_1
           }
 
 label values m4_409 m4_401a
 
-foreach var of varlist m4_410_1 - m4_410_888  {
+foreach var of varlist m4_410_a - m4_410_888  {
                  label values `var' m4_203_1_1
           }
 
@@ -2918,53 +2914,53 @@ recode m1_1011e (. = .a) if m1_1007 == 0 | m1_1007 == . | m1_1007 == .a
 
 recode m1_1011f (. = .a) if m1_1010 == 0 | m1_1010 == . | m1_1010 == .a
 
-recode m1_1102_1 (0 = .a) if m1_1101 == 0 | m1_1101 == . | m1_1101 == .r
-recode m1_1102_1 (0 = .) if m1_1101 == 1
-recode m1_1102_2 (0 = .a) if m1_1101 == 0 | m1_1101 == . | m1_1101 == .r
-recode m1_1102_2 (0 = .) if m1_1101 == 1
-recode m1_1102_3 (0 = .a) if m1_1101 == 0 | m1_1101 == . | m1_1101 == .r
-recode m1_1102_3 (0 = .) if m1_1101 == 1
-recode m1_1102_4 (0 = .a) if m1_1101 == 0 | m1_1101 == . | m1_1101 == .r
-recode m1_1102_4 (0 = .) if m1_1101 == 1
-recode m1_1102_5 (0 = .a) if m1_1101 == 0 | m1_1101 == . | m1_1101 == .r
-recode m1_1102_5 (0 = .) if m1_1101 == 1
-recode m1_1102_6 (0 = .a) if m1_1101 == 0 | m1_1101 == . | m1_1101 == .r
-recode m1_1102_6 (0 = .) if m1_1101 == 1
-recode m1_1102_7 (0 = .a) if m1_1101 == 0 | m1_1101 == . | m1_1101 == .r
-recode m1_1102_7 (0 = .) if m1_1101 == 1
-recode m1_1102_8 (0 = .a) if m1_1101 == 0 | m1_1101 == . | m1_1101 == .r
-recode m1_1102_8 (0 = .) if m1_1101 == 1
-recode m1_1102_9 (0 = .a) if m1_1101 == 0 | m1_1101 == . | m1_1101 == .r
-recode m1_1102_9 (0 = .) if m1_1101 == 1
-recode m1_1102_10 (0 = .a) if m1_1101 == 0 | m1_1101 == . | m1_1101 == .r
-recode m1_1102_10 (0 = .) if m1_1101 == 1
-recode m1_1102_96 (0 = .a) if m1_1101 == 0 | m1_1101 == . | m1_1101 == .r
-recode m1_1102_96 (0 = .) if m1_1101 == 1
-recode m1_1102_98 (0 = .a) if m1_1101 == 0 | m1_1101 == . | m1_1101 == .r
-recode m1_1102_98 (0 = .) if m1_1101 == 1
-recode m1_1102_99 (0 = .a) if m1_1101 == 0 | m1_1101 == . | m1_1101 == .r
-recode m1_1102_99 (0 = .) if m1_1101 == 1
+recode  m1_1102_a (0 = .a) if m1_1101 == 0 | m1_1101 == . | m1_1101 == .r
+recode  m1_1102_a (0 = .) if m1_1101 == 1
+recode  m1_1102_b (0 = .a) if m1_1101 == 0 | m1_1101 == . | m1_1101 == .r
+recode  m1_1102_b (0 = .) if m1_1101 == 1
+recode  m1_1102_c  (0 = .a) if m1_1101 == 0 | m1_1101 == . | m1_1101 == .r
+recode  m1_1102_c  (0 = .) if m1_1101 == 1
+recode  m1_1102_d (0 = .a) if m1_1101 == 0 | m1_1101 == . | m1_1101 == .r
+recode  m1_1102_d (0 = .) if m1_1101 == 1
+recode m1_1102_e (0 = .a) if m1_1101 == 0 | m1_1101 == . | m1_1101 == .r
+recode m1_1102_e (0 = .) if m1_1101 == 1
+recode  m1_1102_f (0 = .a) if m1_1101 == 0 | m1_1101 == . | m1_1101 == .r
+recode  m1_1102_f (0 = .) if m1_1101 == 1
+recode  m1_1102_g (0 = .a) if m1_1101 == 0 | m1_1101 == . | m1_1101 == .r
+recode  m1_1102_g (0 = .) if m1_1101 == 1
+recode  m1_1102_h   (0 = .a) if m1_1101 == 0 | m1_1101 == . | m1_1101 == .r
+recode  m1_1102_h   (0 = .) if m1_1101 == 1
+recode  m1_1102_i  (0 = .a) if m1_1101 == 0 | m1_1101 == . | m1_1101 == .r
+recode  m1_1102_i  (0 = .) if m1_1101 == 1
+recode  m1_1102_j (0 = .a) if m1_1101 == 0 | m1_1101 == . | m1_1101 == .r
+recode  m1_1102_j (0 = .) if m1_1101 == 1
+recode  m1_1102_96 (0 = .a) if m1_1101 == 0 | m1_1101 == . | m1_1101 == .r
+recode  m1_1102_96 (0 = .) if m1_1101 == 1
+recode  m1_1102_98 (0 = .a) if m1_1101 == 0 | m1_1101 == . | m1_1101 == .r
+recode  m1_1102_98 (0 = .) if m1_1101 == 1
+recode  m1_1102_99 (0 = .a) if m1_1101 == 0 | m1_1101 == . | m1_1101 == .r
+recode  m1_1102_99 (0 = .) if m1_1101 == 1
 
-recode m1_1104_1 (0 = .a) if m1_1103 == 0 | m1_1103 == . | m1_1103 == .r
-recode m1_1104_1 (0 = .) if m1_1103 == 1
-recode m1_1104_2 (0 = .a) if m1_1103 == 0 | m1_1103 == . | m1_1103 == .r
-recode m1_1104_2 (0 = .) if m1_1103 == 1
-recode m1_1104_3 (0 = .a) if m1_1103 == 0 | m1_1103 == . | m1_1103 == .r
-recode m1_1104_3 (0 = .) if m1_1103 == 1
-recode m1_1104_4 (0 = .a) if m1_1103 == 0 | m1_1103 == . | m1_1103 == .r
-recode m1_1104_4 (0 = .) if m1_1103 == 1
-recode m1_1104_5 (0 = .a) if m1_1103 == 0 | m1_1103 == . | m1_1103 == .r
-recode m1_1104_5 (0 = .) if m1_1103 == 1
-recode m1_1104_6 (0 = .a) if m1_1103 == 0 | m1_1103 == . | m1_1103 == .r
-recode m1_1104_6 (0 = .) if m1_1103 == 1
-recode m1_1104_7 (0 = .a) if m1_1103 == 0 | m1_1103 == . | m1_1103 == .r
-recode m1_1104_7 (0 = .) if m1_1103 == 1
-recode m1_1104_8 (0 = .a) if m1_1103 == 0 | m1_1103 == . | m1_1103 == .r
-recode m1_1104_8 (0 = .) if m1_1103 == 1
-recode m1_1104_9 (0 = .a) if m1_1103 == 0 | m1_1103 == . | m1_1103 == .r
-recode m1_1104_9 (0 = .) if m1_1103 == 1
-recode m1_1104_10 (0 = .a) if m1_1103 == 0 | m1_1103 == . | m1_1103 == .r
-recode m1_1104_10 (0 = .) if m1_1103 == 1
+recode m1_1104_a (0 = .a) if m1_1103 == 0 | m1_1103 == . | m1_1103 == .r
+recode m1_1104_a (0 = .) if m1_1103 == 1
+recode m1_1104_b (0 = .a) if m1_1103 == 0 | m1_1103 == . | m1_1103 == .r
+recode m1_1104_b (0 = .) if m1_1103 == 1
+recode m1_1104_c (0 = .a) if m1_1103 == 0 | m1_1103 == . | m1_1103 == .r
+recode m1_1104_c (0 = .) if m1_1103 == 1
+recode m1_1104_d (0 = .a) if m1_1103 == 0 | m1_1103 == . | m1_1103 == .r
+recode m1_1104_d (0 = .) if m1_1103 == 1
+recode m1_1104_e (0 = .a) if m1_1103 == 0 | m1_1103 == . | m1_1103 == .r
+recode m1_1104_e (0 = .) if m1_1103 == 1
+recode m1_1104_f (0 = .a) if m1_1103 == 0 | m1_1103 == . | m1_1103 == .r
+recode m1_1104_f (0 = .) if m1_1103 == 1
+recode m1_1104_g (0 = .a) if m1_1103 == 0 | m1_1103 == . | m1_1103 == .r
+recode m1_1104_g (0 = .) if m1_1103 == 1
+recode m1_1104_h (0 = .a) if m1_1103 == 0 | m1_1103 == . | m1_1103 == .r
+recode m1_1104_h (0 = .) if m1_1103 == 1
+recode m1_1104_i (0 = .a) if m1_1103 == 0 | m1_1103 == . | m1_1103 == .r
+recode m1_1104_i (0 = .) if m1_1103 == 1
+recode m1_1104_j (0 = .a) if m1_1103 == 0 | m1_1103 == . | m1_1103 == .r
+recode m1_1104_j (0 = .) if m1_1103 == 1
 recode m1_1104_96 (0 = .a) if m1_1103 == 0 | m1_1103 == . | m1_1103 == .r
 recode m1_1104_96 (0 = .) if m1_1103 == 1
 recode m1_1104_98 (0 = .a) if m1_1103 == 0 | m1_1103 == . | m1_1103 == .r
@@ -3927,15 +3923,15 @@ recode m4_905_1 m4_905_2 m4_905_3 m4_905_4 m4_905_5 m4_905_6 m4_905_96 (0 = .a) 
 *Qs about the number of consultation 
 recode m4_402 m4_403a m4_403b m4_403c m4_404a m4_404b   m4_404c  m4_405  m4_407 m4_409 m4_412a m4_412b m4_412c m4_501 m4_502 m4_503 (. = .a) if m4_401a == 0 
 
-recode m4_406_1  m4_406_2 m4_406_3 m4_406_4 m4_406_5 m4_406_6 m4_406_7 m4_406_8 m4_406_9 m4_406_10 m4_406_96 m4_406_998 m4_406_999 m4_406_888 m4_408_1 m4_408_2 m4_408_3 m4_408_4 m4_408_5 m4_408_6 m4_408_7 m4_408_8 m4_408_9 m4_408_10 m4_408_96 m4_408_998 m4_408_999 m4_408_888 m4_410_1 m4_410_2 m4_410_3 m4_410_4 m4_410_5 m4_410_6 m4_410_7 m4_410_8 m4_410_9 m4_410_10 m4_410_96 m4_410_998 m4_410_999 m4_410_888 (0 = .a) if m4_401a == 0 
+recode m4_406_a  m4_406_b   m4_406_c   m4_406_d    m4_406_e   m4_406_f    m4_406_g     m4_406_h    m4_406_i m4_406_j m4_406_96 m4_406_998 m4_406_999 m4_406_888 m4_408_a m4_408_b m4_408_c m4_408_d m4_408_e m4_408_f m4_408_g m4_408_h m4_408_i m4_408_j m4_408_96 m4_408_998 m4_408_999 m4_408_888 m4_410_a m4_410_b m4_410_c m4_410_d m4_410_e m4_410_f m4_410_g m4_410_h m4_410_i m4_410_j m4_410_96 m4_410_998 m4_410_999 m4_410_888 (0 = .a) if m4_401a == 0 
 * if they didn't have any consultations
 
 recode m4_403b m4_403c m4_404b m4_404c m4_407 m4_409 m4_412b m4_412c m4_502 m4_503 (. = .a) if m4_402 == 1
 
-recode m4_408_1 m4_408_2 m4_408_3 m4_408_4 m4_408_5 m4_408_6 m4_408_7 m4_408_8 m4_408_9 m4_408_10 m4_408_96 m4_408_998 m4_408_999 m4_408_888 m4_410_1 m4_410_2 m4_410_3 m4_410_4 m4_410_5 m4_410_6 m4_410_7 m4_410_8 m4_410_9 m4_410_10 m4_410_96 m4_410_998 m4_410_999 m4_410_888 (0 = .a) if m4_402 == 1
+recode m4_408_a m4_408_b m4_408_c m4_408_d m4_408_e m4_408_f m4_408_g m4_408_h m4_408_i m4_408_j m4_408_96 m4_408_998 m4_408_999 m4_408_888 m4_410_a m4_410_b m4_410_c m4_410_d m4_410_e m4_410_f m4_410_g m4_410_h m4_410_i m4_410_j m4_410_96 m4_410_998 m4_410_999 m4_410_888 (0 = .a) if m4_402 == 1
 * if they had only 1 consultation 
 recode m4_403c m4_404c m4_409 m4_412c m4_503 (. = .a) if m4_402 == 2
-recode m4_410_1 m4_410_2 m4_410_3 m4_410_4 m4_410_5 m4_410_6 m4_410_7 m4_410_8 m4_410_9 m4_410_10 m4_410_96 m4_410_998 m4_410_999 m4_410_888 (0 = .a) if m4_402 == 2
+recode m4_410_a m4_410_b m4_410_c m4_410_d m4_410_e m4_410_f m4_410_g m4_410_h m4_410_i m4_410_j m4_410_96 m4_410_998 m4_410_999 m4_410_888 (0 = .a) if m4_402 == 2
 * if they had only2 consultations 
 
 *-----------------------------------------------------*
@@ -3975,17 +3971,17 @@ recode m4_210_3_0 m4_210_3_1 m4_210_3_2 m4_210_3_3 m4_210_3_4 m4_210_3_5 m4_210_
 recode  m4_210_3_1 m4_210_3_2 m4_210_3_3 m4_210_3_4 m4_210_3_5 m4_210_3_6 m4_210_3_7 m4_210_3_8 m4_210_3_9 m4_210_3_96   (0 = .r) if  m4_210_3_999 == 1
 recode  m4_210_3_1 m4_210_3_2 m4_210_3_3 m4_210_3_4 m4_210_3_5 m4_210_3_6 m4_210_3_7 m4_210_3_8 m4_210_3_9 m4_210_3_96  (0 = .d) if  m4_210_3_998 == 1
 
-recode  m4_406_1 m4_406_2 m4_406_3 m4_406_4 m4_406_5 m4_406_6 m4_406_7 m4_406_8 m4_406_9 m4_406_10 m4_406_96 (0 = .d) if  m4_406_998 == 1
-recode  m4_406_1 m4_406_2 m4_406_3 m4_406_4 m4_406_5 m4_406_6 m4_406_7 m4_406_8 m4_406_9 m4_406_10 m4_406_96 (0 = .r) if  m4_406_999 == 1
-recode  m4_406_1 m4_406_2 m4_406_3 m4_406_4 m4_406_5 m4_406_6 m4_406_7 m4_406_8 m4_406_9 m4_406_10 m4_406_96 (0 = .d) if  m4_406_888 == 1
+recode  m4_406_a m4_406_b   m4_406_c   m4_406_d    m4_406_e   m4_406_f    m4_406_g     m4_406_h    m4_406_i m4_406_j m4_406_96 (0 = .d) if  m4_406_998 == 1
+recode  m4_406_a m4_406_b   m4_406_c   m4_406_d    m4_406_e   m4_406_f    m4_406_g     m4_406_h    m4_406_i m4_406_j m4_406_96 (0 = .r) if  m4_406_999 == 1
+recode  m4_406_a m4_406_b   m4_406_c   m4_406_d    m4_406_e   m4_406_f    m4_406_g     m4_406_h    m4_406_i m4_406_j m4_406_96 (0 = .d) if  m4_406_888 == 1
 
-recode m4_408_1 m4_408_2 m4_408_3 m4_408_4 m4_408_5 m4_408_6 m4_408_7 m4_408_8 m4_408_9 m4_408_10 m4_408_96 (0 = .d) if  m4_408_998 == 1
-recode m4_408_1 m4_408_2 m4_408_3 m4_408_4 m4_408_5 m4_408_6 m4_408_7 m4_408_8 m4_408_9 m4_408_10 m4_408_96 (0 = .r) if  m4_408_999 == 1
-recode m4_408_1 m4_408_2 m4_408_3 m4_408_4 m4_408_5 m4_408_6 m4_408_7 m4_408_8 m4_408_9 m4_408_10 m4_408_96 (0 = .d) if  m4_408_888 == 1
+recode m4_408_a m4_408_b m4_408_c m4_408_d m4_408_e m4_408_f m4_408_g m4_408_h m4_408_i m4_408_j m4_408_96 (0 = .d) if  m4_408_998 == 1
+recode m4_408_a m4_408_b m4_408_c m4_408_d m4_408_e m4_408_f m4_408_g m4_408_h m4_408_i m4_408_j m4_408_96 (0 = .r) if  m4_408_999 == 1
+recode m4_408_a m4_408_b m4_408_c m4_408_d m4_408_e m4_408_f m4_408_g m4_408_h m4_408_i m4_408_j m4_408_96 (0 = .d) if  m4_408_888 == 1
 
-recode m4_410_1 m4_410_2 m4_410_3 m4_410_4 m4_410_5 m4_410_6 m4_410_7 m4_410_8 m4_410_9 m4_410_10 m4_410_96 (0 = .d) if  m4_410_998 == 1
-recode m4_410_1 m4_410_2 m4_410_3 m4_410_4 m4_410_5 m4_410_6 m4_410_7 m4_410_8 m4_410_9 m4_410_10 m4_410_96 (0 = .r) if  m4_410_999 == 1
-recode m4_410_1 m4_410_2 m4_410_3 m4_410_4 m4_410_5 m4_410_6 m4_410_7 m4_410_8 m4_410_9 m4_410_10 m4_410_96 (0 = .d) if  m4_410_888 == 1
+recode m4_410_a m4_410_b m4_410_c m4_410_d m4_410_e m4_410_f m4_410_g m4_410_h m4_410_i m4_410_j m4_410_96 (0 = .d) if  m4_410_998 == 1
+recode m4_410_a m4_410_b m4_410_c m4_410_d m4_410_e m4_410_f m4_410_g m4_410_h m4_410_i m4_410_j m4_410_96 (0 = .r) if  m4_410_999 == 1
+recode m4_410_a m4_410_b m4_410_c m4_410_d m4_410_e m4_410_f m4_410_g m4_410_h m4_410_i m4_410_j m4_410_96 (0 = .d) if  m4_410_888 == 1
 
 recode  m4_413_a m4_413_b m4_413_c  m4_413_d  m4_413_e  m4_413_f m4_413_g  m4_413_h  m4_413_i   m4_413_j m4_413_k m4_413_96 (0 = .r) if  m4_413_99 == 1
 recode  m4_413_a m4_413_b m4_413_c  m4_413_d  m4_413_e  m4_413_f m4_413_g  m4_413_h  m4_413_i   m4_413_j m4_413_k m4_413_96 (0 = .d) if  m4_413_998 == 1
@@ -4341,34 +4337,34 @@ lab var m1_1011d "1011d. Did you discuss about that you had a baby born early be
 lab var m1_1011e "1011e. Did you discuss about that you had a c-section before, or not?"
 lab var m1_1011f "1011f. Did you discuss about that you had a baby die within their first month of life?"
 lab var m1_1101 "1101. At any point during your current pregnancy, has anyone ever hit, slapped, kicked, or done anything else to hurt you physically?"
-lab var m1_1102_1 "1102. Current husband / partner"
-lab var m1_1102_2 "1102. Parent (Mother; Father, step-parent, in-law)"
-lab var m1_1102_3 "1102. Sibling"
-lab var m1_1102_4 "1102. Child"
-lab var m1_1102_5 "1102. Late /last / ex-husband/partner"
-lab var m1_1102_6 "1102. Other relative"
-lab var m1_1102_7 "1102. Friend /acquaintance/"
-lab var m1_1102_8 "1102. Teacher"
-lab var m1_1102_9 "1102. Employer"
-lab var m1_1102_10 "1102. Stranger"
-lab var m1_1102_96 "1102. Other, specify"
-lab var m1_1102_98 "1102. DK"
-lab var m1_1102_99 "1102. NR/RF"
-lab var m1_1102_888_et "1102. Unknown"
-lab var m1_1102_998_et "1102. Refuse to answer"
-lab var m1_1102_999_et "1102. No information"
+lab var  m1_1102_a "1102. Current husband / partner"
+lab var  m1_1102_b "1102. Parent (Mother; Father, step-parent, in-law)"
+lab var  m1_1102_c  "1102. Sibling"
+lab var  m1_1102_d "1102. Child"
+lab var m1_1102_e "1102. Late /last / ex-husband/partner"
+lab var  m1_1102_f "1102. Other relative"
+lab var  m1_1102_g "1102. Friend /acquaintance/"
+lab var  m1_1102_h   "1102. Teacher"
+lab var  m1_1102_i  "1102. Employer"
+lab var  m1_1102_j "1102. Stranger"
+lab var  m1_1102_96 "1102. Other, specify"
+lab var  m1_1102_98 "1102. DK"
+lab var  m1_1102_99 "1102. NR/RF"
+lab var  m1_1102_88_et "1102. Unknown"
+lab var  m1_1102_98_et "1102. Refuse to answer"
+lab var  m1_1102_99_et "1102. No information"
 lab var m1_1102_other "1102_Oth. Specify who else hit, kick, slapped, ... you"
 lab var m1_1103 "1103. At any point during your current pregnancy, has anyone ever said or done something to humiliate you, insulted you or made you feel bad about yourself?"
-lab var m1_1104_1 "1104. Current husband / partner"
-lab var m1_1104_2 "1104. Parent (Mother; Father, step-parent, in-law)"
-lab var m1_1104_3 "1104. Sibling"
-lab var m1_1104_4 "1104. Child"
-lab var m1_1104_5 "1104. Late /last / ex-husband/partner"
-lab var m1_1104_6 "1104. Other relative"
-lab var m1_1104_7 "1104. Friend /acquaintance"
-lab var m1_1104_8 "1104. Teacher"
-lab var m1_1104_9 "1104. Employer"
-lab var m1_1104_10 "1104. Stranger"
+lab var m1_1104_a "1104. Current husband / partner"
+lab var m1_1104_b "1104. Parent (Mother; Father, step-parent, in-law)"
+lab var m1_1104_c "1104. Sibling"
+lab var m1_1104_d "1104. Child"
+lab var m1_1104_e "1104. Late /last / ex-husband/partner"
+lab var m1_1104_f "1104. Other relative"
+lab var m1_1104_g "1104. Friend /acquaintance"
+lab var m1_1104_h "1104. Teacher"
+lab var m1_1104_i "1104. Employer"
+lab var m1_1104_j "1104. Stranger"
 lab var m1_1104_96 "1104. Other (specify)"
 lab var m1_1104_98 "1104. DF"
 lab var m1_1104_99 "1104. NR/RF"
@@ -5489,25 +5485,25 @@ label variable m4_404c_other_2 "404C-other.2. Specify other facility for the 3rd
 
 label variable m4_405 "405. Was the 1st new consultation for a routine or regular checkup after the delivery?"
 
-label variable m4_406_1 "406. Was this 1st consultation for any of the following? Please tell me all that apply."
+label variable m4_406_a "406. Was this 1st consultation for any of the following? Please tell me all that apply."
 
-label variable m4_406_2 "406. Was this 1st consultation for any of the following? Please tell me all that apply."
+label variable m4_406_b   "406. Was this 1st consultation for any of the following? Please tell me all that apply."
 
-label variable m4_406_3 "406. Was this 1st consultation for any of the following? Please tell me all that apply."
+label variable m4_406_c   "406. Was this 1st consultation for any of the following? Please tell me all that apply."
 
-label variable m4_406_4 "406. Was this 1st consultation for any of the following? Please tell me all that apply."
+label variable m4_406_d    "406. Was this 1st consultation for any of the following? Please tell me all that apply."
 
-label variable m4_406_5 "406. Was this 1st consultation for any of the following? Please tell me all that apply."
+label variable m4_406_e   "406. Was this 1st consultation for any of the following? Please tell me all that apply."
 
-label variable m4_406_6 "406. Was this 1st consultation for any of the following? Please tell me all that apply."
+label variable m4_406_f    "406. Was this 1st consultation for any of the following? Please tell me all that apply."
 
-label variable m4_406_7 "406. Was this 1st consultation for any of the following? Please tell me all that apply."
+label variable m4_406_g     "406. Was this 1st consultation for any of the following? Please tell me all that apply."
 
-label variable m4_406_8 "406. Was this 1st consultation for any of the following? Please tell me all that apply."
+label variable m4_406_h    "406. Was this 1st consultation for any of the following? Please tell me all that apply."
 
-label variable m4_406_9 "406. Was this 1st consultation for any of the following? Please tell me all that apply."
+label variable m4_406_i "406. Was this 1st consultation for any of the following? Please tell me all that apply."
 
-label variable m4_406_10 "406. Was this 1st consultation for any of the following? Please tell me all that apply."
+label variable m4_406_j "406. Was this 1st consultation for any of the following? Please tell me all that apply."
 
 label variable m4_406_96 "406. Was this 1st consultation for any of the following? Please tell me all that apply."
 
@@ -5515,24 +5511,24 @@ label variable m4_406_other "406-Other.Specify other reasons why the 1st consult
 
 label variable m4_407 "407. Was the 2nd new consultation for a routine or regular checkup after the delivery?"
 
-label variable m4_408_1 "408. Was this 2nd consultation for any of the following? Please tell me all that apply."
+label variable m4_408_a "408. Was this 2nd consultation for any of the following? Please tell me all that apply."
 
-label variable m4_408_2 "408. Was this 2nd consultation for any of the following? Please tell me all that apply."
+label variable m4_408_b "408. Was this 2nd consultation for any of the following? Please tell me all that apply."
 
-label variable m4_408_3 "408. Was this 2nd consultation for any of the following? Please tell me all that apply."
+label variable m4_408_c "408. Was this 2nd consultation for any of the following? Please tell me all that apply."
 
-label variable m4_408_4 "408. Was this 2nd consultation for any of the following? Please tell me all that apply."
+label variable m4_408_d "408. Was this 2nd consultation for any of the following? Please tell me all that apply."
 
-label variable m4_408_5 "408. Was this 2nd consultation for any of the following? Please tell me all that apply."
-label variable m4_408_6 "408. Was this 2nd consultation for any of the following? Please tell me all that apply."
+label variable m4_408_e "408. Was this 2nd consultation for any of the following? Please tell me all that apply."
+label variable m4_408_f "408. Was this 2nd consultation for any of the following? Please tell me all that apply."
 
-label variable m4_408_7 "408. Was this 2nd consultation for any of the following? Please tell me all that apply."
+label variable m4_408_g "408. Was this 2nd consultation for any of the following? Please tell me all that apply."
 
-label variable m4_408_8 "408. Was this 2nd consultation for any of the following? Please tell me all that apply."
+label variable m4_408_h "408. Was this 2nd consultation for any of the following? Please tell me all that apply."
 
-label variable m4_408_9 "408. Was this 2nd consultation for any of the following? Please tell me all that apply."
+label variable m4_408_i "408. Was this 2nd consultation for any of the following? Please tell me all that apply."
 
-label variable m4_408_10 "408. Was this 2nd consultation for any of the following? Please tell me all that apply."
+label variable m4_408_j "408. Was this 2nd consultation for any of the following? Please tell me all that apply."
 
 label variable m4_408_96 "408. Was this 2nd consultation for any of the following? Please tell me all that apply."
 
@@ -5540,25 +5536,25 @@ label variable m4_408_other "408-Other. Specify other reason why the 2nd consult
 
 label variable m4_409 "409. Was the 3rd new consultation is for a routine or regular checkup after the delivery?"
 
-label variable m4_410_1 "410. Was this 3rd consultation for any of the following? Please tell me all that apply."
+label variable m4_410_a "410. Was this 3rd consultation for any of the following? Please tell me all that apply."
 
-label variable m4_410_2 "410. Was this 3rd consultation for any of the following? Please tell me all that apply."
+label variable m4_410_b "410. Was this 3rd consultation for any of the following? Please tell me all that apply."
 
-label variable m4_410_3 "410. Was this 3rd consultation for any of the following? Please tell me all that apply."
+label variable m4_410_c "410. Was this 3rd consultation for any of the following? Please tell me all that apply."
 
-label variable m4_410_4 "410. Was this 3rd consultation for any of the following? Please tell me all that apply."
+label variable m4_410_d "410. Was this 3rd consultation for any of the following? Please tell me all that apply."
 
-label variable m4_410_5 "410. Was this 3rd consultation for any of the following? Please tell me all that apply."
+label variable m4_410_e "410. Was this 3rd consultation for any of the following? Please tell me all that apply."
 
-label variable m4_410_6 "410. Was this 3rd consultation for any of the following? Please tell me all that apply."
+label variable m4_410_f "410. Was this 3rd consultation for any of the following? Please tell me all that apply."
 
-label variable m4_410_7 "410. Was this 3rd consultation for any of the following? Please tell me all that apply."
+label variable m4_410_g "410. Was this 3rd consultation for any of the following? Please tell me all that apply."
 
-label variable m4_410_8 "410. Was this 3rd consultation for any of the following? Please tell me all that apply."
+label variable m4_410_h "410. Was this 3rd consultation for any of the following? Please tell me all that apply."
 
-label variable m4_410_9 "410. Was this 3rd consultation for any of the following? Please tell me all that apply."
+label variable m4_410_i "410. Was this 3rd consultation for any of the following? Please tell me all that apply."
 
-label variable m4_410_10 "410. Was this 3rd consultation for any of the following? Please tell me all that apply."
+label variable m4_410_j "410. Was this 3rd consultation for any of the following? Please tell me all that apply."
 
 label variable m4_410_96 "410. Was this 3rd consultation for any of the following? Please tell me all that apply."
 
@@ -5932,18 +5928,320 @@ order height_cm weight_kg bp_time_1_systolic bp_time_1_diastolic time_1_pulse_ra
 
 order phq9a phq9b phq9c phq9d phq9e phq9f phq9g phq9h phq9i, after(m1_205e)
 
-order country redcap_record_id study_id interviewer_name_a7 redcap_event_name redcap_repeat_instrument redcap_repeat_instance ///
+order country redcap_record_id order_redcap study_id interviewer_name_a7 redcap_event_name redcap_repeat_instrument redcap_repeat_instance ///
 	  redcap_data_access_group m1_date m1_start_time country site study_site study_site_sd facility facility_other sampstrata ///
 	  facility_type permission care_self site sampstrata study_site study_site_sd facility interviewer_id permission ///
 	  care_self zone_live b5anc b6anc_first b6anc_first_conf continuecare b7eligible respondentid mobile_phone ///
 	  flash kebele_malaria kebele_intworm
-	  
 *===============================================================================
-	* STEP SIX: RESHAPE MODULE 2 TO WIDE FORM
-reshape wide _all, i(redcap_record_id) j(order_redcap) 
+	* SAVE A LONG FORM DATASET
+save "$et_data_final/eco_m1-m4_et_long.dta", replace
+
+*===============================================================================
+	* STEP SIX: CONVERT TO A WIDE FORM DATASET
+	* SPLIT THE DATASET
+	preserve 
+		keep if redcap_event_name =="maternal_integrate_arm_1"
+		keep redcap_record_id mcard*
+		save "$et_data_final/tmpcard", replace 
+	restore 
 	
+	preserve
+		keep if redcap_event_name =="module_1_arm_1"
+		keep country-kebele_intworm m1*
+		save "$et_data_final/tmpm1", replace 
+	restore 
+	
+	preserve
+		keep if redcap_event_name =="module_2_arm_1"
+		keep redcap_record_id redcap_repeat_instance m2_*
+		save "$et_data_final/tmpm2", replace 
+	restore 
+	
+	preserve
+		keep if redcap_event_name =="module_3_arm_1"
+		keep redcap_record_id m3_*
+		save "$et_data_final/tmpm3", replace 
+	restore 
+	
+	preserve
+		keep if redcap_event_name =="module_4_arm_1"
+		keep redcap_record_id m4_*
+		save "$et_data_final/tmpm4", replace 
+	restore 
+	
+	/*preserve
+		keep if redcap_event_name =="module_5_arm_1"
+		keep redcap_record_id m5_*
+		save "$et_data_final/tmpm5", replace 
+	restore */
+	
+	* Reshape M2
+	u "$et_data_final/tmpm2", clear
+		keep redcap_record_id redcap_repeat_instance m2_start-m2_time_of_rescheduled
+		reshape wide m2_start-m2_time_of_rescheduled, i(redcap_record_id) j(redcap_repeat_instance) 
+	save "$et_data_final/tmpm2", replace // 969
+	
+	
+	* Merge by redcap_record_id
+	u "$et_data_final/tmpm1", clear
+		merge 1:1 redcap_record_id using "$et_data_final/tmpcard" // there are 11 maternal card record_ids that are wrong!
+			drop if _merge==2
+			drop _merge
+		merge 1:1 redcap_record_id using "$et_data_final/tmpm2"
+			drop _merge
+		merge 1:1 redcap_record_id using "$et_data_final/tmpm3" // need to figure out why there are so many rows in M3... only 854 women completed it 
+			drop _merge 
+		merge 1:1 redcap_record_id using "$et_data_final/tmpm4"
+		drop _merge
+		
+	rm "$et_data_final/tmpcard.dta" 
+	rm "$et_data_final/tmpm1.dta" 
+	rm "$et_data_final/tmpm2.dta" 
+	rm "$et_data_final/tmpm3.dta" 
+	rm "$et_data_final/tmpm4.dta" 
+		
 *===============================================================================
 	* STEP SEVEN: SAVE DATA TO RECODED FOLDER
-	
-save "$et_data_final/eco_m1-m4_et.dta", replace
-	
+	 save "$et_data_final/eco_m1-m4_et_wide.dta", replace
+
+
+	** MODULE 2:
+	forval i = 1/8 {
+label variable m2_start`i' "IIC. May I proceed with the interview?"
+label variable m2_103`i' "102. Date of interview (D-M-Y)"
+label variable m2_permission`i' "CR1. Permission granted to conduct call"
+label variable m2_date`i' "102. Date of interview (D-M-Y)"
+label variable m2_time_start`i' "103A. Time of interview started"
+label variable m2_maternal_death_reported`i' "108. Maternal death reported"
+label variable m2_ga`i' "107a. Gestational age at this call based on LNMP (in weeks)"
+*label variable m2_ga_estimate "107b. Gestational age based on maternal estimation (in weeks)"
+label variable m2_hiv_status`i' "109. HIV status"
+label variable m2_date_of_maternal_death`i' "110. Date of maternal death (D-M-Y)"
+label variable m2_maternal_death_learn`i' "111. How did you learn about the maternal death?"
+label variable m2_maternal_death_learn_other`i' "111-Oth. Specify other way of learning maternal death"
+label variable m2_201`i' "201. I would like to start by asking about your health and how you have been feeling since you last spoke to us. In general, how would you rate your overall health?"
+label variable m2_202`i' "202. As you know, this survey is about health care that women receive during pregnancy, delivery and after birth. So that I know that I am asking the right questions, I need to confirm whether you are still pregnant?"
+label variable m2_date_of_maternal_death_2`i' "110. Date of maternal death (D-M-Y)"
+label variable m2_203a`i' "203a. Since you last spoke to us, have you experienced severe or persistent headaches?"
+label variable m2_203b`i' "203b. Since you last spoke to us, have you experienced vaginal bleeding of any amount?"
+label variable m2_203c`i' "203c. Since you last spoke to us, have you experienced fever?"
+label variable m2_203d`i' "203d. Since you last spoke to us, have you experiencedsevere abdominal pain, not just discomfort?"
+label variable m2_203e`i' "203e. Since you last spoke to us, have you experienced a lot of difficult breathing?"
+label variable m2_203f`i' "203f. Since you last spoke to us, have you experienced convulsions or seizures?"
+label variable m2_203g`i' "203g. Since you last spoke to us, have you experienced fainting or loss of consciousness?"
+label variable m2_203h`i' "203h. Since you last spoke to us, have you experienced that the baby has completely stopped moving?"
+label variable m2_203i`i' "203i. Since you last spoke to us, have you experienced blurring of vision?"
+label variable m2_204a`i' "204a. Since you last spoke to us, have you experienced Preeclapsia/eclampsia?"
+label variable m2_204b`i' "204b. Since you last spoke to us, have you experienced Bleeding during pregnancy?"
+label variable m2_204c`i' "204c. Since you last spoke to us, have you experienced Hyperemesis gravidarum?"
+label variable m2_204d`i' "204d. Since you last spoke to us, have you experienced Anemia?"
+label variable m2_204e`i' "204e. Since you last spoke to us, have you experienced Cardiac problem?"
+label variable m2_204f`i' "204f. Since you last spoke to us, have you experienced Amniotic fluid volume problems(Oligohydramnios/ Polyhadramnios)?"
+label variable m2_204g`i' "204g. Since you last spoke to us, have you experienced Asthma?"
+label variable m2_204h`i' "204h. Since you last spoke to us, have you experienced RH isoimmunization?"
+label variable m2_204i`i' "204i. Since you last spoke to us, have you experienced any other major health problems?"
+label variable m2_204i_other`i' "204i-oth. Specify any other feeling since last visit"
+label variable m2_205a`i' "205a. Over the past 2 weeks, on how many days have you been bothered by little interest or pleasure in doing things?"
+label variable m2_205b`i' "205b. Over the past 2 weeks, on how many days have you been bothered by feeling down, depressed, or hopeless?"
+label variable m2_205c`i' "205c. Over the past 2 weeks, on how many days have you been bothered by trouble falling or staying asleep, or sleeping too much?"
+label variable m2_205d`i' "205d. Over the past 2 weeks, on how many days have you been bothered by feeling tired or having little energy?"
+label variable m2_205e`i' "205e. Over the past 2 weeks, on how many days have you been bothered by poor appetite or overeating?"
+label variable m2_205f`i' "205f. Over the past 2 weeks, on how many days have you been bothered by feeling bad about yourself or that you are a failure or have let yourself or your family down?"
+label variable m2_205g`i' "205g. Over the past 2 weeks, on how many days have you been bothered by trouble concentrating on things, such as your work or home duties?"
+label variable m2_205h`i' "205h. Over the past 2 weeks, on how many days have you been bothered by moving or speaking so slowly that other people could have noticed? Or so fidgety or restless that you have been moving a lot more than usual?"
+label variable m2_205i`i' "205i. Over the past 2 weeks, on how many days have you been bothered by Thoughts that you would be better off dead, or thoughts of hurting yourself in some way?"
+label variable m2_206`i' "206. How often do you currently smoke cigarettes or use any other type of tobacco? Types of tobacco includes: Snuff tobacco, Chewing tobacco,  Cigar"
+label variable m2_207`i' "207. How often do you currently chewing khat?(Interviewer: Inform that Khat is a leaf green plant use as stimulant and chewed in Ethiopia)"
+label variable m2_208`i' "208. How often do you currently drink alcohol or use any other type of alcoholic?   A standard drink is any drink containing about 10g of alcohol, 1 standard drink= 1 tasa or wancha of (tella or korefe or borde or shameta), ½ birile of  Tej, 1 melekiya of Areke, 1 bottle of beer, 1 single of draft, 1 melkiya of spris(Uzo, Gine, Biheraw etc) and 1 melekiya of Apratives"
+label variable m2_301`i' "301. Since we last spoke, did you have any new healthcare consultations for yourself, or not?"
+label variable m2_302`i' "302. Since we last spoke, how many new healthcare consultations have you had for yourself?"
+label variable m2_303a`i' "303a. Where did this/this new first healthcare consultation(s) for yourself take place?"
+label variable m2_303b`i' "303b.  Where did the 2nd healthcare consultation(s) for yourself take place?"
+label variable m2_303c`i' "303c. Where did the 3rd healthcare consultation(s) for yourself take place?"
+label variable m2_303d`i' "303d. Where did the 4th healthcare consultation(s) for yourself take place?"
+label variable m2_303e`i' "303e. Where did the 5th healthcare consultation(s) for yourself take place?"
+label variable m2_304a`i' "304a. What is the name of the facility where this/this first healthcare consultation took place?"
+label variable m2_304a_other`i' "304a-oth. Other facility for 1st health consultation"
+label variable m2_304b`i' "304b. What is the name of the facility where this/this second healthcare consultation took place?"
+label variable m2_304b_other`i' "304b-oth. Other facility for 2nd health consultation"
+label variable m2_304c`i' "304c. What is the name of the facility where this/this third healthcare consultation took place?"
+label variable m2_304c_other`i' "304c-oth. Other facility for 3rd health consultation"
+label variable m2_304d`i' "304d. What is the name of the facility where this/this fourth healthcare consultation took place?"
+label variable m2_304d_other`i' "304d-oth. Other facility for 4th health consultation"
+label variable m2_304e`i' "304e. What is the name of the facility where this/this fifth healthcare consultation took place?"
+label variable m2_304e_other`i' "304e-oth. Other facility for 5th health consultation"
+label variable m2_305`i' "305. Was the first consultation for a routine antenatal care visit?"
+label variable m2_306`i' "306. Was the first consultation for a referral from your antenatal care provider?"
+label variable m2_306_1`i' "307. Was the first consultation for any of the following? A new health problem, including an emergency or an injury"
+label variable m2_306_2`i' "307. Was the first consultation for any of the following? An existing health problem"
+label variable m2_306_3`i' "307. Was the first consultation for any of the following? A lab test, x-ray, or ultrasound"
+label variable m2_306_4`i' "307. Was the first consultation for any of the following? To pick up medicine"
+label variable m2_306_5`i' "307. Was the first consultation for any of the following? To get a vaccine"
+label variable m2_306_96`i' "307. Was the first consultation for any of the following? Other reasons"
+label variable m2_306_888_et`i' "307. No information"
+label variable m2_306_998_et`i' "307. Unknown"
+label variable m2_306_999_et`i' "307. Refuse to answer"
+label variable m2_307_other`i' "307-oth. Specify other reason for the 1st visit"
+label variable m2_308`i' "308. Was the second consultation is for a routine antenatal care visit?"
+label variable m2_309`i' "309. Was the second consultation is for a referral from your antenatal care provider?"
+label variable m2_308_1`i' "310. Was the second consultation for any of the following? A new health problem, including an emergency or an injury"
+label variable m2_308_2`i' "310. Was the second consultation for any of the following? An existing health problem"
+label variable m2_308_3`i' "310. Was the second consultation for any of the following? A lab test, x-ray, or ultrasound"
+label variable m2_308_4`i' "310. Was the second consultation for any of the following? To pick up medicine"
+label variable m2_308_5`i' "310. Was the second consultation for any of the following? To get a vaccine"
+label variable m2_308_96`i' "310. Was the second consultation for any of the following? Other reasons"
+label variable m2_308_888_et`i' "310. No information"
+label variable m2_308_998_et`i' "310. Unknown"
+label variable m2_308_999_et`i' "310. Refuse to answer"
+label variable m2_310_other`i' "310-oth. Specify other reason for second consultation"
+label variable m2_311`i' "311. Was the third consultation is for a routine antenatal care visit?"
+label variable m2_312`i' "312. Was the third consultation is for a referral from your antenatal care provider?"
+label variable m2_311_1`i' "313. Was the third consultation for any of the following? A new health problem, including an emergency or an injury"
+label variable m2_311_2`i' "313. Was the third consultation for any of the following? An existing health problem"
+label variable m2_311_3`i' "313. Was the third consultation for any of the following? A lab test, x-ray, or ultrasound"
+label variable m2_311_4`i' "313. Was the third consultation for any of the following? To pick up medicine"
+label variable m2_311_5`i' "313. Was the third consultation for any of the following? To get a vaccine"
+label variable m2_311_96`i' "313. Was the third onsultation for any of the following? Other reasons"
+label variable m2_311_888_et`i' "313. No information"
+label variable m2_311_998_et`i' "313. Unknown"
+label variable m2_311_999_et`i' "313. Refuse to answer"
+label variable m2_313_other`i' "313-oth. Specify any other reason for the third consultation"
+label variable m2_314`i' "314. Was the fourth consultation is for a routine antenatal care visit?"
+label variable m2_315`i' "315. Was the fourth consultation is for a referral from your antenatal care provider?"
+label variable m2_314_1`i' "316. Was the fourth consultation for any of the following? A new health problem, including an emergency or an injury"
+label variable m2_314_2`i' "316. Was the fourth consultation for any of the following? An existing health problem"
+label variable m2_314_3`i' "316. Was the fourth consultation for any of the following? A lab test, x-ray, or ultrasound"
+label variable m2_314_4`i' "316. Was the fourth consultation for any of the following? To pick up medicine"
+label variable m2_314_5`i' "316. Was the fourth consultation for any of the following? To get a vaccine"
+label variable m2_314_96`i' "316. Was the fourth onsultation for any of the following? Other reasons"
+label variable m2_314_888_et`i' "316. No information"
+label variable m2_314_998_et`i' "316. Unknown"
+label variable m2_314_999_et`i' "316. Refuse to answer"
+label variable m2_316_other`i' "316-oth. Specify other reason for the fourth consultation"
+label variable m2_317`i' "317. Was the fifth consultation is for a routine antenatal care visit?"
+label variable m2_318`i' "318. Was the fifth consultation is for a referral from your antenatal care provider?"
+label variable m2_317_1`i' "319. Was the fifth consultation is for any of the following? A new health problem, including an emergency or an injury"
+label variable m2_317_2`i' "319. Was the fifth consultation is for any of the following? An existing health problem"
+label variable m2_317_3`i' "319. Was the fifth consultation is for any of the following? A lab test, x-ray, or ultrasound"
+label variable m2_317_4`i' "319. Was the fifth consultation is for any of the following? To pick up medicine"
+label variable m2_317_5`i' "319. Was the fifth consultation is for any of the following? To get a vaccine"
+label variable m2_317_96`i' "319. Was the fifth consultation is for any of the following? Other reasons"
+label variable m2_317_888_et`i' "319. No information"
+label variable m2_317_998_et`i' "319. Unknown"
+label variable m2_317_999_et`i' "319. Refuse to answer"
+label variable m2_319_other`i' "319-oth. Specify other reason for the fifth consultation"
+label variable m2_320_a`i' "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? No reason or you didn't need it"
+label variable m2_320_b`i' "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? You tried but were sent away (e.g., no appointment available) "
+label variable m2_320_c`i' "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? High cost (e.g., high out of pocket payment, not covered by insurance)"
+label variable m2_320_d`i' "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? Far distance (e.g., too far to walk or drive, transport not readily available)"
+label variable m2_320_e`i' "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? Long waiting time (e.g., long line to access facility, long wait for the provider)"
+label variable m2_320_f`i' "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? Poor healthcare provider skills (e.g., spent too little time with patient, did not conduct a thorough exam)"
+label variable m2_320_g`i' "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? Staff don't show respect (e.g., staff is rude, impolite, dismissive)"
+label variable m2_320_h`i' "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? Medicines or equipment are not available (e.g., medicines regularly out of stock, equipment like X-ray machines broken or unavailable)"
+label variable m2_320_i`i' "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? COVID-19 restrictions (e.g., lockdowns, travel restrictions, curfews) "
+label variable m2_320_j`i' "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? COVID-19 fear"
+label variable m2_320_k`i' "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? Don't know where to go/too complicated"
+label variable m2_320_l`i' "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? Fear of discovering serious problem"
+label variable m2_320_96`i' "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? Other, specify"
+label variable m2_320_99`i' "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? Refused"
+label variable m2_320_888_et`i' "320. No information"
+label variable m2_320_998_et`i' "320. Unknown"
+label variable m2_320_999_et`i' "320. Refuse to answer"
+label variable m2_320_other`i' "320-oth. Specify other reason preventing receiving more antenatal care"
+label variable m2_321`i' "321. Other than in-person visits, did you have contacted with a health care provider by phone, SMS, or web regarding your pregnancy?"
+label variable m2_401`i' "401. Overall, how would you rate the quality of care that you received from the health facility where you took the 1st consultation?"
+label variable m2_402`i' "402. Overall, how would you rate the quality of care that you received from the health facility where you took the 2nd consultation?"
+label variable m2_403`i' "403. Overall, how would you rate the quality of care that you received from the health facility where you took the 3rd consultation?"
+label variable m2_404`i' "404. Overall, how would you rate the quality of care that you received from the health facility where you took the 4th consultation?"
+label variable m2_405`i' "405. Overall, how would you rate the quality of care that you received from the health facility where you took the 5th consultation?"
+label variable m2_501a`i' "501a. Since you last spoke to us, did you get your blood pressure measured (with a cuff around your arm)?"
+label variable m2_501b`i' "501b. Since you last spoke to us, did you get your weight taken (using a scale)?"
+label variable m2_501c`i' "501c.  Since you last spoke to us, did you get a blood draw (that is, taking blood from your arm with a syringe)?"
+label variable m2_501d`i' "501d.  Since you last spoke to us, did you get a blood test using a finger prick (that is, taking a drop of blood from your finger)?"
+label variable m2_501e`i' "501e.  Since you last spoke to us, did you get a urine test (that is, where you peed in a container)?"
+label variable m2_501f`i' "501f. Since you last spoke to us, did you get an ultrasound (that is, when a probe is moved on your belly to produce a video of the baby on a screen)?"
+label variable m2_501g`i' "501g.  Since you last spoke to us, did you get any other tests?"
+label variable m2_501g_other`i' "501g-oth. Specify any other test you took since you last spoke to us"
+label variable m2_502`i' "502. Since we last spoke, did you receive any new test results from a health care provider?   By that I mean, any result from a blood or urine sample or from blood pressure measurement.Do not include any results that were given to you during your first antenatal care visit or during the first survey, only new ones."
+label variable m2_503a`i' "503a. Remember that this information will remain confidential. Did you receive a result for Anemia?"
+label variable m2_503b`i' "503b. Remember that this information will remain confidential. Did you receive a result for HIV?"
+label variable m2_503c`i' "503c. Remember that this information will remain confidential. Did you receive a result for HIV viral load?"
+label variable m2_503d`i' "503d. Remember that this information will remain confidential. Did you receive a result for Syphilis?"
+label variable m2_503e`i' "503e. Remember that this information will remain confidential. Did you receive a result for diabetes?"
+label variable m2_503f`i' "503f. Remember that this information will remain confidential. Did you receive a result for Hypertension?"
+label variable m2_504`i' "504. Did you receive any other new test results?"
+label variable m2_504_other`i' "504-oth. Specify other test result you receive"
+label variable m2_505a`i' "505a. What was the result of the test for anemia? Remember that this information will remain fully confidential."
+label variable m2_505b`i' "505b. What was the result of the test for HIV? Remember that this information will remain fully confidential."
+label variable m2_505c`i' "505c. What was the result of the test for HIV viral load? Remember that this information will remain fully confidential."
+label variable m2_505d`i' "505d. What was the result of the test for syphilis? Remember that this information will remain fully confidential."
+label variable m2_505e`i' "505e. What was the result of the test for diabetes? Remember that this information will remain fully confidential."
+label variable m2_505f`i' "505f. What was the result of the test for hypertension? Remember that this information will remain fully confidential."
+label variable m2_505g`i' "505g. What was the result of the test for other tests? Remember that this information will remain fully confidential."
+label variable m2_506a`i' "506a. Since you last spoke to us, did you and a healthcare provider discuss about the signs of pregnancy complications that would require you to go to the health facility?"
+label variable m2_506b`i' "506b. Since you last spoke to us, did you and a healthcare provider discuss about your birth plan that is, where you will deliver, how you will get there, and how you need to prepare, or didnt you?"
+label variable m2_506c`i' "506c. Since you last spoke to us, did you and a healthcare provider discuss about care for the newborn when he or she is born such as warmth, hygiene, breastfeeding, or the importance of postnatal care?"
+label variable m2_506d`i' "506d. Since you last spoke to us, did you and a healthcare provider discuss about family planning options for after delivery?"
+label variable m2_507`i' "507. What did the health care provider tell you to do regarding these new symptoms?"
+label variable m2_508a`i' "508a. Since we last spoke, did you have a session of psychological counseling or therapy with any type of professional?  This could include seeing a mental health professional (like a phycologist, social worker, nurse, spiritual advisor or healer) for problems with your emotions or nerves."
+label variable m2_508b_number`i' "508b. Do you know the number of psychological counseling or therapy session you had?"
+label variable m2_508b_last`i' "508b. How many of these sessions did you have since you last spoke to us?"
+label variable m2_508c`i' "508c. Do you know how long this/these visits took?"
+label variable m2_508d`i' "508d. How many minutes did this/these visit(s) last on average?"
+label variable m2_509a`i' "509a.  Since we last spoke, did a healthcare provider tells you that you needed to go see a specialist like an obstetrician or a gynecologist?"
+label variable m2_509b`i' "509b. Since we last spoke, did a healthcare provider tells you that you needed to go to the hospital for follow-up antenatal care?"
+label variable m2_509c`i' "509c. Since we last spoke, did a healthcare provider tell you that you will need a C-section?"
+label variable m2_601a`i' "601a. Did you get Iron or folic acid pills?"
+label variable m2_601b`i' "601b. Did you get Calcium pills?"
+label variable m2_601c`i' "601c. Did you get Multivitamins?"
+label variable m2_601d`i' "601d. Did you get Food supplements like Super Cereal or Plumpynut?"
+label variable m2_601e`i' "601e. Did you get medicine for intestinal worm?"
+label variable m2_601f`i' "601f. Did you get medicine for malaria?"
+label variable m2_601g`i' "601g. Did you get Medicine for HIV?"
+label variable m2_601h`i' "601h. Did you get Medicine for your emotions, nerves, depression, or mental health?"
+label variable m2_601i`i' "601i. Did you get Medicine for hypertension?"
+label variable m2_601j`i' "601j. Did you get Medicine for diabetes, including injections of insulin?"
+label variable m2_601k`i' "601k. Did you get Antibiotics for an infection?"
+label variable m2_601l`i' "601l. Did you get Aspirin?"
+label variable m2_601m`i' "601m. Did you get Paracetamol, or other pain relief drugs?"
+label variable m2_601n`i' "601n. Did you get Any other medicine or supplement?"
+label variable m2_601n_other`i' "601n-oth. Specify other medicine or supplement you took"
+label variable m2_602a`i' "602a. Do you know how much in total you pay for this new medication?"
+label variable m2_602b`i' "602b. In total, how much did you pay for these new medications or supplements (ETB)?"
+label variable m2_603`i' "603. Are you currently taking iron and folic acid pills, or not?"
+label variable m2_604`i' "604. How often do you take iron and folic acid pills?"
+label variable m2_701`i' "701. I would now like to ask about the cost of these new health care visits.  Did you pay any money out of your pocket for these new visits, including for the consultation or other indirect costs like your transport to the facility?  Do not include the cost of medicines that you have already told me about."
+label variable m2_702a`i' "702a. Did you spend money on Registration/Consultation?"
+label variable m2_702a_other`i' "702a-oth. How much money did you spend on Registration/Consultation?"
+label variable m2_702b`i' "702b. Did you spend money on Test or investigations (lab tests, ultrasound etc.?"
+label variable m2_702b_other`i' "702b-oth. How much money did you spend on Test or investigations (lab tests, ultrasound etc.)"
+label variable m2_702c`i' "702c. Did you spend money on Transport (round trip) including that of the person accompanying you?"
+label variable m2_702c_other`i' "702c-oth. How much money did you spend on Transport (round trip) including that of the person accompanying you?"
+label variable m2_702d`i' "702d. Did you spend money on Food and accommodation including that of person accompanying you?"
+label variable m2_702d_other`i' "702d-oth. How much money did you spend on Food and accommodation including that of person accompanying you?"
+label variable m2_702e`i' "702e. Did you spend money for other services?"
+label variable m2_702e_other`i' "702e-oth. How much money did you spend on other item/service?"
+label variable m2_703`i' "703. So, in total you spent"
+label variable m2_704`i' "704. Is the total cost correct?"
+label variable m2_704_other`i' "704-oth. So how much in total would you say you spent?"
+label variable m2_705_1`i' "705. Which of the following financial sources did your household use to pay for this? Current income of any household members"
+label variable m2_705_2`i' "705. Which of the following financial sources did your household use to pay for this? Savings (e.g., bank account)"
+label variable m2_705_3`i' "705. Which of the following financial sources did your household use to pay for this? Payment or reimbursement from a health insurance plan"
+label variable m2_705_4`i' "705. Which of the following financial sources did your household use to pay for this? Sold items (e.g., furniture, animals, jewellery, furniture)"
+label variable m2_705_5`i' "705. Which of the following financial sources did your household use to pay for this? Family members or friends from outside the household"
+label variable m2_705_6`i' "705. Which of the following financial sources did your household use to pay for this? Borrowed (from someone other than a friend or family)"
+label variable m2_705_96`i' "705. Which of the following financial sources did your household use to pay for this? Other (please specify)"
+label variable m2_705_888_et`i' "705. No information"
+label variable m2_705_998_et`i' "705. Unknown"
+label variable m2_705_999_et`i' "705. Refuse to answer"
+label variable m2_705_other`i' "705-oth. Please specify"
+label variable m2_interview_inturrupt`i' "Is the interview inturrupted?"
+label variable m2_interupt_time`i' "At what time it is interrupted?"
+label variable m2_interview_restarted`i' "Is the interview restarted?"
+label variable m2_restart_time`i' "At what time it is restarted?"
+label variable m2_endtime`i' "103B. Time of Interview end"
+label variable m2_int_duration`i' "103C. Total Duration of interview (In minutes)"
+label variable m2_endstatus`i' "What is this womens current status at the end of the interview?"	
+
+	}
