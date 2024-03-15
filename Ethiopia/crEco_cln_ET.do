@@ -10,7 +10,8 @@
 		* STEP THREE: RECODING MISSING VALUES
 		* STEP FOUR: LABELING VARIABLES
 		* STEP FIVE: ORDER VARIABLES
-		* STEP SIX: SAVE DATA
+		* STEP SIX: RESHAPE MODULE 2 TO WIDE FORM
+		* STEP SEVEN: SAVE DATA
 
 *------------------------------------------------------------------------------*
 * Import Data 
@@ -5906,14 +5907,9 @@ label variable m4_conclusion_dead_baby "IF BABY DIED: THERE WILL BE NO END LINE 
 label variable m4_ot1 "OT1. What is the Outcome of the phone call? Interviewer should fill the outcome for each phone call at the end."
 label variable m4_ot1_oth "Ot1_Oth. Specify."
 label variable m4_complete "Complete?"
-
-*===============================================================================
-
-	* STEP FIVE: ORDER VARIABLES
 	
 *===============================================================================
-
-	* STEP SIX: SAVE DATA TO RECODED FOLDER
+	* STEP FIVE: ORDER VARIABLES
 	
 * drop unncessary vars and de-identify dataset
 drop first_name family_name phone_number m1_513b ///
@@ -5935,8 +5931,12 @@ order country redcap_record_id study_id interviewer_name_a7 redcap_event_name re
 	  facility_type permission care_self site sampstrata study_site study_site_sd facility interviewer_id permission ///
 	  care_self zone_live b5anc b6anc_first b6anc_first_conf continuecare b7eligible respondentid mobile_phone ///
 	  flash kebele_malaria kebele_intworm
-
 *===============================================================================
-
+	* STEP SIX: RESHAPE MODULE 2 TO WIDE FORM
+	
+	
+*===============================================================================
+	* STEP SEVEN: SAVE DATA TO RECODED FOLDER
+	
 save "$et_data_final/eco_m1-m4_et.dta", replace
 	
