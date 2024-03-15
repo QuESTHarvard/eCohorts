@@ -11,7 +11,6 @@
 		* STEP FIVE: ORDER VARIABLES
 		* STEP SIX: RESHAPE MODULE 2 TO WIDE FORM
 		* STEP SEVEN: SAVE DATA
-
 *------------------------------------------------------------------------------*
 * Import Data 
 clear all 
