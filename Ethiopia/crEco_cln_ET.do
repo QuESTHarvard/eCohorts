@@ -9,7 +9,7 @@
 		* STEP THREE: RECODING MISSING VALUES
 		* STEP FOUR: LABELING VARIABLES
 		* STEP FIVE: ORDER VARIABLES
-		* STEP SIX: RESHAPE MODULE 2 TO WIDE FORM
+		* STEP SIX: SPLIT, RESHARE M2 AND MERGE TO OBTAIN A WIDE DATASET
 		* STEP SEVEN: SAVE DATA
 *------------------------------------------------------------------------------*
 * Import Data 
@@ -6001,9 +6001,7 @@ save "$et_data_final/eco_m1-m4_et_long.dta", replace
 	rm "$et_data_final/tmpm4.dta" 
 		
 *===============================================================================
-	* STEP SEVEN: SAVE DATA TO RECODED FOLDER
-	 save "$et_data_final/eco_m1-m4_et_wide.dta", replace
-
+	* RE-LABELING M2 VARS
 
 	** MODULE 2:
 	forval i = 1/8 {
@@ -6244,3 +6242,6 @@ label variable m2_int_duration`i' "103C. Total Duration of interview (In minutes
 label variable m2_endstatus`i' "What is this womens current status at the end of the interview?"	
 
 	}
+*===============================================================================
+* STEP SEVEN: SAVE DATA TO RECODED FOLDER
+	 save "$et_data_final/eco_m1-m4_et_wide.dta", replace
