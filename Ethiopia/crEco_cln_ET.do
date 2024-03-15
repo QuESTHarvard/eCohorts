@@ -3,7 +3,6 @@
 * Last Updated: Feb 12 2024
 
 *------------------------------------------------------------------------------*
-
 	* STEPS: 
 		* STEP ONE: RENAME VARIABLES
 		* STEP TW0: ADD VALUE LABELS/FORMATTING
@@ -18,6 +17,7 @@
 clear all 
 
 *--------------------DATA FILE:
+*import delimited using "$et_data/05Jan2024.csv", clear
 import delimited using "$et_data/2024-03-15.csv", clear
 gen country = "Ethiopia"
 *---------------------		
@@ -52,6 +52,9 @@ gen country = "Ethiopia"
 *---------------------
 * Filter for eligible participants only at module 1:
 *recode is_the_respondent_eligible (. = .a) if redcap_event_name != "module_1_arm_1" // N =17 missing answer to eligiblity
+replace module_1_baseline_face_to_face_e =2 if redcap_event_name =="maternal_integrate_arm_1"
+replace is_the_respondent_eligible = 1 if redcap_event_name =="maternal_integrate_arm_1"
+
 keep if is_the_respondent_eligible == 1 & module_1_baseline_face_to_face_e ==2
 
 *Further cleaning of incomplete surveys:
@@ -235,8 +238,8 @@ drop ic_may_i_proceed_with_the-module_5_end_line_facetoface_sur
 			
 	rename (m1_1102___1 m1_1102___2 m1_1102___3 m1_1102___4 m1_1102___5 m1_1102___6 ///
 			m1_1102___7 m1_1102___8 m1_1102___9 m1_1102___10 m1_1102___96 m1_1102___98 ///
-			m1_1102___99) (m1_1102_1 m1_1102_2 m1_1102_3 m1_1102_4 m1_1102_5 m1_1102_6 ///
-			m1_1102_7 m1_1102_8 m1_1102_9 m1_1102_10 m1_1102_96 m1_1102_98 m1_1102_99)
+			m1_1102___99) (m1_1102_a m1_1102_b m1_1102_c m1_1102_d m1_1102_e m1_1102_f ///
+			m1_1102_g m1_1102_h m1_1102_i m1_1102_j m1_1102_96 m1_1102_98 m1_1102_99)
 	
 	rename (m1_1102___998 m1_1102___999 m1_1102___888) ///
 		   (m1_1102_998_et m1_1102_999_et m1_1102_888_et)
@@ -1184,7 +1187,7 @@ rename (chest_abn___1 chest_abn___998 chest_abn___999 chest_abn___888 heart_abno
 		vaginal_discharge pelvic_mass1 uterine_size cervical_lesion danger_signs_in_pregnancy ///
 		delivery_advised birth_preparedness_advised mother_hiv_test_accepted hiv_test_result) ///
 		(mcard_chest_abn_yes mcard_chest_abn_unk mcard_chest_abn_ref mcard_chest_abn_no_info ///
-		mcard_heart_abnormality mcard_valvar_ulcer mcard_vaginal_dis mcard_pelvic_mass1 ///
+		mcard_heart_abnormality mcard_valvar_ulcer mcard_vaginal_dis mcard_pelvic_mass1_ ///
 		mcard_uterine_size mcard_cervical_lesion mcard_danger_signs mcard_delivery_advised ///
 		mcard_birth_prep mcard_mother_hiv_test mcard_hiv_test_result)
 
@@ -5934,6 +5937,7 @@ order country redcap_record_id study_id interviewer_name_a7 redcap_event_name re
 	  facility_type permission care_self site sampstrata study_site study_site_sd facility interviewer_id permission ///
 	  care_self zone_live b5anc b6anc_first b6anc_first_conf continuecare b7eligible respondentid mobile_phone ///
 	  flash kebele_malaria kebele_intworm
+	  
 *===============================================================================
 	* STEP SIX: RESHAPE MODULE 2 TO WIDE FORM
 reshape wide _all, i(redcap_record_id) j(order_redcap) 
