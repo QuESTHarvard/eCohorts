@@ -4,11 +4,20 @@
 
 *------------------------------------------------------------------------------*
 
+	* STEPS: 
+		* STEP ONE: RENAME VARIABLES
+		* STEP TW0: ADD VALUE LABELS/FORMATTING
+		* STEP THREE: RECODING MISSING VALUES
+		* STEP FOUR: LABELING VARIABLES
+		* STEP FIVE: ORDER VARIABLES
+		* STEP SIX: SAVE DATA
+
+*------------------------------------------------------------------------------*
 * Import Data 
 clear all 
 
 *--------------------DATA FILE:
-import delimited using "$et_data/05Jan2024.csv", clear
+import delimited using "$et_data/2024-03-15.csv", clear
 gen country = "Ethiopia"
 *---------------------		
 ** Carryforward command: 
@@ -63,15 +72,6 @@ drop m2_attempt_avail m2_attempt_bestnumber m2_attempt_contact m2_attempt_date m
 drop ic_may_i_proceed_with_the-module_5_end_line_facetoface_sur	
 
 		
-*------------------------------------------------------------------------------*
-	* STEPS: 
-		* STEP ONE: RENAME VARIABLES
-		* STEP TW0: ADD VALUE LABELS/FORMATTING
-		* STEP THREE: RECODING MISSING VALUES
-		* STEP FOUR: LABELING VARIABLES
-		* STEP FIVE: ORDER VARIABLES
-		* STEP SIX: SAVE DATA
-
 *------------------------------------------------------------------------------*
 
 	* STEP ONE: RENAME VARAIBLES
@@ -390,14 +390,14 @@ rename (how_you_feed_1st_baby___1 how_you_feed_1st_baby___2 how_you_feed_1st_bab
 		m3_baby1_feed_f m3_baby1_feed_g m3_baby1_feed_96 m3_baby1_feed_99 m3_baby1_feed_998 m3_baby1_feed_999 m3_baby1_feed_888)
 
 rename (how_you_feed_2nd_baby___1 how_you_feed_2nd_baby___2 how_you_feed_2nd_baby___3 how_you_feed_2nd_baby___4 how_you_feed_2nd_baby___5 ///
-		how_you_feed_2nd_baby___6 how_you_feed_2nd_baby___7 how_you_feed_2nd_baby___96 how_you_feed_2nd_baby___99 how_you_feed_2nd_baby___998 ///
+		 how_you_feed_2nd_baby___7 how_you_feed_2nd_baby___96 how_you_feed_2nd_baby___99 how_you_feed_2nd_baby___998 ///
 		how_you_feed_2nd_baby___999 how_you_feed_2nd_baby___888) (m3_baby2_feed_a m3_baby2_feed_b m3_baby2_feed_c m3_baby2_feed_d m3_baby2_feed_e ///
-		m3_baby2_feed_f m3_baby2_feed_g m3_baby2_feed_96 m3_baby2_feed_99 m3_baby2_feed_998 m3_baby2_feed_999 m3_baby2_feed_888)				
+		 m3_baby2_feed_g m3_baby2_feed_96 m3_baby2_feed_99 m3_baby2_feed_998 m3_baby2_feed_999 m3_baby2_feed_888)				
 		
 rename (how_you_feed_3rd_baby___1 how_you_feed_3rd_baby___2 how_you_feed_3rd_baby___3 how_you_feed_3rd_baby___4 how_you_feed_3rd_baby___5 ///
-		how_you_feed_3rd_baby___6 how_you_feed_3rd_baby___7 how_you_feed_3rd_baby___96 how_you_feed_3rd_baby___99 how_you_feed_3rd_baby___998 ///
+		how_you_feed_3rd_baby___7 how_you_feed_3rd_baby___96 how_you_feed_3rd_baby___99 how_you_feed_3rd_baby___998 ///
 		how_you_feed_3rd_baby___999 how_you_feed_3rd_baby___888) (m3_baby3_feed_a m3_baby3_feed_b m3_baby3_feed_c m3_baby3_feed_d m3_baby3_feed_e ///
-		m3_baby3_feed_f m3_baby3_feed_g m3_baby3_feed_96 m3_baby3_feed_99 m3_baby3_feed_998 m3_baby3_feed_999 m3_baby3_feed_888)
+		 m3_baby3_feed_g m3_baby3_feed_96 m3_baby3_feed_99 m3_baby3_feed_998 m3_baby3_feed_999 m3_baby3_feed_888)
 
 rename (days_or_hours_die_baby_2 days_or_hours_die_baby_4 days_or_hours_die_baby_3 days_or_hours_die_baby_5) (m3_313a_baby2 m3_313b_baby2 ///
 		m3_313a_baby3 m3_313b_baby3)		
@@ -977,8 +977,8 @@ rename what_healthcare_provide_603___6 m4_603_1_6
 rename what_healthcare_provide_603___96 m4_603_1_96
 rename what_healthcare_provide_603___98 m4_603_1_98
 rename what_healthcare_provide_603___99 m4_603_1_99
-rename v1546 m4_603_1_998
-rename v1547 m4_603_1_999
+*rename v1546 m4_603_1_998 SS check
+*rename v1547 m4_603_1_999 SS check
 rename what_healthcare_provide_603___88 m4_603_1_888
 rename other_thing_provided m4_603_1_other
 
@@ -3047,7 +3047,7 @@ recode m2_maternal_death_learn_other (. = .a) if m2_maternal_death_learn == 1 | 
 recode m2_201 m2_202 (. = .a) if m2_maternal_death_reported == 2 | m2_maternal_death_reported == 3
 
 * SS: fix
-recode m2_date_of_maternal_death_2 (. = .a) if m2_maternal_death_reported == 0 | ///
+*recode m2_date_of_maternal_death_2 (. = .a) if m2_maternal_death_reported == 0 | ///
 											m2_maternal_death_reported == . | ///
 											m2_maternal_death_reported == .a
 
@@ -3416,13 +3416,13 @@ recode m3_baby1_feed_a m3_baby1_feed_b m3_baby1_feed_c m3_baby1_feed_d m3_baby1_
 replace m3_baby1_feed_other = ".a" if m3_baby1_feed_96 != 1
 
 recode m3_baby2_feed_a m3_baby2_feed_b m3_baby2_feed_c m3_baby2_feed_d m3_baby2_feed_e ///
-	   m3_baby2_feed_f m3_baby2_feed_g m3_baby2_feed_96 m3_baby2_feed_99 m3_baby2_feed_998 ///
+	    m3_baby2_feed_g m3_baby2_feed_96 m3_baby2_feed_99 m3_baby2_feed_998 ///
 	   m3_baby2_feed_999 m3_baby2_feed_888 (. = .a) if m3_303c !=1
 
 replace m3_baby2_feed_other = ".a" if m3_baby2_feed_96 != 1 
 
 recode m3_baby3_feed_a m3_baby3_feed_b m3_baby3_feed_c m3_baby3_feed_d m3_baby3_feed_e ///
-	   m3_baby3_feed_f m3_baby3_feed_g m3_baby3_feed_96 m3_baby3_feed_99 m3_baby3_feed_998 ///
+	   m3_baby3_feed_g m3_baby3_feed_96 m3_baby3_feed_99 m3_baby3_feed_998 ///
 	   m3_baby3_feed_999 m3_baby3_feed_888 (. = .a) if m3_303d !=1
 
 recode m3_baby3_feed_other (. = .a) if m3_baby3_feed_96 != 1 // SS: why is this numeric? will probably have to change to string once data is entered
@@ -3817,7 +3817,7 @@ recode m3_1106 m3_p2_outcome (. = .a) if m3_permission_p2 !=1
 
 recode recm3_endtime recm3_duration (. = .a) if m3_permission_p2 !=1 | (m3_303b !=1  & m3_303c !=1 & m3_303d !=1 & m3_202 !=3)
 
-recode m3_p2_outcome_other (. = .a) if m3_p2_outcome !=96 // numeric because of 0 obs
+*recode m3_p2_outcome_other (. = .a) if m3_p2_outcome !=96 // numeric because of 0 obs SS fix
 
 *recode m3_p2_date_of_rescheduled recm3_p2_time_of_rescheduled (. = .a) if m3_attempt_outcome_p2 !=6
 
@@ -3987,8 +3987,8 @@ recode  m4_413_0 m4_413_1 m4_413_2 m4_413_3 m4_413_4 m4_413_5 m4_413_6 m4_413_7 
 
 recode  m4_603_1_0 m4_603_1_1 m4_603_1_2 m4_603_1_3 m4_603_1_4 m4_603_1_5 m4_603_1_6 m4_603_1_96 (0 = .d) if  m4_603_1_98 == 1
 recode  m4_603_1_0 m4_603_1_1 m4_603_1_2 m4_603_1_3 m4_603_1_4 m4_603_1_5 m4_603_1_6 m4_603_1_96 (0 = .r) if  m4_603_1_99 == 1
-recode  m4_603_1_0 m4_603_1_1 m4_603_1_2 m4_603_1_3 m4_603_1_4 m4_603_1_5 m4_603_1_6 m4_603_1_96 (0 = .d) if  m4_603_1_998 == 1
-recode  m4_603_1_0 m4_603_1_1 m4_603_1_2 m4_603_1_3 m4_603_1_4 m4_603_1_5 m4_603_1_6 m4_603_1_96 (0 = .r) if  m4_603_1_999 == 1
+*recode  m4_603_1_0 m4_603_1_1 m4_603_1_2 m4_603_1_3 m4_603_1_4 m4_603_1_5 m4_603_1_6 m4_603_1_96 (0 = .d) if  m4_603_1_998 == 1 SS fix
+* recode  m4_603_1_0 m4_603_1_1 m4_603_1_2 m4_603_1_3 m4_603_1_4 m4_603_1_5 m4_603_1_6 m4_603_1_96 (0 = .r) if  m4_603_1_999 == 1
 recode  m4_603_1_0 m4_603_1_1 m4_603_1_2 m4_603_1_3 m4_603_1_4 m4_603_1_5 m4_603_1_6 m4_603_1_96 (0 = .d) if  m4_603_1_888 == 1
 
 recode m4_603_2_0 m4_603_2_1 m4_603_2_2 m4_603_2_3 m4_603_2_4 m4_603_2_5 m4_603_2_6 m4_603_2_96  (0 = .d) if  m4_603_2_98 == 1
@@ -4007,7 +4007,7 @@ recode  m4_905_1 m4_905_2 m4_905_3 m4_905_4 m4_905_5 m4_905_6 m4_905_96  (0 = .d
 recode  m4_905_1 m4_905_2 m4_905_3 m4_905_4 m4_905_5 m4_905_6 m4_905_96  (0 = .r) if  m4_905_999 == 1
 recode  m4_905_1 m4_905_2 m4_905_3 m4_905_4 m4_905_5 m4_905_6 m4_905_96  (0 = .d) if  m4_905_888 == 1
 
-drop m4_203_1_99 m4_203_1_999 m4_203_1_998 m4_203_1_888 m4_203_2_99 m4_203_2_999 m4_203_2_998 m4_203_2_888 m4_203_3_99 m4_203_3_998 m4_203_3_999 m4_203_3_888 m4_210_1_998 m4_210_1_999 m4_210_1_888 m4_210_2_998 m4_210_2_999 m4_210_2_888 m4_210_3_998 m4_210_3_999 m4_210_3_888 m4_406_998 m4_406_999 m4_406_888 m4_408_998 m4_408_999 m4_408_888 m4_410_998 m4_410_999 m4_410_888 m4_413_99 m4_413_998 m4_413_999 m4_413_888 m4_603_1_98 m4_603_1_99 m4_603_1_998 m4_603_1_999 m4_603_1_888 m4_603_2_98 m4_603_2_99 m4_603_2_998 m4_603_2_999 m4_603_2_888 m4_603_3_98 m4_603_3_99 m4_603_3_998 m4_603_3_999 m4_603_3_888 m4_905_998 m4_905_999 m4_905_888
+drop m4_203_1_99 m4_203_1_999 m4_203_1_998 m4_203_1_888 m4_203_2_99 m4_203_2_999 m4_203_2_998 m4_203_2_888 m4_203_3_99 m4_203_3_998 m4_203_3_999 m4_203_3_888 m4_210_1_998 m4_210_1_999 m4_210_1_888 m4_210_2_998 m4_210_2_999 m4_210_2_888 m4_210_3_998 m4_210_3_999 m4_210_3_888 m4_406_998 m4_406_999 m4_406_888 m4_408_998 m4_408_999 m4_408_888 m4_410_998 m4_410_999 m4_410_888 m4_413_99 m4_413_998 m4_413_999 m4_413_888 m4_603_1_98 m4_603_1_99   m4_603_1_888 m4_603_2_98 m4_603_2_99 m4_603_2_998 m4_603_2_999 m4_603_2_888 m4_603_3_98 m4_603_3_99 m4_603_3_998 m4_603_3_999 m4_603_3_888 m4_905_998 m4_905_999 m4_905_888
 
 
 
@@ -4740,7 +4740,7 @@ label variable m3_baby2_feed_b "310a. People feed their babies in different ways
 label variable m3_baby2_feed_c "310a. People feed their babies in different ways. Please indicate how you have fed the second baby in the last 7 days? Indicate all that apply. (choice=Water)"
 label variable m3_baby2_feed_d "310a. People feed their babies in different ways. Please indicate how you have fed the second baby in the last 7 days? Indicate all that apply. (choice=Juice)"
 label variable m3_baby2_feed_e "310a. People feed their babies in different ways. Please indicate how you have fed the second baby in the last 7 days? Indicate all that apply.(choice=Broth)"
-label variable m3_baby2_feed_f "310a. People feed their babies in different ways. Please indicate how you have fed the second baby in the last 7 days? Indicate all that apply. (choice=Baby food)"
+*label variable m3_baby2_feed_f "310a. People feed their babies in different ways. Please indicate how you have fed the second baby in the last 7 days? Indicate all that apply. (choice=Baby food)"
 label variable m3_baby2_feed_g "310a. People feed their babies in different ways. Please indicate how you have fed the second baby in the last 7 days? Indicate all that apply. (choice=Local food)"
 label variable m3_baby2_feed_96 "310a. People feed their babies in different ways. Please indicate how you have fed the second baby in the last 7 days? Indicate all that apply. (choice=Other, specify)"
 label variable m3_baby2_feed_99 "310a. People feed their babies in different ways. Please indicate how you have fed the second baby in the last 7 days? Indicate all that apply. (choice=NR/RF)"
@@ -4753,7 +4753,7 @@ label variable m3_baby3_feed_b "310a. People feed their babies in different ways
 label variable m3_baby3_feed_c "310a. People feed their babies in different ways. Please indicate how you have fed the third baby in the last 7 days? Indicate all that apply. (choice=Water)"
 label variable m3_baby3_feed_d "310a. People feed their babies in different ways. Please indicate how you have fed the third baby in the last 7 days? Indicate all that apply. (choice=Juice)"
 label variable m3_baby3_feed_e "310a. People feed their babies in different ways. Please indicate how you have fed the third baby in the last 7 days? Indicate all that apply. (choice=Broth)"
-label variable m3_baby3_feed_f "310a. People feed their babies in different ways. Please indicate how you have fed the third baby in the last 7 days? Indicate all that apply. (choice=Baby food)"
+*label variable m3_baby3_feed_f "310a. People feed their babies in different ways. Please indicate how you have fed the third baby in the last 7 days? Indicate all that apply. (choice=Baby food)"
 label variable m3_baby3_feed_g "310a. People feed their babies in different ways. Please indicate how you have fed the third baby in the last 7 days? Indicate all that apply. (choice=Local food/butter)"
 label variable m3_baby3_feed_96 "310a. People feed their babies in different ways. Please indicate how you have fed the third baby in the last 7 days? Indicate all that apply. (choice=Other, specify)"
 label variable m3_baby3_feed_99 "310a. People feed their babies in different ways. Please indicate how you have fed the third baby in the last 7 days? Indicate all that apply. (choice=NR/RF)"
