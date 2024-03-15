@@ -894,18 +894,18 @@ rename for_how_long_conslt_1 m4_412a
 rename for_how_long_conslt_2 m4_412b
 rename for_how_long_conslt_3 m4_412c
 
-rename m4_413___0 m4_413_0
-rename m4_413___1 m4_413_1
-rename m4_413___2 m4_413_2
-rename m4_413___3 m4_413_3
-rename m4_413___4 m4_413_4
-rename m4_413___5 m4_413_5
-rename m4_413___6 m4_413_6
-rename m4_413___7 m4_413_7
+rename m4_413___0 m4_413_a
+rename m4_413___1 m4_413_b
+rename m4_413___2 m4_413_c
+rename m4_413___3 m4_413_d
+rename m4_413___4 m4_413_e
+rename m4_413___5 m4_413_f
+rename m4_413___6 m4_413_g
+rename m4_413___7 m4_413_h
 * m4_413___8 is not in the DS and in the CB
-rename m4_413___9 m4_413_9
-rename m4_413___10 m4_413_10
-rename m4_413___11 m4_413_11
+rename m4_413___9 m4_413_i
+rename m4_413___10 m4_413_j
+rename m4_413___11 m4_413_k
 rename m4_413___96 m4_413_96
 rename m4_413___99 m4_413_99
 rename m4_413___998 m4_413_998
@@ -2441,7 +2441,7 @@ foreach var of varlist m4_410_1 - m4_410_888  {
                  label values `var' m4_203_1_1
           }
 
-foreach var of varlist m4_413_0 - m4_413_888  {
+foreach var of varlist m4_413_a - m4_413_888  {
                  label values `var' m4_203_1_1
           }
 
@@ -3984,10 +3984,10 @@ recode m4_410_1 m4_410_2 m4_410_3 m4_410_4 m4_410_5 m4_410_6 m4_410_7 m4_410_8 m
 recode m4_410_1 m4_410_2 m4_410_3 m4_410_4 m4_410_5 m4_410_6 m4_410_7 m4_410_8 m4_410_9 m4_410_10 m4_410_96 (0 = .r) if  m4_410_999 == 1
 recode m4_410_1 m4_410_2 m4_410_3 m4_410_4 m4_410_5 m4_410_6 m4_410_7 m4_410_8 m4_410_9 m4_410_10 m4_410_96 (0 = .d) if  m4_410_888 == 1
 
-recode  m4_413_0 m4_413_1 m4_413_2 m4_413_3 m4_413_4 m4_413_5 m4_413_6 m4_413_7 m4_413_9 m4_413_10 m4_413_11 m4_413_96 (0 = .r) if  m4_413_99 == 1
-recode  m4_413_0 m4_413_1 m4_413_2 m4_413_3 m4_413_4 m4_413_5 m4_413_6 m4_413_7 m4_413_9 m4_413_10 m4_413_11 m4_413_96 (0 = .d) if  m4_413_998 == 1
-recode  m4_413_0 m4_413_1 m4_413_2 m4_413_3 m4_413_4 m4_413_5 m4_413_6 m4_413_7 m4_413_9 m4_413_10 m4_413_11 m4_413_96 (0 = .r) if  m4_413_999 == 1
-recode  m4_413_0 m4_413_1 m4_413_2 m4_413_3 m4_413_4 m4_413_5 m4_413_6 m4_413_7 m4_413_9 m4_413_10 m4_413_11 m4_413_96 (0 = .d) if  m4_413_888 == 1
+recode  m4_413_a m4_413_b m4_413_c  m4_413_d  m4_413_e  m4_413_f m4_413_g  m4_413_h  m4_413_i   m4_413_j m4_413_k m4_413_96 (0 = .r) if  m4_413_99 == 1
+recode  m4_413_a m4_413_b m4_413_c  m4_413_d  m4_413_e  m4_413_f m4_413_g  m4_413_h  m4_413_i   m4_413_j m4_413_k m4_413_96 (0 = .d) if  m4_413_998 == 1
+recode  m4_413_a m4_413_b m4_413_c  m4_413_d  m4_413_e  m4_413_f m4_413_g  m4_413_h  m4_413_i   m4_413_j m4_413_k m4_413_96 (0 = .r) if  m4_413_999 == 1
+recode  m4_413_a m4_413_b m4_413_c  m4_413_d  m4_413_e  m4_413_f m4_413_g  m4_413_h  m4_413_i   m4_413_j m4_413_k m4_413_96 (0 = .d) if  m4_413_888 == 1
 
 recode  m4_603_1_0 m4_603_1_1 m4_603_1_2 m4_603_1_3 m4_603_1_4 m4_603_1_5 m4_603_1_6 m4_603_1_96 (0 = .d) if  m4_603_1_98 == 1
 recode  m4_603_1_0 m4_603_1_1 m4_603_1_2 m4_603_1_3 m4_603_1_4 m4_603_1_5 m4_603_1_6 m4_603_1_96 (0 = .r) if  m4_603_1_99 == 1
@@ -5573,29 +5573,29 @@ label variable m4_412b "412B. Approximately how long days after the delivery did
 
 label variable m4_412c "412C. Approximately how long days after the delivery did this 1st new visit take place ?"
 
-label variable m4_413_0 "413. Are there any reasons that prevented you from receiving postnatal or postpartum care since the delivery? Tell me all reasons, if any, that apply. "
+label variable m4_413_a "413. Are there any reasons that prevented you from receiving postnatal or postpartum care since the delivery? Tell me all reasons, if any, that apply. "
 
-label variable m4_413_0 "413. Are there any reasons that prevented you from receiving postnatal or postpartum care since the delivery? Tell me all reasons, if any, that apply. "
+label variable m4_413_a "413. Are there any reasons that prevented you from receiving postnatal or postpartum care since the delivery? Tell me all reasons, if any, that apply. "
 
-label variable m4_413_1 "413. Are there any reasons that prevented you from receiving postnatal or postpartum care since the delivery? Tell me all reasons, if any, that apply. "
+label variable m4_413_b "413. Are there any reasons that prevented you from receiving postnatal or postpartum care since the delivery? Tell me all reasons, if any, that apply. "
 
-label variable m4_413_2 "413. Are there any reasons that prevented you from receiving postnatal or postpartum care since the delivery? Tell me all reasons, if any, that apply. "
+label variable m4_413_c  "413. Are there any reasons that prevented you from receiving postnatal or postpartum care since the delivery? Tell me all reasons, if any, that apply. "
 
-label variable m4_413_3 "413. Are there any reasons that prevented you from receiving postnatal or postpartum care since the delivery? Tell me all reasons, if any, that apply. "
+label variable m4_413_d  "413. Are there any reasons that prevented you from receiving postnatal or postpartum care since the delivery? Tell me all reasons, if any, that apply. "
 
-label variable m4_413_4 "413. Are there any reasons that prevented you from receiving postnatal or postpartum care since the delivery? Tell me all reasons, if any, that apply. "
+label variable m4_413_e  "413. Are there any reasons that prevented you from receiving postnatal or postpartum care since the delivery? Tell me all reasons, if any, that apply. "
 
-label variable m4_413_5 "413. Are there any reasons that prevented you from receiving postnatal or postpartum care since the delivery? Tell me all reasons, if any, that apply. "
+label variable m4_413_f "413. Are there any reasons that prevented you from receiving postnatal or postpartum care since the delivery? Tell me all reasons, if any, that apply. "
 
-label variable m4_413_6 "413. Are there any reasons that prevented you from receiving postnatal or postpartum care since the delivery? Tell me all reasons, if any, that apply. "
+label variable m4_413_g  "413. Are there any reasons that prevented you from receiving postnatal or postpartum care since the delivery? Tell me all reasons, if any, that apply. "
 
-label variable m4_413_7 "413. Are there any reasons that prevented you from receiving postnatal or postpartum care since the delivery? Tell me all reasons, if any, that apply. "
+label variable m4_413_h  "413. Are there any reasons that prevented you from receiving postnatal or postpartum care since the delivery? Tell me all reasons, if any, that apply. "
 
-label variable m4_413_9 "413. Are there any reasons that prevented you from receiving postnatal or postpartum care since the delivery? Tell me all reasons, if any, that apply. "
+label variable m4_413_i   "413. Are there any reasons that prevented you from receiving postnatal or postpartum care since the delivery? Tell me all reasons, if any, that apply. "
 
-label variable m4_413_10 "413. Are there any reasons that prevented you from receiving postnatal or postpartum care since the delivery? Tell me all reasons, if any, that apply. "
+label variable m4_413_j "413. Are there any reasons that prevented you from receiving postnatal or postpartum care since the delivery? Tell me all reasons, if any, that apply. "
 
-label variable m4_413_11 "413. Are there any reasons that prevented you from receiving postnatal or postpartum care since the delivery? Tell me all reasons, if any, that apply. "
+label variable m4_413_k "413. Are there any reasons that prevented you from receiving postnatal or postpartum care since the delivery? Tell me all reasons, if any, that apply. "
 
 label variable m4_413_96 "413. Are there any reasons that prevented you from receiving postnatal or postpartum care since the delivery? Tell me all reasons, if any, that apply. "
 
