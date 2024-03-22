@@ -4479,6 +4479,13 @@ drop _merge
 	* STEP FIVE: ORDER VARIABLES
 	
 *drop bornalive_babies m2_maternal_death_reported m2_maternal_death_learn m2_maternal_death_learn_other m2_202 m2_601 m2_date_of_maternal_death m2_ga m2_hiv_status	
+
+drop preferred_language preferred_language_1 preferred_language_2 preferred_language_3 preferred_language_4 preferred_language__96 preferred_language_oth formdef_version key submissiondate
+
+drop q814a_calc_e q814b_calc_e q814c_calc_e q814d_calc_e q814e_calc_e q814f_calc_e q814g_calc_e q814h_calc_e q814_calc_e q814a_calc_ki q814b_calc_ki q814c_calc_ki q814d_calc_ki q814e_calc_ki q814f_calc_ki q814g_calc_ki q814h_calc_ki q814_calc_ki q814a_calc_ka q814b_calc_ka q814c_calc_ka q814d_calc_ka q814e_calc_ka q814f_calc_ka q814g_calc_ka q814h_calc_ka q814_calc_ka
+
+*dropping for deidentification purposes
+drop q513b q513d q513e_1 q513e_2 q513f_1 q513f_2 q513g_1 q513g_2 q513h_1 q513h_2 q513i_1 q513i_2 q101 q102 q105
 	
 order m1_* m2_* m3_* m4_*, sequential
 
@@ -4511,7 +4518,9 @@ order m2_date_of_maternal_death_yesno*, before(m2_date_of_maternal_death6)
 order m2_refused_why* m2_complete* m2_endtime*, after(m2_705_other6)
 order m2_phq2_ke*, after(m2_205b6)	
 
-/* SS: work on this 	
+order duration*, after(m2_endtime6)
+
+ 	
 * Module 3:
 order m3_start_p1 m3_start_time m3_date m3_date_confirm m3_date_time m3_site  m3_datetime_rescheduled m3_birth_or_ended m3_birth_or_ended_provided m3_birth_or_ended_date,before(m3_ga1_ke)
 order m3_ga1_ke m3_ga2_ke m3_ga_final m3_weeks_from_outcome_ke m3_after2weeks_call_ke, after(m3_birth_or_ended_date)
