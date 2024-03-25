@@ -5979,6 +5979,34 @@ save "$et_data_final/eco_m1-m4_et_long.dta", replace
 	u "$et_data_final/tmpm2", clear
 		keep redcap_record_id redcap_repeat_instance m2_start-m2_time_of_rescheduled
 		reshape wide m2_start-m2_time_of_rescheduled, i(redcap_record_id) j(redcap_repeat_instance) 
+	
+	* Emma -- added some cleaning code here:
+		* Tag cases where there is no redcap_repeat_instance==1
+		sort redcap_record_id m2_date
+		by redcap_record_id: gen count_m2_entries=_N
+		by redcap_record_id: egen max_redcap_repeat_instance = max(redcap_repeat_instance)
+		gen flag = 1 if count_m2_entries!=max_redcap_repeat_instance
+		tab flag
+		
+		* Create a corrected variable that gives the sequence of M2 entries 
+		by redcap_record_id: gen redcap_repeat_instance_v2 = _n
+		br redcap_record_id m2_date redcap_repeat_instance count_m2_entries max_redcap_repeat_instance redcap_repeat_instance_v2 if flag==1
+
+		* Create a string variable for M2 round
+		gen m2_round = ""
+		replace m2_round = "_r1" if redcap_repeat_instance_v2==1
+		replace m2_round = "_r2" if redcap_repeat_instance_v2==2 
+		replace m2_round = "_r3" if redcap_repeat_instance_v2==3
+		replace m2_round = "_r4" if redcap_repeat_instance_v2==4
+		replace m2_round = "_r5" if redcap_repeat_instance_v2==5
+		replace m2_round = "_r6" if redcap_repeat_instance_v2==6
+		replace m2_round = "_r7" if redcap_repeat_instance_v2==7
+		replace m2_round = "_r8" if redcap_repeat_instance_v2==8
+
+		* Use the string variable to reshape wide
+		drop count_m2_entries max_redcap_repeat_instance flag redcap_repeat_instance_v2 redcap_repeat_instance
+		keep redcap_record_id m2_start-m2_round
+		reshape wide m2_start-m2_time_of_rescheduled, i(redcap_record_id) j(m2_round, string) 
 	save "$et_data_final/tmpm2", replace // 969
 	
 	
