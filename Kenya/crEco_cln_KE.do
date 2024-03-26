@@ -1759,18 +1759,18 @@ label variable m2_601o`i' "601o. KE only: Iron drip/injection"
 label variable m2_602b`i' "602b. In total, how much did you pay for these new medications or supplements (in Ksh.)?"
 label variable m2_603`i' "603. Are you currently taking iron and folic acid pills like IFAS and Pregnacare?"
 label variable m2_701`i' "701. Did you pay any money out of your pocket for these new visits, including for the consultation or other indirect costs like your transport to the facility?"
-label variable m2_702a`i' "702a. Did you spend money on registration/consultation?"
-label variable m2_702b`i' "702b. Did you spend money on test or investigations (lab tests, ultrasound etc.)?"
-label variable m2_702c`i' "702c. Did you spend money on transport (round trip) including that of the person accompanying you?"
-label variable m2_702d`i' "702d. Did you spend money on food and accommodation including that of person accompanying you?"
-label variable m2_702e`i' "702e. Did you spend money for other services?"
+label variable m2_702a_cost`i' "702a. Did you spend money on registration/consultation?"
+label variable m2_702b_cost`i' "702b. Did you spend money on test or investigations (lab tests, ultrasound etc.)?"
+label variable m2_702c_cost`i' "702c. Did you spend money on transport (round trip) including that of the person accompanying you?"
+label variable m2_702d_cost`i' "702d. Did you spend money on food and accommodation including that of person accompanying you?"
+label variable m2_702e_cost`i' "702e. Did you spend money for other services?"
 label variable m2_702_meds_ke`i' "702. KE only: Are the costs for medicine (m2_602b) you indicated in section 6 included in the total costs of (m2_704_confirm)?"
 label variable m2_702_other_ke`i' "702e. Specify other costs"
 label variable m2_703`i' "703. So, in total you spent (m2_704_confirm), is that correct?"
 label variable m2_704_confirm`i' "704. How much money did you spend in total for these new healthcare visits, including registration, tests/investigations, transport, food and accommodation (in Ksh.)?"
 label variable m2_705`i' "705. Which of the following financial sources did your household use to pay for this?"
 label variable m2_705_1`i' "705. Current income of any household members"
-label variable m2_705_2`i' "705. Savings (e.g., bank account)"
+label variable m2_705_2`i' "705. Savings (e.g., bank account)" 
 label variable m2_705_3`i' "705. Payment or reimbursement from a health insurance plan"
 label variable m2_705_4`i' "705. Sold items (e.g., furniture, animals, jewellery, furniture)"
 label variable m2_705_5`i' "705. Family members or friends from outside the household"
@@ -1784,6 +1784,7 @@ label variable m2_endtime`i' "103B. Time of Interview end"
 label variable m2_site`i' "Facility name"	
 
 	}
+	
 *===============================================================================
 	
 order m1_* m2_*, sequential
@@ -1807,15 +1808,16 @@ order m1_1218_total_ke, after(m1_1218_other_total_ke)
 order m2_attempt_number* m2_attempt_number_other* m2_attempt_outcome* m2_resp_lang1* ///
 	  m2_resp_lang2* m2_resp_lang_other* m2_attempt_relationship* m2_attempt_relationship_other*, after(m1_end_time) 
 	  
-order m2_attempt_avail* m2_attempt_contact* m2_attempt_goodtime* m2_reschedule_resp* m2_completed_attempts*  m2_consent_recording* m2_consent*, after(m2_attempt_relationship_other*)
+order m2_attempt_avail* m2_attempt_contact* m2_attempt_goodtime* m2_reschedule_resp* m2_completed_attempts* ///
+	  m2_consent_recording* m2_consent*, after(m2_attempt_relationship_r6)
 	  
 order m2_date* m2_start_time* m2_date_time* m2_time_start* m2_date_confirm* m2_interviewer* m2_enum* ///
 	  m2_site* m2_county* m2_maternal_death_reported* m2_date_of_maternal_death* ///
-	  m2_ga* m2_ga_estimate* gest_age_baseline* m2_hiv_status* m2_maternal_death_learn* m2_maternal_death_learn_other*, after(m2_consent_recording6)
+	  m2_ga* m2_ga_estimate* gest_age_baseline* m2_hiv_status* m2_maternal_death_learn* m2_maternal_death_learn_other*, after(m2_consent_recording_r6)
 
-order m2_date_of_maternal_death_YN*, before(m2_date_of_maternal_death6)	  
-order m2_refused_why* m2_complete* m2_endtime*, after(m2_705_other6)
-order m2_phq2_ke*, after(m2_205b6)	
+order m2_date_of_maternal_death_YN*, before(m2_date_of_maternal_death_r6)	  
+order m2_refused_why* m2_complete* m2_endtime*, after(m2_705_other_r6)
+order m2_phq2_ke*, after(m2_205b_r6)	
 
 *------------------------------------------------------------------------------*
 	
@@ -3171,15 +3173,16 @@ order m1_1218_total_ke, after(m1_1218_other_total_ke)
 order m2_attempt_number* m2_attempt_number_other* m2_attempt_outcome* m2_resp_lang1* ///
 	  m2_resp_lang2* m2_resp_lang_other* m2_attempt_relationship* m2_attempt_relationship_other*, after(m1_end_time) 
 	  
-order m2_attempt_avail* m2_attempt_contact* m2_attempt_goodtime* m2_reschedule_resp* m2_completed_attempts*  m2_consent_recording* m2_consent*, after(m2_attempt_relationship_other6)
+order m2_attempt_avail* m2_attempt_contact* m2_attempt_goodtime* m2_reschedule_resp* m2_completed_attempts* ///
+	  m2_consent_recording* m2_consent*, after(m2_attempt_relationship_r6)
 	  
 order m2_date* m2_start_time* m2_date_time* m2_time_start* m2_date_confirm* m2_interviewer* m2_enum* ///
 	  m2_site* m2_county* m2_maternal_death_reported* m2_date_of_maternal_death* ///
-	  m2_ga* m2_ga_estimate* gest_age_baseline* m2_hiv_status* m2_maternal_death_learn* m2_maternal_death_learn_other*, after(m2_consent_recording6)
+	  m2_ga* m2_ga_estimate* gest_age_baseline* m2_hiv_status* m2_maternal_death_learn* m2_maternal_death_learn_other*, after(m2_consent_recording_r6)
 
-order m2_date_of_maternal_death_YN*, before(m2_date_of_maternal_death6)	  
-order m2_refused_why* m2_complete* m2_endtime*, after(m2_705_other6)
-order m2_phq2_ke*, after(m2_205b6)	
+order m2_date_of_maternal_death_YN*, before(m2_date_of_maternal_death_r6)	  
+order m2_refused_why* m2_complete* m2_endtime*, after(m2_705_other_r6)
+order m2_phq2_ke*, after(m2_205b_r6)
 
 
 * Module 3:
@@ -4528,17 +4531,16 @@ order m1_1218_total_ke, after(m1_1218_other_total_ke)
 order m2_attempt_number* m2_attempt_number_other* m2_attempt_outcome* m2_resp_lang1* ///
 	  m2_resp_lang2* m2_resp_lang_other* m2_attempt_relationship* m2_attempt_relationship_other*, after(m1_end_time) 
 	  
-order m2_attempt_avail* m2_attempt_contact* m2_attempt_goodtime* m2_reschedule_resp* m2_completed_attempts*  m2_consent_recording* m2_consent*, after(m2_attempt_relationship_other6)
+order m2_attempt_avail* m2_attempt_contact* m2_attempt_goodtime* m2_reschedule_resp* m2_completed_attempts* ///
+	  m2_consent_recording* m2_consent*, after(m2_attempt_relationship_r6)
 	  
 order m2_date* m2_start_time* m2_date_time* m2_time_start* m2_date_confirm* m2_interviewer* m2_enum* ///
 	  m2_site* m2_county* m2_maternal_death_reported* m2_date_of_maternal_death* ///
-	  m2_ga* m2_ga_estimate* gest_age_baseline* m2_hiv_status* m2_maternal_death_learn* m2_maternal_death_learn_other*, after(m2_consent_recording6)
+	  m2_ga* m2_ga_estimate* gest_age_baseline* m2_hiv_status* m2_maternal_death_learn* m2_maternal_death_learn_other*, after(m2_consent_recording_r6)
 
-order m2_date_of_maternal_death_YN*, before(m2_date_of_maternal_death6)	  
-order m2_refused_why* m2_complete* m2_endtime*, after(m2_705_other6)
-order m2_phq2_ke*, after(m2_205b6)	
-
-order duration*, after(m2_endtime6)
+order m2_date_of_maternal_death_YN*, before(m2_date_of_maternal_death_r6)	  
+order m2_refused_why* m2_complete* m2_endtime*, after(m2_705_other_r6)
+order m2_phq2_ke*, after(m2_205b_r6)	
 
  	
 * Module 3:
@@ -4587,7 +4589,7 @@ order m4_date m4_time m4_duration m4_interviewer respondentid m4_consent_recordi
 
 
 *Leave only participants if attempt outcome was " Answered the phone, correct respondent"		
-keep if m2_attempt_outcome1  == 1	
+keep if m2_attempt_outcome_r1  == 1	
 
 *==============================================================================*
 	
