@@ -1754,6 +1754,8 @@ label variable m2_site "Facility name"
 
 *drop if m2_attempt_outcome == 3 | m2_attempt_outcome == 4 | m2_attempt_outcome == 5
 
+*SS: change to Emma's reshape code
+
 drop if m2_completed_attempts == . // SS: change to "."
 drop if respondentid == "21311071736" | respondentid == "21501081229"
 
@@ -3123,7 +3125,9 @@ lab var m3_endtime "Time of interview ended"
 *------------------------------------------------------------------------------*
 * merge dataset with M1-M2
 
-merge m:1 respondentid using "$ke_data_final/eco_m1m2_ke.dta", force
+drop if respondentid == "1916081238" | respondentid == "21311071736" | respondentid == "21711071310"
+
+merge 1:1 respondentid using "$ke_data_final/eco_m1m2_ke.dta", force
 
 drop _merge
 
@@ -4471,7 +4475,7 @@ label variable m4_unavailable_reschedule "Would you be interested in reschedulin
 *------------------------------------------------------------------------------*
 *merge dataset with M1-M3
 
-merge m:m respondentid using "$ke_data_final/eco_m1-m3_ke.dta", force
+merge 1:1 respondentid using "$ke_data_final/eco_m1-m3_ke.dta", force
 drop _merge
 
 *==============================================================================*
@@ -4573,7 +4577,7 @@ keep if m2_attempt_outcome1  == 1
 	
 	* STEP SIX: SAVE DATA TO RECODED FOLDER
 
-	save "$ke_data_final\eco_m1-m4_ke.dta", replace
+	save "$ke_data_final/eco_m1-m4_ke.dta", replace
 	clear all
 
 *==============================================================================*	
