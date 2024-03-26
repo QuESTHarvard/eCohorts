@@ -300,7 +300,7 @@ drop ic_may_i_proceed_with_the-module_5_end_line_facetoface_sur
 	
 	rename m2_death_info m2_111_other // order this ater 210
 
-	rename (since_you_last_spoke_203i preeclapsia_eclampsia_204a bleeding_during_pregnancy_204b hyperemesis_gravidarum_204c anemia_204d cardiac_problem_204e amniotic_fluid_204f asthma_204g rh_isoimmunization_204h  specify_any_other_feeling) (m2_203i m2_204a m2_204b m2_204c m2_204d m2_204e m2_204f m2_204g m2_204h m2_204i_other)
+	rename (since_you_last_spoke_203i preeclapsia_eclampsia_204a bleeding_during_pregnancy_204b hyperemesis_gravidarum_204c anemia_204d cardiac_problem_204e amniotic_fluid_204f asthma_204g rh_isoimmunization_204h  specify_any_other_feeling) (m2_203i m2_204a_et m2_204b_et m2_204c_et m2_204d_et m2_204e_et m2_204f_et m2_204g_et m2_204h_et m2_204_other)
 
 	rename (over_the_past_2_weeks_on_205a over_the_past_2_weeks_205b)(m2_205a m2_205b)
 	
@@ -310,15 +310,15 @@ drop ic_may_i_proceed_with_the-module_5_end_line_facetoface_sur
 	
 	rename (m2_306_reason___1 m2_306_reason___2 m2_306_reason___3 m2_306_reason___4 ///
 			m2_306_reason___5 m2_306_reason___96 m2_306_reason___998 m2_306_reason___999 ///
-			m2_306_reason___888) (m2_306_1 m2_306_2 m2_306_3 m2_306_4 m2_306_5 m2_306_96 ///
-			m2_306_998_et  m2_306_999_et m2_306_888_et)
+			m2_306_reason___888) (m2_307_1 m2_307_2 m2_307_3 m2_307_4 m2_307_5 m2_307_96 ///
+			m2_307_998_et  m2_307_999_et m2_307_888_et)
 	
 	rename (specify_other_reason_307 other_reason_for_2nd_consult other_reason_for_3rd_consult other_reason_for_4th_consult other_reason_for_5th_consult) (m2_307_other m2_310_other m2_313_other m2_316_other m2_319_other)
 		
 	rename (m2_308_reason___1 m2_308_reason___2 m2_308_reason___3 m2_308_reason___4 ///
 	m2_308_reason___5 m2_308_reason___96 m2_308_reason___998 m2_308_reason___999 ///
-	m2_308_reason___888) (m2_308_1 m2_308_2 m2_308_3 m2_308_4 m2_308_5 m2_308_96 ///
-	m2_308_998_et  m2_308_999_et m2_308_888_et)
+	m2_308_reason___888) (m2_310_1 m2_310_2 m2_310_3 m2_310_4 m2_310_5 m2_310_96 ///
+	m2_310_998_et  m2_310_999_et m2_310_888_et)
 			
 	rename (m2_311_reason___1 m2_311_reason___2 m2_311_reason___3 m2_311_reason___4 ///
 	m2_311_reason___5 m2_311_reason___96 m2_311_reason___998 m2_311_reason___999 ///
@@ -1203,7 +1203,7 @@ rename (hemoglobin blood_group_and_rh tt_does iron_folic_acid mbendazole use_of_
 
 * dropping people with incomplete M2 surveys	
 		
-egen m2_drop = rowtotal(m2_201 m2_202 m2_203a m2_203b m2_203c m2_203d m2_203e m2_203f m2_203g m2_203h m2_203i m2_204a m2_204b m2_204c m2_204d m2_204e m2_204f m2_204g m2_204h m2_204i m2_205a m2_205b m2_205c m2_205d m2_205e m2_205f m2_205g m2_205h m2_205i m2_206 m2_207 m2_208 m2_301 m2_302 m2_303a m2_303b m2_303c m2_303d m2_303e m2_304a m2_304b m2_304c m2_304d m2_304e m2_305 m2_306 m2_306_1 m2_306_2 m2_306_3 m2_306_4 m2_306_5 m2_306_96 m2_306_888_et m2_306_998_et m2_306_999_et m2_308 m2_308_1 m2_308_2 m2_308_3 m2_308_4 m2_308_5 m2_308_96 m2_308_888_et m2_308_998_et m2_308_999_et m2_309 m2_311 m2_311_1 m2_311_2 m2_311_3 m2_311_4 m2_311_5 m2_311_96 m2_311_888_et m2_311_998_et m2_311_999_et m2_312 m2_314 m2_314_1 m2_314_2 m2_314_3 m2_314_4 m2_314_5 m2_314_96 m2_314_888_et m2_314_998_et m2_314_999_et m2_315 m2_317 m2_317_1 m2_317_2 m2_317_3 m2_317_4 m2_317_5 m2_317_96 m2_317_888_et m2_317_998_et m2_317_999_et m2_318 m2_320_a m2_320_b m2_320_c m2_320_d m2_320_e m2_320_f m2_320_g m2_320_h m2_320_i m2_320_j m2_320_k m2_320_l m2_320_96 m2_320_99 m2_320_888_et m2_320_998_et m2_320_999_et m2_321 m2_401 m2_402 m2_403 m2_404 m2_405 m2_501a m2_501b m2_501c m2_501d m2_501e m2_501f m2_501g m2_502 m2_503a m2_503b m2_503c m2_503d m2_503e m2_503f m2_504 m2_505a m2_505b m2_505c m2_505d m2_505e m2_505f m2_506a m2_506b m2_506c m2_506d m2_507 m2_508a m2_508b_last m2_508b_number m2_508c m2_508d m2_509a m2_509b m2_509c m2_601a m2_601b m2_601c m2_601d m2_601e m2_601f m2_601g m2_601h m2_601i m2_601j m2_601k m2_601l m2_601m m2_601n m2_602a m2_602b m2_603 m2_604 m2_701 m2_702a m2_702b m2_702c m2_702d m2_702e m2_703 m2_704 m2_705_1 m2_705_2 m2_705_3 m2_705_4 m2_705_5 m2_705_6 m2_705_96 m2_705_888_et m2_705_998_et m2_705_999_et) 
+egen m2_drop = rowtotal(m2_201 m2_202 m2_203a m2_203b m2_203c m2_203d m2_203e m2_203f m2_203g m2_203h m2_203i m2_204a_et m2_204b_et m2_204c_et m2_204d_et m2_204e_et m2_204f_et m2_204g_et m2_204h_et m2_204i m2_205a m2_205b m2_205c m2_205d m2_205e m2_205f m2_205g m2_205h m2_205i m2_206 m2_207 m2_208 m2_301 m2_302 m2_303a m2_303b m2_303c m2_303d m2_303e m2_304a m2_304b m2_304c m2_304d m2_304e m2_305 m2_306 m2_307_1 m2_307_2 m2_307_3 m2_307_4 m2_307_5 m2_307_96 m2_307_888_et m2_307_998_et m2_307_999_et m2_308 m2_310_1 m2_310_2 m2_310_3 m2_310_4 m2_310_5 m2_310_96 m2_310_888_et m2_310_998_et m2_310_999_et m2_309 m2_311 m2_311_1 m2_311_2 m2_311_3 m2_311_4 m2_311_5 m2_311_96 m2_311_888_et m2_311_998_et m2_311_999_et m2_312 m2_314 m2_314_1 m2_314_2 m2_314_3 m2_314_4 m2_314_5 m2_314_96 m2_314_888_et m2_314_998_et m2_314_999_et m2_315 m2_317 m2_317_1 m2_317_2 m2_317_3 m2_317_4 m2_317_5 m2_317_96 m2_317_888_et m2_317_998_et m2_317_999_et m2_318 m2_320_a m2_320_b m2_320_c m2_320_d m2_320_e m2_320_f m2_320_g m2_320_h m2_320_i m2_320_j m2_320_k m2_320_l m2_320_96 m2_320_99 m2_320_888_et m2_320_998_et m2_320_999_et m2_321 m2_401 m2_402 m2_403 m2_404 m2_405 m2_501a m2_501b m2_501c m2_501d m2_501e m2_501f m2_501g m2_502 m2_503a m2_503b m2_503c m2_503d m2_503e m2_503f m2_504 m2_505a m2_505b m2_505c m2_505d m2_505e m2_505f m2_506a m2_506b m2_506c m2_506d m2_507 m2_508a m2_508b_last m2_508b_number m2_508c m2_508d m2_509a m2_509b m2_509c m2_601a m2_601b m2_601c m2_601d m2_601e m2_601f m2_601g m2_601h m2_601i m2_601j m2_601k m2_601l m2_601m m2_601n m2_602a m2_602b m2_603 m2_604 m2_701 m2_702a m2_702b m2_702c m2_702d m2_702e m2_703 m2_704 m2_705_1 m2_705_2 m2_705_3 m2_705_4 m2_705_5 m2_705_6 m2_705_96 m2_705_888_et m2_705_998_et m2_705_999_et) 
 
 drop if m2_drop == 0 & redcap_event_name == "module_2_arm_1"
 
@@ -1565,29 +1565,29 @@ label values m1_517 residence
 	label define m2_203i 1 "Yes" 0 "No" 98 "DK" 99 "NR/RF" 
 	label values m2_203i m2_203i
 
-	label define m2_204a 1 "Yes" 0 "No" 98 "DK" 99 "RF" 
-	label values m2_204a m2_204a
+	label define m2_204a_et 1 "Yes" 0 "No" 98 "DK" 99 "RF" 
+	label values m2_204a_et m2_204a_et
 
-	label define m2_204b 1 "Yes" 0 "No" 98 "DK" 99 "RF" 
-	label values m2_204b m2_204b
+	label define m2_204b_et 1 "Yes" 0 "No" 98 "DK" 99 "RF" 
+	label values m2_204b_et m2_204b_et
 	
-	label define m2_204c 1 "Yes" 0 "No" 98 "DK" 99 "RF" 
-	label values m2_204b m2_204b
+	label define m2_204c_et 1 "Yes" 0 "No" 98 "DK" 99 "RF" 
+	label values m2_204b_et m2_204b_et
 	
-	label define m2_204d 1 "Yes" 0 "No" 98 "DK" 99 "RF" 
-	label values m2_204d m2_204d
+	label define m2_204d_et 1 "Yes" 0 "No" 98 "DK" 99 "RF" 
+	label values m2_204d_et m2_204d_et
 
-	label define m2_204e 1 "Yes" 0 "No" 98 "DK" 99 "RF" 
-	label values m2_204e m2_204e
+	label define m2_204e_et 1 "Yes" 0 "No" 98 "DK" 99 "RF" 
+	label values m2_204e_et m2_204e_et
 
-	label define m2_204f 1 "Yes" 0 "No" 98 "DK" 99 "RF"
-	label values m2_204f m2_204f
+	label define m2_204f_et 1 "Yes" 0 "No" 98 "DK" 99 "RF"
+	label values m2_204f_et m2_204f_et
  
-	label define m2_204g 1 "Yes" 0 "No" 98 "DK" 99 "RF"
-	label values m2_204g m2_204g
+	label define m2_204g_et 1 "Yes" 0 "No" 98 "DK" 99 "RF"
+	label values m2_204g_et m2_204g_et
 
-	label define m2_204h 1 "Yes" 0 "No" 98 "DK" 99 "RF"
-	label values m2_204h m2_204h
+	label define m2_204h_et 1 "Yes" 0 "No" 98 "DK" 99 "RF"
+	label values m2_204h_et m2_204h_et
 
 	label define m2_204i 1 "Yes" 0 "No" 98 "DK" 99 "RF"
 	label values m2_204i m2_204i
@@ -2546,9 +2546,9 @@ label values m4_complete m4_complete
 	recode m1_401 m1_404 m1_501 m1_506 m1_507 m1_509b m1_510b m1_511 m1_512 m1_700 m1_701 m1_702 m1_703 m1_704 m1_705 m1_706 m1_707 m1_708a m1_708b m1_708c m1_708d m1_708e m1_708f m1_709a m1_709b m1_710a m1_710b m1_710c m1_711a m1_711b m1_712 m1_713a m1_713b m1_713c m1_713d m1_713e m1_713f m1_713g m1_713h m1_713i m1_714a m1_714b m1_716a m1_716b m1_716c m1_716d m1_716e m1_717 m1_718 m1_719 m1_720 m1_721 m1_722 m1_723 m1_724a m1_724c m1_724d m1_724e m1_724f m1_724g m1_724h m1_724i m1_801 m1_803 m1_805 m1_806 m1_807 m1_809 m1_810a m1_810b m1_811 m1_812a m1_813a m1_813b m1_813c m1_813d m1_813e m1_8a_et m1_8b_et m1_8c_et m1_8d_et m1_8e_et m1_8f_et m1_8g_et m1_2_8_et m1_814a m1_814b m1_814c m1_814d m1_814e m1_814f m1_814g m1_814h m1_814i m1_816 m1_901 m1_902 m1_903 m1_904 m1_905 m1_907 m1_1004 m1_1005 m1_1006 m1_1_10_et m1_1007 m1_1008 m1_1010 m1_1011a m1_1011b m1_1011c m1_1011d m1_1011e m1_1011f m1_1101 m1_1105 m1_1201 m1_1202 m1_1203 m1_1204 m1_1205 m1_1206 m1_1207 m1_1208 m1_1209 m1_1210 m1_1211 m1_1212 m1_1213 m1_1214 m1_1215 m1_1216 m1_1218a m1_1218b m1_1218c m1_1218d m1_1218e m1_1218f m1_1221 m1_1223 m1_804 (98 = .d)
 
 	** MODULE 2:
-	recode m2_301 m2_203a m2_203b m2_203c m2_203d m2_203e m2_203f m2_203g m2_203h m2_203i m2_204a m2_204b m2_204c m2_204d m2_204e m2_204f m2_204g m2_204h m2_204i m2_205c m2_205d m2_205e m2_205f m2_205g m2_205h m2_205i m2_206 m2_207 m2_208 m2_301 m2_303a m2_303b m2_303c m2_303d m2_303e m2_305 m2_306 m2_308 m2_309 m2_311 m2_312 m2_314 m2_315 m2_317 m2_318 m2_321 m2_401 m2_402 m2_403 m2_404 m2_405 m2_501a m2_501b m2_501c m2_501d m2_501e m2_501f m2_501g m2_502 m2_503a m2_503b m2_503c m2_503d m2_503e m2_503f m2_504 m2_505a m2_505b m2_505c m2_505d m2_505e m2_505f m2_506a m2_506b m2_506c m2_506d m2_507 m2_508a m2_508b_number m2_508c m2_509a m2_509b m2_509c m2_601a m2_601b m2_601c m2_601d m2_601e m2_601f m2_601g m2_601h m2_601i m2_601j m2_601k m2_601l m2_601m m2_601n m2_602a m2_603 m2_604 m2_701 m2_702a m2_702b m2_702c m2_702d m2_702e m2_704 (99 = .r)
+	recode m2_301 m2_203a m2_203b m2_203c m2_203d m2_203e m2_203f m2_203g m2_203h m2_203i m2_204a_et m2_204b_et m2_204c_et m2_204d_et m2_204e_et m2_204f_et m2_204g_et m2_204h_et m2_204i m2_205c m2_205d m2_205e m2_205f m2_205g m2_205h m2_205i m2_206 m2_207 m2_208 m2_301 m2_303a m2_303b m2_303c m2_303d m2_303e m2_305 m2_306 m2_308 m2_309 m2_311 m2_312 m2_314 m2_315 m2_317 m2_318 m2_321 m2_401 m2_402 m2_403 m2_404 m2_405 m2_501a m2_501b m2_501c m2_501d m2_501e m2_501f m2_501g m2_502 m2_503a m2_503b m2_503c m2_503d m2_503e m2_503f m2_504 m2_505a m2_505b m2_505c m2_505d m2_505e m2_505f m2_506a m2_506b m2_506c m2_506d m2_507 m2_508a m2_508b_number m2_508c m2_509a m2_509b m2_509c m2_601a m2_601b m2_601c m2_601d m2_601e m2_601f m2_601g m2_601h m2_601i m2_601j m2_601k m2_601l m2_601m m2_601n m2_602a m2_603 m2_604 m2_701 m2_702a m2_702b m2_702c m2_702d m2_702e m2_704 (99 = .r)
 	
-	recode m2_201 m2_203a m2_203b m2_203c m2_203d m2_203e m2_203f m2_203g m2_203h m2_203i m2_204a m2_204b m2_204c m2_204d m2_204e m2_204f m2_204g m2_204h m2_204i m2_206 m2_207 m2_208 m2_301 m2_303a m2_303b m2_303c m2_303d m2_303e m2_305 m2_306 m2_308 m2_309 m2_311 m2_312 m2_314 m2_315 m2_317 m2_318 m2_321 m2_401 m2_402 m2_403 m2_404 m2_405 m2_501a m2_501b m2_501c m2_501d m2_501e m2_501f m2_501g m2_502 m2_503a m2_503b m2_503c m2_503d m2_503e m2_503f m2_504 m2_505a m2_505b m2_505c m2_505d m2_505e m2_505f m2_506a m2_506b m2_506c m2_506d m2_507 m2_508a m2_508b_number m2_508c m2_509a m2_509b m2_509c m2_601a m2_601b m2_601c m2_601d m2_601e m2_601f m2_601g m2_601h m2_601i m2_601j m2_601k m2_601l m2_601m m2_601n m2_602a m2_603 m2_604 m2_701 m2_702a m2_702b m2_702c m2_702d m2_702e m2_704 kebele_malaria kebele_intworm (98 = .d)
+	recode m2_201 m2_203a m2_203b m2_203c m2_203d m2_203e m2_203f m2_203g m2_203h m2_203i m2_204a_et m2_204b_et m2_204c_et m2_204d_et m2_204e_et m2_204f_et m2_204g_et m2_204h_et m2_204i m2_206 m2_207 m2_208 m2_301 m2_303a m2_303b m2_303c m2_303d m2_303e m2_305 m2_306 m2_308 m2_309 m2_311 m2_312 m2_314 m2_315 m2_317 m2_318 m2_321 m2_401 m2_402 m2_403 m2_404 m2_405 m2_501a m2_501b m2_501c m2_501d m2_501e m2_501f m2_501g m2_502 m2_503a m2_503b m2_503c m2_503d m2_503e m2_503f m2_504 m2_505a m2_505b m2_505c m2_505d m2_505e m2_505f m2_506a m2_506b m2_506c m2_506d m2_507 m2_508a m2_508b_number m2_508c m2_509a m2_509b m2_509c m2_601a m2_601b m2_601c m2_601d m2_601e m2_601f m2_601g m2_601h m2_601i m2_601j m2_601k m2_601l m2_601m m2_601n m2_602a m2_603 m2_604 m2_701 m2_702a m2_702b m2_702c m2_702d m2_702e m2_704 kebele_malaria kebele_intworm (98 = .d)
 
 	** MODULE 3:
 	recode m3_303a m3_303b m3_303c m3_303d m3_baby1_gender m3_baby2_gender m3_baby3_gender m3_baby1_health m3_baby2_health m3_baby3_health m3_breastfeeding m3_505a m3_517 m3_1201 m3_1202 m3_1203 m3_1204 m3_401 m3_consultation_1 m3_consultation_referral_1 m3_consultation_2 m3_consultation_referral_2 m3_consultation_3 m3_consultation_referral_3 m3_consultation_4 m3_consultation_referral_4 m3_consultation_5 m3_consultation_referral_5 m3_412a m3_412b m3_412c m3_412d m3_412e m3_412f m3_412g m3_501 m3_510 m3_601a m3_601b m3_601c m3_602b m3_603a m3_603b m3_603c m3_603d m3_604b m3_605a m3_605b m3_606 m3_607 m3_607a_et m3_607b_et m3_607c_et m3_607d_et m3_607e_et m3_608 m3_609 m3_610a m3_610b m3_611 m3_613 m3_615a m3_615b m3_615c m3_617a m3_617b m3_617c m3_617d_et m3_617e_et m3_617f_et m3_617g_et m3_617h_et m3_617i_et m3_619a m3_619b m3_619c m3_619d m3_619e m3_619f m3_619g m3_619h m3_619i m3_619j m3_620 m3_621b m3_622a m3_622c m3_701 m3_703 m3_704a m3_704b m3_704c m3_704d m3_704e m3_704f m3_704g m3_705 m3_706 m3_710a m3_710b m3_710c m3_802a m3_803a m3_803b m3_803c m3_803d m3_803e m3_803f m3_803g m3_803h m3_803i m3_805 m3_901a m3_901b m3_901c m3_901d m3_901e m3_901f m3_901g m3_901h m3_901i m3_901j m3_901k m3_901l m3_901m m3_901n m3_901o m3_901p m3_901q m3_901r m3_902a_baby1 m3_902a_baby2 m3_902a_baby3 m3_902b_baby1 m3_902b_baby2 m3_902b_baby3 m3_902c_baby1 m3_902c_baby2 m3_902c_baby3 m3_902d_baby1 m3_902d_baby2 m3_902d_baby3 m3_902e_baby1 m3_902e_baby2 m3_902e_baby3 m3_902f_baby1 m3_902f_baby2 m3_902f_baby3 m3_902g_baby1 m3_902g_baby2 m3_902g_baby3 m3_902h_baby1 m3_902h_baby2 m3_902h_baby3 m3_902i_baby1 m3_902i_baby2 m3_902i_baby3 m3_902j_baby1 m3_902j_baby2 m3_902j_baby3 m3_1003 m3_1005a m3_1005b m3_1005c m3_1005d m3_1005e m3_1005f m3_1005g m3_1005h m3_1006a m3_1006b m3_1006c m3_1007a m3_1007b m3_1007c m3_1101 m3_1102a m3_1102b m3_1102c m3_1102d m3_1102e m3_1102f m3_baby1_gender m3_baby2_gender m3_baby3_gender m3_baby1_health m3_baby2_health m3_baby3_health m3_1001 m3_1004a m3_1004b m3_1004c m3_1004d m3_1004e m3_1004f m3_1004g m3_1004h m3_breastfeeding m3_1202 m3_1204 m3_1004i m3_1004j m3_1004k m3_502 m3_503 m3_509 m3_512 m3_513a m3_516 m3_518 m3_519 m3_602a m3_604a m3_621a m3_801a m3_801b m3_807 m3_808b m3_809 m3_1002 m3_1106 (99 = .r)
@@ -3054,9 +3054,9 @@ recode m2_201 m2_202 (. = .a) if m2_maternal_death_reported == 2 | m2_maternal_d
 											m2_maternal_death_reported == .a
 
 recode m2_203a m2_203b m2_203c m2_203d m2_203e ///
-	   m2_203f m2_203g m2_203h m2_203i m2_204a ///
-	   m2_204b m2_204c m2_204d m2_204e m2_204f ///
-	   m2_204g m2_204h m2_204i m2_205a m2_205b ///
+	   m2_203f m2_203g m2_203h m2_203i m2_204a_et ///
+	   m2_204b_et m2_204c_et m2_204d_et m2_204e_et m2_204f_et ///
+	   m2_204g_et m2_204h_et m2_204i m2_205a m2_205b ///
 	   m2_205c m2_205d m2_205e m2_205f m2_205g ///
 	   m2_205h m2_205i m2_206 m2_207 m2_208 m2_301 (. = .a) if m2_202 == 0
 
@@ -3086,49 +3086,49 @@ recode m2_305 (. = .a) if m2_302 == . | m2_302 == .a
 
 recode m2_306 (. = .a) if m2_305 == 1 | m2_305 == 98 | m2_305 == 99
 
-recode m2_306_1 (0 = .a) if m2_306 == 1 | m2_306 == 98 | m2_306 == 99
-recode m2_306_1 (0 = .) if m2_306 == 0
+recode m2_307_1 (0 = .a) if m2_306 == 1 | m2_306 == 98 | m2_306 == 99
+recode m2_307_1 (0 = .) if m2_306 == 0
 
-recode m2_306_2 (0 = .a) if m2_306 == 1 | m2_306 == 98 | m2_306 == 99
-recode m2_306_2 (0 = .) if m2_306 == 0
+recode m2_307_2 (0 = .a) if m2_306 == 1 | m2_306 == 98 | m2_306 == 99
+recode m2_307_2 (0 = .) if m2_306 == 0
 
-recode m2_306_3 (0 = .a) if m2_306 == 1 | m2_306 == 98 | m2_306 == 99
-recode m2_306_3 (0 = .) if m2_306 == 0
+recode m2_307_3 (0 = .a) if m2_306 == 1 | m2_306 == 98 | m2_306 == 99
+recode m2_307_3 (0 = .) if m2_306 == 0
 
-recode m2_306_4 (0 = .a) if m2_306 == 1 | m2_306 == 98 | m2_306 == 99
-recode m2_306_4 (0 = .) if m2_306 == 0
+recode m2_307_4 (0 = .a) if m2_306 == 1 | m2_306 == 98 | m2_306 == 99
+recode m2_307_4 (0 = .) if m2_306 == 0
 
-recode m2_306_5 (0 = .a) if m2_306 == 1 | m2_306 == 98 | m2_306 == 99
-recode m2_306_5 (0 = .) if m2_306 == 0
+recode m2_307_5 (0 = .a) if m2_306 == 1 | m2_306 == 98 | m2_306 == 99
+recode m2_307_5 (0 = .) if m2_306 == 0
 
-recode m2_306_96 (0 = .a) if m2_306 == 1 | m2_306 == 98 | m2_306 == 99
-recode m2_306_96 (0 = .) if m2_306 == 0
+recode m2_307_96 (0 = .a) if m2_306 == 1 | m2_306 == 98 | m2_306 == 99
+recode m2_307_96 (0 = .) if m2_306 == 0
 
-replace m2_307_other = ".a" if m2_306_96 ==1
+replace m2_307_other = ".a" if m2_307_96 ==1
 
 recode m2_308 (. = .a) if m2_302 == 1 | m2_302 == . | m2_302 == .a
 
 recode m2_309 (. = .a) if m2_308 == 1 | m2_308 == 98 | m2_308 == 99
 
-recode m2_308_1 (0 = .a) if m2_306 == 1 | m2_306 == 98 | m2_306 == 99
-recode m2_308_1 (0 = .) if m2_306 == 0
+recode m2_310_1 (0 = .a) if m2_306 == 1 | m2_306 == 98 | m2_306 == 99
+recode m2_310_1 (0 = .) if m2_306 == 0
 
-recode m2_308_2 (0 = .a) if m2_309 == 1 | m2_309 == 98 | m2_309 == 99
-recode m2_308_2 (0 = .) if m2_309 == 0
+recode m2_310_2 (0 = .a) if m2_309 == 1 | m2_309 == 98 | m2_309 == 99
+recode m2_310_2 (0 = .) if m2_309 == 0
 
-recode m2_308_3 (0 = .a) if m2_309 == 1 | m2_309 == 98 | m2_309 == 99
-recode m2_308_3 (0 = .) if m2_309 == 0
+recode m2_310_3 (0 = .a) if m2_309 == 1 | m2_309 == 98 | m2_309 == 99
+recode m2_310_3 (0 = .) if m2_309 == 0
 
-recode m2_308_4 (0 = .a) if m2_309 == 1 | m2_309 == 98 | m2_309 == 99
-recode m2_308_4 (0 = .) if m2_309 == 0
+recode m2_310_4 (0 = .a) if m2_309 == 1 | m2_309 == 98 | m2_309 == 99
+recode m2_310_4 (0 = .) if m2_309 == 0
 
-recode m2_308_5 (0 = .a) if m2_309 == 1 | m2_309 == 98 | m2_309 == 99
-recode m2_308_5 (0 = .) if m2_309 == 0
+recode m2_310_5 (0 = .a) if m2_309 == 1 | m2_309 == 98 | m2_309 == 99
+recode m2_310_5 (0 = .) if m2_309 == 0
 
-recode m2_308_96 (0 = .a) if m2_309 == 1 | m2_309 == 98 | m2_309 == 99
-recode m2_308_96 (0 = .) if m2_309 == 0
+recode m2_310_96 (0 = .a) if m2_309 == 1 | m2_309 == 98 | m2_309 == 99
+recode m2_310_96 (0 = .) if m2_309 == 0
 
-replace m2_310_other = ".a" if m2_308_96 ==1
+replace m2_310_other = ".a" if m2_310_96 ==1
 
 recode m2_311 (. = .a) if m2_302 == 1 | m2_302 == . | m2_302 == .a | m2_302 == 2
 
@@ -4483,16 +4483,16 @@ label variable m2_203f "203f. Since you last spoke to us, have you experienced c
 label variable m2_203g "203g. Since you last spoke to us, have you experienced fainting or loss of consciousness?"
 label variable m2_203h "203h. Since you last spoke to us, have you experienced that the baby has completely stopped moving?"
 label variable m2_203i "203i. Since you last spoke to us, have you experienced blurring of vision?"
-label variable m2_204a "204a. Since you last spoke to us, have you experienced Preeclapsia/eclampsia?"
-label variable m2_204b "204b. Since you last spoke to us, have you experienced Bleeding during pregnancy?"
-label variable m2_204c "204c. Since you last spoke to us, have you experienced Hyperemesis gravidarum?"
-label variable m2_204d "204d. Since you last spoke to us, have you experienced Anemia?"
-label variable m2_204e "204e. Since you last spoke to us, have you experienced Cardiac problem?"
-label variable m2_204f "204f. Since you last spoke to us, have you experienced Amniotic fluid volume problems(Oligohydramnios/ Polyhadramnios)?"
-label variable m2_204g "204g. Since you last spoke to us, have you experienced Asthma?"
-label variable m2_204h "204h. Since you last spoke to us, have you experienced RH isoimmunization?"
+label variable m2_204a_et "204a. Since you last spoke to us, have you experienced Preeclapsia/eclampsia?"
+label variable m2_204b_et "204b. Since you last spoke to us, have you experienced Bleeding during pregnancy?"
+label variable m2_204c_et "204c. Since you last spoke to us, have you experienced Hyperemesis gravidarum?"
+label variable m2_204d_et "204d. Since you last spoke to us, have you experienced Anemia?"
+label variable m2_204e_et "204e. Since you last spoke to us, have you experienced Cardiac problem?"
+label variable m2_204f_et "204f. Since you last spoke to us, have you experienced Amniotic fluid volume problems(Oligohydramnios/ Polyhadramnios)?"
+label variable m2_204g_et "204g. Since you last spoke to us, have you experienced Asthma?"
+label variable m2_204h_et "204h. Since you last spoke to us, have you experienced RH isoimmunization?"
 label variable m2_204i "204i. Since you last spoke to us, have you experienced any other major health problems?"
-label variable m2_204i_other "204i-oth. Specify any other feeling since last visit"
+label variable m2_204_other "204i-oth. Specify any other feeling since last visit"
 label variable m2_205a "205a. Over the past 2 weeks, on how many days have you been bothered by little interest or pleasure in doing things?"
 label variable m2_205b "205b. Over the past 2 weeks, on how many days have you been bothered by feeling down, depressed, or hopeless?"
 label variable m2_205c "205c. Over the past 2 weeks, on how many days have you been bothered by trouble falling or staying asleep, or sleeping too much?"
@@ -4524,27 +4524,27 @@ label variable m2_304e "304e. What is the name of the facility where this/this f
 label variable m2_304e_other "304e-oth. Other facility for 5th health consultation"
 label variable m2_305 "305. Was the first consultation for a routine antenatal care visit?"
 label variable m2_306 "306. Was the first consultation for a referral from your antenatal care provider?"
-label variable m2_306_1 "307. Was the first consultation for any of the following? A new health problem, including an emergency or an injury"
-label variable m2_306_2 "307. Was the first consultation for any of the following? An existing health problem"
-label variable m2_306_3 "307. Was the first consultation for any of the following? A lab test, x-ray, or ultrasound"
-label variable m2_306_4 "307. Was the first consultation for any of the following? To pick up medicine"
-label variable m2_306_5 "307. Was the first consultation for any of the following? To get a vaccine"
-label variable m2_306_96 "307. Was the first consultation for any of the following? Other reasons"
-label variable m2_306_888_et "307. No information"
-label variable m2_306_998_et "307. Unknown"
-label variable m2_306_999_et "307. Refuse to answer"
+label variable m2_307_1 "307. Was the first consultation for any of the following? A new health problem, including an emergency or an injury"
+label variable m2_307_2 "307. Was the first consultation for any of the following? An existing health problem"
+label variable m2_307_3 "307. Was the first consultation for any of the following? A lab test, x-ray, or ultrasound"
+label variable m2_307_4 "307. Was the first consultation for any of the following? To pick up medicine"
+label variable m2_307_5 "307. Was the first consultation for any of the following? To get a vaccine"
+label variable m2_307_96 "307. Was the first consultation for any of the following? Other reasons"
+label variable m2_307_888_et "307. No information"
+label variable m2_307_998_et "307. Unknown"
+label variable m2_307_999_et "307. Refuse to answer"
 label variable m2_307_other "307-oth. Specify other reason for the 1st visit"
 label variable m2_308 "308. Was the second consultation is for a routine antenatal care visit?"
 label variable m2_309 "309. Was the second consultation is for a referral from your antenatal care provider?"
-label variable m2_308_1 "310. Was the second consultation for any of the following? A new health problem, including an emergency or an injury"
-label variable m2_308_2 "310. Was the second consultation for any of the following? An existing health problem"
-label variable m2_308_3 "310. Was the second consultation for any of the following? A lab test, x-ray, or ultrasound"
-label variable m2_308_4 "310. Was the second consultation for any of the following? To pick up medicine"
-label variable m2_308_5 "310. Was the second consultation for any of the following? To get a vaccine"
-label variable m2_308_96 "310. Was the second consultation for any of the following? Other reasons"
-label variable m2_308_888_et "310. No information"
-label variable m2_308_998_et "310. Unknown"
-label variable m2_308_999_et "310. Refuse to answer"
+label variable m2_310_1 "310. Was the second consultation for any of the following? A new health problem, including an emergency or an injury"
+label variable m2_310_2 "310. Was the second consultation for any of the following? An existing health problem"
+label variable m2_310_3 "310. Was the second consultation for any of the following? A lab test, x-ray, or ultrasound"
+label variable m2_310_4 "310. Was the second consultation for any of the following? To pick up medicine"
+label variable m2_310_5 "310. Was the second consultation for any of the following? To get a vaccine"
+label variable m2_310_96 "310. Was the second consultation for any of the following? Other reasons"
+label variable m2_310_888_et "310. No information"
+label variable m2_310_998_et "310. Unknown"
+label variable m2_310_999_et "310. Refuse to answer"
 label variable m2_310_other "310-oth. Specify other reason for second consultation"
 label variable m2_311 "311. Was the third consultation is for a routine antenatal care visit?"
 label variable m2_312 "312. Was the third consultation is for a referral from your antenatal care provider?"
@@ -5976,9 +5976,8 @@ save "$et_data_final/eco_m1-m4_et_long.dta", replace
 	restore */
 	
 	* Reshape M2
+	
 	u "$et_data_final/tmpm2", clear
-		keep redcap_record_id redcap_repeat_instance m2_start-m2_time_of_rescheduled
-		reshape wide m2_start-m2_time_of_rescheduled, i(redcap_record_id) j(redcap_repeat_instance) 
 	
 	* Emma -- added some cleaning code here:
 		* Tag cases where there is no redcap_repeat_instance==1
@@ -6007,7 +6006,7 @@ save "$et_data_final/eco_m1-m4_et_long.dta", replace
 		drop count_m2_entries max_redcap_repeat_instance flag redcap_repeat_instance_v2 redcap_repeat_instance
 		keep redcap_record_id m2_start-m2_round
 		reshape wide m2_start-m2_time_of_rescheduled, i(redcap_record_id) j(m2_round, string) 
-	save "$et_data_final/tmpm2", replace // 969
+		save "$et_data_final/tmpm2", replace // 969
 	
 	
 	* Merge by redcap_record_id
@@ -6032,7 +6031,7 @@ save "$et_data_final/eco_m1-m4_et_long.dta", replace
 	* RE-LABELING M2 VARS
 
 	** MODULE 2:
-	forval i = 1/8 {
+	foreach i in _r1 _r2 _r3 _r4 _r5 _r6 _r7 _r8 {
 label variable m2_start`i' "IIC. May I proceed with the interview?"
 label variable m2_103`i' "102. Date of interview (D-M-Y)"
 label variable m2_permission`i' "CR1. Permission granted to conduct call"
@@ -6057,16 +6056,16 @@ label variable m2_203f`i' "203f. Since you last spoke to us, have you experience
 label variable m2_203g`i' "203g. Since you last spoke to us, have you experienced fainting or loss of consciousness?"
 label variable m2_203h`i' "203h. Since you last spoke to us, have you experienced that the baby has completely stopped moving?"
 label variable m2_203i`i' "203i. Since you last spoke to us, have you experienced blurring of vision?"
-label variable m2_204a`i' "204a. Since you last spoke to us, have you experienced Preeclapsia/eclampsia?"
-label variable m2_204b`i' "204b. Since you last spoke to us, have you experienced Bleeding during pregnancy?"
-label variable m2_204c`i' "204c. Since you last spoke to us, have you experienced Hyperemesis gravidarum?"
-label variable m2_204d`i' "204d. Since you last spoke to us, have you experienced Anemia?"
-label variable m2_204e`i' "204e. Since you last spoke to us, have you experienced Cardiac problem?"
-label variable m2_204f`i' "204f. Since you last spoke to us, have you experienced Amniotic fluid volume problems(Oligohydramnios/ Polyhadramnios)?"
-label variable m2_204g`i' "204g. Since you last spoke to us, have you experienced Asthma?"
-label variable m2_204h`i' "204h. Since you last spoke to us, have you experienced RH isoimmunization?"
+label variable m2_204a_et`i' "204a. Since you last spoke to us, have you experienced Preeclapsia/eclampsia?"
+label variable m2_204b_et`i' "204b. Since you last spoke to us, have you experienced Bleeding during pregnancy?"
+label variable m2_204c_et`i' "204c. Since you last spoke to us, have you experienced Hyperemesis gravidarum?"
+label variable m2_204d_et`i' "204d. Since you last spoke to us, have you experienced Anemia?"
+label variable m2_204e_et`i' "204e. Since you last spoke to us, have you experienced Cardiac problem?"
+label variable m2_204f_et`i' "204f. Since you last spoke to us, have you experienced Amniotic fluid volume problems(Oligohydramnios/ Polyhadramnios)?"
+label variable m2_204g_et`i' "204g. Since you last spoke to us, have you experienced Asthma?"
+label variable m2_204h_et`i' "204h. Since you last spoke to us, have you experienced RH isoimmunization?"
 label variable m2_204i`i' "204i. Since you last spoke to us, have you experienced any other major health problems?"
-label variable m2_204i_other`i' "204i-oth. Specify any other feeling since last visit"
+label variable m2_204_other`i' "204i-oth. Specify any other feeling since last visit"
 label variable m2_205a`i' "205a. Over the past 2 weeks, on how many days have you been bothered by little interest or pleasure in doing things?"
 label variable m2_205b`i' "205b. Over the past 2 weeks, on how many days have you been bothered by feeling down, depressed, or hopeless?"
 label variable m2_205c`i' "205c. Over the past 2 weeks, on how many days have you been bothered by trouble falling or staying asleep, or sleeping too much?"
@@ -6098,27 +6097,27 @@ label variable m2_304e`i' "304e. What is the name of the facility where this/thi
 label variable m2_304e_other`i' "304e-oth. Other facility for 5th health consultation"
 label variable m2_305`i' "305. Was the first consultation for a routine antenatal care visit?"
 label variable m2_306`i' "306. Was the first consultation for a referral from your antenatal care provider?"
-label variable m2_306_1`i' "307. Was the first consultation for any of the following? A new health problem, including an emergency or an injury"
-label variable m2_306_2`i' "307. Was the first consultation for any of the following? An existing health problem"
-label variable m2_306_3`i' "307. Was the first consultation for any of the following? A lab test, x-ray, or ultrasound"
-label variable m2_306_4`i' "307. Was the first consultation for any of the following? To pick up medicine"
-label variable m2_306_5`i' "307. Was the first consultation for any of the following? To get a vaccine"
-label variable m2_306_96`i' "307. Was the first consultation for any of the following? Other reasons"
-label variable m2_306_888_et`i' "307. No information"
-label variable m2_306_998_et`i' "307. Unknown"
-label variable m2_306_999_et`i' "307. Refuse to answer"
+label variable m2_307_1`i' "307. Was the first consultation for any of the following? A new health problem, including an emergency or an injury"
+label variable m2_307_2`i' "307. Was the first consultation for any of the following? An existing health problem"
+label variable m2_307_3`i' "307. Was the first consultation for any of the following? A lab test, x-ray, or ultrasound"
+label variable m2_307_4`i' "307. Was the first consultation for any of the following? To pick up medicine"
+label variable m2_307_5`i' "307. Was the first consultation for any of the following? To get a vaccine"
+label variable m2_307_96`i' "307. Was the first consultation for any of the following? Other reasons"
+label variable m2_307_888_et`i' "307. No information"
+label variable m2_307_998_et`i' "307. Unknown"
+label variable m2_307_999_et`i' "307. Refuse to answer"
 label variable m2_307_other`i' "307-oth. Specify other reason for the 1st visit"
 label variable m2_308`i' "308. Was the second consultation is for a routine antenatal care visit?"
 label variable m2_309`i' "309. Was the second consultation is for a referral from your antenatal care provider?"
-label variable m2_308_1`i' "310. Was the second consultation for any of the following? A new health problem, including an emergency or an injury"
-label variable m2_308_2`i' "310. Was the second consultation for any of the following? An existing health problem"
-label variable m2_308_3`i' "310. Was the second consultation for any of the following? A lab test, x-ray, or ultrasound"
-label variable m2_308_4`i' "310. Was the second consultation for any of the following? To pick up medicine"
-label variable m2_308_5`i' "310. Was the second consultation for any of the following? To get a vaccine"
-label variable m2_308_96`i' "310. Was the second consultation for any of the following? Other reasons"
-label variable m2_308_888_et`i' "310. No information"
-label variable m2_308_998_et`i' "310. Unknown"
-label variable m2_308_999_et`i' "310. Refuse to answer"
+label variable m2_310_1`i' "310. Was the second consultation for any of the following? A new health problem, including an emergency or an injury"
+label variable m2_310_2`i' "310. Was the second consultation for any of the following? An existing health problem"
+label variable m2_310_3`i' "310. Was the second consultation for any of the following? A lab test, x-ray, or ultrasound"
+label variable m2_310_4`i' "310. Was the second consultation for any of the following? To pick up medicine"
+label variable m2_310_5`i' "310. Was the second consultation for any of the following? To get a vaccine"
+label variable m2_310_96`i' "310. Was the second consultation for any of the following? Other reasons"
+label variable m2_310_888_et`i' "310. No information"
+label variable m2_310_998_et`i' "310. Unknown"
+label variable m2_310_999_et`i' "310. Refuse to answer"
 label variable m2_310_other`i' "310-oth. Specify other reason for second consultation"
 label variable m2_311`i' "311. Was the third consultation is for a routine antenatal care visit?"
 label variable m2_312`i' "312. Was the third consultation is for a referral from your antenatal care provider?"
