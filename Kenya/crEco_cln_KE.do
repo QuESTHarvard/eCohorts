@@ -3236,37 +3236,36 @@ drop phone1 phone2 phone3 phone4 phone_combi name_baby1 name_baby2 name_baby3 na
 ******************************************
 
 * Section 1: Identification 
-drop time_start_full  text_audit  consent_audio section8_audio mean_sound_level min_sound_level max_sound_level sd_sound_level pct_sound_between0_60 pct_sound_above80 pct_conversation date_survey_baseline today_date date_confirm q_104_calc language_label resp_other_name date_death_knows  baby_repeat_count baby_repeat_count q_203_1  q_206_1 q_603_1  baby_died_group_count new_visits_count new_visits_index_1  care_where_label_1 care_facility_name_label_1 care_reason_reg_label_1  q_406_1 q_406_2 q_406_3 q_411_a_1 q_411_a_2 q_411_a_3 q_905 care_rason_oth_label_1 care_visit_reas_rpt_grp_count_1 care_vis_idx_1_1 care_visit_res_1_1 care_vis_idx_1_2 care_visit_res_1_2 care_vis_idx_1_3 care_visit_res_1_3 care_vis_idx_1_4 care_visit_res_1_4 care_vis_idx_1_5 care_visit_res_1_5 care_vis_idx_1_6 care_visit_res_1_6 care_reason_label_1 new_visits_index_2 care_where_label_2 care_facility_name_label_2 care_reason_reg_label_2 q_406_2 care_rason_oth_label_2 care_visit_reas_rpt_grp_count_2 care_vis_idx_2_1 care_visit_res_2_1 care_vis_idx_2_2 care_visit_res_2_2 care_vis_idx_2_3 care_visit_res_2_3 care_vis_idx_2_4 care_visit_res_2_4 care_vis_idx_2_5 care_visit_res_2_5 care_vis_idx_2_6 care_visit_res_2_6 care_reason_label_2 new_visits_index_3 care_where_label_3 care_facility_name_label_3 care_reason_reg_label_3 care_rason_oth_label_3 care_visit_reas_rpt_grp_count_3 care_vis_idx_3_1 care_visit_res_3_1 care_vis_idx_3_2 care_visit_res_3_2 care_vis_idx_3_3 care_visit_res_3_3 care_vis_idx_3_4 care_visit_res_3_4 care_vis_idx_3_5 care_visit_res_3_5 care_vis_idx_3_6 care_visit_res_3_6 care_reason_label_3 user_experience_rpt_count user_exp_idx_1 user_visit_reason_1 user_facility_type_1 user_facility_name_1 user_exp_idx_2 user_visit_reason_2 user_facility_type_2 user_facility_name_2 baby_repeat_care_count baby_index_care_1 q_801_rand_order_count q_801_rand_1 q_801_rand_2 q_801_rand_3 q_801_rand_4 q_801_rand_5 q_801_rand_6 q_801_rand_7 q_801_rand_8 q_801_rand_9 q_801_rand_10 q_801_rand_11 q_801_rand_12 q_801_rand_13 q_801_rand_14 q_801_rand_15 q_801_rand_16 q_801_order_count baby_repeat_med_count baby_index_med_1 q_902a_cost q_902b_cost q_902c_cost q_902d_cost q_902e_cost total_spent date_after28days reschedule_full_noavail resp_worker availability location_endline	formdef_version key isvalidated reschedule_full_noavail v685 v686 submissiondate v629 v630 baby_index_1	 
+drop time_start_full text_audit consent_audio section8_audio mean_sound_level min_sound_level max_sound_level sd_sound_level pct_sound_between0_60 pct_sound_above80 pct_conversation date_survey_baseline today_date date_confirm q_104_calc language_label resp_other_name date_death_knows  baby_repeat_count baby_repeat_count q_203_1 q_206_1 q_603_1 baby_died_group_count new_visits_count new_visits_index_1  care_where_label_1 care_facility_name_label_1 care_reason_reg_label_1  q_406_1 q_406_2 q_406_3 q_411_a_1 q_411_a_2 q_411_a_3 q_905 care_rason_oth_label_1 care_visit_reas_rpt_grp_count_1 care_vis_idx_1_1 care_visit_res_1_1 care_vis_idx_1_2 care_visit_res_1_2 care_vis_idx_1_3 care_visit_res_1_3 care_vis_idx_1_4 care_visit_res_1_4 care_vis_idx_1_5 care_visit_res_1_5 care_vis_idx_1_6 care_visit_res_1_6 care_reason_label_1 new_visits_index_2 care_where_label_2 care_facility_name_label_2 care_reason_reg_label_2 q_406_2 care_rason_oth_label_2 care_visit_reas_rpt_grp_count_2 care_vis_idx_2_1 care_visit_res_2_1 care_vis_idx_2_2 care_visit_res_2_2 care_vis_idx_2_3 care_visit_res_2_3 care_vis_idx_2_4 care_visit_res_2_4 care_vis_idx_2_5 care_visit_res_2_5 care_vis_idx_2_6 care_visit_res_2_6 care_reason_label_2 new_visits_index_3 care_where_label_3 care_facility_name_label_3 care_reason_reg_label_3 care_rason_oth_label_3 care_visit_reas_rpt_grp_count_3 care_vis_idx_3_1 care_visit_res_3_1 care_vis_idx_3_2 care_visit_res_3_2 care_vis_idx_3_3 care_visit_res_3_3 care_vis_idx_3_4 care_visit_res_3_4 care_vis_idx_3_5 care_visit_res_3_5 care_vis_idx_3_6 care_visit_res_3_6 care_reason_label_3 user_experience_rpt_count user_exp_idx_1 user_visit_reason_1 user_facility_type_1 user_facility_name_1 user_exp_idx_2 user_visit_reason_2 user_facility_type_2 user_facility_name_2 baby_repeat_care_count baby_index_care_1 q_801_rand_order_count q_801_rand_1 q_801_rand_2 q_801_rand_3 q_801_rand_4 q_801_rand_5 q_801_rand_6 q_801_rand_7 q_801_rand_8 q_801_rand_9 q_801_rand_10 q_801_rand_11 q_801_rand_12 q_801_rand_13 q_801_rand_14 q_801_rand_15 q_801_rand_16 q_801_order_count baby_repeat_med_count baby_index_med_1 q_902a_cost q_902b_cost q_902c_cost q_902d_cost q_902e_cost total_spent date_after28days reschedule_full_noavail resp_worker availability location_endline formdef_version key isvalidated reschedule_full_noavail v685 v686 submissiondate v629 v630 baby_index_1	 
 
 
 *-----according to variable list 
 rename q_101 m4_interviewer
 rename q_102 m4_date
 rename q_103 m4_time
-rename  consent m4_start
+rename consent m4_start
 rename attempts m4_attempt_number
 rename attempts_oth m4_attempt_number_other
 rename call_response m4_attempt_outcome
-rename  resp_language m4_resp_language
-rename  resp_language_no m4_resp_language_no
-rename  resp_language_no_oth m4_resp_language_no_oth
+rename resp_language m4_resp_language
+rename resp_language_no m4_resp_language_no
+rename resp_language_no_oth m4_resp_language_no_oth
 rename resp_other m4_attempt_relationship
 rename resp_other_oth m4_attempt_other
-rename  resp_available m4_attempt_avail
+rename resp_available m4_attempt_avail
 rename best_phone_reconfirm m4_attempt_contact
 rename resp_available_when m4_attempt_goodtime
-rename  intro_yn m4_consent_recording
+rename intro_yn m4_consent_recording
 rename q_104 respondentid
-rename  q_109 m4_maternal_death_reported
-rename  q_110 m4_date_of_maternal_death 
-rename  q_111 m4_maternal_death_learn
-rename  q_111_oth m4_maternal_death_learn_other
+rename q_109 m4_maternal_death_reported
+rename q_110 m4_date_of_maternal_death 
+rename q_111 m4_maternal_death_learn
+rename q_111_oth m4_maternal_death_learn_other
 rename hiv_status m4_hiv_status
 rename c_section m4_c_section
 rename live_babies m4_live_babies 
 rename date_delivery m4_date_delivery
 rename weeks_delivery_mod4 m4_weeks_delivery
-
 
 * Section 2: Health -- Baby
 rename q_201_1 m4_201a
@@ -3361,7 +3360,6 @@ rename  q_406_96_1 m4_406k
 rename  q_406_oth_1 m4_406k_other
 
 rename  q_405_2 m4_407
-
 
 *drop q_406_2
  *It just combines all the answers from the qestions below, we didn't have it in the Ethiopian Ds and all information coded in the variables below
@@ -4155,7 +4153,6 @@ label values m4_unavailable_reschedule yesno
 ******************************************
 
 *recoding of NR/RF to .r
- 
 recode m4_baby1_health m4_breastfeeding  m4_baby1_diarrhea m4_baby1_fever  m4_baby1_lowtemp m4_baby1_illness m4_baby1_troublebreath m4_baby1_chestprob  m4_baby1_troublefeed m4_baby1_convulsions m4_baby1_jaundice m4_206_none m4_baby1_otherprob  (99 = .r )
 
 recode m4_breastfeeding (96 = .a) if m4_breastfeeding == 96
@@ -4240,21 +4237,21 @@ label variable m4_number_of_babies "Please indicate how many babies do you have"
 *----------Child health---------------*
 label variable m4_201a "201. Is the 1st baby still alive, or did something else happen?"
 label variable m4_baby1_health "202. How would you rate 1st baby's overall health?"
-label variable m4_baby1_feed_a "203.Did you feed your baby breast milk in the last 7 days?"
+label variable m4_baby1_feed_a "203. Did you feed your baby breast milk in the last 7 days?"
 label variable m4_baby1_feed_b "203. Did you feed your baby FORMULA in the last 7 days?"
-label variable m4_baby1_feed_c "203.Did you feed your baby WATER in the last 7 days?"
-label variable m4_baby1_feed_d "203.Did you feed your baby JUICE in the last 7 days?"
-label variable m4_baby1_feed_e "203.Did you feed your baby BROTH in the last 7 days?"
-label variable m4_baby1_feed_f "203.Did you feed your baby BABY FOOD in the last 7 days?"
-label variable m4_baby1_feed_g "203.Did you feed your baby LOCAL FOOD in the last 7 days?"
+label variable m4_baby1_feed_c "203. Did you feed your baby WATER in the last 7 days?"
+label variable m4_baby1_feed_d "203. Did you feed your baby JUICE in the last 7 days?"
+label variable m4_baby1_feed_e "203. Did you feed your baby BROTH in the last 7 days?"
+label variable m4_baby1_feed_f "203. Did you feed your baby BABY FOOD in the last 7 days?"
+label variable m4_baby1_feed_g "203. Did you feed your baby LOCAL FOOD in the last 7 days?"
 label variable m4_breastfeeding "204. How confident do you feel about breastfeeding your baby?" 
-label variable m4_baby1_sleep"205.Regarding sleep, which response best describes your 1st baby today?"
-label variable m4_baby1_feed"205.Regarding feeding, which response best describes your 1st baby today?"
-label variable m4_baby1_breath"205.Regarding breathing, which response best describes your 1st baby today?"
-label variable m4_baby1_stool"205.Regarding stooling/poo, which response best describes your 1st baby today?"
-label variable m4_baby1_mood"205.Regarding their mood, which response best describes your 1st baby today?"
-label variable m4_baby1_skin"205.Regarding their skin, which response best describes your 1st baby today?"
-label variable m4_baby1_interactivity"205.Regarding their interactivity, which response best describes your 1st baby today?"
+label variable m4_baby1_sleep "205. Regarding sleep, which response best describes your 1st baby today?"
+label variable m4_baby1_feed "205. Regarding feeding, which response best describes your 1st baby today?"
+label variable m4_baby1_breath "205. Regarding breathing, which response best describes your 1st baby today?"
+label variable m4_baby1_stool "205. Regarding stooling/poo, which response best describes your 1st baby today?"
+label variable m4_baby1_mood "205. Regarding their mood, which response best describes your 1st baby today?"
+label variable m4_baby1_skin "205. Regarding their skin, which response best describes your 1st baby today?"
+label variable m4_baby1_interactivity "205. Regarding their interactivity, which response best describes your 1st baby today?"
 
 label variable m4_baby1_diarrhea "206.Did your 1st baby experience Diarrhea with blood in the stools?"
 label variable m4_baby1_fever "206. Did your 1st baby experience a fever (a temperature > 37.5C)?"
@@ -4271,31 +4268,31 @@ label variable m4_baby1_other "207. Specify any other problem on your 1st baby."
 
 *---------------- Section 3: Health - Woman -------*
 label variable m4_overallhealth "301. In general, how would you rate your overall health?"
-label variable m4_302a "302A.How long were you bothered little interest or pleasure in doing things?"
-label variable m4_302b "302B.How long were you bothered feeling down,depressed,hopeless in doing things?"
-label variable m4_303a "303A.What best describes how you have felt about your baby loving?"
-label variable m4_303b "303B.How you have felt about your baby resentful?"
-label variable m4_303c "303C.How have felt about your baby neutral or felt nothing?"
-label variable m4_303d "303D.How have you felt about your baby joyful?"
+label variable m4_302a "302A. How long were you bothered little interest or pleasure in doing things?"
+label variable m4_302b "302B. How long were you bothered feeling down,depressed,hopeless in doing things?"
+label variable m4_303a "303A. What best describes how you have felt about your baby loving?"
+label variable m4_303b "303B. How you have felt about your baby resentful?"
+label variable m4_303c "303C. How have felt about your baby neutral or felt nothing?"
+label variable m4_303d "303D. How have you felt about your baby joyful?"
 label variable m4_303e "303E. How have felt about your baby dislike?"
 label variable m4_303f "303F. How have felt about your baby protective?"
 label variable m4_303g "303G. How have felt about your baby disappointed?"
 label variable m4_303h "303H. How have felt about your baby aggressive?"
-label variable m4_304 "304.How much has pain affected your satisfaction with your sex life?"
-label variable m4_305 "305.Have you experienced a constant leakage of urine or stool?"
+label variable m4_304 "304. How much has pain affected your satisfaction with your sex life?"
+label variable m4_305 "305. Have you experienced a constant leakage of urine or stool?"
 label variable m4_306 "306. How many days after giving birth did these symptoms start?"
 label variable m4_307 "307. How much does this problem alter your lifestyle or daily activities?"
 label variable m4_308 "308. Have you sought treatment for this condition?"
 label variable m4_309 "309. Why have you not sought treatment?  tick all that apply"
 label variable m4_309_other "309-other. Other reason, specify."
 label variable m4_310 "310. Did the treatment stop the problem?"
-label variable m4_401a "401A.Did you or your baby have any new health care consultations?"
-label variable m4_401b "401B.Did you have any new health care consultations?"
-label variable m4_402 "402.How many new healthcare consultations did you have?"
-label variable m4_403a "403A.Where did this new 1st healthcare consultation for 1st baby take place?"
-label variable m4_403b "403B.Where did this new 2nd  healthcare consultation for 1st baby take place?"
-label variable m4_403c "403C.Where did this new 3rd  healthcare consultation for 1st baby take place?"
-label variable m4_404a "404A.What is the name of the facility for the 1st consultation for 1st baby?"
+label variable m4_401a "401A. Did you or your baby have any new health care consultations?"
+label variable m4_401b "401B. Did you have any new health care consultations?"
+label variable m4_402 "402. How many new healthcare consultations did you have?"
+label variable m4_403a "403A. Where did this new 1st healthcare consultation for 1st baby take place?"
+label variable m4_403b "403B. Where did this new 2nd  healthcare consultation for 1st baby take place?"
+label variable m4_403c "403C. Where did this new 3rd  healthcare consultation for 1st baby take place?"
+label variable m4_404a "404A. What is the name of the facility for the 1st consultation for 1st baby?"
 label variable m4_404a_other "404A-other. Specify other facility for the 1st consultation for your 1st baby?"
 label variable m4_404b "404B. What is the name of the facility for the 2nd consultation for 1st baby?"
 label variable m4_404b_other "404B-other. Specify other facility for the 2nd consultation for 1st baby?"
@@ -4474,6 +4471,9 @@ label variable m4_unavailable_reschedule "Would you be interested in reschedulin
 
 *------------------------------------------------------------------------------*
 *merge dataset with M1-M3
+
+*drop failed attempts:
+drop if m4_attempt_outcome !=1
 
 merge 1:1 respondentid using "$ke_data_final/eco_m1-m3_ke.dta", force
 drop _merge
