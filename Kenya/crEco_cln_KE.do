@@ -29,7 +29,7 @@ replace module = 1 if a4 !=.
 * Create sample: (M1 = 1,007)
 
 keep if consent == 1 // 27 ids dropped
-drop if q105 == . // 3 ids dropped
+*drop if q105 == . // 3 ids dropped, pids affected: 1821061320, 1720061414, 1720061210. Removed this filter as these pids are followed after M1 despite not have a phone number in M1
 
 gen country = "Kenya"
 
@@ -201,7 +201,9 @@ drop m1_1218g m1_other_costs_ke m1_clinic_cost_ke
 
 destring (gest_age_baseline_ke),replace
 
-drop if gest_age_baseline_ke == -33 | gest_age_baseline_ke == -12 | gest_age_baseline_ke == -6 | gest_age_baseline_ke == -2
+*drop if gest_age_baseline_ke == -33 | gest_age_baseline_ke == -12 | gest_age_baseline_ke == -6 | gest_age_baseline_ke == -2 // respondentid's dropped: respondentid, 1204071146, 1924071257, 21514071232, 21305071206
+
+recode gest_age_baseline_ke (-33 -12 -6 -2 = .) // recoded instead of dropped these pids
 
 	
 *===============================================================================	
@@ -983,6 +985,7 @@ drop best_phone_resp availability care_reason_ante_label_2 care_reason_ref_label
 
 drop consent_audio full_name confirm_gestational gest_update_calc days_callback_mod3 confirm_phone end_comment enum_name_mod1 formdef_version key language_label today_date
 
+
 *------------------------------------------------------------------------------*
 
 * STEP ONE: RENAME VARAIBLES
@@ -1199,6 +1202,18 @@ rename q_509 m2_509
 rename q_701 m2_701
 rename q_705 m2_705
 rename endtime m2_endtime
+
+* Data quality: (dropping incorrect responses)
+
+*respondentid: 21311071736, duplicate M2 submission on same date
+*From KEMTRI: This ID was double-allocated to Isnina and Linah by mistake. That is why we have 2 entries of this ID. Linah has told me that initially the respondent told her she was still pregnant and so she conducted the interview. After she had finalised the interview the respondent then said she had had delivered. Linah proceded to do module 3 even though she had conducted an unnecessary module 2. Also both Isnina and Linah have conducted module 3 so we have 2 module 3 forms for this ID. I am suggesting we accept the module 2 done by Isnina since it was correct and accept module 3 done by Linah since it was the one done first.
+
+drop if respondentid == "21311071736" & m2_interviewer == 7
+
+*respondentid: 21501081229, duplicate entries on same start time and date
+*From KEMTRI: There was an issue with her tablet sending some of the forms. Some forms had failed to submit. I think this what caused this.
+
+drop if respondentid == "21501081229" & duration == "1234"
 
 *===============================================================================
 
@@ -2282,6 +2297,26 @@ rename attempts_oth m3_attempt_number_other
 rename language m3_language
 rename language_oth m3_language_other
 	
+	
+* Data quality: (dropping incorrect responses)
+
+*respondentid: 21311071736, duplicate M3 submission on same date
+*From KEMTRI: This ID was double-allocated to Isnina and Linah by mistake. That is why we have 2 entries of this ID. Linah has told me that initially the respondent told her she was still pregnant and so she conducted the interview. After she had finalised the interview the respondent then said she had had delivered. Linah proceded to do module 3 even though she had conducted an unnecessary module 2. Also both Isnina and Linah have conducted module 3 so we have 2 module 3 forms for this ID. I am suggesting we accept the module 2 done by Isnina since it was correct and accept module 3 done by Linah since it was the one done first.
+
+drop if respondentid == "21311071736" & m3_enum_name == "Isnina Musa"
+
+
+*respondentid: 21711071310, duplicate M3 submission on same date
+*From KEMRI: Module 3 done twice. Keep the second interview of 2/11/2023. She delivered on 2nd October"
+
+drop if respondentid == "21711071310" & m3_date == date("05oct2023", "DMY")
+
+
+*respondentid: 1916081238, duplicate M3 submission on same date
+*From KEMRI: I have had a discussion with the en to determine how this happened. The en had a mix-up of the IDs. The second complete form is for 21419071300, a respondent from Kitui who delivered on 25th Oct. So for this second form everything else is correct apart from the respondent ID.
+replace respondentid="21419071300" if respondentid=="1916081238" & m3_birth_or_ended== date("25oct2023", "DMY")
+	
+	
 *===============================================================================
 
 	* STEP TWO: ADD VALUE LABELS (NA in KENYA, already labeled)
@@ -3140,7 +3175,7 @@ lab var m3_endtime "Time of interview ended"
 *------------------------------------------------------------------------------*
 * merge dataset with M1-M2
 
-drop if respondentid == "1916081238" | respondentid == "21311071736" | respondentid == "21711071310"
+*drop if respondentid == "1916081238" | respondentid == "21311071736" | respondentid == "21711071310"
 
 merge 1:1 respondentid using "$ke_data_final/eco_m1m2_ke.dta", force
 
