@@ -36,23 +36,7 @@ recode co 2=3 3=2
 lab def co 1"Ethiopia" 2"Kenya" 3"India" 4"South Africa", replace
 lab val co co 
 save "$user/$analysis/allcountrytmp.dta", replace
-*------------------------------------------------------------------------------*
-/* FIG 1. BAR GRAPH BY CATEGORY AND SITE
 
-foreach v in phys_exam diag hist counsel tx{
-	replace `v'=`v'*100
-}
-
-graph bar phys_exam diag hist counsel tx, over(co) ylabel(0(20)100, labsize(small)) ///
-		ytitle("Completeness of care %") asyvars  scheme(white_tableau)  ///
-		 blabel(bar, size(vsmall) position(outside) format(%2.1g)) ///
-		 legend(order(1 "Physical examinations" 2 "Diagnostic tests" 3 "History taking and screening" ///
-		 4 "Counselling" 5 "Preventive treatments or supplements") rows(2) position(12) size(small) ) 
-		 
-		 */
-		 
-tabstat phys_exam diag hist counsel tx, stat (mean)  by(co)
-tabstat phys_exam diag hist counsel tx, stat (mean) col(stat)
 *------------------------------------------------------------------------------*
 * FIG 2. ANC1 QUALITY BOXPLOT BY SITE
 
@@ -67,6 +51,23 @@ graph box anc1qual, over(site) ylabel(0(20)100, labsize(small)) ytitle("Antenata
 	box(6, fcolor(midgreen) lcolor(midgreen) lwidth(thin)) marker(3, mcolor(midgreen)) ///
 	box(7, fcolor(ebblue) lcolor(ebblue) lwidth(thin)) marker(3, mcolor(ebblue)) ///
 	box(8, fcolor(ebblue) lcolor(ebblue)lwidth(thin)) marker(3, mcolor(ebblue)) 
+
+*------------------------------------------------------------------------------*
+/* FIG 3. BAR GRAPH BY CATEGORY AND SITE
+
+foreach v in phys_exam diag hist counsel tx{
+	replace `v'=`v'*100
+}
+
+graph bar phys_exam diag hist counsel tx, over(co) ylabel(0(20)100, labsize(small)) ///
+		ytitle("Completeness of care %") asyvars  scheme(white_tableau)  ///
+		 blabel(bar, size(vsmall) position(outside) format(%2.1g)) ///
+		 legend(order(1 "Physical examinations" 2 "Diagnostic tests" 3 "History taking and screening" ///
+		 4 "Counselling" 5 "Preventive treatments or supplements") rows(2) position(12) size(small) ) 
+		 */
+		 
+tabstat phys_exam diag hist counsel tx, stat (mean)  by(co)
+tabstat phys_exam diag hist counsel tx, stat (mean) col(stat)
 
 *------------------------------------------------------------------------------*
 * Supp table 2.

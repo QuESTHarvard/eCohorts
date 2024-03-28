@@ -63,8 +63,8 @@ u "$user/$data/Ethiopia/02 recoded data/eco_m1_et_der.dta", clear
 	
 * Medical risk factors
 	* Anemia
-	recode m1_Hb 0/6.999=1 7/10.999=2 11/30=3, gen(lvl_anemia)
-	lab def lvl_anemia 1"Severe anemia (<7gm/dl)" 2"Moderate, mild anemia (7-10.9gm/dl)" 3"Normal"
+	recode m1_Hb 0/6.999=1 7/8.99999=2 9/10.99999=3 11/30=4, gen(lvl_anemia)
+	lab def lvl_anemia 1"Severe anemia (<7g/dl)" 2"Moderate anemia (7-8.9g/dl)" 3"Mild anemia (9-10.9g/dl)" 4"Normal"
 	lab val lvl_anemia lvl_anemia
 	g severe_anemia=lvl_anemia==1
 	* Chronic illnesses
@@ -76,6 +76,7 @@ u "$user/$data/Ethiopia/02 recoded data/eco_m1_et_der.dta", clear
 	| m1_203_other=="Sinusitis" | m1_203_other=="gastric" | m1_203_other=="gastric ulcer" 
 	egen chronic = rowmax(m1_202a m1_202b m1_202c m1_202d m1_202e  m1_202g_et m1_203_et)
 	replace chronic=1 if m1_HBP==1 // measured BP
+	
 	* Underweight/overweight
 	rename m1_malnutrition maln_underw
 	recode m1_BMI 0/29.999=0 30/100=1, g(overweight)
@@ -158,8 +159,8 @@ u "$user/$data/Kenya/02 recoded data/eco_m1_ke_der.dta", clear
 			
 *Medical risk factors
 		* Anemia
-		recode Hb 0/6.999=1 7/10.999=2 11/30=3, gen(lvl_anemia)
-		lab def lvl_anemia 1"Severe anemia (<7gm/dl)" 2"Moderate, mild anemia (7-10.9gm/dl)" 3"Normal"
+		recode Hb 0/6.999=1 7/8.99999=2 9/10.99999=3 11/30=4, gen(lvl_anemia)
+		lab def lvl_anemia 1"Severe anemia (<7g/dl)" 2"Moderate anemia (7-8.9g/dl)" 3"Mild anemia (9-10.9g/dl)" 4"Normal"
 		lab val lvl_anemia lvl_anemia
 		g severe_anemia=lvl_anemia==1
 		* Chronic illnesses
@@ -256,8 +257,8 @@ u  "$user/$data/South Africa/02 recoded data/eco_m1_za_der.dta", clear
 
 * Medical risk factors
 		* Anemia
-		recode Hb 0/6.999=1 7/10.999=2 11/30=3, gen(lvl_anemia)
-		lab def lvl_anemia 1"Severe anemia (<7gm/dl)" 2"Moderate, mild anemia (7-10.9gm/dl)" 3"Normal"
+		recode Hb 0/6.999=1 7/8.99999=2 9/10.99999=3 11/30=4, gen(lvl_anemia)
+		lab def lvl_anemia 1"Severe anemia (<7g/dl)" 2"Moderate anemia (7-8.9g/dl)" 3"Mild anemia (9-10.9g/dl)" 4"Normal"
 		lab val lvl_anemia lvl_anemia
 		g severe_anemia=lvl_anemia==1
 		* Chronic illnesses
@@ -352,8 +353,8 @@ egen tag=tag(facility)
 		
 * Medical risk factors
 		* Anemia
-		recode Hb 0/6.999=1 7/10.999=2 11/30=3, gen(lvl_anemia)
-		lab def lvl_anemia 1"Severe anemia (<7gm/dl)" 2"Moderate, mild anemia (7-10.9gm/dl)" 3"Normal"
+		recode Hb 0/6.999=1 7/8.99999=2 9/10.99999=3 11/30=4, gen(lvl_anemia)
+		lab def lvl_anemia 1"Severe anemia (<7g/dl)" 2"Moderate anemia (7-8.9g/dl)" 3"Mild anemia (9-10.9g/dl)" 4"Normal"
 		lab val lvl_anemia lvl_anemia
 		g severe_anemia=lvl_anemia==1
 		* Chronic illnesses
