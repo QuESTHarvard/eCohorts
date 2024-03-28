@@ -2,7 +2,7 @@
 * Created by S. Sabwa
 * Updated: Aug 17 2023 
 
-
+/*
 *------------------------------------------------------------------------------*
 
 * Import Data 
@@ -1381,10 +1381,13 @@ drop JO-N709b
 
 save "$za_data_final/eco_m1_za.dta", replace
 	
-
+*/
 *===============================================================================
+* MODULE 2:
+clear all
 
-merge 1:m respondentid using "/Users/shs8688/Dropbox (Harvard University)/SPH-Kruk Team/QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data/South Africa/01 raw data/MODULE 2 DATA SET_SOUTH AFRICA 27 Jan 2024_SS.dta"
+* import data:
+use "$za_data/MODULE 2 DATA SET_SOUTH AFRICA 27 Jan 2024_SS.dta", clear
 
 *drop MOD2_Identification_106 
 drop PrimaryLast 
@@ -1394,14 +1397,14 @@ drop __9999998
 *drop RESPONSE_QuestionnaireID RESPONSE_QuestionnaireName RESPONSE_QuestionnaireVersion
 *drop RESPONSE_Location RESPONSE_Lattitude RESPONSE_Longitude	
 
-replace module = 2 if V2 !=.
+gen module = 2 if V2 !=.
 
 *===============================================================================
 
 	* STEP ONE: RENAME VARAIBLES
     
 	* MODULE 2:
-rename V2 m2_attempt_number
+rename V2 m2_completed_attempts
 rename MOD2_Permission_Granted m2_permission
 rename MOD2_Identification_101 m2_interviewer
 rename MOD2_Identification_102 m2_date
@@ -1423,8 +1426,6 @@ rename MOD2_Gen_Health_203D m2_203d
 rename MOD2_Gen_Health_203E m2_203e
 rename MOD2_Gen_Health_203F m2_203f
 rename MOD2_Gen_Health_203G m2_203g
-rename m2_203g m2_203h
-rename m2_203h m2_203g
 rename MOD2_Gen_Health_203H m2_203h
 rename MOD2_Gen_Health_204 m2_204_other
 rename MOD2_Gen_Health_205A m2_205a
@@ -1492,7 +1493,7 @@ rename MOD2_Cont_Care_503E m2_503e
 rename MOD2_Cont_Care_505E m2_505e
 rename MOD2_Cont_Care_503F m2_503f
 rename MOD2_Cont_Care_505F m2_505f
-rename MOD2_Cont_Care_503G m2_503g
+rename MOD2_Cont_Care_503G m2_503g_za
 rename MOD2_Cont_Care_505H m2_505h_za
 rename MOD2_Cont_Care_504 m2_504
 rename MOD2_Cont_Care_504_Other m2_504_other
@@ -1552,7 +1553,7 @@ rename MOD2_Costs_NV_705_Other m2_705_other
 	label define maternal_death_reported 1 "Yes" 0 "No" 
 	label values m2_maternal_death_reported maternal_death_reported
 	
-	label define m2_hiv_status 1 "Positive" 2 "Negative" 3 "Unknown" 
+	label define m2_hiv_status 1 "Positive" 2 "Negative" 3 "Unknown" 98 "DK" 99 "NR/RF"
 	label values m2_hiv_status m2_hiv_status
 	
 	label define m2_maternal_death_learn 1 "Called respondent phone, someone else responded" ///
@@ -1570,7 +1571,7 @@ rename MOD2_Costs_NV_705_Other m2_705_other
 	label define m2_203a 1 "Yes" 0 "No" 98 "DK" 99 "NR/RF" 
 	label values m2_203a m2_203a
 	
-	label define m2_203b 1 "Yes" 0 "No" 98 "DK" 99 "RF" 
+	label define m2_203b 1 "Yes" 0 "No" 98 "DK" 99 "NR/RF" 
 	label values m2_203b m2_203b
 
 	label define m2_203c 1 "Yes" 0 "No" 98 "DK" 99 "NR/RF" 
@@ -1588,88 +1589,27 @@ rename MOD2_Costs_NV_705_Other m2_705_other
 	label define m2_203g 1 "Yes" 0 "No" 98 "DK" 99 "NR/RF" 
 	label values m2_203g m2_203g
 
-	label define mx2_203h 1 "Yes" 0 "No" 98 "DK" 99 "NR/RF" 
+	label define m2_203h 1 "Yes" 0 "No" 98 "DK" 99 "NR/RF" 
 	label values m2_203h m2_203h
 
 	label define m2_205a 0 "None of the days" 1 "Several days" 2 "More than half the days (>7)" 3 "Nearly every day" 
 	label values m2_205a m2_205a
 
-	label define m2_206 1 "Every day" 2 "Some days" 3 "Not at all" 98 "DK" 99 "RF" 
+	label define m2_206 1 "Every day" 2 "Some days" 3 "Not at all" 98 "DK" 99 "NR/RF" 
 	label values m2_206 m2_206
 
-	label define m2_301 1 "Yes" 0 "No" 98 "DK" 99 "RF" 
+	label define m2_301 1 "Yes" 0 "No" 98 "DK" 99 "NR/RF" 
 	label values m2_301 m2_301
 
-	label define m2_302 1 "1" 2 "2" 3 "3" 4 "4" 5 "5" 
-	label values m2_302 m2_302
-	
-	*m2_303
+	* keep this var numeric
+	*label define m2_302 1 "1" 2 "2" 3 "3" 4 "4" 5 "5" 
+	*label values m2_302 m2_302
 
-	label define m2_303a 1 "In your home" 2 "Someone elses home" 3 "Government hospital" ///
-					 4 "Government health center" 5 "Government health post" ///
-					 6 "NGO or faith-based health facility" 7 "Private hospital" ///
-					 8 "Private specialty maternity center" 9 "Private specialty maternity clinic" ///
-					 10 "Private clinic" ///
-					 11 "Another private medical facility (including pharmacy, shop, traditional healer)" ///
-					 98 "DK" 99 "RF" 
-	label values m2_303a m2_303a
-
-	label define m2_303b 1 "In your home" 2 "Someone elses home" 3 "Government hospital" ///
-					 4 "Government health center" 5 "Government health post" ///
-					 6 "NGO or faith-based health facility" 7 "Private hospital" ///
-					 8 "Private specialty maternity center" 9 "Private specialty maternity clinic" ///
-					 10 "Private clinic" ///
-					 11 "Another private medical facility (including pharmacy, shop, traditional healer)" ///
-					 98 "DK" 99 "RF" 
-	label values m2_303b m2_303b
-					 
-	label define m2_303c 1 "In your home" 2 "Someone elses home" 3 "Government hospital" ///
-					 4 "Government health center" 5 "Government health post" ///
-					 6 "NGO or faith-based health facility" 7 "Private hospital" ///
-					 8 "Private specialty maternity center" 9 "Private specialty maternity clinic" ///
-					 10 "Private clinic" ///
-					 11 "Another private medical facility (including pharmacy, shop, traditional healer)" ///
-					 98 "DK" 99 "RF"
-	label values m2_303c m2_303c
-					 
-					 
-	label define m2_303d 1 "In your home" 2 "Someone elses home" 3 "Government hospital" ///
-					 4 "Government health center" 5 "Government health post" ///
-					 6 "NGO or faith-based health facility" 7 "Private hospital" ///
-					 8 "Private specialty maternity center" 9 "Private specialty maternity clinic" ///
-					 10 "Private clinic" ///
-					 11 "Another private medical facility (including pharmacy, shop, traditional healer)" ///
-					 98 "DK" 99 "RF"
-	label values m2_303d m2_303d
-					 		
-	label define m2_303e 1 "In your home" 2 "Someone elses home" 3 "Government hospital" ///
-					 4 "Government health center" 5 "Government health post" ///
-					 6 "NGO or faith-based health facility" 7 "Private hospital" ///
-					 8 "Private specialty maternity center" 9 "Private specialty maternity clinic" ///
-					 10 "Private clinic" ///
-					 11 "Another private medical facility (including pharmacy, shop, traditional healer)" ///
-					 98 "DK" 99 "RF" 
-	label values m2_303e m2_303e			 
-	
-	/* edit for ZA
-	label define m2_304a 1 "Meki Catholic Primary Clinic" 2 "Bote Health Center" 3 "Meki Health Center" 4 "Adami Tulu Health Center" 5 "Bulbula Health Center" 6 "Dubisa Health Center" 7 "Olenchiti Primary Hospital" 8 "Awash Malkasa Health Center" 9 "Koka Health Center" 10 "Biyo Health Center" 11 "Ejersa Health Center" 12 "Catholic Church Primary Clinic" 13 "Noh Primary Clinic" 14 "Adama Health Center" 15 "Family Guidance Nazret Specialty Clinic" 16 "Biftu" 17 "Bokushenen" 18 "Adama Teaching Hospital" 19 "Hawas" 20 "Medhanialem Hospital" 21 "Sister Aklisiya Hospital" 22 "Marie stopes Specialty Clinic" 23 "Other in East Shewa or Adama, Specify"
-	label values m2_304a m2_304a
-	
-
-
-	label define m2_304b 1 "Meki Catholic Primary Clinic" 2 "Bote Health Center" 3 "Meki Health Center" 4 "Adami Tulu Health Center" 5 "Bulbula Health Center" 6 "Dubisa Health Center" 7 "Olenchiti Primary Hospital" 8 "Awash Malkasa Health Center" 9 "koka Health Center" 10 "Biyo Health Center" 11 "Ejersa Health Center" 12 "Catholic Church Primary Clinic" 13 "Noh Primary Clinic" 14 "Adama Health Center" 15 "Family Guidance Nazret Specialty Clinic" 16 "Biftu" 17 "Bokushenen" 18 "Adama Teaching Hospital" 19 "Hawas" 20 "Medhanialem Hospital" 21 "Sister Aklisiya Hospital" 22 "Marie stopes Specialty Clinic" 23 "Other in East Shewa or Adama, Specify"
-	label values m2_304b m2_304b
-
-	label define m2_304c 1 "Meki Catholic Primary Clinic" 2 "Bote Health Center" 3 "Meki Health Center" 4 "Adami Tulu Health Center" 5 "Bulbula Health Center" 6 "Dubisa Health Center" 7 "Olenchiti Primary Hospital" 8 "Awash Malkasa Health Center" 9 "koka Health Center" 10 "Biyo Health Center" 11 "Ejersa Health Center" 12 "Catholic Church Primary Clinic" 13 "Noh Primary Clinic" 14 "Adama Health Center" 15 "Family Guidance Nazret Specialty Clinic" 16 "Biftu" 17 "Bokushenen" 18 "Adama Teaching Hospital" 19 "Hawas" 20 "Medhanialem Hospital" 21 "Sister Aklisiya Hospital" 22 "Marie stopes Specialty Clinic" 23 "Other in East Shewa or Adama, Specify"
-	label values m2_304c m2_304c
-
-	label define m2_304d 1 "Meki Catholic Primary Clinic" 2 "Bote Health Center" 3 "Meki Health Center" 4 "Adami Tulu Health Center" 5 "Bulbula Health Center" 6 "Dubisa Health Center" 7 "Olenchiti Primary Hospital" 8 "Awash Malkasa Health Center" 9 "Koka Health Center" 10 "Biyo Health Center" 11 "Ejersa Health Center" 12 "Catholic Church Primary Clinic" 13 "Noh Primary Clinic" 14 "Adama Health Center" 15 "Family Guidance Nazret Specialty Clinic" 16 "Biftu" 17 "Bokushenen" 18 "Adama Teaching Hospital" 19 "Hawas" 20 "Medhanialem Hospital" 21 "Sister Aklisiya Hospital" 22 "Marie stopes Specialty Clinic" 23 "Other in East Shewa or Adama, Specify" 	
-	label values m2_304d m2_304d
-
-	label define m2_304e 1 "Meki Catholic Primary Clinic" 2 "Bote Health Center" 3 "Meki Health Center" 4 "Adami Tulu Health Center" 5 "Bulbula Health Center" 6 "Dubisa Health Center" 7 "Olenchiti Primary Hospital" 8 "Awash Malkasa Health Center" 9 "Koka Health Center" 10 "Biyo Health Center" 11 "Ejersa Health Center" 12 "Catholic Church Primary Clinic" 13 "Noh Primary Clinic" 14 "Adama Health Center" 15 "Family Guidance Nazret Specialty Clinic" 16 "Biftu" 17 "Bokushenen" 18 "Adama Teaching Hospital" 19 "Hawas" 20 "Medhanialem Hospital" 21 "Sister Aklisiya Hospital" 22 "Marie stopes Specialty Clinic" 23 "Other in East Shewa or Adama, Specify" 
-	label values m2_304e m2_304e
-	
-	*/
+	label define visit_location 1 "In your home" 2 "Someone else's home" 3 "Public clinic" ///
+					 4 "Public hospital" 5 "Private clinic" ///
+					 6 "Private hospital" 7 "Public Community health center" ///
+					 8 "Other"  98 "DK" 99 "RF" 0 "None"
+	label values m2_303a m2_303b m2_303c m2_303d m2_303e visit_location
 
 	label define m2_305 1 "Yes, for a routine antenatal care" 0 "No" 98 "DK" 99 "RF" 
 	label values m2_305 m2_305
@@ -1678,7 +1618,14 @@ rename MOD2_Costs_NV_705_Other m2_705_other
 	label values m2_306 m2_306
 	
 	*m2_307
-
+	forval j = 1/96 {
+    gen m2_307_`j' = strpos("," + m2_307 + ",", ",`j',") > 0
+	}
+	drop m2_307_6-m2_307_95
+	
+	label define m2_YN 1 "Yes" 0 "No"
+	label values m2_307_1 m2_307_2 m2_307_3 m2_307_4 m2_307_5 m2_307_96 m2_YN
+	
 	label define m2_308 1 "Yes, for a routine antenatal care" 0 "No" 98 "DK" 99 "RF" 
 	label values m2_308 m2_308
 
@@ -1686,6 +1633,12 @@ rename MOD2_Costs_NV_705_Other m2_705_other
 	label values m2_309 m2_309
 	
 	*m2_310
+	forval j = 1/96 {
+    gen m2_310_`j' = strpos("," + m2_310 + ",", ",`j',") > 0
+	}
+	drop m2_310_6-m2_310_95
+	
+	label values m2_310_1 m2_310_2 m2_310_3 m2_310_4 m2_310_5 m2_310_96 m2_YN
 	
 	label define m2_311 1 "Yes, for a routine antenatal care" 0 "No" 98 "DK" 99 "RF" 
 	label values m2_311 m2_311
@@ -1694,7 +1647,13 @@ rename MOD2_Costs_NV_705_Other m2_705_other
 	label values m2_312 m2_312
 	
 	*m2_313
-
+	forval j = 1/96 {
+    gen m2_313_`j' = strpos("," + m2_313 + ",", ",`j',") > 0
+	}
+	drop m2_313_6-m2_313_95
+	
+	label values m2_313_1 m2_313_2 m2_313_3 m2_313_4 m2_313_5 m2_313_96 m2_YN
+	
 	label define m2_314 1 "Yes, for a routine antenatal care" 0 "No" 98 "DK" 99 "RF"  
 	label values m2_314 m2_314
 	
@@ -1702,6 +1661,12 @@ rename MOD2_Costs_NV_705_Other m2_705_other
 	*label values m2_315 m2_315
 
 	*m2_316
+	forval j = 1/96 {
+    gen m2_316_`j' = strpos("," + m2_316 + ",", ",`j',") > 0
+	}
+	drop m2_316_6-m2_316_95
+	
+	label values m2_316_1 m2_316_2 m2_316_3 m2_316_4 m2_316_5 m2_316_96 m2_YN
 	
 	label define m2_317 1 "Yes, for a routine antenatal care" 0 "No" 98 "DK" 99 "RF"
 	label values m2_317 m2_317
@@ -1709,10 +1674,26 @@ rename MOD2_Costs_NV_705_Other m2_705_other
 	label define m2_318 1 "Yes, for a referral from your antenatal care provider" 0 "No" 98 "DK" 99 "RF" 
 	label values m2_318 m2_318 
 	
-	*m2_319
+	/*m2_319: SS: not string because one answer per check box
+	forval j = 1/96 {
+    gen m2_319_`j' = strpos("," + m2_319 + ",", ",`j',") > 0
+	}
+	drop m2_319_6-m2_319_95
+	
+	label values m2_319_1 m2_319_2 m2_319_3 m2_319_4 m2_319_5 m2_319_96 m2_YN
+	*/
+	
 	
 	*m2_320
-
+	forval j = 0/99 {
+    gen m2_320_`j' = strpos("," + m2_320 + ",", ",`j',") > 0
+	}
+	drop m2_320_12-m2_320_95
+	drop m2_320_97
+	drop m2_320_98
+	
+	label values m2_320_0 m2_320_1 m2_320_2 m2_320_3 m2_320_4 m2_320_5 m2_320_96 m2_320_99 ßm2_YN
+	
 	label define m2_321 0 "No" 1 "Yes, by phone" 2 "Yes, by SMS" 3 "Yes, by web" 98 "DK" 99 "NR/RF" 
 	label values m2_321 m2_321
 
@@ -1773,7 +1754,8 @@ rename MOD2_Costs_NV_705_Other m2_705_other
 	label define m2_503f 1 "Yes" 0 "No" 98 "DK" 99 "RF"
 	label values m2_503f m2_503f
 	
-	*m2_503g_za
+	label define m2_503g_za 1 "Yes" 0 "No" 98 "DK" 99 "RF"
+	label values m2_503g_za m2_503g_za
 	
 	label define m2_504 1 "Yes" 0 "No" 98 "DK" 99 "RF" 
 	label values m2_504 m2_504
@@ -1796,7 +1778,11 @@ rename MOD2_Costs_NV_705_Other m2_705_other
 	label define m2_505f 1 "Hypertensive" 0 "Not hypertensive" 98 "DK" 99 "NR/RF" 
 	label values m2_505f m2_505f
 	
-	*m2_505g
+	label define m2_505g 1 "Positive" 0 "Negative" 98 "DK" 99 "NR/RF" 
+	label values m2_505g m2_505g
+	
+	label define m2_505h_za 1 "Positive" 0 "Negative" 98 "DK" 99 "NR/RF" 
+	label values m2_505h_za m2_505h_za
 
 	label define m2_506a 1 "Yes" 0 "No" 98 "DK" 99 "RF" 
 	label values m2_506a m2_506a
@@ -1895,62 +1881,54 @@ rename MOD2_Costs_NV_705_Other m2_705_other
 	*/
 	
 *===============================================================================
-/*		
-	*STEP THREE: RECODING MISSING VALUES 
 	
+	*STEP THREE: RECODING MISSING VALUES 
+
 	* MODULE 2:
 	
-recode  m2_attempt_number m2_permission (. = .a) if module !=2
+recode m2_permission (. = .a) if module !=2
 
-recode m2_date_confirm
+recode m2_completed_attempts m2_date m2_time_start m2_ga m2_maternal_death_reported (. = .a) if m2_permission !=1
 
-recode m2_time_start
-
-recode m2_maternal_death_reported (. = .a) if m2_attempt_avail != 0
-
-recode m2_date_of_maternal_death_yesno m2_date_of_maternal_death (. = .a) if m2_maternal_death_reported !=1
-
-recode m2_hiv_status (. = .a) if m1_202e != 0 | m1_202e != 1
+*recode m2_hiv_status (. = .a) if m1_202e != 0 | m1_202e != 1
 
 recode m2_date_of_maternal_death (. = .a) if m2_maternal_death_reported !=1
 
 recode m2_maternal_death_learn (. = .a) if m2_maternal_death_reported !=1
 
-replace m2_maternal_death_learn_other = ".a" if m2_maternal_death_learn != -96
+recode m2_maternal_death_learn_other (. = .a) if m2_maternal_death_learn != 96 // numeric because of 0 obs
 
-recode m2_201 m2_202 (. = .a) if module !=2 | m2_consent_recording !=1
+recode m2_201 m2_202 (. 9999998 = .a) if module !=2 
 
-replace m2_202_other = ".a" if m2_202 !=3
+recode m2_203a m2_203b m2_203c m2_203d m2_203e m2_203f m2_203g m2_203h m2_205a m2_205b m2_206 m2_301 (. 9999998 = .a) if m2_202 !=1
 
-recode m2_ga_estimate (. = .a) if m2_ga == .
+replace m2_204_other = ".a" if m2_202 !=1
 
-recode m2_203a m2_203b m2_203c m2_203d m2_203e m2_203f m2_203g m2_203h m2_204i m2_205a m2_205b m2_phq2_ke m2_206 m2_301 (. = .a) if m2_202 !=1
+recode m2_302 (. 9999998 = .a) if m2_301 !=1
 
-recode m2_302 (. = .a) if m2_301 !=1
+recode m2_303a (. 9999998 = .a) if m2_302 == . | m2_302 == .a
 
-recode m2_303a (. = .a) if m2_302 == . | m2_302 == .a
+recode m2_303b (. 9999998 = .a) if m2_302 == . | m2_302 == 1 |  m2_302 == .a
 
-recode m2_303b (. = .a) if m2_302 == . | m2_302 == 1 |  m2_302 == .a
+recode m2_303c (. 9999998 = .a) if m2_302 == . | m2_302 == 1 | m2_302 == 2 | m2_302 == .a
+	
+recode m2_303d (. 9999998 = .a) if m2_302 == . | m2_302 == 1 | m2_302 == 2 | m2_302 == 3 | m2_302 == .a
 
-recode m2_303c (. = .a) if m2_302 == . | m2_302 == 1 | m2_302 == 2 | m2_302 == .a
+recode m2_303e (.9999998 = .a) if m2_302 == . | m2_302 == 1 | m2_302 == 2 | m2_302 == 3 | m2_302 == 4 | m2_302 == .a
 
-recode m2_303d (. = .a) if m2_302 == . | m2_302 == 1 | m2_302 == 2 | m2_302 == 3 | m2_302 == .a
+replace m2_304a = ".a" if m2_303a == 1 | m2_303a == 2 | m2_302 == . | m2_302 == .a
 
-recode m2_303e (. = .a) if m2_302 == . | m2_302 == 1 | m2_302 == 2 | m2_302 == 3 | m2_302 == 4 | m2_302 == .a
+replace m2_304b = ".a" if m2_303b == 1 | m2_303b == 2 | m2_302 == . | m2_302 == 1 | m2_302 == .a
 
-recode m2_304a (. = .a) if m2_303a == 1 | m2_303a == 2 | m2_302 == . | m2_302 == .a
+replace m2_304c = ".a" if m2_302 == . | m2_302 == 1 | m2_302 ==2  | m2_303c == 1 | m2_303c == 2 | m2_302 == .a
 
-recode m2_304b (. = .a) if m2_303b == 1 | m2_303b == 2 | m2_302 == . | m2_302 == 1 | m2_302 == .a
+replace m2_304d = ".a" if m2_302 == . | m2_302 == 1 | m2_302 == 2 | m2_302 == 3 | m2_303d == 1 | m2_303d == 2 | m2_302 == .a
 
-recode m2_304c (. = .a) if m2_302 == . | m2_302 == 1 | m2_302 ==2  | m2_303c == 1 | m2_303c == 2 | m2_302 == .a
+replace m2_304e = ".a" if m2_302 == . | m2_302 == 1 | m2_302 == 2 | m2_302 == 3  | m2_302 == 4 | m2_303e == 1 | m2_303e == 2 | m2_302 == .a
 
-recode m2_304d (. = .a) if m2_302 == . | m2_302 == 1 | m2_302 == 2 | m2_302 == 3 | m2_303d == 1 | m2_303d == 2 | m2_302 == .a
-
-recode m2_304e (. = .a) if m2_302 == . | m2_302 == 1 | m2_302 == 2 | m2_302 == 3  | m2_302 == 4 | m2_303e == 1 | m2_303e == 2 | m2_302 == .a
-
-recode m2_305 (. = .a) if m2_302 == . | m2_302 == .a
-recode m2_306 (. = .a) if m2_305 !=0
-
+recode m2_305 (. 9999998 = .a) if m2_302 == . | m2_302 == .a
+recode m2_306 (. 9999998 = .a) if m2_305 !=0
+/*
 recode m2_306_1 (. = .a) if m2_306 !=0
 recode m2_306_2 (. = .a) if m2_306 !=0
 recode m2_306_3 (. = .a) if m2_306 !=0
@@ -2234,7 +2212,7 @@ label variable m2_503c "503c. Did you receive a result for HIV viral load?"
 label variable m2_503d "503d. Did you receive a result for Syphilis?"
 label variable m2_503e "503e. Did you receive a result for diabetes?"
 label variable m2_503f "503f. Did you receive a result for Hypertension?"
-label variable m2_503g "503g. Did you receive a result for TB?"
+label variable m2_503g_za "m2_503g_za. Did you receive a result for TB?"
 
 label variable m2_504 "504. Did you receive any other new test results?"
 label variable m2_504_other "504-Other. Specify other test result you receive"
@@ -2292,6 +2270,9 @@ label variable m2_704_confirm "704. So how much in total would you say you spent
 label variable m2_705 "705. Which of the following financial sources did your household use to pay for this?"
 label variable m2_705_other "705-Other. Other financial sources, specify"
 */	
+
+*merge 1:m respondentid using "$za_data_final/eco_m1_za.dta"
+
 *===============================================================================
 
 	* STEP FIVE: SAVE DATA TO RECODED FOLDER/ORDER VARIABLES
@@ -2302,9 +2283,3 @@ order module m2_attempt_number m2_permission m2_date m2_time_start m2_interviewe
 	  m2_maternal_death_learn m2_maternal_death_learn_other, before(m2_201)
 
 save "$za_data_final/eco_m1m2_za.dta", replace
-
-codebookout "/Users/shs8688/Dropbox (Harvard University)/SPH-Kruk Team/QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data/Data documents/Country-specific data dictionaries/South Africa/South-Africa_Mod1-2_codebook.xls", replace
-
-
-codebookout "D:ZA missing codebook.xls", replace
-
