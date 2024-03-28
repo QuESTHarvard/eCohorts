@@ -23,8 +23,6 @@ keep if MOD1_ELIGIBILITY_B7 == 1
 
 gen country = "South Africa"
 
-gen module = 1 if MOD1_META_DATA_A2 !=.
-
 * De-identify dataset:
 * MOD1_Identification_105, MOD1_Demogr_515, MOD1_Demogr_516, MOD1_Demogr_519 already dropped in this dataset
 
@@ -1371,7 +1369,7 @@ lab var m1_1401 "1401. What period of the day is most convenient for you to answ
 	* STEP FIVE: SAVE DATA TO RECODED FOLDER/ ORDER VRIABLES
 	
 order m1_*, sequential
-order module country study_site study_site_sd facility interviewer_id m1_date pre_screening_num_za permission care_self enrollage_cat enrollage zone_live b5anc b6anc_first b7eligible respondentid mobile_phone flash
+order country study_site study_site_sd facility interviewer_id m1_date pre_screening_num_za permission care_self enrollage_cat enrollage zone_live b5anc b6anc_first b7eligible respondentid mobile_phone flash
 
 order phq9a phq9b phq9c phq9d phq9e phq9f phq9g phq9h phq9i, after(m1_205e)
 
@@ -1394,10 +1392,6 @@ drop PrimaryLast
 drop filter__  
 drop VAR00001
 drop __9999998
-*drop RESPONSE_QuestionnaireID RESPONSE_QuestionnaireName RESPONSE_QuestionnaireVersion
-*drop RESPONSE_Location RESPONSE_Lattitude RESPONSE_Longitude	
-
-gen module = 2 if V2 !=.
 
 *===============================================================================
 
@@ -1796,12 +1790,14 @@ rename MOD2_Costs_NV_705_Other m2_705_other
 	label define m2_506d 1 "Yes" 0 "No" 98 "DK" 99 "RF"
 	label values m2_506d m2_506d
 	
-	label define m2_507 0 "Nothing I did not speak about this with a health care provider" ///
-						1 "Told you to come back later" ///
-						2 "Told you to get a lab test or imaging (e.g., blood tests, ultrasound, x-ray, heart echo)" ///
-						3 "Told you to go to hospital or see a specialist like an obstetrician or gynecologist" ///
-						4 "Told you to take painkillers like acetaminophen" ///
-						5 "Told you to wait and see" ///
+	*SS: Note this is different than in other countries
+	label define m2_507 1 "Nothing I did not speak about this with a health care provider" ///
+						2 "They told you to get a lab test or imaging (e.g., ultrasound, blood tests, x-ray, heart echo)" ///
+						3 "They provided a treatment in the visit" ///
+						4 "They prescribed a medication" ///
+						5 "They told you to come back to this health facility" ///
+						6 "They told you to go somewhere else for higher level care" ///
+						7 "They told you to wait and see" ///
 						96 "Other, specify" ///
 						98 "DK" 99 "RF" 
 	label values m2_507 m2_507
@@ -1880,25 +1876,27 @@ rename MOD2_Costs_NV_705_Other m2_705_other
 	label values m2_705 m2_705
 	*/
 	
+* Formatting Dates (SS: do this for all dates in all modules)	 
+	
+	
+	
 *===============================================================================
 	
 	*STEP THREE: RECODING MISSING VALUES 
 
 	* MODULE 2:
-	
-recode m2_permission (. = .a) if module !=2
 
 recode m2_completed_attempts m2_date m2_time_start m2_ga m2_maternal_death_reported (. = .a) if m2_permission !=1
 
 *recode m2_hiv_status (. = .a) if m1_202e != 0 | m1_202e != 1
 
-recode m2_date_of_maternal_death (. = .a) if m2_maternal_death_reported !=1
+recode m2_date_of_maternal_death (. 9999998 = .a) if m2_maternal_death_reported !=1
 
-recode m2_maternal_death_learn (. = .a) if m2_maternal_death_reported !=1
+recode m2_maternal_death_learn (. 9999998 = .a) if m2_maternal_death_reported !=1
 
-recode m2_maternal_death_learn_other (. = .a) if m2_maternal_death_learn != 96 // numeric because of 0 obs
+recode m2_maternal_death_learn_other (. 9999998= .a) if m2_maternal_death_learn != 96 // numeric because of 0 obs
 
-recode m2_201 m2_202 (. 9999998 = .a) if module !=2 
+recode m2_201 m2_202 (. 9999998 = .a) if m2_maternal_death_reported ==1 | m2_permission !=1 | m2_date_of_maternal_death !=. | m2_date_of_maternal_death !=.a
 
 recode m2_203a m2_203b m2_203c m2_203d m2_203e m2_203f m2_203g m2_203h m2_205a m2_205b m2_206 m2_301 (. 9999998 = .a) if m2_202 !=1
 
@@ -1906,80 +1904,95 @@ replace m2_204_other = ".a" if m2_202 !=1
 
 recode m2_302 (. 9999998 = .a) if m2_301 !=1
 
-recode m2_303a (. 9999998 = .a) if m2_302 == . | m2_302 == .a
+recode m2_303a (. 9999998 = .a) if m2_302 !=1
 
-recode m2_303b (. 9999998 = .a) if m2_302 == . | m2_302 == 1 |  m2_302 == .a
+recode m2_303b (. 9999998 = .a) if m2_302 !=2
 
-recode m2_303c (. 9999998 = .a) if m2_302 == . | m2_302 == 1 | m2_302 == 2 | m2_302 == .a
+recode m2_303c (. 9999998 = .a) if m2_302 !=3
 	
-recode m2_303d (. 9999998 = .a) if m2_302 == . | m2_302 == 1 | m2_302 == 2 | m2_302 == 3 | m2_302 == .a
+recode m2_303d (. 9999998 = .a) if m2_302 !=4
 
-recode m2_303e (.9999998 = .a) if m2_302 == . | m2_302 == 1 | m2_302 == 2 | m2_302 == 3 | m2_302 == 4 | m2_302 == .a
+recode m2_303e (. 9999998 = .a) if m2_302 !=5
 
-replace m2_304a = ".a" if m2_303a == 1 | m2_303a == 2 | m2_302 == . | m2_302 == .a
+replace m2_304a = ".a" if m2_303a == . | m2_303a == .a | m2_302 !=1
 
-replace m2_304b = ".a" if m2_303b == 1 | m2_303b == 2 | m2_302 == . | m2_302 == 1 | m2_302 == .a
+replace m2_304b = ".a" if m2_303b == . | m2_303b == .a | m2_302 !=2
 
-replace m2_304c = ".a" if m2_302 == . | m2_302 == 1 | m2_302 ==2  | m2_303c == 1 | m2_303c == 2 | m2_302 == .a
+replace m2_304c = ".a" if m2_303c == . | m2_303c == .a | m2_302 !=3
 
-replace m2_304d = ".a" if m2_302 == . | m2_302 == 1 | m2_302 == 2 | m2_302 == 3 | m2_303d == 1 | m2_303d == 2 | m2_302 == .a
+replace m2_304d = ".a" if m2_303d == . | m2_303d == .a | m2_302 !=4
 
-replace m2_304e = ".a" if m2_302 == . | m2_302 == 1 | m2_302 == 2 | m2_302 == 3  | m2_302 == 4 | m2_303e == 1 | m2_303e == 2 | m2_302 == .a
+*SS: remember all 5+ consultation vars will need to be edited if the number of consultations increases above 7
+replace m2_304e = ".a" if m2_303e == . | m2_303e == .a | m2_302 !=5 | m2_302 !=6 | m2_302 !=7
 
-recode m2_305 (. 9999998 = .a) if m2_302 == . | m2_302 == .a
+recode m2_305 (. 9999998 = .a) if m2_302 == 0 | m2_302 == . | m2_302 == .a
 recode m2_306 (. 9999998 = .a) if m2_305 !=0
-/*
-recode m2_306_1 (. = .a) if m2_306 !=0
-recode m2_306_2 (. = .a) if m2_306 !=0
-recode m2_306_3 (. = .a) if m2_306 !=0
-recode m2_306_4 (. = .a) if m2_306 !=0
-recode m2_306_5 (. = .a) if m2_306 !=0
-recode m2_306_96 (. = .a) if m2_306 !=0
-replace m2_307_other = ".a" if m2_306_96 !=2
 
-recode m2_308 (. = .a) if m2_302 == 1 | m2_302 == . | m2_302 == .a
-recode m2_309 (. = .a) if m2_308 !=0
+/* SS: double check but it looks like these skip patterns aren't programmed into ZA 
+recode m2_307_1 (. = .a) if m2_306 !=0
+recode m2_307_2 (. = .a) if m2_306 !=0
+recode m2_307_3 (. = .a) if m2_306 !=0
+recode m2_307_4 (. = .a) if m2_306 !=0
+recode m2_307_5 (. = .a) if m2_306 !=0
+recode m2_307_96 (. = .a) if m2_306 !=0
+recode m2_307_other (. = .a) if m2_307_96 !=2 // numeric because of 0 obs
 
-recode m2_308_1 (. = .a) if m2_308 !=0 | m2_308 !=1
-recode m2_308_2 (. = .a) if m2_308 !=0 | m2_308 !=1
-recode m2_308_3 (. = .a) if m2_308 !=0 | m2_308 !=1
-recode m2_308_4 (. = .a) if m2_308 !=0 | m2_308 !=1
-recode m2_308_5 (. = .a) if m2_308 !=0 | m2_308 !=1
-recode m2_308_96 (. = .a) if m2_308 !=0 | m2_308 !=1
-replace m2_310_other = ".a" if m2_308_96 !=2
+recode m2_310_1 (. = .a) if m2_308 !=0 | m2_308 !=1
+recode m2_310_2 (. = .a) if m2_308 !=0 | m2_308 !=1
+recode m2_310_3 (. = .a) if m2_308 !=0 | m2_308 !=1
+recode m2_310_4 (. = .a) if m2_308 !=0 | m2_308 !=1
+recode m2_310_5 (. = .a) if m2_308 !=0 | m2_308 !=1
+recode m2_310_96 (. = .a) if m2_308 !=0 | m2_308 !=1
+recode m2_310_other (. = .a) if m2_310_96 !=2 // numeric because of 0 obs
 
-recode m2_311 (. = .a) if m2_302 == 2 | m2_302 == 1 | m2_302 == . | m2_302 == .a
-recode m2_312 (. = .a) if m2_311 !=0
+recode m2_313_1 (. = .a) if m2_311 !=0 | m2_311 !=1
+recode m2_313_2 (. = .a) if m2_311 !=0 | m2_311 !=1
+recode m2_313_3 (. = .a) if m2_311 !=0 | m2_311 !=1
+recode m2_313_4 (. = .a) if m2_311 !=0 | m2_311 !=1
+recode m2_313_5 (. = .a) if m2_311 !=0 | m2_311 !=1
+recode m2_313_96 (. = .a) if m2_311 !=0 | m2_311 !=1
+replace m2_313_other = ".a" if m2_313_96 !=2
 
-recode m2_311_1 (. = .a) if m2_311 !=0 | m2_311 !=1
-recode m2_311_2 (. = .a) if m2_311 !=0 | m2_311 !=1
-recode m2_311_3 (. = .a) if m2_311 !=0 | m2_311 !=1
-recode m2_311_4 (. = .a) if m2_311 !=0 | m2_311 !=1
-recode m2_311_5 (. = .a) if m2_311 !=0 | m2_311 !=1
-recode m2_311_96 (. = .a) if m2_311 !=0 | m2_311 !=1
-replace m2_313_other = ".a" if m2_311_96 !=2
-
-recode m2_314 (. = .a) if m2_302 == 3 | m2_302 == 2 | m2_302 == 1 | m2_302 == . | m2_302 == .a
-recode m2_315 (. = .a) if m2_314 !=0
-
-recode m2_314_1 (. = .a) if m2_314 !=0 | m2_314 !=1
-recode m2_314_2 (. = .a) if m2_314 !=0 | m2_314 !=1
-recode m2_314_3 (. = .a) if m2_314 !=0 | m2_314 !=1
-recode m2_314_4 (. = .a) if m2_314 !=0 | m2_314 !=1
-recode m2_314_5 (. = .a) if m2_314 !=0 | m2_314 !=1
-recode m2_314_96 (. = .a) if m2_314 !=0 | m2_314 !=1
+recode m2_316_1 (. = .a) if m2_314 !=0 | m2_314 !=1
+recode m2_316_2 (. = .a) if m2_314 !=0 | m2_314 !=1
+recode m2_316_3 (. = .a) if m2_314 !=0 | m2_314 !=1
+recode m2_316_4 (. = .a) if m2_314 !=0 | m2_314 !=1
+recode m2_316_5 (. = .a) if m2_314 !=0 | m2_314 !=1
+recode m2_316_96 (. = .a) if m2_314 !=0 | m2_314 !=1
 replace m2_316_other = ".a" if m2_314_96 !=2
 
-recode m2_317 (. = .a) if m2_302 == 4 | m2_302 == 3 | m2_302 == 2 | m2_302 == 1 | m2_302 == . | m2_302 == .a
-recode m2_318 (. = .a) if m2_317 !=0
-
-recode m2_317_1 (0 = .a) if m2_314 !=0 | m2_314 !=1
-recode m2_317_2 (0 = .a) if m2_314 !=0 | m2_314 !=1
-recode m2_317_3 (0 = .a) if m2_314 !=0 | m2_314 !=1
-recode m2_317_4 (0 = .a) if m2_314 !=0 | m2_314 !=1
-recode m2_317_5 (0 = .a) if m2_314 !=0 | m2_314 !=1
-recode m2_317_96 (0 = .a) if m2_314 !=0 | m2_314 !=1
+recode m2_319_1 (0 = .a) if m2_314 !=0 | m2_314 !=1
+recode m2_319_2 (0 = .a) if m2_314 !=0 | m2_314 !=1
+recode m2_319_3 (0 = .a) if m2_314 !=0 | m2_314 !=1
+recode m2_319_4 (0 = .a) if m2_314 !=0 | m2_314 !=1
+recode m2_319_5 (0 = .a) if m2_314 !=0 | m2_314 !=1
+recode m2_319_96 (0 = .a) if m2_314 !=0 | m2_314 !=1
 replace m2_319_other = ".a" if m2_317_96 !=2
+
+*/
+
+recode m2_307_other (. 9999998 = .a) if m2_307_96 !=1
+
+recode m2_308 (. 9999998 = .a) if m2_302 == 0 | m2_302 == 1 | m2_302 == . | m2_302 == .a // SS: confirm response "95" 
+recode m2_309 (. 9999998 = .a) if m2_308 !=0 // SS: confirm response "95" 
+
+recode m2_310_other (. 9999998 = .a) if m2_310_96 !=1
+
+recode m2_311 (. 9999998 = .a) if m2_302 == 2 | m2_302 == 1 | m2_302 == 0 |m2_302 == . | m2_302 == .a // SS: confirm response "95" 
+recode m2_312 (. 9999998 = .a) if m2_311 !=0 // SS: confirm response "95" 
+
+recode m2_313_other (. 9999998 = .a) if m2_313_96 !=1
+
+recode m2_314 (. 9999998 = .a) if m2_302 == 3 | m2_302 == 2 | m2_302 == 1 | m2_302 == 0 | m2_302 == . | m2_302 == .a // SS: confirm response "95" 
+*recode m2_315 (. 9999998 = .a) if m2_314 !=0 // SS: why is m2_315 not in the dataset?
+
+recode m2_316_other (. 9999998 = .a) if m2_316_96 !=1
+
+recode m2_317 (. 9999998 = .a) if m2_302 == 4 | m2_302 == 3 | m2_302 == 2 | m2_302 == 1 | m2_302 == 0 |  m2_302 == . | m2_302 == .a // SS: confirm response "95" 
+recode m2_318 (. 9999998 = .a) if m2_317 !=0 // SS: confirm response "9" 
+
+recode m2_319 (9999998 . = .a) if m2_314 !=0 | m2_314 !=1
+recode m2_319_other (. 9999998 = .a) if m2_319 !=96 // SS: will have to change once this var is a numeric, right now is string (see above)
 
 recode m2_320_0 (. = .a) if m2_301 !=0
 recode m2_320_1 (. = .a) if m2_301 !=0
@@ -1996,63 +2009,66 @@ recode m2_320_11 (. = .a) if m2_301 !=0
 recode m2_320_96 (. = .a) if m2_301 !=0
 recode m2_320_99 (. = .a) if m2_301 !=0
 
+recode m2_320_other (. 9999998 = .a) if m2_320_96 !=1
 
-recode m2_321 (. = .a) if m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a
-                       
-recode m2_401 (. = .a) if (m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a) | (m2_302 == . | m2_302 == .a)
+recode m2_321 (. 9999998 = .a) if m2_202 !=1 
+       
+recode m2_401 (. 9999998 = .a) if (m2_202 !=1) | m2_302 !=1
 
-recode m2_402 (. = .a) if (m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a) | (m2_302 == 1 | m2_302 == . | m2_302 == .a)				   
+recode m2_402 (. 9999998 = .a) if m2_202 !=1 | m2_302 !=2			   
 
-recode m2_403 (. = .a) if (m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a) | (m2_302 == 1 | m2_302 == . | m2_302 == .a | m2_302 == 2)	
+recode m2_403 (. 9999998 = .a) if m2_202 !=1 | m2_302 !=3
 
-recode m2_404 (. = .a) if (m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a) | (m2_302 == 1 | m2_302 == . | m2_302 == .a | m2_302 == 2 | m2_302 == 3)			   
-recode m2_405 (. = .a) if (m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a) | (m2_302 == 1 | m2_302 == . | m2_302 == .a | m2_302 == 2 | m2_302 == 3 | m2_302 == 4)
+recode m2_404 (. 9999998 = .a) if m2_202 !=1 | m2_302 !=4	   
 
-recode m2_501a (. = .a) if m2_301 !=1
-recode m2_501b (. = .a) if m2_301 !=1
-recode m2_501c (. = .a) if m2_301 !=1
-recode m2_501d (. = .a) if m2_301 !=1
-recode m2_501e (. = .a) if m2_301 !=1
-recode m2_501f (. = .a) if m2_301 !=1
-recode m2_501g (. = .a) if m2_301 !=1
+*SS: remember all 5+ consultation vars will need to be edited if the number of consultations increases above 7
+recode m2_405 (. 9999998 = .a) if m2_202 !=1 | m2_302 !=5 | m2_302 !=6 | m2_302 !=7
 
+recode m2_501a (. 9999998 = .a) if m2_301 !=1 | m2_302 !=1 | m2_302 ==0 | m2_302 ==. | m2_302 ==.a
+recode m2_501b (. 9999998 = .a) if m2_301 !=1 | m2_302 !=1 | m2_302 ==0 | m2_302 ==. | m2_302 ==.a
+recode m2_501c (. 9999998 = .a) if m2_301 !=1 | m2_302 !=1 | m2_302 ==0 | m2_302 ==. | m2_302 ==.a
+recode m2_501d (. 9999998 = .a) if m2_301 !=1 | m2_302 !=1 | m2_302 ==0 | m2_302 ==. | m2_302 ==.a
+recode m2_501e (. 9999998 = .a) if m2_301 !=1 | m2_302 !=1 | m2_302 ==0 | m2_302 ==. | m2_302 ==.a
+recode m2_501f (. 9999998 = .a) if m2_301 !=1 | m2_302 !=1 | m2_302 ==0 | m2_302 ==. | m2_302 ==.a
+recode m2_501g (. 9999998 = .a) if m2_301 !=1 | m2_302 !=1 | m2_302 ==0 | m2_302 ==. | m2_302 ==.a
+replace m2_501g_other = ".a" if m2_501g !=1
 
-recode m2_503a (. = .a) if m2_502 !=1
-recode m2_503b (. = .a) if m2_502 !=1
-recode m2_503c (. = .a) if m2_502 !=1
-recode m2_503d (. = .a) if m2_502 !=1
-recode m2_503e (. = .a) if m2_502 !=1
-recode m2_503f (. = .a) if m2_502 !=1
-recode m2_504 (. = .a) if m2_502 !=1
+recode m2_502 (. 9999998 = .a) if m2_301 !=1 | m2_302 ==0 | m2_302 ==. | m2_302 ==.a
 
-replace m2_504_other = ".a" if m2_504 !=1
+recode m2_503a (. 9999998 = .a) if m2_502 !=1
+recode m2_503b (. 9999998 = .a) if m2_502 !=1
+recode m2_503c (. 9999998 = .a) if m2_502 !=1
+recode m2_503d (. 9999998 = .a) if m2_502 !=1
+recode m2_503e (. 9999998 = .a) if m2_502 !=1
+recode m2_503f (. 9999998 = .a) if m2_502 !=1
+recode m2_503g_za (. 9999998 = .a) if m2_502 !=1
 
-recode m2_505a (. = .a) if m2_503a !=1
-recode m2_505b (. = .a) if m2_503b !=1
-recode m2_506c (. = .a) if m2_503c !=1
-recode m2_505d (. = .a) if m2_503d !=1
-recode m2_505e (. = .a) if m2_503e !=1
-recode m2_505f (. = .a) if m2_503f !=1
-recode m2_505g (. = .a) if m2_504 !=1
+recode m2_504 (. 9999998= .a) if m2_502 !=1
+recode m2_504_other (. 9999998 = .a) if m2_504 !=1 // 0 obs so numeric
 
-recode m2_506a (. = .a) if m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a | m2_301 == 0 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
+recode m2_505a (. 9999998 = .a) if m2_503a !=1
+recode m2_505b (. 9999998 = .a) if m2_503b !=1
+recode m2_505c (. 9999998 = .a) if m2_503c !=1
+recode m2_505d (. 9999998 = .a) if m2_503d !=1
+recode m2_505e (. 9999998 = .a) if m2_503e !=1
+recode m2_505f (. 9999998 = .a) if m2_503f !=1
+recode m2_505g (. 9999998 = .a) if m2_504 !=1
+recode m2_505h_za (. 9999998 = .a) if m2_503g_za !=1
 
-recode m2_506b (. = .a) if m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a | m2_301 == 0 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
+recode m2_506a m2_506b m2_506c m2_506d (. 9999998 = .a) if m2_202 !=1 | m2_301 !=1 | m2_302 ==0 | m2_302 ==. | m2_302 ==.a
 
-recode m2_506c (. = .a) if m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a | m2_301 == 0 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
-
-recode m2_506d (. = .a) if m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a | m2_301 == 0 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
-
-/* m2_507 is a multi-checkbox string
-recode m2_507 (. = .a) if (m2_203a == 0 & m2_203b == 0 & m2_203c == 0 & ///
+recode m2_507 (. 9999998 = .a) if (m2_203a == 0 & m2_203b == 0 & m2_203c == 0 & ///
 						  m2_203d == 0 & m2_203e == 0 & m2_203f == 0 & ///
 						  m2_203g == 0 & m2_203h == 0) | ///
-						  (m2_301 == 0 | m2_301 == . | m2_301 == .a)*/
+						  (m2_301 == 0 | m2_301 == . | m2_301 == .a) // SS: confirm response "95" 
 
-recode m2_508a (. = .a) if (m2_205a+m2_205b) <3 | m2_202 !=1
-recode m2_508b_num (. = .a) if m2_508a !=1
-recode m2_508c_time (. = .a) if m2_508a !=1
+replace m2_507_other = ".a" if m2_507 !=96				  
+						  						  
+recode m2_508a (. 9999998 = .a) if (m2_205a+m2_205b) <3 | m2_202 !=1 // SS: confirm response "95", N=11 missing responses
+recode m2_508b_num (. 9999998 = .a) if m2_508a !=1 // SS: confirm response of "Yes", responses are supposed to be numeric
+recode m2_508c_time (. 9999998 = .a) if m2_508a !=1
 
+/*
 recode m2_509a (. = .a) if m2_301 !=1
 recode m2_509b (. = .a) if m2_301 !=1
 recode m2_509c (. = .a) if m2_301 !=1
@@ -2101,11 +2117,11 @@ recode m2_705_96 (. = .a) if m2_701 !=1
 
 replace m2_705_other = ".a" if m2_705_96 !=1
 
-recode m2_complete (. = .a) if module !=2
+recode m2_complete (. = .a) if 
 replace m2_refused_why = ".a" if m3_start_p1 !=0 
 
-replace m2_enum = ".a" if module !=2 | m2_start_time == .
-recode m2_start_time (. = .a) if module !=2
+replace m2_enum = ".a" if  m2_start_time == .
+recode m2_start_time (. = .a) if 
 
 recode m2_attempt_avail (. = .a) if m2_attempt_relationship !=4
 recode m2_completed_attempts (. = .a) if m2_complete !=1 | m2_consent_recording !=1
@@ -2278,7 +2294,7 @@ label variable m2_705_other "705-Other. Other financial sources, specify"
 	* STEP FIVE: SAVE DATA TO RECODED FOLDER/ORDER VARIABLES
 	
 	* MODULE 2:
-order module m2_attempt_number m2_permission m2_date m2_time_start m2_interviewer ///
+order m2_attempt_number m2_permission m2_date m2_time_start m2_interviewer ///
 	  m2_maternal_death_reported m2_ga m2_hiv_status m2_date_of_maternal_death ///
 	  m2_maternal_death_learn m2_maternal_death_learn_other, before(m2_201)
 
