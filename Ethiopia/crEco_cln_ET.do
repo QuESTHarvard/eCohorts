@@ -322,12 +322,12 @@ drop ic_may_i_proceed_with_the-module_5_end_line_facetoface_sur
 			
 	rename (m2_311_reason___1 m2_311_reason___2 m2_311_reason___3 m2_311_reason___4 ///
 	m2_311_reason___5 m2_311_reason___96 m2_311_reason___998 m2_311_reason___999 ///
-	m2_311_reason___888) (m2_311_1 m2_311_2 m2_311_3 m2_311_4 m2_311_5 m2_311_96 ///
-	m2_311_998_et  m2_311_999_et m2_311_888_et)
+	m2_311_reason___888) (m2_313_1 m2_313_2 m2_313_3 m2_313_4 m2_313_5 m2_313_96 ///
+	m2_313_998_et  m2_313_999_et m2_313_888_et)
 
 	rename (m2_314_reason___1 m2_314_reason___2 m2_314_reason___3 m2_314_reason___4 ///
 	m2_314_reason___5 m2_314_reason___96 m2_314_reason___998 m2_314_reason___999 ///
-	m2_314_reason___888) (m2_314_1 m2_314_2 m2_314_3 m2_314_4 m2_314_5 m2_314_96 ///
+	m2_314_reason___888) (m2_316_1 m2_316_2 m2_316_3 m2_316_4 m2_316_5 m2_316_96 ///
 	m2_314_998_et  m2_314_999_et m2_314_888_et)
 	
 		rename (m2_317_reason___1 m2_317_reason___2 m2_317_reason___3 m2_317_reason___4 ///
@@ -1203,7 +1203,7 @@ rename (hemoglobin blood_group_and_rh tt_does iron_folic_acid mbendazole use_of_
 
 * dropping people with incomplete M2 surveys	
 		
-egen m2_drop = rowtotal(m2_201 m2_202 m2_203a m2_203b m2_203c m2_203d m2_203e m2_203f m2_203g m2_203h m2_203i m2_204a_et m2_204b_et m2_204c_et m2_204d_et m2_204e_et m2_204f_et m2_204g_et m2_204h_et m2_204i m2_205a m2_205b m2_205c m2_205d m2_205e m2_205f m2_205g m2_205h m2_205i m2_206 m2_207 m2_208 m2_301 m2_302 m2_303a m2_303b m2_303c m2_303d m2_303e m2_304a m2_304b m2_304c m2_304d m2_304e m2_305 m2_306 m2_307_1 m2_307_2 m2_307_3 m2_307_4 m2_307_5 m2_307_96 m2_307_888_et m2_307_998_et m2_307_999_et m2_308 m2_310_1 m2_310_2 m2_310_3 m2_310_4 m2_310_5 m2_310_96 m2_310_888_et m2_310_998_et m2_310_999_et m2_309 m2_311 m2_311_1 m2_311_2 m2_311_3 m2_311_4 m2_311_5 m2_311_96 m2_311_888_et m2_311_998_et m2_311_999_et m2_312 m2_314 m2_314_1 m2_314_2 m2_314_3 m2_314_4 m2_314_5 m2_314_96 m2_314_888_et m2_314_998_et m2_314_999_et m2_315 m2_317 m2_317_1 m2_317_2 m2_317_3 m2_317_4 m2_317_5 m2_317_96 m2_317_888_et m2_317_998_et m2_317_999_et m2_318 m2_320_a m2_320_b m2_320_c m2_320_d m2_320_e m2_320_f m2_320_g m2_320_h m2_320_i m2_320_j m2_320_k m2_320_l m2_320_96 m2_320_99 m2_320_888_et m2_320_998_et m2_320_999_et m2_321 m2_401 m2_402 m2_403 m2_404 m2_405 m2_501a m2_501b m2_501c m2_501d m2_501e m2_501f m2_501g m2_502 m2_503a m2_503b m2_503c m2_503d m2_503e m2_503f m2_504 m2_505a m2_505b m2_505c m2_505d m2_505e m2_505f m2_506a m2_506b m2_506c m2_506d m2_507 m2_508a m2_508b_last m2_508b_number m2_508c m2_508d m2_509a m2_509b m2_509c m2_601a m2_601b m2_601c m2_601d m2_601e m2_601f m2_601g m2_601h m2_601i m2_601j m2_601k m2_601l m2_601m m2_601n m2_602a m2_602b m2_603 m2_604 m2_701 m2_702a m2_702b m2_702c m2_702d m2_702e m2_703 m2_704 m2_705_1 m2_705_2 m2_705_3 m2_705_4 m2_705_5 m2_705_6 m2_705_96 m2_705_888_et m2_705_998_et m2_705_999_et) 
+egen m2_drop = rowtotal(m2_201 m2_202 m2_203a m2_203b m2_203c m2_203d m2_203e m2_203f m2_203g m2_203h m2_203i m2_204a_et m2_204b_et m2_204c_et m2_204d_et m2_204e_et m2_204f_et m2_204g_et m2_204h_et m2_204i m2_205a m2_205b m2_205c m2_205d m2_205e m2_205f m2_205g m2_205h m2_205i m2_206 m2_207 m2_208 m2_301 m2_302 m2_303a m2_303b m2_303c m2_303d m2_303e m2_304a m2_304b m2_304c m2_304d m2_304e m2_305 m2_306 m2_307_1 m2_307_2 m2_307_3 m2_307_4 m2_307_5 m2_307_96 m2_307_888_et m2_307_998_et m2_307_999_et m2_308 m2_310_1 m2_310_2 m2_310_3 m2_310_4 m2_310_5 m2_310_96 m2_310_888_et m2_310_998_et m2_310_999_et m2_309 m2_311 m2_313_1 m2_313_2 m2_313_3 m2_313_4 m2_313_5 m2_313_96 m2_313_888_et m2_313_998_et m2_313_999_et m2_312 m2_314 m2_316_1 m2_316_2 m2_316_3 m2_316_4 m2_316_5 m2_316_96 m2_314_888_et m2_314_998_et m2_314_999_et m2_315 m2_317 m2_317_1 m2_317_2 m2_317_3 m2_317_4 m2_317_5 m2_317_96 m2_317_888_et m2_317_998_et m2_317_999_et m2_318 m2_320_a m2_320_b m2_320_c m2_320_d m2_320_e m2_320_f m2_320_g m2_320_h m2_320_i m2_320_j m2_320_k m2_320_l m2_320_96 m2_320_99 m2_320_888_et m2_320_998_et m2_320_999_et m2_321 m2_401 m2_402 m2_403 m2_404 m2_405 m2_501a m2_501b m2_501c m2_501d m2_501e m2_501f m2_501g m2_502 m2_503a m2_503b m2_503c m2_503d m2_503e m2_503f m2_504 m2_505a m2_505b m2_505c m2_505d m2_505e m2_505f m2_506a m2_506b m2_506c m2_506d m2_507 m2_508a m2_508b_last m2_508b_number m2_508c m2_508d m2_509a m2_509b m2_509c m2_601a m2_601b m2_601c m2_601d m2_601e m2_601f m2_601g m2_601h m2_601i m2_601j m2_601k m2_601l m2_601m m2_601n m2_602a m2_602b m2_603 m2_604 m2_701 m2_702a m2_702b m2_702c m2_702d m2_702e m2_703 m2_704 m2_705_1 m2_705_2 m2_705_3 m2_705_4 m2_705_5 m2_705_6 m2_705_96 m2_705_888_et m2_705_998_et m2_705_999_et) 
 
 drop if m2_drop == 0 & redcap_event_name == "module_2_arm_1"
 
@@ -3134,49 +3134,49 @@ recode m2_311 (. = .a) if m2_302 == 1 | m2_302 == . | m2_302 == .a | m2_302 == 2
 
 recode m2_312 (. = .a) if m2_311 == 1 | m2_311 == 98 | m2_311 == 99
 
-recode m2_311_1 (0 = .a) if m2_312 == 1 | m2_312 == 98 | m2_312 == 99
-recode m2_311_1 (0 = .) if m2_312 == 0
+recode m2_313_1 (0 = .a) if m2_312 == 1 | m2_312 == 98 | m2_312 == 99
+recode m2_313_1 (0 = .) if m2_312 == 0
 
-recode m2_311_2 (0 = .a) if m2_312 == 1 | m2_312 == 98 | m2_312 == 99
-recode m2_311_2 (0 = .) if m2_312 == 0
+recode m2_313_2 (0 = .a) if m2_312 == 1 | m2_312 == 98 | m2_312 == 99
+recode m2_313_2 (0 = .) if m2_312 == 0
 
-recode m2_311_3 (0 = .a) if m2_312 == 1 | m2_312 == 98 | m2_312 == 99
-recode m2_311_3 (0 = .) if m2_312 == 0
+recode m2_313_3 (0 = .a) if m2_312 == 1 | m2_312 == 98 | m2_312 == 99
+recode m2_313_3 (0 = .) if m2_312 == 0
 
-recode m2_311_4 (0 = .a) if m2_312 == 1 | m2_312 == 98 | m2_312 == 99
-recode m2_311_4 (0 = .) if m2_312 == 0
+recode m2_313_4 (0 = .a) if m2_312 == 1 | m2_312 == 98 | m2_312 == 99
+recode m2_313_4 (0 = .) if m2_312 == 0
 
-recode m2_311_5 (0 = .a) if m2_312 == 1 | m2_312 == 98 | m2_312 == 99
-recode m2_311_5 (0 = .) if m2_312 == 0
+recode m2_313_5 (0 = .a) if m2_312 == 1 | m2_312 == 98 | m2_312 == 99
+recode m2_313_5 (0 = .) if m2_312 == 0
 
-recode m2_311_96 (0 = .a) if m2_312 == 1 | m2_312 == 98 | m2_312 == 99
-recode m2_311_96 (0 = .) if m2_312 == 0
+recode m2_313_96 (0 = .a) if m2_312 == 1 | m2_312 == 98 | m2_312 == 99
+recode m2_313_96 (0 = .) if m2_312 == 0
 
-replace m2_313_other = ".a" if m2_311_96 ==1
+replace m2_313_other = ".a" if m2_313_96 ==1
 
 recode m2_314 (. = .a) if m2_302 == 1 | m2_302 == . | m2_302 == .a | m2_302 == 2 | m2_302 == 3
 
 recode m2_315 (. = .a) if m2_314 == 1 | m2_314 == 98 | m2_314 == 99
 
-recode m2_314_1 (0 = .a) if m2_315 == 1 | m2_315 == 98 | m2_315 == 99
-recode m2_314_1 (0 = .) if m2_315 == 0
+recode m2_316_1 (0 = .a) if m2_315 == 1 | m2_315 == 98 | m2_315 == 99
+recode m2_316_1 (0 = .) if m2_315 == 0
 
-recode m2_314_2 (0 = .a) if m2_315 == 1 | m2_315 == 98 | m2_315 == 99
-recode m2_314_2 (0 = .) if m2_315 == 0
+recode m2_316_2 (0 = .a) if m2_315 == 1 | m2_315 == 98 | m2_315 == 99
+recode m2_316_2 (0 = .) if m2_315 == 0
 
-recode m2_314_3 (0 = .a) if m2_315 == 1 | m2_315 == 98 | m2_315 == 99
-recode m2_314_3 (0 = .) if m2_315 == 0
+recode m2_316_3 (0 = .a) if m2_315 == 1 | m2_315 == 98 | m2_315 == 99
+recode m2_316_3 (0 = .) if m2_315 == 0
 
-recode m2_314_4 (0 = .a) if m2_315 == 1 | m2_315 == 98 | m2_315 == 99
-recode m2_314_4 (0 = .) if m2_315 == 0
+recode m2_316_4 (0 = .a) if m2_315 == 1 | m2_315 == 98 | m2_315 == 99
+recode m2_316_4 (0 = .) if m2_315 == 0
 
-recode m2_314_5 (0 = .a) if m2_315 == 1 | m2_315 == 98 | m2_315 == 99
-recode m2_314_5 (0 = .) if m2_315 == 0
+recode m2_316_5 (0 = .a) if m2_315 == 1 | m2_315 == 98 | m2_315 == 99
+recode m2_316_5 (0 = .) if m2_315 == 0
 
-recode m2_314_96 (0 = .a) if m2_315 == 1 | m2_315 == 98 | m2_315 == 99
-recode m2_314_96 (0 = .) if m2_315 == 0
+recode m2_316_96 (0 = .a) if m2_315 == 1 | m2_315 == 98 | m2_315 == 99
+recode m2_316_96 (0 = .) if m2_315 == 0
 
-replace m2_316_other = ".a" if m2_314_96 ==1
+replace m2_316_other = ".a" if m2_316_96 ==1
 
 recode m2_317 (. = .a) if m2_302 == 1 | m2_302 == . | m2_302 == .a | m2_302 == 2 | m2_302 == 3 | m2_302 == 4
 recode m2_318 (. = .a) if m2_317 == 1 | m2_317 == 98 | m2_317 == 99
@@ -4548,24 +4548,24 @@ label variable m2_310_999_et "310. Refuse to answer"
 label variable m2_310_other "310-oth. Specify other reason for second consultation"
 label variable m2_311 "311. Was the third consultation is for a routine antenatal care visit?"
 label variable m2_312 "312. Was the third consultation is for a referral from your antenatal care provider?"
-label variable m2_311_1 "313. Was the third consultation for any of the following? A new health problem, including an emergency or an injury"
-label variable m2_311_2 "313. Was the third consultation for any of the following? An existing health problem"
-label variable m2_311_3 "313. Was the third consultation for any of the following? A lab test, x-ray, or ultrasound"
-label variable m2_311_4 "313. Was the third consultation for any of the following? To pick up medicine"
-label variable m2_311_5 "313. Was the third consultation for any of the following? To get a vaccine"
-label variable m2_311_96 "313. Was the third onsultation for any of the following? Other reasons"
-label variable m2_311_888_et "313. No information"
-label variable m2_311_998_et "313. Unknown"
-label variable m2_311_999_et "313. Refuse to answer"
+label variable m2_313_1 "313. Was the third consultation for any of the following? A new health problem, including an emergency or an injury"
+label variable m2_313_2 "313. Was the third consultation for any of the following? An existing health problem"
+label variable m2_313_3 "313. Was the third consultation for any of the following? A lab test, x-ray, or ultrasound"
+label variable m2_313_4 "313. Was the third consultation for any of the following? To pick up medicine"
+label variable m2_313_5 "313. Was the third consultation for any of the following? To get a vaccine"
+label variable m2_313_96 "313. Was the third onsultation for any of the following? Other reasons"
+label variable m2_313_888_et "313. No information"
+label variable m2_313_998_et "313. Unknown"
+label variable m2_313_999_et "313. Refuse to answer"
 label variable m2_313_other "313-oth. Specify any other reason for the third consultation"
 label variable m2_314 "314. Was the fourth consultation is for a routine antenatal care visit?"
 label variable m2_315 "315. Was the fourth consultation is for a referral from your antenatal care provider?"
-label variable m2_314_1 "316. Was the fourth consultation for any of the following? A new health problem, including an emergency or an injury"
-label variable m2_314_2 "316. Was the fourth consultation for any of the following? An existing health problem"
-label variable m2_314_3 "316. Was the fourth consultation for any of the following? A lab test, x-ray, or ultrasound"
-label variable m2_314_4 "316. Was the fourth consultation for any of the following? To pick up medicine"
-label variable m2_314_5 "316. Was the fourth consultation for any of the following? To get a vaccine"
-label variable m2_314_96 "316. Was the fourth onsultation for any of the following? Other reasons"
+label variable m2_316_1 "316. Was the fourth consultation for any of the following? A new health problem, including an emergency or an injury"
+label variable m2_316_2 "316. Was the fourth consultation for any of the following? An existing health problem"
+label variable m2_316_3 "316. Was the fourth consultation for any of the following? A lab test, x-ray, or ultrasound"
+label variable m2_316_4 "316. Was the fourth consultation for any of the following? To pick up medicine"
+label variable m2_316_5 "316. Was the fourth consultation for any of the following? To get a vaccine"
+label variable m2_316_96 "316. Was the fourth onsultation for any of the following? Other reasons"
 label variable m2_314_888_et "316. No information"
 label variable m2_314_998_et "316. Unknown"
 label variable m2_314_999_et "316. Refuse to answer"
@@ -5997,7 +5997,7 @@ save "$et_data_final/eco_m1-m4_et_long.dta", replace
 		replace m2_round = "_r2" if redcap_repeat_instance_v2==2 
 		replace m2_round = "_r3" if redcap_repeat_instance_v2==3
 		replace m2_round = "_r4" if redcap_repeat_instance_v2==4
-		replace m2_round = "_r5" if redcap_repeat_instance_v2==5
+		replace m2_round = "_r5" if redcap_repeat_instance_v2==5odul
 		replace m2_round = "_r6" if redcap_repeat_instance_v2==6
 		replace m2_round = "_r7" if redcap_repeat_instance_v2==7
 		replace m2_round = "_r8" if redcap_repeat_instance_v2==8
@@ -6121,24 +6121,24 @@ label variable m2_310_999_et`i' "310. Refuse to answer"
 label variable m2_310_other`i' "310-oth. Specify other reason for second consultation"
 label variable m2_311`i' "311. Was the third consultation is for a routine antenatal care visit?"
 label variable m2_312`i' "312. Was the third consultation is for a referral from your antenatal care provider?"
-label variable m2_311_1`i' "313. Was the third consultation for any of the following? A new health problem, including an emergency or an injury"
-label variable m2_311_2`i' "313. Was the third consultation for any of the following? An existing health problem"
-label variable m2_311_3`i' "313. Was the third consultation for any of the following? A lab test, x-ray, or ultrasound"
-label variable m2_311_4`i' "313. Was the third consultation for any of the following? To pick up medicine"
-label variable m2_311_5`i' "313. Was the third consultation for any of the following? To get a vaccine"
-label variable m2_311_96`i' "313. Was the third onsultation for any of the following? Other reasons"
-label variable m2_311_888_et`i' "313. No information"
-label variable m2_311_998_et`i' "313. Unknown"
-label variable m2_311_999_et`i' "313. Refuse to answer"
+label variable m2_313_1`i' "313. Was the third consultation for any of the following? A new health problem, including an emergency or an injury"
+label variable m2_313_2`i' "313. Was the third consultation for any of the following? An existing health problem"
+label variable m2_313_3`i' "313. Was the third consultation for any of the following? A lab test, x-ray, or ultrasound"
+label variable m2_313_4`i' "313. Was the third consultation for any of the following? To pick up medicine"
+label variable m2_313_5`i' "313. Was the third consultation for any of the following? To get a vaccine"
+label variable m2_313_96`i' "313. Was the third onsultation for any of the following? Other reasons"
+label variable m2_313_888_et`i' "313. No information"
+label variable m2_313_998_et`i' "313. Unknown"
+label variable m2_313_999_et`i' "313. Refuse to answer"
 label variable m2_313_other`i' "313-oth. Specify any other reason for the third consultation"
 label variable m2_314`i' "314. Was the fourth consultation is for a routine antenatal care visit?"
 label variable m2_315`i' "315. Was the fourth consultation is for a referral from your antenatal care provider?"
-label variable m2_314_1`i' "316. Was the fourth consultation for any of the following? A new health problem, including an emergency or an injury"
-label variable m2_314_2`i' "316. Was the fourth consultation for any of the following? An existing health problem"
-label variable m2_314_3`i' "316. Was the fourth consultation for any of the following? A lab test, x-ray, or ultrasound"
-label variable m2_314_4`i' "316. Was the fourth consultation for any of the following? To pick up medicine"
-label variable m2_314_5`i' "316. Was the fourth consultation for any of the following? To get a vaccine"
-label variable m2_314_96`i' "316. Was the fourth onsultation for any of the following? Other reasons"
+label variable m2_316_1`i' "316. Was the fourth consultation for any of the following? A new health problem, including an emergency or an injury"
+label variable m2_316_2`i' "316. Was the fourth consultation for any of the following? An existing health problem"
+label variable m2_316_3`i' "316. Was the fourth consultation for any of the following? A lab test, x-ray, or ultrasound"
+label variable m2_316_4`i' "316. Was the fourth consultation for any of the following? To pick up medicine"
+label variable m2_316_5`i' "316. Was the fourth consultation for any of the following? To get a vaccine"
+label variable m2_316_96`i' "316. Was the fourth onsultation for any of the following? Other reasons"
 label variable m2_314_888_et`i' "316. No information"
 label variable m2_314_998_et`i' "316. Unknown"
 label variable m2_314_999_et`i' "316. Refuse to answer"
