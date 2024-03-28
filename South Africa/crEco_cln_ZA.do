@@ -1387,7 +1387,6 @@ save "$za_data_final/eco_m1_za.dta", replace
 clear all
 
 * import data:
-
 use "$za_data/MODULE 2 DATA SET_SOUTH AFRICA 27 Jan 2024_SS.dta", clear
 
 *drop MOD2_Identification_106 
@@ -1405,7 +1404,7 @@ gen module = 2 if V2 !=.
 	* STEP ONE: RENAME VARAIBLES
     
 	* MODULE 2:
-rename V2 m2_attempt_number
+rename V2 m2_completed_attempts
 rename MOD2_Permission_Granted m2_permission
 rename MOD2_Identification_101 m2_interviewer
 rename MOD2_Identification_102 m2_date
@@ -1494,7 +1493,7 @@ rename MOD2_Cont_Care_503E m2_503e
 rename MOD2_Cont_Care_505E m2_505e
 rename MOD2_Cont_Care_503F m2_503f
 rename MOD2_Cont_Care_505F m2_505f
-rename MOD2_CONT_CARE_503G m2_503g_za
+rename MOD2_Cont_Care_503G m2_503g_za
 rename MOD2_Cont_Care_505H m2_505h_za
 rename MOD2_Cont_Care_504 m2_504
 rename MOD2_Cont_Care_504_Other m2_504_other
@@ -1882,62 +1881,54 @@ rename MOD2_Costs_NV_705_Other m2_705_other
 	*/
 	
 *===============================================================================
-/*		
-	*STEP THREE: RECODING MISSING VALUES 
 	
+	*STEP THREE: RECODING MISSING VALUES 
+
 	* MODULE 2:
 	
-recode  m2_attempt_number m2_permission (. = .a) if module !=2
+recode m2_permission (. = .a) if module !=2
 
-recode m2_date_confirm
+recode m2_completed_attempts m2_date m2_time_start m2_ga m2_maternal_death_reported (. = .a) if m2_permission !=1
 
-recode m2_time_start
-
-recode m2_maternal_death_reported (. = .a) if m2_attempt_avail != 0
-
-recode m2_date_of_maternal_death_yesno m2_date_of_maternal_death (. = .a) if m2_maternal_death_reported !=1
-
-recode m2_hiv_status (. = .a) if m1_202e != 0 | m1_202e != 1
+*recode m2_hiv_status (. = .a) if m1_202e != 0 | m1_202e != 1
 
 recode m2_date_of_maternal_death (. = .a) if m2_maternal_death_reported !=1
 
 recode m2_maternal_death_learn (. = .a) if m2_maternal_death_reported !=1
 
-replace m2_maternal_death_learn_other = ".a" if m2_maternal_death_learn != -96
+recode m2_maternal_death_learn_other (. = .a) if m2_maternal_death_learn != 96 // numeric because of 0 obs
 
-recode m2_201 m2_202 (. = .a) if module !=2 | m2_consent_recording !=1
+recode m2_201 m2_202 (. 9999998 = .a) if module !=2 
 
-replace m2_202_other = ".a" if m2_202 !=3
+recode m2_203a m2_203b m2_203c m2_203d m2_203e m2_203f m2_203g m2_203h m2_205a m2_205b m2_206 m2_301 (. 9999998 = .a) if m2_202 !=1
 
-recode m2_ga_estimate (. = .a) if m2_ga == .
+replace m2_204_other = ".a" if m2_202 !=1
 
-recode m2_203a m2_203b m2_203c m2_203d m2_203e m2_203f m2_203g m2_203h m2_204i m2_205a m2_205b m2_phq2_ke m2_206 m2_301 (. = .a) if m2_202 !=1
+recode m2_302 (. 9999998 = .a) if m2_301 !=1
 
-recode m2_302 (. = .a) if m2_301 !=1
+recode m2_303a (. 9999998 = .a) if m2_302 == . | m2_302 == .a
 
-recode m2_303a (. = .a) if m2_302 == . | m2_302 == .a
+recode m2_303b (. 9999998 = .a) if m2_302 == . | m2_302 == 1 |  m2_302 == .a
 
-recode m2_303b (. = .a) if m2_302 == . | m2_302 == 1 |  m2_302 == .a
+recode m2_303c (. 9999998 = .a) if m2_302 == . | m2_302 == 1 | m2_302 == 2 | m2_302 == .a
+	
+recode m2_303d (. 9999998 = .a) if m2_302 == . | m2_302 == 1 | m2_302 == 2 | m2_302 == 3 | m2_302 == .a
 
-recode m2_303c (. = .a) if m2_302 == . | m2_302 == 1 | m2_302 == 2 | m2_302 == .a
+recode m2_303e (.9999998 = .a) if m2_302 == . | m2_302 == 1 | m2_302 == 2 | m2_302 == 3 | m2_302 == 4 | m2_302 == .a
 
-recode m2_303d (. = .a) if m2_302 == . | m2_302 == 1 | m2_302 == 2 | m2_302 == 3 | m2_302 == .a
+replace m2_304a = ".a" if m2_303a == 1 | m2_303a == 2 | m2_302 == . | m2_302 == .a
 
-recode m2_303e (. = .a) if m2_302 == . | m2_302 == 1 | m2_302 == 2 | m2_302 == 3 | m2_302 == 4 | m2_302 == .a
+replace m2_304b = ".a" if m2_303b == 1 | m2_303b == 2 | m2_302 == . | m2_302 == 1 | m2_302 == .a
 
-recode m2_304a (. = .a) if m2_303a == 1 | m2_303a == 2 | m2_302 == . | m2_302 == .a
+replace m2_304c = ".a" if m2_302 == . | m2_302 == 1 | m2_302 ==2  | m2_303c == 1 | m2_303c == 2 | m2_302 == .a
 
-recode m2_304b (. = .a) if m2_303b == 1 | m2_303b == 2 | m2_302 == . | m2_302 == 1 | m2_302 == .a
+replace m2_304d = ".a" if m2_302 == . | m2_302 == 1 | m2_302 == 2 | m2_302 == 3 | m2_303d == 1 | m2_303d == 2 | m2_302 == .a
 
-recode m2_304c (. = .a) if m2_302 == . | m2_302 == 1 | m2_302 ==2  | m2_303c == 1 | m2_303c == 2 | m2_302 == .a
+replace m2_304e = ".a" if m2_302 == . | m2_302 == 1 | m2_302 == 2 | m2_302 == 3  | m2_302 == 4 | m2_303e == 1 | m2_303e == 2 | m2_302 == .a
 
-recode m2_304d (. = .a) if m2_302 == . | m2_302 == 1 | m2_302 == 2 | m2_302 == 3 | m2_303d == 1 | m2_303d == 2 | m2_302 == .a
-
-recode m2_304e (. = .a) if m2_302 == . | m2_302 == 1 | m2_302 == 2 | m2_302 == 3  | m2_302 == 4 | m2_303e == 1 | m2_303e == 2 | m2_302 == .a
-
-recode m2_305 (. = .a) if m2_302 == . | m2_302 == .a
-recode m2_306 (. = .a) if m2_305 !=0
-
+recode m2_305 (. 9999998 = .a) if m2_302 == . | m2_302 == .a
+recode m2_306 (. 9999998 = .a) if m2_305 !=0
+/*
 recode m2_306_1 (. = .a) if m2_306 !=0
 recode m2_306_2 (. = .a) if m2_306 !=0
 recode m2_306_3 (. = .a) if m2_306 !=0
@@ -2280,7 +2271,7 @@ label variable m2_705 "705. Which of the following financial sources did your ho
 label variable m2_705_other "705-Other. Other financial sources, specify"
 */	
 
-merge 1:m respondentid using "$za_data_final/eco_m1_za.dta"
+*merge 1:m respondentid using "$za_data_final/eco_m1_za.dta"
 
 *===============================================================================
 
@@ -2292,9 +2283,3 @@ order module m2_attempt_number m2_permission m2_date m2_time_start m2_interviewe
 	  m2_maternal_death_learn m2_maternal_death_learn_other, before(m2_201)
 
 save "$za_data_final/eco_m1m2_za.dta", replace
-
-codebookout "/Users/shs8688/Dropbox (Harvard University)/SPH-Kruk Team/QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data/Data documents/Country-specific data dictionaries/South Africa/South-Africa_Mod1-2_codebook.xls", replace
-
-
-codebookout "D:ZA missing codebook.xls", replace
-
