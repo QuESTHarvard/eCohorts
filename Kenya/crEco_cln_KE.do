@@ -712,7 +712,7 @@ lab var m1_713f "713f. Medicine for your emotions, nerves, or mental health?"
 lab var m1_713g "713g. Multivitamins?"
 lab var m1_713h "713h. Medicine for hypertension?"
 lab var m1_713i "713i. Medicine for diabetes, including injections of insulin?"
-lab var m1_713j_ke "713j. KE only: Iron drip/injection?"
+lab var m1_713j_ke "713j. Iron drip/injection?"
 lab var m1_713k "713l: Medicine for HIV/ ARVs?"
 lab var m1_713l "713l: Antibiotics for an infection?"
 lab var m1_714a "714a. During the visit today, were you given an injection in the arm to prevent the baby from getting tetanus, that is, convulsions after birth?"
@@ -1759,7 +1759,7 @@ label variable m2_601l`i' "601l. Did you get aspirin?"
 label variable m2_601m`i' "601m. Did you get paracetamol, or other pain relief drugs?"
 label variable m2_601n`i' "601n. Did you get any other medicine or supplement?"
 label variable m2_601n_other`i' "601n-oth. Specify other medicine or supplement you took"
-label variable m2_601o`i' "601o. KE only: Iron drip/injection"
+label variable m2_601o`i' "601o. Iron drip/injection"
 label variable m2_602b`i' "602b. In total, how much did you pay for these new medications or supplements (in Ksh.)?"
 label variable m2_603`i' "603. Are you currently taking iron and folic acid pills like IFAS and Pregnacare?"
 label variable m2_701`i' "701. Did you pay any money out of your pocket for these new visits, including for the consultation or other indirect costs like your transport to the facility?"
@@ -1828,8 +1828,7 @@ order m2_phq2_ke*, after(m2_205b_r6)
 	* STEP SIX: ORDER/SAVE DATA TO RECODED FOLDER
 
 	save "$ke_data_final/eco_m1m2_ke.dta", replace
-	clear all
-*
+
 *===============================================================================
 * MODULE 3:
 
