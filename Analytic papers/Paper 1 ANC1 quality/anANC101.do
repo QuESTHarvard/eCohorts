@@ -15,14 +15,14 @@ global qualvarsET anc1bp anc1weight anc1height anc1muac anc1blood ///
 	* Table 1 Demog & health 		
 		summtab , contvars(enrollage ) catvars(second healthlit_corr young tertile marriedp ///
 		poorhealth depress  m1_dangersigns primipara preg_intent trimester) mean by(site) excel ///
-		excelname(Table2) sheetname(ETH_demog) replace 
+		excelname(Table1) sheetname(ETH_demog) replace 
 		
-	* Fig 3 risk factors		
+	* Fig 1 risk factors		
 		tabstat m1_anemic_11 chronic maln_underw overweight complic anyrisk, stat(mean count) col(stat)
 
 	* Table 3 Facility characteristics
 		summtab if tag==1, catvars(private facsecond ) contvars (sri_score total_staff ///
-		anc_mont beds) mean by(site) excel excelname(Table3) sheetname(ET) replace 
+		anc_mont beds) mean by(site) excel excelname(suppTable4) sheetname(ET) replace 
 		
 		
 *------------------------------------------------------------------------------*/	
@@ -42,15 +42,15 @@ global qualvarsKE anc1bp anc1weight anc1height anc1muac anc1blood ///
 	* Table 1 Demog & health 		
 		summtab , contvars(enrollage) catvars(second healthlit_corr young tertile marriedp ///
 		poorhealth depress  m1_dangersigns primipara preg_intent trimester) mean by(site) excel ///
-		excelname(Table2) sheetname(KEN_demog) replace 
+		excelname(Table1) sheetname(KEN_demog) replace 
 		
-	* Fig 3 risk factors		
+	* Fig 1 risk factors		
 		tabstat  anemic chronic maln_underw overweight complic anyrisk, stat(mean count) col(stat)
 
 		
 	* Table 3 Facility characteristics
 		summtab if tag==1, catvars(private facsecond ) contvars (sri_score total_staff ///
-		anc_mont beds) mean by(site) excel excelname(Table3) sheetname(KE) replace 
+		anc_mont beds) mean by(site) excel excelname(suppTable4) sheetname(KE) replace 
 
 		
 *------------------------------------------------------------------------------*/		
@@ -70,14 +70,14 @@ global qualvarsZA anc1bp anc1weight anc1height anc1muac anc1blood ///
 	* Table 1 Demog & health 		
 		summtab , contvars(enrollage) catvars(second healthlit_corr young tertile marriedp ///
 		poorhealth depress m1_dangersigns primipara preg_intent trimester) mean by(site) excel ///
-		excelname(Table2) sheetname(ZAF_demog) replace 
+		excelname(Table1) sheetname(ZAF_demog) replace 
 		
-	* Fig 3 risk factors		
+	* Fig 1 risk factors		
 		tabstat  anemic chronic maln_underw overweight complic anyrisk, stat(mean count) col(stat)
 		
 	* Table 3 Facility characteristics
 		summtab if tag==1,  contvars (sri_score total_staff ///
-		anc_mont beds) mean by(site) excel excelname(Table3) sheetname(ZA) replace 
+		anc_mont beds) mean by(site) excel excelname(suppTable4) sheetname(ZA) replace 
 
 *------------------------------------------------------------------------------*
 * INDIA	
@@ -95,14 +95,14 @@ global qualvarsIND anc1bp anc1weight anc1blood ///
 		* Table 1 Demog & health 		
 		summtab , contvars(enrollage) catvars(second healthlit_corr young tertile marriedp ///
 		poorhealth depress  m1_dangersigns primipara preg_intent trimester) mean by(urban) excel ///
-		excelname(Table2) sheetname(IND_demog) replace 
+		excelname(Table1) sheetname(IND_demog) replace 
 		
-		* Fig 3 risk factors		
+		* Fig 1 risk factors		
 		tabstat  anemic chronic maln_underw overweight complic anyrisk, stat(mean count) col(stat)
 
 	
 	* Table 3 Facility characteristics
 		summtab if tag==1, catvars(facility_lvl ) contvars (sri_score total_staff ///
-		anc_mont beds) mean by(urban) excel excelname(Table3) sheetname(IN) replace 
+		anc_mont beds) mean by(urban) excel excelname(suppTable4) sheetname(IN) replace 
 
 
