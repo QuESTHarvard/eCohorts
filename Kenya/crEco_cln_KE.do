@@ -1829,7 +1829,7 @@ order m2_phq2_ke*, after(m2_205b_r6)
 
 	save "$ke_data_final/eco_m1m2_ke.dta", replace
 	clear all
-*
+
 *===============================================================================
 * MODULE 3:
 
