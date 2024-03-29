@@ -2,7 +2,6 @@
 * Created by S. Sabwa
 * Updated: Aug 17 2023 
 
-/*
 *------------------------------------------------------------------------------*
 
 * Import Data 
@@ -238,6 +237,9 @@ replace m1_1309 =  m1_1309/100 if m1_1309==1226
 
 replace m1_723 = ".a" if m1_723 == "NA"
 destring(m1_723), generate(recm1_723)
+
+* Data quality fixes to respondent id naming:
+replace respondentid = "QEE_083" if respondentid == "QEE_O83"
 
 *===============================================================================
 	
@@ -1535,6 +1537,33 @@ rename MOD2_Costs_NV_704 m2_704_confirm
 rename MOD2_Costs_NV_705 m2_705
 rename MOD2_Costs_NV_705_Other m2_705_other	
 
+*Data quality: 
+*dropping pids based on Londi's review:
+*SS: ask why there is a mix of underscores and dashes
+drop if respondentid == "BNE_013"
+drop if respondentid == "MPH_015"
+replace respondentid = "RCH_083" if respondentid == "CRH_083"
+replace respondentid = "EUB_008" if respondentid == "EUB_,008"
+replace respondentid = "EUB_003" if respondentid == "EUB_033"
+replace respondentid = "IIB_024" if respondentid == "IiB_024"
+replace respondentid = "KAN_017" if respondentid == "KAN_01"
+replace respondentid = "KAN_014" if respondentid == "Kan_014"
+replace respondentid = "KAN_032" if respondentid == "KAN_32"
+replace respondentid = "KAN_009" if respondentid == "KAN-009"
+replace respondentid = "MER_028" if respondentid == "MER-028"
+replace respondentid = "MER_042" if respondentid == "MMER_042"
+replace respondentid = "MND-011" if respondentid == "MND_011"
+replace respondentid = "MND-013" if respondentid == "MND_013"
+replace respondentid = "MND_010" if respondentid == "MND-010"
+replace respondentid = "NEL_054" if respondentid == "NEL-054"
+replace respondentid = "NWE_040" if respondentid == "NWE-040"
+replace respondentid = "NWE_065" if respondentid == "NWE-065"
+replace respondentid = "PAP_050" if respondentid == "PAP_50"
+replace respondentid = "RCH_028" if respondentid == "RCh_028"
+replace respondentid = "TOK_019" if respondentid == "TOk_019"
+replace respondentid = "BXE_010" if respondentid == "BXE__010"
+replace respondentid = "NOK_042" if respondentid == "NOK_42"
+
 *===============================================================================
 	
 	* STEP TWO: ADD VALUE LABELS
@@ -1616,6 +1645,7 @@ rename MOD2_Costs_NV_705_Other m2_705_other
     gen m2_307_`j' = strpos("," + m2_307 + ",", ",`j',") > 0
 	}
 	drop m2_307_6-m2_307_95
+	drop m2_307
 	
 	label define m2_YN 1 "Yes" 0 "No"
 	label values m2_307_1 m2_307_2 m2_307_3 m2_307_4 m2_307_5 m2_307_96 m2_YN
@@ -1631,6 +1661,7 @@ rename MOD2_Costs_NV_705_Other m2_705_other
     gen m2_310_`j' = strpos("," + m2_310 + ",", ",`j',") > 0
 	}
 	drop m2_310_6-m2_310_95
+	drop m2_310
 	
 	label values m2_310_1 m2_310_2 m2_310_3 m2_310_4 m2_310_5 m2_310_96 m2_YN
 	
@@ -1645,6 +1676,7 @@ rename MOD2_Costs_NV_705_Other m2_705_other
     gen m2_313_`j' = strpos("," + m2_313 + ",", ",`j',") > 0
 	}
 	drop m2_313_6-m2_313_95
+	drop m2_313
 	
 	label values m2_313_1 m2_313_2 m2_313_3 m2_313_4 m2_313_5 m2_313_96 m2_YN
 	
@@ -1659,6 +1691,7 @@ rename MOD2_Costs_NV_705_Other m2_705_other
     gen m2_316_`j' = strpos("," + m2_316 + ",", ",`j',") > 0
 	}
 	drop m2_316_6-m2_316_95
+	drop m2_316
 	
 	label values m2_316_1 m2_316_2 m2_316_3 m2_316_4 m2_316_5 m2_316_96 m2_YN
 	
@@ -1685,6 +1718,7 @@ rename MOD2_Costs_NV_705_Other m2_705_other
 	drop m2_320_12-m2_320_95
 	drop m2_320_97
 	drop m2_320_98
+	drop m2_320
 	
 	label values m2_320_0 m2_320_1 m2_320_2 m2_320_3 m2_320_4 m2_320_5 m2_320_96 m2_320_99 ßm2_YN
 	
@@ -1876,6 +1910,7 @@ rename MOD2_Costs_NV_705_Other m2_705_other
     gen m2_705_`j' = strpos("," + m2_705 + ",", ",`j',") > 0
 	}
 	drop m2_705_7-m2_705_95
+	drop m2_705
 
 * Formatting Dates (SS: do this for all dates in all modules)	 
 	
@@ -2151,9 +2186,14 @@ drop round2
 reshape wide m2_permission m2_completed_attempts m2_interviewer m2_date m2_time_start m2_ga m2_hiv_status m2_maternal_death_reported m2_date_of_maternal_death m2_maternal_death_learn m2_maternal_death_learn_other m2_201 m2_202 m2_203a m2_203b m2_203c m2_203d m2_203e m2_203f m2_203g m2_203h m2_204_other m2_205a m2_205b m2_206 m2_301 m2_302 m2_303 m2_303a m2_304a m2_303b m2_304b m2_303c m2_304c m2_303d m2_304d m2_303e m2_304e m2_305 m2_306 m2_307 m2_307_other m2_308 m2_309 m2_310 m2_310_other m2_311 m2_312 m2_313 m2_313_other m2_314 m2_316 m2_316_other m2_317 m2_318 m2_319 m2_319_other m2_320 m2_320_other m2_321 m2_401 m2_402 m2_403 m2_404 m2_405 m2_501a m2_501b m2_501c m2_501d m2_501e m2_501f m2_501g m2_501g_other m2_502 m2_503a m2_505a m2_503b m2_505b m2_503c m2_505c m2_503d m2_505d m2_503e m2_505e m2_503f m2_505f m2_503g_za m2_505h_za m2_504 m2_504_other m2_505g m2_506a m2_506b m2_506c m2_506d m2_507 m2_507_other m2_508a m2_508b_num m2_508c_time m2_509a m2_509b m2_509c m2_601a m2_601o m2_601b m2_601c m2_601d m2_601e m2_601f m2_601g m2_601h m2_601i m2_601j m2_601k m2_601l m2_601m m2_601n_other m2_602b m2_603 m2_701 m2_702a_cost m2_702b_cost m2_702c_cost m2_702d_cost m2_702e_cost m2_702_other_ke m2_703 m2_704 m2_704_confirm m2_705 m2_705_other m2_307_1 m2_307_2 m2_307_3 m2_307_4 m2_307_5 m2_307_96 m2_310_1 m2_310_2 m2_310_3 m2_310_4 m2_310_5 m2_310_96 m2_313_1 m2_313_2 m2_313_3 m2_313_4 m2_313_5 m2_313_96 m2_316_1 m2_316_2 m2_316_3 m2_316_4 m2_316_5 m2_316_96 m2_320_0 m2_320_1 m2_320_2 m2_320_3 m2_320_4 m2_320_5 m2_320_6 m2_320_7 m2_320_8 m2_320_9 m2_320_10 m2_320_11 m2_320_96 m2_320_99 m2_705_1 m2_705_2 m2_705_3 m2_705_4 m2_705_5 m2_705_6 m2_705_96, i(respondentid) j(m2_round, string) 
 
 *------------------------------------------------------------------------------*
+*save M2 only dataset
+
+save "$za_data_final/eco_m2_za.dta", replace
+
+*------------------------------------------------------------------------------*
 * merge dataset with M1
 
-merge 1:1 respondentid using "$za_data_final/eco_m1_za.dta"
+merge 1:1 respondentid using "$za_data_final/eco_m1_za.dta" // N= 8 in master only (M2) not in using (M1).
 
 drop _merge  
 
@@ -2164,24 +2204,10 @@ drop _merge
 	* MODULE 2:
 * STEP FOUR: LABELING VARIABLES
 	foreach i in _r1 _r2 _r3 _r4 _r5 _r6 {
-label variable m2_attempt_number`i'  "Which attempt is this at calling the respondent?"
-label variable m2_attempt_number_other`i'  "Other, specify"
-label variable m2_attempt_outcome`i'  "What was the response?"
-label variable m2_resp_lang1`i'  "Are you able to communicate with the respondent or do they speak a language foreign to you?"
-label variable m2_resp_lang2`i'  "Which language does the respondent speak?"
-label variable m2_resp_lang_other`i'  "Other language, specify"
-label variable m2_attempt_relationship`i'  "What is the relationship between the owner of this phone and the participant?"
-label variable m2_attempt_relationship_other`i'  "Specify other relationship"
-label variable m2_attempt_avail`i'  "Respondent's availability"
-label variable m2_attempt_contact`i'  "Is this still the best contact to reach the participant?"
-label variable m2_attempt_goodtime`i'  "Do you know when would be a good time to reach the participant"
-label variable m2_reschedule_resp`i'  "Could you let me know at which date and time the participant would be available"
+label variable m2_permission`i'  "Permission granted to conduct call"
 label variable m2_completed_attempts`i'  "Module 2 completed attempts"
-label variable m2_consent_recording`i' 	"Consent to audio recording"
-label variable m2_start_time`i'  "Start date and time"
+label variable m2_time_start`i'  "Start date and time"
 label variable m2_date`i'  "102. Date of interview (D-M-Y)"
-label variable m2_date_time`i'  "Start time (YYYY:MM:DD HH:MM:SS)"
-label variable m2_date_confirm`i'  "The date on this device is (m2_date), is this the correct date?"
 label variable m2_time_start`i'  "103. Time of interview started"
 label variable m2_county`i'  "County"
 label variable m2_interviewer`i'  "Interviewer name"
@@ -2193,9 +2219,6 @@ label variable m2_maternal_death_learn`i'  "111. How did you learn about the mat
 label variable m2_maternal_death_learn_other`i'  "111-Other. Specify other way of learning maternal death"
 label variable m2_201`i'  "201. In general, how would you rate your overall health?"
 label variable m2_202`i'  "202. Are you still pregnant, or did something else happen?"
-label variable m2_202_other`i'  "What happened?"
-label variable m2_202_delivery_date`i'  "202. KE only: On which date did you deliver?"
-label variable m2_202_other_date`i'  "202. On which date did this occur?"
 label variable m2_203a`i'  "203a. Have you experienced severe or persistent headaches?"
 label variable m2_203b`i'  "203b. Have you experienced vaginal bleeding of any amount?"
 label variable m2_203c`i'  "203c. Have you experienced fever?"
@@ -2204,11 +2227,10 @@ label variable m2_203e`i'  "203e. Have you experienced a lot of difficult breath
 label variable m2_203f`i'  "203f. Have you experienced convulsions or seizures?"
 label variable m2_203g`i'  "203g. Have you experienced repeated fainting or loss of consciousness?"
 label variable m2_203h`i'  "203h. Have noticed that the baby has completely stopped moving?"
-label variable m2_204i`i'  "204i. Have you experienced any other major health problems?"
-label variable m2_204i_other`i' "204i-Other. Specify any other feeling since last visit"
+*label variable m2_204i`i'  "204i. Have you experienced any other major health problems?"
+label variable m2_204_other`i' "204i-Other. Specify any other feeling since last visit"
 label variable m2_205a`i' "205a. How many days have you been bothered by little interest or pleasure in doing things?"
 label variable m2_205b`i' "205b. How many days have you been bothered by feeling down, depressed, or hopeless?"
-label variable m2_205b`i' "PHQ-2 score"
 label variable m2_206`i' "206. How often do you currently smoke cigarettes or use any other type of tobacco?"
 label variable m2_301`i' "301. Have you been seen or attended to by a clinician or healthcare provider for yourself?   "
 label variable m2_302`i' "302. How many times have you been seen or attended to by a clinician or healthcare provider for yourself?"
@@ -2218,73 +2240,72 @@ label variable m2_303c`i' "303c. Where did the 3rd healthcare consultation for y
 label variable m2_303d`i' "303d. Where did the 4th healthcare consultation for yourself take place?"
 label variable m2_303e`i' "303e. Where did the 5th healthcare consultation for yourself take place?"
 label variable m2_304a`i' "304a. What is the name of the facility where this first healthcare consultation took place?"
-label variable m2_304a_other`i' "304a-Other. Other facility for 1st health consultation"
+*label variable m2_304a_other`i' "304a-Other. Other facility for 1st health consultation"
 label variable m2_304b`i' "304b. What is the name of the facility where the second healthcare consultation took place?"
-label variable m2_304b_other`i' "304b-Other. Other facility for 2nd health consultation"
+*label variable m2_304b_other`i' "304b-Other. Other facility for 2nd health consultation"
 label variable m2_304c`i' "304c. What is the name of the facility where the third healthcare consultation took place?"
-label variable m2_304c_other`i' "304c-Other. Other facility for 3rd health consultation"
+*label variable m2_304c_other`i' "304c-Other. Other facility for 3rd health consultation"
 label variable m2_304d`i' "304d. What is the name of the facility where the fourth healthcare consultation took place?"
-label variable m2_304d_other`i' "304d-Other. Other facility for 4th health consultation"
+*label variable m2_304d_other`i' "304d-Other. Other facility for 4th health consultation"
 label variable m2_304e`i' "304e. What is the name of the facility where the fifth healthcare consultation took place?"
-label variable m2_304e_other`i' "304e-Other. Other facility for 5th health consultation"
+*label variable m2_304e_other`i' "304e-Other. Other facility for 5th health consultation"
 label variable m2_305`i' "305. Was the first consultation for a routine antenatal care visit?"
-label variable m2_306`i' "306. Was the first consultation for a referral from your antenatal care provider?"
-label variable m2_306_1`i' "307. A new health problem, including an emergency or an injury"
-label variable m2_306_2`i' "307. An existing health problem"
-label variable m2_306_3`i' "307. A lab test, x-ray, or ultrasound"
-label variable m2_306_4`i' "307. To pick up medicine"
-label variable m2_306_5`i' "307. To get a vaccine"
-label variable m2_306_96`i' "307. Other reasons"
+label variable m2_307`i' "307. Was the first consultation for a referral from your antenatal care provider?"
+label variable m2_307_1`i' "307. A new health problem, including an emergency or an injury"
+label variable m2_307_2`i' "307. An existing health problem"
+label variable m2_307_3`i' "307. A lab test, x-ray, or ultrasound"
+label variable m2_307_4`i' "307. To pick up medicine"
+label variable m2_307_5`i' "307. To get a vaccine"
+label variable m2_307_96`i' "307. Other reasons"
 label variable m2_307_other`i' "307-Other. Specify other reason for the 1st visit"
 label variable m2_308`i' "308. Was the second consultation is for a routine antenatal care visit?"
 label variable m2_309`i' "309. Was the second consultation is for a referral from your antenatal care provider?"
-label variable m2_308_1`i' "310. Was the second consultation for any of the following? A new health problem, including an emergency or an injury"
-label variable m2_308_2`i' "310. Was the second consultation for any of the following? An existing health problem"
-label variable m2_308_3`i' "310. Was the second consultation for any of the following? A lab test, x-ray, or ultrasound"
-label variable m2_308_4`i' "310. Was the second consultation for any of the following? To pick up medicine"
-label variable m2_308_5`i' "310. Was the second consultation for any of the following? To get a vaccine"
-label variable m2_308_96`i' "310. Was the second consultation for any of the following? Other reasons"
+label variable m2_310_1`i' "310. Was the second consultation for any of the following? A new health problem, including an emergency or an injury"
+label variable m2_310_2`i' "310. Was the second consultation for any of the following? An existing health problem"
+label variable m2_310_3`i' "310. Was the second consultation for any of the following? A lab test, x-ray, or ultrasound"
+label variable m2_310_4`i' "310. Was the second consultation for any of the following? To pick up medicine"
+label variable m2_310_5`i' "310. Was the second consultation for any of the following? To get a vaccine"
+label variable m2_310_96`i' "310. Was the second consultation for any of the following? Other reasons"
 label variable m2_310_other`i' "310-Other. Specify other reason for second consultation"
 label variable m2_311`i' "311. Was the third consultation is for a routine antenatal care visit?"
 label variable m2_312`i' "312. Was the third consultation is for a referral from your antenatal care provider?"
-label variable m2_311_1`i' "313. Was the third consultation for any of the following? A new health problem, including an emergency or an injury"
-label variable m2_311_2`i' "313. Was the third consultation for any of the following? An existing health problem"
-label variable m2_311_3`i' "313. Was the third consultation for any of the following? A lab test, x-ray, or ultrasound"
-label variable m2_311_4`i' "313. Was the third consultation for any of the following? To pick up medicine"
-label variable m2_311_5`i' "313. Was the third consultation for any of the following? To get a vaccine"
-label variable m2_311_96`i' "313. Was the third onsultation for any of the following? Other reasons"
+label variable m2_313_1`i' "313. Was the third consultation for any of the following? A new health problem, including an emergency or an injury"
+label variable m2_313_2`i' "313. Was the third consultation for any of the following? An existing health problem"
+label variable m2_313_3`i' "313. Was the third consultation for any of the following? A lab test, x-ray, or ultrasound"
+label variable m2_313_4`i' "313. Was the third consultation for any of the following? To pick up medicine"
+label variable m2_313_5`i' "313. Was the third consultation for any of the following? To get a vaccine"
+label variable m2_313_96`i' "313. Was the third onsultation for any of the following? Other reasons"
 label variable m2_313_other`i' "313-Other. Specify any other reason for the third consultation"
 label variable m2_314`i' "314. Was the fourth consultation is for a routine antenatal care visit?"
 label variable m2_315`i' "315. Was the fourth consultation is for a referral from your antenatal care provider?"
-label variable m2_314_1`i' "316. Was the fourth consultation for any of the following? A new health problem, including an emergency or an injury"
-label variable m2_314_2`i' "316. Was the fourth consultation for any of the following? An existing health problem"
-label variable m2_314_3`i' "316. Was the fourth consultation for any of the following? A lab test, x-ray, or ultrasound"
-label variable m2_314_4`i' "316. Was the fourth consultation for any of the following? To pick up medicine"
-label variable m2_314_5`i' "316. Was the fourth consultation for any of the following? To get a vaccine"
-label variable m2_314_96`i' "316. Was the fourth onsultation for any of the following? Other reasons"
+label variable m2_316_1`i' "316. Was the fourth consultation for any of the following? A new health problem, including an emergency or an injury"
+label variable m2_316_2`i' "316. Was the fourth consultation for any of the following? An existing health problem"
+label variable m2_316_3`i' "316. Was the fourth consultation for any of the following? A lab test, x-ray, or ultrasound"
+label variable m2_316_4`i' "316. Was the fourth consultation for any of the following? To pick up medicine"
+label variable m2_316_5`i' "316. Was the fourth consultation for any of the following? To get a vaccine"
+label variable m2_316_96`i' "316. Was the fourth onsultation for any of the following? Other reasons"
 label variable m2_316_other`i' "316-Other. Specify other reason for the fourth consultation"
 label variable m2_317`i' "317. Was the fifth consultation is for a routine antenatal care visit?"
 label variable m2_318`i' "318. Was the fifth consultation is for a referral from your antenatal care provider?"
-label variable m2_317_1`i' "319. Was the fifth consultation is for any of the following? A new health problem, including an emergency or an injury"
-label variable m2_317_2`i' "319. Was the fifth consultation is for any of the following? An existing health problem"
-label variable m2_317_3`i' "319. Was the fifth consultation is for any of the following? A lab test, x-ray, or ultrasound"
-label variable m2_317_4`i' "319. Was the fifth consultation is for any of the following? To pick up medicine"
-label variable m2_317_5`i' "319. Was the fifth consultation is for any of the following? To get a vaccine"
-label variable m2_317_96`i' "319. Was the fifth consultation is for any of the following? Other reasons"
+label variable m2_319_1`i' "319. Was the fifth consultation is for any of the following? A new health problem, including an emergency or an injury"
+label variable m2_319_2`i' "319. Was the fifth consultation is for any of the following? An existing health problem"
+label variable m2_319_3`i' "319. Was the fifth consultation is for any of the following? A lab test, x-ray, or ultrasound"
+label variable m2_319_4`i' "319. Was the fifth consultation is for any of the following? To pick up medicine"
+label variable m2_319_5`i' "319. Was the fifth consultation is for any of the following? To get a vaccine"
+label variable m2_319_96`i' "319. Was the fifth consultation is for any of the following? Other reasons"
 label variable m2_319_other`i' "319-Other. Specify other reason for the fifth consultation"
 label variable m2_320_0`i' "320. No reason or you didn't need it"
-label variable m2_320a`i' "320. You tried but were sent away (e.g., no appointment available) "
-label variable m2_320b`i' "320. High cost (e.g., high out of pocket payment, not covered by insurance)"
-label variable m2_320c`i' "320. Far distance (e.g., too far to walk or drive, transport not readily available)"
-label variable m2_320d`i' "320. Long waiting time (e.g., long line to access facility, long wait for the provider)"
-label variable m2_320e`i' "320. Poor healthcare provider skills (e.g., spent too little time with patient, did not conduct a thorough exam)"
-label variable m2_320f`i' "320. Staff don't show respect (e.g., staff is rude, impolite, dismissive)"
-label variable m2_320g`i' "320. Medicines or equipment are not available (e.g., medicines regularly out of stock, equipment like X-ray machines broken or unavailable)"
-label variable m2_320h`i' "320. COVID-19 restrictions (e.g., lockdowns, travel restrictions, curfews) "
-label variable m2_320i`i' "320. COVID-19 fear"
-label variable m2_320j`i' "320. Don't know where to go/too complicated"
-label variable m2_320k`i' "320. Fear of discovering serious problem"
-label variable m2_320_12_ke`i' "320. KE only: Next ANC visit is scheduled"
+label variable m2_320_1`i' "320. You tried but were sent away (e.g., no appointment available) "
+label variable m2_320_2`i' "320. High cost (e.g., high out of pocket payment, not covered by insurance)"
+label variable m2_320_3`i' "320. Far distance (e.g., too far to walk or drive, transport not readily available)"
+label variable m2_320_4`i' "320. Long waiting time (e.g., long line to access facility, long wait for the provider)"
+label variable m2_320_5`i' "320. Poor healthcare provider skills (e.g., spent too little time with patient, did not conduct a thorough exam)"
+label variable m2_320_6`i' "320. Staff don't show respect (e.g., staff is rude, impolite, dismissive)"
+label variable m2_320_7`i' "320. Medicines or equipment are not available (e.g., medicines regularly out of stock, equipment like X-ray machines broken or unavailable)"
+label variable m2_320_8`i' "320. COVID-19 restrictions (e.g., lockdowns, travel restrictions, curfews) "
+label variable m2_320_9`i' "320. COVID-19 fear"
+label variable m2_320_10`i' "320. Don't know where to go/too complicated"
+label variable m2_320_11`i' "320. Fear of discovering serious problem"
 label variable m2_320_96`i' "320. Other, specify"
 label variable m2_320_99`i' "320. Refused"
 label variable m2_320_other`i' "320 Other. Specify other reason preventing receiving more antenatal care"
@@ -2294,8 +2315,6 @@ label variable m2_402`i' "402. How would you rate the quality of care that you r
 label variable m2_403`i' "403. How would you rate the quality of care that you received from the health facility where you took the 3rd consultation?"
 label variable m2_404`i' "404. How would you rate the quality of care that you received from the health facility where you took the 4th consultation?"
 label variable m2_405`i' "405. How would you rate the quality of care that you received from the health facility where you took the 5th consultation?"
-label variable m2_501`i' "501. Since we last spoke, did you receive any of the following diagnostic tests at least once?"
-label variable m2_501_0`i' "501. None of the above"
 label variable m2_501a`i' "501a. Did you get your blood pressure measured (with a cuff around your arm)?"
 label variable m2_501b`i' "501b. Did you get your weight taken (using a scale)?"
 label variable m2_501c`i' "501c. Did you get a blood draw (that is, taking blood from your arm with a syringe)?"
@@ -2305,14 +2324,13 @@ label variable m2_501f`i' "501f. Did you get an ultrasound (that is, when a prob
 label variable m2_501g`i' "501g. Did you get any other tests?"
 label variable m2_501g_other`i' "501g-Other. Specify any other test you took since you last spoke to us"
 label variable m2_502`i' "502. Did you receive any new test results from a health care provider? By that I mean, any result from a blood or urine sample or from blood pressure measurement. Do not include any results that were given to you during your first antenatal care visit or during the first survey, only new ones."
-label variable m2_503`i' "503. Did you receive a result for:"
-label variable m2_503_0`i' "503. None of the above"
 label variable m2_503a`i' "503a. Did you receive a result for Anemia?"
 label variable m2_503b`i' "503b. Did you receive a result for HIV?"
 label variable m2_503c`i' "503c. Did you receive a result for HIV viral load?"
 label variable m2_503d`i' "503d. Did you receive a result for Syphilis?"
 label variable m2_503e`i' "503e. Did you receive a result for diabetes?"
 label variable m2_503f`i' "503f. Did you receive a result for Hypertension?"
+label variable m2_503g_za`i' "503g. Did you receive a result for TB?"
 label variable m2_504`i' "504. Did you receive any other new test results?"
 label variable m2_504_other`i' "504-Other. Specify other test result you receive"
 label variable m2_505a`i' "505a. What was the result of the test for anemia?"
@@ -2322,21 +2340,12 @@ label variable m2_505d`i' "505d. What was the result of the test for syphilis?"
 label variable m2_505e`i' "505e. What was the result of the test for diabetes?"
 label variable m2_505f`i' "505f. What was the result of the test for hypertension?"
 label variable m2_505g`i' "505g. What was the result of the test for other tests?"
-label variable m2_506`i' "506. Did you discuss any of the following with a healthcare provider, or not?"
-label variable m2_506_0`i' "506. None of the above"
+label variable m2_505h_za`i' "505h. What was the result of the test for TB? Remember that this information will remain fully confidential"
 label variable m2_506a`i' "506a. Did you and a healthcare provider discuss about the signs of pregnancy complications that would require you to go to the health facility?"
 label variable m2_506b`i' "506b. Did you and a healthcare provider discuss about your birth plan that is, where you will deliver, how you will get there, and how you need to prepare, or didnt you?"
 label variable m2_506c`i' "506c. Did you and a healthcare provider discuss about care for the newborn when he or she is born such as warmth, hygiene, breastfeeding, or the importance of postnatal care?"
 label variable m2_506d`i' "506d. Did you and a healthcare provider discuss about family planning options for after delivery?"
 label variable m2_507`i' "507. What did the health care provider tell you to do regarding these new symptoms?"
-label variable m2_507_1_ke`i' "507. KE only: Nothing, we did not discuss this"
-label variable m2_507_2_ke`i' "507. KE only: They told you to get a lab test or imaging (e.g., ultrasound, blood tests, x-ray, heart echo)"
-label variable m2_507_3_ke`i' "507. KE only: They provided a treatment in the visit"
-label variable m2_507_4_ke`i' "507. KE only: They prescribed a medication"
-label variable m2_507_5_ke`i' "507. KE only: They told you to come back to this health facility"
-label variable m2_507_6_ke`i' "507. KE only: They told you to go somewhere else for higher level care"
-label variable m2_507_7_ke`i' "507. KE only: They told you to wait and see"
-label variable m2_507_96_ke`i' "507. KE only: Other (Specify)"
 label variable m2_507_other_ke`i' "507-Other. KE only: Other advice, specify "
 label variable m2_508a`i' "508a. Did you have a session of psychological counseling or therapy with any type of professional?  This could include seeing a mental health professional (like a phycologist, social worker, nurse, spiritual advisor or healer) for problems with your emotions or nerves."
 label variable m2_508b_num`i' "508b. How many of these sessions did you have since you last spoke to us?"
@@ -2346,8 +2355,6 @@ label variable m2_509_0`i' "509. None of the above"
 label variable m2_509a`i' "509a. Did a healthcare provider tells you that you needed to go see a specialist like an obstetrician or a gynecologist?"
 label variable m2_509b`i' "509b. Did a healthcare provider tells you that you needed to go to the hospital for follow-up antenatal care?"
 label variable m2_509c`i' "509c. Did a healthcare provider tell you that you will need a C-section?"
-label variable m2_601`i' "601. Did you get:"
-label variable m2_601_0`i' "601. None of the above"
 label variable m2_601a`i' "601a. Did you get iron or folic acid pills like IFAS or Pregnacare?"
 label variable m2_601b`i' "601b. Did you get calcium pills?"
 label variable m2_601c`i' "601c. Did you get multivitamins?"
@@ -2361,9 +2368,8 @@ label variable m2_601j`i' "601j. Did you get medicine for diabetes, including in
 label variable m2_601k`i' "601k. Did you get antibiotics for an infection?"
 label variable m2_601l`i' "601l. Did you get aspirin?"
 label variable m2_601m`i' "601m. Did you get paracetamol, or other pain relief drugs?"
-label variable m2_601n`i' "601n. Did you get any other medicine or supplement?"
+label variable m2_601o`i' "601o. Iron injection"
 label variable m2_601n_other`i' "601n-oth. Specify other medicine or supplement you took"
-label variable m2_601o`i' "601o. KE only: Iron drip/injection"
 label variable m2_602b`i' "602b. In total, how much did you pay for these new medications or supplements (in Ksh.)?"
 label variable m2_603`i' "603. Are you currently taking iron and folic acid pills like IFAS and Pregnacare?"
 label variable m2_701`i' "701. Did you pay any money out of your pocket for these new visits, including for the consultation or other indirect costs like your transport to the facility?"
