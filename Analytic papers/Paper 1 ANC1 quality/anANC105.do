@@ -42,8 +42,8 @@ u "$user/$analysis/ETtmp.dta", clear
 	ta depress_tx if depress==1
 	
 	* Anemia
-	g anemia_address= anc1blood if lvl_anemia<3
-	ta anc1ifa if lvl_anemia<3
+	g anemia_address= anc1blood if lvl_anemia<4
+	ta anc1ifa if lvl_anemia<4
 	
 	* Danger signs (one of 6)
 	ta m1_dangersign
@@ -100,8 +100,8 @@ u "$user/$analysis/KEtmp.dta", clear
 	ta depress_tx if depress==1
 	
 	* Anemia
-	g anemia_address= anc1blood if lvl_anemia<3
-	ta anc1ifa if lvl_anemia<3
+	g anemia_address= anc1blood if lvl_anemia<4
+	ta anc1ifa if lvl_anemia<4
 	
 	* Danger signs (one of 6)
 	ta m1_dangersign
@@ -157,10 +157,10 @@ u "$user/$analysis/ZAtmp.dta", clear
 	ta depress_tx if depress==1
 
 	* Anemia
-	g anemia_address= anc1blood if lvl_anemia<3
+	g anemia_address= anc1blood if lvl_anemia<4
 	recode m1_713_za_in 0=1 2/3=0
 	egen anemia_tx= rowmax(anc1ifa m1_713_za_in ) // ifa or iron injection
-	ta anemia_tx if lvl_anemia<3
+	ta anemia_tx if lvl_anemia<4
 
 	* Danger signs (one of 6)
 	ta m1_dangersign
@@ -212,10 +212,10 @@ u "$user/$analysis/INtmp.dta", clear
 	ta depress_tx if depress==1
 	
 	* Anemia
-	g anemia_address= anc1blood if lvl_anemia<3
+	g anemia_address= anc1blood if lvl_anemia<4
 	recode m1_713_in_za 2=1 3=0
 	egen anemia_tx=rowmax(anc1ifa m1_713_in_za) // ifa or iron injection
-	ta anemia_tx if lvl_anemia<3
+	ta anemia_tx if lvl_anemia<4
 	
 	
 	* Danger signs (one of 6)
