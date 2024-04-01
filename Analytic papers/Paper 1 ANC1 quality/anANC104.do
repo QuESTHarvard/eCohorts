@@ -74,7 +74,7 @@ tabstat phys_exam diag hist counsel tx, stat (mean) col(stat)
 by site, sort : tabstat severe_anemia chronic overweight young old multiple complic, stat (mean) col(stat)
 by co, sort: tabstat severe_anemia chronic overweight young old multiple complic, stat (mean) col(stat)
 
-*------------------------------------------------------------------------------*
+/*------------------------------------------------------------------------------*
 * Ethiopia - BY FACILITY 
 u "$user/$analysis/ETtmp.dta", clear
 cd "$user/$analysis/Graphs" 

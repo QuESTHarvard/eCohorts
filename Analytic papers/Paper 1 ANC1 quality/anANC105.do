@@ -58,6 +58,12 @@ u "$user/$analysis/ETtmp.dta", clear
 	ta anc1muac if maln_under==1
 	ta anc1food if maln_under==1
 
+	* Obese
+	ta anc1bmi if overweight==1
+	egen obesemgmt= rowtotal(m1_716a m1_716b)
+	recode obesemgmt 1=0 2=1
+	lab var obesemgmt "Discussed nutrition and exercise"
+	ta obesemgmt if overweight==1
 
 *------------------------------------------------------------------------------*	
 * Kenya
@@ -113,7 +119,17 @@ u "$user/$analysis/KEtmp.dta", clear
 	replace danger_address=. if m1_dangersign==0
 			
 	ta specialist_hosp if m1_dangersign==1
+	
+	* Undernourished
+	ta anc1muac if maln_under==1
+	ta anc1food if maln_under==1
 
+	* Obese
+	ta anc1bmi if overweight==1
+	egen obesemgmt= rowtotal(m1_716a m1_716b)
+	recode obesemgmt 1=0 2=1
+	lab var obesemgmt "Discussed nutrition and exercise"
+	ta obesemgmt if overweight==1
 *------------------------------------------------------------------------------*		
 * ZAF
 u "$user/$analysis/ZAtmp.dta", clear 			
@@ -169,9 +185,19 @@ u "$user/$analysis/ZAtmp.dta", clear
 	replace danger_address=. if m1_dangersign==0
 	
 	ta specialist_hosp if m1_dangersign==1		
-		
+	
+	* Undernourished
+	ta anc1muac if maln_under==1
+	ta anc1food if maln_under==1
+	
+	* Obese
+	ta anc1bmi if overweight==1
+	egen obesemgmt= rowtotal(m1_716a m1_716b)
+	recode obesemgmt 1=0 2=1
+	lab var obesemgmt "Discussed nutrition and exercise"
+	ta obesemgmt if overweight==1		
 			
-------------------------------------------------------------------------------*		
+*-------------------------------------------------------------------------------		
 * INDIA
 u "$user/$analysis/INtmp.dta", clear 			
 	
@@ -236,7 +262,12 @@ u "$user/$analysis/INtmp.dta", clear
 	ta anc1muac if maln_under==1
 	ta anc1food if maln_under==1
 		
-			
+	* Obese
+	ta anc1bmi if overweight==1
+	egen obesemgmt= rowtotal(m1_716a m1_716b)
+	recode obesemgmt 1=0 2=1
+	lab var obesemgmt "Discussed nutrition and exercise"
+	ta obesemgmt if overweight==1		
 			
 			
 			

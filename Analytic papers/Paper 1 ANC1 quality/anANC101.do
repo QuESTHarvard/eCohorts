@@ -24,7 +24,10 @@ global qualvarsET anc1bp anc1weight anc1height anc1muac anc1blood ///
 		summtab if tag==1, catvars(private facsecond ) contvars (sri_score total_staff ///
 		anc_mont beds) mean by(site) excel excelname(suppTable4) sheetname(ET) replace 
 		
-		
+		tabstat sri_score, by(sri_cat) stat(min max) col(stat)
+		tabstat total_staff_onc, by(staff_cat) stat(min max) col(stat)
+		tabstat anc_mont, by(vol_cat) stat(min max) col(stat)
+
 *------------------------------------------------------------------------------*/	
 * KENYA
 u "$user/$analysis/KEtmp.dta", clear
@@ -52,6 +55,10 @@ global qualvarsKE anc1bp anc1weight anc1height anc1muac anc1blood ///
 		summtab if tag==1, catvars(private facsecond ) contvars (sri_score total_staff ///
 		anc_mont beds) mean by(site) excel excelname(suppTable4) sheetname(KE) replace 
 
+		tabstat sri_score, by(sri_cat) stat(min max) col(stat)
+		tabstat total_staff_onc, by(staff_cat) stat(min max) col(stat)
+		tabstat anc_mont, by(vol_cat) stat(min max) col(stat)
+
 		
 *------------------------------------------------------------------------------*/		
 * ZAF
@@ -78,6 +85,11 @@ global qualvarsZA anc1bp anc1weight anc1height anc1muac anc1blood ///
 	* Table 3 Facility characteristics
 		summtab if tag==1,  contvars (sri_score total_staff ///
 		anc_mont beds) mean by(site) excel excelname(suppTable4) sheetname(ZA) replace 
+		
+		tabstat sri_score, by(sri_cat) stat(min max) col(stat)
+		tabstat total_staff_onc, by(staff_cat) stat(min max) col(stat)
+		tabstat anc_mont, by(vol_cat) stat(min max) col(stat)
+
 
 *------------------------------------------------------------------------------*
 * INDIA	
@@ -105,4 +117,7 @@ global qualvarsIND anc1bp anc1weight anc1blood ///
 		summtab if tag==1, catvars(facility_lvl ) contvars (sri_score total_staff ///
 		anc_mont beds) mean by(urban) excel excelname(suppTable4) sheetname(IN) replace 
 
+		tabstat sri_score, by(sri_cat) stat(min max) col(stat)
+		tabstat total_staff_onc, by(staff_cat) stat(min max) col(stat)
+		tabstat anc_mont, by(vol_cat) stat(min max) col(stat)
 

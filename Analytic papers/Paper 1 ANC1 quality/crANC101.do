@@ -49,8 +49,8 @@ u "$user/$data/Ethiopia/02 recoded data/eco_m1_et_der.dta", clear
 	gen healthlit_corr=m1_health_lit==4
 	
 	gen age_cat=enrollage
-	recode age_cat 15/19=1 20/35=2 36/60=3
-	lab def age_cat 1"15-19yrs" 2"20-35 yrs" 3 "36+yrs"
+	recode age_cat 15/19=1 20/34=2 35/60=3
+	lab def age_cat 1"15-19yrs" 2"20-34 yrs" 3 "35+yrs"
 	lab val age_cat age_cat
 	gen young= age_cat==1
 	gen older=age_cat==3
@@ -103,6 +103,12 @@ egen anyrisk =rowmax(m1_anemic_11 chronic maln_underw overweight young old multi
 	keep if _merge==3 
 	drop _merge 
 	save  "$user/$analysis/ETtmp.dta", replace		
+	
+* Categories for facility characteristics
+	egen sri_cat = cut(sri_score), group(3)
+	egen staff_cat = cut(total_staff_onc), group(3)
+	egen vol_cat = cut(anc_mont), group(3)
+	egen vol_staf_cat = cut(anc_vol_staff_onc), group(3)
 
 save "$user/$analysis/ETtmp.dta", replace
 
@@ -146,8 +152,8 @@ u "$user/$data/Kenya/02 recoded data/eco_m1_ke_der.dta", clear
 		recode educ_cat 1/2=1 3=2 4=3, gen(educ3)
 		gen healthlit_corr=health_lit==4
 		gen age_cat=enrollage
-		recode age_cat 15/19=1 20/35=2 36/60=3
-		lab def age_cat 1"15-19yrs" 2"20-35 yrs" 3 "36+yrs"
+		recode age_cat 15/19=1 20/34=2 35/60=3
+		lab def age_cat 1"15-19yrs" 2"20-34 yrs" 3 "35+yrs"
 		gen young= age_cat==1
 		gen older=age_cat==3
 		recode  m1_201 (1/3=0) (4/5=1), gen(poorhealth)
@@ -201,6 +207,13 @@ egen anyrisk =rowmax(anemic chronic maln_underw overweight young old multiple co
 	keep if _merge==3 
 	drop _merge 
 	
+* Categories for facility characteristics
+	egen sri_cat = cut(sri_score), group(3)
+	egen staff_cat = cut(total_staff_onc), group(3)
+	egen vol_cat = cut(anc_mont), group(3)
+	egen vol_staf_cat = cut(anc_vol_staff_onc), group(3)
+	
+	
 save "$user/$analysis/KEtmp.dta", replace
 
 *------------------------------------------------------------------------------*	
@@ -244,8 +257,8 @@ u  "$user/$data/South Africa/02 recoded data/eco_m1_za_der.dta", clear
 		
 		gen healthlit_corr=health_lit==4
 		gen age_cat=enrollage
-		recode age_cat 15/19=1 20/35=2 36/60=3
-		lab def age_cat 1"15-19yrs" 2"20-35 yrs" 3 "36+yrs"
+		recode age_cat 15/19=1 20/34=2 35/60=3
+		lab def age_cat 1"15-19yrs" 2"20-34 yrs" 3 "35+yrs"
 		gen young= age_cat==1
 		gen older=age_cat==3
 		recode  m1_201 (1/3=0) (4/5=1), gen(poorhealth)
@@ -262,7 +275,7 @@ u  "$user/$data/South Africa/02 recoded data/eco_m1_za_der.dta", clear
 		lab val lvl_anemia lvl_anemia
 		g severe_anemia=lvl_anemia==1
 		* Chronic illnesses
-		egen chronic= rowmax(m1_202a m1_202b m1_202c m1_202d m1_202e )  // I need to include the newly diagnosed HIV women! + recollected HIV!
+		egen chronic= rowmax(m1_202a m1_202b m1_202c m1_202d m1_202e )  
 		egen chronic_nohiv=rowmax(m1_202a m1_202b m1_202c m1_202d)
 		encode m1_203, gen(prob)
 		recode prob (1/4 10 16 18/21 24 28 29 30 33 34 28 =0 ) (5/9 11/15 17 22 23 25 26 27 31 32=1)
@@ -305,6 +318,13 @@ egen anyrisk_nohiv=rowmax(anemic chronic_nohiv maln_underw overweight young old 
 	merge m:1 facility using "$user/$analysis/ZAtmpfac.dta"
 	keep if _merge==3 
 	drop _merge 
+	
+* Categories for facility characteristics
+	egen sri_cat = cut(sri_score), group(3)
+	egen staff_cat = cut(total_staff_onc), group(3)
+	egen vol_cat = cut(anc_mont), group(3)
+	egen vol_staf_cat = cut(anc_vol_staff_onc), group(3)
+	
 save "$user/$analysis/ZAtmp.dta", replace
 
 *------------------------------------------------------------------------------*
@@ -340,8 +360,8 @@ egen tag=tag(facility)
 		recode educ_cat 1/2=1 3=2 4=3, g(educ3)
 		gen healthlit_corr=m1_health_lit==4
 		gen age_cat=enrollage
-		recode age_cat 15/19=1 20/35=2 36/60=3
-		lab def age_cat 1"15-19yrs" 2"20-35 yrs" 3 "36+yrs"
+		recode age_cat 15/19=1 20/34=2 35/60=3
+		lab def age_cat 1"15-19yrs" 2"20-34 yrs" 3 "35+yrs"
 		gen young= age_cat==1
 		gen older=age_cat==3
 		recode  m1_201 (1/3=0) (4/5=1), gen(poorhealth)
@@ -380,6 +400,13 @@ egen anyrisk =rowmax(anemic chronic maln_underw overweight young old multiple co
 	merge m:1 facility using "$user/$analysis/INtmpfac.dta"
 	keep if _merge==3  // dropping 18 women for which we dont have Module 0. 
 	drop _merge 
+	
+* Categories for facility characteristics
+	egen sri_cat = cut(sri_score), group(3)
+	egen staff_cat = cut(total_staff_onc), group(3)
+	egen vol_cat = cut(anc_mont), group(3)
+	egen vol_staf_cat = cut(anc_vol_staff_onc), group(3)
+
 	
 save "$user/$analysis/INtmp.dta", replace
 
