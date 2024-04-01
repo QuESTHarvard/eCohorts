@@ -1946,7 +1946,7 @@ drop q_310a__99_2
 rename q_310a_1 m3_baby1_feeding
 rename q_310a_2 m3_baby2_feeding
 
-rename (q_310b_1 q_310b_2)(m3_breastfeeding m3_breastfeeding_2)
+rename (q_310b_1 q_310b_2) (m3_breastfeeding m3_breastfeeding_2)
 
 rename (q_312_1 q_312a_1 q_312_2 q_312a_2 q_313a_1 q_313b_1 q_313b_unit_1 q_313a_2 q_313b_2 ///
 		q_313b_unit_2 q_314_oth_1 q_314_oth_2 q_1201 ///
@@ -1968,8 +1968,8 @@ rename abortion m3_abortion
 rename alive_babies m3_num_alive_babies
 rename dead_babies m3_num_dead_babies
 		
-rename (q_401 q_402 q_403_1 q_404_1 q_405_oth_1)(m3_401 m3_402 m3_consultation_1 m3_consultation_referral_1 m3_consultation1_reason_other)	
-rename (q_403_2 q_404_2 q_405_oth_2)(m3_consultation_2 m3_consultation_referral_2 m3_consultation2_reason_other)
+rename (q_401 q_402 q_403_1 q_404_1 q_405_oth_1) (m3_401 m3_402 m3_consultation_1 m3_consultation_referral_1 m3_consultation1_reason_other)	
+rename (q_403_2 q_404_2 q_405_oth_2) (m3_consultation_2 m3_consultation_referral_2 m3_consultation2_reason_other)
 rename (q_403_3 q_404_3 q_405_oth_3) ///
 	   (m3_consultation_3 m3_consultation_referral_3 m3_consultation3_reason_other)	
 
@@ -2023,7 +2023,7 @@ rename (q_412a_1 q_412b_1 q_412c_1 q_412d_1 q_412e_1 q_412f_1 q_412g_1 q_412g_ot
 	   m3_412g_1_other m3_412i_1_ke )	
 
 rename (q_412a_2 q_412a_3 q_412b_2 q_412b_3 q_412c_2 q_412c_3 q_412d_2 q_412d_3 q_412e_2 ///
-		q_412e_3 q_412f_2 q_412f_3 q_412g_2 q_412g_3 q_412i_2 q_412i_3)(m3_412a_2_ke m3_412a_3_ke ///
+		q_412e_3 q_412f_2 q_412f_3 q_412g_2 q_412g_3 q_412i_2 q_412i_3) (m3_412a_2_ke m3_412a_3_ke ///
 		m3_412b_2_ke m3_412b_3_ke m3_412c_2_ke m3_412c_3_ke m3_412d_2_ke m3_412d_3_ke m3_412e_2_ke ///
 		m3_412e_3_ke m3_412f_2_ke m3_412f_3_ke m3_412g_2_ke m3_412g_3_ke m3_412i_2_ke m3_412i_3_ke)
 		
@@ -2062,7 +2062,7 @@ replace q_518 = "Other delivery complications (s" if q_518 == "-96"
 replace q_518 = "Other reasons(specify)" if q_518 == "-97"
 replace q_518 = "Don't Know" if q_518 == "-98"
 replace q_518 = "NR/RF" if q_518 == "-99"
-rename (q_518)(m3_518)
+rename (q_518) (m3_518)
 ********When tabulate q_518, there are a few strange observations (8 -97, 8 9). I did not label them.
 */		
 						
@@ -2071,7 +2071,7 @@ rename (q_601a q_601b q_601c q_602a q_602b q_603a q_603b q_603c q_604a q_604b q_
 		q_618c_1 q_618a_2 q_618b_2 q_618c_2) (m3_601_hiv m3_601b m3_601c m3_602a m3_602b m3_603a m3_603b m3_603c m3_604a m3_604b m3_605a m3_605b ///
 		m3_605c m3_605c_other m3_606 m3_607 m3_608 m3_609 m3_610a m3_610b m3_611 m3_612_ke m3_612_ke_unit m3_613 m3_614_ke m3_614_ke_unit m3_615a m3_615b ///
 		m3_616c_1 m3_616c_1_unit m3_616c_2 m3_616c_2_unit m3_617a m3_617b m3_618a_1 m3_618b_1 m3_618c_1 m3_618a_2 m3_618b_2 m3_618c_2)
-rename (q_619a q_619b q_619c q_619d q_619e q_619f q_619g q_620_1 q_620_2 q_621b q_621c q_621c_unit q_622a q_622b q_622c)(m3_619a m3_619b m3_619c ///
+rename (q_619a q_619b q_619c q_619d q_619e q_619f q_619g q_620_1 q_620_2 q_621b q_621c q_621c_unit q_622a q_622b q_622c) (m3_619a m3_619b m3_619c ///
         m3_619d m3_619e m3_619g m3_619h m3_620_1 m3_620_2 m3_621b m3_621c_ke m3_621c_ke_unit m3_622a m3_622b m3_622c)
 
 /* SS: 621a is a multiple checkbox field that has the answers in "yes" and "no" in 621a_1 - 621a_99		
@@ -2089,11 +2089,11 @@ rename (q_621a q_621a_1 q_621a_2 q_621a_3 q_621a_4 q_621a_5 q_621a_6 q_621a__98 
 	   (m3_621a m3_621a_1_ke m3_621a_2_ke m3_621a_3_ke m3_621a_4_ke m3_621a_5_ke m3_621a_6_ke ///
 	   m3_621a_98_ke m3_621a_99_ke)
 
-rename (q_311a_1 q_311a_2 q_311b_1 q_311b_2 q_311c_1 q_311c_2 q_311d_1 q_311d_2 q_311e_1 q_311e_2 q_311f_1 q_311f_2 q_311g_1 q_311g_2)(m3_baby1_sleep ///
+rename (q_311a_1 q_311a_2 q_311b_1 q_311b_2 q_311c_1 q_311c_2 q_311d_1 q_311d_2 q_311e_1 q_311e_2 q_311f_1 q_311f_2 q_311g_1 q_311g_2) (m3_baby1_sleep ///
         m3_baby2_sleep m3_baby1_feed m3_baby2_feed m3_baby1_breath m3_baby2_breath m3_baby1_stool m3_baby2_stool m3_baby1_mood m3_baby2_mood ///
 		m3_baby1_skin m3_baby2_skin m3_baby1_interactivity m3_baby2_interactivity)
 rename (q_702 q_703 q_704a q_704b q_704c q_704d q_704e q_704f q_704g  ///
-		q_706 q_707 q_707_unit q_708_1 q_708_2)(m3_702 m3_703 m3_704a ///
+		q_706 q_707 q_707_unit q_708_1 q_708_2) (m3_702 m3_703 m3_704a ///
         m3_704b m3_704c m3_704d m3_704e m3_704f m3_704g m3_706 ///
 		m3_707_ke m3_707_ke_unit m3_baby1_issues m3_baby2_issues)   
 
@@ -2134,7 +2134,7 @@ rename (q_709_1 q_709_o_1 q_709_2 q_709_o_2 q_710_1 q_710_2 q_711_1 q_711_unit_1
         m3_710a m3_710b m3_711c_1 m3_711c_1_unit m3_711c_2 m3_711c_2_unit)
 		
 rename (q_801a q_801b q_802a q_802b q_802c q_803a q_803b q_803c q_803d q_803e q_803f q_803g q_803h q_804 q_804_oth q_805 q_806 q_807 q_808a q_808b ///
-        q_808b_oth q_809)(m3_801a m3_801b m3_802a m3_802b m3_802c m3_803a m3_803b m3_803c m3_803d m3_803e m3_803f m3_803g m3_803h m3_803j m3_803j_other ///
+        q_808b_oth q_809) (m3_801a m3_801b m3_802a m3_802b m3_802c m3_803a m3_803b m3_803c m3_803d m3_803e m3_803f m3_803g m3_803h m3_803j m3_803j_other ///
 		m3_805 m3_806 m3_807 m3_808a m3_808b m3_808b_other m3_809)
 		
 encode phq2_score,gen(m3_phq2_score)
@@ -2147,7 +2147,7 @@ rename (q_901a q_901b q_901c q_901d q_901de q_901f q_901g q_901h q_901i q_901j q
 rename (q_901_cost q_902_cost_1 q_902_cost_2) (m3_901_cost m3_902_1_cost m3_902_2_cost)
 
 rename (q_902a_1 q_902a_2 q_902b_1 q_902b_2 q_902c_1 q_902c_2 q_902d_1 q_902d_2 q_902e_1 q_902e_2 q_902f_1 q_902f_2 q_902g_1 q_902g_2 q_902h_1 q_902h_2 ///
-        q_902i_1 q_902i_2 q_902j_1 q_902j_oth_1 q_902j_2 q_902j_oth_2)(m3_902a_baby1 m3_902a_baby2 m3_902b_baby1 m3_902b_baby2 m3_902c_baby1 ///
+        q_902i_1 q_902i_2 q_902j_1 q_902j_oth_1 q_902j_2 q_902j_oth_2) (m3_902a_baby1 m3_902a_baby2 m3_902b_baby1 m3_902b_baby2 m3_902c_baby1 ///
 		m3_902c_baby2 m3_902d_baby1 m3_902d_baby2 m3_902e_baby1 m3_902e_baby2 m3_902f_baby1 m3_902f_baby2 m3_902g_baby1 m3_902g_baby2 m3_902h_baby1 ///
 		m3_902h_baby2 m3_902i_baby1 m3_902i_baby2 m3_902j_baby1 m3_902j_baby1_other m3_902j_baby2 m3_902j_baby2_other)		
 		
@@ -2155,7 +2155,7 @@ rename baby_repeat_meds_count m3_baby_meds_count
 		
 rename (q_1001 q_1002 q_1003 q_1005a q_1005b q_1005c q_1005d q_1005e q_1005f q_1005g q_1005h q_1006a q_1006b ///
 		q_1006c q_1007a q_1007b q_1007c q_1101 q_1102a q_1102b q_1102c q_1102d q_1102e q_1102f q_1102f_o ///
-		q_1103 q_1104 q_1104_oth q_1105)(m3_1001 m3_1002 m3_1003 m3_1005a m3_1005b m3_1005c ///
+		q_1103 q_1104 q_1104_oth q_1105) (m3_1001 m3_1002 m3_1003 m3_1005a m3_1005b m3_1005c ///
 		m3_1005d m3_1005e m3_1005f m3_1005g m3_1005h m3_1006a m3_1006b m3_1006c m3_1007a m3_1007b ///
 		m3_1007c m3_1101 m3_1102a_amt m3_1102b_amt m3_1102c_amt m3_1102d_amt m3_1102e_amt m3_1102f_amt ///
 		m3_1102f_oth m3_1103 m3_1105 m3_1105_other m3_1106)
@@ -2175,7 +2175,7 @@ replace q_1004b = q_1004b_4 if q_1004b_1==. & q_1004b_2==. & q_1004b_3==. & q_10
 replace q_1004b = q_1004b_5 if q_1004b_1==. & q_1004b_2==. & q_1004b_3==. & q_1004b_4==. & q_1004b_6==. & q_1004b_7==.
 replace q_1004b = q_1004b_6 if q_1004b_1==. & q_1004b_2==. & q_1004b_3==. & q_1004b_4==. & q_1004b_5==. & q_1004b_7==.
 replace q_1004b = q_1004b_7 if q_1004b_1==. & q_1004b_2==. & q_1004b_3==. & q_1004b_4==. & q_1004b_5==. & q_1004b_6==.
-rename (q_1004b)(m3_1004b)
+rename (q_1004b) (m3_1004b)
 
 drop q_1004b_1 q_1004b_2 q_1004b_3 q_1004b_4 q_1004b_5 q_1004b_6 q_1004b_7
 
@@ -2187,7 +2187,7 @@ replace q_1004c = q_1004c_4 if q_1004c_1==. & q_1004c_2==. & q_1004c_3==. & q_10
 replace q_1004c = q_1004c_5 if q_1004c_1==. & q_1004c_2==. & q_1004c_3==. & q_1004c_4==. & q_1004c_6==. & q_1004c_7==.
 replace q_1004c = q_1004c_6 if q_1004c_1==. & q_1004c_2==. & q_1004c_3==. & q_1004c_4==. & q_1004c_5==. & q_1004c_7==.
 replace q_1004c = q_1004c_7 if q_1004c_1==. & q_1004c_2==. & q_1004c_3==. & q_1004c_4==. & q_1004c_5==. & q_1004c_6==.
-rename (q_1004c)(m3_1004c)
+rename (q_1004c) (m3_1004c)
 
 drop q_1004c_1 q_1004c_2 q_1004c_3 q_1004c_4 q_1004c_5 q_1004c_6 q_1004c_7
 
@@ -2199,7 +2199,7 @@ replace q_1004d = q_1004d_4 if q_1004d_1==. & q_1004d_2==. & q_1004d_3==. & q_10
 replace q_1004d = q_1004d_5 if q_1004d_1==. & q_1004d_2==. & q_1004d_3==. & q_1004d_4==. & q_1004d_6==. & q_1004d_7==.
 replace q_1004d = q_1004d_6 if q_1004d_1==. & q_1004d_2==. & q_1004d_3==. & q_1004d_4==. & q_1004d_5==. & q_1004d_7==.
 replace q_1004d = q_1004d_7 if q_1004d_1==. & q_1004d_2==. & q_1004d_3==. & q_1004d_4==. & q_1004d_5==. & q_1004d_6==.
-rename (q_1004d)(m3_1004d)
+rename (q_1004d) (m3_1004d)
 
 drop q_1004d_1 q_1004d_2 q_1004d_3 q_1004d_4 q_1004d_5 q_1004d_6 q_1004d_7
 
@@ -2211,7 +2211,7 @@ replace q_1004e = q_1004e_4 if q_1004e_1==. & q_1004e_2==. & q_1004e_3==. & q_10
 replace q_1004e = q_1004e_5 if q_1004e_1==. & q_1004e_2==. & q_1004e_3==. & q_1004e_4==. & q_1004e_6==. & q_1004e_7==.
 replace q_1004e = q_1004e_6 if q_1004e_1==. & q_1004e_2==. & q_1004e_3==. & q_1004e_4==. & q_1004e_5==. & q_1004e_7==.
 replace q_1004e = q_1004e_7 if q_1004e_1==. & q_1004e_2==. & q_1004e_3==. & q_1004e_4==. & q_1004e_5==. & q_1004e_6==.
-rename (q_1004e)(m3_1004e)
+rename (q_1004e) (m3_1004e)
 
 drop q_1004e_1 q_1004e_2 q_1004e_3 q_1004e_4 q_1004e_5 q_1004e_6 q_1004e_7
 
@@ -2223,7 +2223,7 @@ replace q_1004f = q_1004f_4 if q_1004f_1==. & q_1004f_2==. & q_1004f_3==. & q_10
 replace q_1004f = q_1004f_5 if q_1004f_1==. & q_1004f_2==. & q_1004f_3==. & q_1004f_4==. & q_1004f_6==. & q_1004f_7==.
 replace q_1004f = q_1004f_6 if q_1004f_1==. & q_1004f_2==. & q_1004f_3==. & q_1004f_4==. & q_1004f_5==. & q_1004f_7==.
 replace q_1004f = q_1004f_7 if q_1004f_1==. & q_1004f_2==. & q_1004f_3==. & q_1004f_4==. & q_1004f_5==. & q_1004f_6==.
-rename (q_1004f)(m3_1004f)
+rename (q_1004f) (m3_1004f)
 
 drop q_1004f_1 q_1004f_2 q_1004f_3 q_1004f_4 q_1004f_5 q_1004f_6 q_1004f_7
 
@@ -2235,7 +2235,7 @@ replace q_1004g = q_1004g_4 if q_1004g_1==. & q_1004g_2==. & q_1004g_3==. & q_10
 replace q_1004g = q_1004g_5 if q_1004g_1==. & q_1004g_2==. & q_1004g_3==. & q_1004g_4==. & q_1004g_6==. & q_1004g_7==.
 replace q_1004g = q_1004g_6 if q_1004g_1==. & q_1004g_2==. & q_1004g_3==. & q_1004g_4==. & q_1004g_5==. & q_1004g_7==.
 replace q_1004g = q_1004g_7 if q_1004g_1==. & q_1004g_2==. & q_1004g_3==. & q_1004g_4==. & q_1004g_5==. & q_1004g_6==.
-rename (q_1004g)(m3_1004g)
+rename (q_1004g) (m3_1004g)
 
 drop q_1004g_1 q_1004g_2 q_1004g_3 q_1004g_4 q_1004g_5 q_1004g_6 q_1004g_7
 
@@ -2247,7 +2247,7 @@ replace q_1004h = q_1004h_4 if q_1004h_1==. & q_1004h_2==. & q_1004h_3==. & q_10
 replace q_1004h = q_1004h_5 if q_1004h_1==. & q_1004h_2==. & q_1004h_3==. & q_1004h_4==. & q_1004h_6==. & q_1004h_7==.
 replace q_1004h = q_1004h_6 if q_1004h_1==. & q_1004h_2==. & q_1004h_3==. & q_1004h_4==. & q_1004h_5==. & q_1004h_7==.
 replace q_1004h = q_1004h_7 if q_1004h_1==. & q_1004h_2==. & q_1004h_3==. & q_1004h_4==. & q_1004h_5==. & q_1004h_6==.
-rename (q_1004a q_1004h)(m3_1004a m3_1004h)
+rename (q_1004a q_1004h) (m3_1004a m3_1004h)
 
 drop q_1004h_1 q_1004h_2 q_1004h_3 q_1004h_4 q_1004h_5 q_1004h_6 q_1004h_7
 		
@@ -4613,3 +4613,1260 @@ order m4_date m4_time m4_duration m4_interviewer respondentid m4_consent_recordi
 	save "$ke_data_final/eco_m1-m4_ke.dta", replace
 
 *==============================================================================*	
+* MODULE 5:	
+* Updated: March 21, 2024
+* Created by Wen-Chien Yang
+
+* import data
+clear all
+use "$ke_data/Module 5/KEMRI_Module_5_Final.dta"
+
+*------------------------------------------------------------------------------*
+
+* Drop these variables that contain identifiable individual names or facility names
+drop name_enumerator full_name list_baby_names name_baby1 name_baby2 name_baby3 name_baby4 name_confirm name_confirm_oth baby_name_1 ///
+	 name_baby_alive1 name_baby_alive2 name_baby_alive3 name_baby_alive4 name_baby_died1 name_baby_died2 name_baby_died3 name_baby_died4 ///
+	 enum_id baby_list baby_alive_list baby_died_list baby_list_med baby_name_1 baby_label_1 baby_name_assess_1 baby_label_assess_1 ///
+	 baby_name_care_1 baby_label_care_1 baby_name_med_1 baby_label_med_1
+
+* Drop these variables that contain identifiable facility names or location names
+drop q504_1 q504_2 q504_3 care_facility_name_label_1 care_facility_name_label_2 care_facility_name_label_3 user_facility_name_1 user_facility_name_2 ///
+	 user_facility_name_3 q504_1 q504_2 q504_3 county county_label location_endline // These are facility names and location names     
+	 
+* Drop these variables that won't be used in data analysis 
+drop deviceid text_audit speed_violations_count mean_sound_level min_sound_level max_sound_level sd_sound_level pct_sound_between0_60 ///
+     pct_sound_above80 pct_conversation enum_id_oth gpslatitude gpslongitude gpsaltitude gpsaccuracy no_gps c_section id_resp_calc ///
+	 formdef_version key baby_list_care baby_list_assess timing_endline 
+	 // note: drop c_section_label becasue c_section indicates the same information
+ 	 // note: drop id_resp_calc because id_resp indicates the same information
+	 
+drop calc_303a calc_303b calc_303c calc_303d calc_303e calc_303f calc_303g calc_303h calc_303i
+	 // note: drop calc_303a to calc_303i because q303a to q303i indicate the same information 
+	 
+drop new_visits_count 
+     // note: q502 means the same thing: the N of consultations	 
+
+drop care_where_label_1 care_where_label_2 care_where_label_3 user_facility_type_1 user_facility_type_2 user_facility_type_3 
+     // note: drop becasue q503_1 q503_2 q503_3 indicate the same information about facilty type for consultation 1, 2, 3
+	 
+drop user_visit_reason_1 user_visit_reason_2 user_visit_reason_3 care_visit_reas_rpt_grp_count_1 care_visit_reas_rpt_grp_count_2 ///
+	 care_visit_reas_rpt_grp_count_3
+     // note: drop becasue q505_1 q505_2 q505_3 indicate the same information about whether the consultation was for routine checkup after delivery 
+
+drop care_rason_oth_label_1 care_rason_oth_label_2 care_rason_oth_label_3 care_vis_idx_1_1 care_vis_idx_2_1 care_vis_idx_3_1 care_visit_res_1_1 ///
+     care_visit_res_2_1 care_visit_res_3_1
+     // note: drop because q506_1 q506_2 q506_3 indicate the same information about reasons for visit
+	 
+drop care_reason_label_1 care_reason_label_2 care_reason_label_3 care_reason_reg_label_1 care_reason_reg_label_2 care_reason_reg_label_3
+     // note: drop because q506_1_1 to q506_10_1, q506__96_1, q506_oth_1; q506_1_2 to q506_10_2, q506__96_2, q506_oth_2; q506_1_3 to q506_10_3,   
+	 // q506__96_3, q506_oth_3 indicate the same information   
+	 	 
+drop user_exp_idx_1 user_exp_idx_2 user_exp_idx_3 
+     // note: drop because q601_1 q601_2 q601_3 indicate the same information about use experience
+
+drop q1002a_cost q1002b_cost q1002c_cost q1002d_cost q1002e_cost total_spent
+     // note: drop becasue q1002a q1002b q1002c q1002d q1002e q1003 indicatie the same information  
+
+drop q203_1 q206_1 q210_1 q703_1 
+     // drop because these are parent variables 
+
+
+*===============================================================================
+
+* STEP ONE: RENAME VARAIBLES
+
+rename (consent no_consent starttime endtime duration today today_date date_confirm submissiondate id_resp live_babies baby_list_numbers alive_babies ///
+        dead_babies c_section hiv_status baby_repeat_count baby_index_1) (m5_consent m5_no_consent m5_starttime m5_endtime m5_duration m5_date ///
+		m5_todaydate m5_dateconfirm m5_submissiondate m5_resp_id m5_n_livebabies m5_n_babies m5_n_alivebabies m5_n_deadbabies m5_csection m5_hiv_status ///
+		m5_n_baby_repeat m5_baby_index_1)
+
+rename (q201_1 q202_1 q203_1_1 q203_2_1 q203_3_1 q203_4_1 q203_5_1 q203_6_1 q203_7_1 q203_99_1 q204) (m5_babyalive m5_babyhealth m5_babyfeed_a ///
+        m5_babyfeed_b m5_babyfeed_c m5_babyfeed_d m5_babyfeed_e m5_babyfeed_f m5_babyfeed_g m5_babyfeed_99 m5_breastfeeding)
+
+rename (q205a_1 q205b_1 q205c_1 q205d_1 q205e_1 q205f_1 q205g_1) (m5_baby_sleep m5_baby_feed m5_baby_breath m5_baby_stool m5_baby_mood m5_baby_skin ///
+        m5_baby_interactivity)
+
+rename (q206_1_1 q206_2_1 q206_3_1 q206_4_1 q206_5_1 q206_6_1 q206_7_1 q206_8_1 q206_9_1 q206_0_1 q207a_1 q207b_1 q208_1 q209_1 q209_unit_1) ///
+       (m5_baby_issue_a m5_baby_issue_b m5_baby_issue_c m5_baby_issue_d m5_baby_issue_e m5_baby_issue_f m5_baby_issue_g m5_baby_issue_h m5_baby_issue_i ///
+	    m5_baby_issue_j m5_baby_issue_oth m5_baby_issue_oth_text m5_babydied_date m5_babydied_time m5_babydied_time_unit)
+
+rename (q210_0_1 q210_1_1 q210_2_1 q210_3_1 q210_4_1 q210_5_1 q210_6_1 q210_7_1 q210_8_1 q210_9_1 q210__96_1 q210_98_1 q210_99_1 q210_oth_1 q211_1 ///
+        q212_1 q212_oth_1) (m5_death_cause_a m5_death_cause_b m5_death_cause_c m5_death_cause_d m5_death_cause_e m5_death_cause_f m5_death_cause_g ///
+		m5_death_cause_h m5_death_cause_i m5_death_cause_j m5_death_cause_oth m5_death_cause_98 m5_death_cause_99 m5_death_cause_oth_text ///
+		m5_death_treatment m5_death_place m5_death_place_oth)
+
+rename (q301 q302a q302b q302c q302d q302e q303a q303b q303c q303d q303e q303f q303g q303h q303i depression_sum q304) (m5_health m5_health_a ///
+        m5_health_b m5_health_c m5_health_d m5_health_e m5_depression_a m5_depression_b m5_depression_c m5_depression_d m5_depression_e ///
+		m5_depression_f m5_depression_g m5_depression_h m5_depression_i m5_depression_sum m5_health_affect_scale)
+
+rename (q305a q305b q305c q305d q305e q305f q305g q305h q306 q307 q308 q309 q310 q311 q311_oth q312) (m5_feeling_a m5_feeling_b m5_feeling_c ///
+        m5_feeling_d m5_feeling_e m5_feeling_f m5_feeling_g m5_feeling_h m5_pain m5_leakage m5_leakage_when m5_leakage_affect m5_leakage_treatment ///
+		m5_leakage_no_treatment m5_leakage_no_treatment_oth m5_leakage_treateffect)
+
+rename (q401 q402 q403 q404 q405a q405b q406a q406b) (m5_401 m5_402 m5_403 m5_404 m5_405a m5_405b m5_406a m5_406b)
+
+rename (q501a q501b q502 new_visits_index_1 new_visits_index_2 new_visits_index_3 q503_1 q503_2 q503_3 q505_1 q505_2 q505_3) ///
+       (m5_501a m5_501b m5_502 m5_new_visits_index_1 m5_new_visits_index_2 m5_new_visits_index_3 m5_503_1 m5_503_2 m5_503_3 m5_505_1 m5_505_2 m5_505_3)
+
+rename (q506_1 q506_1_1 q506_2_1 q506_3_1 q506_4_1 q506_5_1 q506_6_1 q506_7_1 q506_8_1 q506_9_1 q506_10_1 q506__96_1 q506_oth_1) (m5_consultation1 ///
+        m5_consultation1_a m5_consultation1_b m5_consultation1_c m5_consultation1_d m5_consultation1_e m5_consultation1_f m5_consultation1_g ///
+		m5_consultation1_h m5_consultation1_i m5_consultation1_j m5_consultation1_oth m5_consultation1_oth_text)
+
+rename (q506_2 q506_1_2 q506_2_2 q506_3_2 q506_4_2 q506_5_2 q506_6_2 q506_7_2 q506_8_2 q506_9_2 q506_10_2 q506__96_2 q506_oth_2) (m5_consultation2 ///
+        m5_consultation2_a m5_consultation2_b m5_consultation2_c m5_consultation2_d m5_consultation2_e m5_consultation2_f m5_consultation2_g ///
+		m5_consultation2_h m5_consultation2_i m5_consultation2_j m5_consultation2_oth m5_consultation2_oth_text)
+
+rename (q506_3 q506_1_3 q506_2_3 q506_3_3 q506_4_3 q506_5_3 q506_6_3 q506_7_3 q506_8_3 q506_9_3 q506_10_3 q506__96_3 q506_oth_3) (m5_consultation3 ///
+        m5_consultation3_a m5_consultation3_b m5_consultation3_c m5_consultation3_d m5_consultation3_e m5_consultation3_f m5_consultation3_g ///
+		m5_consultation3_h m5_consultation3_i m5_consultation3_j m5_consultation3_oth m5_consultation3_oth_text)
+
+rename (q511 q511_oth q601_1 q601_2 q601_3 user_experience_rpt_count) (m5_no_visit m5_no_visit_oth m5_consultation1_carequal ///
+        m5_consultation2_carequal m5_consultation3_carequal m5_n_consultation_carequality)
+
+rename (baby_index_care_1 q701a_1 q701b_1 q701c_1 q701d_1 q701e_1 q701f_1 q701g_1 q701h_1 q701i_1 q701_oth_1 baby_repeat_care_count q702a q702b q702c ///
+        q702d q702e q702f q702g) (m5_baby_index_care_1 m5_701a m5_701b m5_701c m5_701d m5_701e m5_701f m5_701g m5_701h m5_701i ///
+		m5_701i_other m5_n_baby_care m5_702a m5_702b m5_702c m5_702d m5_702e m5_702f m5_702g)
+
+rename (q703_0_1 q703_1_1 q703_2_1 q703_3_1 q703_4_1 q703_5_1 q703_6_1 q703__96_1 q703_98_1 q703_99_1 q703_oth_1) (m5_703a m5_703b m5_703c m5_703d ///
+        m5_703e m5_703f m5_703g m5_703h m5_703_98 m5_703_99 m5_703_other)
+
+rename (q801a q801b q801c q801d q801e q801f q801g q801h q801oth q802 q803a q803b q803c q803d q803e q803f q803g q804a q804b q804c baby_repeat_med_count) ///
+       (m5_801a m5_801b m5_801c m5_801d m5_801e m5_801f m5_801g m5_801h m5_801_other m5_802 m5_803a m5_803b m5_803c m5_803d m5_803e m5_803f ///
+	    m5_803g m5_804a m5_804b m5_804c m5_n_baby_med)
+
+*Create q901_1 to collpase q901a_1 q901b_1 q901c_1 q901d_1 q901e_1 q901f_1 q901g_1 q901h_1 q901i_1 q901j_1 q901k_1 q901l_1 q901m_1 q901n_1 q901o_1 q901p_1 
+gen q901_1 = q901a_1 if q901b_1==. & q901c_1==. & q901d_1==. & q901e_1==. & q901f_1==. & q901g_1==. & q901h_1==. & q901i_1==. & q901j_1==. ///
+                      & q901k_1==. & q901l_1==. & q901m_1==. & q901n_1==. & q901o_1==. & q901p_1==.
+replace q901_1 = q901b_1 if q901a_1==. & q901c_1==. & q901d_1==. & q901e_1==. & q901f_1==. & q901g_1==. & q901h_1==. & q901i_1==. & q901j_1==. ///
+                          & q901k_1==. & q901l_1==. & q901m_1==. & q901n_1==. & q901o_1==. & q901p_1==.
+replace q901_1 = q901c_1 if q901a_1==. & q901b_1==. & q901d_1==. & q901e_1==. & q901f_1==. & q901g_1==. & q901h_1==. & q901i_1==. & q901j_1==. ///
+                          & q901k_1==. & q901l_1==. & q901m_1==. & q901n_1==. & q901o_1==. & q901p_1==.					  
+replace q901_1 = q901d_1 if q901a_1==. & q901b_1==. & q901c_1==. & q901e_1==. & q901f_1==. & q901g_1==. & q901h_1==. & q901i_1==. & q901j_1==. ///
+                          & q901k_1==. & q901l_1==. & q901m_1==. & q901n_1==. & q901o_1==. & q901p_1==.
+replace q901_1 = q901e_1 if q901a_1==. & q901b_1==. & q901c_1==. & q901d_1==. & q901f_1==. & q901g_1==. & q901h_1==. & q901i_1==. & q901j_1==. ///
+                          & q901k_1==. & q901l_1==. & q901m_1==. & q901n_1==. & q901o_1==. & q901p_1==.							  
+replace q901_1 = q901f_1 if q901a_1==. & q901b_1==. & q901c_1==. & q901d_1==. & q901e_1==. & q901g_1==. & q901h_1==. & q901i_1==. & q901j_1==. ///
+                          & q901k_1==. & q901l_1==. & q901m_1==. & q901n_1==. & q901o_1==. & q901p_1==.						  
+replace q901_1 = q901g_1 if q901a_1==. & q901b_1==. & q901c_1==. & q901d_1==. & q901e_1==. & q901f_1==. & q901h_1==. & q901i_1==. & q901j_1==. ///
+                          & q901k_1==. & q901l_1==. & q901m_1==. & q901n_1==. & q901o_1==. & q901p_1==.						  
+replace q901_1 = q901h_1 if q901a_1==. & q901b_1==. & q901c_1==. & q901d_1==. & q901e_1==. & q901f_1==. & q901g_1==. & q901i_1==. & q901j_1==. ///
+                          & q901k_1==. & q901l_1==. & q901m_1==. & q901n_1==. & q901o_1==. & q901p_1==.						  
+replace q901_1 = q901i_1 if q901a_1==. & q901b_1==. & q901c_1==. & q901d_1==. & q901e_1==. & q901f_1==. & q901g_1==. & q901h_1==. & q901j_1==. ///
+                          & q901k_1==. & q901l_1==. & q901m_1==. & q901n_1==. & q901o_1==. & q901p_1==.			
+replace q901_1 = q901j_1 if q901a_1==. & q901b_1==. & q901c_1==. & q901d_1==. & q901e_1==. & q901f_1==. & q901g_1==. & q901h_1==. & q901i_1==. ///
+                          & q901k_1==. & q901l_1==. & q901m_1==. & q901n_1==. & q901o_1==. & q901p_1==.
+replace q901_1 = q901k_1 if q901a_1==. & q901b_1==. & q901c_1==. & q901d_1==. & q901e_1==. & q901f_1==. & q901g_1==. & q901h_1==. & q901i_1==. ///
+                          & q901j_1==. & q901l_1==. & q901m_1==. & q901n_1==. & q901o_1==. & q901p_1==.	
+replace q901_1 = q901l_1 if q901a_1==. & q901b_1==. & q901c_1==. & q901d_1==. & q901e_1==. & q901f_1==. & q901g_1==. & q901h_1==. & q901i_1==. ///
+                          & q901j_1==. & q901k_1==. & q901m_1==. & q901n_1==. & q901o_1==. & q901p_1==.	
+replace q901_1 = q901m_1 if q901a_1==. & q901b_1==. & q901c_1==. & q901d_1==. & q901e_1==. & q901f_1==. & q901g_1==. & q901h_1==. & q901i_1==. ///
+                          & q901j_1==. & q901k_1==. & q901l_1==. & q901n_1==. & q901o_1==. & q901p_1==.	
+replace q901_1 = q901n_1 if q901a_1==. & q901b_1==. & q901c_1==. & q901d_1==. & q901e_1==. & q901f_1==. & q901g_1==. & q901h_1==. & q901i_1==. ///
+                          & q901j_1==. & q901k_1==. & q901l_1==. & q901m_1==. & q901o_1==. & q901p_1==.
+replace q901_1 = q901o_1 if q901a_1==. & q901b_1==. & q901c_1==. & q901d_1==. & q901e_1==. & q901f_1==. & q901g_1==. & q901h_1==. & q901i_1==. ///
+                          & q901j_1==. & q901k_1==. & q901l_1==. & q901m_1==. & q901n_1==. & q901p_1==.
+replace q901_1 = q901p_1 if q901a_1==. & q901b_1==. & q901c_1==. & q901d_1==. & q901e_1==. & q901f_1==. & q901g_1==. & q901h_1==. & q901i_1==. ///
+                          & q901j_1==. & q901k_1==. & q901l_1==. & q901m_1==. & q901n_1==. & q901o_1==.	
+drop q901a_1 q901b_1 q901c_1 q901d_1 q901e_1 q901f_1 q901g_1 q901h_1 q901i_1 q901j_1 q901k_1 q901l_1 q901m_1 q901n_1 q901o_1 q901p_1
+				  				  
+*Create q901_2 to collpase q901a_2 q901b_2 q901c_2 q901d_2 q901e_2 q901f_2 q901g_2 q901h_2 q901i_2 q901j_2 q901k_2 q901l_2 q901m_2 q901n_2 q901o_2 q901p_2 
+gen q901_2 = q901a_2 if q901b_2==. & q901c_2==. & q901d_2==. & q901e_2==. & q901f_2==. & q901g_2==. & q901h_2==. & q901i_2==. & q901j_2==. ///
+                      & q901k_2==. & q901l_2==. & q901m_2==. & q901n_2==. & q901o_2==. & q901p_2==.
+replace q901_2 = q901b_2 if q901a_2==. & q901c_2==. & q901d_2==. & q901e_2==. & q901f_2==. & q901g_2==. & q901h_2==. & q901i_2==. & q901j_2==. ///
+                          & q901k_2==. & q901l_2==. & q901m_2==. & q901n_2==. & q901o_2==. & q901p_2==.
+replace q901_2 = q901c_2 if q901a_2==. & q901b_2==. & q901d_2==. & q901e_2==. & q901f_2==. & q901g_2==. & q901h_2==. & q901i_2==. & q901j_2==. ///
+                          & q901k_2==. & q901l_2==. & q901m_2==. & q901n_2==. & q901o_2==. & q901p_2==.					  
+replace q901_2 = q901d_2 if q901a_2==. & q901b_2==. & q901c_2==. & q901e_2==. & q901f_2==. & q901g_2==. & q901h_2==. & q901i_2==. & q901j_2==. ///
+                          & q901k_2==. & q901l_2==. & q901m_2==. & q901n_2==. & q901o_2==. & q901p_2==.
+replace q901_2 = q901e_2 if q901a_2==. & q901b_2==. & q901c_2==. & q901d_2==. & q901f_2==. & q901g_2==. & q901h_2==. & q901i_2==. & q901j_2==. ///
+                          & q901k_2==. & q901l_2==. & q901m_2==. & q901n_2==. & q901o_2==. & q901p_2==.							  
+replace q901_2 = q901f_2 if q901a_2==. & q901b_2==. & q901c_2==. & q901d_2==. & q901e_2==. & q901g_2==. & q901h_2==. & q901i_2==. & q901j_2==. ///
+                          & q901k_2==. & q901l_2==. & q901m_2==. & q901n_2==. & q901o_2==. & q901p_2==.						  
+replace q901_2 = q901g_2 if q901a_2==. & q901b_2==. & q901c_2==. & q901d_2==. & q901e_2==. & q901f_2==. & q901h_2==. & q901i_2==. & q901j_2==. ///
+                          & q901k_2==. & q901l_2==. & q901m_2==. & q901n_2==. & q901o_2==. & q901p_2==.						  
+replace q901_2 = q901h_2 if q901a_2==. & q901b_2==. & q901c_2==. & q901d_2==. & q901e_2==. & q901f_2==. & q901g_2==. & q901i_2==. & q901j_2==. ///
+                          & q901k_2==. & q901l_2==. & q901m_2==. & q901n_2==. & q901o_2==. & q901p_2==.						  
+replace q901_2 = q901i_2 if q901a_2==. & q901b_2==. & q901c_2==. & q901d_2==. & q901e_2==. & q901f_2==. & q901g_2==. & q901h_2==. & q901j_2==. ///
+                          & q901k_2==. & q901l_2==. & q901m_2==. & q901n_2==. & q901o_2==. & q901p_2==.			
+replace q901_2 = q901j_2 if q901a_2==. & q901b_2==. & q901c_2==. & q901d_2==. & q901e_2==. & q901f_2==. & q901g_2==. & q901h_2==. & q901i_2==. ///
+                          & q901k_2==. & q901l_2==. & q901m_2==. & q901n_2==. & q901o_2==. & q901p_2==.
+replace q901_2 = q901k_2 if q901a_2==. & q901b_2==. & q901c_2==. & q901d_2==. & q901e_2==. & q901f_2==. & q901g_2==. & q901h_2==. & q901i_2==. ///
+                          & q901j_2==. & q901l_2==. & q901m_2==. & q901n_2==. & q901o_2==. & q901p_2==.	
+replace q901_2 = q901l_2 if q901a_2==. & q901b_2==. & q901c_2==. & q901d_2==. & q901e_2==. & q901f_2==. & q901g_2==. & q901h_2==. & q901i_2==. ///
+                          & q901j_2==. & q901k_2==. & q901m_2==. & q901n_2==. & q901o_2==. & q901p_2==.	
+replace q901_2 = q901m_2 if q901a_2==. & q901b_2==. & q901c_2==. & q901d_2==. & q901e_2==. & q901f_2==. & q901g_2==. & q901h_2==. & q901i_2==. ///
+                          & q901j_2==. & q901k_2==. & q901l_2==. & q901n_2==. & q901o_2==. & q901p_2==.	
+replace q901_2 = q901n_2 if q901a_2==. & q901b_2==. & q901c_2==. & q901d_2==. & q901e_2==. & q901f_2==. & q901g_2==. & q901h_2==. & q901i_2==. ///
+                          & q901j_2==. & q901k_2==. & q901l_2==. & q901m_2==. & q901o_2==. & q901p_2==.
+replace q901_2 = q901o_2 if q901a_2==. & q901b_2==. & q901c_2==. & q901d_2==. & q901e_2==. & q901f_2==. & q901g_2==. & q901h_2==. & q901i_2==. ///
+                          & q901j_2==. & q901k_2==. & q901l_2==. & q901m_2==. & q901n_2==. & q901p_2==.
+replace q901_2 = q901p_2 if q901a_2==. & q901b_2==. & q901c_2==. & q901d_2==. & q901e_2==. & q901f_2==. & q901g_2==. & q901h_2==. & q901i_2==. ///
+                          & q901j_2==. & q901k_2==. & q901l_2==. & q901m_2==. & q901n_2==. & q901o_2==.	
+drop q901a_2 q901b_2 q901c_2 q901d_2 q901e_2 q901f_2 q901g_2 q901h_2 q901i_2 q901j_2 q901k_2 q901l_2 q901m_2 q901n_2 q901o_2 q901p_2 
+						  
+*Create q901_3 to collpase q901a_3 q901b_3 q901c_3 q901d_3 q901e_3 q901f_3 q901g_3 q901h_3 q901i_3 q901j_3 q901k_3 q901l_3 q901m_3 q901n_3 q901o_3 q901p_4 
+gen q901_3 = q901a_3 if q901b_3==. & q901c_3==. & q901d_3==. & q901e_3==. & q901f_3==. & q901g_3==. & q901h_3==. & q901i_3==. & q901j_3==. ///
+                      & q901k_3==. & q901l_3==. & q901m_3==. & q901n_3==. & q901o_3==. & q901p_3==.
+replace q901_3 = q901b_3 if q901a_3==. & q901c_3==. & q901d_3==. & q901e_3==. & q901f_3==. & q901g_3==. & q901h_3==. & q901i_3==. & q901j_3==. ///
+                          & q901k_3==. & q901l_3==. & q901m_3==. & q901n_3==. & q901o_3==. & q901p_3==.
+replace q901_3 = q901c_3 if q901a_3==. & q901b_3==. & q901d_3==. & q901e_3==. & q901f_3==. & q901g_3==. & q901h_3==. & q901i_3==. & q901j_3==. ///
+                          & q901k_3==. & q901l_3==. & q901m_3==. & q901n_3==. & q901o_3==. & q901p_3==.					  
+replace q901_3 = q901d_3 if q901a_3==. & q901b_3==. & q901c_3==. & q901e_3==. & q901f_3==. & q901g_3==. & q901h_3==. & q901i_3==. & q901j_3==. ///
+                          & q901k_3==. & q901l_3==. & q901m_3==. & q901n_3==. & q901o_3==. & q901p_3==.
+replace q901_3 = q901e_3 if q901a_3==. & q901b_3==. & q901c_3==. & q901d_3==. & q901f_3==. & q901g_3==. & q901h_3==. & q901i_3==. & q901j_3==. ///
+                          & q901k_3==. & q901l_3==. & q901m_3==. & q901n_3==. & q901o_3==. & q901p_3==.							  
+replace q901_3 = q901f_3 if q901a_3==. & q901b_3==. & q901c_3==. & q901d_3==. & q901e_3==. & q901g_3==. & q901h_3==. & q901i_3==. & q901j_3==. ///
+                          & q901k_3==. & q901l_3==. & q901m_3==. & q901n_3==. & q901o_3==. & q901p_3==.						  
+replace q901_3 = q901g_3 if q901a_3==. & q901b_3==. & q901c_3==. & q901d_3==. & q901e_3==. & q901f_3==. & q901h_3==. & q901i_3==. & q901j_3==. ///
+                          & q901k_3==. & q901l_3==. & q901m_3==. & q901n_3==. & q901o_3==. & q901p_3==.						  
+replace q901_3 = q901h_3 if q901a_3==. & q901b_3==. & q901c_3==. & q901d_3==. & q901e_3==. & q901f_3==. & q901g_3==. & q901i_3==. & q901j_3==. ///
+                          & q901k_3==. & q901l_3==. & q901m_3==. & q901n_3==. & q901o_3==. & q901p_3==.						  
+replace q901_3 = q901i_3 if q901a_3==. & q901b_3==. & q901c_3==. & q901d_3==. & q901e_3==. & q901f_3==. & q901g_3==. & q901h_3==. & q901j_3==. ///
+                          & q901k_3==. & q901l_3==. & q901m_3==. & q901n_3==. & q901o_3==. & q901p_3==.			
+replace q901_3 = q901j_3 if q901a_3==. & q901b_3==. & q901c_3==. & q901d_3==. & q901e_3==. & q901f_3==. & q901g_3==. & q901h_3==. & q901i_3==. ///
+                          & q901k_3==. & q901l_3==. & q901m_3==. & q901n_3==. & q901o_3==. & q901p_3==.
+replace q901_3 = q901k_3 if q901a_3==. & q901b_3==. & q901c_3==. & q901d_3==. & q901e_3==. & q901f_3==. & q901g_3==. & q901h_3==. & q901i_3==. ///
+                          & q901j_3==. & q901l_3==. & q901m_3==. & q901n_3==. & q901o_3==. & q901p_3==.	
+replace q901_3 = q901l_3 if q901a_3==. & q901b_3==. & q901c_3==. & q901d_3==. & q901e_3==. & q901f_3==. & q901g_3==. & q901h_3==. & q901i_3==. ///
+                          & q901j_3==. & q901k_3==. & q901m_3==. & q901n_3==. & q901o_3==. & q901p_3==.
+replace q901_3 = q901m_3 if q901a_3==. & q901b_3==. & q901c_3==. & q901d_3==. & q901e_3==. & q901f_3==. & q901g_3==. & q901h_3==. & q901i_3==. ///
+                          & q901j_3==. & q901k_3==. & q901l_3==. & q901n_3==. & q901o_3==. & q901p_3==.
+replace q901_3 = q901n_3 if q901a_3==. & q901b_3==. & q901c_3==. & q901d_3==. & q901e_3==. & q901f_3==. & q901g_3==. & q901h_3==. & q901i_3==. ///
+                          & q901j_3==. & q901k_3==. & q901l_3==. & q901m_3==. & q901o_3==. & q901p_3==.
+replace q901_3 = q901o_3 if q901a_3==. & q901b_3==. & q901c_3==. & q901d_3==. & q901e_3==. & q901f_3==. & q901g_3==. & q901h_3==. & q901i_3==. ///
+                          & q901j_3==. & q901k_3==. & q901l_3==. & q901m_3==. & q901n_3==. & q901p_3==.	
+replace q901_3 = q901p_3 if q901a_3==. & q901b_3==. & q901c_3==. & q901d_3==. & q901e_3==. & q901f_3==. & q901g_3==. & q901h_3==. & q901i_3==. ///
+                          & q901j_3==. & q901k_3==. & q901l_3==. & q901m_3==. & q901n_3==. & q901o_3==.
+drop q901a_3 q901b_3 q901c_3 q901d_3 q901e_3 q901f_3 q901g_3 q901h_3 q901i_3 q901j_3 q901k_3 q901l_3 q901m_3 q901n_3 q901o_3 q901p_3  
+						  
+*Create q901_4 to collpase q901a_4 q901b_4 q901c_4 q901d_4 q901e_4 q901f_4 q901g_4 q901h_4 q901i_4 q901j_4 q901k_4 q901l_4 q901m_4 q901n_4 q901o_4 q901p_4
+gen q901_4 = q901a_4 if q901b_4==. & q901c_4==. & q901d_4==. & q901e_4==. & q901f_4==. & q901g_4==. & q901h_4==. & q901i_4==. & q901j_4==. ///
+                      & q901k_4==. & q901l_4==. & q901m_4==. & q901n_4==. & q901o_4==. & q901p_4==.
+replace q901_4 = q901b_4 if q901a_4==. & q901c_4==. & q901d_4==. & q901e_4==. & q901f_4==. & q901g_4==. & q901h_4==. & q901i_4==. & q901j_4==. ///
+                          & q901k_4==. & q901l_4==. & q901m_4==. & q901n_4==. & q901o_4==. & q901p_4==.
+replace q901_4 = q901c_4 if q901a_4==. & q901b_4==. & q901d_4==. & q901e_4==. & q901f_4==. & q901g_4==. & q901h_4==. & q901i_4==. & q901j_4==. ///
+                          & q901k_4==. & q901l_4==. & q901m_4==. & q901n_4==. & q901o_4==. & q901p_4==.					  
+replace q901_4 = q901d_4 if q901a_4==. & q901b_4==. & q901c_4==. & q901e_4==. & q901f_4==. & q901g_4==. & q901h_4==. & q901i_4==. & q901j_4==. ///
+                          & q901k_4==. & q901l_4==. & q901m_4==. & q901n_4==. & q901o_4==. & q901p_4==.
+replace q901_4 = q901e_4 if q901a_4==. & q901b_4==. & q901c_4==. & q901d_4==. & q901f_4==. & q901g_4==. & q901h_4==. & q901i_4==. & q901j_4==. ///
+                          & q901k_4==. & q901l_4==. & q901m_4==. & q901n_4==. & q901o_4==. & q901p_4==.							  
+replace q901_4 = q901f_4 if q901a_4==. & q901b_4==. & q901c_4==. & q901d_4==. & q901e_4==. & q901g_4==. & q901h_4==. & q901i_4==. & q901j_4==. ///
+                          & q901k_4==. & q901l_4==. & q901m_4==. & q901n_4==. & q901o_4==. & q901p_4==.						  
+replace q901_4 = q901g_4 if q901a_4==. & q901b_4==. & q901c_4==. & q901d_4==. & q901e_4==. & q901f_4==. & q901h_4==. & q901i_4==. & q901j_4==. ///
+                          & q901k_4==. & q901l_4==. & q901m_4==. & q901n_4==. & q901o_4==. & q901p_4==.						  
+replace q901_4 = q901h_4 if q901a_4==. & q901b_4==. & q901c_4==. & q901d_4==. & q901e_4==. & q901f_4==. & q901g_4==. & q901i_4==. & q901j_4==. ///
+                          & q901k_4==. & q901l_4==. & q901m_4==. & q901n_4==. & q901o_4==. & q901p_4==.						  
+replace q901_4 = q901i_4 if q901a_4==. & q901b_4==. & q901c_4==. & q901d_4==. & q901e_4==. & q901f_4==. & q901g_4==. & q901h_4==. & q901j_4==. ///
+                          & q901k_4==. & q901l_4==. & q901m_4==. & q901n_4==. & q901o_4==. & q901p_4==.			
+replace q901_4 = q901j_4 if q901a_4==. & q901b_4==. & q901c_4==. & q901d_4==. & q901e_4==. & q901f_4==. & q901g_4==. & q901h_4==. & q901i_4==. ///
+                          & q901k_4==. & q901l_4==. & q901m_4==. & q901n_4==. & q901o_4==. & q901p_4==.
+replace q901_4 = q901k_4 if q901a_4==. & q901b_4==. & q901c_4==. & q901d_4==. & q901e_4==. & q901f_4==. & q901g_4==. & q901h_4==. & q901i_4==. ///
+                          & q901j_4==. & q901l_4==. & q901m_4==. & q901n_4==. & q901o_4==. & q901p_4==.	
+replace q901_4 = q901l_4 if q901a_4==. & q901b_4==. & q901c_4==. & q901d_4==. & q901e_4==. & q901f_4==. & q901g_4==. & q901h_4==. & q901i_4==. ///
+                          & q901j_4==. & q901k_4==. & q901m_4==. & q901n_4==. & q901o_4==. & q901p_4==.	
+replace q901_4 = q901m_4 if q901a_4==. & q901b_4==. & q901c_4==. & q901d_4==. & q901e_4==. & q901f_4==. & q901g_4==. & q901h_4==. & q901i_4==. ///
+                          & q901j_4==. & q901k_4==. & q901l_4==. & q901n_4==. & q901o_4==. & q901p_4==.	
+replace q901_4 = q901n_4 if q901a_4==. & q901b_4==. & q901c_4==. & q901d_4==. & q901e_4==. & q901f_4==. & q901g_4==. & q901h_4==. & q901i_4==. ///
+                          & q901j_4==. & q901k_4==. & q901l_4==. & q901m_4==. & q901o_4==. & q901p_4==.
+replace q901_4 = q901o_4 if q901a_4==. & q901b_4==. & q901c_4==. & q901d_4==. & q901e_4==. & q901f_4==. & q901g_4==. & q901h_4==. & q901i_4==. ///
+                          & q901j_4==. & q901k_4==. & q901l_4==. & q901m_4==. & q901n_4==. & q901p_4==.
+replace q901_4 = q901p_4 if q901a_4==. & q901b_4==. & q901c_4==. & q901d_4==. & q901e_4==. & q901f_4==. & q901g_4==. & q901h_4==. & q901i_4==. ///
+                          & q901j_4==. & q901k_4==. & q901l_4==. & q901m_4==. & q901n_4==. & q901o_4==.
+drop q901a_4 q901b_4 q901c_4 q901d_4 q901e_4 q901f_4 q901g_4 q901h_4 q901i_4 q901j_4 q901k_4 q901l_4 q901m_4 q901n_4 q901o_4 q901p_4 
+						  
+*Create q901_5 to collpase q901a_5 q901b_5 q901c_5 q901d_5 q901e_5 q901f_5 q901g_5 q901h_5 q901i_5 q901j_5 q901k_5 q901l_5 q901m_5 q901n_5 q901o_5 q901p_5
+gen q901_5 = q901a_5 if q901b_5==. & q901c_5==. & q901d_5==. & q901e_5==. & q901f_5==. & q901g_5==. & q901h_5==. & q901i_5==. & q901j_5==. ///
+                      & q901k_5==. & q901l_5==. & q901m_5==. & q901n_5==. & q901o_5==. & q901p_5==.
+replace q901_5 = q901b_5 if q901a_5==. & q901c_5==. & q901d_5==. & q901e_5==. & q901f_5==. & q901g_5==. & q901h_5==. & q901i_5==. & q901j_5==. ///
+                          & q901k_5==. & q901l_5==. & q901m_5==. & q901n_5==. & q901o_5==. & q901p_5==.
+replace q901_5 = q901c_5 if q901a_5==. & q901b_5==. & q901d_5==. & q901e_5==. & q901f_5==. & q901g_5==. & q901h_5==. & q901i_5==. & q901j_5==. ///
+                          & q901k_5==. & q901l_5==. & q901m_5==. & q901n_5==. & q901o_5==. & q901p_5==.					  
+replace q901_5 = q901d_5 if q901a_5==. & q901b_5==. & q901c_5==. & q901e_5==. & q901f_5==. & q901g_5==. & q901h_5==. & q901i_5==. & q901j_5==. ///
+                          & q901k_5==. & q901l_5==. & q901m_5==. & q901n_5==. & q901o_5==. & q901p_5==.
+replace q901_5 = q901e_5 if q901a_5==. & q901b_5==. & q901c_5==. & q901d_5==. & q901f_5==. & q901g_5==. & q901h_5==. & q901i_5==. & q901j_5==. ///
+                          & q901k_5==. & q901l_5==. & q901m_5==. & q901n_5==. & q901o_5==. & q901p_5==.							  
+replace q901_5 = q901f_5 if q901a_5==. & q901b_5==. & q901c_5==. & q901d_5==. & q901e_5==. & q901g_5==. & q901h_5==. & q901i_5==. & q901j_5==. ///
+                          & q901k_5==. & q901l_5==. & q901m_5==. & q901n_5==. & q901o_5==. & q901p_5==.						  
+replace q901_5 = q901g_5 if q901a_5==. & q901b_5==. & q901c_5==. & q901d_5==. & q901e_5==. & q901f_5==. & q901h_5==. & q901i_5==. & q901j_5==. ///
+                          & q901k_5==. & q901l_5==. & q901m_5==. & q901n_5==. & q901o_5==. & q901p_5==.						  
+replace q901_5 = q901h_5 if q901a_5==. & q901b_5==. & q901c_5==. & q901d_5==. & q901e_5==. & q901f_5==. & q901g_5==. & q901i_5==. & q901j_5==. ///
+                          & q901k_5==. & q901l_5==. & q901m_5==. & q901n_5==. & q901o_5==. & q901p_5==.						  
+replace q901_5 = q901i_5 if q901a_5==. & q901b_5==. & q901c_5==. & q901d_5==. & q901e_5==. & q901f_5==. & q901g_5==. & q901h_5==. & q901j_5==. ///
+                          & q901k_5==. & q901l_5==. & q901m_5==. & q901n_5==. & q901o_5==. & q901p_5==.			
+replace q901_5 = q901j_5 if q901a_5==. & q901b_5==. & q901c_5==. & q901d_5==. & q901e_5==. & q901f_5==. & q901g_5==. & q901h_5==. & q901i_5==. ///
+                          & q901k_5==. & q901l_5==. & q901m_5==. & q901n_5==. & q901o_5==. & q901p_5==.
+replace q901_5 = q901k_5 if q901a_5==. & q901b_5==. & q901c_5==. & q901d_5==. & q901e_5==. & q901f_5==. & q901g_5==. & q901h_5==. & q901i_5==. ///
+                          & q901j_5==. & q901l_5==. & q901m_5==. & q901n_5==. & q901o_5==. & q901p_5==.	
+replace q901_5 = q901l_5 if q901a_5==. & q901b_5==. & q901c_5==. & q901d_5==. & q901e_5==. & q901f_5==. & q901g_5==. & q901h_5==. & q901i_5==. ///
+                          & q901j_5==. & q901k_5==. & q901m_5==. & q901n_5==. & q901o_5==. & q901p_5==.	
+replace q901_5 = q901m_5 if q901a_5==. & q901b_5==. & q901c_5==. & q901d_5==. & q901e_5==. & q901f_5==. & q901g_5==. & q901h_5==. & q901i_5==. ///
+                          & q901j_5==. & q901k_5==. & q901l_5==. & q901n_5==. & q901o_5==. & q901p_5==.	
+replace q901_5 = q901n_5 if q901a_5==. & q901b_5==. & q901c_5==. & q901d_5==. & q901e_5==. & q901f_5==. & q901g_5==. & q901h_5==. & q901i_5==. ///
+                          & q901j_5==. & q901k_5==. & q901l_5==. & q901m_5==. & q901o_5==. & q901p_5==.
+replace q901_5 = q901o_5 if q901a_5==. & q901b_5==. & q901c_5==. & q901d_5==. & q901e_5==. & q901f_5==. & q901g_5==. & q901h_5==. & q901i_5==. ///
+                          & q901j_5==. & q901k_5==. & q901l_5==. & q901m_5==. & q901n_5==. & q901p_5==.
+replace q901_5 = q901p_5 if q901a_5==. & q901b_5==. & q901c_5==. & q901d_5==. & q901e_5==. & q901f_5==. & q901g_5==. & q901h_5==. & q901i_5==. ///
+                          & q901j_5==. & q901k_5==. & q901l_5==. & q901m_5==. & q901n_5==. & q901o_5==.
+drop q901a_5 q901b_5 q901c_5 q901d_5 q901e_5 q901f_5 q901g_5 q901h_5 q901i_5 q901j_5 q901k_5 q901l_5 q901m_5 q901n_5 q901o_5 q901p_5  
+						  
+*Create q901_6 to collpase q901a_6 q901b_6 q901c_6 q901d_6 q901e_6 q901f_6 q901g_6 q901h_6 q901i_6 q901j_6 q901k_6 q901l_6 q901m_6 q901n_6 q901o_6 q901p_6 
+gen q901_6 = q901a_6 if q901b_6==. & q901c_6==. & q901d_6==. & q901e_6==. & q901f_6==. & q901g_6==. & q901h_6==. & q901i_6==. & q901j_6==. ///
+                      & q901k_6==. & q901l_6==. & q901m_6==. & q901n_6==. & q901o_6==. & q901p_6==.
+replace q901_6 = q901b_6 if q901a_6==. & q901c_6==. & q901d_6==. & q901e_6==. & q901f_6==. & q901g_6==. & q901h_6==. & q901i_6==. & q901j_6==. ///
+                          & q901k_6==. & q901l_6==. & q901m_6==. & q901n_6==. & q901o_6==. & q901p_6==.
+replace q901_6 = q901c_6 if q901a_6==. & q901b_6==. & q901d_6==. & q901e_6==. & q901f_6==. & q901g_6==. & q901h_6==. & q901i_6==. & q901j_6==. ///
+                          & q901k_6==. & q901l_6==. & q901m_6==. & q901n_6==. & q901o_6==. & q901p_6==.					  
+replace q901_6 = q901d_6 if q901a_6==. & q901b_6==. & q901c_6==. & q901e_6==. & q901f_6==. & q901g_6==. & q901h_6==. & q901i_6==. & q901j_6==. ///
+                          & q901k_6==. & q901l_6==. & q901m_6==. & q901n_6==. & q901o_6==. & q901p_6==.
+replace q901_6 = q901e_6 if q901a_6==. & q901b_6==. & q901c_6==. & q901d_6==. & q901f_6==. & q901g_6==. & q901h_6==. & q901i_6==. & q901j_6==. ///
+                          & q901k_6==. & q901l_6==. & q901m_6==. & q901n_6==. & q901o_6==. & q901p_6==.							  
+replace q901_6 = q901f_6 if q901a_6==. & q901b_6==. & q901c_6==. & q901d_6==. & q901e_6==. & q901g_6==. & q901h_6==. & q901i_6==. & q901j_6==. ///
+                          & q901k_6==. & q901l_6==. & q901m_6==. & q901n_6==. & q901o_6==. & q901p_6==.						  
+replace q901_6 = q901g_6 if q901a_6==. & q901b_6==. & q901c_6==. & q901d_6==. & q901e_6==. & q901f_6==. & q901h_6==. & q901i_6==. & q901j_6==. ///
+                          & q901k_6==. & q901l_6==. & q901m_6==. & q901n_6==. & q901o_6==. & q901p_6==.						  
+replace q901_6 = q901h_6 if q901a_6==. & q901b_6==. & q901c_6==. & q901d_6==. & q901e_6==. & q901f_6==. & q901g_6==. & q901i_6==. & q901j_6==. ///
+                          & q901k_6==. & q901l_6==. & q901m_6==. & q901n_6==. & q901o_6==. & q901p_6==.						  
+replace q901_6 = q901i_6 if q901a_6==. & q901b_6==. & q901c_6==. & q901d_6==. & q901e_6==. & q901f_6==. & q901g_6==. & q901h_6==. & q901j_6==. ///
+                          & q901k_6==. & q901l_6==. & q901m_6==. & q901n_6==. & q901o_6==. & q901p_6==.			
+replace q901_6 = q901j_6 if q901a_6==. & q901b_6==. & q901c_6==. & q901d_6==. & q901e_6==. & q901f_6==. & q901g_6==. & q901h_6==. & q901i_6==. ///
+                          & q901k_6==. & q901l_6==. & q901m_6==. & q901n_6==. & q901o_6==. & q901p_6==.
+replace q901_6 = q901k_6 if q901a_6==. & q901b_6==. & q901c_6==. & q901d_6==. & q901e_6==. & q901f_6==. & q901g_6==. & q901h_6==. & q901i_6==. ///
+                          & q901j_6==. & q901l_6==. & q901m_6==. & q901n_6==. & q901o_6==. & q901p_6==.	
+replace q901_6 = q901l_6 if q901a_6==. & q901b_6==. & q901c_6==. & q901d_6==. & q901e_6==. & q901f_6==. & q901g_6==. & q901h_6==. & q901i_6==. ///
+                          & q901j_6==. & q901k_6==. & q901m_6==. & q901n_6==. & q901o_6==. & q901p_6==.	
+replace q901_6 = q901m_6 if q901a_6==. & q901b_6==. & q901c_6==. & q901d_6==. & q901e_6==. & q901f_6==. & q901g_6==. & q901h_6==. & q901i_6==. ///
+                          & q901j_6==. & q901k_6==. & q901l_6==. & q901n_6==. & q901o_6==. & q901p_6==.	
+replace q901_6 = q901n_6 if q901a_6==. & q901b_6==. & q901c_6==. & q901d_6==. & q901e_6==. & q901f_6==. & q901g_6==. & q901h_6==. & q901i_6==. ///
+                          & q901j_6==. & q901k_6==. & q901l_6==. & q901m_6==. & q901o_6==. & q901p_6==.
+replace q901_6 = q901o_6 if q901a_6==. & q901b_6==. & q901c_6==. & q901d_6==. & q901e_6==. & q901f_6==. & q901g_6==. & q901h_6==. & q901i_6==. ///
+                          & q901j_6==. & q901k_6==. & q901l_6==. & q901m_6==. & q901n_6==. & q901p_6==.
+replace q901_6 = q901p_6 if q901a_6==. & q901b_6==. & q901c_6==. & q901d_6==. & q901e_6==. & q901f_6==. & q901g_6==. & q901h_6==. & q901i_6==. ///
+                          & q901j_6==. & q901k_6==. & q901l_6==. & q901m_6==. & q901n_6==. & q901o_6==.
+drop q901a_6 q901b_6 q901c_6 q901d_6 q901e_6 q901f_6 q901g_6 q901h_6 q901i_6 q901j_6 q901k_6 q901l_6 q901m_6 q901n_6 q901o_6 q901p_6
+						  
+*Create q901_7 to collpase q901a_7 q901b_7 q901c_7 q901d_7 q901e_7 q901f_7 q901g_7 q901h_7 q901i_7 q901j_7 q901k_7 q901l_7 q901m_7 q901n_7 q901o_7 q901p_7
+gen q901_7 = q901a_7 if q901b_7==. & q901c_7==. & q901d_7==. & q901e_7==. & q901f_7==. & q901g_7==. & q901h_7==. & q901i_7==. & q901j_7==. ///
+                      & q901k_7==. & q901l_7==. & q901m_7==. & q901n_7==. & q901o_7==. & q901p_7==.
+replace q901_7 = q901b_7 if q901a_7==. & q901c_7==. & q901d_7==. & q901e_7==. & q901f_7==. & q901g_7==. & q901h_7==. & q901i_7==. & q901j_7==. ///
+                          & q901k_7==. & q901l_7==. & q901m_7==. & q901n_7==. & q901o_7==. & q901p_7==.
+replace q901_7 = q901c_7 if q901a_7==. & q901b_7==. & q901d_7==. & q901e_7==. & q901f_7==. & q901g_7==. & q901h_7==. & q901i_7==. & q901j_7==. ///
+                          & q901k_7==. & q901l_7==. & q901m_7==. & q901n_7==. & q901o_7==. & q901p_7==.					  
+replace q901_7 = q901d_7 if q901a_7==. & q901b_7==. & q901c_7==. & q901e_7==. & q901f_7==. & q901g_7==. & q901h_7==. & q901i_7==. & q901j_7==. ///
+                          & q901k_7==. & q901l_7==. & q901m_7==. & q901n_7==. & q901o_7==. & q901p_7==.
+replace q901_7 = q901e_7 if q901a_7==. & q901b_7==. & q901c_7==. & q901d_7==. & q901f_7==. & q901g_7==. & q901h_7==. & q901i_7==. & q901j_7==. ///
+                          & q901k_7==. & q901l_7==. & q901m_7==. & q901n_7==. & q901o_7==. & q901p_7==.							  
+replace q901_7 = q901f_7 if q901a_7==. & q901b_7==. & q901c_7==. & q901d_7==. & q901e_7==. & q901g_7==. & q901h_7==. & q901i_7==. & q901j_7==. ///
+                          & q901k_7==. & q901l_7==. & q901m_7==. & q901n_7==. & q901o_7==. & q901p_7==.						  
+replace q901_7 = q901g_7 if q901a_7==. & q901b_7==. & q901c_7==. & q901d_7==. & q901e_7==. & q901f_7==. & q901h_7==. & q901i_7==. & q901j_7==. ///
+                          & q901k_7==. & q901l_7==. & q901m_7==. & q901n_7==. & q901o_7==. & q901p_7==.						  
+replace q901_7 = q901h_7 if q901a_7==. & q901b_7==. & q901c_7==. & q901d_7==. & q901e_7==. & q901f_7==. & q901g_7==. & q901i_7==. & q901j_7==. ///
+                          & q901k_7==. & q901l_7==. & q901m_7==. & q901n_7==. & q901o_7==. & q901p_7==.						  
+replace q901_7 = q901i_7 if q901a_7==. & q901b_7==. & q901c_7==. & q901d_7==. & q901e_7==. & q901f_7==. & q901g_7==. & q901h_7==. & q901j_7==. ///
+                          & q901k_7==. & q901l_7==. & q901m_7==. & q901n_7==. & q901o_7==. & q901p_7==.			
+replace q901_7 = q901j_7 if q901a_7==. & q901b_7==. & q901c_7==. & q901d_7==. & q901e_7==. & q901f_7==. & q901g_7==. & q901h_7==. & q901i_7==. ///
+                          & q901k_7==. & q901l_7==. & q901m_7==. & q901n_7==. & q901o_7==. & q901p_7==.
+replace q901_7 = q901k_7 if q901a_7==. & q901b_7==. & q901c_7==. & q901d_7==. & q901e_7==. & q901f_7==. & q901g_7==. & q901h_7==. & q901i_7==. ///
+                          & q901j_7==. & q901l_7==. & q901m_7==. & q901n_7==. & q901o_7==. & q901p_7==.	
+replace q901_7 = q901l_7 if q901a_7==. & q901b_7==. & q901c_7==. & q901d_7==. & q901e_7==. & q901f_7==. & q901g_7==. & q901h_7==. & q901i_7==. ///
+                          & q901j_7==. & q901k_7==. & q901m_7==. & q901n_7==. & q901o_7==. & q901p_7==.
+replace q901_7 = q901m_7 if q901a_7==. & q901b_7==. & q901c_7==. & q901d_7==. & q901e_7==. & q901f_7==. & q901g_7==. & q901h_7==. & q901i_7==. ///
+                          & q901j_7==. & q901k_7==. & q901l_7==. & q901n_7==. & q901o_7==. & q901p_7==.
+replace q901_7 = q901n_7 if q901a_7==. & q901b_7==. & q901c_7==. & q901d_7==. & q901e_7==. & q901f_7==. & q901g_7==. & q901h_7==. & q901i_7==. ///
+                          & q901j_7==. & q901k_7==. & q901l_7==. & q901m_7==. & q901o_7==. & q901p_7==.
+replace q901_7 = q901o_7 if q901a_7==. & q901b_7==. & q901c_7==. & q901d_7==. & q901e_7==. & q901f_7==. & q901g_7==. & q901h_7==. & q901i_7==. ///
+                          & q901j_7==. & q901k_7==. & q901l_7==. & q901m_7==. & q901n_7==. & q901p_7==.	
+replace q901_7 = q901p_7 if q901a_7==. & q901b_7==. & q901c_7==. & q901d_7==. & q901e_7==. & q901f_7==. & q901g_7==. & q901h_7==. & q901i_7==. ///
+                          & q901j_7==. & q901k_7==. & q901l_7==. & q901m_7==. & q901n_7==. & q901o_7==.
+drop q901a_7 q901b_7 q901c_7 q901d_7 q901e_7 q901f_7 q901g_7 q901h_7 q901i_7 q901j_7 q901k_7 q901l_7 q901m_7 q901n_7 q901o_7 q901p_7  
+						  
+*Create q901_8 to collpase q901a_8 q901b_8 q901c_8 q901d_8 q901e_8 q901f_8 q901g_8 q901h_8 q901i_8 q901j_8 q901k_8 q901l_8 q901m_8 q901n_8 q901o_8 q901p_8 
+gen q901_8 = q901a_8 if q901b_8==. & q901c_8==. & q901d_8==. & q901e_8==. & q901f_8==. & q901g_8==. & q901h_8==. & q901i_8==. & q901j_8==. ///
+                      & q901k_8==. & q901l_8==. & q901m_8==. & q901n_8==. & q901o_8==. & q901p_8==.
+replace q901_8 = q901b_8 if q901a_8==. & q901c_8==. & q901d_8==. & q901e_8==. & q901f_8==. & q901g_8==. & q901h_8==. & q901i_8==. & q901j_8==. ///
+                          & q901k_8==. & q901l_8==. & q901m_8==. & q901n_8==. & q901o_8==. & q901p_8==.
+replace q901_8 = q901c_8 if q901a_8==. & q901b_8==. & q901d_8==. & q901e_8==. & q901f_8==. & q901g_8==. & q901h_8==. & q901i_8==. & q901j_8==. ///
+                          & q901k_8==. & q901l_8==. & q901m_8==. & q901n_8==. & q901o_8==. & q901p_8==.					  
+replace q901_8 = q901d_8 if q901a_8==. & q901b_8==. & q901c_8==. & q901e_8==. & q901f_8==. & q901g_8==. & q901h_8==. & q901i_8==. & q901j_8==. ///
+                          & q901k_8==. & q901l_8==. & q901m_8==. & q901n_8==. & q901o_8==. & q901p_8==.
+replace q901_8 = q901e_8 if q901a_8==. & q901b_8==. & q901c_8==. & q901d_8==. & q901f_8==. & q901g_8==. & q901h_8==. & q901i_8==. & q901j_8==. ///
+                          & q901k_8==. & q901l_8==. & q901m_8==. & q901n_8==. & q901o_8==. & q901p_8==.							  
+replace q901_8 = q901f_8 if q901a_8==. & q901b_8==. & q901c_8==. & q901d_8==. & q901e_8==. & q901g_8==. & q901h_8==. & q901i_8==. & q901j_8==. ///
+                          & q901k_8==. & q901l_8==. & q901m_8==. & q901n_8==. & q901o_8==. & q901p_8==.						  
+replace q901_8 = q901g_8 if q901a_8==. & q901b_8==. & q901c_8==. & q901d_8==. & q901e_8==. & q901f_8==. & q901h_8==. & q901i_8==. & q901j_8==. ///
+                          & q901k_8==. & q901l_8==. & q901m_8==. & q901n_8==. & q901o_8==. & q901p_8==.						  
+replace q901_8 = q901h_8 if q901a_8==. & q901b_8==. & q901c_8==. & q901d_8==. & q901e_8==. & q901f_8==. & q901g_8==. & q901i_8==. & q901j_8==. ///
+                          & q901k_8==. & q901l_8==. & q901m_8==. & q901n_8==. & q901o_8==. & q901p_8==.						  
+replace q901_8 = q901i_8 if q901a_8==. & q901b_8==. & q901c_8==. & q901d_8==. & q901e_8==. & q901f_8==. & q901g_8==. & q901h_8==. & q901j_8==. ///
+                          & q901k_8==. & q901l_8==. & q901m_8==. & q901n_8==. & q901o_8==. & q901p_8==.			
+replace q901_8 = q901j_8 if q901a_8==. & q901b_8==. & q901c_8==. & q901d_8==. & q901e_8==. & q901f_8==. & q901g_8==. & q901h_8==. & q901i_8==. ///
+                          & q901k_8==. & q901l_8==. & q901m_8==. & q901n_8==. & q901o_8==. & q901p_8==.
+replace q901_8 = q901k_8 if q901a_8==. & q901b_8==. & q901c_8==. & q901d_8==. & q901e_8==. & q901f_8==. & q901g_8==. & q901h_8==. & q901i_8==. ///
+                          & q901j_8==. & q901l_8==. & q901m_8==. & q901n_8==. & q901o_8==. & q901p_8==.	
+replace q901_8 = q901l_8 if q901a_8==. & q901b_8==. & q901c_8==. & q901d_8==. & q901e_8==. & q901f_8==. & q901g_8==. & q901h_8==. & q901i_8==. ///
+                          & q901j_8==. & q901k_8==. & q901m_8==. & q901n_8==. & q901o_8==. & q901p_8==.
+replace q901_8 = q901m_8 if q901a_8==. & q901b_8==. & q901c_8==. & q901d_8==. & q901e_8==. & q901f_8==. & q901g_8==. & q901h_8==. & q901i_8==. ///
+                          & q901j_8==. & q901k_8==. & q901l_8==. & q901n_8==. & q901o_8==. & q901p_8==.
+replace q901_8 = q901n_8 if q901a_8==. & q901b_8==. & q901c_8==. & q901d_8==. & q901e_8==. & q901f_8==. & q901g_8==. & q901h_8==. & q901i_8==. ///
+                          & q901j_8==. & q901k_8==. & q901l_8==. & q901m_8==. & q901o_8==. & q901p_8==.
+replace q901_8 = q901o_8 if q901a_8==. & q901b_8==. & q901c_8==. & q901d_8==. & q901e_8==. & q901f_8==. & q901g_8==. & q901h_8==. & q901i_8==. ///
+                          & q901j_8==. & q901k_8==. & q901l_8==. & q901m_8==. & q901n_8==. & q901p_8==.	
+replace q901_8 = q901p_8 if q901a_8==. & q901b_8==. & q901c_8==. & q901d_8==. & q901e_8==. & q901f_8==. & q901g_8==. & q901h_8==. & q901i_8==. ///
+                          & q901j_8==. & q901k_8==. & q901l_8==. & q901m_8==. & q901n_8==. & q901o_8==.
+drop q901a_8 q901b_8 q901c_8 q901d_8 q901e_8 q901f_8 q901g_8 q901h_8 q901i_8 q901j_8 q901k_8 q901l_8 q901m_8 q901n_8 q901o_8 q901p_8  
+						  
+*Create q901_9 to collpase q901a_9 q901b_9 q901c_9 q901d_9 q901e_9 q901f_9 q901g_9 q901h_9 q901i_9 q901j_9 q901k_9 q901l_9 q901m_9 q901n_9 q901o_9 q901p_9 
+gen q901_9 = q901a_9 if q901b_9==. & q901c_9==. & q901d_9==. & q901e_9==. & q901f_9==. & q901g_9==. & q901h_9==. & q901i_9==. & q901j_9==. ///
+                      & q901k_9==. & q901l_9==. & q901m_9==. & q901n_9==. & q901o_9==. & q901p_9==.
+replace q901_9 = q901b_9 if q901a_9==. & q901c_9==. & q901d_9==. & q901e_9==. & q901f_9==. & q901g_9==. & q901h_9==. & q901i_9==. & q901j_9==. ///
+                          & q901k_9==. & q901l_9==. & q901m_9==. & q901n_9==. & q901o_9==. & q901p_9==.
+replace q901_9 = q901c_9 if q901a_9==. & q901b_9==. & q901d_9==. & q901e_9==. & q901f_9==. & q901g_9==. & q901h_9==. & q901i_9==. & q901j_9==. ///
+                          & q901k_9==. & q901l_9==. & q901m_9==. & q901n_9==. & q901o_9==. & q901p_9==.					  
+replace q901_9 = q901d_9 if q901a_9==. & q901b_9==. & q901c_9==. & q901e_9==. & q901f_9==. & q901g_9==. & q901h_9==. & q901i_9==. & q901j_9==. ///
+                          & q901k_9==. & q901l_9==. & q901m_9==. & q901n_9==. & q901o_9==. & q901p_9==.
+replace q901_9 = q901e_9 if q901a_9==. & q901b_9==. & q901c_9==. & q901d_9==. & q901f_9==. & q901g_9==. & q901h_9==. & q901i_9==. & q901j_9==. ///
+                          & q901k_9==. & q901l_9==. & q901m_9==. & q901n_9==. & q901o_9==. & q901p_9==.							  
+replace q901_9 = q901f_9 if q901a_9==. & q901b_9==. & q901c_9==. & q901d_9==. & q901e_9==. & q901g_9==. & q901h_9==. & q901i_9==. & q901j_9==. ///
+                          & q901k_9==. & q901l_9==. & q901m_9==. & q901n_9==. & q901o_9==. & q901p_9==.						  
+replace q901_9 = q901g_9 if q901a_9==. & q901b_9==. & q901c_9==. & q901d_9==. & q901e_9==. & q901f_9==. & q901h_9==. & q901i_9==. & q901j_9==. ///
+                          & q901k_9==. & q901l_9==. & q901m_9==. & q901n_9==. & q901o_9==. & q901p_9==.						  
+replace q901_9 = q901h_9 if q901a_9==. & q901b_9==. & q901c_9==. & q901d_9==. & q901e_9==. & q901f_9==. & q901g_9==. & q901i_9==. & q901j_9==. ///
+                          & q901k_9==. & q901l_9==. & q901m_9==. & q901n_9==. & q901o_9==. & q901p_9==.						  
+replace q901_9 = q901i_9 if q901a_9==. & q901b_9==. & q901c_9==. & q901d_9==. & q901e_9==. & q901f_9==. & q901g_9==. & q901h_9==. & q901j_9==. ///
+                          & q901k_9==. & q901l_9==. & q901m_9==. & q901n_9==. & q901o_9==. & q901p_9==.			
+replace q901_9 = q901j_9 if q901a_9==. & q901b_9==. & q901c_9==. & q901d_9==. & q901e_9==. & q901f_9==. & q901g_9==. & q901h_9==. & q901i_9==. ///
+                          & q901k_9==. & q901l_9==. & q901m_9==. & q901n_9==. & q901o_9==. & q901p_9==.
+replace q901_9 = q901k_9 if q901a_9==. & q901b_9==. & q901c_9==. & q901d_9==. & q901e_9==. & q901f_9==. & q901g_9==. & q901h_9==. & q901i_9==. ///
+                          & q901j_9==. & q901l_9==. & q901m_9==. & q901n_9==. & q901o_9==. & q901p_9==.	
+replace q901_9 = q901l_9 if q901a_9==. & q901b_9==. & q901c_9==. & q901d_9==. & q901e_9==. & q901f_9==. & q901g_9==. & q901h_9==. & q901i_9==. ///
+                          & q901j_9==. & q901k_9==. & q901m_9==. & q901n_9==. & q901o_9==. & q901p_9==.
+replace q901_9 = q901m_9 if q901a_9==. & q901b_9==. & q901c_9==. & q901d_9==. & q901e_9==. & q901f_9==. & q901g_9==. & q901h_9==. & q901i_9==. ///
+                          & q901j_9==. & q901k_9==. & q901l_9==. & q901n_9==. & q901o_9==. & q901p_9==.
+replace q901_9 = q901n_9 if q901a_9==. & q901b_9==. & q901c_9==. & q901d_9==. & q901e_9==. & q901f_9==. & q901g_9==. & q901h_9==. & q901i_9==. ///
+                          & q901j_9==. & q901k_9==. & q901l_9==. & q901m_9==. & q901o_9==. & q901p_9==.
+replace q901_9 = q901o_9 if q901a_9==. & q901b_9==. & q901c_9==. & q901d_9==. & q901e_9==. & q901f_9==. & q901g_9==. & q901h_9==. & q901i_9==. ///
+                          & q901j_9==. & q901k_9==. & q901l_9==. & q901m_9==. & q901n_9==. & q901p_9==.	
+replace q901_9 = q901p_9 if q901a_9==. & q901b_9==. & q901c_9==. & q901d_9==. & q901e_9==. & q901f_9==. & q901g_9==. & q901h_9==. & q901i_9==. ///
+                          & q901j_9==. & q901k_9==. & q901l_9==. & q901m_9==. & q901n_9==. & q901o_9==.
+drop q901a_9 q901b_9 q901c_9 q901d_9 q901e_9 q901f_9 q901g_9 q901h_9 q901i_9 q901j_9 q901k_9 q901l_9 q901m_9 q901n_9 q901o_9 q901p_9  
+						  
+*Create q901_10 to collpase q901a_10 q901b_10 q901c_10 q901d_10 q901e_10 q901f_10 q901g_10 q901h_10 q901i_10 q901j_10 q901k_10 q901l_10 q901m_10 q901n_10 q901o_10 q901p_10 
+gen q901_10 = q901a_10 if q901b_10==. & q901c_10==. & q901d_10==. & q901e_10==. & q901f_10==. & q901g_10==. & q901h_10==. & q901i_10==. & q901j_10==. ///
+                        & q901k_10==. & q901l_10==. & q901m_10==. & q901n_10==. & q901o_10==. & q901p_10==.
+replace q901_10 = q901b_10 if q901a_10==. & q901c_10==. & q901d_10==. & q901e_10==. & q901f_10==. & q901g_10==. & q901h_10==. & q901i_10==. ///
+                            & q901j_10==. & q901k_10==. & q901l_10==. & q901m_10==. & q901n_10==. & q901o_10==. & q901p_10==.
+replace q901_10 = q901c_10 if q901a_10==. & q901b_10==. & q901d_10==. & q901e_10==. & q901f_10==. & q901g_10==. & q901h_10==. & q901i_10==. ///
+                            & q901j_10==. & q901k_10==. & q901l_10==. & q901m_10==. & q901n_10==. & q901o_10==. & q901p_10==.					  
+replace q901_10 = q901d_10 if q901a_10==. & q901b_10==. & q901c_10==. & q901e_10==. & q901f_10==. & q901g_10==. & q901h_10==. & q901i_10==. ///
+                            & q901j_10==. & q901k_10==. & q901l_10==. & q901m_10==. & q901n_10==. & q901o_10==. & q901p_10==.
+replace q901_10 = q901e_10 if q901a_10==. & q901b_10==. & q901c_10==. & q901d_10==. & q901f_10==. & q901g_10==. & q901h_10==. & q901i_10==. ///
+                            & q901j_10==. & q901k_10==. & q901l_10==. & q901m_10==. & q901n_10==. & q901o_10==. & q901p_10==.							  
+replace q901_10 = q901f_10 if q901a_10==. & q901b_10==. & q901c_10==. & q901d_10==. & q901e_10==. & q901g_10==. & q901h_10==. & q901i_10==. ///
+						    & q901j_10==. & q901k_10==. & q901l_10==. & q901m_10==. & q901n_10==. & q901o_10==. & q901p_10==.						  
+replace q901_10 = q901g_10 if q901a_10==. & q901b_10==. & q901c_10==. & q901d_10==. & q901e_10==. & q901f_10==. & q901h_10==. & q901i_10==. ///
+						    & q901j_10==. & q901k_10==. & q901l_10==. & q901m_10==. & q901n_10==. & q901o_10==. & q901p_10==.						  
+replace q901_10 = q901h_10 if q901a_10==. & q901b_10==. & q901c_10==. & q901d_10==. & q901e_10==. & q901f_10==. & q901g_10==. & q901i_10==. ///
+                            & q901j_10==. & q901k_10==. & q901l_10==. & q901m_10==. & q901n_10==. & q901o_10==. & q901p_10==.						  
+replace q901_10 = q901i_10 if q901a_10==. & q901b_10==. & q901c_10==. & q901d_10==. & q901e_10==. & q901f_10==. & q901g_10==. & q901h_10==. ///
+							& q901j_10==. & q901k_10==. & q901l_10==. & q901m_10==. & q901n_10==. & q901o_10==. & q901p_10==.			
+replace q901_10 = q901j_10 if q901a_10==. & q901b_10==. & q901c_10==. & q901d_10==. & q901e_10==. & q901f_10==. & q901g_10==. & q901h_10==. ///
+							& q901i_10==. & q901k_10==. & q901l_10==. & q901m_10==. & q901n_10==. & q901o_10==. & q901p_10==.
+replace q901_10 = q901k_10 if q901a_10==. & q901b_10==. & q901c_10==. & q901d_10==. & q901e_10==. & q901f_10==. & q901g_10==. & q901h_10==. ///
+                            & q901i_10==. & q901j_10==. & q901l_10==. & q901m_10==. & q901n_10==. & q901o_10==. & q901p_10==.	
+replace q901_10 = q901l_10 if q901a_10==. & q901b_10==. & q901c_10==. & q901d_10==. & q901e_10==. & q901f_10==. & q901g_10==. & q901h_10==. ///
+                            & q901i_10==. & q901j_10==. & q901k_10==. & q901m_10==. & q901n_10==. & q901o_10==. & q901p_10==.
+replace q901_10 = q901m_10 if q901a_10==. & q901b_10==. & q901c_10==. & q901d_10==. & q901e_10==. & q901f_10==. & q901g_10==. & q901h_10==. ///
+							& q901i_10==. & q901j_10==. & q901k_10==. & q901l_10==. & q901n_10==. & q901o_10==. & q901p_10==.
+replace q901_10 = q901n_10 if q901a_10==. & q901b_10==. & q901c_10==. & q901d_10==. & q901e_10==. & q901f_10==. & q901g_10==. & q901h_10==. ///
+                            & q901i_10==. & q901j_10==. & q901k_10==. & q901l_10==. & q901m_10==. & q901o_10==. & q901p_10==.
+replace q901_10 = q901o_10 if q901a_10==. & q901b_10==. & q901c_10==. & q901d_10==. & q901e_10==. & q901f_10==. & q901g_10==. & q901h_10==. ///
+							& q901i_10==. & q901j_10==. & q901k_10==. & q901l_10==. & q901m_10==. & q901n_10==. & q901p_10==.	
+replace q901_10 = q901p_10 if q901a_10==. & q901b_10==. & q901c_10==. & q901d_10==. & q901e_10==. & q901f_10==. & q901g_10==. & q901h_10==. ///
+							& q901i_10==. & q901j_10==. & q901k_10==. & q901l_10==. & q901m_10==. & q901n_10==. & q901o_10==.
+drop q901a_10 q901b_10 q901c_10 q901d_10 q901e_10 q901f_10 q901g_10 q901h_10 q901i_10 q901j_10 q901k_10 q901l_10 q901m_10 q901n_10 q901o_10 q901p_10  
+							
+*Create q901_11 to collpase q901a_11 q901b_11 q901c_11 q901d_11 q901e_11 q901f_11 q901g_11 q901h_11 q901i_11 q901j_11 q901k_11 q901l_11 q901m_11 q901n_11 q901o_11 q901p_11
+gen q901_11 = q901a_11 if q901b_11==. & q901c_11==. & q901d_11==. & q901e_11==. & q901f_11==. & q901g_11==. & q901h_11==. & q901i_11==. & q901j_11==. ///
+                        & q901k_11==. & q901l_11==. & q901m_11==. & q901n_11==. & q901o_11==. & q901p_11==.
+replace q901_11 = q901b_11 if q901a_11==. & q901c_11==. & q901d_11==. & q901e_11==. & q901f_11==. & q901g_11==. & q901h_11==. & q901i_11==. ///
+							& q901j_11==. & q901k_11==. & q901l_11==. & q901m_11==. & q901n_11==. & q901o_11==. & q901p_11==.
+replace q901_11 = q901c_11 if q901a_11==. & q901b_11==. & q901d_11==. & q901e_11==. & q901f_11==. & q901g_11==. & q901h_11==. & q901i_11==. ///
+							& q901j_11==. & q901k_11==. & q901l_11==. & q901m_11==. & q901n_11==. & q901o_11==. & q901p_11==.					  
+replace q901_11 = q901d_11 if q901a_11==. & q901b_11==. & q901c_11==. & q901e_11==. & q901f_11==. & q901g_11==. & q901h_11==. & q901i_11==. ///
+							& q901j_11==. & q901k_11==. & q901l_11==. & q901m_11==. & q901n_11==. & q901o_11==. & q901p_11==.
+replace q901_11 = q901e_11 if q901a_11==. & q901b_11==. & q901c_11==. & q901d_11==. & q901f_11==. & q901g_11==. & q901h_11==. & q901i_11==. ///
+							& q901j_11==. & q901k_11==. & q901l_11==. & q901m_11==. & q901n_11==. & q901o_11==. & q901p_11==.							  
+replace q901_11 = q901f_11 if q901a_11==. & q901b_11==. & q901c_11==. & q901d_11==. & q901e_11==. & q901g_11==. & q901h_11==. & q901i_11==. ///
+							& q901j_11==. & q901k_11==. & q901l_11==. & q901m_11==. & q901n_11==. & q901o_11==. & q901p_11==.						  
+replace q901_11 = q901g_11 if q901a_11==. & q901b_11==. & q901c_11==. & q901d_11==. & q901e_11==. & q901f_11==. & q901h_11==. & q901i_11==. ///
+							& q901j_11==. & q901k_11==. & q901l_11==. & q901m_11==. & q901n_11==. & q901o_11==. & q901p_11==.						  
+replace q901_11 = q901h_11 if q901a_11==. & q901b_11==. & q901c_11==. & q901d_11==. & q901e_11==. & q901f_11==. & q901g_11==. & q901i_11==. ///
+							& q901j_11==. & q901k_11==. & q901l_11==. & q901m_11==. & q901n_11==. & q901o_11==. & q901p_11==.						  
+replace q901_11 = q901i_11 if q901a_11==. & q901b_11==. & q901c_11==. & q901d_11==. & q901e_11==. & q901f_11==. & q901g_11==. & q901h_11==. ///
+							& q901j_11==. & q901k_11==. & q901l_11==. & q901m_11==. & q901n_11==. & q901o_11==. & q901p_11==.			
+replace q901_11 = q901j_11 if q901a_11==. & q901b_11==. & q901c_11==. & q901d_11==. & q901e_11==. & q901f_11==. & q901g_11==. & q901h_11==. ///
+							& q901i_11==. & q901k_11==. & q901l_11==. & q901m_11==. & q901n_11==. & q901o_11==. & q901p_11==.
+replace q901_11 = q901k_11 if q901a_11==. & q901b_11==. & q901c_11==. & q901d_11==. & q901e_11==. & q901f_11==. & q901g_11==. & q901h_11==. ///
+							& q901i_11==. & q901j_11==. & q901l_11==. & q901m_11==. & q901n_11==. & q901o_11==. & q901p_11==.	
+replace q901_11 = q901l_11 if q901a_11==. & q901b_11==. & q901c_11==. & q901d_11==. & q901e_11==. & q901f_11==. & q901g_11==. & q901h_11==. ///
+							& q901i_11==. & q901j_11==. & q901k_11==. & q901m_11==. & q901n_11==. & q901o_11==. & q901p_11==.
+replace q901_11 = q901m_11 if q901a_11==. & q901b_11==. & q901c_11==. & q901d_11==. & q901e_11==. & q901f_11==. & q901g_11==. & q901h_11==. ///
+							& q901i_11==. & q901j_11==. & q901k_11==. & q901l_11==. & q901n_11==. & q901o_11==. & q901p_11==.
+replace q901_11 = q901n_11 if q901a_11==. & q901b_11==. & q901c_11==. & q901d_11==. & q901e_11==. & q901f_11==. & q901g_11==. & q901h_11==. ///
+							& q901i_11==. & q901j_11==. & q901k_11==. & q901l_11==. & q901m_11==. & q901o_11==. & q901p_11==.
+replace q901_11 = q901o_11 if q901a_11==. & q901b_11==. & q901c_11==. & q901d_11==. & q901e_11==. & q901f_11==. & q901g_11==. & q901h_11==. ///
+							& q901i_11==. & q901j_11==. & q901k_11==. & q901l_11==. & q901m_11==. & q901n_11==. & q901p_11==.	
+replace q901_11 = q901p_11 if q901a_11==. & q901b_11==. & q901c_11==. & q901d_11==. & q901e_11==. & q901f_11==. & q901g_11==. & q901h_11==. ///
+							& q901i_11==. & q901j_11==. & q901k_11==. & q901l_11==. & q901m_11==. & q901n_11==. & q901o_11==.
+drop q901a_11 q901b_11 q901c_11 q901d_11 q901e_11 q901f_11 q901g_11 q901h_11 q901i_11 q901j_11 q901k_11 q901l_11 q901m_11 q901n_11 q901o_11 q901p_11 
+							
+*Create q901_12 to collpase q901a_12 q901b_12 q901c_12 q901d_12 q901e_12 q901f_12 q901g_12 q901h_12 q901i_12 q901j_12 q901k_12 q901l_12 q901m_12 q901n_12 q901o_12 q901p_12
+gen q901_12 = q901a_12 if q901b_12==. & q901c_12==. & q901d_12==. & q901e_12==. & q901f_12==. & q901g_12==. & q901h_12==. & q901i_12==. & q901j_12==. ///
+                      & q901k_12==. & q901l_12==. & q901m_12==. & q901n_12==. & q901o_12==. & q901p_12==.
+replace q901_12 = q901b_12 if q901a_12==. & q901c_12==. & q901d_12==. & q901e_12==. & q901f_12==. & q901g_12==. & q901h_12==. & q901i_12==. ///
+							& q901j_12==. & q901k_12==. & q901l_12==. & q901m_12==. & q901n_12==. & q901o_12==. & q901p_12==.
+replace q901_12 = q901c_12 if q901a_12==. & q901b_12==. & q901d_12==. & q901e_12==. & q901f_12==. & q901g_12==. & q901h_12==. & q901i_12==. ///
+							& q901j_12==. & q901k_12==. & q901l_12==. & q901m_12==. & q901n_12==. & q901o_12==. & q901p_12==.					  
+replace q901_12 = q901d_12 if q901a_12==. & q901b_12==. & q901c_12==. & q901e_12==. & q901f_12==. & q901g_12==. & q901h_12==. & q901i_12==. ///
+							& q901j_12==. & q901k_12==. & q901l_12==. & q901m_12==. & q901n_12==. & q901o_12==. & q901p_12==.
+replace q901_12 = q901e_12 if q901a_12==. & q901b_12==. & q901c_12==. & q901d_12==. & q901f_12==. & q901g_12==. & q901h_12==. & q901i_12==. ///
+							& q901j_12==. & q901k_12==. & q901l_12==. & q901m_12==. & q901n_12==. & q901o_12==. & q901p_12==.							  
+replace q901_12 = q901f_12 if q901a_12==. & q901b_12==. & q901c_12==. & q901d_12==. & q901e_12==. & q901g_12==. & q901h_12==. & q901i_12==. ///
+							& q901j_12==. & q901k_12==. & q901l_12==. & q901m_12==. & q901n_12==. & q901o_12==. & q901p_12==.						  
+replace q901_12 = q901g_12 if q901a_12==. & q901b_12==. & q901c_12==. & q901d_12==. & q901e_12==. & q901f_12==. & q901h_12==. & q901i_12==. ///
+							& q901j_12==. & q901k_12==. & q901l_12==. & q901m_12==. & q901n_12==. & q901o_12==. & q901p_12==.						  
+replace q901_12 = q901h_12 if q901a_12==. & q901b_12==. & q901c_12==. & q901d_12==. & q901e_12==. & q901f_12==. & q901g_12==. & q901i_12==. ///
+							& q901j_12==. & q901k_12==. & q901l_12==. & q901m_12==. & q901n_12==. & q901o_12==. & q901p_12==.						  
+replace q901_12 = q901i_12 if q901a_12==. & q901b_12==. & q901c_12==. & q901d_12==. & q901e_12==. & q901f_12==. & q901g_12==. & q901h_12==. ///
+							& q901j_12==. & q901k_12==. & q901l_12==. & q901m_12==. & q901n_12==. & q901o_12==. & q901p_12==.			
+replace q901_12 = q901j_12 if q901a_12==. & q901b_12==. & q901c_12==. & q901d_12==. & q901e_12==. & q901f_12==. & q901g_12==. & q901h_12==. ///
+							& q901i_12==. & q901k_12==. & q901l_12==. & q901m_12==. & q901n_12==. & q901o_12==. & q901p_12==.
+replace q901_12 = q901k_12 if q901a_12==. & q901b_12==. & q901c_12==. & q901d_12==. & q901e_12==. & q901f_12==. & q901g_12==. & q901h_12==. ///
+							& q901i_12==. & q901j_12==. & q901l_12==. & q901m_12==. & q901n_12==. & q901o_12==. & q901p_12==.	
+replace q901_12 = q901l_12 if q901a_12==. & q901b_12==. & q901c_12==. & q901d_12==. & q901e_12==. & q901f_12==. & q901g_12==. & q901h_12==. ///
+							& q901i_12==. & q901j_12==. & q901k_12==. & q901m_12==. & q901n_12==. & q901o_12==. & q901p_12==.
+replace q901_12 = q901m_12 if q901a_12==. & q901b_12==. & q901c_12==. & q901d_12==. & q901e_12==. & q901f_12==. & q901g_12==. & q901h_12==. ///
+							& q901i_12==. & q901j_12==. & q901k_12==. & q901l_12==. & q901n_12==. & q901o_12==. & q901p_12==.
+replace q901_12 = q901n_12 if q901a_12==. & q901b_12==. & q901c_12==. & q901d_12==. & q901e_12==. & q901f_12==. & q901g_12==. & q901h_12==. ///
+							& q901i_12==. & q901j_12==. & q901k_12==. & q901l_12==. & q901m_12==. & q901o_12==. & q901p_12==.
+replace q901_12 = q901o_12 if q901a_12==. & q901b_12==. & q901c_12==. & q901d_12==. & q901e_12==. & q901f_12==. & q901g_12==. & q901h_12==. ///
+							& q901i_12==. & q901j_12==. & q901k_12==. & q901l_12==. & q901m_12==. & q901n_12==. & q901p_12==.	
+replace q901_12 = q901p_12 if q901a_12==. & q901b_12==. & q901c_12==. & q901d_12==. & q901e_12==. & q901f_12==. & q901g_12==. & q901h_12==. ///
+							& q901i_12==. & q901j_12==. & q901k_12==. & q901l_12==. & q901m_12==. & q901n_12==. & q901o_12==.
+drop q901a_12 q901b_12 q901c_12 q901d_12 q901e_12 q901f_12 q901g_12 q901h_12 q901i_12 q901j_12 q901k_12 q901l_12 q901m_12 q901n_12 q901o_12 q901p_12  
+							
+*Create q901_13 to collpase q901a_13 q901b_13 q901c_13 q901d_13 q901e_13 q901f_13 q901g_13 q901h_13 q901i_13 q901j_13 q901k_13 q901l_13 q901m_13 q901n_13 q901o_13 q901p_13 
+gen q901_13 = q901a_13 if q901b_13==. & q901c_13==. & q901d_13==. & q901e_13==. & q901f_13==. & q901g_13==. & q901h_13==. & q901i_13==. ///
+                          & q901j_13==. & q901k_13==. & q901l_13==. & q901m_13==. & q901n_13==. & q901o_13==. & q901p_13==.
+replace q901_13 = q901b_13 if q901a_13==. & q901c_13==. & q901d_13==. & q901e_13==. & q901f_13==. & q901g_13==. & q901h_13==. & q901i_13==. ///
+                          & q901j_13==. & q901k_13==. & q901l_13==. & q901m_13==. & q901n_13==. & q901o_13==. & q901p_13==.
+replace q901_13 = q901c_13 if q901a_13==. & q901b_13==. & q901d_13==. & q901e_13==. & q901f_13==. & q901g_13==. & q901h_13==. & q901i_13==. ///
+                          & q901j_13==. & q901k_13==. & q901l_13==. & q901m_13==. & q901n_13==. & q901o_13==. & q901p_13==.					  
+replace q901_13 = q901d_13 if q901a_13==. & q901b_13==. & q901c_13==. & q901e_13==. & q901f_13==. & q901g_13==. & q901h_13==. & q901i_13==. ///
+                          & q901j_13==. & q901k_13==. & q901l_13==. & q901m_13==. & q901n_13==. & q901o_13==. & q901p_13==.
+replace q901_13 = q901e_13 if q901a_13==. & q901b_13==. & q901c_13==. & q901d_13==. & q901f_13==. & q901g_13==. & q901h_13==. & q901i_13==. ///
+                          & q901j_13==. & q901k_13==. & q901l_13==. & q901m_13==. & q901n_13==. & q901o_13==. & q901p_13==.							  
+replace q901_13 = q901f_13 if q901a_13==. & q901b_13==. & q901c_13==. & q901d_13==. & q901e_13==. & q901g_13==. & q901h_13==. & q901i_13==. ///
+                          & q901j_13==. & q901k_13==. & q901l_13==. & q901m_13==. & q901n_13==. & q901o_13==. & q901p_13==.						  
+replace q901_13 = q901g_13 if q901a_13==. & q901b_13==. & q901c_13==. & q901d_13==. & q901e_13==. & q901f_13==. & q901h_13==. & q901i_13==. ///
+                          & q901j_13==. & q901k_13==. & q901l_13==. & q901m_13==. & q901n_13==. & q901o_13==. & q901p_13==.						  
+replace q901_13 = q901h_13 if q901a_13==. & q901b_13==. & q901c_13==. & q901d_13==. & q901e_13==. & q901f_13==. & q901g_13==. & q901i_13==. ///
+                          & q901j_13==. & q901k_13==. & q901l_13==. & q901m_13==. & q901n_13==. & q901o_13==. & q901p_13==.						  
+replace q901_13 = q901i_13 if q901a_13==. & q901b_13==. & q901c_13==. & q901d_13==. & q901e_13==. & q901f_13==. & q901g_13==. & q901h_13==. ///
+                          & q901j_13==. & q901k_13==. & q901l_13==. & q901m_13==. & q901n_13==. & q901o_13==. & q901p_13==.			
+replace q901_13 = q901j_13 if q901a_13==. & q901b_13==. & q901c_13==. & q901d_13==. & q901e_13==. & q901f_13==. & q901g_13==. & q901h_13==. ///
+                          & q901i_13==. & q901k_13==. & q901l_13==. & q901m_13==. & q901n_13==. & q901o_13==. & q901p_13==.
+replace q901_13 = q901k_13 if q901a_13==. & q901b_13==. & q901c_13==. & q901d_13==. & q901e_13==. & q901f_13==. & q901g_13==. & q901h_13==. ///
+                          & q901i_13==. & q901j_13==. & q901l_13==. & q901m_13==. & q901n_13==. & q901o_13==. & q901p_13==.	
+replace q901_13 = q901l_13 if q901a_13==. & q901b_13==. & q901c_13==. & q901d_13==. & q901e_13==. & q901f_13==. & q901g_13==. & q901h_13==. ///
+                          & q901i_13==. & q901j_13==. & q901k_13==. & q901m_13==. & q901n_13==. & q901o_13==. & q901p_13==.
+replace q901_13 = q901m_13 if q901a_13==. & q901b_13==. & q901c_13==. & q901d_13==. & q901e_13==. & q901f_13==. & q901g_13==. & q901h_13==. ///
+                          & q901i_13==. & q901j_13==. & q901k_13==. & q901l_13==. & q901n_13==. & q901o_13==. & q901p_13==.
+replace q901_13 = q901n_13 if q901a_13==. & q901b_13==. & q901c_13==. & q901d_13==. & q901e_13==. & q901f_13==. & q901g_13==. & q901h_13==. ///
+                          & q901i_13==. & q901j_13==. & q901k_13==. & q901l_13==. & q901m_13==. & q901o_13==. & q901p_13==.
+replace q901_13 = q901o_13 if q901a_13==. & q901b_13==. & q901c_13==. & q901d_13==. & q901e_13==. & q901f_13==. & q901g_13==. & q901h_13==. ///
+                          & q901i_13==. & q901j_13==. & q901k_13==. & q901l_13==. & q901m_13==. & q901n_13==. & q901p_13==.	
+replace q901_13 = q901p_13 if q901a_13==. & q901b_13==. & q901c_13==. & q901d_13==. & q901e_13==. & q901f_13==. & q901g_13==. & q901h_13==. ///
+                          & q901i_13==. & q901j_13==. & q901k_13==. & q901l_13==. & q901m_13==. & q901n_13==. & q901o_13==.
+drop q901a_13 q901b_13 q901c_13 q901d_13 q901e_13 q901f_13 q901g_13 q901h_13 q901i_13 q901j_13 q901k_13 q901l_13 q901m_13 q901n_13 q901o_13 q901p_13  
+						  
+*Create q901_14 to collpase q901a_14 q901b_14 q901c_14 q901d_14 q901e_14 q901f_14 q901g_14 q901h_14 q901i_14 q901j_14 q901k_14 q901l_14 q901m_14 q901n_14 q901o_14 q901p_14
+gen q901_14 = q901a_14 if q901b_14==. & q901c_14==. & q901d_14==. & q901e_14==. & q901f_14==. & q901g_14==. & q901h_14==. & q901i_14==. ///
+                          & q901j_14==. & q901k_14==. & q901l_14==. & q901m_14==. & q901n_14==. & q901o_14==. & q901p_14==.
+replace q901_14 = q901b_14 if q901a_14==. & q901c_14==. & q901d_14==. & q901e_14==. & q901f_14==. & q901g_14==. & q901h_14==. & q901i_14==. ///
+                          & q901j_14==. & q901k_14==. & q901l_14==. & q901m_14==. & q901n_14==. & q901o_14==. & q901p_14==.
+replace q901_14 = q901c_14 if q901a_14==. & q901b_14==. & q901d_14==. & q901e_14==. & q901f_14==. & q901g_14==. & q901h_14==. & q901i_14==. ///
+                          & q901j_14==. & q901k_14==. & q901l_14==. & q901m_14==. & q901n_14==. & q901o_14==. & q901p_14==.
+replace q901_14 = q901d_14 if q901a_14==. & q901b_14==. & q901c_14==. & q901e_14==. & q901f_14==. & q901g_14==. & q901h_14==. & q901i_14==. ///
+                          & q901j_14==. & q901k_14==. & q901l_14==. & q901m_14==. & q901n_14==. & q901o_14==. & q901p_14==.
+replace q901_14 = q901e_14 if q901a_14==. & q901b_14==. & q901c_14==. & q901d_14==. & q901f_14==. & q901g_14==. & q901h_14==. & q901i_14==. ///
+                          & q901j_14==. & q901k_14==. & q901l_14==. & q901m_14==. & q901n_14==. & q901o_14==. & q901p_14==.							  
+replace q901_14 = q901f_14 if q901a_14==. & q901b_14==. & q901c_14==. & q901d_14==. & q901e_14==. & q901g_14==. & q901h_14==. & q901i_14==. ///
+                          & q901j_14==. & q901k_14==. & q901l_14==. & q901m_14==. & q901n_14==. & q901o_14==. & q901p_14==.						  
+replace q901_14 = q901g_14 if q901a_14==. & q901b_14==. & q901c_14==. & q901d_14==. & q901e_14==. & q901f_14==. & q901h_14==. & q901i_14==. ///
+                          & q901j_14==. & q901k_14==. & q901l_14==. & q901m_14==. & q901n_14==. & q901o_14==. & q901p_14==.						  
+replace q901_14 = q901h_14 if q901a_14==. & q901b_14==. & q901c_14==. & q901d_14==. & q901e_14==. & q901f_14==. & q901g_14==. & q901i_14==. ///
+                          & q901j_14==. & q901k_14==. & q901l_14==. & q901m_14==. & q901n_14==. & q901o_14==. & q901p_14==.						  
+replace q901_14 = q901i_14 if q901a_14==. & q901b_14==. & q901c_14==. & q901d_14==. & q901e_14==. & q901f_14==. & q901g_14==. & q901h_14==. ///
+                          & q901j_14==. & q901k_14==. & q901l_14==. & q901m_14==. & q901n_14==. & q901o_14==. & q901p_14==.			
+replace q901_14 = q901j_14 if q901a_14==. & q901b_14==. & q901c_14==. & q901d_14==. & q901e_14==. & q901f_14==. & q901g_14==. & q901h_14==. ///
+                          & q901i_14==. & q901k_14==. & q901l_14==. & q901m_14==. & q901n_14==. & q901o_14==. & q901p_14==.
+replace q901_14 = q901k_14 if q901a_14==. & q901b_14==. & q901c_14==. & q901d_14==. & q901e_14==. & q901f_14==. & q901g_14==. & q901h_14==. ///
+                          & q901i_14==. & q901j_14==. & q901l_14==. & q901m_14==. & q901n_14==. & q901o_14==. & q901p_14==.	
+replace q901_14 = q901l_14 if q901a_14==. & q901b_14==. & q901c_14==. & q901d_14==. & q901e_14==. & q901f_14==. & q901g_14==. & q901h_14==. ///
+                          & q901i_14==. & q901j_14==. & q901k_14==. & q901m_14==. & q901n_14==. & q901o_14==. & q901p_14==.
+replace q901_14 = q901m_14 if q901a_14==. & q901b_14==. & q901c_14==. & q901d_14==. & q901e_14==. & q901f_14==. & q901g_14==. & q901h_14==. ///
+                          & q901i_14==. & q901j_14==. & q901k_14==. & q901l_14==. & q901n_14==. & q901o_14==. & q901p_14==.
+replace q901_14 = q901n_14 if q901a_14==. & q901b_14==. & q901c_14==. & q901d_14==. & q901e_14==. & q901f_14==. & q901g_14==. & q901h_14==. ///
+                          & q901i_14==. & q901j_14==. & q901k_14==. & q901l_14==. & q901m_14==. & q901o_14==. & q901p_14==.
+replace q901_14 = q901o_14 if q901a_14==. & q901b_14==. & q901c_14==. & q901d_14==. & q901e_14==. & q901f_14==. & q901g_14==. & q901h_14==. ///
+                          & q901i_14==. & q901j_14==. & q901k_14==. & q901l_14==. & q901m_14==. & q901n_14==. & q901p_14==.	
+replace q901_14 = q901p_14 if q901a_14==. & q901b_14==. & q901c_14==. & q901d_14==. & q901e_14==. & q901f_14==. & q901g_14==. & q901h_14==. ///
+                          & q901i_14==. & q901j_14==. & q901k_14==. & q901l_14==. & q901m_14==. & q901n_14==. & q901o_14==.
+drop q901a_14 q901b_14 q901c_14 q901d_14 q901e_14 q901f_14 q901g_14 q901h_14 q901i_14 q901j_14 q901k_14 q901l_14 q901m_14 q901n_14 q901o_14 q901p_14  
+						  
+*Create q901_15 to collpase q901a_15 q901b_15 q901c_15 q901d_15 q901e_15 q901f_15 q901g_15 q901h_15 q901i_15 q901j_15 q901k_15 q901l_15 q901m_15 q901n_15 q901o_15 q901p_15 
+gen q901_15 = q901a_15 if q901b_15==. & q901c_15==. & q901d_15==. & q901e_15==. & q901f_15==. & q901g_15==. & q901h_15==. & q901i_15==. ///
+                          & q901j_15==. & q901k_15==. & q901l_15==. & q901m_15==. & q901n_15==. & q901o_15==. & q901p_15==.
+replace q901_15 = q901b_15 if q901a_15==. & q901c_15==. & q901d_15==. & q901e_15==. & q901f_15==. & q901g_15==. & q901h_15==. & q901i_15==. ///
+                          & q901j_15==. & q901k_15==. & q901l_15==. & q901m_15==. & q901n_15==. & q901o_15==. & q901p_15==.
+replace q901_15 = q901c_15 if q901a_15==. & q901b_15==. & q901d_15==. & q901e_15==. & q901f_15==. & q901g_15==. & q901h_15==. & q901i_15==. ///
+                          & q901j_15==. & q901k_15==. & q901l_15==. & q901m_15==. & q901n_15==. & q901o_15==. & q901p_15==.					  
+replace q901_15 = q901d_15 if q901a_15==. & q901b_15==. & q901c_15==. & q901e_15==. & q901f_15==. & q901g_15==. & q901h_15==. & q901i_15==. ///
+                          & q901j_15==. & q901k_15==. & q901l_15==. & q901m_15==. & q901n_15==. & q901o_15==. & q901p_15==.
+replace q901_15 = q901e_15 if q901a_15==. & q901b_15==. & q901c_15==. & q901d_15==. & q901f_15==. & q901g_15==. & q901h_15==. & q901i_15==. ///
+                          & q901j_15==. & q901k_15==. & q901l_15==. & q901m_15==. & q901n_15==. & q901o_15==. & q901p_15==.							  
+replace q901_15 = q901f_15 if q901a_15==. & q901b_15==. & q901c_15==. & q901d_15==. & q901e_15==. & q901g_15==. & q901h_15==. & q901i_15==. ///
+                          & q901j_15==. & q901k_15==. & q901l_15==. & q901m_15==. & q901n_15==. & q901o_15==. & q901p_15==.						  
+replace q901_15 = q901g_15 if q901a_15==. & q901b_15==. & q901c_15==. & q901d_15==. & q901e_15==. & q901f_15==. & q901h_15==. & q901i_15==. ///
+                          & q901j_15==. & q901k_15==. & q901l_15==. & q901m_15==. & q901n_15==. & q901o_15==. & q901p_15==.						  
+replace q901_15 = q901h_15 if q901a_15==. & q901b_15==. & q901c_15==. & q901d_15==. & q901e_15==. & q901f_15==. & q901g_15==. & q901i_15==. ///
+                          & q901j_15==. & q901k_15==. & q901l_15==. & q901m_15==. & q901n_15==. & q901o_15==. & q901p_15==.						  
+replace q901_15 = q901i_15 if q901a_15==. & q901b_15==. & q901c_15==. & q901d_15==. & q901e_15==. & q901f_15==. & q901g_15==. & q901h_15==. ///
+                          & q901j_15==. & q901k_15==. & q901l_15==. & q901m_15==. & q901n_15==. & q901o_15==. & q901p_15==.			
+replace q901_15 = q901j_15 if q901a_15==. & q901b_15==. & q901c_15==. & q901d_15==. & q901e_15==. & q901f_15==. & q901g_15==. & q901h_15==. ///
+                          & q901i_15==. & q901k_15==. & q901l_15==. & q901m_15==. & q901n_15==. & q901o_15==. & q901p_15==.
+replace q901_15 = q901k_15 if q901a_15==. & q901b_15==. & q901c_15==. & q901d_15==. & q901e_15==. & q901f_15==. & q901g_15==. & q901h_15==. ///
+                          & q901i_15==. & q901j_15==. & q901l_15==. & q901m_15==. & q901n_15==. & q901o_15==. & q901p_15==.	
+replace q901_15 = q901l_15 if q901a_15==. & q901b_15==. & q901c_15==. & q901d_15==. & q901e_15==. & q901f_15==. & q901g_15==. & q901h_15==. ///
+                          & q901i_15==. & q901j_15==. & q901k_15==. & q901m_15==. & q901n_15==. & q901o_15==. & q901p_15==.
+replace q901_15 = q901m_15 if q901a_15==. & q901b_15==. & q901c_15==. & q901d_15==. & q901e_15==. & q901f_15==. & q901g_15==. & q901h_15==. ///
+                          & q901i_15==. & q901j_15==. & q901k_15==. & q901l_15==. & q901n_15==. & q901o_15==. & q901p_15==.
+replace q901_15 = q901n_15 if q901a_15==. & q901b_15==. & q901c_15==. & q901d_15==. & q901e_15==. & q901f_15==. & q901g_15==. & q901h_15==. ///
+                          & q901i_15==. & q901j_15==. & q901k_15==. & q901l_15==. & q901m_15==. & q901o_15==. & q901p_15==.
+replace q901_15 = q901o_15 if q901a_15==. & q901b_15==. & q901c_15==. & q901d_15==. & q901e_15==. & q901f_15==. & q901g_15==. & q901h_15==. ///
+                          & q901i_15==. & q901j_15==. & q901k_15==. & q901l_15==. & q901m_15==. & q901n_15==. & q901p_15==.	
+replace q901_15 = q901p_15 if q901a_15==. & q901b_15==. & q901c_15==. & q901d_15==. & q901e_15==. & q901f_15==. & q901g_15==. & q901h_15==. ///
+                          & q901i_15==. & q901j_15==. & q901k_15==. & q901l_15==. & q901m_15==. & q901n_15==. & q901o_15==.
+drop q901a_15 q901b_15 q901c_15 q901d_15 q901e_15 q901f_15 q901g_15 q901h_15 q901i_15 q901j_15 q901k_15 q901l_15 q901m_15 q901n_15 q901o_15 q901p_15  
+						  
+*Create q901_16 to collpase q901a_16 q901b_16 q901c_16 q901d_16 q901e_16 q901f_16 q901g_16 q901h_16 q901i_16 q901j_16 q901k_16 q901l_16 q901m_16 q901n_16 q901o_16 q901p_16					  
+gen q901_16 = q901a_16 if q901b_16==. & q901c_16==. & q901d_16==. & q901e_16==. & q901f_16==. & q901g_16==. & q901h_16==. & q901i_16==. ///
+                          & q901j_16==. & q901k_16==. & q901l_16==. & q901m_16==. & q901n_16==. & q901o_16==. & q901p_16==.
+replace q901_16 = q901b_16 if q901a_16==. & q901c_16==. & q901d_16==. & q901e_16==. & q901f_16==. & q901g_16==. & q901h_16==. & q901i_16==. ///
+                          & q901j_16==. & q901k_16==. & q901l_16==. & q901m_16==. & q901n_16==. & q901o_16==. & q901p_16==.
+replace q901_16 = q901c_16 if q901a_16==. & q901b_16==. & q901d_16==. & q901e_16==. & q901f_16==. & q901g_16==. & q901h_16==. & q901i_16==. ///
+                          & q901j_16==. & q901k_16==. & q901l_16==. & q901m_16==. & q901n_16==. & q901o_16==. & q901p_16==.					  
+replace q901_16 = q901d_16 if q901a_16==. & q901b_16==. & q901c_16==. & q901e_16==. & q901f_16==. & q901g_16==. & q901h_16==. & q901i_16==. ///
+                          & q901j_16==. & q901k_16==. & q901l_16==. & q901m_16==. & q901n_16==. & q901o_16==. & q901p_16==.
+replace q901_16 = q901e_16 if q901a_16==. & q901b_16==. & q901c_16==. & q901d_16==. & q901f_16==. & q901g_16==. & q901h_16==. & q901i_16==. ///
+                          & q901j_16==. & q901k_16==. & q901l_16==. & q901m_16==. & q901n_16==. & q901o_16==. & q901p_16==.							  
+replace q901_16 = q901f_16 if q901a_16==. & q901b_16==. & q901c_16==. & q901d_16==. & q901e_16==. & q901g_16==. & q901h_16==. & q901i_16==. ///
+                          & q901j_16==. & q901k_16==. & q901l_16==. & q901m_16==. & q901n_16==. & q901o_16==. & q901p_16==.						  
+replace q901_16 = q901g_16 if q901a_16==. & q901b_16==. & q901c_16==. & q901d_16==. & q901e_16==. & q901f_16==. & q901h_16==. & q901i_16==. ///
+                          & q901j_16==. & q901k_16==. & q901l_16==. & q901m_16==. & q901n_16==. & q901o_16==. & q901p_16==.						  
+replace q901_16 = q901h_16 if q901a_16==. & q901b_16==. & q901c_16==. & q901d_16==. & q901e_16==. & q901f_16==. & q901g_16==. & q901i_16==. ///
+                          & q901j_16==. & q901k_16==. & q901l_16==. & q901m_16==. & q901n_16==. & q901o_16==. & q901p_16==.						  
+replace q901_16 = q901i_16 if q901a_16==. & q901b_16==. & q901c_16==. & q901d_16==. & q901e_16==. & q901f_16==. & q901g_16==. & q901h_16==. ///
+                          & q901j_16==. & q901k_16==. & q901l_16==. & q901m_16==. & q901n_16==. & q901o_16==. & q901p_16==.			
+replace q901_16 = q901j_16 if q901a_16==. & q901b_16==. & q901c_16==. & q901d_16==. & q901e_16==. & q901f_16==. & q901g_16==. & q901h_16==. ///
+                          & q901i_16==. & q901k_16==. & q901l_16==. & q901m_16==. & q901n_16==. & q901o_16==. & q901p_16==.
+replace q901_16 = q901k_16 if q901a_16==. & q901b_16==. & q901c_16==. & q901d_16==. & q901e_16==. & q901f_16==. & q901g_16==. & q901h_16==. ///
+                          & q901i_16==. & q901j_16==. & q901l_16==. & q901m_16==. & q901n_16==. & q901o_16==. & q901p_16==.	
+replace q901_16 = q901l_16 if q901a_16==. & q901b_16==. & q901c_16==. & q901d_16==. & q901e_16==. & q901f_16==. & q901g_16==. & q901h_16==. ///
+                          & q901i_16==. & q901j_16==. & q901k_16==. & q901m_16==. & q901n_16==. & q901o_16==. & q901p_16==.
+replace q901_16 = q901m_16 if q901a_16==. & q901b_16==. & q901c_16==. & q901d_16==. & q901e_16==. & q901f_16==. & q901g_16==. & q901h_16==. ///
+                          & q901i_16==. & q901j_16==. & q901k_16==. & q901l_16==. & q901n_16==. & q901o_16==. & q901p_16==.
+replace q901_16 = q901n_16 if q901a_16==. & q901b_16==. & q901c_16==. & q901d_16==. & q901e_16==. & q901f_16==. & q901g_16==. & q901h_16==. ///
+                          & q901i_16==. & q901j_16==. & q901k_16==. & q901l_16==. & q901m_16==. & q901o_16==. & q901p_16==.
+replace q901_16 = q901o_16 if q901a_16==. & q901b_16==. & q901c_16==. & q901d_16==. & q901e_16==. & q901f_16==. & q901g_16==. & q901h_16==. ///
+                          & q901i_16==. & q901j_16==. & q901k_16==. & q901l_16==. & q901m_16==. & q901n_16==. & q901p_16==.	
+replace q901_16 = q901p_16 if q901a_16==. & q901b_16==. & q901c_16==. & q901d_16==. & q901e_16==. & q901f_16==. & q901g_16==. & q901h_16==. ///
+                          & q901i_16==. & q901j_16==. & q901k_16==. & q901l_16==. & q901m_16==. & q901n_16==. & q901o_16==.
+
+drop q901a_16 q901b_16 q901c_16 q901d_16 q901e_16 q901f_16 q901g_16 q901h_16 q901i_16 q901j_16 q901k_16 q901l_16 q901m_16 q901n_16 q901o_16 q901p_16 ///
+     q901_rand_1 q901_rand_2 q901_rand_3 q901_rand_4 q901_rand_5 q901_rand_6 q901_rand_7 q901_rand_8 q901_rand_9 q901_rand_10 q901_rand_11 q901_rand_12 ///
+     q901_rand_13 q901_rand_14 q901_rand_15 q901_rand_16 q901q q901r q901r_oth q901_rand_order_count q901_order_count
+
+rename (q901_1 q901_2 q901_3 q901_4 q901_5 q901_6 q901_7 q901_8 q901_9 q901_10 q901_11 q901_12 q901_13 q901_14 q901_15 q901_16) (m5_901a ///
+        m5_901b m5_901c m5_901d m5_901e m5_901f m5_901g m5_901h m5_901i m5_901j m5_901k m5_901l m5_901m m5_901n m5_901o m5_901p)
+
+rename (baby_index_med_1 q902a_1 q902b_1 q902c_1 q902d_1 q902e_1 q902f_1 q902g_1 q902h_1 q902i_1 q902j_1 q902_oth_1) (m5_baby_index_med_1 m5_902a ///
+        m5_902b m5_902c m5_902d m5_902e m5_902f m5_902g m5_902h m5_902i m5_902j m5_902_oth)
+
+rename (q903a q903b q903c q903d q903e q903f q903_oth q904_1 q904_oth_1 q905) (m5_903a m5_903b m5_903c m5_903d m5_903e m5_903f m5_903_other m5_904 ///
+        m5_904_other m5_905)
+	
+rename (q1001 q1002a q1002b q1002c q1002d q1002e q1002_oth q1003 q1004 q1005 q1005_1 q1005_2 q1005_3 q1005_4 q1005_5 q1005_6 q1005__96 q1005_oth) ///
+       (m5_1001 m5_1002a m5_1002_b m5_1002_c m5_1002_d m5_1002_e m5_1002_oth m5_1003 m5_1004 m5_1005 m5_1005_a m5_1005_b m5_1005_c m5_1005_d m5_1005_e ///
+	    m5_1005_f m5_1005_oth m5_1005_oth_text)		
+
+rename (q1101 q1102 q1102_1 q1102_2 q1102_3 q1102_4 q1102_5 q1102_6 q1102_7 q1102_8 q1102_9 q1102_10 q1102__96 q1102_98 q1102_99) (m5_1101 m5_1102 ///
+        m5_1102_a m5_1102_b m5_1102_c m5_1102_d m5_1102_e m5_1102_f m5_1102_g m5_1102_h m5_1102_i m5_1102_j m5_1102_oth m5_1102_98 m5_1102_99)
+
+rename (q1103 q1104 q1104_1 q1104_2 q1104_3 q1104_4 q1104_5 q1104_6 q1104_7 q1104_8 q1104_9 q1104_10 q1104__96 q1104_98 q1104_99 q1105) (m5_1103 ///
+        m5_1104 m5_1104_a m5_1104_b m5_1104_c m5_1104_d m5_1104_e m5_1104_f m5_1104_g m5_1104_h m5_1104_i m5_1104_j m5_1104_oth m5_1104_98 m5_1104_99 ///
+		m5_1105)
+
+rename (q1201 q1202 q1202_v2 q1301 q1302 q1303a q1303b q1303c q1304a q1304b q1304c q1305a q1305b q1305c q1306 q1307) (m5_1201 m5_1202_a m5_1202_b ///
+        m5_height m5_weight m5_sbp1 m5_dbp1 m5_pr1 m5_sbp2 m5_dbp2 m5_pr2 m5_sbp3 m5_dbp3 m5_pr3 m5_anemiatest m5_hb_level)
+		
+rename (baby_index_assess_1 q1401 q1402 q1403 baby_repeat_assess_count end_comment) (m5_baby_index_assess_1 m5_baby_weight m5_baby_length m5_baby_hc ///
+        m5_n_baby_assess m5_end_comment)
+
+*===============================================================================
+
+	* STEP TWO: ADD VALUE LABELS (NA in KENYA, already labeled)
+	
+replace m5_1005 = "Current income of any household members" if m5_1005 == "1"
+replace m5_1005 = "Savings (e.g., bank account)" if m5_1005 == "2"
+replace m5_1005 = "Payment or reimbursement from a health insurance plan" if m5_1005== "3"
+replace m5_1005 = "Sold items (e.g., furniture, animals, jewellery)" if m5_1005 == "4"
+replace m5_1005 = "Family members or friends from outside the household" if m5_1005 == "5"
+replace m5_1005 = "Borrowed (from someone other than a friend or family)" if m5_1005 == "6"
+replace m5_1005 = "Other (specify)" if m5_1005 == "-96"	
+	
+replace m5_consultation1 = "A new health problem for the baby, including an emergency or an injury" if m5_consultation1 == "1" 
+replace m5_consultation1 = "A new health problem for yourself, including an emergency or an injury" if m5_consultation1 == "2"
+replace m5_consultation1 = "An existing health problem for the baby" if m5_consultation1 == "3"
+replace m5_consultation1 = "An existing health problem for yourself" if m5_consultation1 == "4"
+replace m5_consultation1 = "A lab test, x-ray, or ultrasound for yourself" if m5_consultation1 == "5"
+replace m5_consultation1 = "A lab test, x-ray, or ultrasound for the baby" if m5_consultation1 == "6"
+replace m5_consultation1 = "Getting a vaccine for the baby" if m5_consultation1 == "7"
+replace m5_consultation1 = "Getting a vaccine for yourself" if m5_consultation1 == "8"
+replace m5_consultation1 = "To get medicine for yourself" if m5_consultation1 == "9"
+replace m5_consultation1 = "To get medicine for the baby" if m5_consultation1 == "10"
+replace m5_consultation1 = "Other (specify)" if m5_consultation1 == "-96"
+
+replace m5_consultation2 = "A new health problem for the baby, including an emergency or an injury" if m5_consultation2 == "1" 
+replace m5_consultation2 = "A new health problem for yourself, including an emergency or an injury" if m5_consultation2 == "2"
+replace m5_consultation2 = "An existing health problem for the baby" if m5_consultation2 == "3"
+replace m5_consultation2 = "An existing health problem for yourself" if m5_consultation2 == "4"
+replace m5_consultation2 = "A lab test, x-ray, or ultrasound for yourself" if m5_consultation2 == "5"
+replace m5_consultation2 = "A lab test, x-ray, or ultrasound for the baby" if m5_consultation2 == "6"
+replace m5_consultation2 = "Getting a vaccine for the baby" if m5_consultation2 == "7"
+replace m5_consultation2 = "Getting a vaccine for yourself" if m5_consultation2 == "8"
+replace m5_consultation2 = "To get medicine for yourself" if m5_consultation2 == "9"
+replace m5_consultation2 = "To get medicine for the baby" if m5_consultation2 == "10"
+replace m5_consultation2 = "Other (specify)" if m5_consultation2 == "-96"
+
+replace m5_1104 = "Current husband / partner" if m5_1104 == "1"
+replace m5_1104 = "Parent (mother, father, step-parent, in-law)" if m5_1104 == "2"
+replace m5_1104 = "Sibling" if m5_1104 == "3" 
+replace m5_1104 = "Child" if m5_1104 == "5"
+replace m5_1104 = "Late /last / ex-husband/partner" if m5_1104 == "5"
+replace m5_1104 = "Other relative" if m5_1104 == "6" 
+replace m5_1104 = "Friend/acquaintance" if m5_1104 == "7" 
+replace m5_1104 = "Teacher" if m5_1104 == "8"
+replace m5_1104 = "Employer" if m5_1104 == "9"
+replace m5_1104 = "Stranger" if m5_1104 == "10"
+replace m5_1104 = "Other (specify)" if m5_1104 == "-96"
+replace m5_1104 = "Don´t know" if m5_1104 == "98"
+replace m5_1104 = "No response/refusal" if m5_1104 == "99"
+
+* Formatting Dates (SS: do this for all dates in all modules)	 
+
+	/*Date and time of M2 (SS: double check this is saving time as wells)
+	gen _m2_date_time_ = date(m2_date_time,"YMDhms")
+	drop m2_date_time
+	rename _m2_date_time_ m2_date_time
+	format m2_date_time %td  */
+	
+	/*
+	gen _m2_date_ = date(m2_date,"YMD")
+	drop m2_date
+	rename _m2_date_ m2_date
+	format m2_date %td  */
+	   
+	/* SS: need to figure out how to do this without adding the "01jan1960 infront of the time" 
+	*https://www.reed.edu/psychology/stata/gs/tutorials/datesandtimes.html 
+	Time
+	gen double _m2_time_start_ = clock(m2_time_start,"hm")
+	drop m2_time_start
+	rename _m2_time_start_ m2_time_start
+	format m2_time_start %tc */
+
+*===============================================================================	
+	
+	*STEP THREE: RECODING MISSING VALUES 
+		* Recode refused and don't know values
+		* Note: .a means NA, .r means refused, .d is don't know, . is missing 
+
+*------------------------------------------------------------------------------*
+* recoding for skip pattern logic:	   
+	   
+* Recode missing values to NA for questions respondents would not have been asked 
+* due to skip patterns
+
+*SS: Ask Wen-Chien to fix:
+/*
+
+recode m5_babyhealth m5_babydied_date m5_babydied_time m5_babydied_time_unit m5_death_treatment m5_death_place ///
+       m5_feeling_a m5_feeling_b m5_feeling_c m5_feeling_d m5_feeling_e m5_feeling_f m5_feeling_g m5_feeling_h ///
+	   m5_leakage_when m5_leakage_affect m5_leakage_treatment m5_leakage_no_treatment m5_leakage_treateffect  /// 
+	   m5_breastfeeding m5_baby_sleep m5_baby_feed m5_baby_breath m5_baby_stool m5_baby_mood m5_baby_skin m5_baby_interactivity ///
+	   m5_baby_issue_oth m5_503_1 m5_505_1 m5_503_2 m5_505_2 m5_503_3 m5_505_3 ///
+       m5_consultation1_carequal m5_consultation2_carequal m5_consultation3_carequal m5_no_visit(.=.a)
+recode m5_406a (98 = .d) 
+recode m5_501a m5_501b (.= ".a")   
+recode m5_502 (. = 0)
+replace m5_leakage_no_treatment_oth = ".a"
+
+*/
+
+
+*===============================================================================
+* merge dataset with M1
+
+merge 1:1 respondentid using "$ke_data_final/eco_m1_ke.dta"
+
+drop _merge  // SS 3-15: 7 in master (M2) not in using (M1), N=979 matched
+
+*===============================================================================
+	
+	* STEP FOUR: LABELING VARIABLES
+	
+	lab var m5_consent "M5. Consent"
+lab var m5_no_consent "M5. The reason of no consent"
+lab var m5_starttime "M5-103-time. Time of interview started"
+lab var m5_endtime "M5. Time of interview ended"
+lab var m5_duration "M5. Duration of interview"
+lab var m5_date "M5-102. Date of interview"
+lab var m5_todaydate "M5-102. Date of today's date"
+lab var m5_dateconfirm "M5-102-confirm. Confirm the date of today"
+lab var m5_submissiondate "M5. Time of submission"
+lab var m5_resp_id "M5. Respondent ID"
+lab var m5_n_livebabies "M5. Number of babies" 
+lab var m5_n_babies "M5. Number of babies"    
+lab var m5_n_alivebabies "M5. Number of babies that were alive"
+lab var m5_n_deadbabies "M5. Number of babies that died"
+lab var m5_csection "M5. C-section"
+lab var m5_hiv_status "M5. Maternal HIV status."
+lab var m5_n_baby_repeat "M5. Number of babies repeated in the survey "
+lab var m5_baby_index_1 "M5-201-baby index. Index of the baby"
+		
+lab var m5_babyalive "M5-201. Could you please confirm if the baby is still alive, or did something else happen?"
+lab var m5_babyhealth "M5-202. In general, how would you rate the baby's overall health?"
+lab var m5_babyfeed_a "M5-203-a. Please indicate how you have fed the baby in the last 7 days? (choice=Breast milk)"
+lab var m5_babyfeed_b "M5-203-b. Please indicate how you have fed the baby in the last 7 days? (choice=Formula, e.g.Nan)"
+lab var m5_babyfeed_c "M5-203-c. Please indicate how you have fed the baby in the last 7 days? (choice=Water)"
+lab var m5_babyfeed_d "M3-31a-d. Please indicate how you have fed the baby in the last 7 days? (choice=Juice)"
+lab var m5_babyfeed_e "M5-203-e. Please indicate how you have fed the baby in the last 7 days? (choice=Broth/Soup)"
+lab var m5_babyfeed_f "M5-203-f. Please indicate how you have fed the baby in the last 7 days? (choice=Baby food)"
+lab var m5_babyfeed_g "M5-203-g. Please indicate how you have fed the baby in the last 7 days? (choice=Local food)"
+lab var m5_babyfeed_99 "M5-203-99. Please indicate how you have fed the baby in the last 7 days? (choice=NR/RF)"
+lab var m5_breastfeeding "M5-204. As of today, how confident do you feel about breastfeeding the baby?"
+		
+lab var m5_baby_sleep "M5-205a. Regarding sleep, which response best describes the baby today?"
+lab var m5_baby_feed "M5-205b. Regarding feeding, which response best describes the baby today?"
+lab var m5_baby_breath "M5-205c. Regarding breathing, which response best describes the baby today?"
+lab var m5_baby_stool "M5-205d. Regarding stooling/poo, which response best describes the baby today?"
+lab var m5_baby_mood "M5-205e. Regarding their mood, which response best describes the baby today?"
+lab var m5_baby_skin "M5-205f. Regarding their skin, which response best describes the baby today?"
+lab var m5_baby_interactivity "M5-205g. Regarding interactivity, which response best describes the baby today?"
+lab var m5_baby_issue_a "M5-206a. Did the baby experience any of the following issues since you last spoke to us? (choice=Diarrhea with blood in the stools)"
+lab var m5_baby_issue_b "M5-206b. Did the baby experience any of the following issues since you last spoke to us? (choice=A fever, a temperature > 37.5)"
+lab var m5_baby_issue_c "M5-206c. Did the baby experience any of the following issues since you last spoke to us? (choice=A low temperature < 35.5C)"
+lab var m5_baby_issue_d "M5-206d. Did the baby experience any of the following issues since you last spoke to us? (choice=An illness with a cough)"
+lab var m5_baby_issue_e "M5-206e. Did the baby experience any of the following issues since you last spoke to us? (choice=Trouble breathing or very fast breathing with short rapid breaths)"
+lab var m5_baby_issue_f "M5-206f. Did the baby experience any of the following issues since you last spoke to us? (choice=A problem in the chest)"
+lab var m5_baby_issue_g "M5-206g. Did the baby experience any of the following issues since you last spoke to us? (choice=Trouble feeding)"
+lab var m5_baby_issue_h "M5-206h. Did the baby experience any of the following issues since you last spoke to us? (choice=Convulsions)"
+lab var m5_baby_issue_i "M5-206i. Did the baby experience any of the following issues since you last spoke to us? (choice=Jaundice, that is, yellow color of the skin)"
+lab var m5_baby_issue_j "M5-206j. Did the baby experience any of the following issues since you last spoke to us? (choice=Yellow palms or soles)"
+lab var m5_baby_issue_oth "M5-206-oth. Did the baby experience any other health problems since you last spoke to us?"
+lab var m5_baby_issue_oth_text "M5-206-oth-text. Describe the health problems"
+
+lab var m5_babydied_date "M5-208. On what date did the baby die?"
+lab var m5_babydied_time "M5-209. How many weeks or days old was the baby when he/she died?"
+lab var m5_babydied_time_unit "M5-208-unit. The unit of time"
+lab var m5_death_cause_a "M5-210-a. What were you told was the cause of death of the baby? (choice=Not told anything)"
+lab var m5_death_cause_b "M5-210-b. What were you told was the cause of death of the baby? (choice=The baby was premature, born too early)"
+lab var m5_death_cause_c "M5-210-c. What were you told was the cause of death of the baby? (choice=A birth injury or asphyxia (occurring because of delivery complications))"
+lab var m5_death_cause_d "M5-210-d. What were you told was the cause of death of the baby? (choice=A congenital abnormality (genetic or acquired issues with growth/development))"
+lab var m5_death_cause_e "M5-210-e. What were you told was the cause of death of the baby? (choice=Malaria)"
+lab var m5_death_cause_f "M5-210-f. What were you told was the cause of death of the baby? (choice=An acute respiratory infection)"
+lab var m5_death_cause_g "M5-210-g. What were you told was the cause of death of the baby? (choice=Diarrhea)"
+lab var m5_death_cause_h "M5-210-h. What were you told was the cause of death of the baby? (choice=Another type of infection)"
+lab var m5_death_cause_i "M5-210-i. What were you told was the cause of death of the baby? (choice=Severe acute malnutrition)"
+lab var m5_death_cause_j "M5-210-j. What were you told was the cause of death of the baby? (choice=An accident or injury)"
+lab var m5_death_cause_oth "M5-210-oth. What were you told was the cause of death of the baby? (choice=Another cause)"
+lab var m5_death_cause_98 "M5-210-98. What were you told was the cause of death of the baby? (choice=Don´t know)"
+lab var m5_death_cause_99 "M5-210-99. What were you told was the cause of death of the baby? (choice=No response/refusal)"
+lab var m5_death_cause_oth_text "M5-210-other-text. What were you told was the cause of death of the baby? (choice=Specify the cause)"
+
+lab var m5_death_treatment "M5-211. Before the baby died, did you seek advice or treatment for the illness from any source?"
+lab var m5_death_place "M5-212. Where did the baby die?"
+lab var m5_death_place_oth "M5-212-oth. Could you specify the place?"
+lab var m5_health "M5-301. I would now like to talk about your own health since you last spoke to us. In general, how would you rate your overall health?"
+lab var m5_health_a "M5-302-a. I am going to read three statements about your mobility, by which I mean your ability to walk around. Please indicate which statement best describe your own health state today."
+lab var m5_health_b "M5-302-b. I am now going to read three statements regarding your ability to self-care, by which I mean whether you can wash and dress yourself without assistance. Please indicate which statement best describe your own health state today."
+lab var m5_health_c "M5-302-c. I am going to read three statements regarding your ability to perform your usual daily activities, by which I mean your ability to work, take care of your family or perform leisure activities. Please indicate which statement best describe your own health state today."
+lab var m5_health_d "M5-302-d. I am going to read three statements regarding your experience with physical pain or discomfort. Please indicate which statement best describe your own health state today."
+lab var m5_health_e "M5-302-e. I am going to read three statements regarding your experience with experience with anxiety or depression. Please indicate which statement best describe your own health state today."
+	
+lab var m5_depression_a "M5-303-a. Over the past 2 weeks, on how many days have you been bothered by any of the following problems? Little interest or pleasure in doing things"
+lab var m5_depression_b "M5-303-b. Over the past 2 weeks, on how many days have you been bothered by any of the following problems? Feeling down, depressed, or hopeless"
+lab var m5_depression_c "M5-303-c. Over the past 2 weeks, on how many days have you been bothered by any of the following problems? Trouble falling or staying asleep, or sleeping too much"
+lab var m5_depression_d "M5-303-d. Over the past 2 weeks, on how many days have you been bothered by any of the following problems? Feeling tired or having little energy"
+lab var m5_depression_e "M5-303-e. Over the past 2 weeks, on how many days have you been bothered by any of the following problems? Poor appetite or overeating"
+lab var m5_depression_f "M5-303-f. Over the past 2 weeks, on how many days have you been bothered by any of the following problems? Feeling bad about yourself — or that you are a failure or have let yourself or your family down?"
+lab var m5_depression_g "M5-303-g. Over the past 2 weeks, on how many days have you been bothered by any of the following problems? Trouble concentrating on things, such as your work or home duties?"
+lab var m5_depression_h "M5-303-h. Over the past 2 weeks, on how many days have you been bothered by any of the following problems? Moving or speaking so slowly that other people could have noticed? Or so fidgety or restless that you have been moving a lot more than usual?"
+lab var m5_depression_i "M5-303-i. Over the past 2 weeks, on how many days have you been bothered by any of the following problems?Thoughts that you would be better off dead, or thoughts of hurting yourself in some way?"
+lab var m5_depression_sum "M5-303-sum. Over the past 2 weeks, the sum-up of days on which you were bothered by the symptoms of depression"
+lab var m5_health_affect_scale "M5-304. On a scale of 0 to 10, 0 being health problems had no effect on my work and 10 being health problems completely prevented me from working, during the past seven days, how much did any health problems affect your productivity while you were working?"
+
+lab var m5_feeling_a "M5-305-a. Please tell me what best describes how have felt about your baby: Loving"
+lab var m5_feeling_b "M5-305-b. Please tell me what best describes how have felt about your baby: Resentful"
+lab var m5_feeling_c "M5-305-c. Please tell me what best describes how have felt about your baby: Neutral or felt nothing"
+lab var m5_feeling_d "M5-305-d. Please tell me what best describes how have felt about your baby: Joyful"
+lab var m5_feeling_e "M5-305-e. Please tell me what best describes how have felt about your baby: Dislike"
+lab var m5_feeling_f "M5-305-f. Please tell me what best describes how have felt about your baby: Protective"
+lab var m5_feeling_g "M5-305-g. Please tell me what best describes how have felt about your baby: Dissapointed"
+lab var m5_feeling_h "M5-305-h. Please tell me what best describes how have felt about your baby: Aggresive "
+lab var m5_pain "M5-306. In the past 30 days, how much has pain affected your satisfaction with your sex life?"
+lab var m5_leakage "M5-307. Since you gave birth to your baby/babies, have you experienced a constant leakage of urine or stool from your vagina during the day and night?"
+lab var m5_leakage_when "M5-308. How many days after giving birth did these symptoms start?"
+lab var m5_leakage_affect "M5-309. How much does this problem alter your lifestyle or daily activities?"
+lab var m5_leakage_treatment "M5-310. Have you sought treatment for this condition?"
+lab var m5_leakage_no_treatment "M5-311. Why have you not sought treatment?"
+lab var m5_leakage_no_treatment_oth "M5-311-oth. Could you specify the reason why you have not looked for treatment?"
+lab var m5_leakage_treateffect "M5-312. Did the treatment solve the problem?"
+lab var m5_401 "M5-401. How would you rate the overall quality of medical care in Kenya?"
+lab var m5_402 "M5-402. Which of the following statements comes closest to expressing your overall view of the health care system in your country?"
+lab var m5_403 "M5-403. How confident are you that if you became very sick tomorrow, you would receive good quality healthcare from the health system?"
+lab var m5_404 "M5-404. How confident are you that you would be able to afford the healthcare you needed if you became very sick? This means you would be able to afford care without suffering financial hardship."
+lab var m5_405a "M5-405-a. You are the person who is responsible for managing your overall health?"
+lab var m5_405b "M5-405-b. You can tell a healthcare provider concerns you have even when he or she does not ask?"
+lab var m5_406a "M5-406-a. Since your first antenatal care visit for this pregnancy, please tell me if the following events have happened to you personally? You thought a medical mistake was made in your treatment or care."
+lab var m5_406b "M5-406-b. Since your first antenatal care visit for this pregnancy, please tell me if the following events have happened to you personally? You were treated unfairly or discriminated against by a doctor, nurse, or another healthcare provider."
+	
+lab var m5_501a "M5-501-a. Since we last spoke, were you or your baby/babies seen by or attended to by a clinician or healthcare provider?  "
+lab var m5_501b "M5-501-b. Since we last spoke, did you have any new health care consultations, or not?"
+lab var m5_502 "M5-502. Since we last spoke, how many times were you seen by or attended to by a healthcare provider?  "
+
+lab var m5_503_1 "M5-503-1. Where did the first healthcare consultation take place (facility type)?"
+lab var m5_503_2 "M5-503-2. Where did the second healthcare consultation take place (facility type)?"
+lab var m5_503_3 "M5-503-3. Where did the third healthcare consultation take place (facility type)?"
+lab var m5_505_1 "M5-505-1. I would like to ask about the main reason for the 1st healthcare consultation for yourself or your child(ren). Was the first consultation for a routine or regular checkup after the delivery?"
+lab var m5_505_2 "M5-505-2. I would like to ask about the main reason for the 2nd healthcare consultation for yourself or your child(ren). Was the second consultation for a routine or regular checkup after the delivery?"
+lab var m5_505_3 "M5-505-3. I would like to ask about the main reason for the 3rd healthcare consultation for yourself or your child(ren). Was the third consultation for a routine or regular checkup after the delivery?"
+
+lab var m5_consultation1 "M5-506-1. Was the first consultation for any of the following? Please tell me all that apply"
+lab var m5_consultation1_a "M5-506-1-a. Was the first consultation for any of the following? (Choice=A new health problem for the baby, including an emergency or an injury) "
+lab var m5_consultation1_b "M5-506-1-b. Was the first consultation for any of the following? (Choice=A new health problem for yourself, including an emergency or an injury)"
+lab var m5_consultation1_c "M5-506-1-c. Was the first consultation for any of the following? (Choice=An existing health problem for the baby)"
+lab var m5_consultation1_d "M5-506-1-d. Was the first consultation for any of the following? (Choice=An existing health problem for yourself)"
+lab var m5_consultation1_e "M5-506-1-e. Was the first consultation for any of the following? (Choice=A lab test, x-ray, or ultrasound for yourself)"
+lab var m5_consultation1_f "M5-506-1-f. Was the first consultation for any of the following? (Choice=A lab test, x-ray, or ultrasound for the baby)"
+lab var m5_consultation1_g "M5-506-1-g. Was the first consultation for any of the following? (Choice=Getting a vaccine for the baby)"
+lab var m5_consultation1_h "M5-506-1-h. Was the first consultation for any of the following? (Choice=Getting a vaccine for yourself)"
+lab var m5_consultation1_i "M5-506-1-i. Was the first consultation for any of the following? (Choice=To get medicine for yourself)"
+lab var m5_consultation1_j "M5-506-1-j. Was the first consultation for any of the following? (Choice=To get medicine for the baby)"
+lab var m5_consultation1_oth "M5-506-1-oth. Was the first consultation for any of the following? (Choice=Other)"
+lab var m5_consultation1_oth_text "M5-506-1-oth-text. Was the first consultation for any of the following? (Choice=Specify the reason)"
+
+lab var m5_consultation2 "M5-506-2. Was the second consultation for any of the following? Please tell me all that apply"
+lab var m5_consultation2_a "M5-506-2-a. Was the second consultation for any of the following? (Choice=A new health problem for the baby, including an emergency or an injury) "
+lab var m5_consultation2_b "M5-506-2-b. Was the second consultation for any of the following? (Choice=A new health problem for yourself, including an emergency or an injury)"
+lab var m5_consultation2_c "M5-506-2-c. Was the second consultation for any of the following? (Choice=An existing health problem for the baby)"
+lab var m5_consultation2_d "M5-506-2-d. Was the second consultation for any of the following? (Choice=An existing health problem for yourself)"
+lab var m5_consultation2_e "M5-506-2-e. Was the second consultation for any of the following? (Choice=A lab test, x-ray, or ultrasound for yourself)"
+lab var m5_consultation2_f "M5-506-2-f. Was the second consultation for any of the following? (Choice=A lab test, x-ray, or ultrasound for the baby)"
+lab var m5_consultation2_g "M5-506-2-g. Was the second consultation for any of the following? (Choice=Getting a vaccine for the baby)"
+lab var m5_consultation2_h "M5-506-2-h. Was the second consultation for any of the following? (Choice=Getting a vaccine for yourself)"
+lab var m5_consultation2_i "M5-506-2-i. Was the second consultation for any of the following? (Choice=To get medicine for yourself)"
+lab var m5_consultation2_j "M5-506-2-j. Was the second consultation for any of the following? (Choice=To get medicine for the baby)"
+lab var m5_consultation2_oth "M5-506-2-oth. Was the second consultation for any of the following? (Choice=Other)"
+lab var m5_consultation2_oth_text "M5-506-2-oth-text. Was the second consultation for any of the following? (Choice=Specify the reason)"	
+	
+lab var m5_consultation3 "M5-506-3. Was the third consultation for any of the following? Please tell me all that apply"
+lab var m5_consultation3_a "M5-506-3-a. Was the third consultation for any of the following? (Choice=A new health problem for the baby, including an emergency or an injury) "
+lab var m5_consultation3_b "M5-506-3-b. Was the third consultation for any of the following? (Choice=A new health problem for yourself, including an emergency or an injury)"
+lab var m5_consultation3_c "M5-506-3-c. Was the third consultation for any of the following? (Choice=An existing health problem for the baby)"
+lab var m5_consultation3_d "M5-506-3-d. Was the third consultation for any of the following? (Choice=An existing health problem for yourself)"
+lab var m5_consultation3_e "M5-506-3-e. Was the third consultation for any of the following? (Choice=A lab test, x-ray, or ultrasound for yourself)"
+lab var m5_consultation3_f "M5-506-3-f. Was the third consultation for any of the following? (Choice=A lab test, x-ray, or ultrasound for the baby)"
+lab var m5_consultation3_g "M5-506-3-g. Was the third consultation for any of the following? (Choice=Getting a vaccine for the baby)"
+lab var m5_consultation3_h "M5-506-3-h. Was the third consultation for any of the following? (Choice=Getting a vaccine for yourself)"
+lab var m5_consultation3_i "M5-506-3-i. Was the third consultation for any of the following? (Choice=To get medicine for yourself)"
+lab var m5_consultation3_j "M5-506-3-j. Was the third consultation for any of the following? (Choice=To get medicine for the baby)"
+lab var m5_consultation3_oth "M5-506-3-oth. Was the third consultation for any of the following? (Choice=Other)"
+lab var m5_consultation3_oth_text "M5-506-3-oth-text. Was the third consultation for any of the following? (Choice=Specify the reason)"
+
+lab var m5_no_visit "M5-511. Are there any reasons that prevented you from receiving postnatal or postpartum care since we last spoke? Please tell me the main reason you have not had care."
+lab var m5_no_visit_oth "M5-511-oth. Please specify the main reason you have not had care."
+lab var m5_consultation1_carequal "M5-601-1. Overall, how would you rate the quality of care that you received for the 1st consultation?"
+lab var m5_consultation2_carequal "M5-601-2. Overall, how would you rate the quality of care that you received for the 2nd consultation?"
+lab var m5_consultation3_carequal "M5-601-3. Overall, how would you rate the quality of care that you received for the 3rd consultation?"
+	
+lab var m5_701a "M5-701-a. Since we last spoke, did the baby get their temperature taken (using a thermometer)?"
+lab var m5_701b "M5-701-b. Since we last spoke, did the baby get their weight taken (using a scale)?"
+lab var m5_701c "M5-701-c. Since we last spoke, did the baby get their length measured (using a measuring tape)?"
+lab var m5_701d "M5-701-d. Since we last spoke, did the baby get their eyes examined?"
+lab var m5_701e "M5-701-e. Since we last spoke, did the baby get their hearing checked?"
+lab var m5_701f "M5-701-f. Since we last spoke, did the baby get their chest listened to with a stethoscope?"
+lab var m5_701g "M5-701-g. Since we last spoke, did the baby get a blood test using a finger prick (that is, taking a drop of blood from their finger)?"
+lab var m5_701h "M5-701-h. Since we last spoke, did the baby get a malaria test?"
+lab var m5_701i "M5-701i. Since we last spoke, did the baby get any other test?"
+lab var m5_701i_other "M5-701-oth. Please specify the test."
+
+lab var m5_702a "M5-702-a. Since we last spoke, did you and a healthcare provider discuss how often the baby eats. "
+lab var m5_702b "M5-702-b. Since we last spoke, did you and a healthcare provider discuss what the baby should eat (only breastmilk or other foods)." 
+lab var m5_702c "M5-702-c. Since we last spoke, did you and a healthcare provider discuss vaccinations for the baby."
+lab var m5_702d "M5-702-d. Since we last spoke, did you and a healthcare provider discuss the position the baby should sleep in (on their back or their stomach)."
+lab var m5_702e "M5-702-e. Since we last spoke, did you and a healthcare provider discuss danger signs or symptoms you should watch out for in the baby that would mean you should go to a health facility."
+lab var m5_702f "M5-702-f. Since we last spoke, did you and a healthcare provider discuss how you should play and interact with the baby."
+lab var m5_702g "M5-702-g. Since we last spoke, did you and a healthcare provider discuss that you should take the baby to the hospital or to see a specialist like a pediatrician or a neonatologist."
+
+lab var m5_703a "M5-703-a. What did the healthcare provider tell you to do regarding these symptoms? (choice=I did not speak about this with a health care provider.)"
+lab var m5_703b "M5-703-b. What did the healthcare provider tell you to do regarding these symptoms? (choice=Provider told you that it was not serious, and there was nothing to be done.)"
+lab var m5_703c "M5-703-c. What did the healthcare provider tell you to do regarding these symptoms? (choice=Provider to monitor the baby and come back if it got worse.)"
+lab var m5_703d "M5-703-d. What did the healthcare provider tell you to do regarding these symptoms? (choice=Provider told you to get medication.)"
+lab var m5_703e "M5-703-e. What did the healthcare provider tell you to do regarding these symptoms? (choice=Provider gave you advice on feeding)"
+lab var m5_703f "M5-703-f. What did the healthcare provider tell you to do regarding these symptoms? (choice=Provider told you to get a lab test or imaging for the baby, e.g., blood tests, ultrasound, x-ray, heart echo)"
+lab var m5_703g "M5-703-g. What did the healthcare provider tell you to do regarding these symptoms? (choice=Provider told you to go to hospital or to see a specialist like a pediatrician or neonatologist.)"
+lab var m5_703h "M5-703-oth. What did the healthcare provider tell you to do regarding these symptoms? (choice=Other)"
+lab var m5_703_98 "M5-703-98. What did the healthcare provider tell you to do regarding these symptoms? (choice=Don´t know)"
+lab var m5_703_99 "M5-703-99. What did the healthcare provider tell you to do regarding these symptoms? (choice=No response/refusal)"
+lab var m5_703_other "M5-703-oth-text. What did the healthcare provider tell you to do regarding these symptoms? (choice=Specify other that provider told you)"
+	
+lab var m5_801a "M5-801-a. Since you last spoke to us, did you receive any of the following at least once? (choice=Your blood pressure measured (with a cuff around your arm))"
+lab var m5_801b "M5-801-b. Since you last spoke to us, did you receive any of the following at least once? (choice=Your temperature taken (with a thermometer))"
+lab var m5_801c "M5-801-c. Since you last spoke to us, did you receive any of the following at least once? (choice=A vaginal exam)"
+lab var m5_801d "M5-801-d. Since you last spoke to us, did you receive any of the following at least once? (choice=A blood draw (that is, taking blood from your arm with a syringe))"
+lab var m5_801e "M5-801-e. Since you last spoke to us, did you receive any of the following at least once? (choice=A blood test using a finger prick (that is, taking a drop of blood from your finger))"
+lab var m5_801f "M5-801-f. Since you last spoke to us, did you receive any of the following at least once? (choice=An HIV test)"
+lab var m5_801g "M5-801-g. Since you last spoke to us, did you receive any of the following at least once? (choice=A urine test (that is, where you peed in a container))"
+lab var m5_801h "M5-801-h. Since you last spoke to us, did you receive any of the following at least once? (choice=Any other test or examination)"
+lab var m5_801_other "M5-801-oth. Since you last spoke to us, did you receive any of the following at least once? (choice=Specify the test ot examination)"
+
+lab var m5_802 "M5-802. Since we last spoke, did a health care provider examine your c-section scar?"
+lab var m5_803a "M5-803-a. Since we last spoke, did you discuss any of the following with a health care provider, or not? Did you and a healthcare provider discuss (choice=How to take care of your breasts)"
+lab var m5_803b "M5-803-b. Since we last spoke, did you discuss any of the following with a health care provider, or not? Did you and a healthcare provider discuss (choice=Danger signs or symptoms you should watch out for in yourself that would mean you should go to a health facility"
+lab var m5_803c "M5-803-c. Since we last spoke, did you discuss any of the following with a health care provider, or not? Did you and a healthcare provider discuss(choice=Your level of anxiety or depression)"
+lab var m5_803d "M5-803-d. Since we last spoke, did you discuss any of the following with a health care provider, or not? Did you and a healthcare provider discuss(choice=Your family planning options after the delivery)"
+lab var m5_803e "M5-803-e. Since we last spoke, did you discuss any of the following with a health care provider, or not? Did you and a healthcare provider discuss(choice=Resuming sexual activity after giving birth)"
+lab var m5_803f "M5-803-f. Since we last spoke, did you discuss any of the following with a health care provider, or not? Did you and a healthcare provider discuss(choice=The importance of exercise or physical activity after giving birth)"
+lab var m5_803g "M5-803-g. Since we last spoke, did you discuss any of the following with a health care provider, or not? Did you and a healthcare provider discuss(choice=The importance of sleeping under a bed net)"
+lab var m5_804a "M5-804-a. Since we last spoke, did you have a session of psychological counseling or therapy with any type of professional? This could include seeing a mental health professional (like a psychologist, social worker, nurse, religious or spiritual advisor, or healer) for problems with your emotions or nerves."
+lab var m5_804b "M5-804-b. How many of these sessions did you have since we last spoke?"
+lab var m5_804c "M5-804-a. How many minutes did this/these visit(s) last on average?"
+
+lab var m5_901a "M5-901-a. Since we last spoke, did you get any of the following for yourself? Iron or folic acid pills like IFAS or Pregnacare" 
+lab var m5_901b "M5-901-b. Since we last spoke, did you get any of the following for yourself? Iron drip/injection" 
+lab var m5_901c "M5-901-c. Since we last spoke, did you get any of the following for yourself? Calcium pills" 
+lab var m5_901d "M5-901-d. Since we last spoke, did you get any of the following for yourself? Multivitamins" 
+lab var m5_901e "M5-901-e. Since we last spoke, did you get any of the following for yourself? Food supplements like Super Cereal or Plumpynut" 
+lab var m5_901f "M5-901-f. Since we last spoke, did you get any of the following for yourself? Medicine for intestinal worms" 
+lab var m5_901g "M5-901-g. Since we last spoke, did you get any of the following for yourself? Medicine for malaria " 
+lab var m5_901h "M5-901-h. Since we last spoke, did you get any of the following for yourself? Medicine for HIV/ARVs" 
+lab var m5_901i "M5-901-i. Since we last spoke, did you get any of the following for yourself? Medicine for your emotions, nerves, depression, or mental health" 
+lab var m5_901j "M5-901-j. Since we last spoke, did you get any of the following for yourself? Medicine for hypertension/high Blood pressure" 
+lab var m5_901k "M5-901-k. Since we last spoke, did you get any of the following for yourself? Medicine for diabetes, including injections of insulin" 
+lab var m5_901l "M5-901-l. Since we last spoke, did you get any of the following for yourself? Antibiotics for an infection" 
+lab var m5_901m "M5-901-m. Since we last spoke, did you get any of the following for yourself? Aspirin" 
+lab var m5_901n "M5-901-n. Since we last spoke, did you get any of the following for yourself? Paracetamol, or other pain relief drugs" 
+lab var m5_901o "M5-901-o. Since we last spoke, did you get any of the following for yourself? Contraceptive pills" 
+lab var m5_901p "M5-901-p. Since we last spoke, did you get any of the following for yourself? Contraceptive injection" 
+	
+lab var m5_902a "M5-902-a. Since we last spoke, did the baby get any of the following? (choice= Iron supplements)"
+lab var m5_902b "M5-902-b. Since we last spoke, did the baby get any of the following? (choice= Vitamin A supplements)"
+lab var m5_902c "M5-902-c. Since we last spoke, did the baby get any of the following? (choice= Vitamin D supplements)"
+lab var m5_902d "M5-902-d. Since we last spoke, did the baby get any of the following? (choice= Oral rehydration salts (ORS))"
+lab var m5_902e "M5-902-e. Since we last spoke, did the baby get any of the following? (choice= Antidiarrheal)"
+lab var m5_902f "M5-902-f. Since we last spoke, did the baby get any of the following? (choice= Antibiotics for an infection)"
+lab var m5_902g "M5-902-g. Since we last spoke, did the baby get any of the following? (choice= Medicine to prevent pneumonia)"
+lab var m5_902h "M5-902-h. Since we last spoke, did the baby get any of the following? (choice= Medicine for malaria)"
+lab var m5_902i "M5-902-i. Since we last spoke, did the baby get any of the following? (choice= Medibcine for HIV/ARVs)"
+lab var m5_902j "M5-902-j. Since we last spoke, did the baby get any of the following? (choice= Any other medicine or supplement)"
+lab var m5_902_oth "M5-902-oth. Since we last spoke, did the baby get any of the following? (choice= Please specify the medicine or suplement)"
+lab var m5_903a "M5-903-a. Since we last spoke, did the baby receive? (choice= A vaccine for BCG against tuberculosis (that is an injection in the arm that can sometimes cause a scar))"
+lab var m5_903b "M5-903-b. Since we last spoke, did the baby receive? (choice= A vaccine against polio that is taken either orally, usually two drops in the mouth, or through an injection to prevent polio)" 
+lab var m5_903c "M5-903-c. Since we last spoke, did the baby receive? (choice= A pentavalent vaccination, that is, an injection in the thigh that is sometimes given at the same time as the polio drops)"
+lab var m5_903d "M5-903-d. Since we last spoke, did the baby receive? (choice= A pneumococcal vaccination, that is, an injection in the thigh to prevent pneumonia)"
+lab var m5_903e "M5-903-e. Since we last spoke, did the baby receive? (choice= A rotavirus vaccination, that is, liquid in the mouth to prevent diarrhea)"
+lab var m5_903f "M5-903-f. Since we last spoke, did the baby receive? (choice= Any other vaccines or immunizations)"
+lab var m5_903_other "M5-903-oth. Since we last spoke, did the baby receive? (choice= Please specify the type of vaccine or inmunization)"
+lab var m5_904 "M5-904. Where did the baby get these vaccines?"
+lab var m5_904_other "M5-904-oth. Please specify where baby got these vaccines or immunizations."  
+lab var m5_905 "M5-905. How much did you pay for these new medications, supplements and vaccines for yourself or the baby(ies) (in Ksh.)?"
+	
+lab var m5_1001 "M5-1001. Did you pay any money out of your pocket for these new visits, including for the consultation or other indirect costs like your transport to the facility?"
+lab var m5_1002a "M5-1002-a. Plese specify how much you paid for registration/ Consultation."
+lab var m5_1002_b "M5-1002-b. Plese specify how much you paid for test or investigations (lab tests, ultrasound etc.)."
+lab var m5_1002_c "M5-1002-c. Plese specify how much you paid for transport (round trip) including that of the person accompanying you."
+lab var m5_1002_d "M5-1002-d. Plese specify how much you paid for food and accommodation including that of person accompanying you."
+lab var m5_1002_e "M5-1002-e. Plese specify how much you paid for other (specify)"
+lab var m5_1002_oth "M5-1002-oth. Please specify what other service or product you spent money on."
+lab var m5_1003 "M5-1003. So in total you spent [total_spent] Ksh. Is that correct?"
+lab var m5_1004 "M5-1004. So how much in total would you say you spent?"
+lab var m5_1005 "M5-1005. Which of the following financial sources did your household use to pay for this?"
+lab var m5_1005_a "M5-1005-a. Which of the following financial sources did your household use to pay for this? Current income of any household members"
+lab var m5_1005_b "M5-1005-b. Which of the following financial sources did your household use to pay for this? Savings (e.g., bank account)"
+lab var m5_1005_c "M5-1005-c. Which of the following financial sources did your household use to pay for this? Payment or reimbursement from a health insurance plan"
+lab var m5_1005_d "M5-1005-d. Which of the following financial sources did your household use to pay for this? Sold items (e.g., furniture, animals, jewellery)"
+lab var m5_1005_e "M5-1005-e. Which of the following financial sources did your household use to pay for this? Family members or friends from outside the household"
+lab var m5_1005_f "M5-1005-f. Which of the following financial sources did your household use to pay for this? Borrowed (from someone other than a friend or family)"
+lab var m5_1005_oth "M5-1005-oth. Which of the following financial sources did your household use to pay for this? Other."
+lab var m5_1005_oth_text "M5-1005-oth-text. Could you specify the financial source?"
+	
+lab var m5_1101 "M5-1101. At any point during this pregnancy and since the delivery, has anyone ever hit, slapped, kicked, or done anything else to hurt you physically?"
+lab var m5_1102 "M5-1102. Who did these things to physically hurt you?"
+lab var m5_1102_a "M5-1102-a. Who did these things to physically hurt you? Current husband / partner."
+lab var m5_1102_b "M5-1102-b. Who did these things to physically hurt you? Parent (mother, father, step-parent, in-law)."
+lab var m5_1102_c "M5-1102-c. Who did these things to physically hurt you? Sibling."
+lab var m5_1102_d "M5-1102-d. Who did these things to physically hurt you? Child."
+lab var m5_1102_e "M5-1102-e. Who did these things to physically hurt you? Late/last/ex-husband/partner."
+lab var m5_1102_f "M5-1102-f. Who did these things to physically hurt you? Other relative."
+lab var m5_1102_g "M5-1102-g. Who did these things to physically hurt you? Friend/acquaintance"
+lab var m5_1102_h "M5-1102-h. Who did these things to physically hurt you? Teacher."
+lab var m5_1102_i "M5-1102-i. Who did these things to physically hurt you? Employer."
+lab var m5_1102_j "M5-1102-j. Who did these things to physically hurt you? Stranger."
+lab var m5_1102_oth "M5-1102-oth. Who did these things to physically hurt you? Other (specify)"
+lab var m5_1102_98 "M5-1102-98. Who did these things to physically hurt you? Don´t know."
+lab var m5_1102_99 "M5-1102-99. Who did these things to physically hurt you? No response/refusal."	
+	
+lab var m5_1103 "M5-1103. At any point during your this most recent pregnancy or since the delivery, has anyone ever said or done something to humiliate you, insulted you or made you feel bad about yourself?"
+lab var m5_1104 "M5-1104. Who did these things to emotionally hurt you? "
+lab var m5_1104_a "M5-1104-a. Who did these things to emotionally hurt you? Current husband/partner."
+lab var m5_1104_b "M5-1104-b. Who did these things to emotionally hurt you? Parent (mother, father, step-parent, in-law)."
+lab var m5_1104_c "M5-1104-c. Who did these things to emotionally hurt you? Sibling."
+lab var m5_1104_d "M5-1104-d. Who did these things to emotionally hurt you? Child"
+lab var m5_1104_e "M5-1104-e. Who did these things to emotionally hurt you? Late/last/ex-husband/partner."
+lab var m5_1104_f "M5-1104-f. Who did these things to emotionally hurt you? Other relative."
+lab var m5_1104_g "M5-1104-g. Who did these things to emotionally hurt you? Friend/acquaintance. "
+lab var m5_1104_h "M5-1104-h. Who did these things to emotionally hurt you? Teacher."
+lab var m5_1104_i "M5-1104-i. Who did these things to emotionally hurt you? Employer."
+lab var m5_1104_j "M5-1104-j. Who did these things to emotionally hurt you? Stranger."
+lab var m5_1104_oth "M5-1104-oth. Who did these things to emotionally hurt you? Other (specify)."
+lab var m5_1104_98 "M5-1104-98. Don´t know."
+lab var m5_1104_99 "M5-1104-99. No response/refusal."
+lab var m5_1105 "M5-1105. During your pregnancy or since the delivery, did a health provider discuss with you where you can seek support for these things?"
+
+lab var m5_1201 "M5-1201. To conclude this survey, overall, please tell me how satisfied you are with the health services you received throughout your pregnancy and delivery."
+lab var m5_1202_a "M5-1202-a. Finally, what is your total monthly household income on average (i.e., in a typical month)? Please give your best estimate and include all sources of income that your household receives per month."
+lab var m5_1202_b "M5-1202-b. If you think about your total monthly household income on average (i.e., in a typical month), which of these categories does it fit into? Please give your best estimate and include all sources of income that your household receives per month."
+lab var m5_height "M5-1301. Height in cm"
+lab var m5_weight "M5-1302. Weight in kilograms"
+lab var m5_sbp1 "M5-1303-a. 1st systolic blood pressure"
+lab var m5_dbp1 "M5-1303-b. 1st diastolic blood pressure"
+lab var m5_pr1 "M5-1303-c. 1st pulse rate"
+lab var m5_sbp2 "M5-1304-a. 2nd systolic blood pressure" 
+lab var m5_dbp2 "M5-1304-b. 2nd diastolic blood pressure"
+lab var m5_pr2 "M5-1304-c. 2nd pulse rate"
+lab var m5_sbp3 "M5-1305-a. 3rd systolic blood pressure"
+lab var m5_dbp3 "M5-1305-b. 3rd diastolic blood pressure"
+lab var m5_pr3 "M5-1305-c. 3rd pulse rate"
+lab var m5_anemiatest "M5-1306. Will you take the anemia test?" 
+lab var m5_hb_level "M5-1307. Hemoglobin level"
+lab var m5_baby_index_assess_1 "M5-1401-baby index. Index of the baby anthropometric measurement"
+lab var m5_baby_weight "M5-1401. Baby's weight in kilograms"
+lab var m5_baby_length "M5-1402. Baby's length in centimeters"
+lab var m5_baby_hc "M5-1403. Baby's head circumference in centimeters"
+lab var m5_n_baby_assess "M5-1401-baby-assessment. The number of babies whose anthropometric measurements being surveyed"
+lab var m5_end_comment "M5-end-comment. The comment at the end of interview"	
+	
+*===============================================================================
+	
+order m1_* m2_*, sequential
+
+order m1_* m2_* m3_* m4_*, sequential
+
+* Module 1:
+order country respondentid interviewer_id m1_date m1_start_time study_site facility_name ///
+      facility_name2 county* permission care_self enrollage dob language* language_oth* ///
+	  zone_live zone_live_other b5anc b6anc_first b7eligible m1_noconsent_why_ke ///
+	  mobile_phone flash
+order height_cm weight_kg bp_time_1_systolic bp_time_1_diastolic time_1_pulse_rate ///
+	  bp_time_2_systolic bp_time_2_diastolic time_2_pulse_rate bp_time_3_systolic ///
+	  bp_time_3_diastolic time_3_pulse_rate, after(m1_1223)
+	  
+order phq9a phq9b phq9c phq9d phq9e phq9f phq9g phq9h phq9i, after(m1_205e)
+order edd_chart_ke edd gest_age_baseline_ke, after(m1_803)
+order m1_1218_ke, after(m1_1218c_1)
+order m1_1218_other_total_ke, after(m1_1218f_1)
+order m1_1218_total_ke, after(m1_1218_other_total_ke)	
+	
+* Module 2:
+order m2_attempt_number* m2_attempt_number_other* m2_attempt_outcome* m2_resp_lang1* ///
+	  m2_resp_lang2* m2_resp_lang_other* m2_attempt_relationship* m2_attempt_relationship_other*, after(m1_end_time) 
+	  
+order m2_attempt_avail* m2_attempt_contact* m2_attempt_goodtime* m2_reschedule_resp* m2_completed_attempts* ///
+	  m2_consent_recording* m2_consent*, after(m2_attempt_relationship_r6)
+	  
+order m2_date* m2_start_time* m2_date_time* m2_time_start* m2_date_confirm* m2_interviewer* m2_enum* ///
+	  m2_site* m2_county* m2_maternal_death_reported* m2_date_of_maternal_death* ///
+	  m2_ga* m2_ga_estimate* gest_age_baseline* m2_hiv_status* m2_maternal_death_learn* m2_maternal_death_learn_other*, after(m2_consent_recording_r6)
+
+order m2_date_of_maternal_death_YN*, before(m2_date_of_maternal_death_r6)	  
+order m2_refused_why* m2_complete* m2_endtime*, after(m2_705_other_r6)
+order m2_phq2_ke*, after(m2_205b_r6)	
+
+ 	
+* Module 3:
+order m3_start_p1 m3_start_time m3_date m3_date_confirm m3_date_time m3_site  m3_datetime_rescheduled m3_birth_or_ended m3_birth_or_ended_provided m3_birth_or_ended_date,before(m3_ga1_ke)
+order m3_ga1_ke m3_ga2_ke m3_ga_final m3_weeks_from_outcome_ke m3_after2weeks_call_ke, after(m3_birth_or_ended_date)
+
+order m3_baby1_gender m3_baby2_gender, after(m3_303c)
+order m3_baby1_age m3_baby1_age_weeks m3_baby2_age_weeks, after(m3_baby2_gender)
+order m3_baby1_weight m3_baby2_weight m3_baby2_weight, after(m3_baby2_age_weeks)
+order m3_baby1_size m3_baby2_size m3_baby2_size, after(m3_baby2_weight)
+order m3_baby1_health m3_baby2_health, after(m3_baby2_size)
+order m3_baby1_feeding m3_baby1_feed_a m3_baby1_feed_b m3_baby1_feed_c m3_baby1_feed_d m3_baby1_feed_e m3_baby1_feed_f m3_baby1_feed_g m3_baby1_feed_h m3_baby1_feed_99, after(m3_baby2_health) 
+order m3_baby2_feeding m3_baby2_feed_a m3_baby2_feed_b m3_baby2_feed_c m3_baby2_feed_d m3_baby2_feed_e m3_baby2_feed_f m3_baby2_feed_g m3_baby2_feed_h m3_baby2_feed_99, after(m3_baby1_feed_99)
+order m3_breastfeeding m3_breastfeeding_2,after(m3_baby2_feed_99)
+order m3_baby1_born_alive1 m3_baby1_born_alive2 m3_baby2_born_alive1 m3_baby2_born_alive2, after(m3_breastfeeding_2)
+order m3_death_cause_baby1 m3_death_cause_baby1_other m3_death_cause_baby2 m3_death_cause_baby2_other m3_death_cause_baby3 m3_death_cause_baby4 m3_1201 m3_miscarriage m3_abortion m3_1202, after(m3_313d_baby2)
+order m3_consultation_1 m3_consultation_referral_1 m3_consultation1_reason m3_consultation1_reason_a m3_consultation1_reason_b m3_consultation1_reason_c m3_consultation1_reason_d m3_consultation1_reason_e  m3_consultation1_reason_96 m3_consultation1_reason_other, after(m3_402) 
+order m3_consultation_2 m3_consultation_referral_2 m3_consultation2_reason  m3_consultation2_reason_a m3_consultation2_reason_b m3_consultation2_reason_c m3_consultation2_reason_d m3_consultation2_reason_e m3_consultation2_reason_96 m3_consultation2_reason_other,after(m3_consultation1_reason_other) 
+order m3_consultation_3 m3_consultation_referral_3 m3_consultation3_reason  m3_consultation3_reason_a m3_consultation3_reason_b m3_consultation3_reason_c m3_consultation3_reason_d m3_consultation3_reason_e m3_consultation3_reason_96 m3_consultation3_reason_other,after(m3_consultation2_reason_other)
+
+order m3_baby1_sleep m3_baby2_sleep, after(m3_622c) 
+order m3_baby1_feed m3_baby2_feed, after(m3_baby2_sleep)
+order m3_baby1_breath m3_baby2_breath, after(m3_baby2_feed)
+order m3_baby1_stool m3_baby2_stool,after(m3_baby2_breath)
+order m3_baby1_mood m3_baby2_mood, after(m3_baby2_stool)
+order m3_baby1_skin m3_baby2_skin, after(m3_baby2_mood)
+order m3_baby1_interactivity m3_baby2_interactivity, after(m3_baby2_skin)
+
+order m3_baby1_issues m3_baby1_issues_a m3_baby1_issues_b m3_baby1_issues_c m3_baby1_issues_d m3_baby1_issues_e m3_baby1_issues_f m3_baby1_issues_98 m3_baby1_issues_99, after(m3_707_ke_unit)
+
+order m3_baby2_issues m3_baby2_issues_a m3_baby2_issues_b m3_baby2_issues_c m3_baby2_issues_d m3_baby2_issues_e m3_baby2_issues_f m3_baby2_issues_98 m3_baby2_issues_99, after(m3_baby1_issues_99)
+
+order m3_phq2_score, after(m3_801b)
+
+order m3_baby_meds_count, after(m3_902j_baby2_other)                    
+
+order m3_death_cause_baby1 m3_death_cause_baby1_other m3_death_cause_baby2 m3_death_cause_baby2_other m3_death_cause_baby3 m3_death_cause_baby4,after(m3_313d_baby2)
+
+order m3_endtime m3_duration, after(m3_1106) 
+
+order m3_num_alive_babies m3_num_dead_babies, after(m3_miscarriage)
+order m3_refused_why, after(m3_datetime_rescheduled)
+
+* Module 4:
+order m4_date m4_time m4_duration m4_interviewer respondentid m4_consent_recording m4_hiv_status m4_c_section m4_live_babies m4_date_delivery m4_weeks_delivery m4_number_of_babies m4_attempt_number m4_attempt_number_other m4_attempt_outcome m4_resp_language m4_resp_language_no m4_resp_language_no_oth m4_attempt_relationship m4_attempt_other  m4_attempt_avail m4_attempt_contact  m4_attempt_goodtime m4_resp_language m4_resp_language_no m4_resp_language_no_oth m4_maternal_death_reported m4_date_of_maternal_death m4_maternal_death_learn m4_maternal_death_learn_other m4_start m4_201a m4_baby1_health m4_baby1_feed_a m4_baby1_feed_b m4_baby1_feed_c m4_baby1_feed_d m4_baby1_feed_e m4_baby1_feed_f m4_baby1_feed_g m4_breastfeeding m4_baby1_sleep m4_baby1_feed  m4_baby1_breath m4_baby1_stool m4_baby1_mood m4_baby1_skin m4_baby1_interactivity m4_baby1_diarrhea m4_baby1_fever m4_baby1_lowtemp m4_baby1_illness m4_baby1_troublebreath m4_baby1_chestprob m4_baby1_troublefeed m4_baby1_convulsions m4_baby1_jaundice m4_206_none m4_baby1_otherprob m4_baby1_other m4_overallhealth m4_302a m4_302b m4_303a m4_303b m4_303c m4_303d m4_303e m4_303f m4_303g m4_303h m4_304 m4_305 m4_306 m4_307 m4_308 m4_309 m4_309_other m4_310 m4_401a m4_401b m4_402 m4_403a m4_403b m4_403c m4_404a m4_404a_other m4_404b m4_404b_other m4_404c m4_404c_other m4_405 m4_406a m4_406b m4_406c m4_406d m4_406e m4_406f m4_406g m4_406h m4_406i m4_406j m4_406k m4_406k_other m4_407 m4_408a m4_408b m4_408c m4_408d m4_408e m4_408f m4_408g m4_408h m4_408i m4_408j m4_408k m4_408k_other m4_409 m4_410a m4_410b m4_410c m4_410d m4_410e m4_410f m4_410g m4_410h m4_410i m4_410j m4_410k m4_410k_other m4_411a m4_411b m4_411c m4_412a m4_412a_unit m4_412b m4_412b_unit m4_412c m4_412c_unit m4_413 m4_413_other m4_501 m4_502 m4_baby1_601a m4_baby1_601b m4_baby1_601c m4_baby1_601d m4_baby1_601e m4_baby1_601f m4_baby1_601g m4_baby1_601h m4_baby1_601i m4_baby1_601i_other m4_602a m4_602b m4_602c m4_602d m4_602e m4_602f m4_602g m4_603_1a m4_603_1b m4_603_1c m4_603_1d  m4_603_1e m4_603_1f m4_603_1g m4_603_1h  m4_603_1h_other m4_701a m4_701b m4_701c m4_701d m4_701e m4_701f m4_701g m4_701h m4_701h_other m4_702 m4_703a m4_703b m4_703c m4_703d m4_703e m4_703f m4_703g m4_704a m4_704b m4_704c m4_801a m4_801b m4_801c m4_801d m4_801e m4_801f m4_801g m4_801h m4_801i m4_801j m4_801k m4_801l m4_801m m4_801n m4_801o m4_801p m4_801q m4_801r m4_801r_other m4_baby1_802a  m4_baby1_802b m4_baby1_802c m4_baby1_802d m4_baby1_802f m4_baby1_802g m4_baby1_802h m4_baby1_802i m4_baby1_802j m4_baby1_802j_other m4_baby1_802k m4_baby1_803a m4_baby1_803b  m4_baby1_803c m4_baby1_803d m4_baby1_803e m4_baby1_803f m4_baby1_803g m4_baby1_804 m4_804_other  m4_805 m4_901 m4_902a_amn m4_902b_amn m4_902c_amn m4_902d_amn m4_902e_amn m4_902e_oth m4_903 m4_904 m4_905a m4_905b m4_905c m4_905d m4_905e m4_905f m4_905g m4_905_other m4_conclusion_live_babies m4_place m4_refused_why m4_language m4_language_oth m4_reschedule_resp m4_unavailable_reschedule m4_reschedule_noavail m4_call_status, after(m3_refused_why)
+
+* Module 5:	
+
+*------------------------------------------------------------------------------*
+	
+	* STEP SIX: ORDER/SAVE DATA TO RECODED FOLDER
+
+	*save "$ke_data_final/eco_m1-m5_ke.dta", replace
+
+*===============================================================================
+
+
+*===============================================================================
