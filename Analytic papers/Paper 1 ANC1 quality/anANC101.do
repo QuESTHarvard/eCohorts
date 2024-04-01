@@ -12,19 +12,22 @@ global qualvarsET anc1bp anc1weight anc1height anc1muac anc1blood ///
 		tabstat  $qualvarsET if site==1, stat(mean count) col(stat) // Adama
 		tabstat anc1qual, by(site) stat(mean sd )
 		
-	* Table 2 Demog & health 		
+	* Table 1 Demog & health 		
 		summtab , contvars(enrollage ) catvars(second healthlit_corr young tertile marriedp ///
 		poorhealth depress  m1_dangersigns primipara preg_intent trimester) mean by(site) excel ///
-		excelname(Table2) sheetname(ETH_demog) replace 
+		excelname(Table1) sheetname(ETH_demog) replace 
 		
-	* Fig 3 risk factors		
+	* Fig 1 risk factors		
 		tabstat m1_anemic_11 chronic maln_underw overweight complic anyrisk, stat(mean count) col(stat)
 
 	* Table 3 Facility characteristics
 		summtab if tag==1, catvars(private facsecond ) contvars (sri_score total_staff ///
-		anc_mont beds) mean by(site) excel excelname(Table3) sheetname(ET) replace 
+		anc_mont beds) mean by(site) excel excelname(suppTable4) sheetname(ET) replace 
 		
-		
+		tabstat sri_score, by(sri_cat) stat(min max) col(stat)
+		tabstat total_staff_onc, by(staff_cat) stat(min max) col(stat)
+		tabstat anc_mont, by(vol_cat) stat(min max) col(stat)
+
 *------------------------------------------------------------------------------*/	
 * KENYA
 u "$user/$analysis/KEtmp.dta", clear
@@ -39,18 +42,22 @@ global qualvarsKE anc1bp anc1weight anc1height anc1muac anc1blood ///
 		tabstat  $qualvarsKE if site==1, stat(mean count) col(stat) // Kiambu
 		tabstat anc1qual, by(site) stat(mean sd)
 	
-	* Table 2 Demog & health 		
+	* Table 1 Demog & health 		
 		summtab , contvars(enrollage) catvars(second healthlit_corr young tertile marriedp ///
 		poorhealth depress  m1_dangersigns primipara preg_intent trimester) mean by(site) excel ///
-		excelname(Table2) sheetname(KEN_demog) replace 
+		excelname(Table1) sheetname(KEN_demog) replace 
 		
-	* Fig 3 risk factors		
+	* Fig 1 risk factors		
 		tabstat  anemic chronic maln_underw overweight complic anyrisk, stat(mean count) col(stat)
 
 		
 	* Table 3 Facility characteristics
 		summtab if tag==1, catvars(private facsecond ) contvars (sri_score total_staff ///
-		anc_mont beds) mean by(site) excel excelname(Table3) sheetname(KE) replace 
+		anc_mont beds) mean by(site) excel excelname(suppTable4) sheetname(KE) replace 
+
+		tabstat sri_score, by(sri_cat) stat(min max) col(stat)
+		tabstat total_staff_onc, by(staff_cat) stat(min max) col(stat)
+		tabstat anc_mont, by(vol_cat) stat(min max) col(stat)
 
 		
 *------------------------------------------------------------------------------*/		
@@ -67,17 +74,22 @@ global qualvarsZA anc1bp anc1weight anc1height anc1muac anc1blood ///
 		tabstat  $qualvarsZA if site==1, stat(mean count) col(stat) // uMhlathuze
 		tabstat anc1qual, by(site) stat(mean sd)
 		
-	* Table 2 Demog & health 		
+	* Table 1 Demog & health 		
 		summtab , contvars(enrollage) catvars(second healthlit_corr young tertile marriedp ///
 		poorhealth depress m1_dangersigns primipara preg_intent trimester) mean by(site) excel ///
-		excelname(Table2) sheetname(ZAF_demog) replace 
+		excelname(Table1) sheetname(ZAF_demog) replace 
 		
-	* Fig 3 risk factors		
+	* Fig 1 risk factors		
 		tabstat  anemic chronic maln_underw overweight complic anyrisk, stat(mean count) col(stat)
 		
 	* Table 3 Facility characteristics
 		summtab if tag==1,  contvars (sri_score total_staff ///
-		anc_mont beds) mean by(site) excel excelname(Table3) sheetname(ZA) replace 
+		anc_mont beds) mean by(site) excel excelname(suppTable4) sheetname(ZA) replace 
+		
+		tabstat sri_score, by(sri_cat) stat(min max) col(stat)
+		tabstat total_staff_onc, by(staff_cat) stat(min max) col(stat)
+		tabstat anc_mont, by(vol_cat) stat(min max) col(stat)
+
 
 *------------------------------------------------------------------------------*
 * INDIA	
@@ -92,17 +104,20 @@ global qualvarsIND anc1bp anc1weight anc1blood ///
 		tabstat  $qualvarsIND if urban==1, stat(mean count) col(stat) // Urban
 		tabstat anc1qual, by(state) stat(mean p50 sd)
 		
-		* Table 2 Demog & health 		
+		* Table 1 Demog & health 		
 		summtab , contvars(enrollage) catvars(second healthlit_corr young tertile marriedp ///
 		poorhealth depress  m1_dangersigns primipara preg_intent trimester) mean by(urban) excel ///
-		excelname(Table2) sheetname(IND_demog) replace 
+		excelname(Table1) sheetname(IND_demog) replace 
 		
-		* Fig 3 risk factors		
+		* Fig 1 risk factors		
 		tabstat  anemic chronic maln_underw overweight complic anyrisk, stat(mean count) col(stat)
 
 	
 	* Table 3 Facility characteristics
 		summtab if tag==1, catvars(facility_lvl ) contvars (sri_score total_staff ///
-		anc_mont beds) mean by(urban) excel excelname(Table3) sheetname(IN) replace 
+		anc_mont beds) mean by(urban) excel excelname(suppTable4) sheetname(IN) replace 
 
+		tabstat sri_score, by(sri_cat) stat(min max) col(stat)
+		tabstat total_staff_onc, by(staff_cat) stat(min max) col(stat)
+		tabstat anc_mont, by(vol_cat) stat(min max) col(stat)
 
