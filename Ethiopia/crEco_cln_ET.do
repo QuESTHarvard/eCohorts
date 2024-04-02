@@ -831,16 +831,16 @@ rename other_in_east_shewa404c m4_404c_other_1
 rename other_ourside_east_shew_3 m4_404c_other_2
 rename q405_pnc_visit1_m4 m4_405
 
-rename q406_reason_visit1_m4___1 m4_406_a
-rename q406_reason_visit1_m4___2 m4_406_b
-rename q406_reason_visit1_m4___3 m4_406_c
-rename q406_reason_visit1_m4___4 m4_406_d
-rename q406_reason_visit1_m4___5 m4_406_e
-rename q406_reason_visit1_m4___6 m4_406_f
-rename q406_reason_visit1_m4___7 m4_406_g
-rename q406_reason_visit1_m4___8 m4_406_h
-rename q406_reason_visit1_m4___9 m4_406_i
-rename q406_reason_visit1_m4___10 m4_406_j
+rename q406_reason_visit1_m4___1 m4_406a
+rename q406_reason_visit1_m4___2 m4_406b
+rename q406_reason_visit1_m4___3 m4_406c
+rename q406_reason_visit1_m4___4 m4_406d
+rename q406_reason_visit1_m4___5 m4_406e
+rename q406_reason_visit1_m4___6 m4_406f
+rename q406_reason_visit1_m4___7 m4_406g
+rename q406_reason_visit1_m4___8 m4_406h
+rename q406_reason_visit1_m4___9 m4_406i
+rename q406_reason_visit1_m4___10 m4_406j
 rename q406_reason_visit1_m4___96 m4_406_96
 rename q406_reason_visit1_m4___998 m4_406_998
 rename q406_reason_visit1_m4___999 m4_406_999
@@ -2423,7 +2423,7 @@ label values m4_404b m4_404a
 label values m4_404c m4_404a
 label values m4_405 m4_401a
 
-foreach var of varlist m4_406_a - m4_406_888  {
+foreach var of varlist m4_406a - m4_406_888  {
                  label values `var' m4_baby1_feed_a
           }
 
@@ -3922,7 +3922,7 @@ recode m4_905_1 m4_905_2 m4_905_3 m4_905_4 m4_905_5 m4_905_6 m4_905_96 (0 = .a) 
 *Qs about the number of consultation 
 recode m4_402 m4_403a m4_403b m4_403c m4_404a m4_404b   m4_404c  m4_405  m4_407 m4_409 m4_412a m4_412b m4_412c m4_501 m4_502 m4_503 (. = .a) if m4_401a == 0 
 
-recode m4_406_a  m4_406_b   m4_406_c   m4_406_d    m4_406_e   m4_406_f    m4_406_g     m4_406_h    m4_406_i m4_406_j m4_406_96 m4_406_998 m4_406_999 m4_406_888 m4_408_a m4_408_b m4_408_c m4_408_d m4_408_e m4_408_f m4_408_g m4_408_h m4_408_i m4_408_j m4_408_96 m4_408_998 m4_408_999 m4_408_888 m4_410_a m4_410_b m4_410_c m4_410_d m4_410_e m4_410_f m4_410_g m4_410_h m4_410_i m4_410_j m4_410_96 m4_410_998 m4_410_999 m4_410_888 (0 = .a) if m4_401a == 0 
+recode m4_406a  m4_406b   m4_406c   m4_406d    m4_406e   m4_406f    m4_406g     m4_406h    m4_406i m4_406j m4_406_96 m4_406_998 m4_406_999 m4_406_888 m4_408_a m4_408_b m4_408_c m4_408_d m4_408_e m4_408_f m4_408_g m4_408_h m4_408_i m4_408_j m4_408_96 m4_408_998 m4_408_999 m4_408_888 m4_410_a m4_410_b m4_410_c m4_410_d m4_410_e m4_410_f m4_410_g m4_410_h m4_410_i m4_410_j m4_410_96 m4_410_998 m4_410_999 m4_410_888 (0 = .a) if m4_401a == 0 
 * if they didn't have any consultations
 
 recode m4_403b m4_403c m4_404b m4_404c m4_407 m4_409 m4_412b m4_412c m4_502 m4_503 (. = .a) if m4_402 == 1
@@ -3970,9 +3970,9 @@ recode m4_baby3_deathcause_0 m4_baby3_deathcause_1 m4_baby3_deathcause_2 m4_baby
 recode  m4_baby3_deathcause_1 m4_baby3_deathcause_2 m4_baby3_deathcause_3 m4_baby3_deathcause_4 m4_baby3_deathcause_5 m4_baby3_deathcause_6 m4_baby3_deathcause_7 m4_baby3_deathcause_8 m4_baby3_deathcause_9 m4_baby3_deathcause_96   (0 = .r) if  m4_baby3_deathcause_999 == 1
 recode  m4_baby3_deathcause_1 m4_baby3_deathcause_2 m4_baby3_deathcause_3 m4_baby3_deathcause_4 m4_baby3_deathcause_5 m4_baby3_deathcause_6 m4_baby3_deathcause_7 m4_baby3_deathcause_8 m4_baby3_deathcause_9 m4_baby3_deathcause_96  (0 = .d) if  m4_baby3_deathcause_998 == 1
 
-recode  m4_406_a m4_406_b   m4_406_c   m4_406_d    m4_406_e   m4_406_f    m4_406_g     m4_406_h    m4_406_i m4_406_j m4_406_96 (0 = .d) if  m4_406_998 == 1
-recode  m4_406_a m4_406_b   m4_406_c   m4_406_d    m4_406_e   m4_406_f    m4_406_g     m4_406_h    m4_406_i m4_406_j m4_406_96 (0 = .r) if  m4_406_999 == 1
-recode  m4_406_a m4_406_b   m4_406_c   m4_406_d    m4_406_e   m4_406_f    m4_406_g     m4_406_h    m4_406_i m4_406_j m4_406_96 (0 = .d) if  m4_406_888 == 1
+recode  m4_406a m4_406b   m4_406c   m4_406d    m4_406e   m4_406f    m4_406g     m4_406h    m4_406i m4_406j m4_406_96 (0 = .d) if  m4_406_998 == 1
+recode  m4_406a m4_406b   m4_406c   m4_406d    m4_406e   m4_406f    m4_406g     m4_406h    m4_406i m4_406j m4_406_96 (0 = .r) if  m4_406_999 == 1
+recode  m4_406a m4_406b   m4_406c   m4_406d    m4_406e   m4_406f    m4_406g     m4_406h    m4_406i m4_406j m4_406_96 (0 = .d) if  m4_406_888 == 1
 
 recode m4_408_a m4_408_b m4_408_c m4_408_d m4_408_e m4_408_f m4_408_g m4_408_h m4_408_i m4_408_j m4_408_96 (0 = .d) if  m4_408_998 == 1
 recode m4_408_a m4_408_b m4_408_c m4_408_d m4_408_e m4_408_f m4_408_g m4_408_h m4_408_i m4_408_j m4_408_96 (0 = .r) if  m4_408_999 == 1
@@ -5481,25 +5481,25 @@ label variable m4_404c_other_2 "404C-other.2. Specify other facility for the 3rd
 
 label variable m4_405 "405. Was the 1st new consultation for a routine or regular checkup after the delivery?"
 
-label variable m4_406_a "406. Was this 1st consultation for any of the following? Please tell me all that apply."
+label variable m4_406a "406. Was this 1st consultation for any of the following? Please tell me all that apply."
 
-label variable m4_406_b "406. Was this 1st consultation for any of the following? Please tell me all that apply."
+label variable m4_406b "406. Was this 1st consultation for any of the following? Please tell me all that apply."
 
-label variable m4_406_c "406. Was this 1st consultation for any of the following? Please tell me all that apply."
+label variable m4_406c "406. Was this 1st consultation for any of the following? Please tell me all that apply."
 
-label variable m4_406_d "406. Was this 1st consultation for any of the following? Please tell me all that apply."
+label variable m4_406d "406. Was this 1st consultation for any of the following? Please tell me all that apply."
 
-label variable m4_406_e "406. Was this 1st consultation for any of the following? Please tell me all that apply."
+label variable m4_406e "406. Was this 1st consultation for any of the following? Please tell me all that apply."
 
-label variable m4_406_f "406. Was this 1st consultation for any of the following? Please tell me all that apply."
+label variable m4_406f "406. Was this 1st consultation for any of the following? Please tell me all that apply."
 
-label variable m4_406_g "406. Was this 1st consultation for any of the following? Please tell me all that apply."
+label variable m4_406g "406. Was this 1st consultation for any of the following? Please tell me all that apply."
 
-label variable m4_406_h "406. Was this 1st consultation for any of the following? Please tell me all that apply."
+label variable m4_406h "406. Was this 1st consultation for any of the following? Please tell me all that apply."
 
-label variable m4_406_i "406. Was this 1st consultation for any of the following? Please tell me all that apply."
+label variable m4_406i "406. Was this 1st consultation for any of the following? Please tell me all that apply."
 
-label variable m4_406_j "406. Was this 1st consultation for any of the following? Please tell me all that apply."
+label variable m4_406j "406. Was this 1st consultation for any of the following? Please tell me all that apply."
 
 label variable m4_406_96 "406. Was this 1st consultation for any of the following? Please tell me all that apply."
 
