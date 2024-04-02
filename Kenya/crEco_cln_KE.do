@@ -1753,140 +1753,108 @@ use "$ke_data/Module 3/240325_KEMRI_Module_3_no_pii_4-2.dta"
 *drop ineligible pids:
 drop if consent !=1
 
-drop today_date availability full_name best_phone_reconfirm best_phone_resp confirm_phone  baby_repeat_count baby_index_1 baby_index_2 baby_list baby_alive_list baby_died_list baby_bornalive_list gest_age_baseline date_survey_baseline gest_age_today gest_age_delivery gest_age_ad_less28 check_continue baby_list_checks baby_repeat_checks_count baby_index_checks_1 baby_name_checks_1 baby_label_checks_1 baby_index_checks_2 baby_name_checks_2 baby_label_checks_2 baby_list_issues baby_repeat_issues_count baby_index_issues_1 baby_name_issues_1 baby_label_issues_1 baby_index_issues_2 baby_name_issues_2 baby_label_issues_2 baby_list_meds baby_index_meds_1 baby_name_meds_1 baby_label_meds_1 baby_index_meds_2 baby_name_meds_2 baby_label_meds_2 date_mod4 call_status end_comment enum_name_mod1 formdef_version key isvalidated gest_age_ad gest_age_ad_less20 language_label
+drop today_date availability gest_age_baseline date_survey_baseline gest_age_today gest_age_delivery ///
+	 gest_age_ad_less28 check_continue date_mod4 call_status resp_language resp_available resp_available ///
+	 still_pregnant survey1no_maternal_death1consent v258 v619 v620 v621 v622 name_confirm outcome_text ///
+	 other_facility_before_repeat_cou other_facility_before_repeat_ind
 
-drop text_audit section7_audio sd_sound_level resp_language resp_language_no resp_language_no_oth resp_other resp_other_oth resp_other_name resp_available resp_available_when reschedule_date_resp resp_worker unavailable_reschedule reschedule_full_noavail still_pregnant registered_phone survey1no_maternal_death1consent submissiondate reschedule_resp
-
-drop q_1004_rand_order_count q_1004_rand_1 q_1004_rand_2 q_1004_rand_3 q_1004_rand_4 q_1004_rand_5 q_1004_rand_6 q_1004_rand_7 q_1004_order_count
-
-drop v258 v619 v620 v621 v622 v238 v599 v600 v601 v602 v584 v585 v586 v587 v583 v581 v582 v520 ///
-v521 v522 v523 v519 v524 // SS: confirm what these vars are?
-
-drop mean_sound_level min_sound_level max_sound_level pct_sound_between0_60 pct_sound_above80 pct_conversation phone1 phone2 phone3 phone4 phone_combi phone_noavail name_confirm name_full outcome_text name_baby1 name_baby2 name_baby3 name_baby4 name_baby_alive1 name_baby_alive2 name_baby_alive3 name_baby_alive4 name_baby_bornalive1 name_baby_bornalive2 name_baby_bornalive3 name_baby_bornalive4 new_consultations_count new_consultations_index_1 new_consultations_index_2 new_consultations_index_3 other_facility_before_repeat_cou other_facility_before_repeat_ind mobile_money_name mobile_prov phone_used phone_used_oth 
-
-drop q_902_o_1 q_901r_oth q_804_o q_801a_calc q_801b_calc q_107_trim q_1104_o q_314_o_1 q_1102f_oth q_605c_oth q_519_oth q_101 q_103 q_104_calc q_105 q_106 q_314_1 q_314_2 q_603_note q_704_note q_801_note q_1102b_cost q_1102c_cost q_1102d_cost q_1102e_cost q_1102f_cost q_1102a_cost
+drop q_103
 
 *------------------------------------------------------------------------------*	
 	* STEP ONE: RENAME VARAIBLES
 	
 rename q_104 respondentid	
-rename refused_why m3_refused_why
 	
+* SS 4/2: What happened to these vars?	
 * Variables from M2 in this dataset:
 * q_110 = m2_date_of_maternal_death
-rename q_110 m2_date_of_maternal_death
+*rename q_110 m2_date_of_maternal_death
 * q_107 = m2_ga
-rename q_107 m2_ga
+*rename q_107 m2_ga
 * q_103 = m2_time_start (dropped)
 * q_101 = m2_interviewer (dropped)
-rename q_104 respondentid 
 * q_105 = respondent first name (dropped)
 * q_106 = respondent last name (dropped)
 * q_108 = m2_hiv_status
-encode q_108, gen(m2_hiv_status)
-drop q_108
+rename q_108 m2_hiv_status
 * q_109 = m2_maternal_death_reported
-rename q_109 m2_maternal_death_reported
+*rename q_109 m2_maternal_death_reported
 * q_111 = m2_maternal_death_learn
-rename q_111 m2_maternal_death_learn
+*rename q_111 m2_maternal_death_learn
 * q_111_oth = m2_maternal_death_learn_other
-rename q_111_oth m2_maternal_death_learn_other
+*rename q_111_oth m2_maternal_death_learn_other
 * q_202 = m2_202
 rename q_202 m2_202
 * q_601 = m2_601
-rename q_601 m2_601	
+*rename q_601 m2_601	
 	
 rename call_response m3_attempt_outcome	
-rename enum_name m3_enum_name
-rename county m3_county
+*rename county m3_county
 rename intro_yn m3_consent_recording
 	
 rename (consent q_302a q_302b gest_age_delivery_final) ///
        (m3_start_p1 m3_birth_or_ended m3_birth_or_ended_provided m3_ga_final)
 	   
-rename reschedule_noavail m3_datetime_rescheduled
+*rename reschedule_noavail m3_datetime_rescheduled
 	    
 rename confirm_gestational m3_ga1_ke 
 	   
-encode weeks_from_outcome,gen(m3_weeks_from_outcome_ke)   
-drop weeks_from_outcome
-encode after2weeks_call,gen(m3_after2weeks_call_ke)
-drop after2weeks_call
+rename weeks_from_outcome m3_weeks_from_outcome_ke
+
+rename after2weeks_call m3_after2weeks_call_ke
 	   
 rename q_308_1 m3_baby1_weight
 rename q_308_2 m3_baby2_weight 
 rename (q_307_2 q_309_1 q_309_2) (m3_baby2_size m3_baby1_health m3_baby2_health)
  
-replace q_310a_1_1 = "No" if q_310a_1_1 == "0"
-replace q_310a_1_1 = "Yes" if q_310a_1_1 == "1"
+*replace q_310a_1_1 = "No" if q_310a_1_1 == "0"
+*replace q_310a_1_1 = "Yes" if q_310a_1_1 == "1"
 
-encode q_310a_1_1,gen(m3_baby1_feed_a)
-drop q_310a_1_1
-encode q_310a_2_1,gen(m3_baby1_feed_b)
-drop q_310a_2_1
-encode q_310a_3_1,gen(m3_baby1_feed_c)
-drop q_310a_3_1
-encode q_310a_4_1,gen(m3_baby1_feed_d)
-drop q_310a_4_1
-encode q_310a_5_1,gen(m3_baby1_feed_e)
-drop q_310a_5_1
-encode q_310a_6_1,gen(m3_baby1_feed_f)
-drop q_310a_6_1
-encode q_310a_7_1,gen(m3_baby1_feed_g)
-drop q_310a_7_1
-encode q_310a_8_1,gen(m3_baby1_feed_h)
-drop q_310a_8_1
-encode q_310a__99_1,gen(m3_baby1_feed_99)
-drop q_310a__99_1
+rename q_310a_1_1 m3_baby1_feed_a
+rename q_310a_2_1 m3_baby1_feed_b
+rename q_310a_3_1 m3_baby1_feed_c
+rename q_310a_4_1 m3_baby1_feed_d
+rename q_310a_5_1 m3_baby1_feed_e
+rename q_310a_6_1 m3_baby1_feed_f
+rename q_310a_7_1 m3_baby1_feed_g
+rename q_310a_8_1 m3_baby1_feed_h
+rename q_310a__99_1 m3_baby1_feed_99
 
-encode q_310a_1_2,gen(m3_baby2_feed_a)
-drop q_310a_1_2
-encode q_310a_2_2,gen(m3_baby2_feed_b)
-drop q_310a_2_2
-encode q_310a_3_2,gen(m3_baby2_feed_c)
-drop q_310a_3_2
-encode q_310a_4_2,gen(m3_baby2_feed_d)
-drop q_310a_4_2
-encode q_310a_5_2,gen(m3_baby2_feed_e)
-drop q_310a_5_2
-encode q_310a_6_2,gen(m3_baby2_feed_f)
-drop q_310a_6_2
-encode q_310a_7_2,gen(m3_baby2_feed_g)
-drop q_310a_7_2
-encode q_310a_8_2,gen(m3_baby2_feed_h)
-drop q_310a_8_2
-encode q_310a__99_2,gen(m3_baby2_feed_99)
-drop q_310a__99_2
+rename q_310a_1_2 m3_baby2_feed_a
+rename q_310a_2_2 m3_baby2_feed_b
+rename q_310a_3_2 m3_baby2_feed_c
+rename q_310a_4_2 m3_baby2_feed_d
+rename q_310a_5_2 m3_baby2_feed_e
+rename q_310a_6_2 m3_baby2_feed_f
+rename q_310a_7_2 m3_baby2_feed_g
+rename q_310a_8_2 m3_baby2_feed_h
+rename q_310a__99_2 m3_baby2_feed_99
 
 rename q_310a_1 m3_baby1_feeding
 rename q_310a_2 m3_baby2_feeding
 
 rename (q_310b_1 q_310b_2) (m3_breastfeeding m3_breastfeeding_2)
 
-rename (q_312_1 q_312a_1 q_312_2 q_312a_2 q_313a_1 q_313b_1 q_313b_unit_1 q_313a_2 q_313b_2 ///
-		q_313b_unit_2 q_314_oth_1 q_314_oth_2 q_1201 ///
-		q_1202 q_1203 q_1204) (m3_baby1_born_alive1 m3_baby1_born_alive2 m3_baby2_born_alive1 ///
-		m3_baby2_born_alive2 m3_313a_baby1 m3_313c_baby1 m3_313d_baby1 m3_313a_baby2 ///
+rename (q_312_1 q_312a_1 q_312_2 q_313a_1 q_313b_1 q_313b_unit_1 q_313a_2 q_313b_2 ///
+		q_313b_unit_2 q_314_oth_1 q_1201 ///
+		q_1202) (m3_baby1_born_alive1 m3_baby1_born_alive2 m3_baby2_born_alive1 ///
+		m3_313a_baby1 m3_313c_baby1 m3_313d_baby1 m3_313a_baby2 ///
 		m3_313c_baby2 m3_313d_baby2 m3_death_cause_baby1_other /// 
-		m3_death_cause_baby2_other m3_1201 m3_1202 m3_1203 m3_1204)
-		
-		
-encode baby_death1,gen(m3_death_cause_baby1)	
-drop baby_death1
-encode baby_death2, gen(m3_death_cause_baby2)	
-drop baby_death2
-		
-rename (baby_death3 baby_death4) (m3_death_cause_baby3 m3_death_cause_baby4)
+		m3_1201 m3_1202)
+				
+rename q_314_1 m3_death_cause_baby1
+rename q_314_2 m3_death_cause_baby2	
+
+*rename (baby_death3 baby_death4) (m3_death_cause_baby3 m3_death_cause_baby4)
 
 rename miscarriage m3_miscarriage		
 rename abortion m3_abortion
 rename alive_babies m3_num_alive_babies
 rename dead_babies m3_num_dead_babies
 		
-rename (q_401 q_402 q_403_1 q_404_1 q_405_oth_1) (m3_401 m3_402 m3_consultation_1 m3_consultation_referral_1 m3_consultation1_reason_other)	
+rename (q_401 q_402 q_403_1 q_404_1) (m3_401 m3_402 m3_consultation_1 m3_consultation_referral_1)	
 rename (q_403_2 q_404_2 q_405_oth_2) (m3_consultation_2 m3_consultation_referral_2 m3_consultation2_reason_other)
-rename (q_403_3 q_404_3 q_405_oth_3) ///
-	   (m3_consultation_3 m3_consultation_referral_3 m3_consultation3_reason_other)	
+rename q_403_3 m3_consultation_3  // SS 4-2: q_405_oth_1 and q_405_oth_3 dropped? are they dropping vars with no obs?
 
 encode q_405_1,gen(m3_consultation1_reason)
 drop q_405_1
@@ -2169,7 +2137,7 @@ drop q_1004h_1 q_1004h_2 q_1004h_3 q_1004h_4 q_1004h_5 q_1004h_6 q_1004h_7
 rename facility_name m3_site
 rename date_confirm m3_date_confirm
 rename q_102 m3_date 
-rename starttime m3_start_time
+rename starttime m3_start_time // SS: confirm if I should use "q_103" for the start time instead
 rename time_start_full m3_date_time
 rename q_302 m3_birth_or_ended_date
 rename gestational_update m3_ga2_ke
@@ -2271,7 +2239,7 @@ label define m3_phq2_score 1 "1" 2 "2" 3 "3" 4 "4" 5 "5", modify
 	   * Notes: m3_412g_2_other is the only "g other" that is string
 recode m3_303a m3_303b m3_baby1_gender m3_baby1_health m3_breastfeeding m3_baby1_born_alive1 ///
 	   m3_baby1_born_alive2 m3_303c m3_baby2_gender m3_baby2_health m3_breastfeeding_2 ///
-	   m3_baby2_born_alive1 m3_baby2_born_alive2 m3_401 m3_consultation_1 m3_consultation_referral_1 ///
+	   m3_baby2_born_alive1 m3_401 m3_consultation_1 m3_consultation_referral_1 ///
 	   m3_412a_1_ke m3_412b_1_ke m3_412c_1_ke m3_412d_1_ke m3_412e_1_ke m3_412f_1_ke m3_412g_1_ke ///
 	   m3_412g_1_other m3_412g_3_other m3_412i_1_ke ///
 	   m3_consultation_2 m3_consultation_referral_2 m3_412a_2_ke m3_412b_2_ke m3_412c_2_ke m3_412d_2_ke m3_412e_2_ke ///
@@ -2290,12 +2258,12 @@ recode m3_303a m3_303b m3_baby1_gender m3_baby1_health m3_breastfeeding m3_baby1
 	   m3_902g_baby1 m3_902h_baby1 m3_902i_baby1 m3_902j_baby1 m3_902a_baby2 m3_902b_baby2 m3_902c_baby2 ///
 	   m3_902d_baby2 m3_902e_baby2 m3_902f_baby2 m3_902g_baby2 m3_902h_baby2 m3_902i_baby2 m3_1001 ///
 	   m3_1002 m3_1003 m3_1004a m3_1005a m3_1005b m3_1005c m3_1005d m3_1005e m3_1005f m3_1005g m3_1005h ///
-	   m3_1006a m3_1006b m3_1006c m3_1007a m3_1007b m3_1007c m3_1101 m3_1106 m3_1201 m3_1202 m3_1203 ///
-	   m3_1204 m3_1102a_amt m3_1102b_amt m3_1102c_amt m3_1102d_amt m3_1102e_amt m3_1102f_amt (-99 = .r)
+	   m3_1006a m3_1006b m3_1006c m3_1007a m3_1007b m3_1007c m3_1101 m3_1106 m3_1201 m3_1202 ///
+	   m3_1102a_amt m3_1102b_amt m3_1102c_amt m3_1102d_amt m3_1102e_amt m3_1102f_amt (-99 = .r)
 
 recode m3_303a m3_baby1_gender m3_baby1_weight m3_baby2_weight m3_baby1_born_alive1 ///
 	   m3_baby1_born_alive2 m3_baby2_gender m3_baby2_weight m3_baby2_born_alive1 ///
-	   m3_baby2_born_alive2 m3_401 m3_consultation_1 m3_consultation_referral_1 ///
+	   m3_401 m3_consultation_1 m3_consultation_referral_1 ///
 	   m3_412a_1_ke m3_412b_1_ke m3_412c_1_ke m3_412d_1_ke m3_412e_1_ke m3_412f_1_ke m3_412g_1_ke ///
 	   m3_412g_1_other m3_412g_3_other m3_412i_1_ke ///
 	   m3_consultation_2 m3_consultation_referral_2 m3_412a_2_ke m3_412b_2_ke m3_412c_2_ke m3_412d_2_ke ///
@@ -2314,7 +2282,7 @@ recode m3_303a m3_baby1_gender m3_baby1_weight m3_baby2_weight m3_baby1_born_ali
 	   m3_902f_baby1 m3_902g_baby1 m3_902h_baby1 m3_902i_baby1 m3_902j_baby1 m3_902a_baby2 m3_902b_baby2 ///
 	   m3_902d_baby2 m3_902e_baby2 m3_902f_baby2 m3_902g_baby2 m3_902h_baby2 m3_902i_baby2 m3_1002 ///
 	   m3_1003 m3_1005a m3_1005b m3_1005c m3_1005d m3_1005e m3_1005f m3_1005g m3_1005h m3_1006a ///
-	   m3_1006b m3_1006c m3_1007a m3_1007b m3_1007c m3_1101 m3_1106 m3_1201 m3_1203 m3_614_ke ///
+	   m3_1006b m3_1006c m3_1007a m3_1007b m3_1007c m3_1101 m3_1106 m3_1201 m3_614_ke ///
 	   m3_616c_1 m3_1102a_amt m3_1102b_amt m3_1102c_amt m3_1102d_amt m3_1102e_amt m3_1102f_amt (-98 = .d)	 
 
 * SS: confirm m3_ga2_ke 999 = .d	   
@@ -2359,24 +2327,24 @@ recode m3_baby1_born_alive1 (. = .a) if m3_303b !=1
 recode m3_baby1_born_alive2  (. = .a) if m3_303b !=1
 
 recode m3_baby2_born_alive1 (. = .a) if m3_303c !=2
-recode m3_baby2_born_alive2 (. = .a) if m3_303c !=2
+*recode m3_baby2_born_alive2 (. = .a) if m3_303c !=2
 
 recode m3_313a_baby1 m3_313c_baby1 m3_313d_baby1 m3_death_cause_baby1 (. = .a) if m3_303b !=0 | m3_baby1_born_alive1 !=0 | m3_baby1_born_alive2 ==0
 
 replace m3_death_cause_baby1_other = ".a" if m3_death_cause_baby1 !=1
 
-recode m3_313a_baby2 m3_313c_baby2 m3_313d_baby2 m3_death_cause_baby2 (. = .a) if m3_303c !=0 | m3_baby2_born_alive1 !=0 | m3_baby2_born_alive2 ==0
+recode m3_313a_baby2 m3_313c_baby2 m3_313d_baby2 m3_death_cause_baby2 (. = .a) if m3_303c !=0 | m3_baby2_born_alive1 !=0 //| m3_baby2_born_alive2 ==0
 
 *replace m3_death_cause_baby2_other = ".a" if m3_death_cause_baby2 !=1 // numeric bc of 0 obs
 
 recode m3_1201 (. = .a) if m3_abortion != "1"
 recode m3_1202 (. = .a) if m3_1201 !=1
-recode m3_1203 (. = .a) if m3_abortion != "1"
-recode m3_1204 (. = .a) if m3_1203 !=1
+*recode m3_1203 (. = .a) if m3_abortion != "1"
+*recode m3_1204 (. = .a) if m3_1203 !=1
 
 recode m3_401 (. = .a) if (m3_303b !=1 & m3_303c !=1) |  ///
 						  (m3_baby1_born_alive1 !=1 & m3_baby1_born_alive2!=1) | ///
-						  (m3_baby2_born_alive1 !=1 & m3_baby2_born_alive2 !=1)
+						  (m3_baby2_born_alive1 !=1 //& m3_baby2_born_alive2 !=1)
 
 recode m3_402 (. = .a) if m3_401 !=1 
 
@@ -2546,7 +2514,7 @@ recode m3_614_ke m3_614_ke_unit (. = .a) if m3_613 !=1
 
 recode m3_615a (. = .a) if m3_501 !=1 | (m3_baby1_born_alive1 !=1 | m3_baby1_born_alive2 !=1)
 
-recode m3_615b (. = .a) if m3_501 !=1 | (m3_baby2_born_alive1 !=1 | m3_baby2_born_alive2 !=1)
+recode m3_615b (. = .a) if m3_501 !=1 | (m3_baby2_born_alive1 !=1) //| m3_baby2_born_alive2 !=1)
 
 recode m3_616c_1 m3_616c_1_unit (. = .a) if m3_615a !=1
 
@@ -2554,11 +2522,11 @@ recode m3_616c_2 m3_616c_2_unit (. = .a) if m3_615b !=1
 
 recode m3_617a (. = .a) if m3_501 !=1 | m3_baby1_born_alive1 !=1 | m3_baby1_born_alive2 !=1
 
-recode m3_617b (. = .a) if m3_501 !=1 | m3_baby2_born_alive1 !=1 | m3_baby2_born_alive2 !=1
+recode m3_617b (. = .a) if m3_501 !=1 | m3_baby2_born_alive1 !=1 //| m3_baby2_born_alive2 !=1
 
-recode m3_618a_1 (. = .a) if m3_501 !=1 | m3_baby1_born_alive1 !=1 | m3_baby1_born_alive2 !=1
+recode m3_618a_1 (. = .a) if m3_501 !=1 | m3_baby1_born_alive1 !=1 //| m3_baby1_born_alive2 !=1
 
-recode m3_618a_2 (. = .a) if m3_501 !=1 | m3_baby2_born_alive1 !=1 | m3_baby2_born_alive2 !=1
+recode m3_618a_2 (. = .a) if m3_501 !=1 | m3_baby2_born_alive1 !=1 //| m3_baby2_born_alive2 !=1
 
 recode m3_618b_1 (. = .a) if m3_618a_1 !=1
 
@@ -2610,7 +2578,7 @@ recode m3_baby1_issues_a m3_baby1_issues_b m3_baby1_issues_c m3_baby1_issues_d m
 	   
 recode m3_baby2_issues_a m3_baby2_issues_b m3_baby2_issues_c m3_baby2_issues_d m3_baby2_issues_e ///
 	   m3_baby2_issues_f m3_baby2_issues_98 m3_baby2_issues_99 (. = .a) if ///
-	   m3_baby2_born_alive1 !=1 | m3_baby2_born_alive2 !=1
+	   m3_baby2_born_alive1 !=1 //| m3_baby2_born_alive2 !=1
 
 recode m3_708_oth_1 (.=.a) if bornalive_babies == "0" | bornalive_babies == "" 
 
@@ -2670,7 +2638,7 @@ recode m3_902j_baby1 (. = .a) if  m3_303b !=1 | m3_baby1_born_alive1 !=1 | m3_ba
 
 replace m3_902j_baby1_other = ".a" if m3_902j_baby1 !=1
 
-recode m3_902j_baby2 (. = .a) if m3_303c !=1 | m3_baby2_born_alive1 !=1 | m3_baby2_born_alive2 !=1
+recode m3_902j_baby2 (. = .a) if m3_303c !=1 | m3_baby2_born_alive1 !=1 //| m3_baby2_born_alive2 !=1
 
 replace m3_902j_baby2_other = ".a"  if m3_902j_baby2 !=1 
 
@@ -2765,7 +2733,7 @@ lab var m3_breastfeeding_2 "310b. As of today, how confident do you feel about b
 lab var m3_baby1_born_alive1 "312.I am very sorry to hear this. I hope that you will find the strength to deal with that event. If it's okay with you, I would like to ask a few more questions about the baby. Was the 1st baby born alive?"
 lab var m3_baby1_born_alive2 "312a.Did the 1st baby cry, make any movement, sound, or effort to breathe, or show any other signs of life even if for a very short time?"
 lab var m3_baby2_born_alive1 "312.I am very sorry to hear this. I hope that you will find the strength to deal with that event. If it's okay with you, I would like to ask a few more questions about the baby. Was the 2nd baby born alive?"
-lab var m3_baby2_born_alive2 "312a.Did the 2nd baby cry, make any movement, sound, or effort to breathe, or show any other signs of life even if for a very short time?"
+*lab var m3_baby2_born_alive2 "312a.Did the 2nd baby cry, make any movement, sound, or effort to breathe, or show any other signs of life even if for a very short time?"
 lab var m3_313a_baby1 "313a. On what day did the 1st baby baby die (i.e. the date of death)?"
 lab var m3_313c_baby1 "313c. After how many days or hours did the baby die?"   
 lab var m3_313d_baby1 "313d. The unit of time."
@@ -2775,7 +2743,7 @@ lab var m3_313d_baby2 "313d. The unit of time."
 lab var m3_death_cause_baby1 "314. What were you told was the cause of death for the 1st baby, or were you not told?"
 lab var m3_death_cause_baby1_other "314-Other-1. Specify the cause of death for the 1st baby"		
 lab var m3_death_cause_baby2 "314. What were you told was the cause of death for the second baby, or were you not told?"
-lab var m3_death_cause_baby2_other "314-Other-2. Specify the cause of death for the second baby"
+*lab var m3_death_cause_baby2_other "314-Other-2. Specify the cause of death for the second baby"
 
 lab var m3_401 "401. Before we talk about the delivery, I would like to ask about any additional health care you may have received since you last spoke to us and BEFORE the delivery. We are interested in ALL NEW healthcare consultations that you may have had for yourself between the time of the last survey and the delivery. Since you last spoke to us, did you have any new healthcare consultations for yourself before the delivery?"
 lab var m3_402 "402. How many new healthcare consultations did you have?"
@@ -3067,8 +3035,8 @@ lab var m3_1105_other "1105-Other. Other specify"
 lab var m3_1106 "1106. To conclude this survey, overall, please tell me how satisfied you are with the health services you received during labor and delivery?" 
 lab var m3_1201 "1201. Im sorry to hear you had a miscarriage. If its ok with you I would like to ask a few more questions. When the misrriage occurred, did you go to a health facility for follow-up?"
 lab var m3_1202 "1202. Overall, how would you rate the quality of care that you received for your miscarriage?"
-lab var m3_1203 "1203. Did you go to a health facility to receive this abortion?"
-lab var m3_1204 "1204. Overall, how would you rate the quality of care that you received for your abortion?"
+*lab var m3_1203 "1203. Did you go to a health facility to receive this abortion?" // SS: why was this question dropped?
+*lab var m3_1204 "1204. Overall, how would you rate the quality of care that you received for your abortion?" // SS: why was this question dropped?
 lab var m3_endtime "Time of interview ended"
 
 *------------------------------------------------------------------------------*
@@ -3128,8 +3096,8 @@ order m3_baby1_health m3_baby2_health, after(m3_baby2_size)
 order m3_baby1_feeding m3_baby1_feed_a m3_baby1_feed_b m3_baby1_feed_c m3_baby1_feed_d m3_baby1_feed_e m3_baby1_feed_f m3_baby1_feed_g m3_baby1_feed_h m3_baby1_feed_99, after(m3_baby2_health) 
 order m3_baby2_feeding m3_baby2_feed_a m3_baby2_feed_b m3_baby2_feed_c m3_baby2_feed_d m3_baby2_feed_e m3_baby2_feed_f m3_baby2_feed_g m3_baby2_feed_h m3_baby2_feed_99, after(m3_baby1_feed_99)
 order m3_breastfeeding m3_breastfeeding_2,after(m3_baby2_feed_99)
-order m3_baby1_born_alive1 m3_baby1_born_alive2 m3_baby2_born_alive1 m3_baby2_born_alive2, after(m3_breastfeeding_2)
-order m3_death_cause_baby1 m3_death_cause_baby1_other m3_death_cause_baby2 m3_death_cause_baby2_other m3_death_cause_baby3 m3_death_cause_baby4 m3_1201 m3_miscarriage m3_abortion m3_1202, after(m3_313d_baby2)
+order m3_baby1_born_alive1 m3_baby1_born_alive2 m3_baby2_born_alive1, after(m3_breastfeeding_2)
+order m3_death_cause_baby1 m3_death_cause_baby1_other m3_death_cause_baby2 m3_death_cause_baby3 m3_death_cause_baby4 m3_1201 m3_miscarriage m3_abortion m3_1202, after(m3_313d_baby2)
 order m3_consultation_1 m3_consultation_referral_1 m3_consultation1_reason m3_consultation1_reason_a m3_consultation1_reason_b m3_consultation1_reason_c m3_consultation1_reason_d m3_consultation1_reason_e  m3_consultation1_reason_96 m3_consultation1_reason_other, after(m3_402) 
 order m3_consultation_2 m3_consultation_referral_2 m3_consultation2_reason  m3_consultation2_reason_a m3_consultation2_reason_b m3_consultation2_reason_c m3_consultation2_reason_d m3_consultation2_reason_e m3_consultation2_reason_96 m3_consultation2_reason_other,after(m3_consultation1_reason_other) 
 order m3_consultation_3 m3_consultation_referral_3 m3_consultation3_reason  m3_consultation3_reason_a m3_consultation3_reason_b m3_consultation3_reason_c m3_consultation3_reason_d m3_consultation3_reason_e m3_consultation3_reason_96 m3_consultation3_reason_other,after(m3_consultation2_reason_other)
@@ -3150,14 +3118,11 @@ order m3_phq2_score, after(m3_801b)
 
 order m3_baby_meds_count, after(m3_902j_baby2_other)                    
 
-order m3_death_cause_baby1 m3_death_cause_baby1_other m3_death_cause_baby2 m3_death_cause_baby2_other m3_death_cause_baby3 m3_death_cause_baby4,after(m3_313d_baby2)
+order m3_death_cause_baby1 m3_death_cause_baby1_other m3_death_cause_baby2 m3_death_cause_baby3 m3_death_cause_baby4,after(m3_313d_baby2)
 
 order m3_endtime m3_duration, after(m3_1106) 
 
 order m3_num_alive_babies m3_num_dead_babies, after(m3_miscarriage)
-
-order m3_refused_why, after(m3_datetime_rescheduled)
-
 
 *------------------------------------------------------------------------------*
 	
@@ -4484,8 +4449,8 @@ order m3_baby1_health m3_baby2_health, after(m3_baby2_size)
 order m3_baby1_feeding m3_baby1_feed_a m3_baby1_feed_b m3_baby1_feed_c m3_baby1_feed_d m3_baby1_feed_e m3_baby1_feed_f m3_baby1_feed_g m3_baby1_feed_h m3_baby1_feed_99, after(m3_baby2_health) 
 order m3_baby2_feeding m3_baby2_feed_a m3_baby2_feed_b m3_baby2_feed_c m3_baby2_feed_d m3_baby2_feed_e m3_baby2_feed_f m3_baby2_feed_g m3_baby2_feed_h m3_baby2_feed_99, after(m3_baby1_feed_99)
 order m3_breastfeeding m3_breastfeeding_2,after(m3_baby2_feed_99)
-order m3_baby1_born_alive1 m3_baby1_born_alive2 m3_baby2_born_alive1 m3_baby2_born_alive2, after(m3_breastfeeding_2)
-order m3_death_cause_baby1 m3_death_cause_baby1_other m3_death_cause_baby2 m3_death_cause_baby2_other m3_death_cause_baby3 m3_death_cause_baby4 m3_1201 m3_miscarriage m3_abortion m3_1202, after(m3_313d_baby2)
+order m3_baby1_born_alive1 m3_baby1_born_alive2 m3_baby2_born_alive1, after(m3_breastfeeding_2)
+order m3_death_cause_baby1 m3_death_cause_baby1_other m3_death_cause_baby2 m3_death_cause_baby3 m3_death_cause_baby4 m3_1201 m3_miscarriage m3_abortion m3_1202, after(m3_313d_baby2)
 order m3_consultation_1 m3_consultation_referral_1 m3_consultation1_reason m3_consultation1_reason_a m3_consultation1_reason_b m3_consultation1_reason_c m3_consultation1_reason_d m3_consultation1_reason_e  m3_consultation1_reason_96 m3_consultation1_reason_other, after(m3_402) 
 order m3_consultation_2 m3_consultation_referral_2 m3_consultation2_reason  m3_consultation2_reason_a m3_consultation2_reason_b m3_consultation2_reason_c m3_consultation2_reason_d m3_consultation2_reason_e m3_consultation2_reason_96 m3_consultation2_reason_other,after(m3_consultation1_reason_other) 
 order m3_consultation_3 m3_consultation_referral_3 m3_consultation3_reason  m3_consultation3_reason_a m3_consultation3_reason_b m3_consultation3_reason_c m3_consultation3_reason_d m3_consultation3_reason_e m3_consultation3_reason_96 m3_consultation3_reason_other,after(m3_consultation2_reason_other)
@@ -4506,15 +4471,14 @@ order m3_phq2_score, after(m3_801b)
 
 order m3_baby_meds_count, after(m3_902j_baby2_other)                    
 
-order m3_death_cause_baby1 m3_death_cause_baby1_other m3_death_cause_baby2 m3_death_cause_baby2_other m3_death_cause_baby3 m3_death_cause_baby4,after(m3_313d_baby2)
+order m3_death_cause_baby1 m3_death_cause_baby1_other m3_death_cause_baby2 m3_death_cause_baby3 m3_death_cause_baby4,after(m3_313d_baby2)
 
 order m3_endtime m3_duration, after(m3_1106) 
 
 order m3_num_alive_babies m3_num_dead_babies, after(m3_miscarriage)
-order m3_refused_why, after(m3_datetime_rescheduled)
 
 * Module 4:
-order m4_date m4_time m4_duration m4_interviewer respondentid m4_consent_recording m4_hiv_status m4_c_section m4_live_babies m4_date_delivery m4_weeks_delivery m4_number_of_babies m4_attempt_number m4_attempt_number_other m4_attempt_outcome m4_resp_language m4_resp_language_no m4_resp_language_no_oth m4_attempt_relationship m4_attempt_other  m4_attempt_avail m4_attempt_contact  m4_attempt_goodtime m4_resp_language m4_resp_language_no m4_resp_language_no_oth m4_maternal_death_reported m4_date_of_maternal_death m4_maternal_death_learn m4_maternal_death_learn_other m4_start m4_201a m4_baby1_health m4_baby1_feed_a m4_baby1_feed_b m4_baby1_feed_c m4_baby1_feed_d m4_baby1_feed_e m4_baby1_feed_f m4_baby1_feed_g m4_breastfeeding m4_baby1_sleep m4_baby1_feed  m4_baby1_breath m4_baby1_stool m4_baby1_mood m4_baby1_skin m4_baby1_interactivity m4_baby1_diarrhea m4_baby1_fever m4_baby1_lowtemp m4_baby1_illness m4_baby1_troublebreath m4_baby1_chestprob m4_baby1_troublefeed m4_baby1_convulsions m4_baby1_jaundice m4_206_none m4_baby1_otherprob m4_baby1_other m4_overallhealth m4_302a m4_302b m4_303a m4_303b m4_303c m4_303d m4_303e m4_303f m4_303g m4_303h m4_304 m4_305 m4_306 m4_307 m4_308 m4_309 m4_309_other m4_310 m4_401a m4_401b m4_402 m4_403a m4_403b m4_403c m4_404a m4_404a_other m4_404b m4_404b_other m4_404c m4_404c_other m4_405 m4_406a m4_406b m4_406c m4_406d m4_406e m4_406f m4_406g m4_406h m4_406i m4_406j m4_406k m4_406k_other m4_407 m4_408a m4_408b m4_408c m4_408d m4_408e m4_408f m4_408g m4_408h m4_408i m4_408j m4_408k m4_408k_other m4_409 m4_410a m4_410b m4_410c m4_410d m4_410e m4_410f m4_410g m4_410h m4_410i m4_410j m4_410k m4_410k_other m4_411a m4_411b m4_411c m4_412a m4_412a_unit m4_412b m4_412b_unit m4_412c m4_412c_unit m4_413 m4_413_other m4_501 m4_502 m4_baby1_601a m4_baby1_601b m4_baby1_601c m4_baby1_601d m4_baby1_601e m4_baby1_601f m4_baby1_601g m4_baby1_601h m4_baby1_601i m4_baby1_601i_other m4_602a m4_602b m4_602c m4_602d m4_602e m4_602f m4_602g m4_603_1a m4_603_1b m4_603_1c m4_603_1d  m4_603_1e m4_603_1f m4_603_1g m4_603_1h  m4_603_1h_other m4_701a m4_701b m4_701c m4_701d m4_701e m4_701f m4_701g m4_701h m4_701h_other m4_702 m4_703a m4_703b m4_703c m4_703d m4_703e m4_703f m4_703g m4_704a m4_704b m4_704c m4_801a m4_801b m4_801c m4_801d m4_801e m4_801f m4_801g m4_801h m4_801i m4_801j m4_801k m4_801l m4_801m m4_801n m4_801o m4_801p m4_801q m4_801r m4_801r_other m4_baby1_802a  m4_baby1_802b m4_baby1_802c m4_baby1_802d m4_baby1_802f m4_baby1_802g m4_baby1_802h m4_baby1_802i m4_baby1_802j m4_baby1_802j_other m4_baby1_802k_ke m4_baby1_803a m4_baby1_803b  m4_baby1_803c m4_baby1_803d m4_baby1_803e m4_baby1_803f m4_baby1_803g m4_baby1_804 m4_804_other  m4_805 m4_901 m4_902a_amn m4_902b_amn m4_902c_amn m4_902d_amn m4_902e_amn m4_902e_oth m4_903 m4_904 m4_905a m4_905b m4_905c m4_905d m4_905e m4_905f m4_905g m4_905_other m4_conclusion_live_babies m4_place m4_refused_why m4_language m4_language_oth m4_reschedule_resp m4_unavailable_reschedule m4_reschedule_noavail m4_call_status, after(m3_refused_why)
+order m4_date m4_time m4_duration m4_interviewer respondentid m4_consent_recording m4_hiv_status m4_c_section m4_live_babies m4_date_delivery m4_weeks_delivery m4_number_of_babies m4_attempt_number m4_attempt_number_other m4_attempt_outcome m4_resp_language m4_resp_language_no m4_resp_language_no_oth m4_attempt_relationship m4_attempt_other  m4_attempt_avail m4_attempt_contact  m4_attempt_goodtime m4_resp_language m4_resp_language_no m4_resp_language_no_oth m4_maternal_death_reported m4_date_of_maternal_death m4_maternal_death_learn m4_maternal_death_learn_other m4_start m4_201a m4_baby1_health m4_baby1_feed_a m4_baby1_feed_b m4_baby1_feed_c m4_baby1_feed_d m4_baby1_feed_e m4_baby1_feed_f m4_baby1_feed_g m4_breastfeeding m4_baby1_sleep m4_baby1_feed  m4_baby1_breath m4_baby1_stool m4_baby1_mood m4_baby1_skin m4_baby1_interactivity m4_baby1_diarrhea m4_baby1_fever m4_baby1_lowtemp m4_baby1_illness m4_baby1_troublebreath m4_baby1_chestprob m4_baby1_troublefeed m4_baby1_convulsions m4_baby1_jaundice m4_206_none m4_baby1_otherprob m4_baby1_other m4_overallhealth m4_302a m4_302b m4_303a m4_303b m4_303c m4_303d m4_303e m4_303f m4_303g m4_303h m4_304 m4_305 m4_306 m4_307 m4_308 m4_309 m4_309_other m4_310 m4_401a m4_401b m4_402 m4_403a m4_403b m4_403c m4_404a m4_404a_other m4_404b m4_404b_other m4_404c m4_404c_other m4_405 m4_406a m4_406b m4_406c m4_406d m4_406e m4_406f m4_406g m4_406h m4_406i m4_406j m4_406k m4_406k_other m4_407 m4_408a m4_408b m4_408c m4_408d m4_408e m4_408f m4_408g m4_408h m4_408i m4_408j m4_408k m4_408k_other m4_409 m4_410a m4_410b m4_410c m4_410d m4_410e m4_410f m4_410g m4_410h m4_410i m4_410j m4_410k m4_410k_other m4_411a m4_411b m4_411c m4_412a m4_412a_unit m4_412b m4_412b_unit m4_412c m4_412c_unit m4_413 m4_413_other m4_501 m4_502 m4_baby1_601a m4_baby1_601b m4_baby1_601c m4_baby1_601d m4_baby1_601e m4_baby1_601f m4_baby1_601g m4_baby1_601h m4_baby1_601i m4_baby1_601i_other m4_602a m4_602b m4_602c m4_602d m4_602e m4_602f m4_602g m4_603_1a m4_603_1b m4_603_1c m4_603_1d  m4_603_1e m4_603_1f m4_603_1g m4_603_1h  m4_603_1h_other m4_701a m4_701b m4_701c m4_701d m4_701e m4_701f m4_701g m4_701h m4_701h_other m4_702 m4_703a m4_703b m4_703c m4_703d m4_703e m4_703f m4_703g m4_704a m4_704b m4_704c m4_801a m4_801b m4_801c m4_801d m4_801e m4_801f m4_801g m4_801h m4_801i m4_801j m4_801k m4_801l m4_801m m4_801n m4_801o m4_801p m4_801q m4_801r m4_801r_other m4_baby1_802a  m4_baby1_802b m4_baby1_802c m4_baby1_802d m4_baby1_802f m4_baby1_802g m4_baby1_802h m4_baby1_802i m4_baby1_802j m4_baby1_802j_other m4_baby1_802k_ke m4_baby1_803a m4_baby1_803b  m4_baby1_803c m4_baby1_803d m4_baby1_803e m4_baby1_803f m4_baby1_803g m4_baby1_804 m4_804_other  m4_805 m4_901 m4_902a_amn m4_902b_amn m4_902c_amn m4_902d_amn m4_902e_amn m4_902e_oth m4_903 m4_904 m4_905a m4_905b m4_905c m4_905d m4_905e m4_905f m4_905g m4_905_other m4_conclusion_live_babies m4_place m4_refused_why m4_language m4_language_oth m4_reschedule_resp m4_unavailable_reschedule m4_reschedule_noavail m4_call_status, after(m3_duration)
 
 
 *==============================================================================*
@@ -5743,8 +5707,8 @@ order m3_baby1_health m3_baby2_health, after(m3_baby2_size)
 order m3_baby1_feeding m3_baby1_feed_a m3_baby1_feed_b m3_baby1_feed_c m3_baby1_feed_d m3_baby1_feed_e m3_baby1_feed_f m3_baby1_feed_g m3_baby1_feed_h m3_baby1_feed_99, after(m3_baby2_health) 
 order m3_baby2_feeding m3_baby2_feed_a m3_baby2_feed_b m3_baby2_feed_c m3_baby2_feed_d m3_baby2_feed_e m3_baby2_feed_f m3_baby2_feed_g m3_baby2_feed_h m3_baby2_feed_99, after(m3_baby1_feed_99)
 order m3_breastfeeding m3_breastfeeding_2,after(m3_baby2_feed_99)
-order m3_baby1_born_alive1 m3_baby1_born_alive2 m3_baby2_born_alive1 m3_baby2_born_alive2, after(m3_breastfeeding_2)
-order m3_death_cause_baby1 m3_death_cause_baby1_other m3_death_cause_baby2 m3_death_cause_baby2_other m3_death_cause_baby3 m3_death_cause_baby4 m3_1201 m3_miscarriage m3_abortion m3_1202, after(m3_313d_baby2)
+order m3_baby1_born_alive1 m3_baby1_born_alive2 m3_baby2_born_alive1, after(m3_breastfeeding_2)
+order m3_death_cause_baby1 m3_death_cause_baby1_other m3_death_cause_baby2 m3_death_cause_baby3 m3_death_cause_baby4 m3_1201 m3_miscarriage m3_abortion m3_1202, after(m3_313d_baby2)
 order m3_consultation_1 m3_consultation_referral_1 m3_consultation1_reason m3_consultation1_reason_a m3_consultation1_reason_b m3_consultation1_reason_c m3_consultation1_reason_d m3_consultation1_reason_e  m3_consultation1_reason_96 m3_consultation1_reason_other, after(m3_402) 
 order m3_consultation_2 m3_consultation_referral_2 m3_consultation2_reason  m3_consultation2_reason_a m3_consultation2_reason_b m3_consultation2_reason_c m3_consultation2_reason_d m3_consultation2_reason_e m3_consultation2_reason_96 m3_consultation2_reason_other,after(m3_consultation1_reason_other) 
 order m3_consultation_3 m3_consultation_referral_3 m3_consultation3_reason  m3_consultation3_reason_a m3_consultation3_reason_b m3_consultation3_reason_c m3_consultation3_reason_d m3_consultation3_reason_e m3_consultation3_reason_96 m3_consultation3_reason_other,after(m3_consultation2_reason_other)
@@ -5765,7 +5729,7 @@ order m3_phq2_score, after(m3_801b)
 
 order m3_baby_meds_count, after(m3_902j_baby2_other)                    
 
-order m3_death_cause_baby1 m3_death_cause_baby1_other m3_death_cause_baby2 m3_death_cause_baby2_other m3_death_cause_baby3 m3_death_cause_baby4,after(m3_313d_baby2)
+order m3_death_cause_baby1 m3_death_cause_baby1_other m3_death_cause_baby2 m3_death_cause_baby3 m3_death_cause_baby4,after(m3_313d_baby2)
 
 order m3_endtime m3_duration, after(m3_1106) 
 
