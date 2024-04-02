@@ -950,175 +950,95 @@ order m1_1218_total_ke, after(m1_1218_other_total_ke)
 	* STEP SIX: ORDER/SAVE DATA TO RECODED FOLDER
 
 	save "$ke_data_final/eco_m1_ke.dta", replace
-	clear all
 
 *===============================================================================
 * MODULE 2:
 
 * Import data
 clear all 
-use "$ke_data/Module 2/KEMRI_Module_2_ANC_period_SS.dta"
+use "$ke_data/Module 2/240325_KEMRI_Module_2_ANC_period_no_pii_4-2.dta"
 
 drop if call_status !=1 // N=3,858 obs
 
 * ga at baseline and date_survey_baseline are duplicate vars
-drop care_reason_ante_label_1 care_reason_ref_label_1 care_visit_reas_rpt_grp_count_1 ///
-     care_vis_idx_1_1 care_visit_res_1_1 care_vis_idx_1_2 care_visit_res_1_2 ///
-	 care_reason_other_label_pre_1 care_reason_other_label_1 care_reason_label_1 ///
-	 q_303_label_2 q_304_label_2 gest_age_baseline date_survey_baseline submissiondate ///
-	 q_303_label_2 q_304_label_2 gest_age_baseline date_survey_baseline submissiondate ///
-	 q_307_1 q_307_2 q_307_3 q_307_4 q_307_5 q_320 q_702_discrepancy
-	 
-drop text_audit section6_audio mean_sound_level min_sound_level max_sound_level sd_sound_level pct_sound_between0_60 pct_sound_above80 pct_conversation q_104_calc q_105 q_106 phone1 phone2 phone3 phone4 phone_combi resp_other_name resp_worker module_2_success module_2_first module_2_freq mod_2_freq_label module_2_oth name_confirm name_full outcome_text trim_update q_203a_calc_e q_203b_calc_e q_203c_calc_e q_203d_calc_e q_203e_calc_e q_203f_calc_e q_203g_calc_e q_203h_calc_e q_203_calc_e q_203a_calc_ki q_203b_calc_ki q_203c_calc_ki q_203d_calc_ki q_203e_calc_ki q_203f_calc_ki q_203g_calc_ki q_203h_calc_ki q_203_calc_ki q_203a_calc_ka q_203b_calc_ka q_203c_calc_ka q_203d_calc_ka q_203e_calc_ka q_203f_calc_ka q_203g_calc_ka q_203h_calc_ka q_203_calc_ka q_205a_calc q_205b_calc repeat_g303 q_303_rpt_grp_count q_303_indx_1 q_303_indx_st_1 q_303_indx_nd_1 q_303_indx_rd_1 q_303_indx_x_1 q_303_label_1 q_304_label_1 q_303_indx_2 q_303_indx_st_2 q_303_indx_nd_2 q_303_indx_rd_2 q_303_indx_x_2 q_303_indx_3 q_303_indx_st_3 q_303_indx_nd_3 q_303_indx_rd_3 q_303_indx_x_3 q_303_label_3 q_304_label_3 q_303_indx_4 q_303_indx_st_4 q_303_indx_nd_4 q_303_indx_rd_4 q_303_indx_x_4 q_303_label_4 q_304_label_4 q_303_indx_5 q_303_indx_st_5 q_303_indx_nd_5 q_303_indx_rd_5 q_303_indx_x_5 q_303_label_5 q_304_label_5 user_experience_rpt_grp_count user_exp_idx_1 user_visit_reason_1 user_facility_type_1 user_facility_name_1 user_exp_idx_2 user_visit_reason_2 user_facility_type_2 user_facility_name_2 user_exp_idx_3 user_visit_reason_3 user_facility_type_3 user_facility_name_3 user_exp_idx_4 user_visit_reason_4 user_facility_type_4 user_facility_name_4 user_exp_idx_5 user_visit_reason_5 user_facility_type_5 user_facility_name_5 q_602_filter q202_oth_continue registered_phone mobile_money_name mobile_prov unavailable_reschedule reschedule_full_noavail phone_noavail phone_used phone_used_oth reschedule_resp reschedule_noavail 	 
-	 
-drop best_phone_resp availability care_reason_ante_label_2 care_reason_ref_label_2 care_visit_reas_rpt_grp_count_2 care_vis_idx_2_1 care_visit_res_2_1 care_vis_idx_2_2 care_visit_res_2_2 care_reason_other_label_pre_2 care_reason_other_label_2 care_reason_label_2 care_reason_ante_label_3 care_reason_ref_label_3 care_visit_reas_rpt_grp_count_3 care_vis_idx_3_1 care_visit_res_3_1 care_vis_idx_3_2 care_visit_res_3_2 care_reason_other_label_pre_3 care_reason_other_label_3 care_reason_label_3 care_reason_ante_label_4 care_reason_ref_label_4 care_visit_reas_rpt_grp_count_4 care_vis_idx_4_1 care_visit_res_4_1 care_vis_idx_4_2 care_visit_res_4_2 care_reason_other_label_pre_4 care_reason_other_label_4 care_reason_label_4 care_reason_ante_label_5 care_reason_ref_label_5 care_visit_reas_rpt_grp_count_5 care_vis_idx_5_1 care_visit_res_5_1 care_vis_idx_5_2 care_visit_res_5_2 care_reason_other_label_pre_5 care_reason_other_label_5 care_reason_label_5 
-
-drop consent_audio full_name gest_update_calc days_callback_mod3 confirm_phone end_comment enum_name_mod1 formdef_version key language_label today_date
-
+drop mod_2_freq_label q_304_label_1 q_304_label_2 q_304_label_3 q_304_label_4 q_304_label_5 ///
+	 gest_age_baseline date_survey_baseline  q_307_1 q_307_2 q_307_3 q_307_4 q_307_5 q_320 ///
+	 q_702_discrepancy resp_worker module_2_success module_2_first module_2_freq module_2_oth ///
+	 name_confirm name_full outcome_text trim_update q202_oth_continue availability ///
+	 gest_update_calc days_callback_mod3 key today_date
 
 *------------------------------------------------------------------------------*
 
 * STEP ONE: RENAME VARAIBLES
 
+rename q_104 respondentid
 rename attempts m2_attempt_number
 rename attempts_oth m2_attempt_number_other
 rename call_response m2_attempt_outcome
 rename resp_language m2_resp_lang1
-rename resp_language_no m2_resp_lang2
-rename resp_language_no_oth m2_resp_lang_other
 rename resp_other m2_attempt_relationship
-rename resp_other_oth m2_attempt_relationship_other
 rename resp_available m2_attempt_avail
-rename best_phone_reconfirm m2_attempt_contact
-*rename best_phone_resp m2_attempt_bestnumber
-rename resp_available_when m2_attempt_goodtime
-	   
-encode reschedule_date_resp ,gen(m2_reschedule_resp)
-drop reschedule_date_resp	   
-	   
 rename intro_yn m2_consent_recording
-
-encode mod_2_round,generate(m2_completed_attempts)
-drop mod_2_round
-
+rename mod_2_round m2_completed_attempts
 rename q_103 m2_time_start
-rename q_101 m2_interviewer
-
-*rename gest_age_baseline m2_baseline_ga //this was M1 ga so I dropped so it's not confusing
-*rename date_survey_baseline m2_baseline_date // this is the m1 surveydate, dropped for now
-
-rename q_109 m2_maternal_death_reported
-
-encode q_107, gen(m2_ga)
-drop q_107
-
-encode q_108, generate(m2_hiv_status)
-drop q_108
-
-encode county, generate(m2_county)
-
-rename (enum_name date_death_knows) /// 
-       (m2_enum m2_date_of_maternal_death_YN) 
-	   
-rename q_110 m2_date_of_maternal_death
-rename q_111 m2_maternal_death_learn
-rename q_111_oth m2_maternal_death_learn_other
-		
+rename enumerator_id m2_interviewer
+rename q_107 m2_ga
+rename q_108 m2_hiv_status
+rename county m2_county		
 rename (q_201 q_202) (m2_201 m2_202) 
 rename date_delivery m2_202_delivery_date
 rename q_202_oth m2_202_other
 rename date_q202_oth m2_202_other_date
-
 rename (q_203a q_203b q_203c q_203d q_203e q_203f q_203g q_203h) /// 
        (m2_203a m2_203b m2_203c m2_203d m2_203e m2_203f m2_203g m2_203h)
 rename (q_204 q_204_specify) (m2_204i m2_204i_other) 
-
 rename (q_205a q_205b) (m2_205a m2_205b)
-encode phq_score, gen(m2_phq2_ke)
-drop phq_score
-
+rename phq_score m2_phq2_ke
 rename q_206 m2_206
-
-rename (q_303_3 q_303_4 q_303_5) (m2_303c m2_303d m2_303e)
-	   
+rename (q_303_3 q_303_4 q_303_5) (m2_303c m2_303d m2_303e)   
 rename (q_304_3 q_304_oth_3 q_304_4 ///
         q_304_oth_4 q_304_5 q_304_oth_5) ///
 	   (m2_304c m2_304c_other m2_304d ///
 	    m2_304d_other m2_304e m2_304e_other)
-
 rename q_307_oth_1 m2_307_other
-
-encode q_307_2_1,gen(m2_306_2)
-drop q_307_2_1
-encode q_307_3_1,gen(m2_306_3)
-drop q_307_3_1
-encode q_307_4_1,gen(m2_306_4)
-drop q_307_4_1
-encode q_307_5_1,gen(m2_306_5)
-drop q_307_5_1
-encode q_307__96_1,gen(m2_306_96)
-drop q_307__96_1
-
+rename q_307_2_1 m2_306_2
+rename q_307_3_1 m2_306_3
+rename q_307_4_1 m2_306_4
+rename q_307_5_1 m2_306_5
+rename q_307__96_1 m2_306_96
 rename q_307_oth_2 m2_310_other
-
-encode q_307_1_2,gen(m2_308_1)
-drop q_307_1_2
-encode q_307_2_2,gen(m2_308_2)
-drop q_307_2_2
-encode q_307_3_2,gen(m2_308_3)
-drop q_307_3_2
-encode q_307_4_2,gen(m2_308_4)
-drop q_307_4_2
-encode q_307_5_2,gen(m2_308_5)
-drop q_307_5_2
-encode q_307__96_2, gen(m2_308_96)
-drop q_307__96_2
-
+rename q_307_1_2 m2_308_1
+rename q_307_2_2 m2_308_2
+rename q_307_3_2 m2_308_3
+rename q_307_4_2 m2_308_4
+rename q_307_5_2 m2_308_5
+rename q_307__96_2 m2_308_96
 rename (q_305_3 q_306_3 q_307_oth_3) (m2_311 m2_312 m2_313_other)
+rename q_307_1_3 m2_311_1
+rename q_307_2_3 m2_311_2
+rename q_307_3_3 m2_311_3
+rename q_307_4_3 m2_311_4
+rename q_307_5_3 m2_311_5
+rename q_307__96_3 m2_311_96
+rename (q_305_4 q_306_4) (m2_314 m2_315)
+*rename q_307_oth_4 m2_316_other
+rename q_307_1_4 m2_314_1
+rename q_307_2_4 m2_314_2
+rename q_307_3_4 m2_314_3
+rename q_307_4_4 m2_314_4
+rename q_307_5_4 m2_314_5
+rename q_307__96_4 m2_314_96
 
-encode q_307_1_3,gen(m2_311_1)
-drop q_307_1_3
-encode q_307_2_3,gen(m2_311_2)
-drop q_307_2_3
-encode q_307_3_3,gen(m2_311_3)
-drop q_307_3_3
-encode q_307_4_3,gen(m2_311_4)
-drop q_307_4_3
-encode q_307_5_3,gen(m2_311_5)
-drop q_307_5_3
-encode q_307__96_3,gen(m2_311_96)
-drop q_307__96_3
+rename (q_305_5 q_306_5) (m2_317 m2_318)  
 
-rename (q_305_4 q_306_4 q_307_oth_4) (m2_314 m2_315 m2_316_other) 
+*rename q_307_oth_5 m2_319_other
 
-encode q_307_1_4,gen(m2_314_1)
-drop q_307_1_4
-encode q_307_2_4,gen(m2_314_2)
-drop q_307_2_4
-encode q_307_3_4,gen(m2_314_3)
-drop q_307_3_4
-encode q_307_4_4,gen(m2_314_4)
-drop q_307_4_4
-encode q_307_5_4,gen(m2_314_5)
-drop q_307_5_4
-encode q_307__96_4,gen(m2_314_96)
-drop q_307__96_4
-
-rename (q_305_5 q_306_5 q_307_oth_5) (m2_317 m2_318 m2_319_other)  
-
-encode q_307_1_5, gen(m2_317_1)
-drop q_307_1_5
-encode q_307_2_5, gen(m2_317_2)
-drop q_307_2_5
-encode q_307_3_5, gen(m2_317_3) 
-drop q_307_3_5
-encode q_307_4_5, gen(m2_317_4) 
-drop q_307_4_5
-encode q_307_5_5, gen(m2_317_5)
-drop q_307_5_5
-encode q_307__96_5, gen(m2_317_96)
-drop q_307__96_5
-
+rename q_307_1_5 m2_317_1
+rename q_307_2_5 m2_317_2
+rename q_307_3_5 m2_317_3
+rename q_307_4_5 m2_317_4
+rename q_307_5_5 m2_317_5
+rename q_307__96_5 m2_317_96
 
 rename (q_320_0 q_320_1 q_320_2 q_320_3 q_320_4 q_320_5 q_320_6 q_320_7 q_320_8 ///
         q_320_9 q_320_10 q_320_11 q_320_12 q_320__96 q_320__99 q_320_other) ///
@@ -1155,22 +1075,21 @@ rename q_603 m2_603
 rename (q_702a q_702b q_702c q_702d q_702e q_702e_other) ///
        (m2_702a_cost m2_702b_cost m2_702c_cost m2_702d_cost m2_702e_cost m2_702_other_ke)
 	   
-encode q_701_total, generate(m2_703)
-drop q_701_total
+rename q_701_total m2_703
 
 rename q_702_medication m2_702_meds_ke
 rename q_702_total m2_704_confirm
 rename (q_705_1 q_705_2 q_705_3 q_705_4 q_705_5 q_705_6 q_705__96 q_705_other) ///
        (m2_705_1 m2_705_2 m2_705_3 m2_705_4 m2_705_5 m2_705_6 m2_705_96 m2_705_other)
 rename call_status m2_complete
-rename refused_why m2_refused_why
+*rename refused_why m2_refused_why
 
 rename facility_name m2_site 
 
 rename q_102 m2_date
 
 rename starttime m2_start_time
-rename date_confirm m2_date_confirm
+*rename date_confirm m2_date_confirm
 rename time_start_full m2_date_time
 rename gestational_update m2_ga_estimate
 rename q_302 m2_302
@@ -1179,8 +1098,7 @@ rename (q_303_1 q_303_2) (m2_303a m2_303b)
 rename (q_304_1 q_304_oth_1 q_304_2 q_304_oth_2) ///
 	   (m2_304a m2_304a_other m2_304b m2_304b_other)
 rename (q_305_1 q_306_1) (m2_305 m2_306)	 
-encode q_307_1_1, gen(m2_306_1)
-drop q_307_1_1
+rename q_307_1_1 m2_306_1
   
 rename q_305_2 m2_308
 rename q_306_2 m2_309
@@ -1204,7 +1122,7 @@ drop if respondentid == "21311071736" & m2_interviewer == 7
 *respondentid: 21501081229, duplicate entries on same start time and date
 *From KEMTRI: There was an issue with her tablet sending some of the forms. Some forms had failed to submit. I think this what caused this.
 
-drop if respondentid == "21501081229" & duration == "1234"
+drop if respondentid == "21501081229" & duration == 1234
 
 *===============================================================================
 
@@ -1264,9 +1182,9 @@ recode m2_702_meds_ke m2_702a_cost m2_702b_cost m2_702c_cost m2_702d_cost m2_702
 * Recode missing values to NA for questions respondents would not have been asked 
 * due to skip patterns
 
-recode m2_resp_lang1 m2_resp_lang2 (. = .a) if m2_attempt_outcome !=1
+recode m2_resp_lang1 (. = .a) if m2_attempt_outcome !=1
 
-recode m2_attempt_relationship m2_attempt_avail m2_attempt_contact m2_reschedule_resp  (. = .a) if m2_attempt_outcome !=2
+recode m2_attempt_relationship m2_attempt_avail (. = .a) if m2_attempt_outcome !=2
 
 recode m2_ga_estimate (. = .a) if confirm_gestational !=0 | q_107_trim != "N/A"
 drop confirm_gestational
@@ -1275,32 +1193,32 @@ recode m2_attempt_number_other (. = .a) if m2_attempt_number !=96
 
 recode m2_resp_lang1 (. = .a) if m2_attempt_outcome !=1
 
-recode m2_resp_lang2 (. = .a) if m2_resp_lang1 !=0
+*recode m2_resp_lang2 (. = .a) if m2_resp_lang1 !=0
 
-replace m2_resp_lang_other = ".a" if m2_resp_lang2 !=-96
+*replace m2_resp_lang_other = ".a" if m2_resp_lang1 !=-96
 
 recode m2_attempt_relationship (. = .a) if m2_attempt_outcome !=2
 
-replace m2_attempt_relationship_other = ".a" if m2_attempt_relationship !=96
+*replace m2_attempt_relationship_other = ".a" if m2_attempt_relationship !=96
 
 recode m2_attempt_avail (. = .a) if m2_attempt_outcome !=2
 
-recode m2_attempt_contact m2_attempt_goodtime (. = .a) if m2_attempt_avail !=0 | m2_maternal_death_reported ==1
+*recode m2_attempt_goodtime (. = .a) if m2_attempt_avail !=0 | m2_maternal_death_reported ==1
 
-recode m2_reschedule_resp (. = .a) if m2_attempt_goodtime !=1
+*recode m2_reschedule_resp (. = .a) if m2_attempt_goodtime !=1
 
-recode m2_maternal_death_reported (. = .a) if m2_attempt_avail != 0
+*recode m2_maternal_death_reported (. = .a) if m2_attempt_avail != 0
 
-recode m2_date_of_maternal_death_YN m2_date_of_maternal_death (. = .a) if m2_maternal_death_reported !=1
+*recode m2_date_of_maternal_death_YN m2_date_of_maternal_death (. = .a) if m2_maternal_death_reported !=1
 
 *SS: fix this - needs merged dataset
 *recode m2_hiv_status (. = .a) if m1_202e != 0 | m1_202e != 1
 
-recode m2_date_of_maternal_death (. = .a) if m2_maternal_death_reported !=1
+*recode m2_date_of_maternal_death (. = .a) if m2_maternal_death_reported !=1
 
-recode m2_maternal_death_learn (. = .a) if m2_maternal_death_reported !=1
+*recode m2_maternal_death_learn (. = .a) if m2_maternal_death_reported !=1
 
-replace m2_maternal_death_learn_other = ".a" if m2_maternal_death_learn != -96
+*replace m2_maternal_death_learn_other = ".a" if m2_maternal_death_learn != -96
 
 recode m2_201 m2_202 (. = .a) if m2_consent_recording !=1
 
@@ -1374,7 +1292,7 @@ recode m2_314_3 (. = .a) if m2_314 !=0 | m2_314 !=1
 recode m2_314_4 (. = .a) if m2_314 !=0 | m2_314 !=1
 recode m2_314_5 (. = .a) if m2_314 !=0 | m2_314 !=1
 recode m2_314_96 (. = .a) if m2_314 !=0 | m2_314 !=1
-replace m2_316_other = ".a" if m2_314_96 !=2
+*replace m2_316_other = ".a" if m2_314_96 !=2
 
 recode m2_317 (. = .a) if m2_302 == 4 | m2_302 == 3 | m2_302 == 2 | m2_302 == 1 | m2_302 == . | m2_302 == .a
 recode m2_318 (. = .a) if m2_317 !=0
@@ -1385,7 +1303,7 @@ recode m2_317_3 (0 = .a) if m2_314 !=0 | m2_314 !=1
 recode m2_317_4 (0 = .a) if m2_314 !=0 | m2_314 !=1
 recode m2_317_5 (0 = .a) if m2_314 !=0 | m2_314 !=1
 recode m2_317_96 (0 = .a) if m2_314 !=0 | m2_314 !=1
-replace m2_319_other = ".a" if m2_317_96 !=2
+*replace m2_319_other = ".a" if m2_317_96 !=2
 
 recode m2_320_0 (. = .a) if m2_301 !=0
 recode m2_320a (. = .a) if m2_301 !=0
@@ -1514,7 +1432,7 @@ recode m2_attempt_avail (. = .a) if m2_attempt_relationship !=4
 *recode m2_consent_recording (. = .a) if m2_attempt_avail == 0
 
 recode m2_date (. = .a) if m2_202 !=1
-recode m2_date_confirm (. = .a) if m2_date == . | m2_202 !=1
+*recode m2_date_confirm (. = .a) if m2_date == . | m2_202 !=1
 
 recode m2_ga (. = .a) if m2_date == . | m2_202 !=1 | m2_complete == 1
 recode m2_ga_estimate (. = .a) if m2_date == . | m2_202 !=1 | q_107_trim != "NA"
@@ -1523,7 +1441,6 @@ drop q_107_trim
 recode m2_endtime (. = .a) if m2_date == . | m2_202 != 1 | m2_complete !=1
 
 *===============================================================================
-
 * reshape data from long to wide
 
 drop if m2_completed_attempts == . // SS: change to "."
@@ -1541,12 +1458,11 @@ replace m2_round = "_r5" if round2==5
 replace m2_round = "_r6" if round2==6
 replace m2_round = "_r7" if round2==7
 replace m2_round = "_r8" if round2==8
-		
-		
+				
 * Use the string variable to reshape wide
 drop round2
 				
-reshape wide m2_date_time m2_time_start duration m2_date m2_date_confirm m2_interviewer m2_site county m2_enum m2_attempt_number m2_attempt_number_other m2_attempt_outcome m2_resp_lang1 m2_resp_lang2 m2_resp_lang_other m2_attempt_relationship m2_attempt_relationship_other m2_attempt_avail m2_maternal_death_reported m2_date_of_maternal_death_YN m2_maternal_death_learn m2_maternal_death_learn_other m2_attempt_contact m2_attempt_goodtime m2_consent_recording consent m2_201 m2_202 m2_202_other m2_ga_estimate m2_203a m2_203b m2_203c m2_203d m2_203e m2_203f m2_203g m2_203h m2_204i m2_204i_other m2_205a m2_205b m2_206 m2_301 m2_302 m2_303a m2_304a m2_304a_other m2_305 m2_306 m2_307_other m2_303b m2_304b m2_304b_other m2_308 m2_309 m2_310_other m2_303c m2_304c m2_304c_other m2_311 m2_312 m2_313_other m2_303d m2_304d m2_304d_other m2_314 m2_315 m2_316_other m2_303e m2_304e m2_304e_other m2_317 m2_318 m2_319_other m2_320_0 m2_320a m2_320b m2_320c m2_320d m2_320e m2_320f m2_320g m2_320h m2_320i m2_320j m2_320k m2_320_12_ke m2_320_96 m2_320_99 m2_320_other m2_321 m2_401 m2_402 m2_403 m2_404 m2_405 m2_501 m2_501a m2_501b m2_501c m2_501d m2_501e m2_501f m2_501g m2_501_0 m2_501g_other m2_502 m2_503 m2_503a m2_503b m2_503c m2_503d m2_503e m2_503f m2_503_0 m2_505a m2_505b m2_505c m2_505d m2_505e m2_505f m2_504 m2_504_other m2_505g m2_506 m2_506a m2_506b m2_506c m2_506d m2_506_0 m2_507 m2_507_1_ke m2_507_2_ke m2_507_3_ke m2_507_4_ke m2_507_5_ke m2_507_6_ke m2_507_7_ke m2_507_96_ke m2_507_other_ke m2_508a m2_508b_num m2_508c_time m2_509 m2_509a m2_509b m2_509c m2_509_0 m2_601 m2_601a m2_601o m2_601b m2_601c m2_601d m2_601e m2_601f m2_601g m2_601h m2_601i m2_601j m2_601k m2_601l m2_601m m2_601n m2_601_0 m2_601n_other m2_602b m2_603 m2_701 m2_704_confirm m2_702_meds_ke m2_702a_cost m2_702b_cost m2_702c_cost m2_702d_cost m2_702e_cost m2_702_other_ke m2_705 m2_705_1 m2_705_2 m2_705_3 m2_705_4 m2_705_5 m2_705_6 m2_705_96 m2_705_other m2_refused_why m2_complete language language_oth m2_start_time m2_endtime m2_date_of_maternal_death m2_202_delivery_date m2_202_other_date m2_reschedule_resp m2_completed_attempts m2_ga m2_hiv_status m2_county m2_phq2_ke m2_306_2 m2_306_3 m2_306_4 m2_306_5 m2_306_96 m2_308_1 m2_308_2 m2_308_3 m2_308_4 m2_308_5 m2_308_96 m2_311_1 m2_311_2 m2_311_3 m2_311_4 m2_311_5 m2_311_96 m2_314_1 m2_314_2 m2_314_3 m2_314_4 m2_314_5 m2_314_96 m2_317_1 m2_317_2 m2_317_3 m2_317_4 m2_317_5 m2_317_96 m2_703 m2_306_1, i(respondentid) j(m2_round, string) 
+reshape wide m2_date_time m2_time_start duration m2_date m2_interviewer m2_site county m2_enum m2_attempt_number m2_attempt_number_other m2_attempt_outcome m2_resp_lang1 m2_attempt_relationship m2_attempt_avail m2_date_of_maternal_death_YN m2_maternal_death_learn m2_maternal_death_learn_other m2_attempt_goodtime m2_consent_recording consent m2_201 m2_202 m2_202_other m2_ga_estimate m2_203a m2_203b m2_203c m2_203d m2_203e m2_203f m2_203g m2_203h m2_204i m2_204i_other m2_205a m2_205b m2_206 m2_301 m2_302 m2_303a m2_304a m2_304a_other m2_305 m2_306 m2_307_other m2_303b m2_304b m2_304b_other m2_308 m2_309 m2_310_other m2_303c m2_304c m2_304c_other m2_311 m2_312 m2_313_other m2_303d m2_304d m2_304d_other m2_314 m2_315 m2_303e m2_304e m2_304e_other m2_317 m2_318 m2_320_0 m2_320a m2_320b m2_320c m2_320d m2_320e m2_320f m2_320g m2_320h m2_320i m2_320j m2_320k m2_320_12_ke m2_320_96 m2_320_99 m2_320_other m2_321 m2_401 m2_402 m2_403 m2_404 m2_405 m2_501 m2_501a m2_501b m2_501c m2_501d m2_501e m2_501f m2_501g m2_501_0 m2_501g_other m2_502 m2_503 m2_503a m2_503b m2_503c m2_503d m2_503e m2_503f m2_503_0 m2_505a m2_505b m2_505c m2_505d m2_505e m2_505f m2_504 m2_504_other m2_505g m2_506 m2_506a m2_506b m2_506c m2_506d m2_506_0 m2_507 m2_507_1_ke m2_507_2_ke m2_507_3_ke m2_507_4_ke m2_507_5_ke m2_507_6_ke m2_507_7_ke m2_507_96_ke m2_507_other_ke m2_508a m2_508b_num m2_508c_time m2_509 m2_509a m2_509b m2_509c m2_509_0 m2_601 m2_601a m2_601o m2_601b m2_601c m2_601d m2_601e m2_601f m2_601g m2_601h m2_601i m2_601j m2_601k m2_601l m2_601m m2_601n m2_601_0 m2_601n_other m2_602b m2_603 m2_701 m2_704_confirm m2_702_meds_ke m2_702a_cost m2_702b_cost m2_702c_cost m2_702d_cost m2_702e_cost m2_702_other_ke m2_705 m2_705_1 m2_705_2 m2_705_3 m2_705_4 m2_705_5 m2_705_6 m2_705_96 m2_705_other m2_complete language language_oth m2_start_time m2_endtime m2_date_of_maternal_death m2_202_delivery_date m2_202_other_date m2_completed_attempts m2_ga m2_hiv_status m2_county m2_phq2_ke m2_306_2 m2_306_3 m2_306_4 m2_306_5 m2_306_96 m2_308_1 m2_308_2 m2_308_3 m2_308_4 m2_308_5 m2_308_96 m2_311_1 m2_311_2 m2_311_3 m2_311_4 m2_311_5 m2_311_96 m2_314_1 m2_314_2 m2_314_3 m2_314_4 m2_314_5 m2_314_96 m2_317_1 m2_317_2 m2_317_3 m2_317_4 m2_317_5 m2_317_96 m2_703 m2_306_1, i(respondentid) j(m2_round, string) 
 
 
 *------------------------------------------------------------------------------*
@@ -1564,24 +1480,23 @@ label variable m2_attempt_number`i'  "Which attempt is this at calling the respo
 label variable m2_attempt_number_other`i'  "Other, specify"
 label variable m2_attempt_outcome`i'  "What was the response?"
 label variable m2_resp_lang1`i'  "Are you able to communicate with the respondent or do they speak a language foreign to you?"
-label variable m2_resp_lang2`i'  "Which language does the respondent speak?"
-label variable m2_resp_lang_other`i'  "Other language, specify"
+*label variable m2_resp_lang2`i'  "Which language does the respondent speak?"
+*label variable m2_resp_lang_other`i'  "Other language, specify"
 label variable m2_attempt_relationship`i'  "What is the relationship between the owner of this phone and the participant?"
-label variable m2_attempt_relationship_other`i'  "Specify other relationship"
+*label variable m2_attempt_relationship_other`i'  "Specify other relationship"
 label variable m2_attempt_avail`i'  "Respondent's availability"
-label variable m2_attempt_contact`i'  "Is this still the best contact to reach the participant?"
 label variable m2_attempt_goodtime`i'  "Do you know when would be a good time to reach the participant"
-label variable m2_reschedule_resp`i'  "Could you let me know at which date and time the participant would be available"
+*label variable m2_reschedule_resp`i'  "Could you let me know at which date and time the participant would be available"
 label variable m2_completed_attempts`i'  "Module 2 completed attempts"
 label variable m2_consent_recording`i' 	"Consent to audio recording"
 label variable m2_start_time`i'  "Start date and time"
 label variable m2_date`i'  "102. Date of interview (D-M-Y)"
 label variable m2_date_time`i'  "Start time (YYYY:MM:DD HH:MM:SS)"
-label variable m2_date_confirm`i'  "The date on this device is (m2_date), is this the correct date?"
+*label variable m2_date_confirm`i'  "The date on this device is (m2_date), is this the correct date?"
 label variable m2_time_start`i'  "103. Time of interview started"
 label variable m2_county`i'  "County"
 label variable m2_interviewer`i'  "Interviewer name"
-label variable m2_maternal_death_reported`i'  "108. Maternal death reported"
+*label variable m2_maternal_death_reported`i'  "108. Maternal death reported" // SS: confirm why this was dropped
 label variable m2_ga`i'  "107a. Gestational age at this call based on LNMP (in weeks)"
 label variable m2_hiv_status`i'  "109. HIV status"
 label variable m2_date_of_maternal_death`i'  "110. Date of maternal death (D-M-Y)"
@@ -1658,7 +1573,7 @@ label variable m2_314_3`i' "316. Was the fourth consultation for any of the foll
 label variable m2_314_4`i' "316. Was the fourth consultation for any of the following? To pick up medicine"
 label variable m2_314_5`i' "316. Was the fourth consultation for any of the following? To get a vaccine"
 label variable m2_314_96`i' "316. Was the fourth onsultation for any of the following? Other reasons"
-label variable m2_316_other`i' "316-Other. Specify other reason for the fourth consultation"
+*label variable m2_316_other`i' "316-Other. Specify other reason for the fourth consultation"
 label variable m2_317`i' "317. Was the fifth consultation is for a routine antenatal care visit?"
 label variable m2_318`i' "318. Was the fifth consultation is for a referral from your antenatal care provider?"
 label variable m2_317_1`i' "319. Was the fifth consultation is for any of the following? A new health problem, including an emergency or an injury"
@@ -1667,7 +1582,7 @@ label variable m2_317_3`i' "319. Was the fifth consultation is for any of the fo
 label variable m2_317_4`i' "319. Was the fifth consultation is for any of the following? To pick up medicine"
 label variable m2_317_5`i' "319. Was the fifth consultation is for any of the following? To get a vaccine"
 label variable m2_317_96`i' "319. Was the fifth consultation is for any of the following? Other reasons"
-label variable m2_319_other`i' "319-Other. Specify other reason for the fifth consultation"
+*label variable m2_319_other`i' "319-Other. Specify other reason for the fifth consultation"
 label variable m2_320_0`i' "320. No reason or you didn't need it"
 label variable m2_320a`i' "320. You tried but were sent away (e.g., no appointment available) "
 label variable m2_320b`i' "320. High cost (e.g., high out of pocket payment, not covered by insurance)"
@@ -1781,7 +1696,7 @@ label variable m2_705_5`i' "705. Family members or friends from outside the hous
 label variable m2_705_6`i' "705. Borrowed (from someone other than a friend or family)"
 label variable m2_705_96`i' "705. Other (please specify)"
 label variable m2_705_other`i' "705-Other. Other financial sources, specify"
-label variable m2_refused_why`i' "KE only: Why are you unwilling to participate in the study?"
+*label variable m2_refused_why`i' "KE only: Why are you unwilling to participate in the study?"
 label variable m2_complete`i' "Call status"
 label variable m2_enum`i' "Enumerator"
 label variable m2_endtime`i' "103B. Time of Interview end"
@@ -1810,17 +1725,17 @@ order m1_1218_total_ke, after(m1_1218_other_total_ke)
 	
 * Module 2:
 order m2_attempt_number* m2_attempt_number_other* m2_attempt_outcome* m2_resp_lang1* ///
-	  m2_resp_lang2* m2_resp_lang_other* m2_attempt_relationship* m2_attempt_relationship_other*, after(m1_end_time) 
+	  m2_attempt_relationship*, after(m1_end_time) 
 	  
-order m2_attempt_avail* m2_attempt_contact* m2_attempt_goodtime* m2_reschedule_resp* m2_completed_attempts* ///
+order m2_attempt_avail* m2_attempt_goodtime* m2_completed_attempts* ///
 	  m2_consent_recording* m2_consent*, after(m2_attempt_relationship_r6)
 	  
-order m2_date* m2_start_time* m2_date_time* m2_time_start* m2_date_confirm* m2_interviewer* m2_enum* ///
-	  m2_site* m2_county* m2_maternal_death_reported* m2_date_of_maternal_death* ///
+order m2_date* m2_start_time* m2_date_time* m2_time_start* m2_interviewer* m2_enum* ///
+	  m2_site* m2_county* m2_date_of_maternal_death* ///
 	  m2_ga* m2_ga_estimate* gest_age_baseline* m2_hiv_status* m2_maternal_death_learn* m2_maternal_death_learn_other*, after(m2_consent_recording_r6)
 
 order m2_date_of_maternal_death_YN*, before(m2_date_of_maternal_death_r6)	  
-order m2_refused_why* m2_complete* m2_endtime*, after(m2_705_other_r6)
+order m2_complete* m2_endtime*, after(m2_705_other_r6)
 order m2_phq2_ke*, after(m2_205b_r6)	
 
 *------------------------------------------------------------------------------*
@@ -1834,7 +1749,7 @@ order m2_phq2_ke*, after(m2_205b_r6)
 
 * Import data
 clear all 
-use "$ke_data/Module 3/KEMRI_Module_3.dta"
+use "$ke_data/Module 3/240325_KEMRI_Module_3_no_pii_4-2.dta"
 
 *drop ineligible pids:
 drop if consent !=1
@@ -1854,7 +1769,8 @@ drop q_902_o_1 q_901r_oth q_804_o q_801a_calc q_801b_calc q_107_trim q_1104_o q_
 
 *------------------------------------------------------------------------------*	
 	* STEP ONE: RENAME VARAIBLES
-
+	
+rename q_104 respondentid	
 rename refused_why m3_refused_why
 	
 * Variables from M2 in this dataset:
@@ -3169,8 +3085,6 @@ drop _merge
 	
 	* STEP FIVE: ORDER VARIABLES
 	
-*drop bornalive_babies m2_maternal_death_reported m2_maternal_death_learn m2_maternal_death_learn_other m2_202 m2_601 m2_date_of_maternal_death m2_ga m2_hiv_status	
-	
 order m1_* m2_* m3_*, sequential
 
 * Module 1:
@@ -3190,13 +3104,13 @@ order m1_1218_total_ke, after(m1_1218_other_total_ke)
 	
 * Module 2:
 order m2_attempt_number* m2_attempt_number_other* m2_attempt_outcome* m2_resp_lang1* ///
-	  m2_resp_lang2* m2_resp_lang_other* m2_attempt_relationship* m2_attempt_relationship_other*, after(m1_end_time) 
+	  m2_attempt_relationship*, after(m1_end_time) 
 	  
-order m2_attempt_avail* m2_attempt_contact* m2_attempt_goodtime* m2_reschedule_resp* m2_completed_attempts* ///
+order m2_attempt_avail* m2_attempt_goodtime* m2_completed_attempts* ///
 	  m2_consent_recording* m2_consent*, after(m2_attempt_relationship_r6)
 	  
 order m2_date* m2_start_time* m2_date_time* m2_time_start* m2_date_confirm* m2_interviewer* m2_enum* ///
-	  m2_site* m2_county* m2_maternal_death_reported* m2_date_of_maternal_death* ///
+	  m2_site* m2_county* m2_date_of_maternal_death* ///
 	  m2_ga* m2_ga_estimate* gest_age_baseline* m2_hiv_status* m2_maternal_death_learn* m2_maternal_death_learn_other*, after(m2_consent_recording_r6)
 
 order m2_date_of_maternal_death_YN*, before(m2_date_of_maternal_death_r6)	  
@@ -3252,16 +3166,17 @@ order m3_refused_why, after(m3_datetime_rescheduled)
 	* STEP SIX: SAVE DATA TO RECODED FOLDER
 
 	save "$ke_data_final/eco_m1-m3_ke.dta", replace
-	clear all
+	
 */
 *===============================================================================
 * MODULE 4:	
 * Created: February 6, 2024
 * Author: Mariia, Emma D.Clarke
 
-* import data
-use "$ke_data/Module 4/KEMRI_Module_4_Final.dta",clear
+clear all
 
+* import data
+use "$ke_data/Module 4/KEMRI_Module_4_Final.dta"
 
 drop first_name last_name full_name facility_name county enum_name_mod1 enum_name best_phone_resp baby_name_1 baby_label_1 baby_list baby_alive_list baby_died_list alive_babies dead_babies baby_list_dead baby_name_care_1 baby_label_care_1 baby_list_care baby_name_med_1 baby_label_med_1 baby_list_med confirm_phone end_comment endtime
 
@@ -3276,6 +3191,7 @@ drop time_start_full text_audit consent_audio section8_audio mean_sound_level mi
 
 
 *-----according to variable list 
+rename q_104 respondentid
 rename q_101 m4_interviewer
 rename q_102 m4_date
 rename q_103 m4_time
@@ -4518,8 +4434,6 @@ drop _merge
 *==============================================================================*
 
 	* STEP FIVE: ORDER VARIABLES
-	
-*drop bornalive_babies m2_maternal_death_reported m2_maternal_death_learn m2_maternal_death_learn_other m2_202 m2_601 m2_date_of_maternal_death m2_ga m2_hiv_status	
 
 drop preferred_language preferred_language_1 preferred_language_2 preferred_language_3 preferred_language_4 preferred_language__96 preferred_language_oth formdef_version key submissiondate
 
@@ -4547,13 +4461,13 @@ order m1_1218_total_ke, after(m1_1218_other_total_ke)
 	
 * Module 2:
 order m2_attempt_number* m2_attempt_number_other* m2_attempt_outcome* m2_resp_lang1* ///
-	  m2_resp_lang2* m2_resp_lang_other* m2_attempt_relationship* m2_attempt_relationship_other*, after(m1_end_time) 
+	  m2_attempt_relationship*, after(m1_end_time) 
 	  
-order m2_attempt_avail* m2_attempt_contact* m2_attempt_goodtime* m2_reschedule_resp* m2_completed_attempts* ///
+order m2_attempt_avail* m2_attempt_goodtime* m2_completed_attempts* ///
 	  m2_consent_recording* m2_consent*, after(m2_attempt_relationship_r6)
 	  
 order m2_date* m2_start_time* m2_date_time* m2_time_start* m2_date_confirm* m2_interviewer* m2_enum* ///
-	  m2_site* m2_county* m2_maternal_death_reported* m2_date_of_maternal_death* ///
+	  m2_site* m2_county* m2_date_of_maternal_death* ///
 	  m2_ga* m2_ga_estimate* gest_age_baseline* m2_hiv_status* m2_maternal_death_learn* m2_maternal_death_learn_other*, after(m2_consent_recording_r6)
 
 order m2_date_of_maternal_death_YN*, before(m2_date_of_maternal_death_r6)	  
@@ -4677,7 +4591,7 @@ drop q203_1 q206_1 q210_1 q703_1
 
 rename (consent no_consent starttime endtime duration today today_date date_confirm submissiondate id_resp live_babies baby_list_numbers alive_babies ///
         dead_babies c_section hiv_status baby_repeat_count baby_index_1) (m5_consent m5_no_consent m5_starttime m5_endtime m5_duration m5_date ///
-		m5_todaydate m5_dateconfirm m5_submissiondate m5_resp_id m5_n_livebabies m5_n_babies m5_n_alivebabies m5_n_deadbabies m5_csection m5_hiv_status ///
+		m5_todaydate m5_dateconfirm m5_submissiondate respondentid m5_n_livebabies m5_n_babies m5_n_alivebabies m5_n_deadbabies m5_csection m5_hiv_status ///
 		m5_n_baby_repeat m5_baby_index_1)
 
 rename (q201_1 q202_1 q203_1_1 q203_2_1 q203_3_1 q203_4_1 q203_5_1 q203_6_1 q203_7_1 q203_99_1 q204) (m5_babyalive m5_babyhealth m5_babyfeed_a ///
@@ -5775,7 +5689,16 @@ lab var m5_baby_hc "M5-1403. Baby's head circumference in centimeters"
 lab var m5_n_baby_assess "M5-1401-baby-assessment. The number of babies whose anthropometric measurements being surveyed"
 lab var m5_end_comment "M5-end-comment. The comment at the end of interview"	
 	
-*===============================================================================
+*------------------------------------------------------------------------------*
+*merge dataset with M1-M4
+
+*drop failed attempts:
+*drop if m4_attempt_outcome !=1 | m4_call_status !=1 | m4_unavailable_reschedule ==1 // 193 observations deleted
+
+merge 1:1 respondentid using "$ke_data_final/eco_m1-m4_ke.dta", force
+drop _merge
+
+*==============================================================================*
 	
 order m1_* m2_*, sequential
 
@@ -5798,13 +5721,13 @@ order m1_1218_total_ke, after(m1_1218_other_total_ke)
 	
 * Module 2:
 order m2_attempt_number* m2_attempt_number_other* m2_attempt_outcome* m2_resp_lang1* ///
-	  m2_resp_lang2* m2_resp_lang_other* m2_attempt_relationship* m2_attempt_relationship_other*, after(m1_end_time) 
+	  m2_attempt_relationship*, after(m1_end_time) 
 	  
-order m2_attempt_avail* m2_attempt_contact* m2_attempt_goodtime* m2_reschedule_resp* m2_completed_attempts* ///
+order m2_attempt_avail* m2_attempt_goodtime* m2_completed_attempts* ///
 	  m2_consent_recording* m2_consent*, after(m2_attempt_relationship_r6)
 	  
 order m2_date* m2_start_time* m2_date_time* m2_time_start* m2_date_confirm* m2_interviewer* m2_enum* ///
-	  m2_site* m2_county* m2_maternal_death_reported* m2_date_of_maternal_death* ///
+	  m2_site* m2_county* m2_date_of_maternal_death* ///
 	  m2_ga* m2_ga_estimate* gest_age_baseline* m2_hiv_status* m2_maternal_death_learn* m2_maternal_death_learn_other*, after(m2_consent_recording_r6)
 
 order m2_date_of_maternal_death_YN*, before(m2_date_of_maternal_death_r6)	  
