@@ -3551,7 +3551,7 @@ rename  q_802h_1 m4_baby1_802h
 rename  q_802i_1 m4_baby1_802i
 rename  q_802j_1 m4_baby1_802j
 rename  q_802j_oth_1 m4_baby1_802j_other
-rename  q_802e_1 m4_baby1_802k
+rename  q_802e_1 m4_baby1_802k_ke
 
 rename  q_803a_1 m4_baby1_803a
 rename  q_803b_1 m4_baby1_803b
@@ -4461,7 +4461,7 @@ label variable m4_baby1_802a "802A_1. Did your 1st baby get Iron supplements?"
 label variable m4_baby1_802b "802B_1. Did your 1st baby get Vitamin A supplements?"
 label variable m4_baby1_802c "802C_1. Did your 1st baby get Vitamin D supplements?"
 label variable m4_baby1_802d "802D_1. Did your 1st baby get Oral rehydration salts?"
-label variable m4_baby1_802k "802E_1. Did your 1st baby get Antidiarrheal medicine?"
+label variable m4_baby1_802k_ke "802E_1. Did your 1st baby get Antidiarrheal medicine?"
 label variable m4_baby1_802f "802F_1. Did your 1st baby get antibiotics ?"
 label variable m4_baby1_802g "802G_1. Did your 1st baby get medicine to prevent pneumonia ?"
 label variable m4_baby1_802h "802H_1. Did your 1st baby get Medicine for malaria [endemic areas]?"
@@ -4603,7 +4603,7 @@ order m3_num_alive_babies m3_num_dead_babies, after(m3_miscarriage)
 order m3_refused_why, after(m3_datetime_rescheduled)
 
 * Module 4:
-order m4_date m4_time m4_duration m4_interviewer respondentid m4_consent_recording m4_hiv_status m4_c_section m4_live_babies m4_date_delivery m4_weeks_delivery m4_number_of_babies m4_attempt_number m4_attempt_number_other m4_attempt_outcome m4_resp_language m4_resp_language_no m4_resp_language_no_oth m4_attempt_relationship m4_attempt_other  m4_attempt_avail m4_attempt_contact  m4_attempt_goodtime m4_resp_language m4_resp_language_no m4_resp_language_no_oth m4_maternal_death_reported m4_date_of_maternal_death m4_maternal_death_learn m4_maternal_death_learn_other m4_start m4_201a m4_baby1_health m4_baby1_feed_a m4_baby1_feed_b m4_baby1_feed_c m4_baby1_feed_d m4_baby1_feed_e m4_baby1_feed_f m4_baby1_feed_g m4_breastfeeding m4_baby1_sleep m4_baby1_feed  m4_baby1_breath m4_baby1_stool m4_baby1_mood m4_baby1_skin m4_baby1_interactivity m4_baby1_diarrhea m4_baby1_fever m4_baby1_lowtemp m4_baby1_illness m4_baby1_troublebreath m4_baby1_chestprob m4_baby1_troublefeed m4_baby1_convulsions m4_baby1_jaundice m4_206_none m4_baby1_otherprob m4_baby1_other m4_overallhealth m4_302a m4_302b m4_303a m4_303b m4_303c m4_303d m4_303e m4_303f m4_303g m4_303h m4_304 m4_305 m4_306 m4_307 m4_308 m4_309 m4_309_other m4_310 m4_401a m4_401b m4_402 m4_403a m4_403b m4_403c m4_404a m4_404a_other m4_404b m4_404b_other m4_404c m4_404c_other m4_405 m4_406a m4_406b m4_406c m4_406d m4_406e m4_406f m4_406g m4_406h m4_406i m4_406j m4_406k m4_406k_other m4_407 m4_408a m4_408b m4_408c m4_408d m4_408e m4_408f m4_408g m4_408h m4_408i m4_408j m4_408k m4_408k_other m4_409 m4_410a m4_410b m4_410c m4_410d m4_410e m4_410f m4_410g m4_410h m4_410i m4_410j m4_410k m4_410k_other m4_411a m4_411b m4_411c m4_412a m4_412a_unit m4_412b m4_412b_unit m4_412c m4_412c_unit m4_413 m4_413_other m4_501 m4_502 m4_baby1_601a m4_baby1_601b m4_baby1_601c m4_baby1_601d m4_baby1_601e m4_baby1_601f m4_baby1_601g m4_baby1_601h m4_baby1_601i m4_baby1_601i_other m4_602a m4_602b m4_602c m4_602d m4_602e m4_602f m4_602g m4_603_1a m4_603_1b m4_603_1c m4_603_1d  m4_603_1e m4_603_1f m4_603_1g m4_603_1h  m4_603_1h_other m4_701a m4_701b m4_701c m4_701d m4_701e m4_701f m4_701g m4_701h m4_701h_other m4_702 m4_703a m4_703b m4_703c m4_703d m4_703e m4_703f m4_703g m4_704a m4_704b m4_704c m4_801a m4_801b m4_801c m4_801d m4_801e m4_801f m4_801g m4_801h m4_801i m4_801j m4_801k m4_801l m4_801m m4_801n m4_801o m4_801p m4_801q m4_801r m4_801r_other m4_baby1_802a  m4_baby1_802b m4_baby1_802c m4_baby1_802d m4_baby1_802f m4_baby1_802g m4_baby1_802h m4_baby1_802i m4_baby1_802j m4_baby1_802j_other m4_baby1_802k m4_baby1_803a m4_baby1_803b  m4_baby1_803c m4_baby1_803d m4_baby1_803e m4_baby1_803f m4_baby1_803g m4_baby1_804 m4_804_other  m4_805 m4_901 m4_902a_amn m4_902b_amn m4_902c_amn m4_902d_amn m4_902e_amn m4_902e_oth m4_903 m4_904 m4_905a m4_905b m4_905c m4_905d m4_905e m4_905f m4_905g m4_905_other m4_conclusion_live_babies m4_place m4_refused_why m4_language m4_language_oth m4_reschedule_resp m4_unavailable_reschedule m4_reschedule_noavail m4_call_status, after(m3_refused_why)
+order m4_date m4_time m4_duration m4_interviewer respondentid m4_consent_recording m4_hiv_status m4_c_section m4_live_babies m4_date_delivery m4_weeks_delivery m4_number_of_babies m4_attempt_number m4_attempt_number_other m4_attempt_outcome m4_resp_language m4_resp_language_no m4_resp_language_no_oth m4_attempt_relationship m4_attempt_other  m4_attempt_avail m4_attempt_contact  m4_attempt_goodtime m4_resp_language m4_resp_language_no m4_resp_language_no_oth m4_maternal_death_reported m4_date_of_maternal_death m4_maternal_death_learn m4_maternal_death_learn_other m4_start m4_201a m4_baby1_health m4_baby1_feed_a m4_baby1_feed_b m4_baby1_feed_c m4_baby1_feed_d m4_baby1_feed_e m4_baby1_feed_f m4_baby1_feed_g m4_breastfeeding m4_baby1_sleep m4_baby1_feed  m4_baby1_breath m4_baby1_stool m4_baby1_mood m4_baby1_skin m4_baby1_interactivity m4_baby1_diarrhea m4_baby1_fever m4_baby1_lowtemp m4_baby1_illness m4_baby1_troublebreath m4_baby1_chestprob m4_baby1_troublefeed m4_baby1_convulsions m4_baby1_jaundice m4_206_none m4_baby1_otherprob m4_baby1_other m4_overallhealth m4_302a m4_302b m4_303a m4_303b m4_303c m4_303d m4_303e m4_303f m4_303g m4_303h m4_304 m4_305 m4_306 m4_307 m4_308 m4_309 m4_309_other m4_310 m4_401a m4_401b m4_402 m4_403a m4_403b m4_403c m4_404a m4_404a_other m4_404b m4_404b_other m4_404c m4_404c_other m4_405 m4_406a m4_406b m4_406c m4_406d m4_406e m4_406f m4_406g m4_406h m4_406i m4_406j m4_406k m4_406k_other m4_407 m4_408a m4_408b m4_408c m4_408d m4_408e m4_408f m4_408g m4_408h m4_408i m4_408j m4_408k m4_408k_other m4_409 m4_410a m4_410b m4_410c m4_410d m4_410e m4_410f m4_410g m4_410h m4_410i m4_410j m4_410k m4_410k_other m4_411a m4_411b m4_411c m4_412a m4_412a_unit m4_412b m4_412b_unit m4_412c m4_412c_unit m4_413 m4_413_other m4_501 m4_502 m4_baby1_601a m4_baby1_601b m4_baby1_601c m4_baby1_601d m4_baby1_601e m4_baby1_601f m4_baby1_601g m4_baby1_601h m4_baby1_601i m4_baby1_601i_other m4_602a m4_602b m4_602c m4_602d m4_602e m4_602f m4_602g m4_603_1a m4_603_1b m4_603_1c m4_603_1d  m4_603_1e m4_603_1f m4_603_1g m4_603_1h  m4_603_1h_other m4_701a m4_701b m4_701c m4_701d m4_701e m4_701f m4_701g m4_701h m4_701h_other m4_702 m4_703a m4_703b m4_703c m4_703d m4_703e m4_703f m4_703g m4_704a m4_704b m4_704c m4_801a m4_801b m4_801c m4_801d m4_801e m4_801f m4_801g m4_801h m4_801i m4_801j m4_801k m4_801l m4_801m m4_801n m4_801o m4_801p m4_801q m4_801r m4_801r_other m4_baby1_802a  m4_baby1_802b m4_baby1_802c m4_baby1_802d m4_baby1_802f m4_baby1_802g m4_baby1_802h m4_baby1_802i m4_baby1_802j m4_baby1_802j_other m4_baby1_802k_ke m4_baby1_803a m4_baby1_803b  m4_baby1_803c m4_baby1_803d m4_baby1_803e m4_baby1_803f m4_baby1_803g m4_baby1_804 m4_804_other  m4_805 m4_901 m4_902a_amn m4_902b_amn m4_902c_amn m4_902d_amn m4_902e_amn m4_902e_oth m4_903 m4_904 m4_905a m4_905b m4_905c m4_905d m4_905e m4_905f m4_905g m4_905_other m4_conclusion_live_babies m4_place m4_refused_why m4_language m4_language_oth m4_reschedule_resp m4_unavailable_reschedule m4_reschedule_noavail m4_call_status, after(m3_refused_why)
 
 
 *==============================================================================*
@@ -4688,7 +4688,7 @@ rename (q205a_1 q205b_1 q205c_1 q205d_1 q205e_1 q205f_1 q205g_1) (m5_baby_sleep 
 
 rename (q206_1_1 q206_2_1 q206_3_1 q206_4_1 q206_5_1 q206_6_1 q206_7_1 q206_8_1 q206_9_1 q206_0_1 q207a_1 q207b_1 q208_1 q209_1 q209_unit_1) ///
        (m5_baby_issue_a m5_baby_issue_b m5_baby_issue_c m5_baby_issue_d m5_baby_issue_e m5_baby_issue_f m5_baby_issue_g m5_baby_issue_h m5_baby_issue_i ///
-	    m5_baby_issue_j m5_baby_issue_oth m5_baby_issue_oth_text m5_babydied_date m5_babydied_time m5_babydied_time_unit)
+	    m5_baby_issue_j m5_baby_issue_oth m5_baby_issue_oth_text m5_baby_death_date m5_baby_death_time m5_baby_death_time_unit)
 
 rename (q210_0_1 q210_1_1 q210_2_1 q210_3_1 q210_4_1 q210_5_1 q210_6_1 q210_7_1 q210_8_1 q210_9_1 q210__96_1 q210_98_1 q210_99_1 q210_oth_1 q211_1 ///
         q212_1 q212_oth_1) (m5_death_cause_a m5_death_cause_b m5_death_cause_c m5_death_cause_d m5_death_cause_e m5_death_cause_f m5_death_cause_g ///
@@ -5307,17 +5307,17 @@ rename (q903a q903b q903c q903d q903e q903f q903_oth q904_1 q904_oth_1 q905) (m5
         m5_904_other m5_905)
 	
 rename (q1001 q1002a q1002b q1002c q1002d q1002e q1002_oth q1003 q1004 q1005 q1005_1 q1005_2 q1005_3 q1005_4 q1005_5 q1005_6 q1005__96 q1005_oth) ///
-       (m5_1001 m5_1002a m5_1002_b m5_1002_c m5_1002_d m5_1002_e m5_1002_oth m5_1003 m5_1004 m5_1005 m5_1005_a m5_1005_b m5_1005_c m5_1005_d m5_1005_e ///
-	    m5_1005_f m5_1005_oth m5_1005_oth_text)		
+       (m5_1001 m5_1002a m5_1002b m5_1002c m5_1002d m5_1002e m5_1002_other m5_1003 m5_1004 m5_1005 m5_1005a m5_1005b m5_1005c m5_1005d m5_1005e ///
+	    m5_1005f m5_1005_other m5_1005_other_text)		
 
 rename (q1101 q1102 q1102_1 q1102_2 q1102_3 q1102_4 q1102_5 q1102_6 q1102_7 q1102_8 q1102_9 q1102_10 q1102__96 q1102_98 q1102_99) (m5_1101 m5_1102 ///
-        m5_1102_a m5_1102_b m5_1102_c m5_1102_d m5_1102_e m5_1102_f m5_1102_g m5_1102_h m5_1102_i m5_1102_j m5_1102_oth m5_1102_98 m5_1102_99)
+        m5_1102a m5_1102b m5_1102c m5_1102d m5_1102e m5_1102f m5_1102g m5_1102h m5_1102i m5_1102j m5_1102_other m5_1102_98 m5_1102_99)
 
 rename (q1103 q1104 q1104_1 q1104_2 q1104_3 q1104_4 q1104_5 q1104_6 q1104_7 q1104_8 q1104_9 q1104_10 q1104__96 q1104_98 q1104_99 q1105) (m5_1103 ///
-        m5_1104 m5_1104_a m5_1104_b m5_1104_c m5_1104_d m5_1104_e m5_1104_f m5_1104_g m5_1104_h m5_1104_i m5_1104_j m5_1104_oth m5_1104_98 m5_1104_99 ///
+        m5_1104 m5_1104a m5_1104b m5_1104c m5_1104d m5_1104e m5_1104f m5_1104g m5_1104h m5_1104i m5_1104j m5_1104_other m5_1104_98 m5_1104_99 ///
 		m5_1105)
 
-rename (q1201 q1202 q1202_v2 q1301 q1302 q1303a q1303b q1303c q1304a q1304b q1304c q1305a q1305b q1305c q1306 q1307) (m5_1201 m5_1202_a m5_1202_b ///
+rename (q1201 q1202 q1202_v2 q1301 q1302 q1303a q1303b q1303c q1304a q1304b q1304c q1305a q1305b q1305c q1306 q1307) (m5_1201 m5_1202a m5_1202b ///
         m5_height m5_weight m5_sbp1 m5_dbp1 m5_pr1 m5_sbp2 m5_dbp2 m5_pr2 m5_sbp3 m5_dbp3 m5_pr3 m5_anemiatest m5_hb_level)
 		
 rename (baby_index_assess_1 q1401 q1402 q1403 baby_repeat_assess_count end_comment) (m5_baby_index_assess_1 m5_baby_weight m5_baby_length m5_baby_hc ///
@@ -5410,7 +5410,7 @@ replace m5_1104 = "No response/refusal" if m5_1104 == "99"
 *SS: Ask Wen-Chien to fix:
 /*
 
-recode m5_babyhealth m5_babydied_date m5_babydied_time m5_babydied_time_unit m5_death_treatment m5_death_place ///
+recode m5_babyhealth m5_baby_death_date m5_baby_death_time m5_baby_death_time_unit m5_death_treatment m5_death_place ///
        m5_feeling_a m5_feeling_b m5_feeling_c m5_feeling_d m5_feeling_e m5_feeling_f m5_feeling_g m5_feeling_h ///
 	   m5_leakage_when m5_leakage_affect m5_leakage_treatment m5_leakage_no_treatment m5_leakage_treateffect  /// 
 	   m5_breastfeeding m5_baby_sleep m5_baby_feed m5_baby_breath m5_baby_stool m5_baby_mood m5_baby_skin m5_baby_interactivity ///
@@ -5451,9 +5451,7 @@ lab var m5_n_alivebabies "M5. Number of babies that were alive"
 lab var m5_n_deadbabies "M5. Number of babies that died"
 lab var m5_csection "M5. C-section"
 lab var m5_hiv_status "M5. Maternal HIV status."
-lab var m5_n_baby_repeat "M5. Number of babies repeated in the survey "
-lab var m5_baby_index_1 "M5-201-baby index. Index of the baby"
-		
+
 lab var m5_babyalive "M5-201. Could you please confirm if the baby is still alive, or did something else happen?"
 lab var m5_babyhealth "M5-202. In general, how would you rate the baby's overall health?"
 lab var m5_babyfeed_a "M5-203-a. Please indicate how you have fed the baby in the last 7 days? (choice=Breast milk)"
@@ -5486,9 +5484,9 @@ lab var m5_baby_issue_j "M5-206j. Did the baby experience any of the following i
 lab var m5_baby_issue_oth "M5-206-oth. Did the baby experience any other health problems since you last spoke to us?"
 lab var m5_baby_issue_oth_text "M5-206-oth-text. Describe the health problems"
 
-lab var m5_babydied_date "M5-208. On what date did the baby die?"
-lab var m5_babydied_time "M5-209. How many weeks or days old was the baby when he/she died?"
-lab var m5_babydied_time_unit "M5-208-unit. The unit of time"
+lab var m5_baby_death_date "M5-208. On what date did the baby die?"
+lab var m5_baby_death_time "M5-209. How many weeks or days old was the baby when he/she died?"
+lab var m5_baby_death_time_unit "M5-208-unit. The unit of time"
 lab var m5_death_cause_a "M5-210-a. What were you told was the cause of death of the baby? (choice=Not told anything)"
 lab var m5_death_cause_b "M5-210-b. What were you told was the cause of death of the baby? (choice=The baby was premature, born too early)"
 lab var m5_death_cause_c "M5-210-c. What were you told was the cause of death of the baby? (choice=A birth injury or asphyxia (occurring because of delivery complications))"
@@ -5704,59 +5702,59 @@ lab var m5_905 "M5-905. How much did you pay for these new medications, suppleme
 	
 lab var m5_1001 "M5-1001. Did you pay any money out of your pocket for these new visits, including for the consultation or other indirect costs like your transport to the facility?"
 lab var m5_1002a "M5-1002-a. Plese specify how much you paid for registration/ Consultation."
-lab var m5_1002_b "M5-1002-b. Plese specify how much you paid for test or investigations (lab tests, ultrasound etc.)."
-lab var m5_1002_c "M5-1002-c. Plese specify how much you paid for transport (round trip) including that of the person accompanying you."
-lab var m5_1002_d "M5-1002-d. Plese specify how much you paid for food and accommodation including that of person accompanying you."
-lab var m5_1002_e "M5-1002-e. Plese specify how much you paid for other (specify)"
-lab var m5_1002_oth "M5-1002-oth. Please specify what other service or product you spent money on."
+lab var m5_1002b "M5-1002-b. Plese specify how much you paid for test or investigations (lab tests, ultrasound etc.)."
+lab var m5_1002c "M5-1002-c. Plese specify how much you paid for transport (round trip) including that of the person accompanying you."
+lab var m5_1002d "M5-1002-d. Plese specify how much you paid for food and accommodation including that of person accompanying you."
+lab var m5_1002e "M5-1002-e. Plese specify how much you paid for other (specify)"
+lab var m5_1002_other "M5-1002-oth. Please specify what other service or product you spent money on."
 lab var m5_1003 "M5-1003. So in total you spent [total_spent] Ksh. Is that correct?"
 lab var m5_1004 "M5-1004. So how much in total would you say you spent?"
 lab var m5_1005 "M5-1005. Which of the following financial sources did your household use to pay for this?"
-lab var m5_1005_a "M5-1005-a. Which of the following financial sources did your household use to pay for this? Current income of any household members"
-lab var m5_1005_b "M5-1005-b. Which of the following financial sources did your household use to pay for this? Savings (e.g., bank account)"
-lab var m5_1005_c "M5-1005-c. Which of the following financial sources did your household use to pay for this? Payment or reimbursement from a health insurance plan"
-lab var m5_1005_d "M5-1005-d. Which of the following financial sources did your household use to pay for this? Sold items (e.g., furniture, animals, jewellery)"
-lab var m5_1005_e "M5-1005-e. Which of the following financial sources did your household use to pay for this? Family members or friends from outside the household"
-lab var m5_1005_f "M5-1005-f. Which of the following financial sources did your household use to pay for this? Borrowed (from someone other than a friend or family)"
-lab var m5_1005_oth "M5-1005-oth. Which of the following financial sources did your household use to pay for this? Other."
-lab var m5_1005_oth_text "M5-1005-oth-text. Could you specify the financial source?"
+lab var m5_1005a "M5-1005-a. Which of the following financial sources did your household use to pay for this? Current income of any household members"
+lab var m5_1005b "M5-1005-b. Which of the following financial sources did your household use to pay for this? Savings (e.g., bank account)"
+lab var m5_1005c "M5-1005-c. Which of the following financial sources did your household use to pay for this? Payment or reimbursement from a health insurance plan"
+lab var m5_1005d "M5-1005-d. Which of the following financial sources did your household use to pay for this? Sold items (e.g., furniture, animals, jewellery)"
+lab var m5_1005e "M5-1005-e. Which of the following financial sources did your household use to pay for this? Family members or friends from outside the household"
+lab var m5_1005f "M5-1005-f. Which of the following financial sources did your household use to pay for this? Borrowed (from someone other than a friend or family)"
+lab var m5_1005_other "M5-1005-oth. Which of the following financial sources did your household use to pay for this? Other."
+lab var m5_1005_other_text "M5-1005-oth-text. Could you specify the financial source?"
 	
 lab var m5_1101 "M5-1101. At any point during this pregnancy and since the delivery, has anyone ever hit, slapped, kicked, or done anything else to hurt you physically?"
 lab var m5_1102 "M5-1102. Who did these things to physically hurt you?"
-lab var m5_1102_a "M5-1102-a. Who did these things to physically hurt you? Current husband / partner."
-lab var m5_1102_b "M5-1102-b. Who did these things to physically hurt you? Parent (mother, father, step-parent, in-law)."
-lab var m5_1102_c "M5-1102-c. Who did these things to physically hurt you? Sibling."
-lab var m5_1102_d "M5-1102-d. Who did these things to physically hurt you? Child."
-lab var m5_1102_e "M5-1102-e. Who did these things to physically hurt you? Late/last/ex-husband/partner."
-lab var m5_1102_f "M5-1102-f. Who did these things to physically hurt you? Other relative."
-lab var m5_1102_g "M5-1102-g. Who did these things to physically hurt you? Friend/acquaintance"
-lab var m5_1102_h "M5-1102-h. Who did these things to physically hurt you? Teacher."
-lab var m5_1102_i "M5-1102-i. Who did these things to physically hurt you? Employer."
-lab var m5_1102_j "M5-1102-j. Who did these things to physically hurt you? Stranger."
-lab var m5_1102_oth "M5-1102-oth. Who did these things to physically hurt you? Other (specify)"
+lab var m5_1102a "M5-1102-a. Who did these things to physically hurt you? Current husband / partner."
+lab var m5_1102b "M5-1102-b. Who did these things to physically hurt you? Parent (mother, father, step-parent, in-law)."
+lab var m5_1102c "M5-1102-c. Who did these things to physically hurt you? Sibling."
+lab var m5_1102d "M5-1102-d. Who did these things to physically hurt you? Child."
+lab var m5_1102e "M5-1102-e. Who did these things to physically hurt you? Late/last/ex-husband/partner."
+lab var m5_1102f "M5-1102-f. Who did these things to physically hurt you? Other relative."
+lab var m5_1102g "M5-1102-g. Who did these things to physically hurt you? Friend/acquaintance"
+lab var m5_1102h "M5-1102-h. Who did these things to physically hurt you? Teacher."
+lab var m5_1102i "M5-1102-i. Who did these things to physically hurt you? Employer."
+lab var m5_1102j "M5-1102-j. Who did these things to physically hurt you? Stranger."
+lab var m5_1102_other "M5-1102-oth. Who did these things to physically hurt you? Other (specify)"
 lab var m5_1102_98 "M5-1102-98. Who did these things to physically hurt you? Don´t know."
 lab var m5_1102_99 "M5-1102-99. Who did these things to physically hurt you? No response/refusal."	
 	
 lab var m5_1103 "M5-1103. At any point during your this most recent pregnancy or since the delivery, has anyone ever said or done something to humiliate you, insulted you or made you feel bad about yourself?"
 lab var m5_1104 "M5-1104. Who did these things to emotionally hurt you? "
-lab var m5_1104_a "M5-1104-a. Who did these things to emotionally hurt you? Current husband/partner."
-lab var m5_1104_b "M5-1104-b. Who did these things to emotionally hurt you? Parent (mother, father, step-parent, in-law)."
-lab var m5_1104_c "M5-1104-c. Who did these things to emotionally hurt you? Sibling."
-lab var m5_1104_d "M5-1104-d. Who did these things to emotionally hurt you? Child"
-lab var m5_1104_e "M5-1104-e. Who did these things to emotionally hurt you? Late/last/ex-husband/partner."
-lab var m5_1104_f "M5-1104-f. Who did these things to emotionally hurt you? Other relative."
-lab var m5_1104_g "M5-1104-g. Who did these things to emotionally hurt you? Friend/acquaintance. "
-lab var m5_1104_h "M5-1104-h. Who did these things to emotionally hurt you? Teacher."
-lab var m5_1104_i "M5-1104-i. Who did these things to emotionally hurt you? Employer."
-lab var m5_1104_j "M5-1104-j. Who did these things to emotionally hurt you? Stranger."
-lab var m5_1104_oth "M5-1104-oth. Who did these things to emotionally hurt you? Other (specify)."
+lab var m5_1104a "M5-1104-a. Who did these things to emotionally hurt you? Current husband/partner."
+lab var m5_1104b "M5-1104-b. Who did these things to emotionally hurt you? Parent (mother, father, step-parent, in-law)."
+lab var m5_1104c "M5-1104-c. Who did these things to emotionally hurt you? Sibling."
+lab var m5_1104d "M5-1104-d. Who did these things to emotionally hurt you? Child"
+lab var m5_1104e "M5-1104-e. Who did these things to emotionally hurt you? Late/last/ex-husband/partner."
+lab var m5_1104f "M5-1104-f. Who did these things to emotionally hurt you? Other relative."
+lab var m5_1104g "M5-1104-g. Who did these things to emotionally hurt you? Friend/acquaintance. "
+lab var m5_1104h "M5-1104-h. Who did these things to emotionally hurt you? Teacher."
+lab var m5_1104i "M5-1104-i. Who did these things to emotionally hurt you? Employer."
+lab var m5_1104j "M5-1104-j. Who did these things to emotionally hurt you? Stranger."
+lab var m5_1104_other "M5-1104-oth. Who did these things to emotionally hurt you? Other (specify)."
 lab var m5_1104_98 "M5-1104-98. Don´t know."
 lab var m5_1104_99 "M5-1104-99. No response/refusal."
 lab var m5_1105 "M5-1105. During your pregnancy or since the delivery, did a health provider discuss with you where you can seek support for these things?"
 
 lab var m5_1201 "M5-1201. To conclude this survey, overall, please tell me how satisfied you are with the health services you received throughout your pregnancy and delivery."
-lab var m5_1202_a "M5-1202-a. Finally, what is your total monthly household income on average (i.e., in a typical month)? Please give your best estimate and include all sources of income that your household receives per month."
-lab var m5_1202_b "M5-1202-b. If you think about your total monthly household income on average (i.e., in a typical month), which of these categories does it fit into? Please give your best estimate and include all sources of income that your household receives per month."
+lab var m5_1202a "M5-1202-a. Finally, what is your total monthly household income on average (i.e., in a typical month)? Please give your best estimate and include all sources of income that your household receives per month."
+lab var m5_1202b "M5-1202-b. If you think about your total monthly household income on average (i.e., in a typical month), which of these categories does it fit into? Please give your best estimate and include all sources of income that your household receives per month."
 lab var m5_height "M5-1301. Height in cm"
 lab var m5_weight "M5-1302. Weight in kilograms"
 lab var m5_sbp1 "M5-1303-a. 1st systolic blood pressure"
@@ -5781,7 +5779,7 @@ lab var m5_end_comment "M5-end-comment. The comment at the end of interview"
 	
 order m1_* m2_*, sequential
 
-order m1_* m2_* m3_* m4_*, sequential
+order m1_* m2_* m3_* m4_* m5_*, sequential
 
 * Module 1:
 order country respondentid interviewer_id m1_date m1_start_time study_site facility_name ///
@@ -5856,7 +5854,7 @@ order m3_num_alive_babies m3_num_dead_babies, after(m3_miscarriage)
 order m3_refused_why, after(m3_datetime_rescheduled)
 
 * Module 4:
-order m4_date m4_time m4_duration m4_interviewer respondentid m4_consent_recording m4_hiv_status m4_c_section m4_live_babies m4_date_delivery m4_weeks_delivery m4_number_of_babies m4_attempt_number m4_attempt_number_other m4_attempt_outcome m4_resp_language m4_resp_language_no m4_resp_language_no_oth m4_attempt_relationship m4_attempt_other  m4_attempt_avail m4_attempt_contact  m4_attempt_goodtime m4_resp_language m4_resp_language_no m4_resp_language_no_oth m4_maternal_death_reported m4_date_of_maternal_death m4_maternal_death_learn m4_maternal_death_learn_other m4_start m4_201a m4_baby1_health m4_baby1_feed_a m4_baby1_feed_b m4_baby1_feed_c m4_baby1_feed_d m4_baby1_feed_e m4_baby1_feed_f m4_baby1_feed_g m4_breastfeeding m4_baby1_sleep m4_baby1_feed  m4_baby1_breath m4_baby1_stool m4_baby1_mood m4_baby1_skin m4_baby1_interactivity m4_baby1_diarrhea m4_baby1_fever m4_baby1_lowtemp m4_baby1_illness m4_baby1_troublebreath m4_baby1_chestprob m4_baby1_troublefeed m4_baby1_convulsions m4_baby1_jaundice m4_206_none m4_baby1_otherprob m4_baby1_other m4_overallhealth m4_302a m4_302b m4_303a m4_303b m4_303c m4_303d m4_303e m4_303f m4_303g m4_303h m4_304 m4_305 m4_306 m4_307 m4_308 m4_309 m4_309_other m4_310 m4_401a m4_401b m4_402 m4_403a m4_403b m4_403c m4_404a m4_404a_other m4_404b m4_404b_other m4_404c m4_404c_other m4_405 m4_406a m4_406b m4_406c m4_406d m4_406e m4_406f m4_406g m4_406h m4_406i m4_406j m4_406k m4_406k_other m4_407 m4_408a m4_408b m4_408c m4_408d m4_408e m4_408f m4_408g m4_408h m4_408i m4_408j m4_408k m4_408k_other m4_409 m4_410a m4_410b m4_410c m4_410d m4_410e m4_410f m4_410g m4_410h m4_410i m4_410j m4_410k m4_410k_other m4_411a m4_411b m4_411c m4_412a m4_412a_unit m4_412b m4_412b_unit m4_412c m4_412c_unit m4_413 m4_413_other m4_501 m4_502 m4_baby1_601a m4_baby1_601b m4_baby1_601c m4_baby1_601d m4_baby1_601e m4_baby1_601f m4_baby1_601g m4_baby1_601h m4_baby1_601i m4_baby1_601i_other m4_602a m4_602b m4_602c m4_602d m4_602e m4_602f m4_602g m4_603_1a m4_603_1b m4_603_1c m4_603_1d  m4_603_1e m4_603_1f m4_603_1g m4_603_1h  m4_603_1h_other m4_701a m4_701b m4_701c m4_701d m4_701e m4_701f m4_701g m4_701h m4_701h_other m4_702 m4_703a m4_703b m4_703c m4_703d m4_703e m4_703f m4_703g m4_704a m4_704b m4_704c m4_801a m4_801b m4_801c m4_801d m4_801e m4_801f m4_801g m4_801h m4_801i m4_801j m4_801k m4_801l m4_801m m4_801n m4_801o m4_801p m4_801q m4_801r m4_801r_other m4_baby1_802a  m4_baby1_802b m4_baby1_802c m4_baby1_802d m4_baby1_802f m4_baby1_802g m4_baby1_802h m4_baby1_802i m4_baby1_802j m4_baby1_802j_other m4_baby1_802k m4_baby1_803a m4_baby1_803b  m4_baby1_803c m4_baby1_803d m4_baby1_803e m4_baby1_803f m4_baby1_803g m4_baby1_804 m4_804_other  m4_805 m4_901 m4_902a_amn m4_902b_amn m4_902c_amn m4_902d_amn m4_902e_amn m4_902e_oth m4_903 m4_904 m4_905a m4_905b m4_905c m4_905d m4_905e m4_905f m4_905g m4_905_other m4_conclusion_live_babies m4_place m4_refused_why m4_language m4_language_oth m4_reschedule_resp m4_unavailable_reschedule m4_reschedule_noavail m4_call_status, after(m3_refused_why)
+order m4_date m4_time m4_duration m4_interviewer respondentid m4_consent_recording m4_hiv_status m4_c_section m4_live_babies m4_date_delivery m4_weeks_delivery m4_number_of_babies m4_attempt_number m4_attempt_number_other m4_attempt_outcome m4_resp_language m4_resp_language_no m4_resp_language_no_oth m4_attempt_relationship m4_attempt_other  m4_attempt_avail m4_attempt_contact  m4_attempt_goodtime m4_resp_language m4_resp_language_no m4_resp_language_no_oth m4_maternal_death_reported m4_date_of_maternal_death m4_maternal_death_learn m4_maternal_death_learn_other m4_start m4_201a m4_baby1_health m4_baby1_feed_a m4_baby1_feed_b m4_baby1_feed_c m4_baby1_feed_d m4_baby1_feed_e m4_baby1_feed_f m4_baby1_feed_g m4_breastfeeding m4_baby1_sleep m4_baby1_feed  m4_baby1_breath m4_baby1_stool m4_baby1_mood m4_baby1_skin m4_baby1_interactivity m4_baby1_diarrhea m4_baby1_fever m4_baby1_lowtemp m4_baby1_illness m4_baby1_troublebreath m4_baby1_chestprob m4_baby1_troublefeed m4_baby1_convulsions m4_baby1_jaundice m4_206_none m4_baby1_otherprob m4_baby1_other m4_overallhealth m4_302a m4_302b m4_303a m4_303b m4_303c m4_303d m4_303e m4_303f m4_303g m4_303h m4_304 m4_305 m4_306 m4_307 m4_308 m4_309 m4_309_other m4_310 m4_401a m4_401b m4_402 m4_403a m4_403b m4_403c m4_404a m4_404a_other m4_404b m4_404b_other m4_404c m4_404c_other m4_405 m4_406a m4_406b m4_406c m4_406d m4_406e m4_406f m4_406g m4_406h m4_406i m4_406j m4_406k m4_406k_other m4_407 m4_408a m4_408b m4_408c m4_408d m4_408e m4_408f m4_408g m4_408h m4_408i m4_408j m4_408k m4_408k_other m4_409 m4_410a m4_410b m4_410c m4_410d m4_410e m4_410f m4_410g m4_410h m4_410i m4_410j m4_410k m4_410k_other m4_411a m4_411b m4_411c m4_412a m4_412a_unit m4_412b m4_412b_unit m4_412c m4_412c_unit m4_413 m4_413_other m4_501 m4_502 m4_baby1_601a m4_baby1_601b m4_baby1_601c m4_baby1_601d m4_baby1_601e m4_baby1_601f m4_baby1_601g m4_baby1_601h m4_baby1_601i m4_baby1_601i_other m4_602a m4_602b m4_602c m4_602d m4_602e m4_602f m4_602g m4_603_1a m4_603_1b m4_603_1c m4_603_1d  m4_603_1e m4_603_1f m4_603_1g m4_603_1h  m4_603_1h_other m4_701a m4_701b m4_701c m4_701d m4_701e m4_701f m4_701g m4_701h m4_701h_other m4_702 m4_703a m4_703b m4_703c m4_703d m4_703e m4_703f m4_703g m4_704a m4_704b m4_704c m4_801a m4_801b m4_801c m4_801d m4_801e m4_801f m4_801g m4_801h m4_801i m4_801j m4_801k m4_801l m4_801m m4_801n m4_801o m4_801p m4_801q m4_801r m4_801r_other m4_baby1_802a  m4_baby1_802b m4_baby1_802c m4_baby1_802d m4_baby1_802f m4_baby1_802g m4_baby1_802h m4_baby1_802i m4_baby1_802j m4_baby1_802j_other m4_baby1_802k_ke m4_baby1_803a m4_baby1_803b  m4_baby1_803c m4_baby1_803d m4_baby1_803e m4_baby1_803f m4_baby1_803g m4_baby1_804 m4_804_other  m4_805 m4_901 m4_902a_amn m4_902b_amn m4_902c_amn m4_902d_amn m4_902e_amn m4_902e_oth m4_903 m4_904 m4_905a m4_905b m4_905c m4_905d m4_905e m4_905f m4_905g m4_905_other m4_conclusion_live_babies m4_place m4_refused_why m4_language m4_language_oth m4_reschedule_resp m4_unavailable_reschedule m4_reschedule_noavail m4_call_status, after(m3_refused_why)
 
 * Module 5:	
 
