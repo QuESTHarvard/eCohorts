@@ -1895,23 +1895,29 @@ drop q_405__96_3
 
 */
 
+/* 4-2 SS: These vars are no longer in the dataset?
 rename (q_412a_1 q_412b_1 q_412c_1 q_412d_1 q_412e_1 q_412f_1 q_412g_1 q_412g_oth_1 q_412i_1) ///
        (m3_412a_1_ke m3_412b_1_ke m3_412c_1_ke m3_412d_1_ke m3_412e_1_ke m3_412f_1_ke m3_412g_1_ke ///
-	   m3_412g_1_other m3_412i_1_ke )	
+	   m3_412g_1_other m3_412i_1_ke ) */
 
+	   *SS: 4-2, removed "q_412i_3"
 rename (q_412a_2 q_412a_3 q_412b_2 q_412b_3 q_412c_2 q_412c_3 q_412d_2 q_412d_3 q_412e_2 ///
-		q_412e_3 q_412f_2 q_412f_3 q_412g_2 q_412g_3 q_412i_2 q_412i_3) (m3_412a_2_ke m3_412a_3_ke ///
+		q_412e_3 q_412f_2 q_412f_3 q_412g_2 q_412g_3 q_412i_2) (m3_412a_2_ke m3_412a_3_ke ///
 		m3_412b_2_ke m3_412b_3_ke m3_412c_2_ke m3_412c_3_ke m3_412d_2_ke m3_412d_3_ke m3_412e_2_ke ///
-		m3_412e_3_ke m3_412f_2_ke m3_412f_3_ke m3_412g_2_ke m3_412g_3_ke m3_412i_2_ke m3_412i_3_ke)
+		m3_412e_3_ke m3_412f_2_ke m3_412f_3_ke m3_412g_2_ke m3_412g_3_ke m3_412i_2_ke)
 		
-rename (q_412g_oth_2 q_412g_oth_3) (m3_412g_2_other m3_412g_3_other)		
+* 4-2 SS: removed q_412g_oth_3		
+rename (q_412g_oth_2) (m3_412g_2_other)		
+
+*rename q_503_final m3_503_final //* 4-2 SS: no longer in 
 	   
-rename (q_504_n q_504_c q_504_r q_503_final q_506_pre q_506_pre_oth q_508 ///
- 		q_508_oth q_513a q_513b_n q_513b_c q_513_r q_513_calc q_514 q_515 q_516 ///
+* 4-2 SS: no longer in dataset (q_513_calc)		   
+rename (q_504_n q_504_c q_504_r  q_506_pre q_506_pre_oth q_508 ///
+ 		q_508_oth q_513a q_513b_n q_513b_c q_513_r q_514 q_515 q_516 ///
 		q_517 q_518_oth_del q_518_oth q_519 q_519_o q_520 q_521 q_521_unit) ///
-		(m3_504a m3_504b m3_504c m3_503_final m3_506_pre m3_506_pre_oth ///
+		(m3_504a m3_504b m3_504c m3_506_pre m3_506_pre_oth ///
 		m3_508 m3_509_other m3_513a m3_513_outside_zone_other m3_513b2 m3_513b3 ///
-		m3_513_final m3_514 m3_515 m3_516 m3_517 m3_518_other_complications ///
+		m3_514 m3_515 m3_516 m3_517 m3_518_other_complications ///
 		m3_518_other m3_519 m3_519_other m3_520 m3_521_ke m3_521_ke_unit)
 		
 rename (q_510 q_511 q_512_1 q_512_2) (m3_510 m3_511 m3_512_1_ke m3_512_2_ke)
@@ -2144,7 +2150,8 @@ rename q_307_1 m3_baby1_size
 rename q_305_2 m3_baby2_gender
 rename q_306_2 m3_baby2_age_weeks
 rename q_501 m3_501
-rename (q_502 q_503) (m3_502 m3_503)
+rename q_502 m3_502
+*rename q_503 m3_503 // 4-2 SS: no longer in the dataset
 rename q_506 m3_506
 rename q_507 m3_507
 rename q_509 m3_509
