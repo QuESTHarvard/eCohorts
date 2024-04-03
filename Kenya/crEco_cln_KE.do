@@ -16,7 +16,7 @@
 
 *------------------------------------------------------------------------------*
 * MODULE 1:
-
+/*
 * Import data
 clear all 
 use "$ke_data/Module 1/KEMRI_Module_1_ANC_2023z-9-6.dta"
@@ -1712,7 +1712,7 @@ order m2_phq2_ke*, after(m2_205b_r6)
 
 *===============================================================================
 * MODULE 3:
-
+*/
 * Import data
 clear all 
 use "$ke_data/Module 3/240325_KEMRI_Module_3_no_pii_4-2.dta"
@@ -1851,10 +1851,9 @@ drop q_405__96_3
 
 */
 
-/* 4-2 SS: These vars are no longer in the dataset?
 rename (q_412a_1 q_412b_1 q_412c_1 q_412d_1 q_412e_1 q_412f_1 q_412g_1 q_412g_oth_1 q_412i_1) ///
        (m3_412a_1_ke m3_412b_1_ke m3_412c_1_ke m3_412d_1_ke m3_412e_1_ke m3_412f_1_ke m3_412g_1_ke ///
-	   m3_412g_1_other m3_412i_1_ke ) */
+	   m3_412g_1_other m3_412i_1_ke)
 
 	   *SS: 4-2, removed "q_412i_3"
 rename (q_412a_2 q_412a_3 q_412b_2 q_412b_3 q_412c_2 q_412c_3 q_412d_2 q_412d_3 q_412e_2 ///
@@ -1960,7 +1959,7 @@ rename q_708__98_2 m3_baby2_issues_98
 rename q_708__99_2 m3_baby2_issues_99
 
 rename (q_709_1 q_709_o_1 q_709_2 q_710_1 q_710_2 q_711_1 q_711_unit_1 q_711_2 q_711_unit_2) ///
-	   (m3_baby2_issues_other_ke m3_708a m3_baby3_issues_other_ke m3_710a m3_710b m3_711c_1 m3_711c_1_unit m3_711c_2 m3_711c_2_unit)
+	   (m3_baby1_issues_other_ke m3_baby2_issues_othertext_ke m3_baby2_issues_other_ke m3_710a m3_710b m3_711c_1 m3_711c_1_unit m3_711c_2 m3_711c_2_unit)
 		
 rename (q_801a q_801b q_802a q_802b q_802c q_803a q_803b q_803c q_803d q_803e q_803f q_803g q_803h q_804 q_804_oth q_805 q_806 q_807 q_808a q_808b ///
         q_808b_oth q_809) (m3_801a m3_801b m3_802a m3_802b m3_802c m3_803a m3_803b m3_803c m3_803d m3_803e m3_803f m3_803g m3_803h m3_803j m3_803j_other ///
@@ -2116,18 +2115,18 @@ rename language m3_language
 *respondentid: 21311071736, duplicate M3 submission on same date
 *From KEMTRI: This ID was double-allocated to Isnina and Linah by mistake. That is why we have 2 entries of this ID. Linah has told me that initially the respondent told her she was still pregnant and so she conducted the interview. After she had finalised the interview the respondent then said she had had delivered. Linah proceded to do module 3 even though she had conducted an unnecessary module 2. Also both Isnina and Linah have conducted module 3 so we have 2 module 3 forms for this ID. I am suggesting we accept the module 2 done by Isnina since it was correct and accept module 3 done by Linah since it was the one done first.
 
-drop if respondentid == "21311071736" & m3_enum_name == "Isnina Musa"
+* drop if respondentid == "21311071736" & m3_enum_name == "Isnina Musa" SS: laterite needs to fix respondent id var
 
 
 *respondentid: 21711071310, duplicate M3 submission on same date
 *From KEMRI: Module 3 done twice. Keep the second interview of 2/11/2023. She delivered on 2nd October"
 
-drop if respondentid == "21711071310" & m3_date == date("05oct2023", "DMY")
+*drop if respondentid == "21711071310" & m3_date == date("05oct2023", "DMY") SS: laterite needs to fix respondent id var
 
 
 *respondentid: 1916081238, duplicate M3 submission on same date
 *From KEMRI: I have had a discussion with the en to determine how this happened. The en had a mix-up of the IDs. The second complete form is for 21419071300, a respondent from Kitui who delivered on 25th Oct. So for this second form everything else is correct apart from the respondent ID.
-replace respondentid="21419071300" if respondentid=="1916081238" & m3_birth_or_ended== date("25oct2023", "DMY")
+*replace respondentid="21419071300" if respondentid=="1916081238" & m3_birth_or_ended== date("25oct2023", "DMY") SS: laterite needs to fix respondent id var
 	
 	
 *===============================================================================
@@ -2143,7 +2142,7 @@ label define m3_baby2_weight -98 "DO NOT KNOW"
 label values m3_baby2_weight m3_baby2_weight
 	
 label define YN_m3 1 "Yes" 0 "No"
-label values m3_baby3_issues_other_ke m3_902j_baby2 YN_m3
+label values m3_baby2_issues_other_ke m3_902j_baby2 YN_m3
 
 label define m3_303a 1 "One" 2 "Two" 3 "Three or more" -98 "Don't Know" -99 "NR/RF"
 label values m3_303a m3_303a	
@@ -2157,12 +2156,13 @@ recode m3_phq2_score (1 = 0) (2 = 1) (3 = 2) (4 = 3) (5 = 4) (6 = 5)
 label define m3_phq2_score 1 "1" 2 "2" 3 "3" 4 "4" 5 "5", modify
 	
 	
-* Formatting Dates (SS: do this for all dates in all modules)	 
-	*Date and time of M3
+/* Formatting Dates
+
+	*Date and time of M3 - 4-2 SS: this was dropped
 	gen _m3_date_time_ = date(m3_date_time,"YMDhms")
 	drop m3_date_time
 	rename _m3_date_time_ m3_date_time
-	format m3_date_time %td  	
+	format m3_date_time %td */ 
 	
 	*gen _m3_date_ = date(m3_date,"YMD")
 	*drop m3_date
@@ -2188,17 +2188,17 @@ recode m3_303a m3_303b m3_baby1_gender m3_baby1_health m3_breastfeeding m3_baby1
 	   m3_baby1_born_alive2 m3_303c m3_baby2_gender m3_baby2_health m3_breastfeeding_2 ///
 	   m3_baby2_born_alive1 m3_401 m3_consultation_1 m3_consultation_referral_1 ///
 	   m3_412a_1_ke m3_412b_1_ke m3_412c_1_ke m3_412d_1_ke m3_412e_1_ke m3_412f_1_ke m3_412g_1_ke ///
-	   m3_412g_1_other m3_412g_3_other m3_412i_1_ke ///
+	   m3_412i_1_ke ///
 	   m3_consultation_2 m3_consultation_referral_2 m3_412a_2_ke m3_412b_2_ke m3_412c_2_ke m3_412d_2_ke m3_412e_2_ke ///
-	   m3_412f_2_ke m3_412g_2_ke m3_412i_2_ke m3_consultation_3 m3_consultation_referral_3 m3_412a_3_ke ///
+	   m3_412f_2_ke m3_412g_2_ke m3_412i_2_ke m3_consultation_3 m3_412a_3_ke ///
 	   m3_412b_3_ke m3_412c_3_ke m3_412d_3_ke ///
-	   m3_412e_3_ke m3_412f_3_ke m3_412i_3_ke m3_501 m3_503 m3_502 m3_509 m3_510 m3_512_1_ke m3_512_2_ke ///
+	   m3_412e_3_ke m3_412f_3_ke m3_501 m3_502 m3_509 m3_510 m3_512_1_ke m3_512_2_ke ///
 	   m3_513a m3_516 m3_517 m3_519 m3_601_hiv m3_601b m3_601c m3_602a m3_603a m3_603b m3_603c m3_604a ///
 	   m3_604b m3_605a m3_605b m3_606 m3_607 m3_608 m3_609 m3_610a m3_610b m3_611 m3_613 m3_615a ///
-	   m3_617a m3_618a_1 m3_618b_1 m3_618c_1 m3_620_1 m3_615b m3_617b m3_618a_2 m3_618b_2 m3_618c_2 ///
+	   m3_617a m3_618a_1 m3_618b_1 m3_618c_1 m3_620_1 m3_615b m3_617b ///
 	   m3_620_2 m3_619a m3_619b m3_619c m3_619d m3_619e m3_619g m3_619h m3_621b m3_622a m3_622c ///
 	   m3_701 m3_703 m3_704a m3_704b m3_704c m3_704d m3_704e m3_704f m3_704g m3_705 ///
-	   m3_706 m3_baby2_issues_other_ke m3_710a m3_710b m3_802a m3_803a m3_803b m3_803c m3_803d m3_803e ///
+	   m3_706 m3_baby1_issues_other_ke m3_710a m3_710b m3_802a m3_803a m3_803b m3_803c m3_803d m3_803e ///
 	   m3_803f m3_803g m3_803h m3_803j m3_805 m3_808a m3_809 m3_901a m3_901b m3_901c m3_901d m3_901e ///
 	   m3_901f m3_901g m3_901h m3_901i m3_901j m3_901k m3_901l m3_901m m3_901n m3_901o m3_901p m3_901q ///
 	   m3_901r m3_902a_baby1 m3_902b_baby1 m3_902c_baby1 m3_902d_baby1 m3_902e_baby1 m3_902f_baby1 ///
@@ -2212,16 +2212,16 @@ recode m3_303a m3_baby1_gender m3_baby1_weight m3_baby2_weight m3_baby1_born_ali
 	   m3_baby1_born_alive2 m3_baby2_gender m3_baby2_weight m3_baby2_born_alive1 ///
 	   m3_401 m3_consultation_1 m3_consultation_referral_1 ///
 	   m3_412a_1_ke m3_412b_1_ke m3_412c_1_ke m3_412d_1_ke m3_412e_1_ke m3_412f_1_ke m3_412g_1_ke ///
-	   m3_412g_1_other m3_412g_3_other m3_412i_1_ke ///
+	   m3_412i_1_ke ///
 	   m3_consultation_2 m3_consultation_referral_2 m3_412a_2_ke m3_412b_2_ke m3_412c_2_ke m3_412d_2_ke ///
-	   m3_412e_2_ke m3_412f_2_ke m3_412g_2_ke m3_412i_2_ke m3_consultation_3 m3_consultation_referral_3 ///
-	   m3_412a_3_ke m3_412b_3_ke m3_412c_3_ke m3_412d_3_ke m3_412e_3_ke m3_412f_3_ke m3_412i_3_ke m3_501 ///
-	   m3_503 m3_502 m3_510 m3_512_1_ke m3_512_2_ke m3_513a m3_517 m3_519 m3_601_hiv m3_601b m3_601c ///
+	   m3_412e_2_ke m3_412f_2_ke m3_412g_2_ke m3_412i_2_ke m3_consultation_3 ///
+	   m3_412a_3_ke m3_412b_3_ke m3_412c_3_ke m3_412d_3_ke m3_412e_3_ke m3_412f_3_ke m3_501 ///
+	   m3_502 m3_510 m3_512_1_ke m3_512_2_ke m3_513a m3_517 m3_519 m3_601_hiv m3_601b m3_601c ///
 	   m3_602a m3_602b m3_603a m3_603b m3_603c m3_604a m3_604b m3_605a m3_605b m3_606 m3_607 m3_608 ///
 	   m3_609 m3_610a m3_610b m3_611 m3_613 m3_615a m3_617a m3_618a_1 m3_618b_1 m3_618c_1 ///
-	   m3_620_1 m3_615b m3_617b m3_618a_2 m3_618b_2 m3_618c_2 m3_620_2 m3_619a m3_619b ///
+	   m3_620_1 m3_615b m3_617b m3_620_2 m3_619a m3_619b ///
 	   m3_619c m3_619d m3_619e m3_619g m3_619h m3_621b m3_622a m3_622c m3_701 m3_703 ///
-	   m3_704a m3_704b m3_704c m3_704d m3_704e m3_704f m3_704g m3_705 m3_706 m3_baby2_issues_other_ke ///
+	   m3_704a m3_704b m3_704c m3_704d m3_704e m3_704f m3_704g m3_705 m3_706 m3_baby1_issues_other_ke ///
 	   m3_710a m3_710b m3_802a m3_803a m3_803b m3_803c m3_803d m3_803e m3_803f ///
 	   m3_803g m3_803h m3_803j m3_805 m3_808a m3_809 m3_901a m3_901b m3_901c m3_901d m3_901e ///
 	   m3_901f m3_901g m3_901h m3_901i m3_901j m3_901k m3_901l m3_901m m3_901n m3_901o m3_901p ///
@@ -2236,6 +2236,9 @@ recode m3_303a m3_baby1_gender m3_baby1_weight m3_baby2_weight m3_baby1_born_ali
 recode m3_ga2_ke (999 = .d)	   
 
 recode m3_901_cost (-999 = .d) 	
+
+replace m3_412g_1_other = ".r" if m3_412g_1_other == "-99" 
+replace m3_412g_1_other = ".d" if m3_412g_1_other == "-98" 
 
 *------------------------------------------------------------------------------*
 * recoding for skip pattern logic:	   
@@ -2256,11 +2259,11 @@ recode m3_303a (. = .a) if m2_202 !=2 | m2_202 !=3
 recode m3_303b (. = .a) if m3_303a !=1 // SS: missing date on N=17 women?
 recode m3_303c (. = .a) if m3_303a !=2 
 
-replace m3_baby1_name = ".a" if m3_303b !=1
-replace m3_baby2_name = ".a" if m3_303c !=1
+*replace m3_baby1_name = ".a" if m3_303b !=1
+*replace m3_baby2_name = ".a" if m3_303c !=1
 
-recode m3_baby1_gender m3_baby1_weight m3_baby1_size m3_baby1_age_weeks m3_baby1_health (. = .a) if m3_303b !=1 // SS: fix data labels
-recode m3_baby2_gender m3_baby2_weight m3_baby2_size m3_baby2_age_weeks m3_baby1_health (. = .a) if m3_303c !=1
+recode m3_baby1_gender m3_baby1_weight m3_baby1_size m3_baby1_health (. = .a) if m3_303b !=1 // SS: fix data labels
+recode m3_baby2_gender m3_baby2_weight m3_baby2_size m3_baby1_health (. = .a) if m3_303c !=1
 
 recode m3_baby1_feed_a m3_baby1_feed_b m3_baby1_feed_c m3_baby1_feed_d m3_baby1_feed_e m3_baby1_feed_f m3_baby1_feed_g m3_baby1_feed_h m3_baby1_feed_99 (. = .a) if m3_303b !=1
 
@@ -2284,14 +2287,14 @@ recode m3_313a_baby2 m3_313c_baby2 m3_313d_baby2 m3_death_cause_baby2 (. = .a) i
 
 *replace m3_death_cause_baby2_other = ".a" if m3_death_cause_baby2 !=1 // numeric bc of 0 obs
 
-recode m3_1201 (. = .a) if m3_abortion != "1"
+recode m3_1201 (. = .a) if m3_abortion != 1
 recode m3_1202 (. = .a) if m3_1201 !=1
-*recode m3_1203 (. = .a) if m3_abortion != "1"
+*recode m3_1203 (. = .a) if m3_abortion != 1
 *recode m3_1204 (. = .a) if m3_1203 !=1
 
 recode m3_401 (. = .a) if (m3_303b !=1 & m3_303c !=1) |  ///
 						  (m3_baby1_born_alive1 !=1 & m3_baby1_born_alive2!=1) | ///
-						  (m3_baby2_born_alive1 !=1 //& m3_baby2_born_alive2 !=1)
+						  (m3_baby2_born_alive1 !=1) //& m3_baby2_born_alive2 !=1)
 
 recode m3_402 (. = .a) if m3_401 !=1 
 
@@ -2302,7 +2305,7 @@ recode m3_consultation1_reason m3_baby1_405a_ke m3_baby1_405b_ke ///
 		m3_baby1_405c_ke m3_baby1_405d_ke m3_baby1_405e_ke ///
 		m3_baby1_405_96_ke (. = .a) if m3_consultation_referral_1 !=0
 	   
-replace m3_consultation1_reason_other = ".a" if m3_baby1_405_96_ke !=1
+*replace m3_consultation1_reason_other = ".a" if m3_baby1_405_96_ke !=1
 
 recode m3_consultation_2 (. = .a) if m3_402 !=2 & m3_402 !=3 & m3_402 !=4 & m3_402 !=5
 recode m3_consultation_referral_2 (. = .a) if m3_consultation_2 !=0
@@ -2314,14 +2317,14 @@ recode m3_consultation2_reason m3_baby2_405a_ke m3_baby2_405b_ke ///
 replace m3_consultation2_reason_other = ".a" if m3_baby2_405_96_ke !=1	   
 	   
 recode m3_consultation_3 (. = .a) if m3_402 !=3 & m3_402 !=4 & m3_402 !=5
-recode m3_consultation_referral_3 (. = .a) if m3_consultation_3 !=0
+*recode m3_consultation_referral_3 (. = .a) if m3_consultation_3 !=0
 
-  
+ /* 4-2 SS: m3_consultation_referral_3 no longer in dataset
 recode m3_consultation3_reason m3_consultation3_reason_a m3_consultation3_reason_b ///
 	   m3_consultation3_reason_c m3_consultation3_reason_d m3_consultation3_reason_e ///
-	   m3_consultation3_reason_96 (. = .a) if m3_consultation_referral_3 !=0
+	   m3_consultation3_reason_96 (. = .a) if m3_consultation_referral_3 !=0 */
 	   
-replace m3_consultation3_reason_other = ".a" if m3_consultation3_reason_96 !=1		
+*replace m3_consultation3_reason_other = ".a" if m3_consultation3_reason_96 !=1		
 
 /* No consultation 4-5 in this dataset
 recode m3_consultation_4 (. = .a) if m3_402 !=4 & m3_402 !=5
@@ -2344,7 +2347,7 @@ recode m3_consultation5_reason_a m3_consultation5_reason_b m3_consultation5_reas
 */
 
 
-recode m3_412a_1_ke m3_412a_2_ke m3_412a_3_ke m3_412b_1_ke m3_412b_2_ke m3_412b_3_ke m3_412c_1_ke m3_412c_2_ke m3_412c_3_ke m3_412d_1_ke m3_412d_2_ke m3_412d_3_ke m3_412e_1_ke m3_412e_2_ke m3_412e_3_ke m3_412f_1_ke m3_412f_2_ke m3_412f_3_ke m3_412g_1_ke m3_412g_2_ke m3_412g_3_ke m3_412i_1_ke m3_412i_2_ke m3_412i_3_ke (. = .a) if m3_401 !=1
+recode m3_412a_1_ke m3_412a_2_ke m3_412a_3_ke m3_412b_1_ke m3_412b_2_ke m3_412b_3_ke m3_412c_1_ke m3_412c_2_ke m3_412c_3_ke m3_412d_1_ke m3_412d_2_ke m3_412d_3_ke m3_412e_1_ke m3_412e_2_ke m3_412e_3_ke m3_412f_1_ke m3_412f_2_ke m3_412f_3_ke m3_412g_1_ke m3_412g_2_ke m3_412g_3_ke m3_412i_1_ke m3_412i_2_ke (. = .a) if m3_401 !=1
  
 recode m3_412a_1_ke m3_412b_1_ke m3_412c_1_ke m3_412d_1_ke m3_412e_1_ke m3_412f_1_ke m3_412g_1_ke m3_412i_1_ke (. = .a) if m3_402 !=1
 
@@ -2352,7 +2355,7 @@ recode m3_412i_1_ke (. = .a) if m3_412a_1_ke ==1 | m3_412b_1_ke ==1 | m3_412c_1_
 								m3_412d_1_ke ==1 | m3_412e_1_ke ==1 | m3_412f_1_ke ==1 | ///
 								m3_412g_1_ke ==1 
 
-recode m3_412g_1_other (. = .a) if m3_412g_1_ke !=1 // numeric bc of 0 obs
+replace m3_412g_1_other = ".a" if m3_412g_1_ke !=1
 
 recode m3_412a_2_ke m3_412b_2_ke m3_412c_2_ke m3_412d_2_ke m3_412e_2_ke m3_412f_2_ke m3_412g_2_ke m3_412i_2_ke (. = .a) if m3_402 !=2
 
@@ -2362,18 +2365,20 @@ recode m3_412i_2_ke (. = .a) if m3_412a_2_ke ==1 | m3_412b_2_ke ==1 | m3_412c_2_
 
 replace m3_412g_2_other = ".a" if m3_412g_2_ke !=1
 
-recode m3_412a_3_ke m3_412b_3_ke m3_412c_3_ke m3_412d_3_ke m3_412e_3_ke m3_412f_3_ke m3_412g_3_ke m3_412i_3_ke (. = .a) if m3_402 !=3
+recode m3_412a_3_ke m3_412b_3_ke m3_412c_3_ke m3_412d_3_ke m3_412e_3_ke m3_412f_3_ke m3_412g_3_ke (. = .a) if m3_402 !=3
 
+/* 4-2 SS: m3_412i_3_ke no longer in dataset 
 recode m3_412i_3_ke (. = .a) if m3_412a_3_ke ==1 | m3_412b_3_ke ==1 | m3_412c_3_ke ==1 | ///
 								m3_412d_3_ke ==1 | m3_412e_3_ke ==1 | m3_412f_3_ke ==1 | ///
-								m3_412g_3_ke ==1 
+								m3_412g_3_ke ==1 */
 
-recode m3_412g_3_other (. = .a) if m3_412g_3_ke !=1 // numeric bc of 0 obs
+*recode m3_412g_3_other (. = .a) if m3_412g_3_ke !=1 // numeric bc of 0 obs
 
 recode m3_501 (. = .a) if m2_202 !=2 | m2_202 !=3
 
-recode m3_502 m3_503 (. = .a) if m3_501 !=1
+recode m3_502 (. = .a) if m3_501 !=1
 
+/* m3_503 and m3_503_final no longer in dataset
 replace m3_504a = ".a" if m3_503 !=-96
 
 replace m3_504b= ".a" if m3_503 !=-96
@@ -2382,6 +2387,7 @@ replace m3_504c= ".a" if m3_503 !=-96
 
 replace m3_503_final= ".a" if m3_503 !=-96
 replace m3_503_final = ".d" if m3_503_final == "999"
+*/
 
 recode m3_506_pre (. = .a) if m3_501 !=1
 
@@ -2411,7 +2417,7 @@ replace m3_513b2 = ".a" if m3_513a != -96
 
 replace m3_513b3 = ".a" if m3_513a != -96
 
-replace m3_513_final = ".a" if m3_513a !=-96
+*replace m3_513_final = ".a" if m3_513a !=-96
 
 replace m3_514 = ".a" if m3_510 !=1
 
@@ -2437,9 +2443,10 @@ replace m3_520 =".a" if m3_501 !=1 & m3_515 !=1
 
 recode m3_521_ke m3_521_ke_unit (. = .a) if m3_501 !=1
 
+/* 4-2 SS: m3_503 and m3_503_final no longder in the dataset
 recode m3_601_hiv m3_601b m3_601c m3_602a m3_603a m3_603b m3_603c ///
 	   m3_604a m3_604b m3_605a (. = .a) if m3_503_final == "." | ///
-	   m3_503_final == "" | m3_503_final == ".d" | m3_503_final == ".a" | m3_501 !=1 // N= 4 missings
+	   m3_503_final == "" | m3_503_final == ".d" | m3_503_final == ".a" | m3_501 !=1 // N= 4 missings */
 
 recode m3_602b (. = .a) if m3_501 !=1 | m3_602a !=0
 
@@ -2451,9 +2458,9 @@ recode m3_606 m3_607 (. = .a) if m3_605a !=0
 
 recode m3_608 (. = .a) if m3_501 !=1
 
-recode m3_609 m3_610a m3_611 m3_612_ke m3_612_ke_unit (. = .a) if m3_501 !=1 | bornalive_babies == "0"  | bornalive_babies == ""
+recode m3_609 m3_610a m3_611 m3_612_ke m3_612_ke_unit (. = .a) if m3_501 !=1 | bornalive_babies == 0 | bornalive_babies == .
 	  
-recode m3_610b (. = .a) if m3_610a !=1 | bornalive_babies == "0" | bornalive_babies == ""
+recode m3_610b (. = .a) if m3_610a !=1 | bornalive_babies == 0 | bornalive_babies == .
 
 recode m3_613 (. = .a) if m3_501 !=1	  
 
@@ -2473,18 +2480,21 @@ recode m3_617b (. = .a) if m3_501 !=1 | m3_baby2_born_alive1 !=1 //| m3_baby2_bo
 
 recode m3_618a_1 (. = .a) if m3_501 !=1 | m3_baby1_born_alive1 !=1 //| m3_baby1_born_alive2 !=1
 
-recode m3_618a_2 (. = .a) if m3_501 !=1 | m3_baby2_born_alive1 !=1 //| m3_baby2_born_alive2 !=1
+* 4-2 SS: m3_618a_2 no longer in dataset
+*recode m3_618a_2 (. = .a) if m3_501 !=1 | m3_baby2_born_alive1 !=1 //| m3_baby2_born_alive2 !=1
 
 recode m3_618b_1 (. = .a) if m3_618a_1 !=1
 
-recode m3_618b_2 (. = .a) if  m3_618a_2 !=1
+* 4-2 SS: m3_618b_2 no longer in dataset
+*recode m3_618b_2 (. = .a) if  m3_618a_2 !=1
 
 recode m3_618c_1 (. = .a) if m3_618b_1 !=1
 
-recode m3_618c_2 (. = .a) if m3_618b_2 !=1
+* 4-2 SS: m3_618c_2 no longer in dataset
+*recode m3_618c_2 (. = .a) if m3_618b_2 !=1
 
 recode m3_619a m3_619b m3_619c m3_619d m3_619e m3_619g m3_619h m3_620_1 m3_620_2 (. = .a) if ///
-	   m3_501 !=1 | bornalive_babies == "0" | bornalive_babies == ""
+	   m3_501 !=1 | bornalive_babies == 0 | bornalive_babies == .
 
 recode m3_620_1 (. = .a) if m3_303b !=1
 
@@ -2519,21 +2529,25 @@ recode m3_baby1_sleep m3_baby1_feed m3_baby1_breath m3_baby1_stool m3_baby1_mood
 recode m3_baby2_sleep m3_baby2_feed m3_baby2_breath m3_baby2_stool m3_baby2_mood ///
 	   m3_baby2_skin m3_baby2_interactivity (. = .a) if m3_303c !=1
 	   
-recode m3_708a_ke m3_baby1_issues_a m3_baby1_issues_b m3_baby1_issues_c m3_baby1_issues_d m3_baby1_issues_e ///
+recode m3_baby1_issues_a m3_baby1_issues_b m3_baby1_issues_c m3_baby1_issues_d m3_baby1_issues_e ///
 	   m3_baby1_issues_f m3_baby1_issues_98 m3_baby1_issues_99 (. = .a) if ///
 	   m3_baby1_born_alive1 !=1 | m3_baby1_born_alive2 !=1
 	   
-recode m2_708b_ke m3_baby2_issues_a m3_baby2_issues_b m3_baby2_issues_c m3_baby2_issues_d m3_baby2_issues_e ///
+replace m3_708a_ke = ".a" if m3_baby1_born_alive1 !=1 | m3_baby1_born_alive2 !=1
+	   
+recode m3_baby2_issues_a m3_baby2_issues_b m3_baby2_issues_c m3_baby2_issues_d m3_baby2_issues_e ///
 	   m3_baby2_issues_f m3_baby2_issues_98 m3_baby2_issues_99 (. = .a) if ///
 	   m3_baby2_born_alive1 !=1 //| m3_baby2_born_alive2 !=1
-
-recode m3_baby2_issues_other_ke (.=.a) if bornalive_babies == "0" | bornalive_babies == "" 
-
-recode m3_baby3_issues_other_ke (.=.a) if bornalive_babies == "0" | bornalive_babies == "" 
 	   
-replace m3_708a = ".a" if m3_baby2_issues_other_ke !=1
+replace m2_708b_ke = ".a" if m3_baby2_born_alive1 !=1   
+
+recode m3_baby1_issues_other_ke (.=.a) if bornalive_babies == 0 | bornalive_babies == . 
+
+recode m3_baby2_issues_other_ke (.=.a) if bornalive_babies == 0 | bornalive_babies == . 
+	   
+replace m3_708a = ".a" if m3_baby1_issues_other_ke !=1
  
-recode m3_710a m3_710b m3_711c_1 m3_711c_1_unit m3_711c_2 m3_711c_2_unit (. = .a) if m3_501 !=1 | bornalive_babies == "0" | bornalive_babies == "" 
+recode m3_710a m3_710b m3_711c_1 m3_711c_1_unit m3_711c_2 m3_711c_2_unit (. = .a) if m3_501 !=1 | bornalive_babies == 0 | bornalive_babies == . 
 
 recode m3_711c_2 m3_711c_2_unit (. = .a) if m3_303c !=1
 
@@ -2552,7 +2566,7 @@ recode m3_806 m3_807 m3_808a (. = .a) if m3_805 !=1
 
 recode m3_808b (. = .a) if m3_805 !=1 | m3_808a !=0
 
-recode m3_808b_other (. = .a) if m3_808b !=-96 // numeric because of 0 obs
+replace m3_808b_other = ".a" if m3_808b !=-96 
 
 recode m3_809 (. = .a) if m3_805 !=1 | m3_808a !=1
 
@@ -2575,9 +2589,9 @@ recode m3_902a_baby1 m3_902b_baby1 m3_902c_baby1 m3_902d_baby1 m3_902e_baby1 m3_
 
 recode m3_902a_baby2 m3_902b_baby2 m3_902c_baby2 m3_902d_baby2 m3_902e_baby2 m3_902f_baby2 m3_902g_baby2 m3_902h_baby2 (. = .a) if m3_303c !=1
 
-recode m3_902i_baby1 (. = .a) if  m2_hiv_status !=1 | m3_303b !=1 | bornalive_babies == "0" | bornalive_babies == "" 
+recode m3_902i_baby1 (. = .a) if  m2_hiv_status !=1 | m3_303b !=1 | bornalive_babies == 0 | bornalive_babies == . 
 
-*recode m3_902i_baby2 (. = .a) if  m2_hiv_status !=1 | m3_303c !=1 | bornalive_babies == "0" | bornalive_babies == "" | bornalive_babies == "1" 
+*recode m3_902i_baby2 (. = .a) if  m2_hiv_status !=1 | m3_303c !=1 | bornalive_babies == 0 | bornalive_babies == . | bornalive_babies == "1" 
 
 recode m3_902j_baby1 (. = .a) if  m3_303b !=1 | m3_baby1_born_alive1 !=1 | m3_baby1_born_alive2 !=1
 
@@ -2622,18 +2636,18 @@ replace m3_1105_other = ".a" if m3_1105_96_ke !=1
 
 recode m3_1106 (. = .a) if m2_202 !=2 | m2_202 !=3   
 
-recode m3_endtime (. = .a) if m3_303b !=1  & m3_303c !=1
+recode m3_endtime (. = .a) if m3_303b !=1 & m3_303c !=1
 	
-replace m3_duration = ".a" if m3_303b !=1  & m3_303c !=1	
+recode m3_duration (. = .a) if m3_303b !=1 & m3_303c !=1	
 		
 *===============================================================================
 	
 	* STEP FOUR: LABELING VARIABLES
 lab var m3_start_p1 "May I proceed with the interview?"
 lab var m3_date "102. Date of interview (D-M-Y)"
-lab var m3_date_confirm "Confirm date of interview" 
+*lab var m3_date_confirm "Confirm date of interview" 
 lab var m3_start_time "Time of interview started"
-lab var m3_date_time "Time of interview started and date of interview"
+*lab var m3_date_time "Time of interview started and date of interview"
 lab var m3_birth_or_ended "201a. On what date did you give birth or did the pregnancy end?"
 lab var m3_birth_or_ended_provided "201a. Did the respondent provide the date?"
 lab var m3_birth_or_ended_date "201a. Date of giving birth or pregnancy ended calculation."
@@ -2641,12 +2655,12 @@ lab var m3_ga_final "201d. Gestational age at delivery (final)"
 lab var m3_303a "301. If its ok with you, I would like to now ask some questions about the baby or babies. How many babies were you pregnant with?"
 lab var m3_303b "303a. Is the 1st baby alive?"
 lab var m3_303c "303b. Is the 2nd baby alive?"
-lab var m3_baby1_name "304a. What is the 1st babys name?"
-lab var m3_baby2_name "304b. What is the 2nd babys name?"
+*lab var m3_baby1_name "304a. What is the 1st babys name?"
+*lab var m3_baby2_name "304b. What is the 2nd babys name?"
 lab var m3_baby1_gender "305a. What is 1st baby's's gender?"
 lab var m3_baby2_gender "305b. what is the second baby's gender?"
-lab var m3_baby1_age_weeks "306a. How old is the 1st baby in weeks?" 
-lab var m3_baby2_age_weeks "306b. How old is the second baby in weeks"
+*lab var m3_baby1_age_weeks "306a. How old is the 1st baby in weeks?" 
+*lab var m3_baby2_age_weeks "306b. How old is the second baby in weeks"
 lab var m3_baby1_weight "307a. How much did the 1st baby weigh at birth?"
 lab var m3_baby2_weight "307b.How much did the second baby weigh at birth?"
 lab var m3_baby1_size "308a. When the 1st baby was born, were they: very large, larger than average, average, smaller than average or very small?"
@@ -2701,7 +2715,7 @@ lab var m3_baby1_405c_ke "405. Was the 1st visit for any of the following? (choi
 lab var m3_baby1_405d_ke "405. Was the 1st visit for any of the following? (choice=To pick up medicine)"
 lab var m3_baby1_405e_ke "405. Was the 1st visit for any of the following? (choice=To get a vaccine)"
 lab var m3_baby1_405_96_ke "405. Was the 1st visit for any of the following? (choice=Other reasons, please specify)"
-lab var m3_consultation1_reason_other "405-Other. Other reasons, please specify"
+*lab var m3_consultation1_reason_other "405-Other. Other reasons, please specify"
 
 lab var m3_consultation_2 "406. Was the 2nd consultation for a routine antenatal care visit?"
 lab var m3_consultation_referral_2 "407. Was the 2nd for referral from your antenatal care provider?"
@@ -2715,15 +2729,16 @@ lab var m3_baby2_405_96_ke "408. Was the 2nd visit for any of the following? (ch
 lab var m3_consultation2_reason_other "408-Other. Other reasons, please specify"
 		
 lab var m3_consultation_3 "409. Was the 3rd consultation for a routine antenatal care visit?"
-lab var m3_consultation_referral_3 "410. Was the 3rd for referral from your antenatal care provider?"
-lab var m3_consultation3_reason "408. Was the 3rd visit for any of the following?"
+*lab var m3_consultation_referral_3 "410. Was the 3rd for referral from your antenatal care provider?"
+/*lab var m3_consultation3_reason "408. Was the 3rd visit for any of the following?"
 lab var m3_consultation3_reason_a "411. Was the 3rd visit for any of the following? (choice=A new health problem, including an emergency or an injury)"
 lab var m3_consultation3_reason_b "411. Was the 3rd visit for any of the following? (choice=An existing health problem)"
 lab var m3_consultation3_reason_c "411. Was the 3rd visit for any of the following? (choice=A lab test, x-ray, or ultrasound)"
 lab var m3_consultation3_reason_d "411. Was the 3rd visit for any of the following? (choice=To pick up medicine)"
 lab var m3_consultation3_reason_e "411. Was the 3rd visit for any of the following? (choice=To get a vaccine)"
 lab var m3_consultation3_reason_96 "411. Was the 3rd visit for any of the following? (choice=Other reasons, please specify)"
-lab var m3_consultation3_reason_other "411-Other. Other reasons, please specify"
+*lab var m3_consultation3_reason_other "411-Other. Other reasons, please specify"
+*/
 
 *lab var m3_412a "412a. Between the time that you last spoke to us and before the delivery, did you get your blood pressure measured (with a cuff around your arm)"
 *lab var m3_412b "412b. Between the time that you last spoke to us and before the delivery, did you get your weight taken (using a scale)?"
@@ -2737,11 +2752,11 @@ lab var m3_consultation3_reason_other "411-Other. Other reasons, please specify"
 
 lab var m3_501 "501. Did you deliver in a health facility?"
 lab var m3_502 "502. What kind of facility was it?"
-lab var m3_503 "503. What is the name of the facility where you delivered?"
+*lab var m3_503 "503. What is the name of the facility where you delivered?"
 lab var m3_504a "504a. Where region was this facility located?"
 lab var m3_504b "504b. Where was the city/sub-city/district this facility located?"
 lab var m3_504c "504c. Where was the county this facility located?"
-lab var m3_503_final "503-final. What is the name of the facility where you delivered? (final)"
+*lab var m3_503_final "503-final. What is the name of the facility where you delivered? (final)"
 lab var m3_506_pre "506-pre. Are you able to name the day and time the labor started - that is, when contractions started and did not stop, or when your water broke?"
 lab var m3_506_pre_oth "506-pre-Other. Other reason, specify"
 lab var m3_506 "506. What day and time did the labor start – that is, when contractions started and did not stop, or when your water broke?"
@@ -2753,7 +2768,7 @@ lab var m3_513a "513a. What is the name of the facility you went to 1st?"
 lab var m3_513_outside_zone_other "513a_97. Other outside of the zone"
 lab var m3_513b2 "513b2. Where city/sub-city/district was this facility located?"
 lab var m3_513b3 "513b3. Which county was this facility located??"
-lab var m3_513_final "513-final. What is the name of the facility you went to 1st? (final)"
+*lab var m3_513_final "513-final. What is the name of the facility you went to 1st? (final)"
 lab var m3_514 "514. At what time did you arrive at the facility you went to 1st?"
 lab var m3_515 "515. Why did you go to the facility you went to 1st after going to the facility you delivered at?"
 lab var m3_516 "516. Why did you or your family member decide to leave the facility you went to 1st and come to the facility you delivered at? Select only one main reason"
@@ -2803,9 +2818,9 @@ lab var m3_617b "617b. Did the second baby receive a vaccine for BCG while you w
 lab var m3_618a_1 "618a-1. Was the 1st baby tested for HIV after birth?" 
 lab var m3_618b_1 "618b-1. What was the result of the baby's HIV test?"
 lab var m3_618c_1 "618c-1. Was the 1st baby given medication to prevent HIV/AIDS (ARVs)?"
-lab var m3_618a_2 "618a-2. Was the second bay tested for HIV after birth?"
-lab var m3_618b_2 "618b-2. What was the result of the baby's HIV test?"
-lab var m3_618c_2 "618c-2. Was the second baby given medication to prevent HIV/AIDS (ARVs)?"
+*lab var m3_618a_2 "618a-2. Was the second bay tested for HIV after birth?"
+*lab var m3_618b_2 "618b-2. What was the result of the baby's HIV test?"
+*lab var m3_618c_2 "618c-2. Was the second baby given medication to prevent HIV/AIDS (ARVs)?"
 lab var m3_619a "619a. Before you left the facility, did you receive advice on what the baby should eat (only breastmilk or No other foods)?"
 lab var m3_619b "619b. Before you left the facility, did you receive advice on care of the umbilical cord?"
 lab var m3_619c "619c. Before you left the facility, did you receive advice on avoid chilling of baby?"
@@ -2850,6 +2865,8 @@ lab var m3_705 "705. Did you receive a blood transfusion around the time of your
 lab var m3_706 "706. Were you admitted to an intensive care unit?"
 lab var m3_707_ke "707-ke. How long did you stay at the facility that you delivered at after the delivery?"
 lab var m3_707_ke_unit "707-ke-unit. The unit of time for m3_707_ke"
+
+lab var m3_708a_ke "708b. Did the 2st baby experience any of the following issues in the 1st day of life?"
 lab var m3_baby1_issues_a "708a. Did the 1st baby experience any of the following issues in the 1st day of life? Tell me all that apply. (choice=Trouble breathing)"
 lab var m3_baby1_issues_b "708a. Did the 1st baby experience any of the following issues in the 1st day of life? Tell me all that apply. (choice=Fever)"
 lab var m3_baby1_issues_c "708a. Did the 1st baby experience any of the following issues in the 1st day of life? Tell me all that apply. (choice=Trouble feeding)"
@@ -2858,6 +2875,9 @@ lab var m3_baby1_issues_e "708a. Did the 1st baby experience any of the followin
 lab var m3_baby1_issues_f "708a. Did the 1st baby experience any of the following issues in the 1st day of life? Tell me all that apply. (choice=No complications)"
 lab var m3_baby1_issues_98 "708a. Did the 1st baby experience any of the following issues in the 1st day of life? Tell me all that apply. (choice=DK)"
 lab var m3_baby1_issues_99 "708a. Did the 1st baby experience any of the following issues in the 1st day of life? Tell me all that apply. (choice=NR/RF)"
+lab var m3_baby1_issues_other_ke "708-Other. Did the 1st baby experience any other health problems in the 1st day of life?"
+lab var m3_baby2_issues_othertext_ke "709a. Write down the 1st baby's experiences with any other health problems in the 1st day of life"
+
 lab var m2_708b_ke "708b. Did the second baby experience any of the following issues in the 1st day of life?"
 lab var m3_baby2_issues_a "708b. Did the second baby experience any of the following issues in the 1st day of life? Tell me all that apply. (choice=Trouble breathing)"
 lab var m3_baby2_issues_b "708b. Did the second baby experience any of the following issues in the 1st day of life? Tell me all that apply. (choice=Fever, low temperature, or infection)"
@@ -2867,10 +2887,8 @@ lab var m3_baby2_issues_e "708b. Did the second baby experience any of the follo
 lab var m3_baby2_issues_f "708b. Did the second baby experience any of the following issues in the 1st day of life? Tell me all that apply. (choice=No complications)"
 lab var m3_baby2_issues_98 "708b. Did the second baby experience any of the following issues in the 1st day of life? Tell me all that apply. (choice=DK)"
 lab var m3_baby2_issues_99 "708b. Did the second baby experience any of the following issues in the 1st day of life? Tell me all that apply. (choice=NR/RF)"		
-lab var m3_baby2_issues_other_ke "708-Other. Did the 1st baby experience any other health problems in the 1st day of life?"
-lab var m3_708a "709a. Write down the 1st baby's experiences any other health problems in the 1st day of life"
-lab var m3_baby3_issues_other_ke "708-Other. Did the second baby experience any other health problems in the 1st day of life?"
-lab var m3_708b "709b. Write down the second baby's experiences any other health problems in the 1st day of life"
+lab var m3_baby2_issues_other_ke "708-Other. Did the second baby experience any other health problems in the 1st day of life?"
+
 lab var m3_710a "710a. Did the 1st baby spend time in a special care nursery or intensive care unit before discharge?"
 lab var m3_710b "710b. Did the second baby spend time in a special care nursery or intensive care unit before discharge?"			
 lab var m3_711c_1 "711c-1. How long did the 1st baby stay at the health facility after being born?"
@@ -3033,7 +3051,7 @@ order m3_start_p1 m3_start_time m3_date m3_date_confirm m3_date_time m3_site m3_
 order m3_ga1_ke m3_ga2_ke m3_ga_final m3_weeks_from_outcome_ke m3_after2weeks_call_ke, after(m3_birth_or_ended_date)
 
 order m3_baby1_gender m3_baby2_gender, after(m3_303c)
-order m3_baby1_age m3_baby1_age_weeks m3_baby2_age_weeks, after(m3_baby2_gender)
+order m3_baby1_age m3_baby2_age_weeks, after(m3_baby2_gender)
 order m3_baby1_weight m3_baby2_weight m3_baby2_weight, after(m3_baby2_age_weeks)
 order m3_baby1_size m3_baby2_size m3_baby2_size, after(m3_baby2_weight)
 order m3_baby1_health m3_baby2_health, after(m3_baby2_size)
@@ -3042,9 +3060,9 @@ order m3_baby2_feeding m3_baby2_feed_a m3_baby2_feed_b m3_baby2_feed_c m3_baby2_
 order m3_breastfeeding m3_breastfeeding_2,after(m3_baby2_feed_99)
 order m3_baby1_born_alive1 m3_baby1_born_alive2 m3_baby2_born_alive1, after(m3_breastfeeding_2)
 order m3_death_cause_baby1 m3_death_cause_baby1_other m3_death_cause_baby2 m3_death_cause_baby3 m3_death_cause_baby4 m3_1201 m3_miscarriage m3_abortion m3_1202, after(m3_313d_baby2)
-order m3_consultation_1 m3_consultation_referral_1 m3_consultation1_reason m3_baby1_405a_ke m3_baby1_405b_ke m3_baby1_405c_ke m3_baby1_405d_ke m3_baby1_405e_ke  m3_baby1_405_96_ke m3_consultation1_reason_other, after(m3_402) 
-order m3_consultation_2 m3_consultation_referral_2 m3_consultation2_reason  m3_baby2_405a_ke m3_baby2_405b_ke m3_baby2_405c_ke m3_baby2_405d_ke m3_baby2_405e_ke m3_baby2_405_96_ke m3_consultation2_reason_other,after(m3_consultation1_reason_other) 
-order m3_consultation_3 m3_consultation_referral_3 m3_consultation3_reason  m3_consultation3_reason_a m3_consultation3_reason_b m3_consultation3_reason_c m3_consultation3_reason_d m3_consultation3_reason_e m3_consultation3_reason_96 m3_consultation3_reason_other,after(m3_consultation2_reason_other)
+order m3_consultation_1 m3_consultation_referral_1 m3_consultation1_reason m3_baby1_405a_ke m3_baby1_405b_ke m3_baby1_405c_ke m3_baby1_405d_ke m3_baby1_405e_ke  m3_baby1_405_96_ke , after(m3_402) 
+order m3_consultation_2 m3_consultation_referral_2 m3_consultation2_reason  m3_baby2_405a_ke m3_baby2_405b_ke m3_baby2_405c_ke m3_baby2_405d_ke m3_baby2_405e_ke m3_baby2_405_96_ke m3_consultation2_reason_other,after(m3_baby1_405_96_ke) 
+order m3_consultation_3 m3_consultation3_reason  m3_consultation3_reason_a m3_consultation3_reason_b m3_consultation3_reason_c m3_consultation3_reason_d m3_consultation3_reason_e m3_consultation3_reason_96,after(m3_consultation2_reason_other)
 
 order m3_baby1_sleep m3_baby2_sleep, after(m3_622c) 
 order m3_baby1_feed m3_baby2_feed, after(m3_baby2_sleep)
@@ -4369,7 +4387,7 @@ order m3_start_p1 m3_start_time m3_date m3_date_confirm m3_date_time m3_site m3_
 order m3_ga1_ke m3_ga2_ke m3_ga_final m3_weeks_from_outcome_ke m3_after2weeks_call_ke, after(m3_birth_or_ended_date)
 
 order m3_baby1_gender m3_baby2_gender, after(m3_303c)
-order m3_baby1_age m3_baby1_age_weeks m3_baby2_age_weeks, after(m3_baby2_gender)
+order m3_baby1_age m3_baby2_age_weeks, after(m3_baby2_gender)
 order m3_baby1_weight m3_baby2_weight m3_baby2_weight, after(m3_baby2_age_weeks)
 order m3_baby1_size m3_baby2_size m3_baby2_size, after(m3_baby2_weight)
 order m3_baby1_health m3_baby2_health, after(m3_baby2_size)
@@ -4378,9 +4396,9 @@ order m3_baby2_feeding m3_baby2_feed_a m3_baby2_feed_b m3_baby2_feed_c m3_baby2_
 order m3_breastfeeding m3_breastfeeding_2,after(m3_baby2_feed_99)
 order m3_baby1_born_alive1 m3_baby1_born_alive2 m3_baby2_born_alive1, after(m3_breastfeeding_2)
 order m3_death_cause_baby1 m3_death_cause_baby1_other m3_death_cause_baby2 m3_death_cause_baby3 m3_death_cause_baby4 m3_1201 m3_miscarriage m3_abortion m3_1202, after(m3_313d_baby2)
-order m3_consultation_1 m3_consultation_referral_1 m3_consultation1_reason m3_baby1_405a_ke m3_baby1_405b_ke m3_baby1_405c_ke m3_baby1_405d_ke m3_baby1_405e_ke  m3_baby1_405_96_ke m3_consultation1_reason_other, after(m3_402) 
-order m3_consultation_2 m3_consultation_referral_2 m3_consultation2_reason  m3_baby2_405a_ke m3_baby2_405b_ke m3_baby2_405c_ke m3_baby2_405d_ke m3_baby2_405e_ke m3_baby2_405_96_ke m3_consultation2_reason_other,after(m3_consultation1_reason_other) 
-order m3_consultation_3 m3_consultation_referral_3 m3_consultation3_reason  m3_consultation3_reason_a m3_consultation3_reason_b m3_consultation3_reason_c m3_consultation3_reason_d m3_consultation3_reason_e m3_consultation3_reason_96 m3_consultation3_reason_other,after(m3_consultation2_reason_other)
+order m3_consultation_1 m3_consultation_referral_1 m3_consultation1_reason m3_baby1_405a_ke m3_baby1_405b_ke m3_baby1_405c_ke m3_baby1_405d_ke m3_baby1_405e_ke  m3_baby1_405_96_ke, after(m3_402) 
+order m3_consultation_2 m3_consultation_referral_2 m3_consultation2_reason  m3_baby2_405a_ke m3_baby2_405b_ke m3_baby2_405c_ke m3_baby2_405d_ke m3_baby2_405e_ke m3_baby2_405_96_ke m3_consultation2_reason_other,after(m3_baby1_405_96_ke) 
+order m3_consultation_3 m3_consultation3_reason  m3_consultation3_reason_a m3_consultation3_reason_b m3_consultation3_reason_c m3_consultation3_reason_d m3_consultation3_reason_e m3_consultation3_reason_96,after(m3_consultation2_reason_other)
 
 order m3_baby1_sleep m3_baby2_sleep, after(m3_622c) 
 order m3_baby1_feed m3_baby2_feed, after(m3_baby2_sleep)
@@ -5625,7 +5643,7 @@ order m3_start_p1 m3_start_time m3_date m3_date_confirm m3_date_time m3_site m3_
 order m3_ga1_ke m3_ga2_ke m3_ga_final m3_weeks_from_outcome_ke m3_after2weeks_call_ke, after(m3_birth_or_ended_date)
 
 order m3_baby1_gender m3_baby2_gender, after(m3_303c)
-order m3_baby1_age m3_baby1_age_weeks m3_baby2_age_weeks, after(m3_baby2_gender)
+order m3_baby1_age m3_baby2_age_weeks, after(m3_baby2_gender)
 order m3_baby1_weight m3_baby2_weight m3_baby2_weight, after(m3_baby2_age_weeks)
 order m3_baby1_size m3_baby2_size m3_baby2_size, after(m3_baby2_weight)
 order m3_baby1_health m3_baby2_health, after(m3_baby2_size)
@@ -5634,9 +5652,9 @@ order m3_baby2_feeding m3_baby2_feed_a m3_baby2_feed_b m3_baby2_feed_c m3_baby2_
 order m3_breastfeeding m3_breastfeeding_2,after(m3_baby2_feed_99)
 order m3_baby1_born_alive1 m3_baby1_born_alive2 m3_baby2_born_alive1, after(m3_breastfeeding_2)
 order m3_death_cause_baby1 m3_death_cause_baby1_other m3_death_cause_baby2 m3_death_cause_baby3 m3_death_cause_baby4 m3_1201 m3_miscarriage m3_abortion m3_1202, after(m3_313d_baby2)
-order m3_consultation_1 m3_consultation_referral_1 m3_consultation1_reason m3_baby1_405a_ke m3_baby1_405b_ke m3_baby1_405c_ke m3_baby1_405d_ke m3_baby1_405e_ke  m3_baby1_405_96_ke m3_consultation1_reason_other, after(m3_402) 
-order m3_consultation_2 m3_consultation_referral_2 m3_consultation2_reason  m3_baby2_405a_ke m3_baby2_405b_ke m3_baby2_405c_ke m3_baby2_405d_ke m3_baby2_405e_ke m3_baby2_405_96_ke m3_consultation2_reason_other,after(m3_consultation1_reason_other) 
-order m3_consultation_3 m3_consultation_referral_3 m3_consultation3_reason  m3_consultation3_reason_a m3_consultation3_reason_b m3_consultation3_reason_c m3_consultation3_reason_d m3_consultation3_reason_e m3_consultation3_reason_96 m3_consultation3_reason_other,after(m3_consultation2_reason_other)
+order m3_consultation_1 m3_consultation_referral_1 m3_consultation1_reason m3_baby1_405a_ke m3_baby1_405b_ke m3_baby1_405c_ke m3_baby1_405d_ke m3_baby1_405e_ke  m3_baby1_405_96_ke, after(m3_402) 
+order m3_consultation_2 m3_consultation_referral_2 m3_consultation2_reason  m3_baby2_405a_ke m3_baby2_405b_ke m3_baby2_405c_ke m3_baby2_405d_ke m3_baby2_405e_ke m3_baby2_405_96_ke m3_consultation2_reason_other,after(m3_baby1_405_96_ke) 
+order m3_consultation_3 m3_consultation3_reason  m3_consultation3_reason_a m3_consultation3_reason_b m3_consultation3_reason_c m3_consultation3_reason_d m3_consultation3_reason_e m3_consultation3_reason_96,after(m3_consultation2_reason_other)
 
 order m3_baby1_sleep m3_baby2_sleep, after(m3_622c) 
 order m3_baby1_feed m3_baby2_feed, after(m3_baby2_sleep)
