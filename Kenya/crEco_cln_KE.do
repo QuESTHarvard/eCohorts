@@ -4495,21 +4495,24 @@ drop q1002a_cost q1002b_cost q1002c_cost q1002d_cost q1002e_cost total_spent
 drop q203_1 q206_1 q210_1 q703_1 
      // drop because these are parent variables 
 
+drop today_date no_consent
 
 *===============================================================================
 
 * STEP ONE: RENAME VARAIBLES
 
-rename (consent no_consent starttime endtime duration today today_date date_confirm submissiondate live_babies baby_list_numbers alive_babies ///
-        dead_babies c_section hiv_status baby_repeat_count baby_index_1) (m5_consent m5_no_consent m5_starttime m5_endtime m5_duration m5_date ///
-		m5_todaydate m5_dateconfirm m5_submissiondate m5_n_livebabies m5_n_babies m5_n_alivebabies m5_n_deadbabies m5_csection m5_hiv_status ///
+rename (consent starttime endtime duration today date_confirm submissiondate live_babies baby_list_numbers alive_babies ///
+        dead_babies c_section hiv_status baby_repeat_count baby_index_1) (m5_consent m5_starttime m5_endtime m5_duration m5_date ///
+		 m5_dateconfirm m5_submissiondate m5_n_livebabies m5_n_babies m5_n_alivebabies m5_n_deadbabies m5_csection m5_hiv_status ///
 		m5_n_baby_repeat m5_baby_index_1)
 		
 encode id_resp, gen(respondentid)
 drop id_resp
 format respondentid %12.0f		
 
-rename (q201_1 q202_1 q203_1_1 q203_2_1 q203_3_1 q203_4_1 q203_5_1 q203_6_1 q203_7_1 q203_99_1 q204) (m5_babyalive m5_babyhealth m5_babyfeed_a ///
+
+*rename q203_1_1 m5_babyfeed_a
+rename (q201_1 q202_1 q203_2_1 q203_3_1 q203_4_1 q203_5_1 q203_6_1 q203_7_1 q203_99_1 q204) (m5_babyalive m5_babyhealth ///
         m5_babyfeed_b m5_babyfeed_c m5_babyfeed_d m5_babyfeed_e m5_babyfeed_f m5_babyfeed_g m5_babyfeed_99 m5_breastfeeding)
 
 rename (q205a_1 q205b_1 q205c_1 q205d_1 q205e_1 q205f_1 q205g_1) (m5_baby_sleep m5_baby_feed m5_baby_breath m5_baby_stool m5_baby_mood m5_baby_skin ///
@@ -4557,10 +4560,10 @@ rename (baby_index_care_1 q701a_1 q701b_1 q701c_1 q701d_1 q701e_1 q701f_1 q701g_
 		m5_701i_other m5_n_baby_care m5_702a m5_702b m5_702c m5_702d m5_702e m5_702f m5_702g)
 
 rename (q703_0_1 q703_1_1 q703_2_1 q703_3_1 q703_4_1 q703_5_1 q703_6_1 q703__96_1 q703_98_1 q703_99_1 q703_oth_1) (m5_703a m5_703b m5_703c m5_703d ///
-        m5_703e m5_703f m5_703g m5_703h m5_703_98 m5_703_99 m5_703_other)
+        m5_703e m5_703f m5_703g m5_703h m5_703_98 m5_703_99 m5_703_otherer)
 
 rename (q801a q801b q801c q801d q801e q801f q801g q801h q801oth q802 q803a q803b q803c q803d q803e q803f q803g q804a q804b q804c baby_repeat_med_count) ///
-       (m5_801a m5_801b m5_801c m5_801d m5_801e m5_801f m5_801g m5_801h m5_801_other m5_802 m5_803a m5_803b m5_803c m5_803d m5_803e m5_803f ///
+       (m5_801a m5_801b m5_801c m5_801d m5_801e m5_801f m5_801g m5_801h m5_801_otherer m5_802 m5_803a m5_803b m5_803c m5_803d m5_803e m5_803f ///
 	    m5_803g m5_804a m5_804b m5_804c m5_n_baby_med)
 
 *Create q901_1 to collpase q901a_1 q901b_1 q901c_1 q901d_1 q901e_1 q901f_1 q901g_1 q901h_1 q901i_1 q901j_1 q901k_1 q901l_1 q901m_1 q901n_1 q901o_1 q901p_1 
@@ -5130,13 +5133,13 @@ rename (q901_1 q901_2 q901_3 q901_4 q901_5 q901_6 q901_7 q901_8 q901_9 q901_10 q
         m5_901b m5_901c m5_901d m5_901e m5_901f m5_901g m5_901h m5_901i m5_901j m5_901k m5_901l m5_901m m5_901n m5_901o m5_901p)
 
 rename (baby_index_med_1 q902a_1 q902b_1 q902c_1 q902d_1 q902e_1 q902f_1 q902g_1 q902h_1 q902i_1 q902j_1 q902_oth_1) (m5_baby_index_med_1 m5_902a ///
-        m5_902b m5_902c m5_902d m5_902e m5_902f m5_902g m5_902h m5_902i m5_902j m5_902_oth)
+        m5_902b m5_902c m5_902d m5_902e m5_902f m5_902g m5_902h m5_902i m5_902j m5_902_other)
 
-rename (q903a q903b q903c q903d q903e q903f q903_oth q904_1 q904_oth_1 q905) (m5_903a m5_903b m5_903c m5_903d m5_903e m5_903f m5_903_other m5_904 ///
-        m5_904_other m5_905)
+rename (q903a q903b q903c q903d q903e q903f q903_oth q904_1 q904_oth_1 q905) (m5_903a m5_903b m5_903c m5_903d m5_903e m5_903f m5_903_otherer m5_904 ///
+        m5_904_otherer m5_905)
 	
 rename (q1001 q1002a q1002b q1002c q1002d q1002e q1002_oth q1003 q1004 q1005 q1005_1 q1005_2 q1005_3 q1005_4 q1005_5 q1005_6 q1005__96 q1005_oth) ///
-       (m5_1001 m5_1002a m5_1002b m5_1002c m5_1002d m5_1002e m5_1002_other m5_1003 m5_1004 m5_1005 m5_1005a m5_1005b m5_1005c m5_1005d m5_1005e ///
+       (m5_1001 m5_1002a m5_1002b m5_1002c m5_1002d m5_1002e m5_1002_otherer m5_1003 m5_1004 m5_1005 m5_1005a m5_1005b m5_1005c m5_1005d m5_1005e ///
 	    m5_1005f m5_1005_other m5_1005_other_text)		
 
 rename (q1101 q1102 q1102_1 q1102_2 q1102_3 q1102_4 q1102_5 q1102_6 q1102_7 q1102_8 q1102_9 q1102_10 q1102__96 q1102_98 q1102_99) (m5_1101 m5_1102 ///
@@ -5155,53 +5158,8 @@ rename (baby_index_assess_1 q1401 q1402 q1403 baby_repeat_assess_count end_comme
 *===============================================================================
 
 	* STEP TWO: ADD VALUE LABELS (NA in KENYA, already labeled)
-	
-replace m5_1005 = "Current income of any household members" if m5_1005 == "1"
-replace m5_1005 = "Savings (e.g., bank account)" if m5_1005 == "2"
-replace m5_1005 = "Payment or reimbursement from a health insurance plan" if m5_1005== "3"
-replace m5_1005 = "Sold items (e.g., furniture, animals, jewellery)" if m5_1005 == "4"
-replace m5_1005 = "Family members or friends from outside the household" if m5_1005 == "5"
-replace m5_1005 = "Borrowed (from someone other than a friend or family)" if m5_1005 == "6"
-replace m5_1005 = "Other (specify)" if m5_1005 == "-96"	
-	
-replace m5_consultation1 = "A new health problem for the baby, including an emergency or an injury" if m5_consultation1 == "1" 
-replace m5_consultation1 = "A new health problem for yourself, including an emergency or an injury" if m5_consultation1 == "2"
-replace m5_consultation1 = "An existing health problem for the baby" if m5_consultation1 == "3"
-replace m5_consultation1 = "An existing health problem for yourself" if m5_consultation1 == "4"
-replace m5_consultation1 = "A lab test, x-ray, or ultrasound for yourself" if m5_consultation1 == "5"
-replace m5_consultation1 = "A lab test, x-ray, or ultrasound for the baby" if m5_consultation1 == "6"
-replace m5_consultation1 = "Getting a vaccine for the baby" if m5_consultation1 == "7"
-replace m5_consultation1 = "Getting a vaccine for yourself" if m5_consultation1 == "8"
-replace m5_consultation1 = "To get medicine for yourself" if m5_consultation1 == "9"
-replace m5_consultation1 = "To get medicine for the baby" if m5_consultation1 == "10"
-replace m5_consultation1 = "Other (specify)" if m5_consultation1 == "-96"
-
-replace m5_consultation2 = "A new health problem for the baby, including an emergency or an injury" if m5_consultation2 == "1" 
-replace m5_consultation2 = "A new health problem for yourself, including an emergency or an injury" if m5_consultation2 == "2"
-replace m5_consultation2 = "An existing health problem for the baby" if m5_consultation2 == "3"
-replace m5_consultation2 = "An existing health problem for yourself" if m5_consultation2 == "4"
-replace m5_consultation2 = "A lab test, x-ray, or ultrasound for yourself" if m5_consultation2 == "5"
-replace m5_consultation2 = "A lab test, x-ray, or ultrasound for the baby" if m5_consultation2 == "6"
-replace m5_consultation2 = "Getting a vaccine for the baby" if m5_consultation2 == "7"
-replace m5_consultation2 = "Getting a vaccine for yourself" if m5_consultation2 == "8"
-replace m5_consultation2 = "To get medicine for yourself" if m5_consultation2 == "9"
-replace m5_consultation2 = "To get medicine for the baby" if m5_consultation2 == "10"
-replace m5_consultation2 = "Other (specify)" if m5_consultation2 == "-96"
-
-replace m5_1104 = "Current husband / partner" if m5_1104 == "1"
-replace m5_1104 = "Parent (mother, father, step-parent, in-law)" if m5_1104 == "2"
-replace m5_1104 = "Sibling" if m5_1104 == "3" 
-replace m5_1104 = "Child" if m5_1104 == "5"
-replace m5_1104 = "Late /last / ex-husband/partner" if m5_1104 == "5"
-replace m5_1104 = "Other relative" if m5_1104 == "6" 
-replace m5_1104 = "Friend/acquaintance" if m5_1104 == "7" 
-replace m5_1104 = "Teacher" if m5_1104 == "8"
-replace m5_1104 = "Employer" if m5_1104 == "9"
-replace m5_1104 = "Stranger" if m5_1104 == "10"
-replace m5_1104 = "Other (specify)" if m5_1104 == "-96"
-replace m5_1104 = "Don´t know" if m5_1104 == "98"
-replace m5_1104 = "No response/refusal" if m5_1104 == "99"
-
+		*SS: we are not labeling multi check box fields (feedback for WC)
+		
 * Formatting Dates (SS: do this for all dates in all modules)	 
 
 	/*Date and time of M2 (SS: double check this is saving time as wells)
@@ -5229,6 +5187,39 @@ replace m5_1104 = "No response/refusal" if m5_1104 == "99"
 	*STEP THREE: RECODING MISSING VALUES 
 		* Recode refused and don't know values
 		* Note: .a means NA, .r means refused, .d is don't know, . is missing 
+		
+recode m5_701a m5_701b m5_701c m5_701d m5_701e m5_701f m5_701g m5_701h m5_701_other /// 
+       m5_702a m5_702b m5_702c m5_702d m5_702e m5_702f m5_702g /// 
+       m5_801a m5_801b m5_801c m5_801d m5_801e m5_801f m5_801g m5_801h m5_802 ///
+       m5_803a m5_803b m5_803c m5_803d m5_803e m5_803f m5_803g m5_804a m5_804b m5_804c ///
+	   m5_901a m5_901b m5_901c m5_901d m5_901e m5_901f m5_901g m5_901h m5_901i m5_901j ///
+	   m5_901k m5_901l m5_901m m5_901n m5_901o m5_901p ///
+	   m5_902a m5_902b m5_902c m5_902d m5_902e m5_902f m5_902g m5_902h m5_902i m5_902j  ///
+	   m5_903a m5_903b m5_903c m5_903d m5_903e m5_903f m5_904 (.=.a)
+	   
+recode m5_701a m5_701b m5_701c m5_701d m5_701e m5_701f m5_701g m5_701h m5_701_other /// 
+       m5_702a m5_702b m5_702c m5_702d m5_702e m5_702f m5_702g /// 
+       m5_801a m5_801b m5_801c m5_801d m5_801e m5_801f m5_801g m5_801h m5_802 ///
+       m5_803a m5_803b m5_803c m5_803d m5_803e m5_803f m5_803g m5_804a m5_804b m5_804c ///
+	   m5_901a m5_901b m5_901c m5_901d m5_901e m5_901f m5_901g m5_901h m5_901i m5_901j ///
+	   m5_901k m5_901l m5_901m m5_901n m5_901o m5_901p ///
+	   m5_902a m5_902b m5_902c m5_902d m5_902e m5_902f m5_902g m5_902h m5_902i m5_902j  ///
+	   m5_903a m5_903b m5_903c m5_903d m5_903e m5_903f m5_904 (98=.d)
+	   
+recode m5_701a m5_701b m5_701c m5_701d m5_701e m5_701f m5_701g m5_701h m5_701_other /// 
+       m5_702a m5_702b m5_702c m5_702d m5_702e m5_702f m5_702g /// 
+       m5_801a m5_801b m5_801c m5_801d m5_801e m5_801f m5_801g m5_801h m5_802 ///
+       m5_803a m5_803b m5_803c m5_803d m5_803e m5_803f m5_803g m5_804a m5_804b m5_804c ///
+	   m5_901a m5_901b m5_901c m5_901d m5_901e m5_901f m5_901g m5_901h m5_901i m5_901j ///
+	   m5_901k m5_901l m5_901m m5_901n m5_901o m5_901p ///
+	   m5_902a m5_902b m5_902c m5_902d m5_902e m5_902f m5_902g m5_902h m5_902i m5_902j  ///
+	   m5_903a m5_903b m5_903c m5_903d m5_903e m5_903f m5_904 (99=.r)	   
+	 
+	 
+recode m5_406a (98 = .d) 	 
+	 
+recode (999 = )
+
 
 *------------------------------------------------------------------------------*
 * recoding for skip pattern logic:	   
@@ -5237,524 +5228,371 @@ replace m5_1104 = "No response/refusal" if m5_1104 == "99"
 * due to skip patterns
 
 *SS: Ask Wen-Chien to fix:
-/*
+* instructions: go through instrument/codebook and see if some questions were only asked to certain inviduals based on skip patterns and code people who would not have been asked a question = .a
+* it looks like you will need to encode many variables, and I would do that in the renaming section and then recode here. but for the purpose of the example I am doing both here.
+* note: it's highly likely that in the next round of data they will change most of these vars to be numerical. I have followed up with the KEMRI team
+*example of what we are looking for here:
 
-recode m5_babyhealth m5_baby_death_date m5_baby_death_time m5_baby_death_time_unit m5_death_treatment m5_death_place ///
-       m5_feeling_a m5_feeling_b m5_feeling_c m5_feeling_d m5_feeling_e m5_feeling_f m5_feeling_g m5_feeling_h ///
-	   m5_leakage_when m5_leakage_affect m5_leakage_treatment m5_leakage_no_treatment m5_leakage_treateffect  /// 
-	   m5_breastfeeding m5_baby_sleep m5_baby_feed m5_baby_breath m5_baby_stool m5_baby_mood m5_baby_skin m5_baby_interactivity ///
-	   m5_baby_issue_oth m5_503_1 m5_505_1 m5_503_2 m5_505_2 m5_503_3 m5_505_3 ///
-       m5_consultation1_carequal m5_consultation2_carequal m5_consultation3_carequal m5_no_visit(.=.a)
-recode m5_406a (98 = .d) 
-recode m5_501a m5_501b (.= ".a")   
-recode m5_502 (. = 0)
-replace m5_leakage_no_treatment_oth = ".a"
+encode q203_1_1, gen(m5_babyfeed_a)
+recode  m5_babyfeed_a (. = .a) if m5_consent !=1
 
-*/
-
-replace m5_babyfeed_a = ".a" if m5_babyfeed_a != "Yes" & m5_babyfeed_a != "No"
-replace m5_babyfeed_b = ".a" if m5_babyfeed_a != "Yes" & m5_babyfeed_a != "No"
-replace m5_babyfeed_c = ".a" if m5_babyfeed_a != "Yes" & m5_babyfeed_a != "No"
-replace m5_babyfeed_d = ".a" if m5_babyfeed_a != "Yes" & m5_babyfeed_a != "No"
-replace m5_babyfeed_e = ".a" if m5_babyfeed_a != "Yes" & m5_babyfeed_a != "No"
-replace m5_babyfeed_f = ".a" if m5_babyfeed_a != "Yes" & m5_babyfeed_a != "No"
-replace m5_babyfeed_g = ".a" if m5_babyfeed_a != "Yes" & m5_babyfeed_a != "No"
-replace m5_babyfeed_99 = ".a" if m5_babyfeed_a != "Yes" & m5_babyfeed_a != "No"
-
-replace m5_baby_issue_a = ".a" if m5_baby_issue_a  != "1" & m5_baby_issue_a  != "0"
-replace m5_baby_issue_b = ".a" if m5_baby_issue_b  != "1" & m5_baby_issue_b  != "0"
-replace m5_baby_issue_c = ".a" if m5_baby_issue_c  != "1" & m5_baby_issue_c  != "0"
-replace m5_baby_issue_d = ".a" if m5_baby_issue_d  != "1" & m5_baby_issue_d  != "0"
-replace m5_baby_issue_e = ".a" if m5_baby_issue_e  != "1" & m5_baby_issue_e  != "0"
-replace m5_baby_issue_f = ".a" if m5_baby_issue_f  != "1" & m5_baby_issue_f  != "0"
-replace m5_baby_issue_g = ".a" if m5_baby_issue_g  != "1" & m5_baby_issue_g  != "0"
-replace m5_baby_issue_h = ".a" if m5_baby_issue_h  != "1" & m5_baby_issue_h  != "0"
-replace m5_baby_issue_i = ".a" if m5_baby_issue_i  != "1" & m5_baby_issue_i  != "0"
-replace m5_baby_issue_j = ".a" if m5_baby_issue_j  != "1" & m5_baby_issue_j  != "0"
-replace m5_baby_issue_oth_text = ".a" if m5_baby_issue_oth_text  != "1" & m5_baby_issue_oth_text  != "0"
-
-replace m5_703_a = ".a" if m5_703_a != "1" & m5_703_a != "0"
-replace m5_703_b = ".a" if m5_703_b != "1" & m5_703_b != "0"
-replace m5_703_c = ".a" if m5_703_c != "1" & m5_703_c != "0"
-replace m5_703_d = ".a" if m5_703_d != "1" & m5_703_d != "0"
-replace m5_703_e = ".a" if m5_703_e != "1" & m5_703_e != "0"
-replace m5_703_f = ".a" if m5_703_f != "1" & m5_703_f != "0"
-replace m5_703_g = ".a" if m5_703_g != "1" & m5_703_g != "0"
-replace m5_703_oth = ".a" if m5_703_oth != "1" & m5_703_oth != "0"
-replace m5_703_98 = ".a" if m5_703_98 != "1" & m5_703_98 != "0"
-replace m5_703_99 = ".a" if m5_703_99 != "1" & m5_703_99 != "0"
-replace m5_703_oth_text = ".a" if m5_703_oth_text != "1" & m5_703_oth_text != "0"
-
-replace m5_death_cause_a = ".a" if m5_death_cause_a != "1" & m5_death_cause_a != "0"
-replace m5_death_cause_b = ".a" if m5_death_cause_b != "1" & m5_death_cause_b != "0"
-replace m5_death_cause_c = ".a" if m5_death_cause_c != "1" & m5_death_cause_c != "0"
-replace m5_death_cause_d = ".a" if m5_death_cause_d != "1" & m5_death_cause_d != "0"
-replace m5_death_cause_e = ".a" if m5_death_cause_e != "1" & m5_death_cause_e != "0"
-replace m5_death_cause_f = ".a" if m5_death_cause_f != "1" & m5_death_cause_f != "0"
-replace m5_death_cause_g = ".a" if m5_death_cause_g != "1" & m5_death_cause_g != "0"
-replace m5_death_cause_h = ".a" if m5_death_cause_h != "1" & m5_death_cause_h != "0"
-replace m5_death_cause_i = ".a" if m5_death_cause_i != "1" & m5_death_cause_i != "0"
-replace m5_death_cause_j = ".a" if m5_death_cause_j != "1" & m5_death_cause_j != "0"
-replace m5_death_cause_oth = ".a" if m5_death_cause_oth != "1" & m5_death_cause_oth != "0"
-replace m5_death_cause_oth_text = ".a" if m5_death_cause_oth_text != "1" & m5_death_cause_oth_text != "0"
-replace m5_death_cause_98 = ".a" if m5_death_cause_98 != "1" & m5_death_cause_98 != "0"
-replace m5_death_cause_99 = ".a" if m5_death_cause_99 != "1" & m5_death_cause_99 != "0"
-
-replace m5_new_visits_index_1 = ".a" if m5_new_visits_index_1 != "1"
-replace m5_new_visits_index_2 = ".a" if m5_new_visits_index_2 != "2"
-replace m5_new_visits_index_3 = ".a" if m5_new_visits_index_3 != "3"
-		
-replace m5_consultation1 = ".a" if m5_consultation1 != "A new health problem for yourself, including an emergency or an injury" & m5_consultation1!= "Other (specify)" 
-replace m5_consultation1_a = ".a" if m5_consultation1_a != "1" & m5_consultation1_a != "0"
-replace m5_consultation1_b = ".a" if m5_consultation1_b != "1" & m5_consultation1_b != "0"
-replace m5_consultation1_c = ".a" if m5_consultation1_c != "1" & m5_consultation1_c != "0"
-replace m5_consultation1_d = ".a" if m5_consultation1_d != "1" & m5_consultation1_d != "0"
-replace m5_consultation1_e = ".a" if m5_consultation1_e != "1" & m5_consultation1_e != "0"
-replace m5_consultation1_f = ".a" if m5_consultation1_f != "1" & m5_consultation1_f != "0"
-replace m5_consultation1_g = ".a" if m5_consultation1_g != "1" & m5_consultation1_g != "0"
-replace m5_consultation1_h = ".a" if m5_consultation1_h != "1" & m5_consultation1_h != "0"
-replace m5_consultation1_i = ".a" if m5_consultation1_i != "1" & m5_consultation1_i != "0"
-replace m5_consultation1_j = ".a" if m5_consultation1_j != "1" & m5_consultation1_j != "0"
-replace m5_consultation1_oth = ".a" if m5_consultation1_oth != "1" & m5_consultation1_oth != "0"
-replace m5_consultation1_oth_text = ".a" if m5_consultation1_oth_text != "After home delivery"
-
-replace m5_consultation2 = ".a" if m5_consultation2 != "Getting a vaccine for the baby" & m5_consultation2!= "To get medicine for the baby" 
-replace m5_consultation2_a = ".a" if m5_consultation2_a != "1" & m5_consultation2_a != "0"
-replace m5_consultation2_b = ".a" if m5_consultation2_b != "1" & m5_consultation2_b != "0"
-replace m5_consultation2_c = ".a" if m5_consultation2_c != "1" & m5_consultation2_c != "0"
-replace m5_consultation2_d = ".a" if m5_consultation2_d != "1" & m5_consultation2_d != "0"
-replace m5_consultation2_e = ".a" if m5_consultation2_e != "1" & m5_consultation2_e != "0"
-replace m5_consultation2_f = ".a" if m5_consultation2_f != "1" & m5_consultation2_f != "0"
-replace m5_consultation2_g = ".a" if m5_consultation2_g != "1" & m5_consultation2_g != "0"
-replace m5_consultation2_h = ".a" if m5_consultation2_h != "1" & m5_consultation2_h != "0"
-replace m5_consultation2_i = ".a" if m5_consultation2_i != "1" & m5_consultation2_i != "0"
-replace m5_consultation2_j = ".a" if m5_consultation2_j != "1" & m5_consultation2_j != "0"
-replace m5_consultation2_oth = ".a" if m5_consultation2_oth != "1" & m5_consultation2_oth != "0"
-replace m5_consultation2_oth_text = ".a" 
-
-replace m5_consultation3 = ".a" 
-replace m5_consultation3_a = ".a" 
-replace m5_consultation3_b = ".a" 
-replace m5_consultation3_c = ".a" 
-replace m5_consultation3_d = ".a" 
-replace m5_consultation3_e = ".a" 
-replace m5_consultation3_f = ".a" 
-replace m5_consultation3_g = ".a" 
-replace m5_consultation3_h = ".a" 
-replace m5_consultation3_i = ".a" 
-replace m5_consultation3_j = ".a" 
-replace m5_consultation3_oth = ".a"
-replace m5_consultation3_oth_text = ".a" 
-replace m5_no_visit_oth = ".a" if m5_no_visit != -96
-
-replace m5_n_consultation_carequality = ".a" if m5_n_consultation_carequality != "1" & /// 
-        m5_n_consultation_carequality != "2" & m5_n_consultation_carequality != "3" 
-replace m5_n_baby_care= ".a" if m5_n_baby_care != "1"
-replace m5_baby_index_care_1 = ".a" if m5_baby_index_care_1 != "1"
-
-recode m5_701_a m5_701_b m5_701_c m5_701_d m5_701_e m5_701_f m5_701_g m5_701_h m5_701_oth /// 
-       m5_702_a m5_702_b m5_702_c m5_702_d m5_702_e m5_702_f m5_702_g /// 
-       m5_801_a m5_801_b m5_801_c m5_801_d m5_801_e m5_801_f m5_801_g m5_801_h m5_802 ///
-       m5_803_a m5_803_b m5_803_c m5_803_d m5_803_e m5_803_f m5_803_g m5_804_a m5_804_b m5_804_c ///
-	   m5_901_a m5_901_b m5_901_c m5_901_d m5_901_e m5_901_f m5_901_g m5_901_h m5_901_i m5_901_j ///
-	   m5_901_k m5_901_l m5_901_m m5_901_n m5_901_o m5_901_p ///
-	   m5_902_a m5_902_b m5_902_c m5_902_d m5_902_e m5_902_f m5_902_g m5_902_h m5_902_i m5_902_j ///
-	   m5_903_a m5_903_b m5_903_c m5_903_d m5_903_e m5_903_f m5_904 (.=.a)(98=.d)(99=.r)
-	 
-replace m5_701_oth_text = ".a" 	
-replace m5_801_oth = ".a" 			   
-replace m5_baby_index_med_1 = ".a" if m5_baby_index_med_1 != "1"
-replace m5_902_oth = ".a" if m5_902_oth != "Paracetamol syrup" & m5_902_oth != "Cetirizine syrup" & ///
-                             m5_902_oth != "Paracetamol syrup, paracetamol sappostory, priton."
-replace m5_903_oth = ".a" if m5_903_oth != "None"
-replace m5_904_oth = ".a" if m5_904_oth != "Kitui county referral hospital" 
-
-replace m5_1002_a = .a if m5_1001 == 0
-replace m5_1002_b = .a if m5_1001 == 0
-replace m5_1002_c = .a if m5_1001 == 0
-replace m5_1002_d = .a if m5_1001 == 0
-replace m5_1002_e = .a if m5_1001 == 0
-replace m5_1003 = .a if m5_1001 == 0
-replace m5_1002_oth = ".a" if m5_1001 == 0 
-replace m5_1002_oth = ".a"  if m5_1001 == 1 & (m5_1002_oth != "None" & m5_1002_oth != "Transport")
-replace m5_1005 = ".a" if m5_1001 == 0
-replace m5_1005 = "." if m5_1001 == .
-
-replace m5_1005_a = .a if m5_1001 == 0 
-replace m5_1005_b = .a if m5_1001 == 0 
-replace m5_1005_c = .a if m5_1001 == 0 
-replace m5_1005_d = .a if m5_1001 == 0 
-replace m5_1005_e = .a if m5_1001 == 0 
-replace m5_1005_f = .a if m5_1001 == 0 
-replace m5_1005_oth = .a if m5_1001 == 0 
-replace m5_1102 = ".a"
-
-recode m5_1102_a m5_1102_b m5_1102_c m5_1102_d m5_1102_e m5_1102_f m5_1102_g m5_1102_h m5_1102_i m5_1102_j m5_1102_oth m5_1102_98 m5_1102_99 ///
-       m5_1104_a m5_1104_b m5_1104_c m5_1104_d m5_1104_e m5_1104_f m5_1104_g m5_1104_h m5_1104_i m5_1104_j m5_1104_oth m5_1104_98 m5_1104_99 ///
-	   m5_baby_weight m5_baby_length m5_baby_hc m5_1105 (.=.a)
-
-replace m5_1104 = ".a" if m5_1104 != "Current husband / partner" &  m5_1104 != "Stranger"
-replace m5_hb_level = .a if m5_anemiatest == 0 	   
-replace m5_n_baby_assess = ".a" if m5_n_baby_assess != "1" 
-replace m5_baby_index_assess_1 = ".a" if m5_baby_index_assess_1 != "1" 
+recode m5_starttime m5_endtime m5_duration m5_date (. = .a) if m5_consent !=1
 
 *** Questions for Shalom 
 * 1. m5_depression_sum: not sure how to recode missing values
-* 2. m5_804_b has a value 999 at row 6, is it 99 (refused)?
+* 2. m5_804b has a value 999 at row 6, is it 99 (refused)?
 * 3. m5_1001 is for all participants, but it looked like there are several missings, which affected all questions about spending, including m5_1002 (_a to _e, and _oth), m5_1003, m5_1004, m5_1005 (_a to _f and _oth)       
 
-
+*/
 
 *===============================================================================
 * merge dataset with M1-M4
 
 merge 1:1 respondentid using "$ke_data_final/eco_m1-m4_ke.dta"
 
-drop _merge  // SS 3-15: 7 in master (M2) not in using (M1), N=979 matched
+drop _merge
 
 *===============================================================================
 	
 	* STEP FOUR: LABELING VARIABLES
 	
-lab var m5_consent "M5. Consent"
-lab var m5_no_consent "M5. The reason of no consent"
-lab var m5_starttime "M5-103-time. Time of interview started"
-lab var m5_endtime "M5. Time of interview ended"
-lab var m5_duration "M5. Duration of interview"
-lab var m5_date "M5-102. Date of interview"
-lab var m5_todaydate "M5-102. Date of today's date"
-lab var m5_dateconfirm "M5-102-confirm. Confirm the date of today"
-lab var m5_submissiondate "M5. Time of submission"
-lab var respondentid "M5. Respondent ID"
-lab var m5_n_livebabies "M5. Number of babies" 
-lab var m5_n_babies "M5. Number of babies"    
-lab var m5_n_alivebabies "M5. Number of babies that were alive"
-lab var m5_n_deadbabies "M5. Number of babies that died"
-lab var m5_csection "M5. C-section"
-lab var m5_hiv_status "M5. Maternal HIV status."
+lab var m5_consent "Consent"
+lab var m5_starttime "Time of interview started"
+lab var m5_endtime "Time of interview ended"
+lab var m5_duration "Duration of interview"
+lab var m5_date "Date of interview"
+lab var m5_dateconfirm "Confirm the date of today"
+lab var m5_submissiondate "Time of submission"
+lab var respondentid "Respondent ID"
+lab var m5_n_livebabies "Number of babies" 
+lab var m5_n_babies "Number of babies"    
+lab var m5_n_alivebabies "Number of babies that were alive"
+lab var m5_n_deadbabies "Number of babies that died"
+lab var m5_csection "C-section"
+lab var m5_hiv_status "Maternal HIV status."
 
-lab var m5_babyalive "M5-201. Could you please confirm if the baby is still alive, or did something else happen?"
-lab var m5_babyhealth "M5-202. In general, how would you rate the baby's overall health?"
-lab var m5_babyfeed_a "M5-203-a. Please indicate how you have fed the baby in the last 7 days? (choice=Breast milk)"
-lab var m5_babyfeed_b "M5-203-b. Please indicate how you have fed the baby in the last 7 days? (choice=Formula, e.g.Nan)"
-lab var m5_babyfeed_c "M5-203-c. Please indicate how you have fed the baby in the last 7 days? (choice=Water)"
+lab var m5_babyalive "201. Could you please confirm if the baby is still alive, or did something else happen?"
+lab var m5_babyhealth "202. In general, how would you rate the baby's overall health?"
+lab var m5_babyfeed_a "203-a. Please indicate how you have fed the baby in the last 7 days? (choice=Breast milk)"
+lab var m5_babyfeed_b "203-b. Please indicate how you have fed the baby in the last 7 days? (choice=Formula, e.g.Nan)"
+lab var m5_babyfeed_c "203-c. Please indicate how you have fed the baby in the last 7 days? (choice=Water)"
 lab var m5_babyfeed_d "M3-31a-d. Please indicate how you have fed the baby in the last 7 days? (choice=Juice)"
-lab var m5_babyfeed_e "M5-203-e. Please indicate how you have fed the baby in the last 7 days? (choice=Broth/Soup)"
-lab var m5_babyfeed_f "M5-203-f. Please indicate how you have fed the baby in the last 7 days? (choice=Baby food)"
-lab var m5_babyfeed_g "M5-203-g. Please indicate how you have fed the baby in the last 7 days? (choice=Local food)"
-lab var m5_babyfeed_99 "M5-203-99. Please indicate how you have fed the baby in the last 7 days? (choice=NR/RF)"
-lab var m5_breastfeeding "M5-204. As of today, how confident do you feel about breastfeeding the baby?"
+lab var m5_babyfeed_e "203-e. Please indicate how you have fed the baby in the last 7 days? (choice=Broth/Soup)"
+lab var m5_babyfeed_f "203-f. Please indicate how you have fed the baby in the last 7 days? (choice=Baby food)"
+lab var m5_babyfeed_g "203-g. Please indicate how you have fed the baby in the last 7 days? (choice=Local food)"
+lab var m5_babyfeed_99 "203-99. Please indicate how you have fed the baby in the last 7 days? (choice=NR/RF)"
+lab var m5_breastfeeding "204. As of today, how confident do you feel about breastfeeding the baby?"
 		
-lab var m5_baby_sleep "M5-205a. Regarding sleep, which response best describes the baby today?"
-lab var m5_baby_feed "M5-205b. Regarding feeding, which response best describes the baby today?"
-lab var m5_baby_breath "M5-205c. Regarding breathing, which response best describes the baby today?"
-lab var m5_baby_stool "M5-205d. Regarding stooling/poo, which response best describes the baby today?"
-lab var m5_baby_mood "M5-205e. Regarding their mood, which response best describes the baby today?"
-lab var m5_baby_skin "M5-205f. Regarding their skin, which response best describes the baby today?"
-lab var m5_baby_interactivity "M5-205g. Regarding interactivity, which response best describes the baby today?"
-lab var m5_baby_issue_a "M5-206a. Did the baby experience any of the following issues since you last spoke to us? (choice=Diarrhea with blood in the stools)"
-lab var m5_baby_issue_b "M5-206b. Did the baby experience any of the following issues since you last spoke to us? (choice=A fever, a temperature > 37.5)"
-lab var m5_baby_issue_c "M5-206c. Did the baby experience any of the following issues since you last spoke to us? (choice=A low temperature < 35.5C)"
-lab var m5_baby_issue_d "M5-206d. Did the baby experience any of the following issues since you last spoke to us? (choice=An illness with a cough)"
-lab var m5_baby_issue_e "M5-206e. Did the baby experience any of the following issues since you last spoke to us? (choice=Trouble breathing or very fast breathing with short rapid breaths)"
-lab var m5_baby_issue_f "M5-206f. Did the baby experience any of the following issues since you last spoke to us? (choice=A problem in the chest)"
-lab var m5_baby_issue_g "M5-206g. Did the baby experience any of the following issues since you last spoke to us? (choice=Trouble feeding)"
-lab var m5_baby_issue_h "M5-206h. Did the baby experience any of the following issues since you last spoke to us? (choice=Convulsions)"
-lab var m5_baby_issue_i "M5-206i. Did the baby experience any of the following issues since you last spoke to us? (choice=Jaundice, that is, yellow color of the skin)"
-lab var m5_baby_issue_j "M5-206j. Did the baby experience any of the following issues since you last spoke to us? (choice=Yellow palms or soles)"
-lab var m5_baby_issue_oth "M5-206-oth. Did the baby experience any other health problems since you last spoke to us?"
-lab var m5_baby_issue_oth_text "M5-206-oth-text. Describe the health problems"
+lab var m5_baby_sleep "205a. Regarding sleep, which response best describes the baby today?"
+lab var m5_baby_feed "205b. Regarding feeding, which response best describes the baby today?"
+lab var m5_baby_breath "205c. Regarding breathing, which response best describes the baby today?"
+lab var m5_baby_stool "205d. Regarding stooling/poo, which response best describes the baby today?"
+lab var m5_baby_mood "205e. Regarding their mood, which response best describes the baby today?"
+lab var m5_baby_skin "205f. Regarding their skin, which response best describes the baby today?"
+lab var m5_baby_interactivity "205g. Regarding interactivity, which response best describes the baby today?"
+lab var m5_baby_issue_a "206a. Did the baby experience any of the following issues since you last spoke to us? (choice=Diarrhea with blood in the stools)"
+lab var m5_baby_issue_b "206b. Did the baby experience any of the following issues since you last spoke to us? (choice=A fever, a temperature > 37.5)"
+lab var m5_baby_issue_c "206c. Did the baby experience any of the following issues since you last spoke to us? (choice=A low temperature < 35.5C)"
+lab var m5_baby_issue_d "206d. Did the baby experience any of the following issues since you last spoke to us? (choice=An illness with a cough)"
+lab var m5_baby_issue_e "206e. Did the baby experience any of the following issues since you last spoke to us? (choice=Trouble breathing or very fast breathing with short rapid breaths)"
+lab var m5_baby_issue_f "206f. Did the baby experience any of the following issues since you last spoke to us? (choice=A problem in the chest)"
+lab var m5_baby_issue_g "206g. Did the baby experience any of the following issues since you last spoke to us? (choice=Trouble feeding)"
+lab var m5_baby_issue_h "206h. Did the baby experience any of the following issues since you last spoke to us? (choice=Convulsions)"
+lab var m5_baby_issue_i "206i. Did the baby experience any of the following issues since you last spoke to us? (choice=Jaundice, that is, yellow color of the skin)"
+lab var m5_baby_issue_j "206j. Did the baby experience any of the following issues since you last spoke to us? (choice=Yellow palms or soles)"
+lab var m5_baby_issue_oth "206-oth. Did the baby experience any other health problems since you last spoke to us?"
+lab var m5_baby_issue_oth_text "206-oth-text. Describe the health problems"
 
-lab var m5_baby_death_date "M5-208. On what date did the baby die?"
-lab var m5_baby_death_time "M5-209. How many weeks or days old was the baby when he/she died?"
-lab var m5_baby_death_time_unit "M5-208-unit. The unit of time"
-lab var m5_death_cause_a "M5-210-a. What were you told was the cause of death of the baby? (choice=Not told anything)"
-lab var m5_death_cause_b "M5-210-b. What were you told was the cause of death of the baby? (choice=The baby was premature, born too early)"
-lab var m5_death_cause_c "M5-210-c. What were you told was the cause of death of the baby? (choice=A birth injury or asphyxia (occurring because of delivery complications))"
-lab var m5_death_cause_d "M5-210-d. What were you told was the cause of death of the baby? (choice=A congenital abnormality (genetic or acquired issues with growth/development))"
-lab var m5_death_cause_e "M5-210-e. What were you told was the cause of death of the baby? (choice=Malaria)"
-lab var m5_death_cause_f "M5-210-f. What were you told was the cause of death of the baby? (choice=An acute respiratory infection)"
-lab var m5_death_cause_g "M5-210-g. What were you told was the cause of death of the baby? (choice=Diarrhea)"
-lab var m5_death_cause_h "M5-210-h. What were you told was the cause of death of the baby? (choice=Another type of infection)"
-lab var m5_death_cause_i "M5-210-i. What were you told was the cause of death of the baby? (choice=Severe acute malnutrition)"
-lab var m5_death_cause_j "M5-210-j. What were you told was the cause of death of the baby? (choice=An accident or injury)"
-lab var m5_death_cause_oth "M5-210-oth. What were you told was the cause of death of the baby? (choice=Another cause)"
-lab var m5_death_cause_98 "M5-210-98. What were you told was the cause of death of the baby? (choice=Don´t know)"
-lab var m5_death_cause_99 "M5-210-99. What were you told was the cause of death of the baby? (choice=No response/refusal)"
-lab var m5_death_cause_oth_text "M5-210-other-text. What were you told was the cause of death of the baby? (choice=Specify the cause)"
+lab var m5_baby_death_date "208. On what date did the baby die?"
+lab var m5_baby_death_time "209. How many weeks or days old was the baby when he/she died?"
+lab var m5_baby_death_time_unit "208-unit. The unit of time"
+lab var m5_death_cause_a "210-a. What were you told was the cause of death of the baby? (choice=Not told anything)"
+lab var m5_death_cause_b "210-b. What were you told was the cause of death of the baby? (choice=The baby was premature, born too early)"
+lab var m5_death_cause_c "210-c. What were you told was the cause of death of the baby? (choice=A birth injury or asphyxia (occurring because of delivery complications))"
+lab var m5_death_cause_d "210-d. What were you told was the cause of death of the baby? (choice=A congenital abnormality (genetic or acquired issues with growth/development))"
+lab var m5_death_cause_e "210-e. What were you told was the cause of death of the baby? (choice=Malaria)"
+lab var m5_death_cause_f "210-f. What were you told was the cause of death of the baby? (choice=An acute respiratory infection)"
+lab var m5_death_cause_g "210-g. What were you told was the cause of death of the baby? (choice=Diarrhea)"
+lab var m5_death_cause_h "210-h. What were you told was the cause of death of the baby? (choice=Another type of infection)"
+lab var m5_death_cause_i "210-i. What were you told was the cause of death of the baby? (choice=Severe acute malnutrition)"
+lab var m5_death_cause_j "210-j. What were you told was the cause of death of the baby? (choice=An accident or injury)"
+lab var m5_death_cause_oth "210-oth. What were you told was the cause of death of the baby? (choice=Another cause)"
+lab var m5_death_cause_98 "210-98. What were you told was the cause of death of the baby? (choice=Don´t know)"
+lab var m5_death_cause_99 "210-99. What were you told was the cause of death of the baby? (choice=No response/refusal)"
+lab var m5_death_cause_oth_text "210-other-text. What were you told was the cause of death of the baby? (choice=Specify the cause)"
 
-lab var m5_death_treatment "M5-211. Before the baby died, did you seek advice or treatment for the illness from any source?"
-lab var m5_death_place "M5-212. Where did the baby die?"
-lab var m5_death_place_oth "M5-212-oth. Could you specify the place?"
-lab var m5_health "M5-301. I would now like to talk about your own health since you last spoke to us. In general, how would you rate your overall health?"
-lab var m5_health_a "M5-302-a. I am going to read three statements about your mobility, by which I mean your ability to walk around. Please indicate which statement best describe your own health state today."
-lab var m5_health_b "M5-302-b. I am now going to read three statements regarding your ability to self-care, by which I mean whether you can wash and dress yourself without assistance. Please indicate which statement best describe your own health state today."
-lab var m5_health_c "M5-302-c. I am going to read three statements regarding your ability to perform your usual daily activities, by which I mean your ability to work, take care of your family or perform leisure activities. Please indicate which statement best describe your own health state today."
-lab var m5_health_d "M5-302-d. I am going to read three statements regarding your experience with physical pain or discomfort. Please indicate which statement best describe your own health state today."
-lab var m5_health_e "M5-302-e. I am going to read three statements regarding your experience with experience with anxiety or depression. Please indicate which statement best describe your own health state today."
+lab var m5_death_treatment "211. Before the baby died, did you seek advice or treatment for the illness from any source?"
+lab var m5_death_place "212. Where did the baby die?"
+lab var m5_death_place_oth "212-oth. Could you specify the place?"
+lab var m5_health "301. I would now like to talk about your own health since you last spoke to us. In general, how would you rate your overall health?"
+lab var m5_health_a "302-a. I am going to read three statements about your mobility, by which I mean your ability to walk around. Please indicate which statement best describe your own health state today."
+lab var m5_health_b "302-b. I am now going to read three statements regarding your ability to self-care, by which I mean whether you can wash and dress yourself without assistance. Please indicate which statement best describe your own health state today."
+lab var m5_health_c "302-c. I am going to read three statements regarding your ability to perform your usual daily activities, by which I mean your ability to work, take care of your family or perform leisure activities. Please indicate which statement best describe your own health state today."
+lab var m5_health_d "302-d. I am going to read three statements regarding your experience with physical pain or discomfort. Please indicate which statement best describe your own health state today."
+lab var m5_health_e "302-e. I am going to read three statements regarding your experience with experience with anxiety or depression. Please indicate which statement best describe your own health state today."
 	
-lab var m5_depression_a "M5-303-a. Over the past 2 weeks, on how many days have you been bothered by any of the following problems? Little interest or pleasure in doing things"
-lab var m5_depression_b "M5-303-b. Over the past 2 weeks, on how many days have you been bothered by any of the following problems? Feeling down, depressed, or hopeless"
-lab var m5_depression_c "M5-303-c. Over the past 2 weeks, on how many days have you been bothered by any of the following problems? Trouble falling or staying asleep, or sleeping too much"
-lab var m5_depression_d "M5-303-d. Over the past 2 weeks, on how many days have you been bothered by any of the following problems? Feeling tired or having little energy"
-lab var m5_depression_e "M5-303-e. Over the past 2 weeks, on how many days have you been bothered by any of the following problems? Poor appetite or overeating"
-lab var m5_depression_f "M5-303-f. Over the past 2 weeks, on how many days have you been bothered by any of the following problems? Feeling bad about yourself — or that you are a failure or have let yourself or your family down?"
-lab var m5_depression_g "M5-303-g. Over the past 2 weeks, on how many days have you been bothered by any of the following problems? Trouble concentrating on things, such as your work or home duties?"
-lab var m5_depression_h "M5-303-h. Over the past 2 weeks, on how many days have you been bothered by any of the following problems? Moving or speaking so slowly that other people could have noticed? Or so fidgety or restless that you have been moving a lot more than usual?"
-lab var m5_depression_i "M5-303-i. Over the past 2 weeks, on how many days have you been bothered by any of the following problems?Thoughts that you would be better off dead, or thoughts of hurting yourself in some way?"
-lab var m5_depression_sum "M5-303-sum. Over the past 2 weeks, the sum-up of days on which you were bothered by the symptoms of depression"
-lab var m5_health_affect_scale "M5-304. On a scale of 0 to 10, 0 being health problems had no effect on my work and 10 being health problems completely prevented me from working, during the past seven days, how much did any health problems affect your productivity while you were working?"
+lab var m5_depression_a "303-a. Over the past 2 weeks, on how many days have you been bothered by any of the following problems? Little interest or pleasure in doing things"
+lab var m5_depression_b "303-b. Over the past 2 weeks, on how many days have you been bothered by any of the following problems? Feeling down, depressed, or hopeless"
+lab var m5_depression_c "303-c. Over the past 2 weeks, on how many days have you been bothered by any of the following problems? Trouble falling or staying asleep, or sleeping too much"
+lab var m5_depression_d "303-d. Over the past 2 weeks, on how many days have you been bothered by any of the following problems? Feeling tired or having little energy"
+lab var m5_depression_e "303-e. Over the past 2 weeks, on how many days have you been bothered by any of the following problems? Poor appetite or overeating"
+lab var m5_depression_f "303-f. Over the past 2 weeks, on how many days have you been bothered by any of the following problems? Feeling bad about yourself — or that you are a failure or have let yourself or your family down?"
+lab var m5_depression_g "303-g. Over the past 2 weeks, on how many days have you been bothered by any of the following problems? Trouble concentrating on things, such as your work or home duties?"
+lab var m5_depression_h "303-h. Over the past 2 weeks, on how many days have you been bothered by any of the following problems? Moving or speaking so slowly that other people could have noticed? Or so fidgety or restless that you have been moving a lot more than usual?"
+lab var m5_depression_i "303-i. Over the past 2 weeks, on how many days have you been bothered by any of the following problems?Thoughts that you would be better off dead, or thoughts of hurting yourself in some way?"
+lab var m5_depression_sum "303-sum. Over the past 2 weeks, the sum-up of days on which you were bothered by the symptoms of depression"
+lab var m5_health_affect_scale "304. On a scale of 0 to 10, 0 being health problems had no effect on my work and 10 being health problems completely prevented me from working, during the past seven days, how much did any health problems affect your productivity while you were working?"
 
-lab var m5_feeling_a "M5-305-a. Please tell me what best describes how have felt about your baby: Loving"
-lab var m5_feeling_b "M5-305-b. Please tell me what best describes how have felt about your baby: Resentful"
-lab var m5_feeling_c "M5-305-c. Please tell me what best describes how have felt about your baby: Neutral or felt nothing"
-lab var m5_feeling_d "M5-305-d. Please tell me what best describes how have felt about your baby: Joyful"
-lab var m5_feeling_e "M5-305-e. Please tell me what best describes how have felt about your baby: Dislike"
-lab var m5_feeling_f "M5-305-f. Please tell me what best describes how have felt about your baby: Protective"
-lab var m5_feeling_g "M5-305-g. Please tell me what best describes how have felt about your baby: Dissapointed"
-lab var m5_feeling_h "M5-305-h. Please tell me what best describes how have felt about your baby: Aggresive "
-lab var m5_pain "M5-306. In the past 30 days, how much has pain affected your satisfaction with your sex life?"
-lab var m5_leakage "M5-307. Since you gave birth to your baby/babies, have you experienced a constant leakage of urine or stool from your vagina during the day and night?"
-lab var m5_leakage_when "M5-308. How many days after giving birth did these symptoms start?"
-lab var m5_leakage_affect "M5-309. How much does this problem alter your lifestyle or daily activities?"
-lab var m5_leakage_treatment "M5-310. Have you sought treatment for this condition?"
-lab var m5_leakage_no_treatment "M5-311. Why have you not sought treatment?"
-lab var m5_leakage_no_treatment_oth "M5-311-oth. Could you specify the reason why you have not looked for treatment?"
-lab var m5_leakage_treateffect "M5-312. Did the treatment solve the problem?"
-lab var m5_401 "M5-401. How would you rate the overall quality of medical care in Kenya?"
-lab var m5_402 "M5-402. Which of the following statements comes closest to expressing your overall view of the health care system in your country?"
-lab var m5_403 "M5-403. How confident are you that if you became very sick tomorrow, you would receive good quality healthcare from the health system?"
-lab var m5_404 "M5-404. How confident are you that you would be able to afford the healthcare you needed if you became very sick? This means you would be able to afford care without suffering financial hardship."
-lab var m5_405a "M5-405-a. You are the person who is responsible for managing your overall health?"
-lab var m5_405b "M5-405-b. You can tell a healthcare provider concerns you have even when he or she does not ask?"
-lab var m5_406a "M5-406-a. Since your first antenatal care visit for this pregnancy, please tell me if the following events have happened to you personally? You thought a medical mistake was made in your treatment or care."
-lab var m5_406b "M5-406-b. Since your first antenatal care visit for this pregnancy, please tell me if the following events have happened to you personally? You were treated unfairly or discriminated against by a doctor, nurse, or another healthcare provider."
+lab var m5_feeling_a "305-a. Please tell me what best describes how have felt about your baby: Loving"
+lab var m5_feeling_b "305-b. Please tell me what best describes how have felt about your baby: Resentful"
+lab var m5_feeling_c "305-c. Please tell me what best describes how have felt about your baby: Neutral or felt nothing"
+lab var m5_feeling_d "305-d. Please tell me what best describes how have felt about your baby: Joyful"
+lab var m5_feeling_e "305-e. Please tell me what best describes how have felt about your baby: Dislike"
+lab var m5_feeling_f "305-f. Please tell me what best describes how have felt about your baby: Protective"
+lab var m5_feeling_g "305-g. Please tell me what best describes how have felt about your baby: Dissapointed"
+lab var m5_feeling_h "305-h. Please tell me what best describes how have felt about your baby: Aggresive "
+lab var m5_pain "306. In the past 30 days, how much has pain affected your satisfaction with your sex life?"
+lab var m5_leakage "307. Since you gave birth to your baby/babies, have you experienced a constant leakage of urine or stool from your vagina during the day and night?"
+lab var m5_leakage_when "308. How many days after giving birth did these symptoms start?"
+lab var m5_leakage_affect "309. How much does this problem alter your lifestyle or daily activities?"
+lab var m5_leakage_treatment "310. Have you sought treatment for this condition?"
+lab var m5_leakage_no_treatment "311. Why have you not sought treatment?"
+lab var m5_leakage_no_treatment_oth "311-oth. Could you specify the reason why you have not looked for treatment?"
+lab var m5_leakage_treateffect "312. Did the treatment solve the problem?"
+lab var m5_401 "401. How would you rate the overall quality of medical care in Kenya?"
+lab var m5_402 "402. Which of the following statements comes closest to expressing your overall view of the health care system in your country?"
+lab var m5_403 "403. How confident are you that if you became very sick tomorrow, you would receive good quality healthcare from the health system?"
+lab var m5_404 "404. How confident are you that you would be able to afford the healthcare you needed if you became very sick? This means you would be able to afford care without suffering financial hardship."
+lab var m5_405a "405-a. You are the person who is responsible for managing your overall health?"
+lab var m5_405b "405-b. You can tell a healthcare provider concerns you have even when he or she does not ask?"
+lab var m5_406a "406-a. Since your first antenatal care visit for this pregnancy, please tell me if the following events have happened to you personally? You thought a medical mistake was made in your treatment or care."
+lab var m5_406b "406-b. Since your first antenatal care visit for this pregnancy, please tell me if the following events have happened to you personally? You were treated unfairly or discriminated against by a doctor, nurse, or another healthcare provider."
 	
-lab var m5_501a "M5-501-a. Since we last spoke, were you or your baby/babies seen by or attended to by a clinician or healthcare provider?  "
-lab var m5_501b "M5-501-b. Since we last spoke, did you have any new health care consultations, or not?"
-lab var m5_502 "M5-502. Since we last spoke, how many times were you seen by or attended to by a healthcare provider?  "
+lab var m5_501a "501-a. Since we last spoke, were you or your baby/babies seen by or attended to by a clinician or healthcare provider?  "
+lab var m5_501b "501-b. Since we last spoke, did you have any new health care consultations, or not?"
+lab var m5_502 "502. Since we last spoke, how many times were you seen by or attended to by a healthcare provider?  "
 
-lab var m5_503_1 "M5-503-1. Where did the first healthcare consultation take place (facility type)?"
-lab var m5_503_2 "M5-503-2. Where did the second healthcare consultation take place (facility type)?"
-lab var m5_503_3 "M5-503-3. Where did the third healthcare consultation take place (facility type)?"
-lab var m5_505_1 "M5-505-1. I would like to ask about the main reason for the 1st healthcare consultation for yourself or your child(ren). Was the first consultation for a routine or regular checkup after the delivery?"
-lab var m5_505_2 "M5-505-2. I would like to ask about the main reason for the 2nd healthcare consultation for yourself or your child(ren). Was the second consultation for a routine or regular checkup after the delivery?"
-lab var m5_505_3 "M5-505-3. I would like to ask about the main reason for the 3rd healthcare consultation for yourself or your child(ren). Was the third consultation for a routine or regular checkup after the delivery?"
+lab var m5_503_1 "503-1. Where did the first healthcare consultation take place (facility type)?"
+lab var m5_503_2 "503-2. Where did the second healthcare consultation take place (facility type)?"
+lab var m5_503_3 "503-3. Where did the third healthcare consultation take place (facility type)?"
+lab var m5_505_1 "505-1. I would like to ask about the main reason for the 1st healthcare consultation for yourself or your child(ren). Was the first consultation for a routine or regular checkup after the delivery?"
+lab var m5_505_2 "505-2. I would like to ask about the main reason for the 2nd healthcare consultation for yourself or your child(ren). Was the second consultation for a routine or regular checkup after the delivery?"
+lab var m5_505_3 "505-3. I would like to ask about the main reason for the 3rd healthcare consultation for yourself or your child(ren). Was the third consultation for a routine or regular checkup after the delivery?"
 
-lab var m5_consultation1 "M5-506-1. Was the first consultation for any of the following? Please tell me all that apply"
-lab var m5_consultation1_a "M5-506-1-a. Was the first consultation for any of the following? (Choice=A new health problem for the baby, including an emergency or an injury) "
-lab var m5_consultation1_b "M5-506-1-b. Was the first consultation for any of the following? (Choice=A new health problem for yourself, including an emergency or an injury)"
-lab var m5_consultation1_c "M5-506-1-c. Was the first consultation for any of the following? (Choice=An existing health problem for the baby)"
-lab var m5_consultation1_d "M5-506-1-d. Was the first consultation for any of the following? (Choice=An existing health problem for yourself)"
-lab var m5_consultation1_e "M5-506-1-e. Was the first consultation for any of the following? (Choice=A lab test, x-ray, or ultrasound for yourself)"
-lab var m5_consultation1_f "M5-506-1-f. Was the first consultation for any of the following? (Choice=A lab test, x-ray, or ultrasound for the baby)"
-lab var m5_consultation1_g "M5-506-1-g. Was the first consultation for any of the following? (Choice=Getting a vaccine for the baby)"
-lab var m5_consultation1_h "M5-506-1-h. Was the first consultation for any of the following? (Choice=Getting a vaccine for yourself)"
-lab var m5_consultation1_i "M5-506-1-i. Was the first consultation for any of the following? (Choice=To get medicine for yourself)"
-lab var m5_consultation1_j "M5-506-1-j. Was the first consultation for any of the following? (Choice=To get medicine for the baby)"
-lab var m5_consultation1_oth "M5-506-1-oth. Was the first consultation for any of the following? (Choice=Other)"
-lab var m5_consultation1_oth_text "M5-506-1-oth-text. Was the first consultation for any of the following? (Choice=Specify the reason)"
+lab var m5_consultation1 "506-1. Was the first consultation for any of the following? Please tell me all that apply"
+lab var m5_consultation1_a "506-1-a. Was the first consultation for any of the following? (Choice=A new health problem for the baby, including an emergency or an injury) "
+lab var m5_consultation1_b "506-1-b. Was the first consultation for any of the following? (Choice=A new health problem for yourself, including an emergency or an injury)"
+lab var m5_consultation1_c "506-1-c. Was the first consultation for any of the following? (Choice=An existing health problem for the baby)"
+lab var m5_consultation1_d "506-1-d. Was the first consultation for any of the following? (Choice=An existing health problem for yourself)"
+lab var m5_consultation1_e "506-1-e. Was the first consultation for any of the following? (Choice=A lab test, x-ray, or ultrasound for yourself)"
+lab var m5_consultation1_f "506-1-f. Was the first consultation for any of the following? (Choice=A lab test, x-ray, or ultrasound for the baby)"
+lab var m5_consultation1_g "506-1-g. Was the first consultation for any of the following? (Choice=Getting a vaccine for the baby)"
+lab var m5_consultation1_h "506-1-h. Was the first consultation for any of the following? (Choice=Getting a vaccine for yourself)"
+lab var m5_consultation1_i "506-1-i. Was the first consultation for any of the following? (Choice=To get medicine for yourself)"
+lab var m5_consultation1_j "506-1-j. Was the first consultation for any of the following? (Choice=To get medicine for the baby)"
+lab var m5_consultation1_oth "506-1-oth. Was the first consultation for any of the following? (Choice=Other)"
+lab var m5_consultation1_oth_text "506-1-oth-text. Was the first consultation for any of the following? (Choice=Specify the reason)"
 
-lab var m5_consultation2 "M5-506-2. Was the second consultation for any of the following? Please tell me all that apply"
-lab var m5_consultation2_a "M5-506-2-a. Was the second consultation for any of the following? (Choice=A new health problem for the baby, including an emergency or an injury) "
-lab var m5_consultation2_b "M5-506-2-b. Was the second consultation for any of the following? (Choice=A new health problem for yourself, including an emergency or an injury)"
-lab var m5_consultation2_c "M5-506-2-c. Was the second consultation for any of the following? (Choice=An existing health problem for the baby)"
-lab var m5_consultation2_d "M5-506-2-d. Was the second consultation for any of the following? (Choice=An existing health problem for yourself)"
-lab var m5_consultation2_e "M5-506-2-e. Was the second consultation for any of the following? (Choice=A lab test, x-ray, or ultrasound for yourself)"
-lab var m5_consultation2_f "M5-506-2-f. Was the second consultation for any of the following? (Choice=A lab test, x-ray, or ultrasound for the baby)"
-lab var m5_consultation2_g "M5-506-2-g. Was the second consultation for any of the following? (Choice=Getting a vaccine for the baby)"
-lab var m5_consultation2_h "M5-506-2-h. Was the second consultation for any of the following? (Choice=Getting a vaccine for yourself)"
-lab var m5_consultation2_i "M5-506-2-i. Was the second consultation for any of the following? (Choice=To get medicine for yourself)"
-lab var m5_consultation2_j "M5-506-2-j. Was the second consultation for any of the following? (Choice=To get medicine for the baby)"
-lab var m5_consultation2_oth "M5-506-2-oth. Was the second consultation for any of the following? (Choice=Other)"
-lab var m5_consultation2_oth_text "M5-506-2-oth-text. Was the second consultation for any of the following? (Choice=Specify the reason)"	
+lab var m5_consultation2 "506-2. Was the second consultation for any of the following? Please tell me all that apply"
+lab var m5_consultation2_a "506-2-a. Was the second consultation for any of the following? (Choice=A new health problem for the baby, including an emergency or an injury) "
+lab var m5_consultation2_b "506-2-b. Was the second consultation for any of the following? (Choice=A new health problem for yourself, including an emergency or an injury)"
+lab var m5_consultation2_c "506-2-c. Was the second consultation for any of the following? (Choice=An existing health problem for the baby)"
+lab var m5_consultation2_d "506-2-d. Was the second consultation for any of the following? (Choice=An existing health problem for yourself)"
+lab var m5_consultation2_e "506-2-e. Was the second consultation for any of the following? (Choice=A lab test, x-ray, or ultrasound for yourself)"
+lab var m5_consultation2_f "506-2-f. Was the second consultation for any of the following? (Choice=A lab test, x-ray, or ultrasound for the baby)"
+lab var m5_consultation2_g "506-2-g. Was the second consultation for any of the following? (Choice=Getting a vaccine for the baby)"
+lab var m5_consultation2_h "506-2-h. Was the second consultation for any of the following? (Choice=Getting a vaccine for yourself)"
+lab var m5_consultation2_i "506-2-i. Was the second consultation for any of the following? (Choice=To get medicine for yourself)"
+lab var m5_consultation2_j "506-2-j. Was the second consultation for any of the following? (Choice=To get medicine for the baby)"
+lab var m5_consultation2_oth "506-2-oth. Was the second consultation for any of the following? (Choice=Other)"
+lab var m5_consultation2_oth_text "506-2-oth-text. Was the second consultation for any of the following? (Choice=Specify the reason)"	
 	
-lab var m5_consultation3 "M5-506-3. Was the third consultation for any of the following? Please tell me all that apply"
-lab var m5_consultation3_a "M5-506-3-a. Was the third consultation for any of the following? (Choice=A new health problem for the baby, including an emergency or an injury) "
-lab var m5_consultation3_b "M5-506-3-b. Was the third consultation for any of the following? (Choice=A new health problem for yourself, including an emergency or an injury)"
-lab var m5_consultation3_c "M5-506-3-c. Was the third consultation for any of the following? (Choice=An existing health problem for the baby)"
-lab var m5_consultation3_d "M5-506-3-d. Was the third consultation for any of the following? (Choice=An existing health problem for yourself)"
-lab var m5_consultation3_e "M5-506-3-e. Was the third consultation for any of the following? (Choice=A lab test, x-ray, or ultrasound for yourself)"
-lab var m5_consultation3_f "M5-506-3-f. Was the third consultation for any of the following? (Choice=A lab test, x-ray, or ultrasound for the baby)"
-lab var m5_consultation3_g "M5-506-3-g. Was the third consultation for any of the following? (Choice=Getting a vaccine for the baby)"
-lab var m5_consultation3_h "M5-506-3-h. Was the third consultation for any of the following? (Choice=Getting a vaccine for yourself)"
-lab var m5_consultation3_i "M5-506-3-i. Was the third consultation for any of the following? (Choice=To get medicine for yourself)"
-lab var m5_consultation3_j "M5-506-3-j. Was the third consultation for any of the following? (Choice=To get medicine for the baby)"
-lab var m5_consultation3_oth "M5-506-3-oth. Was the third consultation for any of the following? (Choice=Other)"
-lab var m5_consultation3_oth_text "M5-506-3-oth-text. Was the third consultation for any of the following? (Choice=Specify the reason)"
+lab var m5_consultation3 "506-3. Was the third consultation for any of the following? Please tell me all that apply"
+lab var m5_consultation3_a "506-3-a. Was the third consultation for any of the following? (Choice=A new health problem for the baby, including an emergency or an injury) "
+lab var m5_consultation3_b "506-3-b. Was the third consultation for any of the following? (Choice=A new health problem for yourself, including an emergency or an injury)"
+lab var m5_consultation3_c "506-3-c. Was the third consultation for any of the following? (Choice=An existing health problem for the baby)"
+lab var m5_consultation3_d "506-3-d. Was the third consultation for any of the following? (Choice=An existing health problem for yourself)"
+lab var m5_consultation3_e "506-3-e. Was the third consultation for any of the following? (Choice=A lab test, x-ray, or ultrasound for yourself)"
+lab var m5_consultation3_f "506-3-f. Was the third consultation for any of the following? (Choice=A lab test, x-ray, or ultrasound for the baby)"
+lab var m5_consultation3_g "506-3-g. Was the third consultation for any of the following? (Choice=Getting a vaccine for the baby)"
+lab var m5_consultation3_h "506-3-h. Was the third consultation for any of the following? (Choice=Getting a vaccine for yourself)"
+lab var m5_consultation3_i "506-3-i. Was the third consultation for any of the following? (Choice=To get medicine for yourself)"
+lab var m5_consultation3_j "506-3-j. Was the third consultation for any of the following? (Choice=To get medicine for the baby)"
+lab var m5_consultation3_oth "506-3-oth. Was the third consultation for any of the following? (Choice=Other)"
+lab var m5_consultation3_oth_text "506-3-oth-text. Was the third consultation for any of the following? (Choice=Specify the reason)"
 
-lab var m5_no_visit "M5-511. Are there any reasons that prevented you from receiving postnatal or postpartum care since we last spoke? Please tell me the main reason you have not had care."
-lab var m5_no_visit_oth "M5-511-oth. Please specify the main reason you have not had care."
-lab var m5_consultation1_carequal "M5-601-1. Overall, how would you rate the quality of care that you received for the 1st consultation?"
-lab var m5_consultation2_carequal "M5-601-2. Overall, how would you rate the quality of care that you received for the 2nd consultation?"
-lab var m5_consultation3_carequal "M5-601-3. Overall, how would you rate the quality of care that you received for the 3rd consultation?"
+lab var m5_no_visit "511. Are there any reasons that prevented you from receiving postnatal or postpartum care since we last spoke? Please tell me the main reason you have not had care."
+lab var m5_no_visit_oth "511-oth. Please specify the main reason you have not had care."
+lab var m5_consultation1_carequal "601-1. Overall, how would you rate the quality of care that you received for the 1st consultation?"
+lab var m5_consultation2_carequal "601-2. Overall, how would you rate the quality of care that you received for the 2nd consultation?"
+lab var m5_consultation3_carequal "601-3. Overall, how would you rate the quality of care that you received for the 3rd consultation?"
 	
-lab var m5_701a "M5-701-a. Since we last spoke, did the baby get their temperature taken (using a thermometer)?"
-lab var m5_701b "M5-701-b. Since we last spoke, did the baby get their weight taken (using a scale)?"
-lab var m5_701c "M5-701-c. Since we last spoke, did the baby get their length measured (using a measuring tape)?"
-lab var m5_701d "M5-701-d. Since we last spoke, did the baby get their eyes examined?"
-lab var m5_701e "M5-701-e. Since we last spoke, did the baby get their hearing checked?"
-lab var m5_701f "M5-701-f. Since we last spoke, did the baby get their chest listened to with a stethoscope?"
-lab var m5_701g "M5-701-g. Since we last spoke, did the baby get a blood test using a finger prick (that is, taking a drop of blood from their finger)?"
-lab var m5_701h "M5-701-h. Since we last spoke, did the baby get a malaria test?"
-lab var m5_701i "M5-701i. Since we last spoke, did the baby get any other test?"
-lab var m5_701i_other "M5-701-oth. Please specify the test."
+lab var m5_701a "701-a. Since we last spoke, did the baby get their temperature taken (using a thermometer)?"
+lab var m5_701b "701-b. Since we last spoke, did the baby get their weight taken (using a scale)?"
+lab var m5_701c "701-c. Since we last spoke, did the baby get their length measured (using a measuring tape)?"
+lab var m5_701d "701-d. Since we last spoke, did the baby get their eyes examined?"
+lab var m5_701e "701-e. Since we last spoke, did the baby get their hearing checked?"
+lab var m5_701f "701-f. Since we last spoke, did the baby get their chest listened to with a stethoscope?"
+lab var m5_701g "701-g. Since we last spoke, did the baby get a blood test using a finger prick (that is, taking a drop of blood from their finger)?"
+lab var m5_701h "701-h. Since we last spoke, did the baby get a malaria test?"
+lab var m5_701i "701i. Since we last spoke, did the baby get any other test?"
+lab var m5_701i_other "701-oth. Please specify the test."
 
-lab var m5_702a "M5-702-a. Since we last spoke, did you and a healthcare provider discuss how often the baby eats. "
-lab var m5_702b "M5-702-b. Since we last spoke, did you and a healthcare provider discuss what the baby should eat (only breastmilk or other foods)." 
-lab var m5_702c "M5-702-c. Since we last spoke, did you and a healthcare provider discuss vaccinations for the baby."
-lab var m5_702d "M5-702-d. Since we last spoke, did you and a healthcare provider discuss the position the baby should sleep in (on their back or their stomach)."
-lab var m5_702e "M5-702-e. Since we last spoke, did you and a healthcare provider discuss danger signs or symptoms you should watch out for in the baby that would mean you should go to a health facility."
-lab var m5_702f "M5-702-f. Since we last spoke, did you and a healthcare provider discuss how you should play and interact with the baby."
-lab var m5_702g "M5-702-g. Since we last spoke, did you and a healthcare provider discuss that you should take the baby to the hospital or to see a specialist like a pediatrician or a neonatologist."
+lab var m5_702a "702-a. Since we last spoke, did you and a healthcare provider discuss how often the baby eats. "
+lab var m5_702b "702-b. Since we last spoke, did you and a healthcare provider discuss what the baby should eat (only breastmilk or other foods)." 
+lab var m5_702c "702-c. Since we last spoke, did you and a healthcare provider discuss vaccinations for the baby."
+lab var m5_702d "702-d. Since we last spoke, did you and a healthcare provider discuss the position the baby should sleep in (on their back or their stomach)."
+lab var m5_702e "702-e. Since we last spoke, did you and a healthcare provider discuss danger signs or symptoms you should watch out for in the baby that would mean you should go to a health facility."
+lab var m5_702f "702-f. Since we last spoke, did you and a healthcare provider discuss how you should play and interact with the baby."
+lab var m5_702g "702-g. Since we last spoke, did you and a healthcare provider discuss that you should take the baby to the hospital or to see a specialist like a pediatrician or a neonatologist."
 
-lab var m5_703a "M5-703-a. What did the healthcare provider tell you to do regarding these symptoms? (choice=I did not speak about this with a health care provider.)"
-lab var m5_703b "M5-703-b. What did the healthcare provider tell you to do regarding these symptoms? (choice=Provider told you that it was not serious, and there was nothing to be done.)"
-lab var m5_703c "M5-703-c. What did the healthcare provider tell you to do regarding these symptoms? (choice=Provider to monitor the baby and come back if it got worse.)"
-lab var m5_703d "M5-703-d. What did the healthcare provider tell you to do regarding these symptoms? (choice=Provider told you to get medication.)"
-lab var m5_703e "M5-703-e. What did the healthcare provider tell you to do regarding these symptoms? (choice=Provider gave you advice on feeding)"
-lab var m5_703f "M5-703-f. What did the healthcare provider tell you to do regarding these symptoms? (choice=Provider told you to get a lab test or imaging for the baby, e.g., blood tests, ultrasound, x-ray, heart echo)"
-lab var m5_703g "M5-703-g. What did the healthcare provider tell you to do regarding these symptoms? (choice=Provider told you to go to hospital or to see a specialist like a pediatrician or neonatologist.)"
-lab var m5_703h "M5-703-oth. What did the healthcare provider tell you to do regarding these symptoms? (choice=Other)"
-lab var m5_703_98 "M5-703-98. What did the healthcare provider tell you to do regarding these symptoms? (choice=Don´t know)"
-lab var m5_703_99 "M5-703-99. What did the healthcare provider tell you to do regarding these symptoms? (choice=No response/refusal)"
-lab var m5_703_other "M5-703-oth-text. What did the healthcare provider tell you to do regarding these symptoms? (choice=Specify other that provider told you)"
+lab var m5_703a "703-a. What did the healthcare provider tell you to do regarding these symptoms? (choice=I did not speak about this with a health care provider.)"
+lab var m5_703b "703-b. What did the healthcare provider tell you to do regarding these symptoms? (choice=Provider told you that it was not serious, and there was nothing to be done.)"
+lab var m5_703c "703-c. What did the healthcare provider tell you to do regarding these symptoms? (choice=Provider to monitor the baby and come back if it got worse.)"
+lab var m5_703d "703-d. What did the healthcare provider tell you to do regarding these symptoms? (choice=Provider told you to get medication.)"
+lab var m5_703e "703-e. What did the healthcare provider tell you to do regarding these symptoms? (choice=Provider gave you advice on feeding)"
+lab var m5_703f "703-f. What did the healthcare provider tell you to do regarding these symptoms? (choice=Provider told you to get a lab test or imaging for the baby, e.g., blood tests, ultrasound, x-ray, heart echo)"
+lab var m5_703g "703-g. What did the healthcare provider tell you to do regarding these symptoms? (choice=Provider told you to go to hospital or to see a specialist like a pediatrician or neonatologist.)"
+lab var m5_703h "703-oth. What did the healthcare provider tell you to do regarding these symptoms? (choice=Other)"
+lab var m5_703_98 "703-98. What did the healthcare provider tell you to do regarding these symptoms? (choice=Don´t know)"
+lab var m5_703_99 "703-99. What did the healthcare provider tell you to do regarding these symptoms? (choice=No response/refusal)"
+lab var m5_703_otherer "703-oth-text. What did the healthcare provider tell you to do regarding these symptoms? (choice=Specify other that provider told you)"
 	
-lab var m5_801a "M5-801-a. Since you last spoke to us, did you receive any of the following at least once? (choice=Your blood pressure measured (with a cuff around your arm))"
-lab var m5_801b "M5-801-b. Since you last spoke to us, did you receive any of the following at least once? (choice=Your temperature taken (with a thermometer))"
-lab var m5_801c "M5-801-c. Since you last spoke to us, did you receive any of the following at least once? (choice=A vaginal exam)"
-lab var m5_801d "M5-801-d. Since you last spoke to us, did you receive any of the following at least once? (choice=A blood draw (that is, taking blood from your arm with a syringe))"
-lab var m5_801e "M5-801-e. Since you last spoke to us, did you receive any of the following at least once? (choice=A blood test using a finger prick (that is, taking a drop of blood from your finger))"
-lab var m5_801f "M5-801-f. Since you last spoke to us, did you receive any of the following at least once? (choice=An HIV test)"
-lab var m5_801g "M5-801-g. Since you last spoke to us, did you receive any of the following at least once? (choice=A urine test (that is, where you peed in a container))"
-lab var m5_801h "M5-801-h. Since you last spoke to us, did you receive any of the following at least once? (choice=Any other test or examination)"
-lab var m5_801_other "M5-801-oth. Since you last spoke to us, did you receive any of the following at least once? (choice=Specify the test ot examination)"
+lab var m5_801a "801-a. Since you last spoke to us, did you receive any of the following at least once? (choice=Your blood pressure measured (with a cuff around your arm))"
+lab var m5_801b "801-b. Since you last spoke to us, did you receive any of the following at least once? (choice=Your temperature taken (with a thermometer))"
+lab var m5_801c "801-c. Since you last spoke to us, did you receive any of the following at least once? (choice=A vaginal exam)"
+lab var m5_801d "801-d. Since you last spoke to us, did you receive any of the following at least once? (choice=A blood draw (that is, taking blood from your arm with a syringe))"
+lab var m5_801e "801-e. Since you last spoke to us, did you receive any of the following at least once? (choice=A blood test using a finger prick (that is, taking a drop of blood from your finger))"
+lab var m5_801f "801-f. Since you last spoke to us, did you receive any of the following at least once? (choice=An HIV test)"
+lab var m5_801g "801-g. Since you last spoke to us, did you receive any of the following at least once? (choice=A urine test (that is, where you peed in a container))"
+lab var m5_801h "801-h. Since you last spoke to us, did you receive any of the following at least once? (choice=Any other test or examination)"
+lab var m5_801_otherer "801-oth. Since you last spoke to us, did you receive any of the following at least once? (choice=Specify the test ot examination)"
 
-lab var m5_802 "M5-802. Since we last spoke, did a health care provider examine your c-section scar?"
-lab var m5_803a "M5-803-a. Since we last spoke, did you discuss any of the following with a health care provider, or not? Did you and a healthcare provider discuss (choice=How to take care of your breasts)"
-lab var m5_803b "M5-803-b. Since we last spoke, did you discuss any of the following with a health care provider, or not? Did you and a healthcare provider discuss (choice=Danger signs or symptoms you should watch out for in yourself that would mean you should go to a health facility"
-lab var m5_803c "M5-803-c. Since we last spoke, did you discuss any of the following with a health care provider, or not? Did you and a healthcare provider discuss(choice=Your level of anxiety or depression)"
-lab var m5_803d "M5-803-d. Since we last spoke, did you discuss any of the following with a health care provider, or not? Did you and a healthcare provider discuss(choice=Your family planning options after the delivery)"
-lab var m5_803e "M5-803-e. Since we last spoke, did you discuss any of the following with a health care provider, or not? Did you and a healthcare provider discuss(choice=Resuming sexual activity after giving birth)"
-lab var m5_803f "M5-803-f. Since we last spoke, did you discuss any of the following with a health care provider, or not? Did you and a healthcare provider discuss(choice=The importance of exercise or physical activity after giving birth)"
-lab var m5_803g "M5-803-g. Since we last spoke, did you discuss any of the following with a health care provider, or not? Did you and a healthcare provider discuss(choice=The importance of sleeping under a bed net)"
-lab var m5_804a "M5-804-a. Since we last spoke, did you have a session of psychological counseling or therapy with any type of professional? This could include seeing a mental health professional (like a psychologist, social worker, nurse, religious or spiritual advisor, or healer) for problems with your emotions or nerves."
-lab var m5_804b "M5-804-b. How many of these sessions did you have since we last spoke?"
-lab var m5_804c "M5-804-a. How many minutes did this/these visit(s) last on average?"
+lab var m5_802 "802. Since we last spoke, did a health care provider examine your c-section scar?"
+lab var m5_803a "803-a. Since we last spoke, did you discuss any of the following with a health care provider, or not? Did you and a healthcare provider discuss (choice=How to take care of your breasts)"
+lab var m5_803b "803-b. Since we last spoke, did you discuss any of the following with a health care provider, or not? Did you and a healthcare provider discuss (choice=Danger signs or symptoms you should watch out for in yourself that would mean you should go to a health facility"
+lab var m5_803c "803-c. Since we last spoke, did you discuss any of the following with a health care provider, or not? Did you and a healthcare provider discuss(choice=Your level of anxiety or depression)"
+lab var m5_803d "803-d. Since we last spoke, did you discuss any of the following with a health care provider, or not? Did you and a healthcare provider discuss(choice=Your family planning options after the delivery)"
+lab var m5_803e "803-e. Since we last spoke, did you discuss any of the following with a health care provider, or not? Did you and a healthcare provider discuss(choice=Resuming sexual activity after giving birth)"
+lab var m5_803f "803-f. Since we last spoke, did you discuss any of the following with a health care provider, or not? Did you and a healthcare provider discuss(choice=The importance of exercise or physical activity after giving birth)"
+lab var m5_803g "803-g. Since we last spoke, did you discuss any of the following with a health care provider, or not? Did you and a healthcare provider discuss(choice=The importance of sleeping under a bed net)"
+lab var m5_804a "804-a. Since we last spoke, did you have a session of psychological counseling or therapy with any type of professional? This could include seeing a mental health professional (like a psychologist, social worker, nurse, religious or spiritual advisor, or healer) for problems with your emotions or nerves."
+lab var m5_804b "804-b. How many of these sessions did you have since we last spoke?"
+lab var m5_804c "804-a. How many minutes did this/these visit(s) last on average?"
 
-lab var m5_901a "M5-901-a. Since we last spoke, did you get any of the following for yourself? Iron or folic acid pills like IFAS or Pregnacare" 
-lab var m5_901b "M5-901-b. Since we last spoke, did you get any of the following for yourself? Iron drip/injection" 
-lab var m5_901c "M5-901-c. Since we last spoke, did you get any of the following for yourself? Calcium pills" 
-lab var m5_901d "M5-901-d. Since we last spoke, did you get any of the following for yourself? Multivitamins" 
-lab var m5_901e "M5-901-e. Since we last spoke, did you get any of the following for yourself? Food supplements like Super Cereal or Plumpynut" 
-lab var m5_901f "M5-901-f. Since we last spoke, did you get any of the following for yourself? Medicine for intestinal worms" 
-lab var m5_901g "M5-901-g. Since we last spoke, did you get any of the following for yourself? Medicine for malaria " 
-lab var m5_901h "M5-901-h. Since we last spoke, did you get any of the following for yourself? Medicine for HIV/ARVs" 
-lab var m5_901i "M5-901-i. Since we last spoke, did you get any of the following for yourself? Medicine for your emotions, nerves, depression, or mental health" 
-lab var m5_901j "M5-901-j. Since we last spoke, did you get any of the following for yourself? Medicine for hypertension/high Blood pressure" 
-lab var m5_901k "M5-901-k. Since we last spoke, did you get any of the following for yourself? Medicine for diabetes, including injections of insulin" 
-lab var m5_901l "M5-901-l. Since we last spoke, did you get any of the following for yourself? Antibiotics for an infection" 
-lab var m5_901m "M5-901-m. Since we last spoke, did you get any of the following for yourself? Aspirin" 
-lab var m5_901n "M5-901-n. Since we last spoke, did you get any of the following for yourself? Paracetamol, or other pain relief drugs" 
-lab var m5_901o "M5-901-o. Since we last spoke, did you get any of the following for yourself? Contraceptive pills" 
-lab var m5_901p "M5-901-p. Since we last spoke, did you get any of the following for yourself? Contraceptive injection" 
+lab var m5_901a "901-a. Since we last spoke, did you get any of the following for yourself? Iron or folic acid pills like IFAS or Pregnacare" 
+lab var m5_901b "901-b. Since we last spoke, did you get any of the following for yourself? Iron drip/injection" 
+lab var m5_901c "901-c. Since we last spoke, did you get any of the following for yourself? Calcium pills" 
+lab var m5_901d "901-d. Since we last spoke, did you get any of the following for yourself? Multivitamins" 
+lab var m5_901e "901-e. Since we last spoke, did you get any of the following for yourself? Food supplements like Super Cereal or Plumpynut" 
+lab var m5_901f "901-f. Since we last spoke, did you get any of the following for yourself? Medicine for intestinal worms" 
+lab var m5_901g "901-g. Since we last spoke, did you get any of the following for yourself? Medicine for malaria " 
+lab var m5_901h "901-h. Since we last spoke, did you get any of the following for yourself? Medicine for HIV/ARVs" 
+lab var m5_901i "901-i. Since we last spoke, did you get any of the following for yourself? Medicine for your emotions, nerves, depression, or mental health" 
+lab var m5_901j "901-j. Since we last spoke, did you get any of the following for yourself? Medicine for hypertension/high Blood pressure" 
+lab var m5_901k "901-k. Since we last spoke, did you get any of the following for yourself? Medicine for diabetes, including injections of insulin" 
+lab var m5_901l "901-l. Since we last spoke, did you get any of the following for yourself? Antibiotics for an infection" 
+lab var m5_901m "901-m. Since we last spoke, did you get any of the following for yourself? Aspirin" 
+lab var m5_901n "901-n. Since we last spoke, did you get any of the following for yourself? Paracetamol, or other pain relief drugs" 
+lab var m5_901o "901-o. Since we last spoke, did you get any of the following for yourself? Contraceptive pills" 
+lab var m5_901p "901-p. Since we last spoke, did you get any of the following for yourself? Contraceptive injection" 
 	
-lab var m5_902a "M5-902-a. Since we last spoke, did the baby get any of the following? (choice= Iron supplements)"
-lab var m5_902b "M5-902-b. Since we last spoke, did the baby get any of the following? (choice= Vitamin A supplements)"
-lab var m5_902c "M5-902-c. Since we last spoke, did the baby get any of the following? (choice= Vitamin D supplements)"
-lab var m5_902d "M5-902-d. Since we last spoke, did the baby get any of the following? (choice= Oral rehydration salts (ORS))"
-lab var m5_902e "M5-902-e. Since we last spoke, did the baby get any of the following? (choice= Antidiarrheal)"
-lab var m5_902f "M5-902-f. Since we last spoke, did the baby get any of the following? (choice= Antibiotics for an infection)"
-lab var m5_902g "M5-902-g. Since we last spoke, did the baby get any of the following? (choice= Medicine to prevent pneumonia)"
-lab var m5_902h "M5-902-h. Since we last spoke, did the baby get any of the following? (choice= Medicine for malaria)"
-lab var m5_902i "M5-902-i. Since we last spoke, did the baby get any of the following? (choice= Medibcine for HIV/ARVs)"
-lab var m5_902j "M5-902-j. Since we last spoke, did the baby get any of the following? (choice= Any other medicine or supplement)"
-lab var m5_902_oth "M5-902-oth. Since we last spoke, did the baby get any of the following? (choice= Please specify the medicine or suplement)"
-lab var m5_903a "M5-903-a. Since we last spoke, did the baby receive? (choice= A vaccine for BCG against tuberculosis (that is an injection in the arm that can sometimes cause a scar))"
-lab var m5_903b "M5-903-b. Since we last spoke, did the baby receive? (choice= A vaccine against polio that is taken either orally, usually two drops in the mouth, or through an injection to prevent polio)" 
-lab var m5_903c "M5-903-c. Since we last spoke, did the baby receive? (choice= A pentavalent vaccination, that is, an injection in the thigh that is sometimes given at the same time as the polio drops)"
-lab var m5_903d "M5-903-d. Since we last spoke, did the baby receive? (choice= A pneumococcal vaccination, that is, an injection in the thigh to prevent pneumonia)"
-lab var m5_903e "M5-903-e. Since we last spoke, did the baby receive? (choice= A rotavirus vaccination, that is, liquid in the mouth to prevent diarrhea)"
-lab var m5_903f "M5-903-f. Since we last spoke, did the baby receive? (choice= Any other vaccines or immunizations)"
-lab var m5_903_other "M5-903-oth. Since we last spoke, did the baby receive? (choice= Please specify the type of vaccine or inmunization)"
-lab var m5_904 "M5-904. Where did the baby get these vaccines?"
-lab var m5_904_other "M5-904-oth. Please specify where baby got these vaccines or immunizations."  
-lab var m5_905 "M5-905. How much did you pay for these new medications, supplements and vaccines for yourself or the baby(ies) (in Ksh.)?"
+lab var m5_902a "902-a. Since we last spoke, did the baby get any of the following? (choice= Iron supplements)"
+lab var m5_902b "902-b. Since we last spoke, did the baby get any of the following? (choice= Vitamin A supplements)"
+lab var m5_902c "902-c. Since we last spoke, did the baby get any of the following? (choice= Vitamin D supplements)"
+lab var m5_902d "902-d. Since we last spoke, did the baby get any of the following? (choice= Oral rehydration salts (ORS))"
+lab var m5_902e "902-e. Since we last spoke, did the baby get any of the following? (choice= Antidiarrheal)"
+lab var m5_902f "902-f. Since we last spoke, did the baby get any of the following? (choice= Antibiotics for an infection)"
+lab var m5_902g "902-g. Since we last spoke, did the baby get any of the following? (choice= Medicine to prevent pneumonia)"
+lab var m5_902h "902-h. Since we last spoke, did the baby get any of the following? (choice= Medicine for malaria)"
+lab var m5_902i "902-i. Since we last spoke, did the baby get any of the following? (choice= Medibcine for HIV/ARVs)"
+lab var m5_902j "902-j. Since we last spoke, did the baby get any of the following? (choice= Any other medicine or supplement)"
+lab var m5_902_other "902-oth. Since we last spoke, did the baby get any of the following? (choice= Please specify the medicine or suplement)"
+lab var m5_903a "903-a. Since we last spoke, did the baby receive? (choice= A vaccine for BCG against tuberculosis (that is an injection in the arm that can sometimes cause a scar))"
+lab var m5_903b "903-b. Since we last spoke, did the baby receive? (choice= A vaccine against polio that is taken either orally, usually two drops in the mouth, or through an injection to prevent polio)" 
+lab var m5_903c "903-c. Since we last spoke, did the baby receive? (choice= A pentavalent vaccination, that is, an injection in the thigh that is sometimes given at the same time as the polio drops)"
+lab var m5_903d "903-d. Since we last spoke, did the baby receive? (choice= A pneumococcal vaccination, that is, an injection in the thigh to prevent pneumonia)"
+lab var m5_903e "903-e. Since we last spoke, did the baby receive? (choice= A rotavirus vaccination, that is, liquid in the mouth to prevent diarrhea)"
+lab var m5_903f "903-f. Since we last spoke, did the baby receive? (choice= Any other vaccines or immunizations)"
+lab var m5_903_otherer "903-oth. Since we last spoke, did the baby receive? (choice= Please specify the type of vaccine or inmunization)"
+lab var m5_904 "904. Where did the baby get these vaccines?"
+lab var m5_904_otherer "904-oth. Please specify where baby got these vaccines or immunizations."  
+lab var m5_905 "905. How much did you pay for these new medications, supplements and vaccines for yourself or the baby(ies) (in Ksh.)?"
 	
-lab var m5_1001 "M5-1001. Did you pay any money out of your pocket for these new visits, including for the consultation or other indirect costs like your transport to the facility?"
-lab var m5_1002a "M5-1002-a. Plese specify how much you paid for registration/ Consultation."
-lab var m5_1002b "M5-1002-b. Plese specify how much you paid for test or investigations (lab tests, ultrasound etc.)."
-lab var m5_1002c "M5-1002-c. Plese specify how much you paid for transport (round trip) including that of the person accompanying you."
-lab var m5_1002d "M5-1002-d. Plese specify how much you paid for food and accommodation including that of person accompanying you."
-lab var m5_1002e "M5-1002-e. Plese specify how much you paid for other (specify)"
-lab var m5_1002_other "M5-1002-oth. Please specify what other service or product you spent money on."
-lab var m5_1003 "M5-1003. So in total you spent [total_spent] Ksh. Is that correct?"
-lab var m5_1004 "M5-1004. So how much in total would you say you spent?"
-lab var m5_1005 "M5-1005. Which of the following financial sources did your household use to pay for this?"
-lab var m5_1005a "M5-1005-a. Which of the following financial sources did your household use to pay for this? Current income of any household members"
-lab var m5_1005b "M5-1005-b. Which of the following financial sources did your household use to pay for this? Savings (e.g., bank account)"
-lab var m5_1005c "M5-1005-c. Which of the following financial sources did your household use to pay for this? Payment or reimbursement from a health insurance plan"
-lab var m5_1005d "M5-1005-d. Which of the following financial sources did your household use to pay for this? Sold items (e.g., furniture, animals, jewellery)"
-lab var m5_1005e "M5-1005-e. Which of the following financial sources did your household use to pay for this? Family members or friends from outside the household"
-lab var m5_1005f "M5-1005-f. Which of the following financial sources did your household use to pay for this? Borrowed (from someone other than a friend or family)"
-lab var m5_1005_other "M5-1005-oth. Which of the following financial sources did your household use to pay for this? Other."
-lab var m5_1005_other_text "M5-1005-oth-text. Could you specify the financial source?"
+lab var m5_1001 "1001. Did you pay any money out of your pocket for these new visits, including for the consultation or other indirect costs like your transport to the facility?"
+lab var m5_1002a "1002-a. Plese specify how much you paid for registration/ Consultation."
+lab var m5_1002b "1002-b. Plese specify how much you paid for test or investigations (lab tests, ultrasound etc.)."
+lab var m5_1002c "1002-c. Plese specify how much you paid for transport (round trip) including that of the person accompanying you."
+lab var m5_1002d "1002-d. Plese specify how much you paid for food and accommodation including that of person accompanying you."
+lab var m5_1002e "1002-e. Plese specify how much you paid for other (specify)"
+lab var m5_1002_otherer "1002-oth. Please specify what other service or product you spent money on."
+lab var m5_1003 "1003. So in total you spent [total_spent] Ksh. Is that correct?"
+lab var m5_1004 "1004. So how much in total would you say you spent?"
+lab var m5_1005 "1005. Which of the following financial sources did your household use to pay for this?"
+lab var m5_1005a "1005-a. Which of the following financial sources did your household use to pay for this? Current income of any household members"
+lab var m5_1005b "1005-b. Which of the following financial sources did your household use to pay for this? Savings (e.g., bank account)"
+lab var m5_1005c "1005-c. Which of the following financial sources did your household use to pay for this? Payment or reimbursement from a health insurance plan"
+lab var m5_1005d "1005-d. Which of the following financial sources did your household use to pay for this? Sold items (e.g., furniture, animals, jewellery)"
+lab var m5_1005e "1005-e. Which of the following financial sources did your household use to pay for this? Family members or friends from outside the household"
+lab var m5_1005f "1005-f. Which of the following financial sources did your household use to pay for this? Borrowed (from someone other than a friend or family)"
+lab var m5_1005_other "1005-oth. Which of the following financial sources did your household use to pay for this? Other."
+lab var m5_1005_other_text "1005-oth-text. Could you specify the financial source?"
 	
-lab var m5_1101 "M5-1101. At any point during this pregnancy and since the delivery, has anyone ever hit, slapped, kicked, or done anything else to hurt you physically?"
-lab var m5_1102 "M5-1102. Who did these things to physically hurt you?"
-lab var m5_1102a "M5-1102-a. Who did these things to physically hurt you? Current husband / partner."
-lab var m5_1102b "M5-1102-b. Who did these things to physically hurt you? Parent (mother, father, step-parent, in-law)."
-lab var m5_1102c "M5-1102-c. Who did these things to physically hurt you? Sibling."
-lab var m5_1102d "M5-1102-d. Who did these things to physically hurt you? Child."
-lab var m5_1102e "M5-1102-e. Who did these things to physically hurt you? Late/last/ex-husband/partner."
-lab var m5_1102f "M5-1102-f. Who did these things to physically hurt you? Other relative."
-lab var m5_1102g "M5-1102-g. Who did these things to physically hurt you? Friend/acquaintance"
-lab var m5_1102h "M5-1102-h. Who did these things to physically hurt you? Teacher."
-lab var m5_1102i "M5-1102-i. Who did these things to physically hurt you? Employer."
-lab var m5_1102j "M5-1102-j. Who did these things to physically hurt you? Stranger."
-lab var m5_1102_other "M5-1102-oth. Who did these things to physically hurt you? Other (specify)"
-lab var m5_1102_98 "M5-1102-98. Who did these things to physically hurt you? Don´t know."
-lab var m5_1102_99 "M5-1102-99. Who did these things to physically hurt you? No response/refusal."	
+lab var m5_1101 "1101. At any point during this pregnancy and since the delivery, has anyone ever hit, slapped, kicked, or done anything else to hurt you physically?"
+lab var m5_1102 "1102. Who did these things to physically hurt you?"
+lab var m5_1102a "1102-a. Who did these things to physically hurt you? Current husband / partner."
+lab var m5_1102b "1102-b. Who did these things to physically hurt you? Parent (mother, father, step-parent, in-law)."
+lab var m5_1102c "1102-c. Who did these things to physically hurt you? Sibling."
+lab var m5_1102d "1102-d. Who did these things to physically hurt you? Child."
+lab var m5_1102e "1102-e. Who did these things to physically hurt you? Late/last/ex-husband/partner."
+lab var m5_1102f "1102-f. Who did these things to physically hurt you? Other relative."
+lab var m5_1102g "1102-g. Who did these things to physically hurt you? Friend/acquaintance"
+lab var m5_1102h "1102-h. Who did these things to physically hurt you? Teacher."
+lab var m5_1102i "1102-i. Who did these things to physically hurt you? Employer."
+lab var m5_1102j "1102-j. Who did these things to physically hurt you? Stranger."
+lab var m5_1102_other "1102-oth. Who did these things to physically hurt you? Other (specify)"
+lab var m5_1102_98 "1102-98. Who did these things to physically hurt you? Don´t know."
+lab var m5_1102_99 "1102-99. Who did these things to physically hurt you? No response/refusal."	
 	
-lab var m5_1103 "M5-1103. At any point during your this most recent pregnancy or since the delivery, has anyone ever said or done something to humiliate you, insulted you or made you feel bad about yourself?"
-lab var m5_1104 "M5-1104. Who did these things to emotionally hurt you? "
-lab var m5_1104a "M5-1104-a. Who did these things to emotionally hurt you? Current husband/partner."
-lab var m5_1104b "M5-1104-b. Who did these things to emotionally hurt you? Parent (mother, father, step-parent, in-law)."
-lab var m5_1104c "M5-1104-c. Who did these things to emotionally hurt you? Sibling."
-lab var m5_1104d "M5-1104-d. Who did these things to emotionally hurt you? Child"
-lab var m5_1104e "M5-1104-e. Who did these things to emotionally hurt you? Late/last/ex-husband/partner."
-lab var m5_1104f "M5-1104-f. Who did these things to emotionally hurt you? Other relative."
-lab var m5_1104g "M5-1104-g. Who did these things to emotionally hurt you? Friend/acquaintance. "
-lab var m5_1104h "M5-1104-h. Who did these things to emotionally hurt you? Teacher."
-lab var m5_1104i "M5-1104-i. Who did these things to emotionally hurt you? Employer."
-lab var m5_1104j "M5-1104-j. Who did these things to emotionally hurt you? Stranger."
-lab var m5_1104_other "M5-1104-oth. Who did these things to emotionally hurt you? Other (specify)."
-lab var m5_1104_98 "M5-1104-98. Don´t know."
-lab var m5_1104_99 "M5-1104-99. No response/refusal."
-lab var m5_1105 "M5-1105. During your pregnancy or since the delivery, did a health provider discuss with you where you can seek support for these things?"
+lab var m5_1103 "1103. At any point during your this most recent pregnancy or since the delivery, has anyone ever said or done something to humiliate you, insulted you or made you feel bad about yourself?"
+lab var m5_1104 "1104. Who did these things to emotionally hurt you? "
+lab var m5_1104a "1104-a. Who did these things to emotionally hurt you? Current husband/partner."
+lab var m5_1104b "1104-b. Who did these things to emotionally hurt you? Parent (mother, father, step-parent, in-law)."
+lab var m5_1104c "1104-c. Who did these things to emotionally hurt you? Sibling."
+lab var m5_1104d "1104-d. Who did these things to emotionally hurt you? Child"
+lab var m5_1104e "1104-e. Who did these things to emotionally hurt you? Late/last/ex-husband/partner."
+lab var m5_1104f "1104-f. Who did these things to emotionally hurt you? Other relative."
+lab var m5_1104g "1104-g. Who did these things to emotionally hurt you? Friend/acquaintance. "
+lab var m5_1104h "1104-h. Who did these things to emotionally hurt you? Teacher."
+lab var m5_1104i "1104-i. Who did these things to emotionally hurt you? Employer."
+lab var m5_1104j "1104-j. Who did these things to emotionally hurt you? Stranger."
+lab var m5_1104_other "1104-oth. Who did these things to emotionally hurt you? Other (specify)."
+lab var m5_1104_98 "1104-98. Don´t know."
+lab var m5_1104_99 "1104-99. No response/refusal."
+lab var m5_1105 "1105. During your pregnancy or since the delivery, did a health provider discuss with you where you can seek support for these things?"
 
-lab var m5_1201 "M5-1201. To conclude this survey, overall, please tell me how satisfied you are with the health services you received throughout your pregnancy and delivery."
-lab var m5_1202a "M5-1202-a. Finally, what is your total monthly household income on average (i.e., in a typical month)? Please give your best estimate and include all sources of income that your household receives per month."
-lab var m5_1202b "M5-1202-b. If you think about your total monthly household income on average (i.e., in a typical month), which of these categories does it fit into? Please give your best estimate and include all sources of income that your household receives per month."
-lab var m5_height "M5-1301. Height in cm"
-lab var m5_weight "M5-1302. Weight in kilograms"
-lab var m5_sbp1 "M5-1303-a. 1st systolic blood pressure"
-lab var m5_dbp1 "M5-1303-b. 1st diastolic blood pressure"
-lab var m5_pr1 "M5-1303-c. 1st pulse rate"
-lab var m5_sbp2 "M5-1304-a. 2nd systolic blood pressure" 
-lab var m5_dbp2 "M5-1304-b. 2nd diastolic blood pressure"
-lab var m5_pr2 "M5-1304-c. 2nd pulse rate"
-lab var m5_sbp3 "M5-1305-a. 3rd systolic blood pressure"
-lab var m5_dbp3 "M5-1305-b. 3rd diastolic blood pressure"
-lab var m5_pr3 "M5-1305-c. 3rd pulse rate"
-lab var m5_anemiatest "M5-1306. Will you take the anemia test?" 
-lab var m5_hb_level "M5-1307. Hemoglobin level"
-lab var m5_baby_index_assess_1 "M5-1401-baby index. Index of the baby anthropometric measurement"
-lab var m5_baby_weight "M5-1401. Baby's weight in kilograms"
-lab var m5_baby_length "M5-1402. Baby's length in centimeters"
-lab var m5_baby_hc "M5-1403. Baby's head circumference in centimeters"
-lab var m5_n_baby_assess "M5-1401-baby-assessment. The number of babies whose anthropometric measurements being surveyed"
-lab var m5_end_comment "M5-end-comment. The comment at the end of interview"	
+lab var m5_1201 "1201. To conclude this survey, overall, please tell me how satisfied you are with the health services you received throughout your pregnancy and delivery."
+lab var m5_1202a "1202-a. Finally, what is your total monthly household income on average (i.e., in a typical month)? Please give your best estimate and include all sources of income that your household receives per month."
+lab var m5_1202b "1202-b. If you think about your total monthly household income on average (i.e., in a typical month), which of these categories does it fit into? Please give your best estimate and include all sources of income that your household receives per month."
+lab var m5_height "1301. Height in cm"
+lab var m5_weight "1302. Weight in kilograms"
+lab var m5_sbp1 "1303-a. 1st systolic blood pressure"
+lab var m5_dbp1 "1303-b. 1st diastolic blood pressure"
+lab var m5_pr1 "1303-c. 1st pulse rate"
+lab var m5_sbp2 "1304-a. 2nd systolic blood pressure" 
+lab var m5_dbp2 "1304-b. 2nd diastolic blood pressure"
+lab var m5_pr2 "1304-c. 2nd pulse rate"
+lab var m5_sbp3 "1305-a. 3rd systolic blood pressure"
+lab var m5_dbp3 "1305-b. 3rd diastolic blood pressure"
+lab var m5_pr3 "1305-c. 3rd pulse rate"
+lab var m5_anemiatest "1306. Will you take the anemia test?" 
+lab var m5_hb_level "1307. Hemoglobin level"
+lab var m5_baby_index_assess_1 "1401-baby index. Index of the baby anthropometric measurement"
+lab var m5_baby_weight "1401. Baby's weight in kilograms"
+lab var m5_baby_length "1402. Baby's length in centimeters"
+lab var m5_baby_hc "1403. Baby's head circumference in centimeters"
+lab var m5_n_baby_assess "1401-baby-assessment. The number of babies whose anthropometric measurements being surveyed"
+lab var m5_end_comment "end-comment. The comment at the end of interview"	
 	
 *------------------------------------------------------------------------------*
 *merge dataset with M1-M4
