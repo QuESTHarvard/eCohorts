@@ -1439,8 +1439,7 @@ replace m2_round = "_r9" if round2==9
 * Use the string variable to reshape wide
 drop round2
 				
-reshape wide m2_date_time m2_time_start duration m2_date m2_interviewer m2_site m2_county m2_attempt_number m2_attempt_number_other m2_attempt_outcome m2_attempt_relationship m2_consent_recording consent m2_201 m2_202 m2_202_other m2_ga_estimate m2_203a m2_203b m2_203c m2_203d m2_203e m2_203f m2_203g m2_203h m2_204i m2_204i_other m2_205a m2_205b m2_206 m2_301 m2_302 m2_303a m2_304a m2_304a_other m2_305 m2_306 m2_307_other m2_303b m2_304b m2_304b_other m2_308 m2_309 m2_310_other m2_303c m2_304c m2_304c_other m2_311 m2_312 m2_313_other m2_303d m2_304d m2_304d_other m2_314 m2_315 m2_303e m2_304e m2_304e_other m2_317 m2_318 m2_320_0 m2_320a m2_320b m2_320c m2_320d m2_320e m2_320f m2_320g m2_320h m2_320i m2_320j m2_320k m2_320_12_ke m2_320_96 m2_320_99 m2_320_other m2_321 m2_401 m2_402 m2_403 m2_404 m2_405 m2_501 m2_501a m2_501b m2_501c m2_501d m2_501e m2_501f m2_501g m2_501_0 m2_501g_other m2_502 m2_503 m2_503a m2_503b m2_503c m2_503d m2_503e m2_503f m2_503_0 m2_505a m2_505b m2_505c m2_505d m2_505e m2_505f m2_504 m2_504_other m2_505g m2_506 m2_506a m2_506b m2_506c m2_506d m2_506_0 m2_507 m2_507_1_ke m2_507_2_ke m2_507_3_ke m2_507_4_ke m2_507_5_ke m2_507_6_ke m2_507_7_ke m2_507_96_ke m2_507_other_ke m2_508a m2_508b_num m2_508c_time m2_509 m2_509a m2_509b m2_509c m2_509_0 m2_601 m2_601a m2_601o m2_601b m2_601c m2_601d m2_601e m2_601f m2_601g m2_601h m2_601i m2_601j m2_601k m2_601l m2_601m m2_601n m2_601_0 m2_601n_other m2_602b m2_603 m2_701 m2_704_confirm m2_702_meds_ke m2_702a_cost m2_702b_cost m2_702c_cost m2_702d_cost m2_702e_cost m2_702_other_ke m2_705 m2_705_1 m2_705_2 m2_705_3 m2_705_4 m2_705_5 m2_705_6 m2_705_96 m2_705_other m2_complete language language_oth m2_start_time m2_endtime m2_202_delivery_date m2_202_other_date m2_completed_attempts m2_ga m2_hiv_status m2_phq2_ke m2_306_2 m2_306_3 m2_306_4 m2_306_5 m2_306_96 m2_308_1 m2_308_2 m2_308_3 m2_308_4 m2_308_5 m2_308_96 m2_311_1 m2_311_2 m2_311_3 m2_311_4 m2_311_5 m2_311_96 m2_314_1 m2_314_2 m2_314_3 m2_314_4 m2_314_5 m2_314_96 m2_317_1 m2_317_2 m2_317_3 m2_317_4 m2_317_5 m2_317_96 m2_703 m2_306_1, i(respondentid) j(m2_round, string) 
-
+reshape wide m2_start_time m2_endtime m2_date m2_time_start duration m2_ga m2_hiv_status m2_site m2_county m2_interviewer m2_attempt_number m2_attempt_number_other m2_attempt_outcome resp_language m2_attempt_relationship resp_available m2_completed_attempts m2_consent_recording consent m2_201 m2_202 m2_202_other m2_202_delivery_date m2_202_other_date m2_ga_estimate m2_203a m2_203b m2_203c m2_203d m2_203e m2_203f m2_203g m2_203h m2_204i m2_204i_other m2_205a m2_205b m2_phq2_ke m2_206 m2_301 m2_302 m2_303a m2_304a m2_304a_other m2_305 m2_306 m2_306_1 m2_306_2 m2_306_3 m2_306_4 m2_306_5 m2_306_96 m2_307_other m2_303b m2_304b m2_304b_other m2_308 m2_309 m2_308_1 m2_308_2 m2_308_3 m2_308_4 m2_308_5 m2_308_96 m2_310_other m2_303c m2_304c m2_304c_other m2_311 m2_312 m2_311_1 m2_311_2 m2_311_3 m2_311_4 m2_311_5 m2_311_96 m2_313_other m2_303d m2_304d m2_304d_other m2_314 m2_315 m2_314_1 m2_314_2 m2_314_3 m2_314_4 m2_314_5 m2_314_96 m2_303e m2_304e m2_304e_other m2_317 m2_318 m2_317_1 m2_317_2 m2_317_3 m2_317_4 m2_317_5 m2_317_96 m2_320_0 m2_320a m2_320b m2_320c m2_320d m2_320e m2_320f m2_320g m2_320h m2_320i m2_320j m2_320k m2_320_12_ke m2_320_96 m2_320_99 m2_320_other m2_321 m2_401 m2_402 m2_403 m2_404 m2_405 m2_501 m2_501a m2_501b m2_501c m2_501d m2_501e m2_501f m2_501g m2_501_0 m2_501g_other m2_502 m2_503 m2_503a m2_503b m2_503c m2_503d m2_503e m2_503f m2_503_0 m2_505a m2_505b m2_505c m2_505d m2_505e m2_505f m2_504 m2_504_other m2_505g m2_506 m2_506a m2_506b m2_506c m2_506d m2_506_0 m2_507 m2_507_1_ke m2_507_2_ke m2_507_3_ke m2_507_4_ke m2_507_5_ke m2_507_6_ke m2_507_7_ke m2_507_96_ke m2_507_other_ke m2_508a m2_508b_num m2_508c_time m2_509 m2_509a m2_509b m2_509c m2_509_0 m2_601 m2_601a m2_601o m2_601b m2_601c m2_601d m2_601e m2_601f m2_601g m2_601h m2_601i m2_601j m2_601k m2_601l m2_601m m2_601n m2_601_0 m2_601n_other m2_602b m2_603 m2_701 m2_704_confirm m2_702_meds_ke m2_702a_cost m2_702b_cost m2_702c_cost m2_702d_cost m2_702e_cost m2_702_other_ke m2_703 m2_705 m2_705_1 m2_705_2 m2_705_3 m2_705_4 m2_705_5 m2_705_6 m2_705_96 m2_705_other m2_complete language language_oth m2_date_time, i(respondentid) j(m2_round, string) 
 
 *------------------------------------------------------------------------------*
 * merge dataset with M1
@@ -1905,14 +1904,19 @@ replace q_518 = "NR/RF" if q_518 == "-99"
 rename (q_518) (m3_518)
 ********When tabulate q_518, there are a few strange observations (8 -97, 8 9). I did not label them.
 */		
-				
-rename (q_601a q_601b q_601c q_602a q_602b q_603a q_603b q_603c q_604a q_604b q_605a q_605b q_605c q_605c_o q_606 q_607 q_608 q_609 q_610a q_610b ///
-        q_611 q_612 q_612_unit q_613 q_614 q_614_unit q_615_1 q_615_2 q_616_1 q_616_unit_1 q_616_2 q_616_unit_2 q_617_1 q_617_2 q_618a_1 q_618b_1 ///
-		q_618c_1 q_618a_2 q_618b_2 q_618c_2) (m3_601_hiv m3_601b m3_601c m3_602a m3_602b m3_603a m3_603b m3_603c m3_604a m3_604b m3_605a m3_605b ///
-		m3_605c m3_605c_other m3_606 m3_607 m3_608 m3_609 m3_610a m3_610b m3_611 m3_612_ke m3_612_ke_unit m3_613 m3_614_ke m3_614_ke_unit m3_615a m3_615b ///
-		m3_616c_1 m3_616c_1_unit m3_616c_2 m3_616c_2_unit m3_617a m3_617b m3_618a_1 m3_618b_1 m3_618c_1 m3_618a_2 m3_618b_2 m3_618c_2)
-rename (q_619a q_619b q_619c q_619d q_619e q_619f q_619g q_620_1 q_620_2 q_621b q_621c q_621c_unit q_622a q_622b q_622c) (m3_619a m3_619b m3_619c ///
-        m3_619d m3_619e m3_619g m3_619h m3_620_1 m3_620_2 m3_621b m3_621c_ke m3_621c_ke_unit m3_622a m3_622b m3_622c)
+
+* 4-2 SS: q_618a_2, q_618b_2 no longer in the dataset				
+rename (q_601a q_601b q_601c q_602a q_602b q_603a q_603b q_603c q_604a q_604b q_605a q_605b q_605c q_605c_o ///
+		q_606 q_607 q_608 q_609 q_610a q_610b q_611 q_612 q_612_unit q_613 q_614 q_614_unit q_615_1 q_615_2 ///
+		q_616_1 q_616_unit_1 q_616_2 q_616_unit_2 q_617_1 q_617_2 q_618a_1 q_618b_1 q_618c_1) (m3_601_hiv ///
+		m3_601b m3_601c m3_602a m3_602b m3_603a m3_603b m3_603c m3_604a m3_604b m3_605a m3_605b ///
+		m3_605c m3_605c_other m3_606 m3_607 m3_608 m3_609 m3_610a m3_610b m3_611 m3_612_ke m3_612_ke_unit m3_613 ///
+		m3_614_ke m3_614_ke_unit m3_615a m3_615b m3_616c_1 m3_616c_1_unit m3_616c_2 m3_616c_2_unit m3_617a m3_617b ///
+		m3_618a_1 m3_618b_1 m3_618c_1)
+		
+rename (q_619a q_619b q_619c q_619d q_619e q_619f q_619g q_620_1 q_620_2 q_621b q_621c q_621c_unit q_622a q_622b ///
+		q_622c) (m3_619a m3_619b m3_619c m3_619d m3_619e m3_619g m3_619h m3_620_1 m3_620_2 m3_621b m3_621c_ke ///
+		m3_621c_ke_unit m3_622a m3_622b m3_622c)
 
 /* SS: 621a is a multiple checkbox field that has the answers in "yes" and "no" in 621a_1 - 621a_99		
        ** q_621a is a string variables: use replace if and then rename (line 219 to 226)		
@@ -1933,52 +1937,36 @@ rename (q_311a_1 q_311a_2 q_311b_1 q_311b_2 q_311c_1 q_311c_2 q_311d_1 q_311d_2 
         m3_baby2_sleep m3_baby1_feed m3_baby2_feed m3_baby1_breath m3_baby2_breath m3_baby1_stool m3_baby2_stool m3_baby1_mood m3_baby2_mood ///
 		m3_baby1_skin m3_baby2_skin m3_baby1_interactivity m3_baby2_interactivity)
 rename (q_702 q_703 q_704a q_704b q_704c q_704d q_704e q_704f q_704g  ///
-		q_706 q_707 q_707_unit q_708_1 q_708_2) (m3_702 m3_703 m3_704a ///
+		q_706 q_707 q_707_unit q_708_2) (m3_702 m3_703 m3_704a ///
         m3_704b m3_704c m3_704d m3_704e m3_704f m3_704g m3_706 ///
-		m3_707_ke m3_707_ke_unit m3_baby1_issues m3_baby2_issues)   
+		m3_707_ke m3_707_ke_unit m2_708b_ke)   
+		
+rename q_708_1 m3_708a_ke // 4-2 SS: confirm 
+rename q_708_1_1 m3_baby1_issues_a
+rename q_708_2_1 m3_baby1_issues_b
+rename q_708_3_1 m3_baby1_issues_c
+rename q_708_4_1 m3_baby1_issues_d
+rename q_708_5_1 m3_baby1_issues_e
+rename q_708_6_1 m3_baby1_issues_f
+rename q_708__98_1 m3_baby1_issues_98
+rename q_708__99_1 m3_baby1_issues_99
+rename q_708_1_2 m3_baby2_issues_a
+rename q_708_2_2 m3_baby2_issues_b
+rename q_708_3_2 m3_baby2_issues_c
+rename q_708_4_2 m3_baby2_issues_d
+rename q_708_5_2 m3_baby2_issues_e
+rename q_708_6_2 m3_baby2_issues_f
+rename q_708__98_2 m3_baby2_issues_98
+rename q_708__99_2 m3_baby2_issues_99
 
-encode q_708_1_1,gen(m3_baby1_issues_a)
-drop q_708_1_1
-encode q_708_2_1,gen(m3_baby1_issues_b)
-drop q_708_2_1
-encode q_708_3_1,gen(m3_baby1_issues_c)
-drop q_708_3_1
-encode q_708_4_1,gen(m3_baby1_issues_d)
-drop q_708_4_1
-encode q_708_5_1,gen(m3_baby1_issues_e)
-drop q_708_5_1
-encode q_708_6_1,gen(m3_baby1_issues_f)
-drop q_708_6_1
-encode q_708__98_1,gen(m3_baby1_issues_98)
-drop q_708__98_1
-encode q_708__99_1,gen(m3_baby1_issues_99)
-drop q_708__99_1
-encode q_708_1_2,gen(m3_baby2_issues_a)
-drop q_708_1_2
-encode q_708_2_2,gen(m3_baby2_issues_b)
-drop q_708_2_2
-encode q_708_3_2,gen(m3_baby2_issues_c)
-drop q_708_3_2
-encode q_708_4_2,gen(m3_baby2_issues_d)
-drop q_708_4_2
-encode q_708_5_2,gen(m3_baby2_issues_e)
-drop q_708_5_2
-encode q_708_6_2,gen(m3_baby2_issues_f)
-drop q_708_6_2
-encode q_708__98_2,gen(m3_baby2_issues_98)
-drop q_708__98_2
-encode q_708__99_2,gen(m3_baby2_issues_99)
-drop q_708__99_2
-
-rename (q_709_1 q_709_o_1 q_709_2 q_709_o_2 q_710_1 q_710_2 q_711_1 q_711_unit_1 q_711_2 q_711_unit_2) (m3_708_oth_1 m3_708a m3_708_oth_2 m3_708b ///
-        m3_710a m3_710b m3_711c_1 m3_711c_1_unit m3_711c_2 m3_711c_2_unit)
+rename (q_709_1 q_709_o_1 q_709_2 q_710_1 q_710_2 q_711_1 q_711_unit_1 q_711_2 q_711_unit_2) ///
+	   (m3_baby2_issues_other_ke m3_708a m3_baby3_issues_other_ke m3_710a m3_710b m3_711c_1 m3_711c_1_unit m3_711c_2 m3_711c_2_unit)
 		
 rename (q_801a q_801b q_802a q_802b q_802c q_803a q_803b q_803c q_803d q_803e q_803f q_803g q_803h q_804 q_804_oth q_805 q_806 q_807 q_808a q_808b ///
         q_808b_oth q_809) (m3_801a m3_801b m3_802a m3_802b m3_802c m3_803a m3_803b m3_803c m3_803d m3_803e m3_803f m3_803g m3_803h m3_803j m3_803j_other ///
 		m3_805 m3_806 m3_807 m3_808a m3_808b m3_808b_other m3_809)
 		
-encode phq2_score,gen(m3_phq2_score)
-drop phq2_score
+rename phq2_score m3_phq2_score
 
 rename (q_901a q_901b q_901c q_901d q_901de q_901f q_901g q_901h q_901i q_901j q_901k q_901l q_901m q_901n q_901o q_901p q_901q q_901r q_901_o) ///
        (m3_901a m3_901b m3_901c m3_901d m3_901e m3_901f m3_901g m3_901h m3_901i m3_901j m3_901k m3_901l m3_901m m3_901n m3_901o m3_901p m3_901q m3_901r ///
@@ -1986,12 +1974,13 @@ rename (q_901a q_901b q_901c q_901d q_901de q_901f q_901g q_901h q_901i q_901j q
 		
 rename (q_901_cost q_902_cost_1 q_902_cost_2) (m3_901_cost m3_902_1_cost m3_902_2_cost)
 
-rename (q_902a_1 q_902a_2 q_902b_1 q_902b_2 q_902c_1 q_902c_2 q_902d_1 q_902d_2 q_902e_1 q_902e_2 q_902f_1 q_902f_2 q_902g_1 q_902g_2 q_902h_1 q_902h_2 ///
-        q_902i_1 q_902i_2 q_902j_1 q_902j_oth_1 q_902j_2 q_902j_oth_2) (m3_902a_baby1 m3_902a_baby2 m3_902b_baby1 m3_902b_baby2 m3_902c_baby1 ///
-		m3_902c_baby2 m3_902d_baby1 m3_902d_baby2 m3_902e_baby1 m3_902e_baby2 m3_902f_baby1 m3_902f_baby2 m3_902g_baby1 m3_902g_baby2 m3_902h_baby1 ///
-		m3_902h_baby2 m3_902i_baby1 m3_902i_baby2 m3_902j_baby1 m3_902j_baby1_other m3_902j_baby2 m3_902j_baby2_other)		
-		
-rename baby_repeat_meds_count m3_baby_meds_count		
+* 4-2 SS: q_902i_2 removed from dataset
+rename (q_902a_1 q_902a_2 q_902b_1 q_902b_2 q_902c_1 q_902c_2 q_902d_1 q_902d_2 q_902e_1 q_902e_2 ///
+		q_902f_1 q_902f_2 q_902g_1 q_902g_2 q_902h_1 q_902h_2 q_902i_1 q_902j_1 q_902j_oth_1 ///
+		q_902j_2 q_902j_oth_2) (m3_902a_baby1 m3_902a_baby2 m3_902b_baby1 m3_902b_baby2 m3_902c_baby1 ///
+		m3_902c_baby2 m3_902d_baby1 m3_902d_baby2 m3_902e_baby1 m3_902e_baby2 m3_902f_baby1 m3_902f_baby2 ///
+		m3_902g_baby1 m3_902g_baby2 m3_902h_baby1 m3_902h_baby2 m3_902i_baby1 m3_902j_baby1 m3_902j_baby1_other ///
+		m3_902j_baby2 m3_902j_baby2_other)			
 		
 rename (q_1001 q_1002 q_1003 q_1005a q_1005b q_1005c q_1005d q_1005e q_1005f q_1005g q_1005h q_1006a q_1006b ///
 		q_1006c q_1007a q_1007b q_1007c q_1101 q_1102a q_1102b q_1102c q_1102d q_1102e q_1102f q_1102f_o ///
@@ -2004,8 +1993,7 @@ rename (q_1104_1 q_1104_2 q_1104_3 q_1104_4 q_1104_5 q_1104_6 q_1104_7 q_1104__9
 	   (m3_1105a_ke m3_1105b_ke m3_1105c_ke m3_1105d_ke m3_1105e_ke m3_1105f_ke ///
 	   m3_1105g_ke m3_1105_96_ke)		
 		
-encode q_1102_total_spent,gen(m3_1102_total)
-drop q_1102_total_spent	
+rename q_1102_total_spent m3_1102_total 
 
 	   ** Create q_1004b to collapse q_1004b_1 q_1004b_2 q_1004b_3 q_1004b_4 q_1004b_5 q_1004b_6 q_1004b_7
 gen q_1004b = q_1004b_1 if q_1004b_2==. & q_1004b_3==. & q_1004b_4==. & q_1004b_5==. & q_1004b_6==. & q_1004b_7==.
@@ -2091,21 +2079,22 @@ rename (q_1004a q_1004h) (m3_1004a m3_1004h)
 
 drop q_1004h_1 q_1004h_2 q_1004h_3 q_1004h_4 q_1004h_5 q_1004h_6 q_1004h_7
 		
-rename facility_name m3_site
-rename date_confirm m3_date_confirm
+*rename facility_name m3_site
+*rename date_confirm m3_date_confirm
 rename q_102 m3_date 
 rename starttime m3_start_time // SS: confirm if I should use "q_103" for the start time instead
-rename time_start_full m3_date_time
+*rename time_start_full m3_date_time
 rename q_302 m3_birth_or_ended_date
 rename gestational_update m3_ga2_ke
 rename q_301 m3_303a
 rename (q_303_1 q_303_2) (m3_303b m3_303c)
-rename (q_304_1 q_304_2) (m3_baby1_name m3_baby2_name)
+*rename q_304_1 m3_baby1_name
+*rename q_304_2 m3_baby2_name
 rename q_305_1 m3_baby1_gender
-rename q_306_1 m3_baby1_age_weeks
+*rename q_306_1 m3_baby1_age_weeks
 rename q_307_1 m3_baby1_size
 rename q_305_2 m3_baby2_gender
-rename q_306_2 m3_baby2_age_weeks
+*rename q_306_2 m3_baby2_age_weeks
 rename q_501 m3_501
 rename q_502 m3_502
 *rename q_503 m3_503 // 4-2 SS: no longer in the dataset
@@ -2117,9 +2106,9 @@ rename q_705 m3_705
 rename endtime m3_endtime
 rename duration m3_duration	
 rename attempts m3_attempt_number
-rename attempts_oth m3_attempt_number_other
+*rename attempts_oth m3_attempt_number_other
 rename language m3_language
-rename language_oth m3_language_other
+*rename language_oth m3_language_other
 	
 	
 * Data quality: (dropping incorrect responses)
@@ -2154,7 +2143,7 @@ label define m3_baby2_weight -98 "DO NOT KNOW"
 label values m3_baby2_weight m3_baby2_weight
 	
 label define YN_m3 1 "Yes" 0 "No"
-label values m3_708_oth_2 m3_902j_baby2 YN_m3
+label values m3_baby3_issues_other_ke m3_902j_baby2 YN_m3
 
 label define m3_303a 1 "One" 2 "Two" 3 "Three or more" -98 "Don't Know" -99 "NR/RF"
 label values m3_303a m3_303a	
@@ -2209,12 +2198,12 @@ recode m3_303a m3_303b m3_baby1_gender m3_baby1_health m3_breastfeeding m3_baby1
 	   m3_617a m3_618a_1 m3_618b_1 m3_618c_1 m3_620_1 m3_615b m3_617b m3_618a_2 m3_618b_2 m3_618c_2 ///
 	   m3_620_2 m3_619a m3_619b m3_619c m3_619d m3_619e m3_619g m3_619h m3_621b m3_622a m3_622c ///
 	   m3_701 m3_703 m3_704a m3_704b m3_704c m3_704d m3_704e m3_704f m3_704g m3_705 ///
-	   m3_706 m3_708_oth_1 m3_710a m3_710b m3_802a m3_803a m3_803b m3_803c m3_803d m3_803e ///
+	   m3_706 m3_baby2_issues_other_ke m3_710a m3_710b m3_802a m3_803a m3_803b m3_803c m3_803d m3_803e ///
 	   m3_803f m3_803g m3_803h m3_803j m3_805 m3_808a m3_809 m3_901a m3_901b m3_901c m3_901d m3_901e ///
 	   m3_901f m3_901g m3_901h m3_901i m3_901j m3_901k m3_901l m3_901m m3_901n m3_901o m3_901p m3_901q ///
 	   m3_901r m3_902a_baby1 m3_902b_baby1 m3_902c_baby1 m3_902d_baby1 m3_902e_baby1 m3_902f_baby1 ///
 	   m3_902g_baby1 m3_902h_baby1 m3_902i_baby1 m3_902j_baby1 m3_902a_baby2 m3_902b_baby2 m3_902c_baby2 ///
-	   m3_902d_baby2 m3_902e_baby2 m3_902f_baby2 m3_902g_baby2 m3_902h_baby2 m3_902i_baby2 m3_1001 ///
+	   m3_902d_baby2 m3_902e_baby2 m3_902f_baby2 m3_902g_baby2 m3_902h_baby2 m3_1001 ///
 	   m3_1002 m3_1003 m3_1004a m3_1005a m3_1005b m3_1005c m3_1005d m3_1005e m3_1005f m3_1005g m3_1005h ///
 	   m3_1006a m3_1006b m3_1006c m3_1007a m3_1007b m3_1007c m3_1101 m3_1106 m3_1201 m3_1202 ///
 	   m3_1102a_amt m3_1102b_amt m3_1102c_amt m3_1102d_amt m3_1102e_amt m3_1102f_amt (-99 = .r)
@@ -2232,13 +2221,13 @@ recode m3_303a m3_baby1_gender m3_baby1_weight m3_baby2_weight m3_baby1_born_ali
 	   m3_609 m3_610a m3_610b m3_611 m3_613 m3_615a m3_617a m3_618a_1 m3_618b_1 m3_618c_1 ///
 	   m3_620_1 m3_615b m3_617b m3_618a_2 m3_618b_2 m3_618c_2 m3_620_2 m3_619a m3_619b ///
 	   m3_619c m3_619d m3_619e m3_619g m3_619h m3_621b m3_622a m3_622c m3_701 m3_703 ///
-	   m3_704a m3_704b m3_704c m3_704d m3_704e m3_704f m3_704g m3_705 m3_706 m3_708_oth_1 ///
+	   m3_704a m3_704b m3_704c m3_704d m3_704e m3_704f m3_704g m3_705 m3_706 m3_baby2_issues_other_ke ///
 	   m3_710a m3_710b m3_802a m3_803a m3_803b m3_803c m3_803d m3_803e m3_803f ///
 	   m3_803g m3_803h m3_803j m3_805 m3_808a m3_809 m3_901a m3_901b m3_901c m3_901d m3_901e ///
 	   m3_901f m3_901g m3_901h m3_901i m3_901j m3_901k m3_901l m3_901m m3_901n m3_901o m3_901p ///
 	   m3_901q m3_901r m3_902a_baby1 m3_902b_baby1 m3_902c_baby1 m3_902d_baby1 m3_902e_baby1 ///
 	   m3_902f_baby1 m3_902g_baby1 m3_902h_baby1 m3_902i_baby1 m3_902j_baby1 m3_902a_baby2 m3_902b_baby2 ///
-	   m3_902d_baby2 m3_902e_baby2 m3_902f_baby2 m3_902g_baby2 m3_902h_baby2 m3_902i_baby2 m3_1002 ///
+	   m3_902d_baby2 m3_902e_baby2 m3_902f_baby2 m3_902g_baby2 m3_902h_baby2 m3_1002 ///
 	   m3_1003 m3_1005a m3_1005b m3_1005c m3_1005d m3_1005e m3_1005f m3_1005g m3_1005h m3_1006a ///
 	   m3_1006b m3_1006c m3_1007a m3_1007b m3_1007c m3_1101 m3_1106 m3_1201 m3_614_ke ///
 	   m3_616c_1 m3_1102a_amt m3_1102b_amt m3_1102c_amt m3_1102d_amt m3_1102e_amt m3_1102f_amt (-98 = .d)	 
@@ -2530,21 +2519,19 @@ recode m3_baby1_sleep m3_baby1_feed m3_baby1_breath m3_baby1_stool m3_baby1_mood
 recode m3_baby2_sleep m3_baby2_feed m3_baby2_breath m3_baby2_stool m3_baby2_mood ///
 	   m3_baby2_skin m3_baby2_interactivity (. = .a) if m3_303c !=1
 	   
-recode m3_baby1_issues_a m3_baby1_issues_b m3_baby1_issues_c m3_baby1_issues_d m3_baby1_issues_e ///
+recode m3_708a_ke m3_baby1_issues_a m3_baby1_issues_b m3_baby1_issues_c m3_baby1_issues_d m3_baby1_issues_e ///
 	   m3_baby1_issues_f m3_baby1_issues_98 m3_baby1_issues_99 (. = .a) if ///
 	   m3_baby1_born_alive1 !=1 | m3_baby1_born_alive2 !=1
 	   
-recode m3_baby2_issues_a m3_baby2_issues_b m3_baby2_issues_c m3_baby2_issues_d m3_baby2_issues_e ///
+recode m2_708b_ke m3_baby2_issues_a m3_baby2_issues_b m3_baby2_issues_c m3_baby2_issues_d m3_baby2_issues_e ///
 	   m3_baby2_issues_f m3_baby2_issues_98 m3_baby2_issues_99 (. = .a) if ///
 	   m3_baby2_born_alive1 !=1 //| m3_baby2_born_alive2 !=1
 
-recode m3_708_oth_1 (.=.a) if bornalive_babies == "0" | bornalive_babies == "" 
+recode m3_baby2_issues_other_ke (.=.a) if bornalive_babies == "0" | bornalive_babies == "" 
 
-recode m3_708_oth_2 (.=.a) if bornalive_babies == "0" | bornalive_babies == "" 
+recode m3_baby3_issues_other_ke (.=.a) if bornalive_babies == "0" | bornalive_babies == "" 
 	   
-replace m3_708a = ".a" if m3_708_oth_1 !=1
-
-replace m3_708b = ".a" if m3_708_oth_2 !=1
+replace m3_708a = ".a" if m3_baby2_issues_other_ke !=1
  
 recode m3_710a m3_710b m3_711c_1 m3_711c_1_unit m3_711c_2 m3_711c_2_unit (. = .a) if m3_501 !=1 | bornalive_babies == "0" | bornalive_babies == "" 
 
@@ -2582,7 +2569,7 @@ recode m3_902_1_cost (. = .a) if m3_902a_baby1 !=1 & m3_902b_baby1 !=1 & m3_902c
 					 
 recode m3_902_2_cost (. = .a) if m3_902a_baby2 !=1 & m3_902b_baby2 !=1 & m3_902c_baby2 !=1 & m3_902d_baby2 !=1 & ///
 								 m3_902e_baby2 !=1 &  m3_902f_baby2 !=1 &  m3_902g_baby2 !=1 & ///
-								 m3_902h_baby2 !=1 &  m3_902i_baby2 !=1 &  m3_902j_baby2 !=1					 
+								 m3_902h_baby2 !=1 & m3_902j_baby2 !=1					 
 					 
 recode m3_902a_baby1 m3_902b_baby1 m3_902c_baby1 m3_902d_baby1 m3_902e_baby1 m3_902f_baby1 m3_902g_baby1 m3_902h_baby1 (. = .a) if m3_303b !=1
 
@@ -2590,7 +2577,7 @@ recode m3_902a_baby2 m3_902b_baby2 m3_902c_baby2 m3_902d_baby2 m3_902e_baby2 m3_
 
 recode m3_902i_baby1 (. = .a) if  m2_hiv_status !=1 | m3_303b !=1 | bornalive_babies == "0" | bornalive_babies == "" 
 
-recode m3_902i_baby2 (. = .a) if  m2_hiv_status !=1 | m3_303c !=1 | bornalive_babies == "0" | bornalive_babies == "" | bornalive_babies == "1" 
+*recode m3_902i_baby2 (. = .a) if  m2_hiv_status !=1 | m3_303c !=1 | bornalive_babies == "0" | bornalive_babies == "" | bornalive_babies == "1" 
 
 recode m3_902j_baby1 (. = .a) if  m3_303b !=1 | m3_baby1_born_alive1 !=1 | m3_baby1_born_alive2 !=1
 
@@ -2863,7 +2850,6 @@ lab var m3_705 "705. Did you receive a blood transfusion around the time of your
 lab var m3_706 "706. Were you admitted to an intensive care unit?"
 lab var m3_707_ke "707-ke. How long did you stay at the facility that you delivered at after the delivery?"
 lab var m3_707_ke_unit "707-ke-unit. The unit of time for m3_707_ke"
-lab var m3_baby1_issues "708ba Did the 1st baby experience any of the following issues in the 1st day of life?"
 lab var m3_baby1_issues_a "708a. Did the 1st baby experience any of the following issues in the 1st day of life? Tell me all that apply. (choice=Trouble breathing)"
 lab var m3_baby1_issues_b "708a. Did the 1st baby experience any of the following issues in the 1st day of life? Tell me all that apply. (choice=Fever)"
 lab var m3_baby1_issues_c "708a. Did the 1st baby experience any of the following issues in the 1st day of life? Tell me all that apply. (choice=Trouble feeding)"
@@ -2872,7 +2858,7 @@ lab var m3_baby1_issues_e "708a. Did the 1st baby experience any of the followin
 lab var m3_baby1_issues_f "708a. Did the 1st baby experience any of the following issues in the 1st day of life? Tell me all that apply. (choice=No complications)"
 lab var m3_baby1_issues_98 "708a. Did the 1st baby experience any of the following issues in the 1st day of life? Tell me all that apply. (choice=DK)"
 lab var m3_baby1_issues_99 "708a. Did the 1st baby experience any of the following issues in the 1st day of life? Tell me all that apply. (choice=NR/RF)"
-lab var m3_baby2_issues "708b. Did the second baby experience any of the following issues in the 1st day of life?"
+lab var m2_708b_ke "708b. Did the second baby experience any of the following issues in the 1st day of life?"
 lab var m3_baby2_issues_a "708b. Did the second baby experience any of the following issues in the 1st day of life? Tell me all that apply. (choice=Trouble breathing)"
 lab var m3_baby2_issues_b "708b. Did the second baby experience any of the following issues in the 1st day of life? Tell me all that apply. (choice=Fever, low temperature, or infection)"
 lab var m3_baby2_issues_c "708b. Did the second baby experience any of the following issues in the 1st day of life? Tell me all that apply. (choice=Trouble feeding)"
@@ -2881,9 +2867,9 @@ lab var m3_baby2_issues_e "708b. Did the second baby experience any of the follo
 lab var m3_baby2_issues_f "708b. Did the second baby experience any of the following issues in the 1st day of life? Tell me all that apply. (choice=No complications)"
 lab var m3_baby2_issues_98 "708b. Did the second baby experience any of the following issues in the 1st day of life? Tell me all that apply. (choice=DK)"
 lab var m3_baby2_issues_99 "708b. Did the second baby experience any of the following issues in the 1st day of life? Tell me all that apply. (choice=NR/RF)"		
-lab var m3_708_oth_1 "708-Other. Did the 1st baby experience any other health problems in the 1st day of life?"
+lab var m3_baby2_issues_other_ke "708-Other. Did the 1st baby experience any other health problems in the 1st day of life?"
 lab var m3_708a "709a. Write down the 1st baby's experiences any other health problems in the 1st day of life"
-lab var m3_708_oth_2 "708-Other. Did the second baby experience any other health problems in the 1st day of life?"
+lab var m3_baby3_issues_other_ke "708-Other. Did the second baby experience any other health problems in the 1st day of life?"
 lab var m3_708b "709b. Write down the second baby's experiences any other health problems in the 1st day of life"
 lab var m3_710a "710a. Did the 1st baby spend time in a special care nursery or intensive care unit before discharge?"
 lab var m3_710b "710b. Did the second baby spend time in a special care nursery or intensive care unit before discharge?"			
@@ -2949,7 +2935,7 @@ lab var m3_902g_baby2 "902g. Since they were born, did the second baby get medic
 lab var m3_902h_baby1 "902h. Since they were born, did the 1st baby get medicine for malaria [endemic areas]?"
 lab var m3_902h_baby2 "902h. Since they were born, did the second baby get medicine for malaria [endemic areas]?"
 lab var m3_902i_baby1 "902i. Since they were born, did the 1st baby get medicine for HIV (HIV+ mothers only)?"
-lab var m3_902i_baby2 "902i. Since they were born, did the second baby get medicine for HIV (HIV+ mothers only)?"
+*lab var m3_902i_baby2 "902i. Since they were born, did the second baby get medicine for HIV (HIV+ mothers only)?"
 lab var m3_902j_baby1 "902j. Since they were born, did the 1st baby get other medicine or supplement, please specify"
 lab var m3_902j_baby1_other "902j-Other-1. Any other medicine or supplement for the 1st baby please specify"
 lab var m3_902j_baby2 "902j. Since they were born, did the second baby get other medicine or supplement, please specify"
@@ -3068,13 +3054,11 @@ order m3_baby1_mood m3_baby2_mood, after(m3_baby2_stool)
 order m3_baby1_skin m3_baby2_skin, after(m3_baby2_mood)
 order m3_baby1_interactivity m3_baby2_interactivity, after(m3_baby2_skin)
 
-order m3_baby1_issues m3_baby1_issues_a m3_baby1_issues_b m3_baby1_issues_c m3_baby1_issues_d m3_baby1_issues_e m3_baby1_issues_f m3_baby1_issues_98 m3_baby1_issues_99, after(m3_707_ke_unit)
+order m3_baby1_issues_a m3_baby1_issues_b m3_baby1_issues_c m3_baby1_issues_d m3_baby1_issues_e m3_baby1_issues_f m3_baby1_issues_98 m3_baby1_issues_99, after(m3_707_ke_unit)
 
-order m3_baby2_issues m3_baby2_issues_a m3_baby2_issues_b m3_baby2_issues_c m3_baby2_issues_d m3_baby2_issues_e m3_baby2_issues_f m3_baby2_issues_98 m3_baby2_issues_99, after(m3_baby1_issues_99)
+order m2_708b_ke m3_baby2_issues_a m3_baby2_issues_b m3_baby2_issues_c m3_baby2_issues_d m3_baby2_issues_e m3_baby2_issues_f m3_baby2_issues_98 m3_baby2_issues_99, after(m3_baby1_issues_99)
 
-order m3_phq2_score, after(m3_801b)
-
-order m3_baby_meds_count, after(m3_902j_baby2_other)                    
+order m3_phq2_score, after(m3_801b)                 
 
 order m3_death_cause_baby1 m3_death_cause_baby1_other m3_death_cause_baby2 m3_death_cause_baby3 m3_death_cause_baby4,after(m3_313d_baby2)
 
@@ -4406,13 +4390,11 @@ order m3_baby1_mood m3_baby2_mood, after(m3_baby2_stool)
 order m3_baby1_skin m3_baby2_skin, after(m3_baby2_mood)
 order m3_baby1_interactivity m3_baby2_interactivity, after(m3_baby2_skin)
 
-order m3_baby1_issues m3_baby1_issues_a m3_baby1_issues_b m3_baby1_issues_c m3_baby1_issues_d m3_baby1_issues_e m3_baby1_issues_f m3_baby1_issues_98 m3_baby1_issues_99, after(m3_707_ke_unit)
+order m3_baby1_issues_a m3_baby1_issues_b m3_baby1_issues_c m3_baby1_issues_d m3_baby1_issues_e m3_baby1_issues_f m3_baby1_issues_98 m3_baby1_issues_99, after(m3_707_ke_unit)
 
-order m3_baby2_issues m3_baby2_issues_a m3_baby2_issues_b m3_baby2_issues_c m3_baby2_issues_d m3_baby2_issues_e m3_baby2_issues_f m3_baby2_issues_98 m3_baby2_issues_99, after(m3_baby1_issues_99)
+order m2_708b_ke m3_baby2_issues_a m3_baby2_issues_b m3_baby2_issues_c m3_baby2_issues_d m3_baby2_issues_e m3_baby2_issues_f m3_baby2_issues_98 m3_baby2_issues_99, after(m3_baby1_issues_99)
 
 order m3_phq2_score, after(m3_801b)
-
-order m3_baby_meds_count, after(m3_902j_baby2_other)                    
 
 order m3_death_cause_baby1 m3_death_cause_baby1_other m3_death_cause_baby2 m3_death_cause_baby3 m3_death_cause_baby4,after(m3_313d_baby2)
 
@@ -5664,13 +5646,11 @@ order m3_baby1_mood m3_baby2_mood, after(m3_baby2_stool)
 order m3_baby1_skin m3_baby2_skin, after(m3_baby2_mood)
 order m3_baby1_interactivity m3_baby2_interactivity, after(m3_baby2_skin)
 
-order m3_baby1_issues m3_baby1_issues_a m3_baby1_issues_b m3_baby1_issues_c m3_baby1_issues_d m3_baby1_issues_e m3_baby1_issues_f m3_baby1_issues_98 m3_baby1_issues_99, after(m3_707_ke_unit)
+order m3_baby1_issues_a m3_baby1_issues_b m3_baby1_issues_c m3_baby1_issues_d m3_baby1_issues_e m3_baby1_issues_f m3_baby1_issues_98 m3_baby1_issues_99, after(m3_707_ke_unit)
 
-order m3_baby2_issues m3_baby2_issues_a m3_baby2_issues_b m3_baby2_issues_c m3_baby2_issues_d m3_baby2_issues_e m3_baby2_issues_f m3_baby2_issues_98 m3_baby2_issues_99, after(m3_baby1_issues_99)
+order m2_708b_ke m3_baby2_issues_a m3_baby2_issues_b m3_baby2_issues_c m3_baby2_issues_d m3_baby2_issues_e m3_baby2_issues_f m3_baby2_issues_98 m3_baby2_issues_99, after(m3_baby1_issues_99)
 
-order m3_phq2_score, after(m3_801b)
-
-order m3_baby_meds_count, after(m3_902j_baby2_other)                    
+order m3_phq2_score, after(m3_801b)                
 
 order m3_death_cause_baby1 m3_death_cause_baby1_other m3_death_cause_baby2 m3_death_cause_baby3 m3_death_cause_baby4,after(m3_313d_baby2)
 
