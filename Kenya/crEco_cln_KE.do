@@ -1860,34 +1860,26 @@ encode q_405_1,gen(m3_consultation1_reason)
 drop q_405_1
 encode q_405_2,gen(m3_consultation2_reason)
 drop q_405_2
-encode q_405_3,gen(m3_consultation3_reason)
-drop q_405_3
-encode q_405_1_1,gen(m3_consultation1_reason_a)
-drop q_405_1_1
-encode q_405_2_1,gen(m3_consultation1_reason_b)
-drop q_405_2_1
-encode q_405_3_1,gen(m3_consultation1_reason_c)
-drop q_405_3_1
-encode q_405_4_1,gen(m3_consultation1_reason_d)
-drop q_405_4_1
-encode q_405_5_1,gen(m3_consultation1_reason_e)
-drop q_405_5_1
-encode q_405__96_1,gen(m3_consultation1_reason_96)
-drop q_405__96_1
+*encode q_405_3,gen(m3_consultation3_reason) // SS 4-2: not in the dataset
+*drop q_405_3
 
-encode q_405_1_2,gen(m3_consultation2_reason_a)
-drop q_405_1_2
-encode q_405_2_2,gen(m3_consultation2_reason_b)
-drop q_405_2_2
-encode q_405_3_2,gen(m3_consultation2_reason_c)
-drop q_405_3_2
-encode q_405_4_2,gen(m3_consultation2_reason_d)
-drop q_405_4_2
-encode q_405_5_2,gen(m3_consultation2_reason_e)
-drop q_405_5_2
-encode q_405__96_2,gen(m3_consultation2_reason_96)
-drop q_405__96_2
+**SS: q_405_1_1 vars changed from consultation reasons to reasons for baby visits, so i edited the code
+rename q_405_1_1 m3_baby1_405a_ke
+rename q_405_2_1 m3_baby1_405b_ke
+rename q_405_3_1 m3_baby1_405c_ke
+rename q_405_4_1 m3_baby1_405d_ke
+rename q_405_5_1 m3_baby1_405e_ke
+rename q_405__96_1 m3_baby1_405_96_ke
 
+**SS: q_405_1_1 vars changed from consultation reasons to reasons for baby visits, so i edited the code
+rename q_405_1_2 m3_baby2_405a_ke
+rename q_405_2_2 m3_baby2_405b_ke
+rename q_405_3_2 m3_baby2_405c_ke
+rename q_405_4_2 m3_baby2_405d_ke
+rename q_405_5_2 m3_baby2_405e_ke
+rename q_405__96_2 m3_baby2_405_96_ke
+
+/* SS: these vars are not in the dataset right now but will need to be updated to match the code above
 encode q_405_1_3,gen(m3_consultation3_reason_a)
 drop q_405_1_3
 encode q_405_2_3,gen(m3_consultation3_reason_b)
@@ -1900,6 +1892,8 @@ encode q_405_5_3,gen(m3_consultation3_reason_e)
 drop q_405_5_3
 encode q_405__96_3,gen(m3_consultation3_reason_96)
 drop q_405__96_3
+
+*/
 
 rename (q_412a_1 q_412b_1 q_412c_1 q_412d_1 q_412e_1 q_412f_1 q_412g_1 q_412g_oth_1 q_412i_1) ///
        (m3_412a_1_ke m3_412b_1_ke m3_412c_1_ke m3_412d_1_ke m3_412e_1_ke m3_412f_1_ke m3_412g_1_ke ///
@@ -2351,20 +2345,20 @@ recode m3_402 (. = .a) if m3_401 !=1
 recode m3_consultation_1 (. = .a) if m3_402 == 0 | m3_402 == . | m3_402 == .a		  
 recode m3_consultation_referral_1 (. = .a) if m3_consultation_1 !=0						  
 
-recode m3_consultation1_reason m3_consultation1_reason_a m3_consultation1_reason_b ///
-		m3_consultation1_reason_c m3_consultation1_reason_d m3_consultation1_reason_e ///
-		m3_consultation1_reason_96 (. = .a) if m3_consultation_referral_1 !=0
+recode m3_consultation1_reason m3_baby1_405a_ke m3_baby1_405b_ke ///
+		m3_baby1_405c_ke m3_baby1_405d_ke m3_baby1_405e_ke ///
+		m3_baby1_405_96_ke (. = .a) if m3_consultation_referral_1 !=0
 	   
-replace m3_consultation1_reason_other = ".a" if m3_consultation1_reason_96 !=1
+replace m3_consultation1_reason_other = ".a" if m3_baby1_405_96_ke !=1
 
 recode m3_consultation_2 (. = .a) if m3_402 !=2 & m3_402 !=3 & m3_402 !=4 & m3_402 !=5
 recode m3_consultation_referral_2 (. = .a) if m3_consultation_2 !=0
 	   
-recode m3_consultation2_reason m3_consultation2_reason_a m3_consultation2_reason_b ///
-	   m3_consultation2_reason_c m3_consultation2_reason_d m3_consultation2_reason_e ///
-	   m3_consultation2_reason_96 (. = .a) if m3_consultation_referral_2 !=0
+recode m3_consultation2_reason m3_baby2_405a_ke m3_baby2_405b_ke ///
+	   m3_baby2_405c_ke m3_baby2_405d_ke m3_baby2_405e_ke ///
+	   m3_baby2_405_96_ke (. = .a) if m3_consultation_referral_2 !=0
 	   
-replace m3_consultation2_reason_other = ".a" if m3_consultation2_reason_96 !=1	   
+replace m3_consultation2_reason_other = ".a" if m3_baby2_405_96_ke !=1	   
 	   
 recode m3_consultation_3 (. = .a) if m3_402 !=3 & m3_402 !=4 & m3_402 !=5
 recode m3_consultation_referral_3 (. = .a) if m3_consultation_3 !=0
@@ -2750,23 +2744,23 @@ lab var m3_402 "402. How many new healthcare consultations did you have?"
 
 lab var m3_consultation_1 "403. Was the 1st consultation for a routine antenatal care visit?"
 lab var m3_consultation_referral_1 "404. Was the 1st for referral from your antenatal care provider?"
-lab var m3_consultation1_reason_a "405. Was the 1st visit for any of the following? (choice=A new health problem, including an emergency or an injury)"
-lab var m3_consultation1_reason_b "405. Was the 1st visit for any of the following? (choice=An existing health problem)"
-lab var m3_consultation1_reason_c "405. Was the 1st visit for any of the following? (choice=A lab test, x-ray, or ultrasound)"
-lab var m3_consultation1_reason_d "405. Was the 1st visit for any of the following? (choice=To pick up medicine)"
-lab var m3_consultation1_reason_e "405. Was the 1st visit for any of the following? (choice=To get a vaccine)"
-lab var m3_consultation1_reason_96 "405. Was the 1st visit for any of the following? (choice=Other reasons, please specify)"
+lab var m3_baby1_405a_ke "405. Was the 1st visit for any of the following? (choice=A new health problem, including an emergency or an injury)"
+lab var m3_baby1_405b_ke "405. Was the 1st visit for any of the following? (choice=An existing health problem)"
+lab var m3_baby1_405c_ke "405. Was the 1st visit for any of the following? (choice=A lab test, x-ray, or ultrasound)"
+lab var m3_baby1_405d_ke "405. Was the 1st visit for any of the following? (choice=To pick up medicine)"
+lab var m3_baby1_405e_ke "405. Was the 1st visit for any of the following? (choice=To get a vaccine)"
+lab var m3_baby1_405_96_ke "405. Was the 1st visit for any of the following? (choice=Other reasons, please specify)"
 lab var m3_consultation1_reason_other "405-Other. Other reasons, please specify"
 
 lab var m3_consultation_2 "406. Was the 2nd consultation for a routine antenatal care visit?"
 lab var m3_consultation_referral_2 "407. Was the 2nd for referral from your antenatal care provider?"
 lab var m3_consultation2_reason "408. Was the 2nd visit for any of the following?"
-lab var m3_consultation2_reason_a "408. Was the 2nd visit for any of the following? (choice=A new health problem, including an emergency or an injury)"
-lab var m3_consultation2_reason_b "408. Was the 2nd visit for any of the following? (choice=An existing health problem)"
-lab var m3_consultation2_reason_c "408. Was the 2nd visit for any of the following? (choice=A lab test, x-ray, or ultrasound)"
-lab var m3_consultation2_reason_d "408. Was the 2nd visit for any of the following? (choice=To pick up medicine)"
-lab var m3_consultation2_reason_e "408. Was the 2nd visit for any of the following? (choice=To get a vaccine)"
-lab var m3_consultation2_reason_96 "408. Was the 2nd visit for any of the following? (choice=Other reasons, please specify)"
+lab var m3_baby2_405a_ke "408. Was the 2nd visit for any of the following? (choice=A new health problem, including an emergency or an injury)"
+lab var m3_baby2_405b_ke "408. Was the 2nd visit for any of the following? (choice=An existing health problem)"
+lab var m3_baby2_405c_ke "408. Was the 2nd visit for any of the following? (choice=A lab test, x-ray, or ultrasound)"
+lab var m3_baby2_405d_ke "408. Was the 2nd visit for any of the following? (choice=To pick up medicine)"
+lab var m3_baby2_405e_ke "408. Was the 2nd visit for any of the following? (choice=To get a vaccine)"
+lab var m3_baby2_405_96_ke "408. Was the 2nd visit for any of the following? (choice=Other reasons, please specify)"
 lab var m3_consultation2_reason_other "408-Other. Other reasons, please specify"
 		
 lab var m3_consultation_3 "409. Was the 3rd consultation for a routine antenatal care visit?"
@@ -3098,8 +3092,8 @@ order m3_baby2_feeding m3_baby2_feed_a m3_baby2_feed_b m3_baby2_feed_c m3_baby2_
 order m3_breastfeeding m3_breastfeeding_2,after(m3_baby2_feed_99)
 order m3_baby1_born_alive1 m3_baby1_born_alive2 m3_baby2_born_alive1, after(m3_breastfeeding_2)
 order m3_death_cause_baby1 m3_death_cause_baby1_other m3_death_cause_baby2 m3_death_cause_baby3 m3_death_cause_baby4 m3_1201 m3_miscarriage m3_abortion m3_1202, after(m3_313d_baby2)
-order m3_consultation_1 m3_consultation_referral_1 m3_consultation1_reason m3_consultation1_reason_a m3_consultation1_reason_b m3_consultation1_reason_c m3_consultation1_reason_d m3_consultation1_reason_e  m3_consultation1_reason_96 m3_consultation1_reason_other, after(m3_402) 
-order m3_consultation_2 m3_consultation_referral_2 m3_consultation2_reason  m3_consultation2_reason_a m3_consultation2_reason_b m3_consultation2_reason_c m3_consultation2_reason_d m3_consultation2_reason_e m3_consultation2_reason_96 m3_consultation2_reason_other,after(m3_consultation1_reason_other) 
+order m3_consultation_1 m3_consultation_referral_1 m3_consultation1_reason m3_baby1_405a_ke m3_baby1_405b_ke m3_baby1_405c_ke m3_baby1_405d_ke m3_baby1_405e_ke  m3_baby1_405_96_ke m3_consultation1_reason_other, after(m3_402) 
+order m3_consultation_2 m3_consultation_referral_2 m3_consultation2_reason  m3_baby2_405a_ke m3_baby2_405b_ke m3_baby2_405c_ke m3_baby2_405d_ke m3_baby2_405e_ke m3_baby2_405_96_ke m3_consultation2_reason_other,after(m3_consultation1_reason_other) 
 order m3_consultation_3 m3_consultation_referral_3 m3_consultation3_reason  m3_consultation3_reason_a m3_consultation3_reason_b m3_consultation3_reason_c m3_consultation3_reason_d m3_consultation3_reason_e m3_consultation3_reason_96 m3_consultation3_reason_other,after(m3_consultation2_reason_other)
 
 order m3_baby1_sleep m3_baby2_sleep, after(m3_622c) 
@@ -3291,7 +3285,7 @@ rename  q_406_9_2 m4_408i
 rename  q_406_10_2 m4_408j
 rename  q_406_96_2 m4_408k
 rename  q_406_oth_2 m4_408k_other
-rename  q_405_3 m4_409
+rename  q_405_3 m4_409 
 
 *drop  q_406_3
  *It just combines all the answers from the qestions below, we didn't have it in the Ethiopian Ds and all information coded in the variables below
@@ -4451,8 +4445,8 @@ order m3_baby2_feeding m3_baby2_feed_a m3_baby2_feed_b m3_baby2_feed_c m3_baby2_
 order m3_breastfeeding m3_breastfeeding_2,after(m3_baby2_feed_99)
 order m3_baby1_born_alive1 m3_baby1_born_alive2 m3_baby2_born_alive1, after(m3_breastfeeding_2)
 order m3_death_cause_baby1 m3_death_cause_baby1_other m3_death_cause_baby2 m3_death_cause_baby3 m3_death_cause_baby4 m3_1201 m3_miscarriage m3_abortion m3_1202, after(m3_313d_baby2)
-order m3_consultation_1 m3_consultation_referral_1 m3_consultation1_reason m3_consultation1_reason_a m3_consultation1_reason_b m3_consultation1_reason_c m3_consultation1_reason_d m3_consultation1_reason_e  m3_consultation1_reason_96 m3_consultation1_reason_other, after(m3_402) 
-order m3_consultation_2 m3_consultation_referral_2 m3_consultation2_reason  m3_consultation2_reason_a m3_consultation2_reason_b m3_consultation2_reason_c m3_consultation2_reason_d m3_consultation2_reason_e m3_consultation2_reason_96 m3_consultation2_reason_other,after(m3_consultation1_reason_other) 
+order m3_consultation_1 m3_consultation_referral_1 m3_consultation1_reason m3_baby1_405a_ke m3_baby1_405b_ke m3_baby1_405c_ke m3_baby1_405d_ke m3_baby1_405e_ke  m3_baby1_405_96_ke m3_consultation1_reason_other, after(m3_402) 
+order m3_consultation_2 m3_consultation_referral_2 m3_consultation2_reason  m3_baby2_405a_ke m3_baby2_405b_ke m3_baby2_405c_ke m3_baby2_405d_ke m3_baby2_405e_ke m3_baby2_405_96_ke m3_consultation2_reason_other,after(m3_consultation1_reason_other) 
 order m3_consultation_3 m3_consultation_referral_3 m3_consultation3_reason  m3_consultation3_reason_a m3_consultation3_reason_b m3_consultation3_reason_c m3_consultation3_reason_d m3_consultation3_reason_e m3_consultation3_reason_96 m3_consultation3_reason_other,after(m3_consultation2_reason_other)
 
 order m3_baby1_sleep m3_baby2_sleep, after(m3_622c) 
@@ -5709,8 +5703,8 @@ order m3_baby2_feeding m3_baby2_feed_a m3_baby2_feed_b m3_baby2_feed_c m3_baby2_
 order m3_breastfeeding m3_breastfeeding_2,after(m3_baby2_feed_99)
 order m3_baby1_born_alive1 m3_baby1_born_alive2 m3_baby2_born_alive1, after(m3_breastfeeding_2)
 order m3_death_cause_baby1 m3_death_cause_baby1_other m3_death_cause_baby2 m3_death_cause_baby3 m3_death_cause_baby4 m3_1201 m3_miscarriage m3_abortion m3_1202, after(m3_313d_baby2)
-order m3_consultation_1 m3_consultation_referral_1 m3_consultation1_reason m3_consultation1_reason_a m3_consultation1_reason_b m3_consultation1_reason_c m3_consultation1_reason_d m3_consultation1_reason_e  m3_consultation1_reason_96 m3_consultation1_reason_other, after(m3_402) 
-order m3_consultation_2 m3_consultation_referral_2 m3_consultation2_reason  m3_consultation2_reason_a m3_consultation2_reason_b m3_consultation2_reason_c m3_consultation2_reason_d m3_consultation2_reason_e m3_consultation2_reason_96 m3_consultation2_reason_other,after(m3_consultation1_reason_other) 
+order m3_consultation_1 m3_consultation_referral_1 m3_consultation1_reason m3_baby1_405a_ke m3_baby1_405b_ke m3_baby1_405c_ke m3_baby1_405d_ke m3_baby1_405e_ke  m3_baby1_405_96_ke m3_consultation1_reason_other, after(m3_402) 
+order m3_consultation_2 m3_consultation_referral_2 m3_consultation2_reason  m3_baby2_405a_ke m3_baby2_405b_ke m3_baby2_405c_ke m3_baby2_405d_ke m3_baby2_405e_ke m3_baby2_405_96_ke m3_consultation2_reason_other,after(m3_consultation1_reason_other) 
 order m3_consultation_3 m3_consultation_referral_3 m3_consultation3_reason  m3_consultation3_reason_a m3_consultation3_reason_b m3_consultation3_reason_c m3_consultation3_reason_d m3_consultation3_reason_e m3_consultation3_reason_96 m3_consultation3_reason_other,after(m3_consultation2_reason_other)
 
 order m3_baby1_sleep m3_baby2_sleep, after(m3_622c) 
