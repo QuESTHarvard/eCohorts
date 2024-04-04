@@ -4560,10 +4560,10 @@ rename (baby_index_care_1 q701a_1 q701b_1 q701c_1 q701d_1 q701e_1 q701f_1 q701g_
 		m5_701i_other m5_n_baby_care m5_702a m5_702b m5_702c m5_702d m5_702e m5_702f m5_702g)
 
 rename (q703_0_1 q703_1_1 q703_2_1 q703_3_1 q703_4_1 q703_5_1 q703_6_1 q703__96_1 q703_98_1 q703_99_1 q703_oth_1) (m5_703a m5_703b m5_703c m5_703d ///
-        m5_703e m5_703f m5_703g m5_703h m5_703_98 m5_703_99 m5_703_otherer)
+        m5_703e m5_703f m5_703g m5_703h m5_703_98 m5_703_99 m5_703_other)
 
 rename (q801a q801b q801c q801d q801e q801f q801g q801h q801oth q802 q803a q803b q803c q803d q803e q803f q803g q804a q804b q804c baby_repeat_med_count) ///
-       (m5_801a m5_801b m5_801c m5_801d m5_801e m5_801f m5_801g m5_801h m5_801_otherer m5_802 m5_803a m5_803b m5_803c m5_803d m5_803e m5_803f ///
+       (m5_801a m5_801b m5_801c m5_801d m5_801e m5_801f m5_801g m5_801h m5_801_other m5_802 m5_803a m5_803b m5_803c m5_803d m5_803e m5_803f ///
 	    m5_803g m5_804a m5_804b m5_804c m5_n_baby_med)
 
 *Create q901_1 to collpase q901a_1 q901b_1 q901c_1 q901d_1 q901e_1 q901f_1 q901g_1 q901h_1 q901i_1 q901j_1 q901k_1 q901l_1 q901m_1 q901n_1 q901o_1 q901p_1 
@@ -5135,11 +5135,11 @@ rename (q901_1 q901_2 q901_3 q901_4 q901_5 q901_6 q901_7 q901_8 q901_9 q901_10 q
 rename (baby_index_med_1 q902a_1 q902b_1 q902c_1 q902d_1 q902e_1 q902f_1 q902g_1 q902h_1 q902i_1 q902j_1 q902_oth_1) (m5_baby_index_med_1 m5_902a ///
         m5_902b m5_902c m5_902d m5_902e m5_902f m5_902g m5_902h m5_902i m5_902j m5_902_other)
 
-rename (q903a q903b q903c q903d q903e q903f q903_oth q904_1 q904_oth_1 q905) (m5_903a m5_903b m5_903c m5_903d m5_903e m5_903f m5_903_otherer m5_904 ///
-        m5_904_otherer m5_905)
+rename (q903a q903b q903c q903d q903e q903f q903_oth q904_1 q904_oth_1 q905) (m5_903a m5_903b m5_903c m5_903d m5_903e m5_903f m5_903_other m5_904 ///
+        m5_904_other m5_905)
 	
 rename (q1001 q1002a q1002b q1002c q1002d q1002e q1002_oth q1003 q1004 q1005 q1005_1 q1005_2 q1005_3 q1005_4 q1005_5 q1005_6 q1005__96 q1005_oth) ///
-       (m5_1001 m5_1002a m5_1002b m5_1002c m5_1002d m5_1002e m5_1002_otherer m5_1003 m5_1004 m5_1005 m5_1005a m5_1005b m5_1005c m5_1005d m5_1005e ///
+       (m5_1001 m5_1002a m5_1002b m5_1002c m5_1002d m5_1002e m5_1002_other m5_1003 m5_1004 m5_1005 m5_1005a m5_1005b m5_1005c m5_1005d m5_1005e ///
 	    m5_1005f m5_1005_other m5_1005_other_text)		
 
 rename (q1101 q1102 q1102_1 q1102_2 q1102_3 q1102_4 q1102_5 q1102_6 q1102_7 q1102_8 q1102_9 q1102_10 q1102__96 q1102_98 q1102_99) (m5_1101 m5_1102 ///
@@ -5218,7 +5218,7 @@ recode m5_701a m5_701b m5_701c m5_701d m5_701e m5_701f m5_701g m5_701h m5_701_ot
 	 
 recode m5_406a (98 = .d) 	 
 	 
-recode (999 = )
+*recode (999 = .d)
 
 
 *------------------------------------------------------------------------------*
@@ -5240,8 +5240,11 @@ recode m5_starttime m5_endtime m5_duration m5_date (. = .a) if m5_consent !=1
 
 *** Questions for Shalom 
 * 1. m5_depression_sum: not sure how to recode missing values
+	**SS: drop this var
 * 2. m5_804b has a value 999 at row 6, is it 99 (refused)?
-* 3. m5_1001 is for all participants, but it looked like there are several missings, which affected all questions about spending, including m5_1002 (_a to _e, and _oth), m5_1003, m5_1004, m5_1005 (_a to _f and _oth)       
+	**SS: 999 is don't know
+* 3. m5_1001 is for all participants, but it looked like there are several missings, which affected all questions about spending, including m5_1002 (_a to _e, and _oth), m5_1003, m5_1004, m5_1005 (_a to _f and _oth)    
+	**SS: I'm not sure I understand. I think we have to recode for skip patterns first and then investigate what happened
 
 */
 
@@ -5456,7 +5459,7 @@ lab var m5_703g "703-g. What did the healthcare provider tell you to do regardin
 lab var m5_703h "703-oth. What did the healthcare provider tell you to do regarding these symptoms? (choice=Other)"
 lab var m5_703_98 "703-98. What did the healthcare provider tell you to do regarding these symptoms? (choice=Don´t know)"
 lab var m5_703_99 "703-99. What did the healthcare provider tell you to do regarding these symptoms? (choice=No response/refusal)"
-lab var m5_703_otherer "703-oth-text. What did the healthcare provider tell you to do regarding these symptoms? (choice=Specify other that provider told you)"
+lab var m5_703_other "703-oth-text. What did the healthcare provider tell you to do regarding these symptoms? (choice=Specify other that provider told you)"
 	
 lab var m5_801a "801-a. Since you last spoke to us, did you receive any of the following at least once? (choice=Your blood pressure measured (with a cuff around your arm))"
 lab var m5_801b "801-b. Since you last spoke to us, did you receive any of the following at least once? (choice=Your temperature taken (with a thermometer))"
@@ -5466,7 +5469,7 @@ lab var m5_801e "801-e. Since you last spoke to us, did you receive any of the f
 lab var m5_801f "801-f. Since you last spoke to us, did you receive any of the following at least once? (choice=An HIV test)"
 lab var m5_801g "801-g. Since you last spoke to us, did you receive any of the following at least once? (choice=A urine test (that is, where you peed in a container))"
 lab var m5_801h "801-h. Since you last spoke to us, did you receive any of the following at least once? (choice=Any other test or examination)"
-lab var m5_801_otherer "801-oth. Since you last spoke to us, did you receive any of the following at least once? (choice=Specify the test ot examination)"
+lab var m5_801_other "801-oth. Since you last spoke to us, did you receive any of the following at least once? (choice=Specify the test ot examination)"
 
 lab var m5_802 "802. Since we last spoke, did a health care provider examine your c-section scar?"
 lab var m5_803a "803-a. Since we last spoke, did you discuss any of the following with a health care provider, or not? Did you and a healthcare provider discuss (choice=How to take care of your breasts)"
@@ -5514,9 +5517,9 @@ lab var m5_903c "903-c. Since we last spoke, did the baby receive? (choice= A pe
 lab var m5_903d "903-d. Since we last spoke, did the baby receive? (choice= A pneumococcal vaccination, that is, an injection in the thigh to prevent pneumonia)"
 lab var m5_903e "903-e. Since we last spoke, did the baby receive? (choice= A rotavirus vaccination, that is, liquid in the mouth to prevent diarrhea)"
 lab var m5_903f "903-f. Since we last spoke, did the baby receive? (choice= Any other vaccines or immunizations)"
-lab var m5_903_otherer "903-oth. Since we last spoke, did the baby receive? (choice= Please specify the type of vaccine or inmunization)"
+lab var m5_903_other "903-oth. Since we last spoke, did the baby receive? (choice= Please specify the type of vaccine or inmunization)"
 lab var m5_904 "904. Where did the baby get these vaccines?"
-lab var m5_904_otherer "904-oth. Please specify where baby got these vaccines or immunizations."  
+lab var m5_904_other "904-oth. Please specify where baby got these vaccines or immunizations."  
 lab var m5_905 "905. How much did you pay for these new medications, supplements and vaccines for yourself or the baby(ies) (in Ksh.)?"
 	
 lab var m5_1001 "1001. Did you pay any money out of your pocket for these new visits, including for the consultation or other indirect costs like your transport to the facility?"
@@ -5525,7 +5528,7 @@ lab var m5_1002b "1002-b. Plese specify how much you paid for test or investigat
 lab var m5_1002c "1002-c. Plese specify how much you paid for transport (round trip) including that of the person accompanying you."
 lab var m5_1002d "1002-d. Plese specify how much you paid for food and accommodation including that of person accompanying you."
 lab var m5_1002e "1002-e. Plese specify how much you paid for other (specify)"
-lab var m5_1002_otherer "1002-oth. Please specify what other service or product you spent money on."
+lab var m5_1002_other "1002-oth. Please specify what other service or product you spent money on."
 lab var m5_1003 "1003. So in total you spent [total_spent] Ksh. Is that correct?"
 lab var m5_1004 "1004. So how much in total would you say you spent?"
 lab var m5_1005 "1005. Which of the following financial sources did your household use to pay for this?"
