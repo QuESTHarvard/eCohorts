@@ -1718,7 +1718,7 @@ order m2_phq2_ke*, after(m2_205b_r6)
 
 *===============================================================================
 * MODULE 3:
-*/
+
 * Import data
 clear all 
 use "$ke_data/Module 3/240325_KEMRI_Module_3_no_pii_4-2.dta"
@@ -1825,21 +1825,21 @@ drop q_405_2
 *encode q_405_3,gen(m3_consultation3_reason) // SS 4-2: not in the dataset
 *drop q_405_3
 
-**SS: q_405_1_1 vars changed from consultation reasons to reasons for baby visits, so i edited the code
-rename q_405_1_1 m3_baby1_405a_ke
-rename q_405_2_1 m3_baby1_405b_ke
-rename q_405_3_1 m3_baby1_405c_ke
-rename q_405_4_1 m3_baby1_405d_ke
-rename q_405_5_1 m3_baby1_405e_ke
-rename q_405__96_1 m3_baby1_405_96_ke
+**SS: q_405_1_1 vars changed from consultation reasons to reasons for baby visits, so i edited the code - this is incorrect and will need to be fixed in 
+rename q_405_1_1 m3_consultation1_reason_a
+rename q_405_2_1 m3_consultation1_reason_b
+rename q_405_3_1 m3_consultation1_reason_c
+rename q_405_4_1 m3_consultation1_reason_d
+rename q_405_5_1 m3_consultation1_reason_e
+rename q_405__96_1 m3_consultation1_reason_96
 
 **SS: q_405_1_1 vars changed from consultation reasons to reasons for baby visits, so i edited the code
-rename q_405_1_2 m3_baby2_405a_ke
-rename q_405_2_2 m3_baby2_405b_ke
-rename q_405_3_2 m3_baby2_405c_ke
-rename q_405_4_2 m3_baby2_405d_ke
-rename q_405_5_2 m3_baby2_405e_ke
-rename q_405__96_2 m3_baby2_405_96_ke
+rename q_405_1_2 m3_consultation2_reason_a
+rename q_405_2_2 m3_consultation2_reason_b
+rename q_405_3_2 m3_consultation2_reason_c
+rename q_405_4_2 m3_consultation2_reason_d
+rename q_405_5_2 m3_consultation2_reason_e
+rename q_405__96_2 m3_consultation2_reason_96
 
 /* SS: these vars are not in the dataset right now but will need to be updated to match the code above
 encode q_405_1_3,gen(m3_consultation3_reason_a)
@@ -2102,7 +2102,7 @@ rename q_305_2 m3_baby2_gender
 *rename q_306_2 m3_baby2_age_weeks
 rename q_501 m3_501
 rename q_502 m3_502
-*rename q_503 m3_503 // 4-2 SS: no longer in the dataset
+rename q_503 m3_503
 rename q_506 m3_506
 rename q_507 m3_507
 rename q_509 m3_509
@@ -2117,22 +2117,29 @@ rename language m3_language
 	
 	
 * Data quality: (dropping incorrect responses)
+* SS 4-2: These could be cleaned in the next version of the dataset. Double check. 
 
 *respondentid: 21311071736, duplicate M3 submission on same date
 *From KEMTRI: This ID was double-allocated to Isnina and Linah by mistake. That is why we have 2 entries of this ID. Linah has told me that initially the respondent told her she was still pregnant and so she conducted the interview. After she had finalised the interview the respondent then said she had had delivered. Linah proceded to do module 3 even though she had conducted an unnecessary module 2. Also both Isnina and Linah have conducted module 3 so we have 2 module 3 forms for this ID. I am suggesting we accept the module 2 done by Isnina since it was correct and accept module 3 done by Linah since it was the one done first.
 
-* drop if respondentid == "21311071736" & m3_enum_name == "Isnina Musa" SS: laterite needs to fix respondent id var
+drop if respondentid == "21311071736" & m3_enum_name == "Isnina Musa" 
 
 
 *respondentid: 21711071310, duplicate M3 submission on same date
 *From KEMRI: Module 3 done twice. Keep the second interview of 2/11/2023. She delivered on 2nd October"
 
-*drop if respondentid == "21711071310" & m3_date == date("05oct2023", "DMY") SS: laterite needs to fix respondent id var
+drop if respondentid == "21711071310" & m3_date == date("05oct2023", "DMY") 
 
 
 *respondentid: 1916081238, duplicate M3 submission on same date
 *From KEMRI: I have had a discussion with the en to determine how this happened. The en had a mix-up of the IDs. The second complete form is for 21419071300, a respondent from Kitui who delivered on 25th Oct. So for this second form everything else is correct apart from the respondent ID.
-*replace respondentid="21419071300" if respondentid=="1916081238" & m3_birth_or_ended== date("25oct2023", "DMY") SS: laterite needs to fix respondent id var
+
+replace respondentid="21419071300" if respondentid=="1916081238" & m3_birth_or_ended== date("25oct2023", "DMY") SS: laterite needs to fix respondent id var
+	
+*respondentid: 21327071350, duplicate M3 on different dates:
+*From KEMRI:  please keep the one from March 18th
+
+drop if respondentid == "21327071350" & m3_date == date("12mar2024", "DMY")
 	
 	
 *===============================================================================
@@ -2307,20 +2314,20 @@ recode m3_402 (. = .a) if m3_401 !=1
 recode m3_consultation_1 (. = .a) if m3_402 == 0 | m3_402 == . | m3_402 == .a		  
 recode m3_consultation_referral_1 (. = .a) if m3_consultation_1 !=0						  
 
-recode m3_consultation1_reason m3_baby1_405a_ke m3_baby1_405b_ke ///
-		m3_baby1_405c_ke m3_baby1_405d_ke m3_baby1_405e_ke ///
-		m3_baby1_405_96_ke (. = .a) if m3_consultation_referral_1 !=0
+recode m3_consultation1_reason m3_consultation1_reason_a m3_consultation1_reason_b ///
+		m3_consultation1_reason_c m3_consultation1_reason_d m3_consultation1_reason_e ///
+		m3_consultation1_reason_96 (. = .a) if m3_consultation_referral_1 !=0
 	   
-*replace m3_consultation1_reason_other = ".a" if m3_baby1_405_96_ke !=1
+*replace m3_consultation1_reason_other = ".a" if m3_consultation1_reason_96 !=1
 
 recode m3_consultation_2 (. = .a) if m3_402 !=2 & m3_402 !=3 & m3_402 !=4 & m3_402 !=5
 recode m3_consultation_referral_2 (. = .a) if m3_consultation_2 !=0
 	   
-recode m3_consultation2_reason m3_baby2_405a_ke m3_baby2_405b_ke ///
-	   m3_baby2_405c_ke m3_baby2_405d_ke m3_baby2_405e_ke ///
-	   m3_baby2_405_96_ke (. = .a) if m3_consultation_referral_2 !=0
+recode m3_consultation2_reason m3_consultation2_reason_a m3_consultation2_reason_b ///
+	   m3_consultation2_reason_c m3_consultation2_reason_d m3_consultation2_reason_e ///
+	   m3_consultation2_reason_96 (. = .a) if m3_consultation_referral_2 !=0
 	   
-replace m3_consultation2_reason_other = ".a" if m3_baby2_405_96_ke !=1	   
+replace m3_consultation2_reason_other = ".a" if m3_consultation2_reason_96 !=1	   
 	   
 recode m3_consultation_3 (. = .a) if m3_402 !=3 & m3_402 !=4 & m3_402 !=5
 *recode m3_consultation_referral_3 (. = .a) if m3_consultation_3 !=0
@@ -2384,16 +2391,12 @@ recode m3_501 (. = .a) if m2_202 !=2 | m2_202 !=3
 
 recode m3_502 (. = .a) if m3_501 !=1
 
-/* m3_503 and m3_503_final no longer in dataset
 replace m3_504a = ".a" if m3_503 !=-96
 
 replace m3_504b= ".a" if m3_503 !=-96
 
 replace m3_504c= ".a" if m3_503 !=-96
 
-replace m3_503_final= ".a" if m3_503 !=-96
-replace m3_503_final = ".d" if m3_503_final == "999"
-*/
 
 recode m3_506_pre (. = .a) if m3_501 !=1
 
@@ -2449,10 +2452,9 @@ replace m3_520 =".a" if m3_501 !=1 & m3_515 !=1
 
 recode m3_521_ke m3_521_ke_unit (. = .a) if m3_501 !=1
 
-/* 4-2 SS: m3_503 and m3_503_final no longder in the dataset
+
 recode m3_601_hiv m3_601b m3_601c m3_602a m3_603a m3_603b m3_603c ///
-	   m3_604a m3_604b m3_605a (. = .a) if m3_503_final == "." | ///
-	   m3_503_final == "" | m3_503_final == ".d" | m3_503_final == ".a" | m3_501 !=1 // N= 4 missings */
+	   m3_604a m3_604b m3_605a (. = .a) if m3_501 !=1 
 
 recode m3_602b (. = .a) if m3_501 !=1 | m3_602a !=0
 
@@ -2715,23 +2717,23 @@ lab var m3_402 "402. How many new healthcare consultations did you have?"
 
 lab var m3_consultation_1 "403. Was the 1st consultation for a routine antenatal care visit?"
 lab var m3_consultation_referral_1 "404. Was the 1st for referral from your antenatal care provider?"
-lab var m3_baby1_405a_ke "405. Was the 1st visit for any of the following? (choice=A new health problem, including an emergency or an injury)"
-lab var m3_baby1_405b_ke "405. Was the 1st visit for any of the following? (choice=An existing health problem)"
-lab var m3_baby1_405c_ke "405. Was the 1st visit for any of the following? (choice=A lab test, x-ray, or ultrasound)"
-lab var m3_baby1_405d_ke "405. Was the 1st visit for any of the following? (choice=To pick up medicine)"
-lab var m3_baby1_405e_ke "405. Was the 1st visit for any of the following? (choice=To get a vaccine)"
-lab var m3_baby1_405_96_ke "405. Was the 1st visit for any of the following? (choice=Other reasons, please specify)"
+lab var m3_consultation1_reason_a "405. Was the 1st visit for any of the following? (choice=A new health problem, including an emergency or an injury)"
+lab var m3_consultation1_reason_b "405. Was the 1st visit for any of the following? (choice=An existing health problem)"
+lab var m3_consultation1_reason_c "405. Was the 1st visit for any of the following? (choice=A lab test, x-ray, or ultrasound)"
+lab var m3_consultation1_reason_d "405. Was the 1st visit for any of the following? (choice=To pick up medicine)"
+lab var m3_consultation1_reason_e "405. Was the 1st visit for any of the following? (choice=To get a vaccine)"
+lab var m3_consultation1_reason_96 "405. Was the 1st visit for any of the following? (choice=Other reasons, please specify)"
 *lab var m3_consultation1_reason_other "405-Other. Other reasons, please specify"
 
 lab var m3_consultation_2 "406. Was the 2nd consultation for a routine antenatal care visit?"
 lab var m3_consultation_referral_2 "407. Was the 2nd for referral from your antenatal care provider?"
 lab var m3_consultation2_reason "408. Was the 2nd visit for any of the following?"
-lab var m3_baby2_405a_ke "408. Was the 2nd visit for any of the following? (choice=A new health problem, including an emergency or an injury)"
-lab var m3_baby2_405b_ke "408. Was the 2nd visit for any of the following? (choice=An existing health problem)"
-lab var m3_baby2_405c_ke "408. Was the 2nd visit for any of the following? (choice=A lab test, x-ray, or ultrasound)"
-lab var m3_baby2_405d_ke "408. Was the 2nd visit for any of the following? (choice=To pick up medicine)"
-lab var m3_baby2_405e_ke "408. Was the 2nd visit for any of the following? (choice=To get a vaccine)"
-lab var m3_baby2_405_96_ke "408. Was the 2nd visit for any of the following? (choice=Other reasons, please specify)"
+lab var m3_consultation2_reason_a "408. Was the 2nd visit for any of the following? (choice=A new health problem, including an emergency or an injury)"
+lab var m3_consultation2_reason_b "408. Was the 2nd visit for any of the following? (choice=An existing health problem)"
+lab var m3_consultation2_reason_c "408. Was the 2nd visit for any of the following? (choice=A lab test, x-ray, or ultrasound)"
+lab var m3_consultation2_reason_d "408. Was the 2nd visit for any of the following? (choice=To pick up medicine)"
+lab var m3_consultation2_reason_e "408. Was the 2nd visit for any of the following? (choice=To get a vaccine)"
+lab var m3_consultation2_reason_96 "408. Was the 2nd visit for any of the following? (choice=Other reasons, please specify)"
 lab var m3_consultation2_reason_other "408-Other. Other reasons, please specify"
 		
 lab var m3_consultation_3 "409. Was the 3rd consultation for a routine antenatal care visit?"
@@ -2746,23 +2748,12 @@ lab var m3_consultation3_reason_96 "411. Was the 3rd visit for any of the follow
 *lab var m3_consultation3_reason_other "411-Other. Other reasons, please specify"
 */
 
-*lab var m3_412a "412a. Between the time that you last spoke to us and before the delivery, did you get your blood pressure measured (with a cuff around your arm)"
-*lab var m3_412b "412b. Between the time that you last spoke to us and before the delivery, did you get your weight taken (using a scale)?"
-*lab var m3_412c "412c. Between the time that you last spoke to us and before the delivery, did you get a blood draw (that is, taking blood from your arm with a syringe?"
-*lab var m3_412d "412d. Between the time that you last spoke to us and before the delivery, did you get a blood test using a finger prick (that is, taking a drop of blood from your finger)?"
-*lab var m3_412e "412e. Between the time that you last spoke to us and before the delivery, did you get a urine test (that is, where you peed in a container)?"
-*lab var m3_412f "412f. Between the time that you last spoke to us and before the delivery, did you get an ultrasound (that is, when a probe is moved on your belly to produce a video of the baby on a screen)?"
-*lab var m3_412g "412g. Between the time that you last spoke to us and before the delivery, did you get any other test?"
-*lab var m3_412g_other "412g-Other . Specify other tests you got between the time that you last spoke to us and before the delivery"
-*lab var m3_412i "412i  Between the time that you last spoke to us and before the delivery, did you get any other test? (Choice=None)"
-
 lab var m3_501 "501. Did you deliver in a health facility?"
 lab var m3_502 "502. What kind of facility was it?"
-*lab var m3_503 "503. What is the name of the facility where you delivered?"
+lab var m3_503 "503. What is the name of the facility where you delivered?"
 lab var m3_504a "504a. Where region was this facility located?"
 lab var m3_504b "504b. Where was the city/sub-city/district this facility located?"
 lab var m3_504c "504c. Where was the county this facility located?"
-*lab var m3_503_final "503-final. What is the name of the facility where you delivered? (final)"
 lab var m3_506_pre "506-pre. Are you able to name the day and time the labor started - that is, when contractions started and did not stop, or when your water broke?"
 lab var m3_506_pre_oth "506-pre-Other. Other reason, specify"
 lab var m3_506 "506. What day and time did the labor start – that is, when contractions started and did not stop, or when your water broke?"
@@ -3067,8 +3058,8 @@ order m3_baby2_feeding m3_baby2_feed_a m3_baby2_feed_b m3_baby2_feed_c m3_baby2_
 order m3_breastfeeding m3_breastfeeding_2,after(m3_baby2_feed_99)
 order m3_baby1_born_alive1 m3_baby1_born_alive2 m3_baby2_born_alive1, after(m3_breastfeeding_2)
 order m3_death_cause_baby1 m3_death_cause_baby1_other m3_death_cause_baby2 m3_1201 m3_miscarriage m3_abortion m3_1202, after(m3_313d_baby2)
-order m3_consultation_1 m3_consultation_referral_1 m3_consultation1_reason m3_baby1_405a_ke m3_baby1_405b_ke m3_baby1_405c_ke m3_baby1_405d_ke m3_baby1_405e_ke  m3_baby1_405_96_ke , after(m3_402) 
-order m3_consultation_2 m3_consultation_referral_2 m3_consultation2_reason m3_baby2_405a_ke m3_baby2_405b_ke m3_baby2_405c_ke m3_baby2_405d_ke m3_baby2_405e_ke m3_baby2_405_96_ke m3_consultation2_reason_other,after(m3_baby1_405_96_ke) 
+order m3_consultation_1 m3_consultation_referral_1 m3_consultation1_reason m3_consultation1_reason_a m3_consultation1_reason_b m3_consultation1_reason_c m3_consultation1_reason_d m3_consultation1_reason_e  m3_consultation1_reason_96 , after(m3_402) 
+order m3_consultation_2 m3_consultation_referral_2 m3_consultation2_reason m3_consultation2_reason_a m3_consultation2_reason_b m3_consultation2_reason_c m3_consultation2_reason_d m3_consultation2_reason_e m3_consultation2_reason_96 m3_consultation2_reason_other,after(m3_consultation1_reason_96) 
 
 
 order m3_baby1_sleep m3_baby2_sleep, after(m3_622c) 
@@ -3097,7 +3088,7 @@ order m3_num_alive_babies m3_num_dead_babies, after(m3_miscarriage)
 
 	save "$ke_data_final/eco_m1-m3_ke.dta", replace
 	
-*/
+
 *===============================================================================
 * MODULE 4:	
 * Created: February 6, 2024
@@ -4403,8 +4394,8 @@ order m3_baby2_feeding m3_baby2_feed_a m3_baby2_feed_b m3_baby2_feed_c m3_baby2_
 order m3_breastfeeding m3_breastfeeding_2,after(m3_baby2_feed_99)
 order m3_baby1_born_alive1 m3_baby1_born_alive2 m3_baby2_born_alive1, after(m3_breastfeeding_2)
 order m3_death_cause_baby1 m3_death_cause_baby1_other m3_death_cause_baby2  m3_1201 m3_miscarriage m3_abortion m3_1202, after(m3_313d_baby2)
-order m3_consultation_1 m3_consultation_referral_1 m3_consultation1_reason m3_baby1_405a_ke m3_baby1_405b_ke m3_baby1_405c_ke m3_baby1_405d_ke m3_baby1_405e_ke  m3_baby1_405_96_ke, after(m3_402) 
-order m3_consultation_2 m3_consultation_referral_2 m3_consultation2_reason  m3_baby2_405a_ke m3_baby2_405b_ke m3_baby2_405c_ke m3_baby2_405d_ke m3_baby2_405e_ke m3_baby2_405_96_ke m3_consultation2_reason_other,after(m3_baby1_405_96_ke) 
+order m3_consultation_1 m3_consultation_referral_1 m3_consultation1_reason m3_consultation1_reason_a m3_consultation1_reason_b m3_consultation1_reason_c m3_consultation1_reason_d m3_consultation1_reason_e  m3_consultation1_reason_96, after(m3_402) 
+order m3_consultation_2 m3_consultation_referral_2 m3_consultation2_reason  m3_consultation2_reason_a m3_consultation2_reason_b m3_consultation2_reason_c m3_consultation2_reason_d m3_consultation2_reason_e m3_consultation2_reason_96 m3_consultation2_reason_other,after(m3_consultation1_reason_96) 
 
 
 order m3_baby1_sleep m3_baby2_sleep, after(m3_622c) 
@@ -5242,11 +5233,11 @@ recode m5_starttime m5_endtime m5_duration m5_date (. = .a) if m5_consent !=1
 * 1. m5_depression_sum: not sure how to recode missing values
 	**SS: drop this var
 * 2. m5_804b has a value 999 at row 6, is it 99 (refused)?
-	**SS: 999 is don't know
+	**SS: 999 is = don't know
 * 3. m5_1001 is for all participants, but it looked like there are several missings, which affected all questions about spending, including m5_1002 (_a to _e, and _oth), m5_1003, m5_1004, m5_1005 (_a to _f and _oth)    
 	**SS: I'm not sure I understand. I think we have to recode for skip patterns first and then investigate what happened
 
-*/
+/*
 
 *===============================================================================
 * merge dataset with M1-M4
@@ -5654,8 +5645,8 @@ order m3_baby2_feeding m3_baby2_feed_a m3_baby2_feed_b m3_baby2_feed_c m3_baby2_
 order m3_breastfeeding m3_breastfeeding_2,after(m3_baby2_feed_99)
 order m3_baby1_born_alive1 m3_baby1_born_alive2 m3_baby2_born_alive1, after(m3_breastfeeding_2)
 order m3_death_cause_baby1 m3_death_cause_baby1_other m3_death_cause_baby2   m3_1201 m3_miscarriage m3_abortion m3_1202, after(m3_313d_baby2)
-order m3_consultation_1 m3_consultation_referral_1 m3_consultation1_reason m3_baby1_405a_ke m3_baby1_405b_ke m3_baby1_405c_ke m3_baby1_405d_ke m3_baby1_405e_ke  m3_baby1_405_96_ke, after(m3_402) 
-order m3_consultation_2 m3_consultation_referral_2 m3_consultation2_reason  m3_baby2_405a_ke m3_baby2_405b_ke m3_baby2_405c_ke m3_baby2_405d_ke m3_baby2_405e_ke m3_baby2_405_96_ke m3_consultation2_reason_other,after(m3_baby1_405_96_ke) 
+order m3_consultation_1 m3_consultation_referral_1 m3_consultation1_reason m3_consultation1_reason_a m3_consultation1_reason_b m3_consultation1_reason_c m3_consultation1_reason_d m3_consultation1_reason_e  m3_consultation1_reason_96, after(m3_402) 
+order m3_consultation_2 m3_consultation_referral_2 m3_consultation2_reason  m3_consultation2_reason_a m3_consultation2_reason_b m3_consultation2_reason_c m3_consultation2_reason_d m3_consultation2_reason_e m3_consultation2_reason_96 m3_consultation2_reason_other,after(m3_consultation1_reason_96) 
 
 order m3_baby1_sleep m3_baby2_sleep, after(m3_622c) 
 order m3_baby1_feed m3_baby2_feed, after(m3_baby2_sleep)
