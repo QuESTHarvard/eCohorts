@@ -1057,50 +1057,50 @@ rename since_we_last_spoke_801q m4_801q
 rename since_we_last_spoke_801r m4_801r
 rename specify_what_you_get_801 m4_801r_other 
 
-rename q802_baby1_iron m4_802a_1
-rename q802_baby2_iron_m4 m4_802a_2
-rename q802_baby3_iron_m4 m4_802a_3 
+rename q802_baby1_iron m4_baby1_802a
+rename q802_baby2_iron_m4 m4_baby2_802a
+rename q802_baby3_iron_m4 m4_baby3_802a 
 
-rename q802_baby1_vita_m4 m4_802b_1
-rename q802_baby2_vita_m4 m4_802b_2
-rename q802_baby3_vita_m4 m4_802b_3
+rename q802_baby1_vita_m4 m4_baby1_802b
+rename q802_baby2_vita_m4 m4_baby2_802b
+rename q802_baby3_vita_m4 m4_baby3_802b
 
-rename q802_baby1_vitd_m4 m4_802c_1
-rename q802_baby2_vitd_m4 m4_802c_2
-rename q802_baby3_vitd_m4 m4_802c_3
+rename q802_baby1_vitd_m4 m4_baby1_802c
+rename q802_baby2_vitd_m4 m4_baby2_802c
+rename q802_baby3_vitd_m4 m4_baby3_802c
 
-rename q802_ors_baby1_m4 m4_802d_1
-rename q802_ors_baby2_m4 m4_802d_2
-rename q802_ors_baby3_m4 m4_802d_3
+rename q802_ors_baby1_m4 m4_baby1_802d
+rename q802_ors_baby2_m4 m4_baby2_802d
+rename q802_ors_baby3_m4 m4_baby3_802d
 
-rename q802_baby1_antiseptic_m4 m4_802e_1
-rename q802_baby2_antiseptic_m4 m4_802e_2
-rename q802_baby3_antiseptic_m4 m4_802e_3
+rename q802_baby1_antiseptic_m4 m4_baby1_802e
+rename q802_baby2_antiseptic_m4 m4_baby2_802e
+rename q802_baby3_antiseptic_m4 m4_baby3_802e
 
-rename q802_abx_baby1_m4 m4_802f_1
-rename q802_abx_baby2_m4 m4_802f_2
-rename q802_abx_baby3_m4 m4_802f_3
+rename q802_abx_baby1_m4 m4_baby1_802f
+rename q802_abx_baby2_m4 m4_baby2_802f
+rename q802_abx_baby3_m4 m4_baby3_802f
 
-rename q802_pneummed_baby1_m4 m4_802g_1
-rename q802_pneummed_baby2_m4 m4_802g_2
-rename q802_pneummed_baby3_m4 m4_802g_3
+rename q802_pneummed_baby1_m4 m4_baby1_802g
+rename q802_pneummed_baby2_m4 m4_baby2_802g
+rename q802_pneummed_baby3_m4 m4_baby3_802g
 
-rename q802_baby1_malmed_m4 m4_802h_1
-rename q802_baby2_malmed_m4 m4_802h_2
-rename q802_baby3_malmed_m4 m4_802h_3
+rename q802_baby1_malmed_m4 m4_baby1_802h
+rename q802_baby2_malmed_m4 m4_baby2_802h
+rename q802_baby3_malmed_m4 m4_baby3_802h
 
-rename q802_baby1_hivmed_m4 m4_802i_1
-rename q802_baby2_hivmed_m4 m4_802i_2
-rename q802_baby3_hivmed_m4 m4_802i_3
+rename q802_baby1_hivmed_m4 m4_baby1_802i
+rename q802_baby2_hivmed_m4 m4_baby2_802i
+rename q802_baby3_hivmed_m4 m4_baby3_802i
 
 rename q802_othermed_baby1_m4 m4_802j_1
-rename q803_othermedspec_baby1_m4 m4_802j_1_other
+rename q803_othermedspec_baby1_m4 m4_baby1_802j_other
 
 rename q802_othermed_baby2_m4 m4_802j_2
-rename q803_othermedspec_baby2_m4 m4_802j_2_other
+rename q803_othermedspec_baby2_m4 m4_baby2_802j_other
 
 rename q802_othermed_baby3_m4 m4_802j_3
-rename q803_othermedspec_baby3_m4 m4_802j_3_other
+rename q803_othermedspec_baby3_m4 m4_baby3_802j_other
 
 rename q803_bcg_baby1_m4 m4_803a_1
 rename q803_bcg_baby2_m4 m4_803a_2
@@ -2493,7 +2493,7 @@ foreach var of varlist m4_801a - m4_801r  {
                  label values `var' m4_401a
           }	
 
-foreach var of varlist m4_802a_1 - m4_802j_1  {
+foreach var of varlist m4_baby1_802a - m4_802j_1  {
                  label values `var' m4_401a
           }	
 label values m4_802j_2 m4_401a
@@ -3887,24 +3887,24 @@ recode m4_baby3_210a m4_baby3_210b m4_baby3_210c m4_baby3_210d m4_baby3_210e m4_
 *---------------- Section 3: Health - Woman ----------*
 *recoding of NR/RF to .r
  
-recode m4_301 m4_302a m4_302b m4_303a m4_303b m4_303c m4_303d m4_303e m4_303f m4_303g m4_303h m4_304 m4_309 m4_401a m4_401b  m4_403a m4_403b m4_403c m4_405 m4_407 m4_409 m4_501 m4_502 m4_503 m4_baby1_601a m4_baby2_601a m4_baby3_601a m4_baby1_601b m4_baby2_601b m4_baby3_601b  m4_baby1_601c m4_baby2_601c m4_baby3_601c m4_baby1_601d m4_baby2_601d m4_baby3_601d m4_baby1_601e m4_baby2_601e m4_baby3_601e m4_baby1_601f m4_baby2_601f m4_baby3_601f m4_baby1_601g m4_baby2_601g m4_baby3_601g m4_baby1_601h m4_baby2_601h m4_baby3_601h m4_baby1_601i m4_baby2_601i m4_baby3_601i m4_baby1_618a m4_baby1_618b m4_baby1_618c m4_baby2_618a m4_baby2_618b m4_baby2_618c m4_baby3_618a m4_baby3_618b m4_baby3_618c m4_602a m4_602b m4_602d m4_602e m4_602f m4_602g m4_701a m4_701b m4_701c m4_701d m4_701e m4_701f m4_701g m4_701h m4_702 m4_703a m4_703b m4_703c m4_703d m4_703e m4_703f m4_703g m4_704a m4_801a m4_801b m4_801c m4_801d m4_801e m4_801f m4_801g m4_801h m4_801i m4_801j m4_801k m4_801l m4_801m m4_801n m4_801o m4_801p m4_801q m4_801r  m4_802a_1 m4_802a_2 m4_802a_3 m4_802b_1 m4_802b_2 m4_802b_3 m4_802c_1 m4_802c_2 m4_802c_3 m4_802d_1 m4_802d_2 m4_802d_3 m4_802e_1 m4_802e_2 m4_802e_3 m4_802f_1 m4_802f_2 m4_802f_3 m4_802g_1 m4_802g_2 m4_802g_3 m4_802h_1 m4_802h_2 m4_802h_3 m4_802i_1 m4_802i_2 m4_802i_3 m4_802j_1 m4_802j_2 m4_802j_3 m4_803a_1 m4_803a_2 m4_803a_3 m4_803b_1 m4_803b_2 m4_803b_3 m4_803c_1 m4_803c_2 m4_803c_3 m4_803d_1 m4_803d_2 m4_803d_3 m4_803e_1 m4_803e_2 m4_803e_3 m4_803f_1 m4_803f_2 m4_803f_3 m4_901 m4_902a m4_902b m4_902c m4_902d m4_902e (99 = .r )
+recode m4_301 m4_302a m4_302b m4_303a m4_303b m4_303c m4_303d m4_303e m4_303f m4_303g m4_303h m4_304 m4_309 m4_401a m4_401b  m4_403a m4_403b m4_403c m4_405 m4_407 m4_409 m4_501 m4_502 m4_503 m4_baby1_601a m4_baby2_601a m4_baby3_601a m4_baby1_601b m4_baby2_601b m4_baby3_601b  m4_baby1_601c m4_baby2_601c m4_baby3_601c m4_baby1_601d m4_baby2_601d m4_baby3_601d m4_baby1_601e m4_baby2_601e m4_baby3_601e m4_baby1_601f m4_baby2_601f m4_baby3_601f m4_baby1_601g m4_baby2_601g m4_baby3_601g m4_baby1_601h m4_baby2_601h m4_baby3_601h m4_baby1_601i m4_baby2_601i m4_baby3_601i m4_baby1_618a m4_baby1_618b m4_baby1_618c m4_baby2_618a m4_baby2_618b m4_baby2_618c m4_baby3_618a m4_baby3_618b m4_baby3_618c m4_602a m4_602b m4_602d m4_602e m4_602f m4_602g m4_701a m4_701b m4_701c m4_701d m4_701e m4_701f m4_701g m4_701h m4_702 m4_703a m4_703b m4_703c m4_703d m4_703e m4_703f m4_703g m4_704a m4_801a m4_801b m4_801c m4_801d m4_801e m4_801f m4_801g m4_801h m4_801i m4_801j m4_801k m4_801l m4_801m m4_801n m4_801o m4_801p m4_801q m4_801r  m4_baby1_802a m4_baby2_802a m4_baby3_802a m4_baby1_802b m4_baby2_802b m4_baby3_802b m4_baby1_802c m4_baby2_802c m4_baby3_802c m4_baby1_802d m4_baby2_802d m4_baby3_802d m4_baby1_802e m4_baby2_802e m4_baby3_802e m4_baby1_802f m4_baby2_802f m4_baby3_802f m4_baby1_802g m4_baby2_802g m4_baby3_802g m4_baby1_802h m4_baby2_802h m4_baby3_802h m4_baby1_802i m4_baby2_802i m4_baby3_802i m4_802j_1 m4_802j_2 m4_802j_3 m4_803a_1 m4_803a_2 m4_803a_3 m4_803b_1 m4_803b_2 m4_803b_3 m4_803c_1 m4_803c_2 m4_803c_3 m4_803d_1 m4_803d_2 m4_803d_3 m4_803e_1 m4_803e_2 m4_803e_3 m4_803f_1 m4_803f_2 m4_803f_3 m4_901 m4_902a m4_902b m4_902c m4_902d m4_902e (99 = .r )
 
  
  *recoding of DK to .d
-recode m4_301 m4_302a m4_302b m4_304 m4_401a m4_401b m4_403a m4_403b m4_403c m4_405 m4_407 m4_409 m4_baby1_601a m4_baby2_601a m4_baby3_601a m4_baby1_601b m4_baby2_601b m4_baby3_601b  m4_baby1_601c m4_baby2_601c m4_baby3_601c m4_baby1_601d m4_baby2_601d m4_baby3_601d m4_baby1_601e m4_baby2_601e m4_baby3_601e m4_baby1_601f m4_baby2_601f m4_baby3_601f m4_baby1_601g m4_baby2_601g m4_baby3_601g m4_baby1_601h m4_baby2_601h m4_baby3_601h m4_baby1_601i m4_baby2_601i m4_baby3_601i m4_baby1_618a m4_baby1_618b m4_baby1_618c m4_baby2_618a m4_baby2_618b m4_baby2_618c m4_baby3_618a m4_baby3_618b m4_baby3_618c m4_602a m4_602b m4_602d m4_602e m4_602f m4_602g m4_701a m4_701b m4_701c m4_701d m4_701e m4_701f m4_701g m4_701h m4_702 m4_703a m4_703b m4_703c m4_703d m4_703e m4_703f m4_703g m4_704a m4_801a m4_801b m4_801c m4_801d m4_801e m4_801f m4_801g m4_801h m4_801i m4_801j m4_801k m4_801l m4_801m m4_801n m4_801o m4_801p m4_801q m4_801r  m4_802a_1 m4_802a_2 m4_802a_3 m4_802b_1 m4_802b_2 m4_802b_3 m4_802c_1 m4_802c_2 m4_802c_3 m4_802d_1 m4_802d_2 m4_802d_3 m4_802e_1 m4_802e_2 m4_802e_3 m4_802f_1 m4_802f_2 m4_802f_3 m4_802g_1 m4_802g_2 m4_802g_3 m4_802h_1 m4_802h_2 m4_802h_3 m4_802i_1 m4_802i_2 m4_802i_3 m4_802j_1 m4_802j_2 m4_802j_3 m4_803a_1 m4_803a_2 m4_803a_3 m4_803b_1 m4_803b_2 m4_803b_3 m4_803c_1 m4_803c_2 m4_803c_3 m4_803d_1 m4_803d_2 m4_803d_3 m4_803e_1 m4_803e_2 m4_803e_3 m4_803f_1 m4_803f_2 m4_803f_3 m4_901 m4_902a m4_902b m4_902c m4_902d m4_902e (99 = .r ) (98 = .d)
+recode m4_301 m4_302a m4_302b m4_304 m4_401a m4_401b m4_403a m4_403b m4_403c m4_405 m4_407 m4_409 m4_baby1_601a m4_baby2_601a m4_baby3_601a m4_baby1_601b m4_baby2_601b m4_baby3_601b  m4_baby1_601c m4_baby2_601c m4_baby3_601c m4_baby1_601d m4_baby2_601d m4_baby3_601d m4_baby1_601e m4_baby2_601e m4_baby3_601e m4_baby1_601f m4_baby2_601f m4_baby3_601f m4_baby1_601g m4_baby2_601g m4_baby3_601g m4_baby1_601h m4_baby2_601h m4_baby3_601h m4_baby1_601i m4_baby2_601i m4_baby3_601i m4_baby1_618a m4_baby1_618b m4_baby1_618c m4_baby2_618a m4_baby2_618b m4_baby2_618c m4_baby3_618a m4_baby3_618b m4_baby3_618c m4_602a m4_602b m4_602d m4_602e m4_602f m4_602g m4_701a m4_701b m4_701c m4_701d m4_701e m4_701f m4_701g m4_701h m4_702 m4_703a m4_703b m4_703c m4_703d m4_703e m4_703f m4_703g m4_704a m4_801a m4_801b m4_801c m4_801d m4_801e m4_801f m4_801g m4_801h m4_801i m4_801j m4_801k m4_801l m4_801m m4_801n m4_801o m4_801p m4_801q m4_801r  m4_baby1_802a m4_baby2_802a m4_baby3_802a m4_baby1_802b m4_baby2_802b m4_baby3_802b m4_baby1_802c m4_baby2_802c m4_baby3_802c m4_baby1_802d m4_baby2_802d m4_baby3_802d m4_baby1_802e m4_baby2_802e m4_baby3_802e m4_baby1_802f m4_baby2_802f m4_baby3_802f m4_baby1_802g m4_baby2_802g m4_baby3_802g m4_baby1_802h m4_baby2_802h m4_baby3_802h m4_baby1_802i m4_baby2_802i m4_baby3_802i m4_802j_1 m4_802j_2 m4_802j_3 m4_803a_1 m4_803a_2 m4_803a_3 m4_803b_1 m4_803b_2 m4_803b_3 m4_803c_1 m4_803c_2 m4_803c_3 m4_803d_1 m4_803d_2 m4_803d_3 m4_803e_1 m4_803e_2 m4_803e_3 m4_803f_1 m4_803f_2 m4_803f_3 m4_901 m4_902a m4_902b m4_902c m4_902d m4_902e (99 = .r ) (98 = .d)
 
  *-----------------------------------------------------*
  * Variables related to the 2nd and 3rd baby are coded as ".a" for women who only had one baby.
- recode m4_403b m4_403c m4_baby2_601a m4_baby3_601a m4_baby2_601b m4_baby3_601b m4_baby2_601c m4_baby3_601c m4_baby2_601d m4_baby3_601d m4_baby2_601e m4_baby3_601e m4_baby2_601f m4_baby3_601f m4_baby2_601g m4_baby3_601g m4_baby2_601h m4_baby3_601h m4_baby2_601i m4_baby3_601i m4_baby2_601i_other m4_baby3_601i_other m4_baby2_618a m4_baby2_618b m4_baby2_618c m4_baby3_618a m4_baby3_618b m4_baby3_618c   m4_baby2_603_other m4_baby3_603_other m4_802a_2 m4_802a_3 m4_802b_2 m4_802b_3 m4_802c_2 m4_802c_3 m4_802d_2 m4_802d_3 m4_802e_2 m4_802e_3 m4_802f_2 m4_802f_3 m4_802g_2 m4_802g_3 m4_802h_2 m4_802h_3 m4_802i_2 m4_802i_3 m4_802j_2 m4_802j_3 m4_802j_3_other m4_803a_2 m4_803a_3 m4_803b_2 m4_803b_3 m4_803c_2 m4_803c_3 m4_803d_2 m4_803d_3 m4_803e_2 m4_803e_3 m4_803f_2 m4_803f_3 m4_803g_3 m4_804_2 m4_804_3 (. = .a ) if m3_303a == 1
+ recode m4_403b m4_403c m4_baby2_601a m4_baby3_601a m4_baby2_601b m4_baby3_601b m4_baby2_601c m4_baby3_601c m4_baby2_601d m4_baby3_601d m4_baby2_601e m4_baby3_601e m4_baby2_601f m4_baby3_601f m4_baby2_601g m4_baby3_601g m4_baby2_601h m4_baby3_601h m4_baby2_601i m4_baby3_601i m4_baby2_601i_other m4_baby3_601i_other m4_baby2_618a m4_baby2_618b m4_baby2_618c m4_baby3_618a m4_baby3_618b m4_baby3_618c   m4_baby2_603_other m4_baby3_603_other m4_baby2_802a m4_baby3_802a m4_baby2_802b m4_baby3_802b m4_baby2_802c m4_baby3_802c m4_baby2_802d m4_baby3_802d m4_baby2_802e m4_baby3_802e m4_baby2_802f m4_baby3_802f m4_baby2_802g m4_baby3_802g m4_baby2_802h m4_baby3_802h m4_baby2_802i m4_baby3_802i m4_802j_2 m4_802j_3 m4_baby3_802j_other m4_803a_2 m4_803a_3 m4_803b_2 m4_803b_3 m4_803c_2 m4_803c_3 m4_803d_2 m4_803d_3 m4_803e_2 m4_803e_3 m4_803f_2 m4_803f_3 m4_803g_3 m4_804_2 m4_804_3 (. = .a ) if m3_303a == 1
 
 
-*recode m4_803g_2  m4_802j_2_other  ("" = ".a" ) if m3_303a == 1
+*recode m4_803g_2  m4_baby2_802j_other  ("" = ".a" ) if m3_303a == 1
 *It doesn't work as well
 
 recode m4_baby2_603a m4_baby2_603b m4_baby2_603c m4_baby2_603d m4_baby2_603e m4_baby2_603f m4_baby2_603g m4_baby2_603_96 m4_603_2_98 m4_603_2_99 m4_603_2_998 m4_603_2_999 m4_603_2_888 m4_baby3_603a m4_baby3_603b m4_baby3_603c m4_baby3_603d m4_baby3_603e m4_baby3_603f m4_baby3_603g m4_baby3_603_96 m4_603_3_98 m4_603_3_99 m4_603_3_998 m4_603_3_999 m4_603_3_888 (0 = .a ) if m3_303a == 1
 *the same for check box Qs
 
-recode m4_403c m4_baby3_601a m4_baby3_601b m4_baby3_601c m4_baby3_601d m4_baby3_601e m4_baby3_601f m4_baby3_601g m4_baby3_601h m4_baby3_601i m4_baby3_601i_other m4_baby3_618a m4_baby3_618b m4_baby3_618c m4_baby3_603a m4_baby3_603b m4_baby3_603c m4_baby3_603d m4_baby3_603e m4_baby3_603f m4_baby3_603g m4_baby3_603_96 m4_603_3_98 m4_603_3_99 m4_603_3_998 m4_603_3_999 m4_603_3_888 m4_baby3_603_other m4_802a_3 m4_802b_3 m4_802c_3 m4_802d_3 m4_802e_3 m4_802f_3 m4_802g_3 m4_802h_3 m4_802i_3 m4_802j_3 m4_802j_3_other m4_803a_3 m4_803b_3 m4_803c_3 m4_803d_3 m4_803e_3 m4_803f_3 m4_803g_3 m4_804_3 (. = .a ) if m3_303a == 2
+recode m4_403c m4_baby3_601a m4_baby3_601b m4_baby3_601c m4_baby3_601d m4_baby3_601e m4_baby3_601f m4_baby3_601g m4_baby3_601h m4_baby3_601i m4_baby3_601i_other m4_baby3_618a m4_baby3_618b m4_baby3_618c m4_baby3_603a m4_baby3_603b m4_baby3_603c m4_baby3_603d m4_baby3_603e m4_baby3_603f m4_baby3_603g m4_baby3_603_96 m4_603_3_98 m4_603_3_99 m4_603_3_998 m4_603_3_999 m4_603_3_888 m4_baby3_603_other m4_baby3_802a m4_baby3_802b m4_baby3_802c m4_baby3_802d m4_baby3_802e m4_baby3_802f m4_baby3_802g m4_baby3_802h m4_baby3_802i m4_802j_3 m4_baby3_802j_other m4_803a_3 m4_803b_3 m4_803c_3 m4_803d_3 m4_803e_3 m4_803f_3 m4_803g_3 m4_804_3 (. = .a ) if m3_303a == 2
  
 recode m4_baby3_603a m4_baby3_603b m4_baby3_603c m4_baby3_603d m4_baby3_603e m4_baby3_603f m4_baby3_603g m4_baby3_603_96 m4_603_3_98 m4_603_3_99 m4_603_3_998 m4_603_3_999 m4_603_3_888 (0 = .a ) if m3_303a == 2
 *the same for check box Qs
@@ -3935,12 +3935,12 @@ recode m4_410a m4_410b m4_410c m4_410d m4_410e m4_410f m4_410g m4_410h m4_410i m
 
 *-----------------------------------------------------*
 * if baby is not alive 
-recode m4_baby1_601a m4_baby1_601b m4_baby1_601c m4_baby1_601d m4_baby1_601e m4_baby1_601f m4_baby1_601g m4_baby1_601h m4_baby1_601i m4_baby1_618a m4_baby1_618b m4_baby1_618c  m4_802a_1 m4_802b_1 m4_802c_1 m4_802d_1 m4_802e_1 m4_802f_1 m4_802g_1 m4_802h_1 m4_802i_1 m4_802j_1 m4_803a_1 m4_803b_1 m4_803c_1 m4_803d_1 m4_803e_1 m4_803f_1 m4_804_1 (. = .a ) if  m4_baby1_status == 0 
+recode m4_baby1_601a m4_baby1_601b m4_baby1_601c m4_baby1_601d m4_baby1_601e m4_baby1_601f m4_baby1_601g m4_baby1_601h m4_baby1_601i m4_baby1_618a m4_baby1_618b m4_baby1_618c  m4_baby1_802a m4_baby1_802b m4_baby1_802c m4_baby1_802d m4_baby1_802e m4_baby1_802f m4_baby1_802g m4_baby1_802h m4_baby1_802i m4_802j_1 m4_803a_1 m4_803b_1 m4_803c_1 m4_803d_1 m4_803e_1 m4_803f_1 m4_804_1 (. = .a ) if  m4_baby1_status == 0 
 *If the 1st baby is not alive then the questions about the first baby are recoded (. = .a) 
 
-recode m4_baby2_601a m4_baby2_601b m4_baby2_601c m4_baby2_601d m4_baby2_601e m4_baby2_601f m4_baby2_601g m4_baby2_601h m4_baby2_601i m4_baby2_618a m4_baby2_618b m4_baby2_618c  m4_802a_2 m4_802b_2 m4_802c_2 m4_802d_2 m4_802e_2 m4_802f_2 m4_802g_2 m4_802h_2 m4_802i_2 m4_802j_2 m4_803a_2 m4_803b_2 m4_803c_2 m4_803d_2 m4_803e_2 m4_803f_2 m4_804_2 (. = .a) if  m4_baby2_status == 0 
+recode m4_baby2_601a m4_baby2_601b m4_baby2_601c m4_baby2_601d m4_baby2_601e m4_baby2_601f m4_baby2_601g m4_baby2_601h m4_baby2_601i m4_baby2_618a m4_baby2_618b m4_baby2_618c  m4_baby2_802a m4_baby2_802b m4_baby2_802c m4_baby2_802d m4_baby2_802e m4_baby2_802f m4_baby2_802g m4_baby2_802h m4_baby2_802i m4_802j_2 m4_803a_2 m4_803b_2 m4_803c_2 m4_803d_2 m4_803e_2 m4_803f_2 m4_804_2 (. = .a) if  m4_baby2_status == 0 
 *If the 2nd baby is not alive then the questions about the 2nd baby are recoded (. = .a) 
-recode m4_baby3_601a m4_baby3_601b m4_baby3_601c m4_baby3_601d m4_baby3_601e m4_baby3_601f m4_baby3_601g m4_baby3_601h m4_baby3_601i m4_baby3_601i_other m4_baby3_618a m4_baby3_618b m4_baby3_618c m4_802a_3 m4_802b_3 m4_802c_3 m4_802d_3 m4_802e_3 m4_802f_3 m4_802g_3 m4_802h_3 m4_802i_3 m4_802j_3 m4_803a_3 m4_803b_3 m4_803c_3 m4_803d_3 m4_803e_3 m4_803f_3 m4_804_3 (. = .a) if m4_baby3_status == 0
+recode m4_baby3_601a m4_baby3_601b m4_baby3_601c m4_baby3_601d m4_baby3_601e m4_baby3_601f m4_baby3_601g m4_baby3_601h m4_baby3_601i m4_baby3_601i_other m4_baby3_618a m4_baby3_618b m4_baby3_618c m4_baby3_802a m4_baby3_802b m4_baby3_802c m4_baby3_802d m4_baby3_802e m4_baby3_802f m4_baby3_802g m4_baby3_802h m4_baby3_802i m4_802j_3 m4_803a_3 m4_803b_3 m4_803c_3 m4_803d_3 m4_803e_3 m4_803f_3 m4_804_3 (. = .a) if m4_baby3_status == 0
 *If the 3rd baby is not alive then the questions about the 3rd baby are recoded (. = .a) 
 *-----------Check box questions-----------*  
 recode m4_baby1_feed_a m4_baby1_feed_b m4_baby1_feed_c m4_baby1_feed_d m4_baby1_feed_e m4_baby1_feed_f m4_baby1_feed_g (0 = .r) if m4_203_1_99 == 1
@@ -5794,48 +5794,48 @@ label variable m4_801q "801Q. Did you get another contraceptive method?"
 label variable m4_801r "801R. Did you get any other medicine or supplement?"
 label variable m4_801r_other "801R. Specify any other medicine or supplement you got."
 
-label variable m4_802a_1 "802A_1. Did your 1st baby get Iron supplements?"
-label variable m4_802a_2 "802A_2. Did your 2nd baby get Iron supplements?" 
-label variable m4_802a_3 "802A_3. Did your 3rd baby get Iron supplements?"
+label variable m4_baby1_802a "802A_1. Did your 1st baby get Iron supplements?"
+label variable m4_baby2_802a "802A_2. Did your 2nd baby get Iron supplements?" 
+label variable m4_baby3_802a "802A_3. Did your 3rd baby get Iron supplements?"
 
-label variable m4_802b_1 "802B_1. Did your 1st baby get Vitamin A supplements?"
-label variable m4_802b_2 "802B_2. Did your 2nd baby get Vitamin A supplements?" 
-label variable m4_802b_3 "802B_3. Did your 3rd baby get Vitamin A supplements?"
+label variable m4_baby1_802b "802B_1. Did your 1st baby get Vitamin A supplements?"
+label variable m4_baby2_802b "802B_2. Did your 2nd baby get Vitamin A supplements?" 
+label variable m4_baby3_802b "802B_3. Did your 3rd baby get Vitamin A supplements?"
 
-label variable m4_802c_1 "802C_1. Did your 1st baby get Vitamin D supplements?"
-label variable m4_802c_2 "802C_2. Did your 2nd baby get Vitamin D supplements?" 
-label variable m4_802c_3 "802C_3. Did your 3rd baby get Vitamin D supplements?"
+label variable m4_baby1_802c "802C_1. Did your 1st baby get Vitamin D supplements?"
+label variable m4_baby2_802c "802C_2. Did your 2nd baby get Vitamin D supplements?" 
+label variable m4_baby3_802c "802C_3. Did your 3rd baby get Vitamin D supplements?"
 
-label variable m4_802d_1 "802D_1. Did your 1st baby get Oral rehydration salts?"
-label variable m4_802d_2 "802D_2. Did your 2nd baby get Oral rehydration salts?" 
-label variable m4_802d_3 "802D_3. Did your 3rd baby get Oral rehydration salts?"
+label variable m4_baby1_802d "802D_1. Did your 1st baby get Oral rehydration salts?"
+label variable m4_baby2_802d "802D_2. Did your 2nd baby get Oral rehydration salts?" 
+label variable m4_baby3_802d "802D_3. Did your 3rd baby get Oral rehydration salts?"
 
-label variable m4_802e_1 "802E_1. Did your 1st baby get Antiseptic ointment?"
-label variable m4_802e_2 "802E_2. Did your 2nd baby get Antiseptic ointment?" 
-label variable m4_802e_3 "802E_3. Did your 3rd baby get Antiseptic ointment?"
+label variable m4_baby1_802e "802E_1. Did your 1st baby get Antiseptic ointment?"
+label variable m4_baby2_802e "802E_2. Did your 2nd baby get Antiseptic ointment?" 
+label variable m4_baby3_802e "802E_3. Did your 3rd baby get Antiseptic ointment?"
 
-label variable m4_802f_1 "802F_1. Did your 1st baby get antibiotics ?"
-label variable m4_802f_2 "802F_2. Did your 2nd baby get antibiotics ?" 
-label variable m4_802f_3 "802F_3. Did your 3rd baby get antibiotics ?"
+label variable m4_baby1_802f "802F_1. Did your 1st baby get antibiotics ?"
+label variable m4_baby2_802f "802F_2. Did your 2nd baby get antibiotics ?" 
+label variable m4_baby3_802f "802F_3. Did your 3rd baby get antibiotics ?"
 
-label variable m4_802g_1 "802G_1. Did your 1st baby get medicine to prevent pneumonia ?"
-label variable m4_802g_2 "802G_2. Did your 2nd baby get medicine to prevent pneumonia ?" 
-label variable m4_802g_3 "802G_3. Did your 3rd baby get medicine to prevent pneumonia ?"
+label variable m4_baby1_802g "802G_1. Did your 1st baby get medicine to prevent pneumonia ?"
+label variable m4_baby2_802g "802G_2. Did your 2nd baby get medicine to prevent pneumonia ?" 
+label variable m4_baby3_802g "802G_3. Did your 3rd baby get medicine to prevent pneumonia ?"
 
-label variable m4_802h_1 "802H_1. Did your 1st baby get Medicine for malaria [endemic areas]?"
-label variable m4_802h_2 "802H_2. Did your 2nd baby get Medicine for malaria [endemic areas]?" 
-label variable m4_802h_3 "802H_3. Did your 3rd baby get Medicine for malaria [endemic areas]?"
+label variable m4_baby1_802h "802H_1. Did your 1st baby get Medicine for malaria [endemic areas]?"
+label variable m4_baby2_802h "802H_2. Did your 2nd baby get Medicine for malaria [endemic areas]?" 
+label variable m4_baby3_802h "802H_3. Did your 3rd baby get Medicine for malaria [endemic areas]?"
 
-label variable m4_802i_1 "802I_1. Did your 1st baby get Medicine for HIV [HIV+ mothers only]?"
-label variable m4_802i_2 "802I_2. Did your 2nd baby get Medicine for HIV [HIV+ mothers only]?" 
-label variable m4_802i_3 "802I_3. Did your 3rd baby get Medicine for HIV [HIV+ mothers only]?"
+label variable m4_baby1_802i "802I_1. Did your 1st baby get Medicine for HIV [HIV+ mothers only]?"
+label variable m4_baby2_802i "802I_2. Did your 2nd baby get Medicine for HIV [HIV+ mothers only]?" 
+label variable m4_baby3_802i "802I_3. Did your 3rd baby get Medicine for HIV [HIV+ mothers only]?"
 
 label variable m4_802j_1 "802J_1. Did your 1st baby get any other medicine or supplement?"
-label variable m4_802j_1_other "802J_1_other. Specify any other any other medicine or supplement for your 1st baby." 
+label variable m4_baby1_802j_other "802J_1_other. Specify any other any other medicine or supplement for your 1st baby." 
 label variable m4_802j_2 "802J_2. Did your 2nd baby get any other medicine or supplement?"
-label variable m4_802j_2_other "802J_2_other. Specify any other any other medicine or supplement for your 2nd baby."
+label variable m4_baby2_802j_other "802J_2_other. Specify any other any other medicine or supplement for your 2nd baby."
 label variable m4_802j_3 "802J_3. Did your 3rd baby get any other medicine or supplement?"
-label variable m4_802j_3_other "802J_3_other. Specify any other any other medicine or supplement for your 3rd baby."
+label variable m4_baby3_802j_other "802J_3_other. Specify any other any other medicine or supplement for your 3rd baby."
 
 label variable m4_803a_1 "803A_1. Since the delivery, did your 1st baby get a vaccine for BCG against tuberculosis (that is an injection in the arm that can sometimes cause a scar). Do not include any BCG vaccine you already told us about"
 label variable m4_803a_2 "803A_2. Since the delivery, did your 2nd baby get a vaccine for BCG against tuberculosis (that is an injection in the arm that can sometimes cause a scar). Do not include any BCG vaccine you already told us about"

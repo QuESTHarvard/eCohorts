@@ -2255,13 +2255,11 @@ replace m3_412g_1_other = ".d" if m3_412g_1_other == "-98"
 
 *------------------------------------------------------------------------------*
 * recoding for skip pattern logic:	   
-	   
-* Recode missing values to NA for questions respondents would not have been asked 
-* due to skip patterns
+* Recode missing values to NA for questions respondents would not have been asked due to skip patterns
 
 recode m3_birth_or_ended m3_birth_or_ended_provided m3_birth_or_ended_date (. = .a) if m2_202 !=2 |  m2_202 !=3 
 
-recode m3_ga1_ke (. = .a) if m2_202 !=2 |  m2_202 !=3 
+recode m3_ga1_ke (. = .a) if m2_202 !=2 | m2_202 !=3 
 
 recode m3_ga2_ke (. = .a) if m3_ga1_ke !=0 | m2_202 !=2 |  m2_202 !=3 
 
@@ -3705,6 +3703,7 @@ label values  m4_309 no_treatment
 
 label define yesno_leak 1 "Yes, no more leakage at all", add
 label define yesno_leak 2 "Yes, but still some leakage", add
+label define yesno_leak 3 "No, still have problem", add
 label define yesno_leak 3 "No, still have problem", add
 label values  m4_310 yesno_leak
 
@@ -5178,15 +5177,6 @@ rename (baby_index_assess_1 q1401 q1402 q1403 baby_repeat_assess_count end_comme
 	*STEP THREE: RECODING MISSING VALUES 
 		* Recode refused and don't know values
 		* Note: .a means NA, .r means refused, .d is don't know, . is missing 
-		
-recode m5_701a m5_701b m5_701c m5_701d m5_701e m5_701f m5_701g m5_701h m5_701_other /// 
-       m5_702a m5_702b m5_702c m5_702d m5_702e m5_702f m5_702g /// 
-       m5_801a m5_801b m5_801c m5_801d m5_801e m5_801f m5_801g m5_801h m5_802 ///
-       m5_803a m5_803b m5_803c m5_803d m5_803e m5_803f m5_803g m5_804a m5_804b m5_804c ///
-	   m5_901a m5_901b m5_901c m5_901d m5_901e m5_901f m5_901g m5_901h m5_901i m5_901j ///
-	   m5_901k m5_901l m5_901m m5_901n m5_901o m5_901p ///
-	   m5_902a m5_902b m5_902c m5_902d m5_902e m5_902f m5_902g m5_902h m5_902i m5_902j  ///
-	   m5_903a m5_903b m5_903c m5_903d m5_903e m5_903f m5_904 (.=.a)
 	   
 recode m5_701a m5_701b m5_701c m5_701d m5_701e m5_701f m5_701g m5_701h m5_701_other /// 
        m5_702a m5_702b m5_702c m5_702d m5_702e m5_702f m5_702g /// 
@@ -5195,7 +5185,7 @@ recode m5_701a m5_701b m5_701c m5_701d m5_701e m5_701f m5_701g m5_701h m5_701_ot
 	   m5_901a m5_901b m5_901c m5_901d m5_901e m5_901f m5_901g m5_901h m5_901i m5_901j ///
 	   m5_901k m5_901l m5_901m m5_901n m5_901o m5_901p ///
 	   m5_902a m5_902b m5_902c m5_902d m5_902e m5_902f m5_902g m5_902h m5_902i m5_902j  ///
-	   m5_903a m5_903b m5_903c m5_903d m5_903e m5_903f m5_904 (98=.d)
+	   m5_903a m5_903b m5_903c m5_903d m5_903e m5_903f m5_904 (98=.d) 
 	   
 recode m5_701a m5_701b m5_701c m5_701d m5_701e m5_701f m5_701g m5_701h m5_701_other /// 
        m5_702a m5_702b m5_702c m5_702d m5_702e m5_702f m5_702g /// 
@@ -5225,7 +5215,7 @@ recode m5_406a (98 = .d)
 *example of what we are looking for here:
 
 encode q203_1_1, gen(m5_babyfeed_a)
-recode  m5_babyfeed_a (. = .a) if m5_consent !=1
+recode m5_babyfeed_a (. = .a) if if m5_201 !=1 
 
 recode m5_starttime m5_endtime m5_duration m5_date (. = .a) if m5_consent !=1
 
