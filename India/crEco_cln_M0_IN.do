@@ -8,8 +8,7 @@
 clear all 
 
 *--------------------DATA FILE:
-u "$in_data/MODULE_0_15_03_2024.dta", clear // 35 facilities
-*u "$in_data/MODULE_0.dta", clear
+u "$in_data/MODULE_0.dta", clear
 *use "$in_data/FacilitySurvey_2024_01_20.dta", clear
 
 *------------------------------------------------------------------------------*

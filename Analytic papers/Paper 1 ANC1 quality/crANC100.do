@@ -47,21 +47,20 @@ u "$user/$data/Ethiopia/02 recoded data/eco_m0_et.dta", clear
 	gen hemo= m0_427==1  //onsite Haemoglobin testing
 	gen genmicro= m0_428==1 // onsite general microscopy
 	gen elisa = m0_430==1 // HIV antibody testing by ELISA
+	
 	egen sri_diag= rowmean(malaria syphi hiv preg uripro uriglu uriket blood_glu hemo genmicro elisa )
 
 	egen sri_score =rowmean(sri_basicamenities sri_equip sri_diag)
-	egen sri_cat = cut(sri_score), group(3)
 
 /* Total staff providing ANC: 
 	GP, OBGYN Emergency surgical officers, health officer, diploma nurses, degree nurses, diploma midwife, degree midwives */
 	egen total_staff_onc=rowtotal(m0_1a_et m0_1b_et m0_1c_et m0_1d_et m0_1e_et m0_1f_et m0_1g_et m0_102d )
-	egen staff_cat = cut(total_staff_onc), group(3)
+
 	* At least one full time doctor
 	gen ftdoc= m0_101a - m0_101b
 	recode ftdoc (-5/-1=1) (1/20=1)
 * BEDS
 	gen beds = m0_201
-	egen bedcat=cut(beds), group(3)
 	
 * Volumes 
 	*adding first + repeat visits 
@@ -80,17 +79,14 @@ u "$user/$data/Ethiopia/02 recoded data/eco_m0_et.dta", clear
 		
 		egen anc_annual= rowtotal (anc_tot*)
 		gen anc_mont = anc_annual/12
-		egen vol_cat = cut(anc_mont), group(3)
-* Volume per staff
-		gen anc_vol_staff_onc = anc_mont / total_staff_onc
-		egen anc_vol_staff_cat = cut(anc_vol_staff_onc), group(3)
 		
+* Volume per staff
+		gen anc_vol_staff_onc = anc_mont / total_staff_onc		
 
 	lab var elect "Electricity from any power source with break less than 2hours/per day)"
 	lab var water "Improved water source"
 	lab var toilet "Improved toilet"
 	lab var communication "functioning hone or landline"
-	lab var staff_cat "ONC staffing categories"
 	lab var comput_inter "Computer with internet"
 	lab var ambulance "Functionning ambulance on site"
 	lab var ftdoc "At least one full time doctor"
@@ -98,16 +94,15 @@ u "$user/$data/Ethiopia/02 recoded data/eco_m0_et.dta", clear
 	lab var anc_mont "Average number of ANC visits per month"
 	lab var anc_vol_staff_onc "Average monthly number of ANC visits per staff providing obstetric care"
 	
-	keep facility sri_score sri_basicamenities sri_equip sri_diag sri_cat total_staff staff_cat ///
-	     vol_cat anc_mont anc_vol_staff* bedcat ftdoc beds m0_a8_fac_own m0_a6_fac_type
+	keep facility sri_score sri_basicamenities sri_equip sri_diag total_staff  ///
+	      anc_mont anc_vol_staff* ftdoc beds m0_a8_fac_own m0_a6_fac_type
 	
 	gen private = m0_a8_fac_own
 	recode private (1=0) (2/4=1)
 	
 	gen facsecond = m0_a6_fac_type
 	recode facsecond 1/2=1 3/4=0
-	
-	table staff_cat, stat(max total_staff_onc)
+		
 save  "$user/$analysis/ETtmpfac.dta", replace  
 		    
 *------------------------------------------------------------------------------*
@@ -157,7 +152,6 @@ Average of 6 items: electricity, water, toilet, communication, computer & intern
 	egen sri_diag= rowmean(malaria syphi hiv preg uripro uriglu uriket blood_glu hemo genmicro elisa )
 
 	egen sri_score =rowmean(sri_basicamenities sri_equip sri_diag)
-	egen sri_cat=cut(sri_score), group(3)
 	
 * STAFFING
 
@@ -165,7 +159,6 @@ Average of 6 items: electricity, water, toilet, communication, computer & intern
 	Medical doc, OBGYN,  Midwife BSc, Nurse certificate Nurse BSc, Nurse diploma, 
 	Health officer */
 	egen total_staff_onc=rowtotal(m0_101d m0_102d  m0_108d m0_109d m0_110d m0_111d m0_112d )
-	xtile staff_cat = total_staff_onc, nquant(3)
 	
 	* At least one full time doctor
 	gen tmp1= m0_101a - m0_101b
@@ -175,7 +168,6 @@ Average of 6 items: electricity, water, toilet, communication, computer & intern
 
 * BEDS
 	gen beds = m0_201
-	egen bedcat=cut(beds), group(3)
 
 * VOLUMES 
 		*adding first + repeat visits in Kenya
@@ -194,10 +186,9 @@ Average of 6 items: electricity, water, toilet, communication, computer & intern
 	
 	    egen anc_annual= rowtotal (anc_tot*)
 		gen anc_mont = anc_annual/12
-		egen vol_cat = cut(anc_mont), group(3)
+		
 		* Volume per staff
 		gen anc_vol_staff_onc = anc_mont / total_staff_onc
-		egen anc_vol_staff_cat = cut(anc_vol_staff_onc), group(3)
 		
 	lab var elect "Electricity from any power source with break less than 2hours/per day)"
 	lab var water "Improved water source"
@@ -211,11 +202,12 @@ Average of 6 items: electricity, water, toilet, communication, computer & intern
 	lab var anc_mont "Average number of ANC visits per month"
 	lab var anc_vol_staff_onc "Average monthly number of ANC visits per staff providing obstetric care"
 	
-	keep facility sri_score sri_basicamenities sri_equip sri_diag sri_cat total_staff ///
-		   vol_cat anc_mont anc_vol_staff* ftdoc beds bedcat m0_facility_own m0_facility_type staff_cat
+	keep facility sri_score sri_basicamenities sri_equip sri_diag total_staff ///
+		    anc_mont anc_vol_staff* ftdoc beds m0_facility_own m0_facility_type 
 	
 	gen private = m0_facility_own==2
 	gen facsecond= m0_facility_type==2
+		
 	
 save  "$user/$analysis/KEtmpfac.dta", replace  
 
@@ -267,7 +259,7 @@ Average of 6 items: electricity, water, toilet, communication, computer & intern
 	egen sri_diag= rowmean(malaria syphi hiv preg uripro uriglu uriket blood_glu hemo genmicro elisa )
 
 	egen sri_score =rowmean(sri_basicamenities sri_equip sri_diag)
-	egen sri_cat = cut(sri_score), group(3)
+	
 	
 * STAFFING
 
@@ -275,7 +267,7 @@ Average of 6 items: electricity, water, toilet, communication, computer & intern
 	Medical doc, OBGYN,  Midwife BSc, Midwife diploma,  Nurse BSc, Nurse diploma, 
 	Health officer,  */
 	egen total_staff_onc=rowtotal(m0_101d m0_102d m0_108d m0_109d m0_110d m0_111d m0_112d )
-	egen staff_cat = cut(total_staff_onc), group(3)
+	
 	* At least one full time doctor
 	gen ftdoc= m0_101a - m0_101b
 	recode ftdoc (-1=0) (1/5=1)
@@ -283,16 +275,13 @@ Average of 6 items: electricity, water, toilet, communication, computer & intern
 * BEDS
 	gen beds = m0_201
 	recode beds 98=0
-	egen bedcat=cut(beds), group(3)
 
 * VOLUMES 
 	egen anc_annual= rowtotal (m0_801_*)
 	gen anc_mont = anc_annual/12
-	egen vol_cat = cut(anc_mont), group(3)
 	
 	* Volume per staff
 	gen anc_vol_staff_onc = anc_mont / total_staff_onc
-	egen anc_vol_staff_cat = cut(anc_vol_staff_onc), group(3)
 		
 		
 	lab var elect "Electricity from any power source with break less than 2hours/per day)"
@@ -306,10 +295,8 @@ Average of 6 items: electricity, water, toilet, communication, computer & intern
 	lab var anc_mont "Average number of ANC visits per month"
 	lab var anc_vol_staff_onc "Average monthly number of ANC visits per staff providing obstetric care"
 	
-	keep facility sri_score sri_basicamenities sri_equip sri_diag sri_cat total_staff staff_cat ///
-		    vol_cat anc_mont anc_vol_staff* ftdoc beds bedcat m0_facility_own m0_facility_type	
-			
-	table vol_cat, stat(min anc_mont)
+	keep facility sri_score sri_basicamenities sri_equip sri_diag total_staff  ///
+		     anc_mont anc_vol_staff* ftdoc beds m0_facility_own m0_facility_type	
 
 save  "$user/$analysis/ZAtmpfac.dta", replace  
 
@@ -363,7 +350,6 @@ Average of 6 items: electricity, water, toilet, communication, computer & intern
 	egen sri_diag= rowmean(malaria syphi hiv preg uripro uriglu uriket blood_glu hemo genmicro elisa )
 
 	egen sri_score =rowmean(sri_basicamenities sri_equip sri_diag)
-	egen sri_cat = cut(sri_score), group(3)
 	
 * STAFFING
 	/* Total staff providing obstetric and newborn care: Medical doc, OBGYN, Neonatologist,
@@ -372,7 +358,6 @@ Average of 6 items: electricity, water, toilet, communication, computer & intern
 	egen total_staff_onc=rowtotal(m0_101d m0_102d m0_106d m0_108d m0_109d m0_110d ///
 		m0_112d m0_114d m0_ang_d_in m0_mpw_d_in m0_anm_d_in m0_nur_d_in )
 		
-	egen staff_cat = cut(total_staff_onc), group(3)
 
 * VOLUMES 
 	egen anc_annual= rowtotal (m0_801_*)
@@ -381,18 +366,15 @@ Average of 6 items: electricity, water, toilet, communication, computer & intern
 	drop tmp
 	recode anc_annual 0=.
 	gen anc_mont = anc_annual/12
-	egen vol_cat = cut(anc_mont), group(3)
 	
 	* Volume per staff
 	gen anc_vol_staff_onc = anc_mont / total_staff_onc
-	egen anc_vol_staff_cat = cut(anc_vol_staff_onc), group(3)
 
 * BEDS
 	gen beds = m0_201
-	egen bedcat=cut(beds), group(3)
 	
-	keep facility sri_score sri_basicamenities sri_equip sri_diag sri_cat total_staff staff_cat ///
-		    vol_cat anc_mont beds bedcat anc_vol_staff* 
+	keep facility sri_score sri_basicamenities sri_equip sri_diag  total_staff  ///
+		    anc_mont beds anc_vol_staff* 
 	
 save  "$user/$analysis/INtmpfac.dta", replace  
 
