@@ -271,7 +271,7 @@ drop ic_may_i_proceed_with_the-module_5_end_line_facetoface_sur
 	
 	rename other_health_insurance_type m1_1222_other
 	
-	rename (eth_1_13_muac_safartuu_naa hemoglobin_level_from_test) (muac m1_1309)
+	rename (eth_1_13_muac_safartuu_naa hemoglobin_level_from_test) (m1_muac m1_1309)
 	
 	rename (m1_1402___1 m1_1402___2 m1_1402___3 m1_1402___4 m1_1402___5 m1_1402___6 m1_1402___7 ///
 			m1_1402___8 m1_1402___9) (m1_1402_1_et m1_1402_2_et m1_1402_3_et m1_1402_4_et m1_1402_5_et ///
@@ -1256,7 +1256,7 @@ drop m2_drop
 		by redcap_record_id: egen m2_lastdate = max(m2_date)
 		format m2_lastdate %td
 		
-		generate time_between_m1m2 = (m2_lastdate - m1_date)/7
+		generate time_between_m1m2 = (m2_date - m1_date)/7
 		generate time_between_m1m3 = (m3_date - m1_date)/7
 		
 		*New gestational age vars:
@@ -2147,56 +2147,41 @@ label define m3_p2_outcome 1 "Completed respondent" 2 "Partially completed and s
 label values m3_p2_outcome m3_p2_outcome
 
 
-*Formatting dates/times:	
-
+*Formatting dates/times: 
 gen double recm3_time = clock(m3_time, "hm") 
 format recm3_time %tc_HH:MM
 
-tostring m3_birth_or_ended, replace
-gen _date1_ = date(m3_birth_or_ended,"YMD")
-drop m3_birth_or_ended
-rename _date1_ m3_birth_or_ended
-format m3_birth_or_ended %dM_d,_CY
-
-tostring m3_313a_baby1, replace
 gen _date2_ = date(m3_313a_baby1,"YMD")
 drop m3_313a_baby1
 rename _date2_ m3_313a_baby1
-format m3_313a_baby1 %dM_d,_CY
+format m3_313a_baby1 %d
 
-tostring m3_313a_baby2, replace
 gen _date3_ = date(m3_313a_baby2,"YMD")
 drop m3_313a_baby2
 rename _date3_ m3_313a_baby2
-format m3_313a_baby2 %dM_d,_CY
+format m3_313a_baby2 %d
 
-tostring m3_313a_baby3, replace
 gen _date4_ = date(m3_313a_baby3,"YMD")
 drop m3_313a_baby3
 rename _date4_ m3_313a_baby3
-format m3_313a_baby3 %dM_d,_CY
+format m3_313a_baby3 %d
 
-tostring m3_506a, replace
+gen double recm3_313b_baby1 = clock(m3_313b_baby1, "hm") 
+format recm3_313b_baby1 %tc_HH:MM
+
+*gen double recm3_313b_baby2 = clock(m3_313b_baby2, "hm") // 4-8-24 SS: data already in numeric format, probably because of 0 observations
+format m3_313b_baby2 %tc_HH:MM
+
+*gen double recm3_313b_baby3 = clock(m3_313b_baby2, "hm") // 4-8-24 SS: data already in numeric format, probably because of 0 observations
+format recm3_313b_baby3 %tc_HH:MM
+
 gen _date5_ = date(m3_506a,"YMD")
 drop m3_506a
 rename _date5_ m3_506a
-format m3_506a %dM_d,_CY
+format m3_506a %d
 
-/*
-tostring m3_attempt_date, replace
-gen _date_ = date(m3_attempt_date,"YMD")
-drop m3_attempt_date
-rename _date_ m3_attempt_date
-format m3_attempt_date %dM_d,_CY
-*/
+format m3_p1_date_of_rescheduled %d // 0 observations as of 4-8-24
 
-tostring m3_p1_date_of_rescheduled, replace
-gen _date7_ = date(m3_p1_date_of_rescheduled,"YMD")
-drop m3_p1_date_of_rescheduled
-rename _date7_ m3_p1_date_of_rescheduled
-format m3_p1_date_of_rescheduled %dM_d,_CY
-
-tostring m3_date_p2, replace
 gen _date8_ = date(m3_date_p2,"YMD")
 drop m3_date_p2
 rename _date8_ m3_date_p2
@@ -4435,7 +4420,7 @@ lab var time_2_pulse_rate "Time 2 (Heart Rate)"
 lab var bp_time_3_systolic "Time 3 (Systolic)"
 lab var bp_time_3_diastolic "Time 3 (Diastolic)"
 lab var pulse_rate_time_3 "Time 3 (Heart Rate)"
-lab var muac "Measured Upper arm circumference"
+lab var m1_muac "Measured Upper arm circumference"
 lab var m1_1306 "1306. Hemoglobin level available in maternal health card"
 lab var m1_1307 "1307. HEMOGLOBIN LEVEL FROM MATERNAL HEALTH CARD "
 lab var m1_1308 "1308. Will you take the anemia test?"
@@ -5373,18 +5358,18 @@ label variable m4_baby1_210j "210. What were you told was the cause of death for
 label variable m4_baby1_210_96 "210. What were you told was the cause of death for your 1st baby?"
 label variable m4_baby1_210_other "210. What other causes you were told was the cause of death of your 1st baby death? "
 
-label variable  m4_baby2_210a "210. What were you told was the cause of death for your 2nd baby?"
-label variable  m4_baby2_210b "210. What were you told was the cause of death for your 2nd baby?"
-label variable  m4_baby2_210c "210. What were you told was the cause of death for your 2nd baby?"
-label variable  m4_baby2_210d "210. What were you told was the cause of death for your 2nd baby?"
-label variable  m4_baby2_210e "210. What were you told was the cause of death for your 2nd baby?"
-label variable  m4_baby2_210f "210. What were you told was the cause of death for your 2nd baby?"
-label variable  m4_baby2_210g "210. What were you told was the cause of death for your 2nd baby?"
-label variable  m4_baby2_210h "210. What were you told was the cause of death for your 2nd baby?"
-label variable  m4_baby2_210i "210. What were you told was the cause of death for your 2nd baby?"
-label variable  m4_baby2_210j "210. What were you told was the cause of death for your 2nd baby?"
-label variable  m4_baby2_210_96 "210. What were you told was the cause of death for your 2nd baby?"
-label variable  m4_baby2_210_other "210. What other causes you were told was the cause of death of your 2nd baby death? "
+label variable m4_baby2_210a "210. What were you told was the cause of death for your 2nd baby?"
+label variable m4_baby2_210b "210. What were you told was the cause of death for your 2nd baby?"
+label variable m4_baby2_210c "210. What were you told was the cause of death for your 2nd baby?"
+label variable m4_baby2_210d "210. What were you told was the cause of death for your 2nd baby?"
+label variable m4_baby2_210e "210. What were you told was the cause of death for your 2nd baby?"
+label variable m4_baby2_210f "210. What were you told was the cause of death for your 2nd baby?"
+label variable m4_baby2_210g "210. What were you told was the cause of death for your 2nd baby?"
+label variable m4_baby2_210h "210. What were you told was the cause of death for your 2nd baby?"
+label variable m4_baby2_210i "210. What were you told was the cause of death for your 2nd baby?"
+label variable m4_baby2_210j "210. What were you told was the cause of death for your 2nd baby?"
+label variable m4_baby2_210_96 "210. What were you told was the cause of death for your 2nd baby?"
+label variable m4_baby2_210_other "210. What other causes you were told was the cause of death of your 2nd baby death? "
 
 label variable m4_baby3_210a "210. What were you told was the cause of death for your 3rd baby?"
 label variable m4_baby3_210b "210. What were you told was the cause of death for your 3rd baby?"
@@ -5921,7 +5906,7 @@ order m1_* m2_* m3_* m4_* mcard_*, sequential
 order m2_start m2_date m2_date m2_permission m2_103 m2_time_start m2_maternal_death_reported m2_ga m2_hiv_status ///
 	 m2_date_of_maternal_death m2_maternal_death_learn m2_maternal_death_learn_other m2_111 m2_111_other m2_201,after(m1_end_time)
 
-order height_cm weight_kg bp_time_1_systolic bp_time_1_diastolic time_1_pulse_rate bp_time_2_systolic bp_time_2_diastolic time_2_pulse_rate bp_time_3_systolic bp_time_3_diastolic pulse_rate_time_3 muac m1_1306 m1_1307 m1_1309,after(m1_1223)
+order height_cm weight_kg bp_time_1_systolic bp_time_1_diastolic time_1_pulse_rate bp_time_2_systolic bp_time_2_diastolic time_2_pulse_rate bp_time_3_systolic bp_time_3_diastolic pulse_rate_time_3 m1_muac m1_1306 m1_1307 m1_1309,after(m1_1223)
 
 order phq9a phq9b phq9c phq9d phq9e phq9f phq9g phq9h phq9i, after(m1_205e)
 
@@ -5995,7 +5980,7 @@ save "$et_data_final/eco_m1-m4_et_long.dta", replace
 		replace m2_round = "_r2" if redcap_repeat_instance_v2==2 
 		replace m2_round = "_r3" if redcap_repeat_instance_v2==3
 		replace m2_round = "_r4" if redcap_repeat_instance_v2==4
-		replace m2_round = "_r5" if redcap_repeat_instance_v2==5odul
+		replace m2_round = "_r5" if redcap_repeat_instance_v2==5
 		replace m2_round = "_r6" if redcap_repeat_instance_v2==6
 		replace m2_round = "_r7" if redcap_repeat_instance_v2==7
 		replace m2_round = "_r8" if redcap_repeat_instance_v2==8
@@ -6018,12 +6003,13 @@ save "$et_data_final/eco_m1-m4_et_long.dta", replace
 			drop _merge 
 		merge 1:1 redcap_record_id using "$et_data_final/tmpm4"
 		drop _merge
-		
+	
+	/*
 	rm "$et_data_final/tmpcard.dta" 
 	rm "$et_data_final/tmpm1.dta" 
 	rm "$et_data_final/tmpm2.dta" 
 	rm "$et_data_final/tmpm3.dta" 
-	rm "$et_data_final/tmpm4.dta" 
+	rm "$et_data_final/tmpm4.dta" */
 		
 *===============================================================================
 	* RE-LABELING M2 VARS
