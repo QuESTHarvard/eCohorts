@@ -38,6 +38,7 @@ u "$user/$analysis/ETtmp.dta", clear
 	
 	* Depression
 	g depression_address = m1_716c if depress==1
+	ta depression_address 
 	egen depress_tx=rowmax(m1_724d anc1mental_health_drug)
 	ta depress_tx if depress==1
 	

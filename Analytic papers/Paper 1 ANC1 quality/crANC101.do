@@ -201,7 +201,7 @@ u "$user/$data/Kenya/02 recoded data/eco_m1_ke_der.dta", clear
 	
 egen anyrisk =rowmax(anemic chronic maln_underw overweight young old multiple complic )
 egen total_risk=rowtotal(anemic chronic maln_underw overweight young old multiple complic)
-
+	recode total_risk 4=3
 		rename dangersign m1_dangersigns
 		
 * MERGING WITH M0 DATA
@@ -314,7 +314,7 @@ u  "$user/$data/South Africa/02 recoded data/eco_m1_za_der.dta", clear
 egen anyrisk =rowmax(anemic chronic maln_underw overweight young old multiple complic )
 egen anyrisk_nohiv=rowmax(anemic chronic_nohiv maln_underw overweight young old multiple complic )
 egen total_risk=rowtotal(anemic chronic maln_underw overweight young old multiple complic)
-
+	recode total_risk 4/5=3
 		rename dangersign m1_dangersigns
 		
 * MERGING WITH M0 DATA
@@ -397,7 +397,7 @@ egen tag=tag(facility)
 
 egen anyrisk =rowmax(anemic chronic maln_underw overweight young old multiple complic )
 egen total_risk=rowtotal(anemic chronic maln_underw overweight young old multiple complic)
-	
+	recode total_risk 4=3
 		drop if anc1qual==. // 1 woman had no data on ANC content
 	
 * MERGING WITH M0 FACILITY-LEVEL DATA
