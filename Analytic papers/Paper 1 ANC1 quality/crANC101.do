@@ -88,9 +88,10 @@ u "$user/$data/Ethiopia/02 recoded data/eco_m1_et_der.dta", clear
 	gen preterm = m1_1005 ==1
 	gen PPH=m1_1006==1
 	rename m1_1004 late_misc
-	egen complic = rowmax(cesa stillbirth preterm neodeath  PPH )
+	egen complic = rowmax(cesa stillbirth preterm neodeath PPH )
 	
 egen anyrisk =rowmax(m1_anemic_11 chronic maln_underw overweight young old multiple complic )
+egen total_risk=rowtotal(m1_anemic_11 chronic maln_underw overweight young old multiple complic)
 
 * Visit time
 	encode m1_start_time, gen(time)
@@ -199,6 +200,7 @@ u "$user/$data/Kenya/02 recoded data/eco_m1_ke_der.dta", clear
 		 lab val time time2
 	
 egen anyrisk =rowmax(anemic chronic maln_underw overweight young old multiple complic )
+egen total_risk=rowtotal(anemic chronic maln_underw overweight young old multiple complic)
 
 		rename dangersign m1_dangersigns
 		
@@ -311,6 +313,7 @@ u  "$user/$data/South Africa/02 recoded data/eco_m1_za_der.dta", clear
 			
 egen anyrisk =rowmax(anemic chronic maln_underw overweight young old multiple complic )
 egen anyrisk_nohiv=rowmax(anemic chronic_nohiv maln_underw overweight young old multiple complic )
+egen total_risk=rowtotal(anemic chronic maln_underw overweight young old multiple complic)
 
 		rename dangersign m1_dangersigns
 		
@@ -393,6 +396,7 @@ egen tag=tag(facility)
 		egen complic = rowmax(stillbirth neodeath preterm PPH cesa)
 
 egen anyrisk =rowmax(anemic chronic maln_underw overweight young old multiple complic )
+egen total_risk=rowtotal(anemic chronic maln_underw overweight young old multiple complic)
 	
 		drop if anc1qual==. // 1 woman had no data on ANC content
 	
