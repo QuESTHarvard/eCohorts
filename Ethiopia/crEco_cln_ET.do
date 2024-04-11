@@ -1260,7 +1260,7 @@ drop m2_drop
 		generate time_between_m1m3 = (m3_date - m1_date)/7
 		
 		*New gestational age vars:
-		
+	
 		generate m2_ga = m1_ga + time_between_m1m2
 		generate m3_ga = m1_ga + time_between_m1m3
 	
