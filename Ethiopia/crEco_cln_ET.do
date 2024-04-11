@@ -2154,17 +2154,13 @@ format recm3_time %tc_HH:MM
 gen _date2_ = date(m3_313a_baby1,"YMD")
 drop m3_313a_baby1
 rename _date2_ m3_313a_baby1
-format m3_313a_baby1 %d
+format m3_313a_baby1 %td
 
-gen _date3_ = date(m3_313a_baby2,"YMD")
-drop m3_313a_baby2
-rename _date3_ m3_313a_baby2
-format m3_313a_baby2 %d
+* 4-11 SS: numeric bc of 0 obs
+format m3_313a_baby2 %td
 
-gen _date4_ = date(m3_313a_baby3,"YMD")
-drop m3_313a_baby3
-rename _date4_ m3_313a_baby3
-format m3_313a_baby3 %d
+* 4-11 SS: numeric bc of 0 obs
+format m3_313a_baby3 %td
 
 gen double recm3_313b_baby1 = clock(m3_313b_baby1, "hm") 
 format recm3_313b_baby1 %tc_HH:MM
@@ -2173,42 +2169,24 @@ format recm3_313b_baby1 %tc_HH:MM
 format m3_313b_baby2 %tc_HH:MM
 
 *gen double recm3_313b_baby3 = clock(m3_313b_baby2, "hm") // 4-8-24 SS: data already in numeric format, probably because of 0 observations
-format recm3_313b_baby3 %tc_HH:MM
+format m3_313b_baby3 %tc_HH:MM
 
 gen _date5_ = date(m3_506a,"YMD")
 drop m3_506a
 rename _date5_ m3_506a
-format m3_506a %d
+format m3_506a %td
 
-format m3_p1_date_of_rescheduled %d // 0 observations as of 4-8-24
+format m3_p1_date_of_rescheduled %td // 0 observations as of 4-8-24
 
 gen _date8_ = date(m3_date_p2,"YMD")
 drop m3_date_p2
 rename _date8_ m3_date_p2
-format m3_date_p2 %dM_d,_CY
+format m3_date_p2 %td
 
-/*
-tostring m3_attempt_outcome2, replace
-gen _date_ = date(m3_attempt_outcome2,"YMD")
-drop m3_attempt_outcome2
-rename _date_ m3_attempt_outcome2
-format m3_attempt_outcome2 %dM_d,_CY
-*/
-
-tostring m3_p2_date_of_rescheduled, replace
 gen _date9_ = date(m3_p2_date_of_rescheduled,"YMD")
 drop m3_p2_date_of_rescheduled
 rename _date9_ m3_p2_date_of_rescheduled
-format m3_p2_date_of_rescheduled %dM_d,_CY
-
-gen double recm3_313b_baby1 = clock(m3_313b_baby1, "hm") 
-format recm3_313b_baby1 %tc_HH:MM
-
-*gen double recm3_313b_baby2 = clock(m3_313b_baby2, "hm") // currently numerical because of 0 obs
-*format recm3_313b_baby2 %tc_HH:MM
-
-*gen double recm3_313b_baby3 = clock(m3_313b_baby3, "hm") // currently numerical because of 0 obs
-*format recm3_313b_baby3 %tc_HH:MM
+format m3_p2_date_of_rescheduled %td
 
 gen double recm3_506b = clock(m3_506b, "hm") 
 format recm3_506b %tc_HH:MM
