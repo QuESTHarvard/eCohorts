@@ -59,6 +59,7 @@ global user "/Users/shs8688/Dropbox (Harvard University)/SPH-Kruk Team/QuEST Net
 * Path to GitHub folder 
 global github "$user/Documents/GitHub/eCohorts"
 
+/*
 ********************************************************************************
 
 * Clean each dataset separately 
