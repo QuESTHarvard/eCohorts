@@ -38,12 +38,13 @@ u "$user/$analysis/ETtmp.dta", clear
 	
 	* Depression
 	g depression_address = m1_716c if depress==1
+	ta depression_address 
 	egen depress_tx=rowmax(m1_724d anc1mental_health_drug)
 	ta depress_tx if depress==1
 	
 	* Anemia
-	g anemia_address= anc1blood if lvl_anemia<3
-	ta anc1ifa if lvl_anemia<3
+	g anemia_address= anc1blood if lvl_anemia<4
+	ta anc1ifa if lvl_anemia<4
 	
 	* Danger signs (one of 6)
 	ta m1_dangersign
@@ -58,6 +59,12 @@ u "$user/$analysis/ETtmp.dta", clear
 	ta anc1muac if maln_under==1
 	ta anc1food if maln_under==1
 
+	* Obese
+	ta anc1bmi if overweight==1
+	egen obesemgmt= rowtotal(m1_716a m1_716b)
+	recode obesemgmt 1=0 2=1
+	lab var obesemgmt "Discussed nutrition and exercise"
+	ta obesemgmt if overweight==1
 
 *------------------------------------------------------------------------------*	
 * Kenya
@@ -100,8 +107,8 @@ u "$user/$analysis/KEtmp.dta", clear
 	ta depress_tx if depress==1
 	
 	* Anemia
-	g anemia_address= anc1blood if lvl_anemia<3
-	ta anc1ifa if lvl_anemia<3
+	g anemia_address= anc1blood if lvl_anemia<4
+	ta anc1ifa if lvl_anemia<4
 	
 	* Danger signs (one of 6)
 	ta m1_dangersign
@@ -113,7 +120,17 @@ u "$user/$analysis/KEtmp.dta", clear
 	replace danger_address=. if m1_dangersign==0
 			
 	ta specialist_hosp if m1_dangersign==1
+	
+	* Undernourished
+	ta anc1muac if maln_under==1
+	ta anc1food if maln_under==1
 
+	* Obese
+	ta anc1bmi if overweight==1
+	egen obesemgmt= rowtotal(m1_716a m1_716b)
+	recode obesemgmt 1=0 2=1
+	lab var obesemgmt "Discussed nutrition and exercise"
+	ta obesemgmt if overweight==1
 *------------------------------------------------------------------------------*		
 * ZAF
 u "$user/$analysis/ZAtmp.dta", clear 			
@@ -157,10 +174,10 @@ u "$user/$analysis/ZAtmp.dta", clear
 	ta depress_tx if depress==1
 
 	* Anemia
-	g anemia_address= anc1blood if lvl_anemia<3
+	g anemia_address= anc1blood if lvl_anemia<4
 	recode m1_713_za_in 0=1 2/3=0
 	egen anemia_tx= rowmax(anc1ifa m1_713_za_in ) // ifa or iron injection
-	ta anemia_tx if lvl_anemia<3
+	ta anemia_tx if lvl_anemia<4
 
 	* Danger signs (one of 6)
 	ta m1_dangersign
@@ -169,9 +186,19 @@ u "$user/$analysis/ZAtmp.dta", clear
 	replace danger_address=. if m1_dangersign==0
 	
 	ta specialist_hosp if m1_dangersign==1		
-		
+	
+	* Undernourished
+	ta anc1muac if maln_under==1
+	ta anc1food if maln_under==1
+	
+	* Obese
+	ta anc1bmi if overweight==1
+	egen obesemgmt= rowtotal(m1_716a m1_716b)
+	recode obesemgmt 1=0 2=1
+	lab var obesemgmt "Discussed nutrition and exercise"
+	ta obesemgmt if overweight==1		
 			
-------------------------------------------------------------------------------*		
+*-------------------------------------------------------------------------------		
 * INDIA
 u "$user/$analysis/INtmp.dta", clear 			
 	
@@ -212,10 +239,10 @@ u "$user/$analysis/INtmp.dta", clear
 	ta depress_tx if depress==1
 	
 	* Anemia
-	g anemia_address= anc1blood if lvl_anemia<3
+	g anemia_address= anc1blood if lvl_anemia<4
 	recode m1_713_in_za 2=1 3=0
 	egen anemia_tx=rowmax(anc1ifa m1_713_in_za) // ifa or iron injection
-	ta anemia_tx if lvl_anemia<3
+	ta anemia_tx if lvl_anemia<4
 	
 	
 	* Danger signs (one of 6)
@@ -236,7 +263,12 @@ u "$user/$analysis/INtmp.dta", clear
 	ta anc1muac if maln_under==1
 	ta anc1food if maln_under==1
 		
-			
+	* Obese
+	ta anc1bmi if overweight==1
+	egen obesemgmt= rowtotal(m1_716a m1_716b)
+	recode obesemgmt 1=0 2=1
+	lab var obesemgmt "Discussed nutrition and exercise"
+	ta obesemgmt if overweight==1		
 			
 			
 			

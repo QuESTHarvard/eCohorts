@@ -49,8 +49,8 @@ u "$user/$data/Ethiopia/02 recoded data/eco_m1_et_der.dta", clear
 	gen healthlit_corr=m1_health_lit==4
 	
 	gen age_cat=enrollage
-	recode age_cat 15/19=1 20/35=2 36/60=3
-	lab def age_cat 1"15-19yrs" 2"20-35 yrs" 3 "36+yrs"
+	recode age_cat 15/19=1 20/34=2 35/60=3
+	lab def age_cat 1"15-19yrs" 2"20-34 yrs" 3 "35+yrs"
 	lab val age_cat age_cat
 	gen young= age_cat==1
 	gen older=age_cat==3
@@ -63,8 +63,8 @@ u "$user/$data/Ethiopia/02 recoded data/eco_m1_et_der.dta", clear
 	
 * Medical risk factors
 	* Anemia
-	recode m1_Hb 0/6.999=1 7/10.999=2 11/30=3, gen(lvl_anemia)
-	lab def lvl_anemia 1"Severe anemia (<7gm/dl)" 2"Moderate, mild anemia (7-10.9gm/dl)" 3"Normal"
+	recode m1_Hb 0/6.999=1 7/8.99999=2 9/10.99999=3 11/30=4, gen(lvl_anemia)
+	lab def lvl_anemia 1"Severe anemia (<7g/dl)" 2"Moderate anemia (7-8.9g/dl)" 3"Mild anemia (9-10.9g/dl)" 4"Normal"
 	lab val lvl_anemia lvl_anemia
 	g severe_anemia=lvl_anemia==1
 	* Chronic illnesses
@@ -76,6 +76,7 @@ u "$user/$data/Ethiopia/02 recoded data/eco_m1_et_der.dta", clear
 	| m1_203_other=="Sinusitis" | m1_203_other=="gastric" | m1_203_other=="gastric ulcer" 
 	egen chronic = rowmax(m1_202a m1_202b m1_202c m1_202d m1_202e  m1_202g_et m1_203_et)
 	replace chronic=1 if m1_HBP==1 // measured BP
+	
 	* Underweight/overweight
 	rename m1_malnutrition maln_underw
 	recode m1_BMI 0/29.999=0 30/100=1, g(overweight)
@@ -87,9 +88,10 @@ u "$user/$data/Ethiopia/02 recoded data/eco_m1_et_der.dta", clear
 	gen preterm = m1_1005 ==1
 	gen PPH=m1_1006==1
 	rename m1_1004 late_misc
-	egen complic = rowmax(cesa stillbirth preterm neodeath  PPH )
+	egen complic = rowmax(cesa stillbirth preterm neodeath PPH )
 	
 egen anyrisk =rowmax(m1_anemic_11 chronic maln_underw overweight young old multiple complic )
+egen total_risk=rowtotal(m1_anemic_11 chronic maln_underw overweight young old multiple complic)
 
 * Visit time
 	encode m1_start_time, gen(time)
@@ -102,6 +104,12 @@ egen anyrisk =rowmax(m1_anemic_11 chronic maln_underw overweight young old multi
 	keep if _merge==3 
 	drop _merge 
 	save  "$user/$analysis/ETtmp.dta", replace		
+	
+* Categories for facility characteristics
+	egen sri_cat = cut(sri_score), group(3)
+	egen staff_cat = cut(total_staff_onc), group(3)
+	egen vol_cat = cut(anc_mont), group(3)
+	egen vol_staf_cat = cut(anc_vol_staff_onc), group(3)
 
 save "$user/$analysis/ETtmp.dta", replace
 
@@ -145,8 +153,8 @@ u "$user/$data/Kenya/02 recoded data/eco_m1_ke_der.dta", clear
 		recode educ_cat 1/2=1 3=2 4=3, gen(educ3)
 		gen healthlit_corr=health_lit==4
 		gen age_cat=enrollage
-		recode age_cat 15/19=1 20/35=2 36/60=3
-		lab def age_cat 1"15-19yrs" 2"20-35 yrs" 3 "36+yrs"
+		recode age_cat 15/19=1 20/34=2 35/60=3
+		lab def age_cat 1"15-19yrs" 2"20-34 yrs" 3 "35+yrs"
 		gen young= age_cat==1
 		gen older=age_cat==3
 		recode  m1_201 (1/3=0) (4/5=1), gen(poorhealth)
@@ -158,8 +166,8 @@ u "$user/$data/Kenya/02 recoded data/eco_m1_ke_der.dta", clear
 			
 *Medical risk factors
 		* Anemia
-		recode Hb 0/6.999=1 7/10.999=2 11/30=3, gen(lvl_anemia)
-		lab def lvl_anemia 1"Severe anemia (<7gm/dl)" 2"Moderate, mild anemia (7-10.9gm/dl)" 3"Normal"
+		recode Hb 0/6.999=1 7/8.99999=2 9/10.99999=3 11/30=4, gen(lvl_anemia)
+		lab def lvl_anemia 1"Severe anemia (<7g/dl)" 2"Moderate anemia (7-8.9g/dl)" 3"Mild anemia (9-10.9g/dl)" 4"Normal"
 		lab val lvl_anemia lvl_anemia
 		g severe_anemia=lvl_anemia==1
 		* Chronic illnesses
@@ -192,13 +200,21 @@ u "$user/$data/Kenya/02 recoded data/eco_m1_ke_der.dta", clear
 		 lab val time time2
 	
 egen anyrisk =rowmax(anemic chronic maln_underw overweight young old multiple complic )
-
+egen total_risk=rowtotal(anemic chronic maln_underw overweight young old multiple complic)
+	recode total_risk 4=3
 		rename dangersign m1_dangersigns
 		
 * MERGING WITH M0 DATA
 	merge m:1 facility using "$user/$analysis/KEtmpfac.dta"
 	keep if _merge==3 
 	drop _merge 
+	
+* Categories for facility characteristics
+	egen sri_cat = cut(sri_score), group(3)
+	egen staff_cat = cut(total_staff_onc), group(3)
+	egen vol_cat = cut(anc_mont), group(3)
+	egen vol_staf_cat = cut(anc_vol_staff_onc), group(3)
+	
 	
 save "$user/$analysis/KEtmp.dta", replace
 
@@ -243,8 +259,8 @@ u  "$user/$data/South Africa/02 recoded data/eco_m1_za_der.dta", clear
 		
 		gen healthlit_corr=health_lit==4
 		gen age_cat=enrollage
-		recode age_cat 15/19=1 20/35=2 36/60=3
-		lab def age_cat 1"15-19yrs" 2"20-35 yrs" 3 "36+yrs"
+		recode age_cat 15/19=1 20/34=2 35/60=3
+		lab def age_cat 1"15-19yrs" 2"20-34 yrs" 3 "35+yrs"
 		gen young= age_cat==1
 		gen older=age_cat==3
 		recode  m1_201 (1/3=0) (4/5=1), gen(poorhealth)
@@ -256,12 +272,12 @@ u  "$user/$data/South Africa/02 recoded data/eco_m1_za_der.dta", clear
 
 * Medical risk factors
 		* Anemia
-		recode Hb 0/6.999=1 7/10.999=2 11/30=3, gen(lvl_anemia)
-		lab def lvl_anemia 1"Severe anemia (<7gm/dl)" 2"Moderate, mild anemia (7-10.9gm/dl)" 3"Normal"
+		recode Hb 0/6.999=1 7/8.99999=2 9/10.99999=3 11/30=4, gen(lvl_anemia)
+		lab def lvl_anemia 1"Severe anemia (<7g/dl)" 2"Moderate anemia (7-8.9g/dl)" 3"Mild anemia (9-10.9g/dl)" 4"Normal"
 		lab val lvl_anemia lvl_anemia
 		g severe_anemia=lvl_anemia==1
 		* Chronic illnesses
-		egen chronic= rowmax(m1_202a m1_202b m1_202c m1_202d m1_202e )  // I need to include the newly diagnosed HIV women! + recollected HIV!
+		egen chronic= rowmax(m1_202a m1_202b m1_202c m1_202d m1_202e )  
 		egen chronic_nohiv=rowmax(m1_202a m1_202b m1_202c m1_202d)
 		encode m1_203, gen(prob)
 		recode prob (1/4 10 16 18/21 24 28 29 30 33 34 28 =0 ) (5/9 11/15 17 22 23 25 26 27 31 32=1)
@@ -297,13 +313,21 @@ u  "$user/$data/South Africa/02 recoded data/eco_m1_za_der.dta", clear
 			
 egen anyrisk =rowmax(anemic chronic maln_underw overweight young old multiple complic )
 egen anyrisk_nohiv=rowmax(anemic chronic_nohiv maln_underw overweight young old multiple complic )
-
+egen total_risk=rowtotal(anemic chronic maln_underw overweight young old multiple complic)
+	recode total_risk 4/5=3
 		rename dangersign m1_dangersigns
 		
 * MERGING WITH M0 DATA
 	merge m:1 facility using "$user/$analysis/ZAtmpfac.dta"
 	keep if _merge==3 
 	drop _merge 
+	
+* Categories for facility characteristics
+	egen sri_cat = cut(sri_score), group(3)
+	egen staff_cat = cut(total_staff_onc), group(3)
+	egen vol_cat = cut(anc_mont), group(3)
+	egen vol_staf_cat = cut(anc_vol_staff_onc), group(3)
+	
 save "$user/$analysis/ZAtmp.dta", replace
 
 *------------------------------------------------------------------------------*
@@ -339,8 +363,8 @@ egen tag=tag(facility)
 		recode educ_cat 1/2=1 3=2 4=3, g(educ3)
 		gen healthlit_corr=m1_health_lit==4
 		gen age_cat=enrollage
-		recode age_cat 15/19=1 20/35=2 36/60=3
-		lab def age_cat 1"15-19yrs" 2"20-35 yrs" 3 "36+yrs"
+		recode age_cat 15/19=1 20/34=2 35/60=3
+		lab def age_cat 1"15-19yrs" 2"20-34 yrs" 3 "35+yrs"
 		gen young= age_cat==1
 		gen older=age_cat==3
 		recode  m1_201 (1/3=0) (4/5=1), gen(poorhealth)
@@ -352,8 +376,8 @@ egen tag=tag(facility)
 		
 * Medical risk factors
 		* Anemia
-		recode Hb 0/6.999=1 7/10.999=2 11/30=3, gen(lvl_anemia)
-		lab def lvl_anemia 1"Severe anemia (<7gm/dl)" 2"Moderate, mild anemia (7-10.9gm/dl)" 3"Normal"
+		recode Hb 0/6.999=1 7/8.99999=2 9/10.99999=3 11/30=4, gen(lvl_anemia)
+		lab def lvl_anemia 1"Severe anemia (<7g/dl)" 2"Moderate anemia (7-8.9g/dl)" 3"Mild anemia (9-10.9g/dl)" 4"Normal"
 		lab val lvl_anemia lvl_anemia
 		g severe_anemia=lvl_anemia==1
 		* Chronic illnesses
@@ -372,13 +396,21 @@ egen tag=tag(facility)
 		egen complic = rowmax(stillbirth neodeath preterm PPH cesa)
 
 egen anyrisk =rowmax(anemic chronic maln_underw overweight young old multiple complic )
-	
+egen total_risk=rowtotal(anemic chronic maln_underw overweight young old multiple complic)
+	recode total_risk 4=3
 		drop if anc1qual==. // 1 woman had no data on ANC content
 	
 * MERGING WITH M0 FACILITY-LEVEL DATA
 	merge m:1 facility using "$user/$analysis/INtmpfac.dta"
 	keep if _merge==3  // dropping 18 women for which we dont have Module 0. 
 	drop _merge 
+	
+* Categories for facility characteristics
+	egen sri_cat = cut(sri_score), group(3)
+	egen staff_cat = cut(total_staff_onc), group(3)
+	egen vol_cat = cut(anc_mont), group(3)
+	egen vol_staf_cat = cut(anc_vol_staff_onc), group(3)
+
 	
 save "$user/$analysis/INtmp.dta", replace
 
