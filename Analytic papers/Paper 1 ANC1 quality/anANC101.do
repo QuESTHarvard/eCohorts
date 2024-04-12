@@ -111,7 +111,7 @@ global qualvarsIND anc1bp anc1weight anc1blood ///
 		
 		* Fig 1 risk factors		
 		tabstat  anemic chronic maln_underw overweight complic anyrisk, stat(mean count) col(stat)
-
+		ta lvl_anemia
 	
 	* Table 3 Facility characteristics
 		summtab if tag==1, catvars(facility_lvl ) contvars (sri_score total_staff ///
