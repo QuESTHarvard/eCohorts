@@ -160,7 +160,7 @@ rename endtime m1_end_time
 rename date_survey_baseline m1_date
 encode q103, gen(respondentid)
 drop q103
-format respondentid %12.0f
+*format respondentid %12.0f
 
 *===============================================================================
 
@@ -977,7 +977,7 @@ drop mod_2_freq_label q_304_label_1 q_304_label_2 q_304_label_3 q_304_label_4 q_
 
 encode q_104, gen(respondentid)
 drop q_104
-format respondentid %12.0f
+*format respondentid %12.0f
 
 
 rename attempts m2_attempt_number
@@ -1736,7 +1736,8 @@ drop q_103
 *------------------------------------------------------------------------------*	
 	* STEP ONE: RENAME VARAIBLES
 	
-rename q_104 respondentid	
+rename  
+tostring q_104, gen(respondentid)		
 	
 * SS 4/2: What happened to these vars?	
 * Variables from M2 in this dataset:
@@ -2122,24 +2123,24 @@ rename language m3_language
 *respondentid: 21311071736, duplicate M3 submission on same date
 *From KEMTRI: This ID was double-allocated to Isnina and Linah by mistake. That is why we have 2 entries of this ID. Linah has told me that initially the respondent told her she was still pregnant and so she conducted the interview. After she had finalised the interview the respondent then said she had had delivered. Linah proceded to do module 3 even though she had conducted an unnecessary module 2. Also both Isnina and Linah have conducted module 3 so we have 2 module 3 forms for this ID. I am suggesting we accept the module 2 done by Isnina since it was correct and accept module 3 done by Linah since it was the one done first.
 
-drop if respondentid == "21311071736" & m3_enum_name == "Isnina Musa" 
-
+*drop if respondentid == 21311071736 & m3_enum_name == "Isnina Musa" // SS: add this back in once enum name is fixed
+drop if respondentid == 21311071736
 
 *respondentid: 21711071310, duplicate M3 submission on same date
 *From KEMRI: Module 3 done twice. Keep the second interview of 2/11/2023. She delivered on 2nd October"
 
-drop if respondentid == "21711071310" & m3_date == date("05oct2023", "DMY") 
+drop if respondentid == 21711071310 & m3_date == date("05oct2023", "DMY") 
 
 
 *respondentid: 1916081238, duplicate M3 submission on same date
 *From KEMRI: I have had a discussion with the en to determine how this happened. The en had a mix-up of the IDs. The second complete form is for 21419071300, a respondent from Kitui who delivered on 25th Oct. So for this second form everything else is correct apart from the respondent ID.
 
-replace respondentid="21419071300" if respondentid=="1916081238" & m3_birth_or_ended== date("25oct2023", "DMY") SS: laterite needs to fix respondent id var
+replace respondentid= 21419071300 if respondentid==1916081238 & m3_birth_or_ended== date("25oct2023", "DMY")
 	
 *respondentid: 21327071350, duplicate M3 on different dates:
 *From KEMRI:  please keep the one from March 18th
 
-drop if respondentid == "21327071350" & m3_date == date("12mar2024", "DMY")
+drop if respondentid == 21327071350 & m3_date == date("12mar2024", "DMY")
 	
 	
 *===============================================================================
@@ -3112,7 +3113,7 @@ drop time_start_full text_audit consent_audio section8_audio mean_sound_level mi
 
 *-----according to variable list 
 encode q_104, gen(respondentid)
-format respondentid %12.0f
+*format respondentid %12.0f
 
 rename q_101 m4_interviewer
 rename q_102 m4_date
@@ -3703,7 +3704,6 @@ label values  m4_309 no_treatment
 
 label define yesno_leak 1 "Yes, no more leakage at all", add
 label define yesno_leak 2 "Yes, but still some leakage", add
-label define yesno_leak 3 "No, still have problem", add
 label define yesno_leak 3 "No, still have problem", add
 label values  m4_310 yesno_leak
 
@@ -4498,7 +4498,7 @@ rename (consent starttime endtime duration today date_confirm submissiondate liv
 		
 encode id_resp, gen(respondentid)
 drop id_resp
-format respondentid %12.0f		
+*format respondentid %12.0f		
 
 
 *rename q203_1_1 m5_babyfeed_a
@@ -5178,7 +5178,7 @@ rename (baby_index_assess_1 q1401 q1402 q1403 baby_repeat_assess_count end_comme
 		* Recode refused and don't know values
 		* Note: .a means NA, .r means refused, .d is don't know, . is missing 
 	   
-recode m5_701a m5_701b m5_701c m5_701d m5_701e m5_701f m5_701g m5_701h m5_701_other /// 
+recode m5_701a m5_701b m5_701c m5_701d m5_701e m5_701f m5_701g m5_701h /// 
        m5_702a m5_702b m5_702c m5_702d m5_702e m5_702f m5_702g /// 
        m5_801a m5_801b m5_801c m5_801d m5_801e m5_801f m5_801g m5_801h m5_802 ///
        m5_803a m5_803b m5_803c m5_803d m5_803e m5_803f m5_803g m5_804a m5_804b m5_804c ///
@@ -5187,7 +5187,7 @@ recode m5_701a m5_701b m5_701c m5_701d m5_701e m5_701f m5_701g m5_701h m5_701_ot
 	   m5_902a m5_902b m5_902c m5_902d m5_902e m5_902f m5_902g m5_902h m5_902i m5_902j  ///
 	   m5_903a m5_903b m5_903c m5_903d m5_903e m5_903f m5_904 (98=.d) 
 	   
-recode m5_701a m5_701b m5_701c m5_701d m5_701e m5_701f m5_701g m5_701h m5_701_other /// 
+recode m5_701a m5_701b m5_701c m5_701d m5_701e m5_701f m5_701g m5_701h /// 
        m5_702a m5_702b m5_702c m5_702d m5_702e m5_702f m5_702g /// 
        m5_801a m5_801b m5_801c m5_801d m5_801e m5_801f m5_801g m5_801h m5_802 ///
        m5_803a m5_803b m5_803c m5_803d m5_803e m5_803f m5_803g m5_804a m5_804b m5_804c ///
@@ -5214,10 +5214,6 @@ recode m5_406a (98 = .d)
 * note: it's highly likely that in the next round of data they will change most of these vars to be numerical. I have followed up with the KEMRI team
 *example of what we are looking for here:
 
-encode q203_1_1, gen(m5_babyfeed_a)
-recode m5_babyfeed_a (. = .a) if if m5_201 !=1 
-
-recode m5_starttime m5_endtime m5_duration m5_date (. = .a) if m5_consent !=1
 
 *** Questions for Shalom 
 * 1. m5_depression_sum: not sure how to recode missing values
