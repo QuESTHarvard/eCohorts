@@ -9,6 +9,7 @@ u "$in_data_final/eco_m1_in_der.dta", clear
 * SETTING AND DEMOGRAPHICS OF WOMEN ENROLLED
 	tab residence
 	
+	
 	* By residence
 	mean enrollage, over(residence)
     recode enrollage 1/19=1 20/35=2 36/49=3, g(agecat)
@@ -45,8 +46,9 @@ u "$in_data_final/eco_m1_in_der.dta", clear
 			tabstat anc1tq, by(unemployed) stat(mean sd count)
 			tabstat anc1counsel, by(unemployed) stat(mean sd count)
 	* Items done the least
-			tabstat anc1bp anc1muac anc1bmi anc1fetal_hr anc1urine anc1blood ///
-				    anc1ifa anc1depression anc1tt counsel_nutri counsel_exer ///
+
+			tabstat anc1bp anc1weight anc1fetal_hr  anc1blood anc1ultrasound anc1urine  ///
+				    anc1ifa  anc1tt anc1calcium anc1deworm counsel_nutri  ///
 					counsel_complic counsel_comeback counsel_birthplan, ///
 					stat(mean count) col(stat)
 					
