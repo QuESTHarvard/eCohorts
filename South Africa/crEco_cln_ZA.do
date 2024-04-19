@@ -2,7 +2,6 @@
 * Created by S. Sabwa
 * Updated: Aug 17 2023 
 
-
 *------------------------------------------------------------------------------*
 
 * Import Data 
@@ -22,8 +21,6 @@ drop if MOD1_ELIGIBILITY_B3_B == 14 // per Gloria 9-22-23 email: dropping 14 yea
 keep if MOD1_ELIGIBILITY_B7 == 1
 
 gen country = "South Africa"
-
-gen module = 1 if MOD1_META_DATA_A2 !=.
 
 * De-identify dataset:
 * MOD1_Identification_105, MOD1_Demogr_515, MOD1_Demogr_516, MOD1_Demogr_519 already dropped in this dataset
@@ -160,7 +157,7 @@ rename (MOD1_Econ_Status_1220 MOD1_Econ_Status_1220_Other MOD1_Econ_Status_1221 
 rename (MOD1_Physical_Assessment_1303a MOD1_Physical_Assessment_1303b MOD1_Physical_Assessment_1303c MOD1_Physical_Assessment_1304a  ///
 		MOD1_Physical_Assessment_1304b MOD1_Physical_Assessment_1304c MOD1_Physical_Assessment_1305a MOD1_Physical_Assessment_1305b ///
 		MOD1_Physical_Assessment_1305c) (bp_time_1_systolic bp_time_1_diastolic time_1_pulse_rate bp_time_2_systolic bp_time_2_diastolic ///
-		time_2_pulse_rate bp_time_3_systolic bp_time_3_diastolic pulse_rate_time_3)
+		time_2_pulse_rate bp_time_3_systolic bp_time_3_diastolic time_3_pulse_rate)
 		
 rename (MOD1Physical_Assessment_1306 MOD1_Physical_Assessment_1307 MOD1_Physical_Assessment_1308 MOD1_Physical_Assessment_1309 ///
 		MOD1_Next_Call_1401) (m1_1306 m1_1307 m1_1308 m1_1309 m1_1401)	
@@ -240,6 +237,9 @@ replace m1_1309 =  m1_1309/100 if m1_1309==1226
 
 replace m1_723 = ".a" if m1_723 == "NA"
 destring(m1_723), generate(recm1_723)
+
+* Data quality fixes to respondent id naming:
+replace respondentid = "QEE_083" if respondentid == "QEE_O83"
 
 *===============================================================================
 	
@@ -589,8 +589,6 @@ ren rec* *
 		* Note: .a means NA, .r means refused, .d is don't know, . is missing 
 		* Need to figure out a way to clean up string "text" only vars that have numeric entries (ex. 803)
 
-	** MODULE 1:
-
 recode m1_404 m1_506 m1_507 m1_700 m1_701 m1_702 m1_703 m1_705 m1_706 m1_707 m1_708a m1_708b m1_708c ///
 	  m1_708d m1_708e m1_708f m1_709a m1_710a m1_710b m1_710c m1_711a m1_711b m1_712 m1_713a m1_713c ///
 	  m1_713d m1_713e m1_713f m1_713g m1_713h m1_713i m1_713k m1_713l m1_714a m1_714b m1_714c m1_716a m1_716b ///
@@ -627,11 +625,9 @@ recode m1_808 (95 = .a)
 recode m1_1223 (96 = .r)
 	   
 *------------------------------------------------------------------------------*
-
 * recoding for skip pattern logic:	   
 	   
-* Recode missing values to NA for questions respondents would not have been asked 
-* due to skip patterns
+* Recode missing values to NA for questions respondents would not have been asked due to skip patterns
 
 recode RESPONSE_Lattitude RESPONSE_Longitude (. = .a) if RESPONSE_Location == "UNKNOWN"
 
@@ -1067,7 +1063,7 @@ replace bp_time_2_diastolic = . if bp_time_2_diastolic == 9999998
 replace time_2_pulse_rate = . if time_2_pulse_rate == 9999998
 replace bp_time_3_systolic = . if bp_time_3_systolic == 9999998
 replace bp_time_3_diastolic = . if bp_time_3_diastolic == 9999998
-replace pulse_rate_time_3 = . if pulse_rate_time_3 == 9999998
+replace time_3_pulse_rate = . if time_3_pulse_rate == 9999998
 replace height_cm = . if height_cm == 9999998 
 replace weight_kg = . if weight_kg == 9999998 
 replace m1_1306 = . if m1_1306 == 9999998 
@@ -1358,7 +1354,7 @@ lab var bp_time_2_diastolic "Time 2 (Diastolic)"
 lab var time_2_pulse_rate "Time 2 (Heart Rate)"
 lab var bp_time_3_systolic "Time 3 (Systolic)"
 lab var bp_time_3_diastolic "Time 3 (Diastolic)"
-lab var pulse_rate_time_3 "Time 3 (Heart Rate)"
+lab var time_3_pulse_rate "Time 3 (Heart Rate)"
 lab var m1_1306 "1306. Hemoglobin level available in maternal health card"
 lab var m1_1307 "1307. HEMOGLOBIN LEVEL FROM MATERNAL HEALTH CARD "
 lab var m1_1308 "1308. Will you take the anemia test?"
@@ -1371,37 +1367,36 @@ lab var m1_1401 "1401. What period of the day is most convenient for you to answ
 	* STEP FIVE: SAVE DATA TO RECODED FOLDER/ ORDER VRIABLES
 	
 order m1_*, sequential
-order module country study_site study_site_sd facility interviewer_id m1_date pre_screening_num_za permission care_self enrollage_cat enrollage zone_live b5anc b6anc_first b7eligible respondentid mobile_phone flash
+order country study_site study_site_sd facility interviewer_id m1_date pre_screening_num_za permission care_self enrollage_cat enrollage zone_live b5anc b6anc_first b7eligible respondentid mobile_phone flash
 
 order phq9a phq9b phq9c phq9d phq9e phq9f phq9g phq9h phq9i, after(m1_205e)
 
-order height_cm weight_kg bp_time_1_systolic bp_time_1_diastolic time_1_pulse_rate bp_time_2_systolic bp_time_2_diastolic time_2_pulse_rate bp_time_3_systolic bp_time_3_diastolic pulse_rate_time_3, after(m1_1223)
+order height_cm weight_kg bp_time_1_systolic bp_time_1_diastolic time_1_pulse_rate bp_time_2_systolic bp_time_2_diastolic time_2_pulse_rate bp_time_3_systolic bp_time_3_diastolic time_3_pulse_rate, after(m1_1223)
 
 drop JO-N709b
 
 save "$za_data_final/eco_m1_za.dta", replace
 	
-
+*/
 *===============================================================================
+* MODULE 2:
+clear all
 
-merge 1:m respondentid using "/Users/shs8688/Dropbox (Harvard University)/SPH-Kruk Team/QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data/South Africa/01 raw data/MODULE 2 DATA SET_SOUTH AFRICA 27 Jan 2024_SS.dta"
+* import data:
+use "$za_data/MODULE 2 DATA SET_SOUTH AFRICA 27 Jan 2024_SS.dta", clear
 
 *drop MOD2_Identification_106 
 drop PrimaryLast 
 drop filter__  
 drop VAR00001
 drop __9999998
-*drop RESPONSE_QuestionnaireID RESPONSE_QuestionnaireName RESPONSE_QuestionnaireVersion
-*drop RESPONSE_Location RESPONSE_Lattitude RESPONSE_Longitude	
-
-replace module = 2 if V2 !=.
 
 *===============================================================================
 
 	* STEP ONE: RENAME VARAIBLES
     
 	* MODULE 2:
-rename V2 m2_attempt_number
+rename V2 m2_completed_attempts
 rename MOD2_Permission_Granted m2_permission
 rename MOD2_Identification_101 m2_interviewer
 rename MOD2_Identification_102 m2_date
@@ -1423,8 +1418,6 @@ rename MOD2_Gen_Health_203D m2_203d
 rename MOD2_Gen_Health_203E m2_203e
 rename MOD2_Gen_Health_203F m2_203f
 rename MOD2_Gen_Health_203G m2_203g
-rename m2_203g m2_203h
-rename m2_203h m2_203g
 rename MOD2_Gen_Health_203H m2_203h
 rename MOD2_Gen_Health_204 m2_204_other
 rename MOD2_Gen_Health_205A m2_205a
@@ -1492,7 +1485,7 @@ rename MOD2_Cont_Care_503E m2_503e
 rename MOD2_Cont_Care_505E m2_505e
 rename MOD2_Cont_Care_503F m2_503f
 rename MOD2_Cont_Care_505F m2_505f
-rename MOD2_Cont_Care_503G m2_503g
+rename MOD2_Cont_Care_503G m2_503g_za
 rename MOD2_Cont_Care_505H m2_505h_za
 rename MOD2_Cont_Care_504 m2_504
 rename MOD2_Cont_Care_504_Other m2_504_other
@@ -1533,12 +1526,39 @@ rename MOD2_Costs_NV_702B m2_702b_cost
 rename MOD2_Costs_NV_702C m2_702c_cost
 rename MOD2_Costs_NV_702D m2_702d_cost
 rename MOD2_Costs_NV_702E_Othere m2_702e_cost
-rename MOD2_Costs_NV_702E m2_702_other_ke
+rename MOD2_Costs_NV_702E m2_702_other
 rename MOD2_Costs_NV_702_Total m2_703
 rename MOD2_Costs_NV_703 m2_704
 rename MOD2_Costs_NV_704 m2_704_confirm
 rename MOD2_Costs_NV_705 m2_705
 rename MOD2_Costs_NV_705_Other m2_705_other	
+
+*Data quality: 
+*dropping pids based on Londi's review:
+*SS: ask why there is a mix of underscores and dashes
+drop if respondentid == "BNE_013"
+drop if respondentid == "MPH_015"
+replace respondentid = "RCH_083" if respondentid == "CRH_083"
+replace respondentid = "EUB_008" if respondentid == "EUB_,008"
+replace respondentid = "EUB_003" if respondentid == "EUB_033"
+replace respondentid = "IIB_024" if respondentid == "IiB_024"
+replace respondentid = "KAN_017" if respondentid == "KAN_01"
+replace respondentid = "KAN_014" if respondentid == "Kan_014"
+replace respondentid = "KAN_032" if respondentid == "KAN_32"
+replace respondentid = "KAN_009" if respondentid == "KAN-009"
+replace respondentid = "MER_028" if respondentid == "MER-028"
+replace respondentid = "MER_042" if respondentid == "MMER_042"
+replace respondentid = "MND-011" if respondentid == "MND_011"
+replace respondentid = "MND-013" if respondentid == "MND_013"
+replace respondentid = "MND_010" if respondentid == "MND-010"
+replace respondentid = "NEL_054" if respondentid == "NEL-054"
+replace respondentid = "NWE_040" if respondentid == "NWE-040"
+replace respondentid = "NWE_065" if respondentid == "NWE-065"
+replace respondentid = "PAP_050" if respondentid == "PAP_50"
+replace respondentid = "RCH_028" if respondentid == "RCh_028"
+replace respondentid = "TOK_019" if respondentid == "TOk_019"
+replace respondentid = "BXE_010" if respondentid == "BXE__010"
+replace respondentid = "NOK_042" if respondentid == "NOK_42"
 
 *===============================================================================
 	
@@ -1552,7 +1572,7 @@ rename MOD2_Costs_NV_705_Other m2_705_other
 	label define maternal_death_reported 1 "Yes" 0 "No" 
 	label values m2_maternal_death_reported maternal_death_reported
 	
-	label define m2_hiv_status 1 "Positive" 2 "Negative" 3 "Unknown" 
+	label define m2_hiv_status 1 "Positive" 2 "Negative" 3 "Unknown" 98 "DK" 99 "NR/RF"
 	label values m2_hiv_status m2_hiv_status
 	
 	label define m2_maternal_death_learn 1 "Called respondent phone, someone else responded" ///
@@ -1570,7 +1590,7 @@ rename MOD2_Costs_NV_705_Other m2_705_other
 	label define m2_203a 1 "Yes" 0 "No" 98 "DK" 99 "NR/RF" 
 	label values m2_203a m2_203a
 	
-	label define m2_203b 1 "Yes" 0 "No" 98 "DK" 99 "RF" 
+	label define m2_203b 1 "Yes" 0 "No" 98 "DK" 99 "NR/RF" 
 	label values m2_203b m2_203b
 
 	label define m2_203c 1 "Yes" 0 "No" 98 "DK" 99 "NR/RF" 
@@ -1588,88 +1608,27 @@ rename MOD2_Costs_NV_705_Other m2_705_other
 	label define m2_203g 1 "Yes" 0 "No" 98 "DK" 99 "NR/RF" 
 	label values m2_203g m2_203g
 
-	label define mx2_203h 1 "Yes" 0 "No" 98 "DK" 99 "NR/RF" 
+	label define m2_203h 1 "Yes" 0 "No" 98 "DK" 99 "NR/RF" 
 	label values m2_203h m2_203h
 
 	label define m2_205a 0 "None of the days" 1 "Several days" 2 "More than half the days (>7)" 3 "Nearly every day" 
 	label values m2_205a m2_205a
 
-	label define m2_206 1 "Every day" 2 "Some days" 3 "Not at all" 98 "DK" 99 "RF" 
+	label define m2_206 1 "Every day" 2 "Some days" 3 "Not at all" 98 "DK" 99 "NR/RF" 
 	label values m2_206 m2_206
 
-	label define m2_301 1 "Yes" 0 "No" 98 "DK" 99 "RF" 
+	label define m2_301 1 "Yes" 0 "No" 98 "DK" 99 "NR/RF" 
 	label values m2_301 m2_301
 
-	label define m2_302 1 "1" 2 "2" 3 "3" 4 "4" 5 "5" 
-	label values m2_302 m2_302
-	
-	*m2_303
+	* keep this var numeric
+	*label define m2_302 1 "1" 2 "2" 3 "3" 4 "4" 5 "5" 
+	*label values m2_302 m2_302
 
-	label define m2_303a 1 "In your home" 2 "Someone elses home" 3 "Government hospital" ///
-					 4 "Government health center" 5 "Government health post" ///
-					 6 "NGO or faith-based health facility" 7 "Private hospital" ///
-					 8 "Private specialty maternity center" 9 "Private specialty maternity clinic" ///
-					 10 "Private clinic" ///
-					 11 "Another private medical facility (including pharmacy, shop, traditional healer)" ///
-					 98 "DK" 99 "RF" 
-	label values m2_303a m2_303a
-
-	label define m2_303b 1 "In your home" 2 "Someone elses home" 3 "Government hospital" ///
-					 4 "Government health center" 5 "Government health post" ///
-					 6 "NGO or faith-based health facility" 7 "Private hospital" ///
-					 8 "Private specialty maternity center" 9 "Private specialty maternity clinic" ///
-					 10 "Private clinic" ///
-					 11 "Another private medical facility (including pharmacy, shop, traditional healer)" ///
-					 98 "DK" 99 "RF" 
-	label values m2_303b m2_303b
-					 
-	label define m2_303c 1 "In your home" 2 "Someone elses home" 3 "Government hospital" ///
-					 4 "Government health center" 5 "Government health post" ///
-					 6 "NGO or faith-based health facility" 7 "Private hospital" ///
-					 8 "Private specialty maternity center" 9 "Private specialty maternity clinic" ///
-					 10 "Private clinic" ///
-					 11 "Another private medical facility (including pharmacy, shop, traditional healer)" ///
-					 98 "DK" 99 "RF"
-	label values m2_303c m2_303c
-					 
-					 
-	label define m2_303d 1 "In your home" 2 "Someone elses home" 3 "Government hospital" ///
-					 4 "Government health center" 5 "Government health post" ///
-					 6 "NGO or faith-based health facility" 7 "Private hospital" ///
-					 8 "Private specialty maternity center" 9 "Private specialty maternity clinic" ///
-					 10 "Private clinic" ///
-					 11 "Another private medical facility (including pharmacy, shop, traditional healer)" ///
-					 98 "DK" 99 "RF"
-	label values m2_303d m2_303d
-					 		
-	label define m2_303e 1 "In your home" 2 "Someone elses home" 3 "Government hospital" ///
-					 4 "Government health center" 5 "Government health post" ///
-					 6 "NGO or faith-based health facility" 7 "Private hospital" ///
-					 8 "Private specialty maternity center" 9 "Private specialty maternity clinic" ///
-					 10 "Private clinic" ///
-					 11 "Another private medical facility (including pharmacy, shop, traditional healer)" ///
-					 98 "DK" 99 "RF" 
-	label values m2_303e m2_303e			 
-	
-	/* edit for ZA
-	label define m2_304a 1 "Meki Catholic Primary Clinic" 2 "Bote Health Center" 3 "Meki Health Center" 4 "Adami Tulu Health Center" 5 "Bulbula Health Center" 6 "Dubisa Health Center" 7 "Olenchiti Primary Hospital" 8 "Awash Malkasa Health Center" 9 "Koka Health Center" 10 "Biyo Health Center" 11 "Ejersa Health Center" 12 "Catholic Church Primary Clinic" 13 "Noh Primary Clinic" 14 "Adama Health Center" 15 "Family Guidance Nazret Specialty Clinic" 16 "Biftu" 17 "Bokushenen" 18 "Adama Teaching Hospital" 19 "Hawas" 20 "Medhanialem Hospital" 21 "Sister Aklisiya Hospital" 22 "Marie stopes Specialty Clinic" 23 "Other in East Shewa or Adama, Specify"
-	label values m2_304a m2_304a
-	
-
-
-	label define m2_304b 1 "Meki Catholic Primary Clinic" 2 "Bote Health Center" 3 "Meki Health Center" 4 "Adami Tulu Health Center" 5 "Bulbula Health Center" 6 "Dubisa Health Center" 7 "Olenchiti Primary Hospital" 8 "Awash Malkasa Health Center" 9 "koka Health Center" 10 "Biyo Health Center" 11 "Ejersa Health Center" 12 "Catholic Church Primary Clinic" 13 "Noh Primary Clinic" 14 "Adama Health Center" 15 "Family Guidance Nazret Specialty Clinic" 16 "Biftu" 17 "Bokushenen" 18 "Adama Teaching Hospital" 19 "Hawas" 20 "Medhanialem Hospital" 21 "Sister Aklisiya Hospital" 22 "Marie stopes Specialty Clinic" 23 "Other in East Shewa or Adama, Specify"
-	label values m2_304b m2_304b
-
-	label define m2_304c 1 "Meki Catholic Primary Clinic" 2 "Bote Health Center" 3 "Meki Health Center" 4 "Adami Tulu Health Center" 5 "Bulbula Health Center" 6 "Dubisa Health Center" 7 "Olenchiti Primary Hospital" 8 "Awash Malkasa Health Center" 9 "koka Health Center" 10 "Biyo Health Center" 11 "Ejersa Health Center" 12 "Catholic Church Primary Clinic" 13 "Noh Primary Clinic" 14 "Adama Health Center" 15 "Family Guidance Nazret Specialty Clinic" 16 "Biftu" 17 "Bokushenen" 18 "Adama Teaching Hospital" 19 "Hawas" 20 "Medhanialem Hospital" 21 "Sister Aklisiya Hospital" 22 "Marie stopes Specialty Clinic" 23 "Other in East Shewa or Adama, Specify"
-	label values m2_304c m2_304c
-
-	label define m2_304d 1 "Meki Catholic Primary Clinic" 2 "Bote Health Center" 3 "Meki Health Center" 4 "Adami Tulu Health Center" 5 "Bulbula Health Center" 6 "Dubisa Health Center" 7 "Olenchiti Primary Hospital" 8 "Awash Malkasa Health Center" 9 "Koka Health Center" 10 "Biyo Health Center" 11 "Ejersa Health Center" 12 "Catholic Church Primary Clinic" 13 "Noh Primary Clinic" 14 "Adama Health Center" 15 "Family Guidance Nazret Specialty Clinic" 16 "Biftu" 17 "Bokushenen" 18 "Adama Teaching Hospital" 19 "Hawas" 20 "Medhanialem Hospital" 21 "Sister Aklisiya Hospital" 22 "Marie stopes Specialty Clinic" 23 "Other in East Shewa or Adama, Specify" 	
-	label values m2_304d m2_304d
-
-	label define m2_304e 1 "Meki Catholic Primary Clinic" 2 "Bote Health Center" 3 "Meki Health Center" 4 "Adami Tulu Health Center" 5 "Bulbula Health Center" 6 "Dubisa Health Center" 7 "Olenchiti Primary Hospital" 8 "Awash Malkasa Health Center" 9 "Koka Health Center" 10 "Biyo Health Center" 11 "Ejersa Health Center" 12 "Catholic Church Primary Clinic" 13 "Noh Primary Clinic" 14 "Adama Health Center" 15 "Family Guidance Nazret Specialty Clinic" 16 "Biftu" 17 "Bokushenen" 18 "Adama Teaching Hospital" 19 "Hawas" 20 "Medhanialem Hospital" 21 "Sister Aklisiya Hospital" 22 "Marie stopes Specialty Clinic" 23 "Other in East Shewa or Adama, Specify" 
-	label values m2_304e m2_304e
-	
-	*/
+	label define visit_location 1 "In your home" 2 "Someone else's home" 3 "Public clinic" ///
+					 4 "Public hospital" 5 "Private clinic" ///
+					 6 "Private hospital" 7 "Public Community health center" ///
+					 8 "Other"  98 "DK" 99 "RF" 0 "None"
+	label values m2_303a m2_303b m2_303c m2_303d m2_303e visit_location
 
 	label define m2_305 1 "Yes, for a routine antenatal care" 0 "No" 98 "DK" 99 "RF" 
 	label values m2_305 m2_305
@@ -1678,7 +1637,15 @@ rename MOD2_Costs_NV_705_Other m2_705_other
 	label values m2_306 m2_306
 	
 	*m2_307
-
+	forval j = 1/96 {
+    gen m2_307_`j' = strpos("," + m2_307 + ",", ",`j',") > 0
+	}
+	drop m2_307_6-m2_307_95
+	drop m2_307
+	
+	label define m2_YN 1 "Yes" 0 "No"
+	label values m2_307_1 m2_307_2 m2_307_3 m2_307_4 m2_307_5 m2_307_96 m2_YN
+	
 	label define m2_308 1 "Yes, for a routine antenatal care" 0 "No" 98 "DK" 99 "RF" 
 	label values m2_308 m2_308
 
@@ -1686,6 +1653,13 @@ rename MOD2_Costs_NV_705_Other m2_705_other
 	label values m2_309 m2_309
 	
 	*m2_310
+	forval j = 1/96 {
+    gen m2_310_`j' = strpos("," + m2_310 + ",", ",`j',") > 0
+	}
+	drop m2_310_6-m2_310_95
+	drop m2_310
+	
+	label values m2_310_1 m2_310_2 m2_310_3 m2_310_4 m2_310_5 m2_310_96 m2_YN
 	
 	label define m2_311 1 "Yes, for a routine antenatal care" 0 "No" 98 "DK" 99 "RF" 
 	label values m2_311 m2_311
@@ -1694,7 +1668,14 @@ rename MOD2_Costs_NV_705_Other m2_705_other
 	label values m2_312 m2_312
 	
 	*m2_313
-
+	forval j = 1/96 {
+    gen m2_313_`j' = strpos("," + m2_313 + ",", ",`j',") > 0
+	}
+	drop m2_313_6-m2_313_95
+	drop m2_313
+	
+	label values m2_313_1 m2_313_2 m2_313_3 m2_313_4 m2_313_5 m2_313_96 m2_YN
+	
 	label define m2_314 1 "Yes, for a routine antenatal care" 0 "No" 98 "DK" 99 "RF"  
 	label values m2_314 m2_314
 	
@@ -1702,6 +1683,13 @@ rename MOD2_Costs_NV_705_Other m2_705_other
 	*label values m2_315 m2_315
 
 	*m2_316
+	forval j = 1/96 {
+    gen m2_316_`j' = strpos("," + m2_316 + ",", ",`j',") > 0
+	}
+	drop m2_316_6-m2_316_95
+	drop m2_316
+	
+	label values m2_316_1 m2_316_2 m2_316_3 m2_316_4 m2_316_5 m2_316_96 m2_YN
 	
 	label define m2_317 1 "Yes, for a routine antenatal care" 0 "No" 98 "DK" 99 "RF"
 	label values m2_317 m2_317
@@ -1709,10 +1697,27 @@ rename MOD2_Costs_NV_705_Other m2_705_other
 	label define m2_318 1 "Yes, for a referral from your antenatal care provider" 0 "No" 98 "DK" 99 "RF" 
 	label values m2_318 m2_318 
 	
-	*m2_319
+	/*m2_319: SS: not string because one answer per check box
+	forval j = 1/96 {
+    gen m2_319_`j' = strpos("," + m2_319 + ",", ",`j',") > 0
+	}
+	drop m2_319_6-m2_319_95
+	
+	label values m2_319_1 m2_319_2 m2_319_3 m2_319_4 m2_319_5 m2_319_96 m2_YN
+	*/
+	
 	
 	*m2_320
-
+	forval j = 0/99 {
+    gen m2_320_`j' = strpos("," + m2_320 + ",", ",`j',") > 0
+	}
+	drop m2_320_12-m2_320_95
+	drop m2_320_97
+	drop m2_320_98
+	drop m2_320
+	
+	label values m2_320_0 m2_320_1 m2_320_2 m2_320_3 m2_320_4 m2_320_5 m2_320_96 m2_320_99 ßm2_YN
+	
 	label define m2_321 0 "No" 1 "Yes, by phone" 2 "Yes, by SMS" 3 "Yes, by web" 98 "DK" 99 "NR/RF" 
 	label values m2_321 m2_321
 
@@ -1773,7 +1778,8 @@ rename MOD2_Costs_NV_705_Other m2_705_other
 	label define m2_503f 1 "Yes" 0 "No" 98 "DK" 99 "RF"
 	label values m2_503f m2_503f
 	
-	*m2_503g_za
+	label define m2_503g_za 1 "Yes" 0 "No" 98 "DK" 99 "RF"
+	label values m2_503g_za m2_503g_za
 	
 	label define m2_504 1 "Yes" 0 "No" 98 "DK" 99 "RF" 
 	label values m2_504 m2_504
@@ -1796,7 +1802,11 @@ rename MOD2_Costs_NV_705_Other m2_705_other
 	label define m2_505f 1 "Hypertensive" 0 "Not hypertensive" 98 "DK" 99 "NR/RF" 
 	label values m2_505f m2_505f
 	
-	*m2_505g
+	label define m2_505g 1 "Positive" 0 "Negative" 98 "DK" 99 "NR/RF" 
+	label values m2_505g m2_505g
+	
+	label define m2_505h_za 1 "Positive" 0 "Negative" 98 "DK" 99 "NR/RF" 
+	label values m2_505h_za m2_505h_za
 
 	label define m2_506a 1 "Yes" 0 "No" 98 "DK" 99 "RF" 
 	label values m2_506a m2_506a
@@ -1810,12 +1820,14 @@ rename MOD2_Costs_NV_705_Other m2_705_other
 	label define m2_506d 1 "Yes" 0 "No" 98 "DK" 99 "RF"
 	label values m2_506d m2_506d
 	
-	label define m2_507 0 "Nothing I did not speak about this with a health care provider" ///
-						1 "Told you to come back later" ///
-						2 "Told you to get a lab test or imaging (e.g., blood tests, ultrasound, x-ray, heart echo)" ///
-						3 "Told you to go to hospital or see a specialist like an obstetrician or gynecologist" ///
-						4 "Told you to take painkillers like acetaminophen" ///
-						5 "Told you to wait and see" ///
+	*SS: Note this is different than in other countries
+	label define m2_507 1 "Nothing I did not speak about this with a health care provider" ///
+						2 "They told you to get a lab test or imaging (e.g., ultrasound, blood tests, x-ray, heart echo)" ///
+						3 "They provided a treatment in the visit" ///
+						4 "They prescribed a medication" ///
+						5 "They told you to come back to this health facility" ///
+						6 "They told you to go somewhere else for higher level care" ///
+						7 "They told you to wait and see" ///
 						96 "Other, specify" ///
 						98 "DK" 99 "RF" 
 	label values m2_507 m2_507
@@ -1889,119 +1901,163 @@ rename MOD2_Costs_NV_705_Other m2_705_other
 	label define m2_704 1 "Yes" 0 "No" 98 "DK" 99 "RF" 
 	label values m2_704 m2_704
 
-	/*
-	label define m2_705 1 "Yes" 0 "No" 
-	label values m2_705 m2_705
-	*/
+	*m2_705
+	forval j = 1/96 {
+    gen m2_705_`j' = strpos("," + m2_705 + ",", ",`j',") > 0
+	}
+	drop m2_705_7-m2_705_95
+	drop m2_705
+
+* Formatting Dates (SS: do this for all dates in all modules)	 
+	
+	
 	
 *===============================================================================
-/*		
+	
 	*STEP THREE: RECODING MISSING VALUES 
+	* Recode refused and don't know values
+		* Note: .a means NA, .r means refused, .d is don't know, . is missing 
+		* Need to figure out a way to clean up string "text" only vars that have numeric entries (ex. 803)
+
+recode m2_hiv_status m2_201 m2_203a m2_203b m2_203c m2_203d m2_203e m2_203f ///
+	   m2_203g m2_203h m2_206 m2_301 m2_303a m2_303b m2_303c m2_303d ///
+	   m2_303e m2_305 m2_306 m2_308 m2_309 m2_311 m2_312 m2_312 m2_314 ///
+	   m2_317 m2_318 m2_321 m2_501a m2_501b m2_501c m2_501d m2_501e m2_501f ///
+	   m2_501g m2_502 m2_503a m2_505a m2_503b m2_505b m2_503c m2_505c ///
+	   m2_503d m2_505d m2_503e m2_505e m2_503f m2_505f m2_503g_za ///
+	   m2_504 m2_505h_za m2_505g m2_506a m2_506b m2_506c m2_506d m2_508a m2_508b ///
+	   m2_509a m2_509b m2_509c m2_601a m2_601b m2_601c m2_601d m2_601e m2_601f ///
+	   m2_601g m2_601h m2_601i m2_601j m2_601k m2_601l m2_601m m2_601o m2_603 ///
+	   m2_701 m2_ga m2_702a_cost m2_702b_cost m2_702c_cost m2_702d_cost ///
+	   m2_702e_cost m2_702_other m2_704_confirm (98 = .d)
+
+recode m2_hiv_status m2_203a m2_203b m2_203c m2_203d m2_203e m2_203f m2_203g ///
+	   m2_203h m2_206 m2_301 m2_303a m2_303b m2_303c m2_303d m2_303e ///
+	   m2_305 m2_306 m2_308 m2_309 m2_311 m2_312 m2_314 m2_317 m2_318 ///
+	   m2_321 m2_401 m2_402 m2_403 m2_404 m2_405 m2_501a m2_501b m2_501c m2_501d ///
+	   m2_501e m2_501f m2_501g m2_502 m2_503a m2_505a m2_503c m2_505c m2_503d ///
+	   m2_505d m2_503e m2_505e m2_503f m2_505f m2_503g_za m2_505h_za m2_504 m2_505g ///
+	   m2_506a m2_506b m2_506c m2_506d m2_508a m2_508b m2_509a m2_509b m2_509c ///
+	   m2_601a m2_601b m2_601c m2_601d m2_601e m2_601f m2_601g m2_601h m2_601i ///
+	   m2_601j m2_601k m2_601l m2_601m m2_601o m2_603 m2_701 m2_ga m2_702a_cost ///
+	   m2_702b_cost m2_702c_cost m2_702d_cost m2_702e_cost m2_702_other (99 = .r)
+
+recode m2_702a_cost m2_702b_cost m2_702c_cost (999 = .r) //SS: confirm with KE team that this is correct
+
+*recode (95 = .d)
+
+*------------------------------------------------------------------------------*
+* recoding for skip pattern logic:	   
+	   
+* Recode missing values to NA for questions respondents would not have been asked due to skip patterns
+
+recode m2_completed_attempts m2_date m2_time_start m2_ga m2_maternal_death_reported (. = .a) if m2_permission !=1
+
+*recode m2_hiv_status (. = .a) if m1_202e != 0 | m1_202e != 1
+
+recode m2_date_of_maternal_death (. 9999998 = .a) if m2_maternal_death_reported !=1
+
+recode m2_maternal_death_learn (. 9999998 = .a) if m2_maternal_death_reported !=1
+
+recode m2_maternal_death_learn_other (. 9999998= .a) if m2_maternal_death_learn != 96 // numeric because of 0 obs
+
+recode m2_201 m2_202 (. 9999998 = .a) if m2_maternal_death_reported ==1 | m2_permission !=1 | m2_date_of_maternal_death !=. | m2_date_of_maternal_death !=.a
+
+recode m2_203a m2_203b m2_203c m2_203d m2_203e m2_203f m2_203g m2_203h m2_205a m2_205b m2_206 m2_301 (. 9999998 = .a) if m2_202 !=1
+
+replace m2_204_other = ".a" if m2_202 !=1
+
+recode m2_302 (. 9999998 = .a) if m2_301 !=1
+
+recode m2_303a (. 9999998 = .a) if m2_302 !=1
+
+recode m2_303b (. 9999998 = .a) if m2_302 !=2
+
+recode m2_303c (. 9999998 = .a) if m2_302 !=3
 	
-	* MODULE 2:
-	
-recode  m2_attempt_number m2_permission (. = .a) if module !=2
+recode m2_303d (. 9999998 = .a) if m2_302 !=4
 
-recode m2_date_confirm
+recode m2_303e (. 9999998 = .a) if m2_302 !=5
 
-recode m2_time_start
+replace m2_304a = ".a" if m2_303a == . | m2_303a == .a | m2_302 !=1
 
-recode m2_maternal_death_reported (. = .a) if m2_attempt_avail != 0
+replace m2_304b = ".a" if m2_303b == . | m2_303b == .a | m2_302 !=2
 
-recode m2_date_of_maternal_death_yesno m2_date_of_maternal_death (. = .a) if m2_maternal_death_reported !=1
+replace m2_304c = ".a" if m2_303c == . | m2_303c == .a | m2_302 !=3
 
-recode m2_hiv_status (. = .a) if m1_202e != 0 | m1_202e != 1
+replace m2_304d = ".a" if m2_303d == . | m2_303d == .a | m2_302 !=4
 
-recode m2_date_of_maternal_death (. = .a) if m2_maternal_death_reported !=1
+*SS: remember all 5+ consultation vars will need to be edited if the number of consultations increases above 7
+replace m2_304e = ".a" if m2_303e == . | m2_303e == .a | m2_302 !=5 | m2_302 !=6 | m2_302 !=7
 
-recode m2_maternal_death_learn (. = .a) if m2_maternal_death_reported !=1
+recode m2_305 (. 9999998 = .a) if m2_302 == 0 | m2_302 == . | m2_302 == .a
+recode m2_306 (. 9999998 = .a) if m2_305 !=0
 
-replace m2_maternal_death_learn_other = ".a" if m2_maternal_death_learn != -96
+/* SS: double check but it looks like these skip patterns aren't programmed into ZA 
+recode m2_307_1 (. = .a) if m2_306 !=0
+recode m2_307_2 (. = .a) if m2_306 !=0
+recode m2_307_3 (. = .a) if m2_306 !=0
+recode m2_307_4 (. = .a) if m2_306 !=0
+recode m2_307_5 (. = .a) if m2_306 !=0
+recode m2_307_96 (. = .a) if m2_306 !=0
+recode m2_307_other (. = .a) if m2_307_96 !=2 // numeric because of 0 obs
 
-recode m2_201 m2_202 (. = .a) if module !=2 | m2_consent_recording !=1
+recode m2_310_1 (. = .a) if m2_308 !=0 | m2_308 !=1
+recode m2_310_2 (. = .a) if m2_308 !=0 | m2_308 !=1
+recode m2_310_3 (. = .a) if m2_308 !=0 | m2_308 !=1
+recode m2_310_4 (. = .a) if m2_308 !=0 | m2_308 !=1
+recode m2_310_5 (. = .a) if m2_308 !=0 | m2_308 !=1
+recode m2_310_96 (. = .a) if m2_308 !=0 | m2_308 !=1
+recode m2_310_other (. = .a) if m2_310_96 !=2 // numeric because of 0 obs
 
-replace m2_202_other = ".a" if m2_202 !=3
+recode m2_313_1 (. = .a) if m2_311 !=0 | m2_311 !=1
+recode m2_313_2 (. = .a) if m2_311 !=0 | m2_311 !=1
+recode m2_313_3 (. = .a) if m2_311 !=0 | m2_311 !=1
+recode m2_313_4 (. = .a) if m2_311 !=0 | m2_311 !=1
+recode m2_313_5 (. = .a) if m2_311 !=0 | m2_311 !=1
+recode m2_313_96 (. = .a) if m2_311 !=0 | m2_311 !=1
+replace m2_313_other = ".a" if m2_313_96 !=2
 
-recode m2_ga_estimate (. = .a) if m2_ga == .
-
-recode m2_203a m2_203b m2_203c m2_203d m2_203e m2_203f m2_203g m2_203h m2_204i m2_205a m2_205b m2_phq2_ke m2_206 m2_301 (. = .a) if m2_202 !=1
-
-recode m2_302 (. = .a) if m2_301 !=1
-
-recode m2_303a (. = .a) if m2_302 == . | m2_302 == .a
-
-recode m2_303b (. = .a) if m2_302 == . | m2_302 == 1 |  m2_302 == .a
-
-recode m2_303c (. = .a) if m2_302 == . | m2_302 == 1 | m2_302 == 2 | m2_302 == .a
-
-recode m2_303d (. = .a) if m2_302 == . | m2_302 == 1 | m2_302 == 2 | m2_302 == 3 | m2_302 == .a
-
-recode m2_303e (. = .a) if m2_302 == . | m2_302 == 1 | m2_302 == 2 | m2_302 == 3 | m2_302 == 4 | m2_302 == .a
-
-recode m2_304a (. = .a) if m2_303a == 1 | m2_303a == 2 | m2_302 == . | m2_302 == .a
-
-recode m2_304b (. = .a) if m2_303b == 1 | m2_303b == 2 | m2_302 == . | m2_302 == 1 | m2_302 == .a
-
-recode m2_304c (. = .a) if m2_302 == . | m2_302 == 1 | m2_302 ==2  | m2_303c == 1 | m2_303c == 2 | m2_302 == .a
-
-recode m2_304d (. = .a) if m2_302 == . | m2_302 == 1 | m2_302 == 2 | m2_302 == 3 | m2_303d == 1 | m2_303d == 2 | m2_302 == .a
-
-recode m2_304e (. = .a) if m2_302 == . | m2_302 == 1 | m2_302 == 2 | m2_302 == 3  | m2_302 == 4 | m2_303e == 1 | m2_303e == 2 | m2_302 == .a
-
-recode m2_305 (. = .a) if m2_302 == . | m2_302 == .a
-recode m2_306 (. = .a) if m2_305 !=0
-
-recode m2_306_1 (. = .a) if m2_306 !=0
-recode m2_306_2 (. = .a) if m2_306 !=0
-recode m2_306_3 (. = .a) if m2_306 !=0
-recode m2_306_4 (. = .a) if m2_306 !=0
-recode m2_306_5 (. = .a) if m2_306 !=0
-recode m2_306_96 (. = .a) if m2_306 !=0
-replace m2_307_other = ".a" if m2_306_96 !=2
-
-recode m2_308 (. = .a) if m2_302 == 1 | m2_302 == . | m2_302 == .a
-recode m2_309 (. = .a) if m2_308 !=0
-
-recode m2_308_1 (. = .a) if m2_308 !=0 | m2_308 !=1
-recode m2_308_2 (. = .a) if m2_308 !=0 | m2_308 !=1
-recode m2_308_3 (. = .a) if m2_308 !=0 | m2_308 !=1
-recode m2_308_4 (. = .a) if m2_308 !=0 | m2_308 !=1
-recode m2_308_5 (. = .a) if m2_308 !=0 | m2_308 !=1
-recode m2_308_96 (. = .a) if m2_308 !=0 | m2_308 !=1
-replace m2_310_other = ".a" if m2_308_96 !=2
-
-recode m2_311 (. = .a) if m2_302 == 2 | m2_302 == 1 | m2_302 == . | m2_302 == .a
-recode m2_312 (. = .a) if m2_311 !=0
-
-recode m2_311_1 (. = .a) if m2_311 !=0 | m2_311 !=1
-recode m2_311_2 (. = .a) if m2_311 !=0 | m2_311 !=1
-recode m2_311_3 (. = .a) if m2_311 !=0 | m2_311 !=1
-recode m2_311_4 (. = .a) if m2_311 !=0 | m2_311 !=1
-recode m2_311_5 (. = .a) if m2_311 !=0 | m2_311 !=1
-recode m2_311_96 (. = .a) if m2_311 !=0 | m2_311 !=1
-replace m2_313_other = ".a" if m2_311_96 !=2
-
-recode m2_314 (. = .a) if m2_302 == 3 | m2_302 == 2 | m2_302 == 1 | m2_302 == . | m2_302 == .a
-recode m2_315 (. = .a) if m2_314 !=0
-
-recode m2_314_1 (. = .a) if m2_314 !=0 | m2_314 !=1
-recode m2_314_2 (. = .a) if m2_314 !=0 | m2_314 !=1
-recode m2_314_3 (. = .a) if m2_314 !=0 | m2_314 !=1
-recode m2_314_4 (. = .a) if m2_314 !=0 | m2_314 !=1
-recode m2_314_5 (. = .a) if m2_314 !=0 | m2_314 !=1
-recode m2_314_96 (. = .a) if m2_314 !=0 | m2_314 !=1
+recode m2_316_1 (. = .a) if m2_314 !=0 | m2_314 !=1
+recode m2_316_2 (. = .a) if m2_314 !=0 | m2_314 !=1
+recode m2_316_3 (. = .a) if m2_314 !=0 | m2_314 !=1
+recode m2_316_4 (. = .a) if m2_314 !=0 | m2_314 !=1
+recode m2_316_5 (. = .a) if m2_314 !=0 | m2_314 !=1
+recode m2_316_96 (. = .a) if m2_314 !=0 | m2_314 !=1
 replace m2_316_other = ".a" if m2_314_96 !=2
 
-recode m2_317 (. = .a) if m2_302 == 4 | m2_302 == 3 | m2_302 == 2 | m2_302 == 1 | m2_302 == . | m2_302 == .a
-recode m2_318 (. = .a) if m2_317 !=0
-
-recode m2_317_1 (0 = .a) if m2_314 !=0 | m2_314 !=1
-recode m2_317_2 (0 = .a) if m2_314 !=0 | m2_314 !=1
-recode m2_317_3 (0 = .a) if m2_314 !=0 | m2_314 !=1
-recode m2_317_4 (0 = .a) if m2_314 !=0 | m2_314 !=1
-recode m2_317_5 (0 = .a) if m2_314 !=0 | m2_314 !=1
-recode m2_317_96 (0 = .a) if m2_314 !=0 | m2_314 !=1
+recode m2_319_1 (0 = .a) if m2_314 !=0 | m2_314 !=1
+recode m2_319_2 (0 = .a) if m2_314 !=0 | m2_314 !=1
+recode m2_319_3 (0 = .a) if m2_314 !=0 | m2_314 !=1
+recode m2_319_4 (0 = .a) if m2_314 !=0 | m2_314 !=1
+recode m2_319_5 (0 = .a) if m2_314 !=0 | m2_314 !=1
+recode m2_319_96 (0 = .a) if m2_314 !=0 | m2_314 !=1
 replace m2_319_other = ".a" if m2_317_96 !=2
+
+*/
+
+recode m2_307_other (. 9999998 = .a) if m2_307_96 !=1
+
+recode m2_308 (. 9999998 = .a) if m2_302 == 0 | m2_302 == 1 | m2_302 == . | m2_302 == .a // SS: confirm response "95" 
+recode m2_309 (. 9999998 = .a) if m2_308 !=0 // SS: confirm response "95" 
+
+recode m2_310_other (. 9999998 = .a) if m2_310_96 !=1
+
+recode m2_311 (. 9999998 = .a) if m2_302 == 2 | m2_302 == 1 | m2_302 == 0 |m2_302 == . | m2_302 == .a // SS: confirm response "95" 
+recode m2_312 (. 9999998 = .a) if m2_311 !=0 // SS: confirm response "95" 
+
+recode m2_313_other (. 9999998 = .a) if m2_313_96 !=1
+
+recode m2_314 (. 9999998 = .a) if m2_302 == 3 | m2_302 == 2 | m2_302 == 1 | m2_302 == 0 | m2_302 == . | m2_302 == .a // SS: confirm response "95" 
+*recode m2_315 (. 9999998 = .a) if m2_314 !=0 // SS: why is m2_315 not in the dataset?
+
+recode m2_316_other (. 9999998 = .a) if m2_316_96 !=1
+
+recode m2_317 (. 9999998 = .a) if m2_302 == 4 | m2_302 == 3 | m2_302 == 2 | m2_302 == 1 | m2_302 == 0 |  m2_302 == . | m2_302 == .a // SS: confirm response "95" 
+recode m2_318 (. 9999998 = .a) if m2_317 !=0 // SS: confirm response "9" 
+
+recode m2_319 (9999998 . = .a) if m2_314 !=0 | m2_314 !=1
+recode m2_319_other (. 9999998 = .a) if m2_319 !=96 // SS: will have to change once this var is a numeric, right now is string (see above)
 
 recode m2_320_0 (. = .a) if m2_301 !=0
 recode m2_320_1 (. = .a) if m2_301 !=0
@@ -2018,100 +2074,105 @@ recode m2_320_11 (. = .a) if m2_301 !=0
 recode m2_320_96 (. = .a) if m2_301 !=0
 recode m2_320_99 (. = .a) if m2_301 !=0
 
+recode m2_320_other (. 9999998 = .a) if m2_320_96 !=1
 
-recode m2_321 (. = .a) if m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a
-                       
-recode m2_401 (. = .a) if (m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a) | (m2_302 == . | m2_302 == .a)
+recode m2_321 (. 9999998 = .a) if m2_202 !=1 
+       
+recode m2_401 (. 9999998 = .a) if (m2_202 !=1) | m2_302 !=1
 
-recode m2_402 (. = .a) if (m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a) | (m2_302 == 1 | m2_302 == . | m2_302 == .a)				   
+recode m2_402 (. 9999998 = .a) if m2_202 !=1 | m2_302 !=2			   
 
-recode m2_403 (. = .a) if (m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a) | (m2_302 == 1 | m2_302 == . | m2_302 == .a | m2_302 == 2)	
+recode m2_403 (. 9999998 = .a) if m2_202 !=1 | m2_302 !=3
 
-recode m2_404 (. = .a) if (m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a) | (m2_302 == 1 | m2_302 == . | m2_302 == .a | m2_302 == 2 | m2_302 == 3)			   
-recode m2_405 (. = .a) if (m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a) | (m2_302 == 1 | m2_302 == . | m2_302 == .a | m2_302 == 2 | m2_302 == 3 | m2_302 == 4)
+recode m2_404 (. 9999998 = .a) if m2_202 !=1 | m2_302 !=4	   
 
-recode m2_501a (. = .a) if m2_301 !=1
-recode m2_501b (. = .a) if m2_301 !=1
-recode m2_501c (. = .a) if m2_301 !=1
-recode m2_501d (. = .a) if m2_301 !=1
-recode m2_501e (. = .a) if m2_301 !=1
-recode m2_501f (. = .a) if m2_301 !=1
-recode m2_501g (. = .a) if m2_301 !=1
+*SS: remember all 5+ consultation vars will need to be edited if the number of consultations increases above 7
+recode m2_405 (. 9999998 = .a) if m2_202 !=1 | m2_302 !=5 | m2_302 !=6 | m2_302 !=7
 
+recode m2_501a (. 9999998 = .a) if m2_301 !=1 | m2_302 !=1 
+recode m2_501b (. 9999998 = .a) if m2_301 !=1 | m2_302 !=1 
+recode m2_501c (. 9999998 = .a) if m2_301 !=1 | m2_302 !=1 
+recode m2_501d (. 9999998 = .a) if m2_301 !=1 | m2_302 !=1 
+recode m2_501e (. 9999998 = .a) if m2_301 !=1 | m2_302 !=1 
+recode m2_501f (. 9999998 = .a) if m2_301 !=1 | m2_302 !=1 
+recode m2_501g (. 9999998 = .a) if m2_301 !=1 | m2_302 !=1 
+replace m2_501g_other = ".a" if m2_501g !=1
 
-recode m2_503a (. = .a) if m2_502 !=1
-recode m2_503b (. = .a) if m2_502 !=1
-recode m2_503c (. = .a) if m2_502 !=1
-recode m2_503d (. = .a) if m2_502 !=1
-recode m2_503e (. = .a) if m2_502 !=1
-recode m2_503f (. = .a) if m2_502 !=1
-recode m2_504 (. = .a) if m2_502 !=1
+recode m2_502 (. 9999998 = .a) if m2_301 !=1 | m2_302 ==0 | m2_302 ==. | m2_302 ==.a
 
-replace m2_504_other = ".a" if m2_504 !=1
+recode m2_503a (. 9999998 = .a) if m2_502 !=1 
+recode m2_503b (. 9999998 = .a) if m2_502 !=1 
+recode m2_503c (. 9999998 = .a) if m2_502 !=1 // SS: N=730 missing obs. what is the skip pattern?
+recode m2_503d (. 9999998 = .a) if m2_502 !=1
+recode m2_503e (. 9999998 = .a) if m2_502 !=1
+recode m2_503f (. 9999998 = .a) if m2_502 !=1
+recode m2_503g_za (. 9999998 = .a) if m2_502 !=1
 
-recode m2_505a (. = .a) if m2_503a !=1
-recode m2_505b (. = .a) if m2_503b !=1
-recode m2_506c (. = .a) if m2_503c !=1
-recode m2_505d (. = .a) if m2_503d !=1
-recode m2_505e (. = .a) if m2_503e !=1
-recode m2_505f (. = .a) if m2_503f !=1
-recode m2_505g (. = .a) if m2_504 !=1
+recode m2_504 (. 9999998= .a) if m2_502 !=1
+recode m2_504_other (. 9999998 = .a) if m2_504 !=1 // 0 obs so numeric
 
-recode m2_506a (. = .a) if m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a | m2_301 == 0 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
+recode m2_505a (. 9999998 = .a) if m2_503a !=1
+recode m2_505b (. 9999998 = .a) if m2_503b !=1
+recode m2_505c (. 9999998 = .a) if m2_503c !=1
+recode m2_505d (. 9999998 = .a) if m2_503d !=1
+recode m2_505e (. 9999998 = .a) if m2_503e !=1
+recode m2_505f (. 9999998 = .a) if m2_503f !=1
+recode m2_505g (. 9999998 = .a) if m2_504 !=1
+recode m2_505h_za (. 9999998 = .a) if m2_503g_za !=1
 
-recode m2_506b (. = .a) if m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a | m2_301 == 0 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
+recode m2_506a m2_506b m2_506c m2_506d (. 9999998 = .a) if m2_202 !=1 | m2_301 !=1 | m2_302 ==0 | m2_302 ==. | m2_302 ==.a | m2_502 !=1
 
-recode m2_506c (. = .a) if m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a | m2_301 == 0 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
-
-recode m2_506d (. = .a) if m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a | m2_301 == 0 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
-
-/* m2_507 is a multi-checkbox string
-recode m2_507 (. = .a) if (m2_203a == 0 & m2_203b == 0 & m2_203c == 0 & ///
+recode m2_507 (. 9999998 = .a) if (m2_203a == 0 & m2_203b == 0 & m2_203c == 0 & ///
 						  m2_203d == 0 & m2_203e == 0 & m2_203f == 0 & ///
 						  m2_203g == 0 & m2_203h == 0) | ///
-						  (m2_301 == 0 | m2_301 == . | m2_301 == .a)*/
+						  (m2_301 !=1 | m2_302 ==0 | m2_302 ==. | m2_302 ==.a) // SS: confirm response "95" 
 
-recode m2_508a (. = .a) if (m2_205a+m2_205b) <3 | m2_202 !=1
-recode m2_508b_num (. = .a) if m2_508a !=1
-recode m2_508c_time (. = .a) if m2_508a !=1
+replace m2_507_other = ".a" if m2_507 !=96				  
+						  						  
+recode m2_508a (. 9999998 = .a) if (m2_205a+m2_205b) <3 | m2_202 !=1 | m2_301 !=1 | m2_302 ==0 | m2_302 ==. | m2_302 ==.a // SS: confirm response "95", N=11 missing responses
+recode m2_508b_num (. 9999998 = .a) if m2_508a !=1 // SS: confirm response of "Yes", responses are supposed to be numeric
+recode m2_508c_time (. 9999998 = .a) if m2_508a !=1
 
-recode m2_509a (. = .a) if m2_301 !=1
-recode m2_509b (. = .a) if m2_301 !=1
-recode m2_509c (. = .a) if m2_301 !=1
+recode m2_509a (. 9999998 = .a) if m2_301 !=1 | m2_302 ==0 | m2_302 ==. | m2_302 ==.a
+recode m2_509b (. 9999998 = .a) if m2_301 !=1 | m2_302 ==0 | m2_302 ==. | m2_302 ==.a
+recode m2_509c (. 9999998 = .a) if m2_301 !=1 | m2_302 ==0 | m2_302 ==. | m2_302 ==.a
 
-recode m2_601a (. = .a) if m2_202 !=1
-recode m2_601b (. = .a) if m2_202 !=1
-recode m2_601c (. = .a) if m2_202 !=1
-recode m2_601c (. = .a) if m2_202 !=1
-recode m2_601d (. = .a) if m2_202 !=1
-recode m2_601e (. = .a) if m2_202 !=1
-recode m2_601f (. = .a) if m2_202 !=1
-recode m2_601g (. = .a) if m2_202 !=1
-recode m2_601h (. = .a) if m2_202 !=1
-recode m2_601i (. = .a) if m2_202 !=1
-recode m2_601j (. = .a) if m2_202 !=1
-recode m2_601l (. = .a) if m2_202 !=1
-recode m2_601m (. = .a) if m2_202 !=1
-recode m2_601n (. = .a) if m2_202 !=1
-recode m2_601_0 (. = .a) if m2_202 !=1
-replace m2_601n_other = ".a" if m2_601n !=1
+recode m2_601a (. 9999998 = .a) if m2_202 !=1 | m2_301 !=1 | m2_302 ==0 | m2_302 ==. | m2_302 ==.a
+recode m2_601b (. 9999998 = .a) if m2_202 !=1 | m2_301 !=1 | m2_302 ==0 | m2_302 ==. | m2_302 ==.a
+recode m2_601c (. 9999998 = .a) if m2_202 !=1 | m2_301 !=1 | m2_302 ==0 | m2_302 ==. | m2_302 ==.a
+recode m2_601d (. 9999998 = .a) if m2_202 !=1 | m2_301 !=1 | m2_302 ==0 | m2_302 ==. | m2_302 ==.a
+recode m2_601e (. 9999998 = .a) if m2_202 !=1 | m2_301 !=1 | m2_302 ==0 | m2_302 ==. | m2_302 ==.a
+recode m2_601f (. 9999998 = .a) if m2_202 !=1 | m2_301 !=1 | m2_302 ==0 | m2_302 ==. | m2_302 ==.a
+recode m2_601g (. 9999998 = .a) if m2_202 !=1 | m2_301 !=1 | m2_302 ==0 | m2_302 ==. | m2_302 ==.a
+recode m2_601h (. 9999998 = .a) if m2_202 !=1 | m2_301 !=1 | m2_302 ==0 | m2_302 ==. | m2_302 ==.a
+recode m2_601i (. 9999998 = .a) if m2_202 !=1 | m2_301 !=1 | m2_302 ==0 | m2_302 ==. | m2_302 ==.a
+recode m2_601j (. 9999998 = .a) if m2_202 !=1 | m2_301 !=1 | m2_302 ==0 | m2_302 ==. | m2_302 ==.a
+recode m2_601k (. 9999998 = .a) if m2_202 !=1 | m2_301 !=1 | m2_302 ==0 | m2_302 ==. | m2_302 ==.a
+recode m2_601l (. 9999998 = .a) if m2_202 !=1 | m2_301 !=1 | m2_302 ==0 | m2_302 ==. | m2_302 ==.a
+recode m2_601m (. 9999998 = .a) if m2_202 !=1 | m2_301 !=1 | m2_302 ==0 | m2_302 ==. | m2_302 ==.a
+recode m2_601o (. 9999998 = .a) if m2_202 !=1 | m2_301 !=1 | m2_302 ==0 | m2_302 ==. | m2_302 ==.a
+replace m2_601n_other = ".a" if m2_202 !=1 | m2_301 !=1 | m2_302 ==0 | m2_302 ==. | m2_302 ==.a
 
-egen meds = rowtotal(m2_601a m2_601o m2_601b m2_601c m2_601d m2_601e m2_601f m2_601g m2_601h m2_601i m2_601j m2_601k m2_601l m2_601m m2_601n m2_601_0)
+recode m2_602b (. 99999998 9999998 999999 999998 99999 9999 999 = .a) if m2_202 !=1 | m2_301 !=1 | m2_302 ==0 | m2_302 ==. | m2_302 == .a
+recode m2_602b (. 99999998 9999998 999999 999998 99999 9999 999 = .a) if m2_601a == . & m2_601b == . & m2_601c == . & m2_601d == . & ///
+																		 m2_601e == . & m2_601f == . & m2_601g == . & m2_601h == . & ///
+																		 m2_601i == . & m2_601j == . & m2_601k == . & m2_601l == . & ///
+																		 m2_601m == . & m2_601o == . 
 
-recode m2_602b (. = .a) if meds==0 | meds==1
-drop meds
+recode m2_603 (. 9999998 = .a) if m2_202 !=1 | m2_601a ==1
+recode m2_701 (. 9999998 = .a) if m2_202 !=1 | m2_301 !=1
 
-recode m2_603 (. = .a) if m2_202 !=1 | m2_601a ==1
-recode m2_701 (. = .a) if m2_202 !=1 | m2_301 !=1
+* SS: there is something happening with these cost vars, extra erroneous responses. Follow up with KEMRI/Laterite
+recode m2_702a_cost (. 9999998 = .a) if m2_701 !=1 | m2_301 !=1 | m2_302 ==0 | m2_302 ==. | m2_302 ==.a
+recode m2_702b_cost (. 9999998 = .a) if m2_701 !=1 | m2_301 !=1 | m2_302 ==0 | m2_302 ==. | m2_302 ==.a
+recode m2_702c_cost (. 9999998 = .a) if m2_701 !=1 | m2_301 !=1 | m2_302 ==0 | m2_302 ==. | m2_302 ==.a
+recode m2_702d_cost (. 9999998 = .a) if m2_701 !=1 | m2_301 !=1 | m2_302 ==0 | m2_302 ==. | m2_302 ==.a
+recode m2_702e_cost (. 9999998 = .a) if m2_701 !=1 | m2_301 !=1 | m2_302 ==0 | m2_302 ==. | m2_302 ==.a
+recode m2_702_other (. 999 9998 9999 99998 99999 999998 9999998 99999988 99999998 999999999 = .a) if m2_701 !=1 | m2_301 !=1 | m2_302 ==0 | m2_302 ==. | m2_302 ==.a // SS: confirm all of these responses should be recoded as NA
 
-recode m2_702a_cost (. = .a) if m2_701 !=1
-recode m2_702b_cost (. = .a) if m2_701 !=1
-recode m2_702c_cost (. = .a) if m2_701 !=1
-recode m2_702d_cost (. = .a) if m2_701 !=1
-recode m2_702e_cost (. = .a) if m2_701 !=1
-replace m2_702_other_ke = ".a" if m2_702e_cost !=1
+recode m2_703 m2_704 m2_704_confirm (. 9999998 = .a) if m2_701 !=1 | m2_602b ==.
 
-recode m2_703 m2_704_confirm (. = .a) if m2_701 !=1 | m2_702_meds_ke ==.
+recode m2_704_confirm (. 9999998 = .a) if m2_704 !=0
 
 recode m2_705_1 (. = .a) if m2_701 !=1
 recode m2_705_2 (. = .a) if m2_701 !=1
@@ -2121,190 +2182,270 @@ recode m2_705_5 (. = .a) if m2_701 !=1
 recode m2_705_6 (. = .a) if m2_701 !=1
 recode m2_705_96 (. = .a) if m2_701 !=1
 
+
 replace m2_705_other = ".a" if m2_705_96 !=1
 
-recode m2_complete (. = .a) if module !=2
-replace m2_refused_why = ".a" if m3_start_p1 !=0 
-
-replace m2_enum = ".a" if module !=2 | m2_start_time == .
-recode m2_start_time (. = .a) if module !=2
-
-recode m2_attempt_avail (. = .a) if m2_attempt_relationship !=4
-recode m2_completed_attempts (. = .a) if m2_complete !=1 | m2_consent_recording !=1
-
-*Note: i dropped "availability" which is the filtering var for the consent for recording so this is another way I filtered it
-*recode m2_consent_recording (. = .a) if m2_attempt_avail == 0
-
 recode m2_date (. = .a) if m2_202 !=1
-recode m2_date_confirm (. = .a) if m2_date == . | m2_202 !=1
 
-recode m2_ga (. = .a) if m2_date == . | m2_202 !=1 | m2_complete == 1
-recode m2_ga_estimate (. = .a) if m2_date == . | m2_202 !=1 | q_107_trim != "NA"
+recode m2_ga (. = .a) if m2_date == . | m2_202 !=1 
 
-recode m2_endtime (. = .a) if m2_date == . | m2_202 != 1 | m2_complete !=1
+*===============================================================================
 
-	
-	
+* reshape data from long to wide
+
+*drop if m2_completed_attempts == . 
+
+sort m2_date
+bysort respondentid: gen round2 = _n
+
+gen m2_round = ""
+replace m2_round = "_r1" if round2==1
+replace m2_round = "_r2" if round2==2 
+replace m2_round = "_r3" if round2==3
+replace m2_round = "_r4" if round2==4
+replace m2_round = "_r5" if round2==5
+replace m2_round = "_r6" if round2==6
+replace m2_round = "_r7" if round2==7
+replace m2_round = "_r8" if round2==8
+		
+		
+* Use the string variable to reshape wide
+drop round2
+				
+reshape wide m2_permission m2_completed_attempts m2_interviewer m2_date m2_time_start m2_ga m2_hiv_status m2_maternal_death_reported m2_date_of_maternal_death m2_maternal_death_learn m2_maternal_death_learn_other m2_201 m2_202 m2_203a m2_203b m2_203c m2_203d m2_203e m2_203f m2_203g m2_203h m2_204_other m2_205a m2_205b m2_206 m2_301 m2_302 m2_303 m2_303a m2_304a m2_303b m2_304b m2_303c m2_304c m2_303d m2_304d m2_303e m2_304e m2_305 m2_306 m2_307_other m2_308 m2_309 m2_310_other m2_311 m2_312 m2_313_other m2_314 m2_316_other m2_317 m2_318 m2_319 m2_319_other m2_320_other m2_321 m2_401 m2_402 m2_403 m2_404 m2_405 m2_501a m2_501b m2_501c m2_501d m2_501e m2_501f m2_501g m2_501g_other m2_502 m2_503a m2_505a m2_503b m2_505b m2_503c m2_505c m2_503d m2_505d m2_503e m2_505e m2_503f m2_505f m2_503g_za m2_505h_za m2_504 m2_504_other m2_505g m2_506a m2_506b m2_506c m2_506d m2_507 m2_507_other m2_508a m2_508b_num m2_508c_time m2_509a m2_509b m2_509c m2_601a m2_601o m2_601b m2_601c m2_601d m2_601e m2_601f m2_601g m2_601h m2_601i m2_601j m2_601k m2_601l m2_601m m2_601n_other m2_602b m2_603 m2_701 m2_702a_cost m2_702b_cost m2_702c_cost m2_702d_cost m2_702e_cost m2_702_other m2_703 m2_704 m2_704_confirm m2_705_other m2_307_1 m2_307_2 m2_307_3 m2_307_4 m2_307_5 m2_307_96 m2_310_1 m2_310_2 m2_310_3 m2_310_4 m2_310_5 m2_310_96 m2_313_1 m2_313_2 m2_313_3 m2_313_4 m2_313_5 m2_313_96 m2_316_1 m2_316_2 m2_316_3 m2_316_4 m2_316_5 m2_316_96 m2_320_0 m2_320_1 m2_320_2 m2_320_3 m2_320_4 m2_320_5 m2_320_6 m2_320_7 m2_320_8 m2_320_9 m2_320_10 m2_320_11 m2_320_96 m2_320_99 m2_705_1 m2_705_2 m2_705_3 m2_705_4 m2_705_5 m2_705_6 m2_705_96, i(respondentid) j(m2_round, string) 
+
+*------------------------------------------------------------------------------*
+*save M2 only dataset
+
+save "$za_data_final/eco_m2_za.dta", replace
+
+*------------------------------------------------------------------------------*
+* merge dataset with M1
+
+merge 1:1 respondentid using "$za_data_final/eco_m1_za.dta" // N= 8 in master only (M2) not in using (M1).
+
+drop _merge  
+
 *===============================================================================					   
 	
 	* STEP FOUR: LABELING VARIABLES	
 	
 	* MODULE 2:
-label variable m2_attempt_number "Which attempt is this at calling the respondent?"
-label variable m2_permission "Permission granted to conduct call"
-label variable m2_date "102. Date of interview (D-M-Y)"
-label variable m2_time_start "103. Time of interview started"
-label variable m2_interviewer "Interviewer name"
-label variable m2_respondentid "Respondent ID"
+* STEP FOUR: LABELING VARIABLES
+	foreach i in _r1 _r2 _r3 _r4 _r5 _r6 {
+label variable m2_permission`i'  "Permission granted to conduct call"
+label variable m2_completed_attempts`i'  "Module 2 completed attempts"
+label variable m2_time_start`i'  "Start date and time"
+label variable m2_date`i'  "102. Date of interview (D-M-Y)"
+label variable m2_time_start`i'  "103. Time of interview started"
+label variable m2_interviewer`i'  "Interviewer name"
+label variable m2_maternal_death_reported`i'  "108. Maternal death reported"
+label variable m2_ga`i'  "107a. Gestational age at this call based on maternal recall"
+label variable m2_hiv_status`i'  "109. HIV status"
+label variable m2_date_of_maternal_death`i'  "110. Date of maternal death (D-M-Y)"
+label variable m2_maternal_death_learn`i'  "111. How did you learn about the maternal death?"
+label variable m2_maternal_death_learn_other`i'  "111-Other. Specify other way of learning maternal death"
+label variable m2_201`i'  "201. In general, how would you rate your overall health?"
+label variable m2_202`i'  "202. Are you still pregnant, or did something else happen?"
+label variable m2_203a`i'  "203a. Have you experienced severe or persistent headaches?"
+label variable m2_203b`i'  "203b. Have you experienced vaginal bleeding of any amount?"
+label variable m2_203c`i'  "203c. Have you experienced fever?"
+label variable m2_203d`i'  "203d. Have you experienced severe abdominal pain, not just discomfort?"
+label variable m2_203e`i'  "203e. Have you experienced a lot of difficult breathing?"
+label variable m2_203f`i'  "203f. Have you experienced convulsions or seizures?"
+label variable m2_203g`i'  "203g. Have you experienced repeated fainting or loss of consciousness?"
+label variable m2_203h`i'  "203h. Have noticed that the baby has completely stopped moving?"
+*label variable m2_204i`i'  "204i. Have you experienced any other major health problems?"
+label variable m2_204_other`i' "204i-Other. Specify any other feeling since last visit"
+label variable m2_205a`i' "205a. How many days have you been bothered by little interest or pleasure in doing things?"
+label variable m2_205b`i' "205b. How many days have you been bothered by feeling down, depressed, or hopeless?"
+label variable m2_206`i' "206. How often do you currently smoke cigarettes or use any other type of tobacco?"
+label variable m2_301`i' "301. Have you been seen or attended to by a clinician or healthcare provider for yourself?   "
+label variable m2_302`i' "302. How many times have you been seen or attended to by a clinician or healthcare provider for yourself?"
+label variable m2_303a`i' "303a. Where did this new 1st healthcare consultation for yourself take place?"
+label variable m2_303b`i' "303b. Where did the 2nd healthcare consultation for yourself take place?"
+label variable m2_303c`i' "303c. Where did the 3rd healthcare consultation for yourself take place?"
+label variable m2_303d`i' "303d. Where did the 4th healthcare consultation for yourself take place?"
+label variable m2_303e`i' "303e. Where did the 5th healthcare consultation for yourself take place?"
+label variable m2_304a`i' "304a. What is the name of the facility where this first healthcare consultation took place?"
+*label variable m2_304a_other`i' "304a-Other. Other facility for 1st health consultation"
+label variable m2_304b`i' "304b. What is the name of the facility where the second healthcare consultation took place?"
+*label variable m2_304b_other`i' "304b-Other. Other facility for 2nd health consultation"
+label variable m2_304c`i' "304c. What is the name of the facility where the third healthcare consultation took place?"
+*label variable m2_304c_other`i' "304c-Other. Other facility for 3rd health consultation"
+label variable m2_304d`i' "304d. What is the name of the facility where the fourth healthcare consultation took place?"
+*label variable m2_304d_other`i' "304d-Other. Other facility for 4th health consultation"
+label variable m2_304e`i' "304e. What is the name of the facility where the fifth healthcare consultation took place?"
+*label variable m2_304e_other`i' "304e-Other. Other facility for 5th health consultation"
+label variable m2_305`i' "305. Was the first consultation for a routine antenatal care visit?"
+label variable m2_307_1`i' "307. A new health problem, including an emergency or an injury"
+label variable m2_307_2`i' "307. An existing health problem"
+label variable m2_307_3`i' "307. A lab test, x-ray, or ultrasound"
+label variable m2_307_4`i' "307. To pick up medicine"
+label variable m2_307_5`i' "307. To get a vaccine"
+label variable m2_307_96`i' "307. Other reasons"
+label variable m2_307_other`i' "307-Other. Specify other reason for the 1st visit"
+label variable m2_308`i' "308. Was the second consultation is for a routine antenatal care visit?"
+label variable m2_309`i' "309. Was the second consultation is for a referral from your antenatal care provider?"
+label variable m2_310_1`i' "310. Was the second consultation for any of the following? A new health problem, including an emergency or an injury"
+label variable m2_310_2`i' "310. Was the second consultation for any of the following? An existing health problem"
+label variable m2_310_3`i' "310. Was the second consultation for any of the following? A lab test, x-ray, or ultrasound"
+label variable m2_310_4`i' "310. Was the second consultation for any of the following? To pick up medicine"
+label variable m2_310_5`i' "310. Was the second consultation for any of the following? To get a vaccine"
+label variable m2_310_96`i' "310. Was the second consultation for any of the following? Other reasons"
+label variable m2_310_other`i' "310-Other. Specify other reason for second consultation"
+label variable m2_311`i' "311. Was the third consultation is for a routine antenatal care visit?"
+label variable m2_312`i' "312. Was the third consultation is for a referral from your antenatal care provider?"
+label variable m2_313_1`i' "313. Was the third consultation for any of the following? A new health problem, including an emergency or an injury"
+label variable m2_313_2`i' "313. Was the third consultation for any of the following? An existing health problem"
+label variable m2_313_3`i' "313. Was the third consultation for any of the following? A lab test, x-ray, or ultrasound"
+label variable m2_313_4`i' "313. Was the third consultation for any of the following? To pick up medicine"
+label variable m2_313_5`i' "313. Was the third consultation for any of the following? To get a vaccine"
+label variable m2_313_96`i' "313. Was the third onsultation for any of the following? Other reasons"
+label variable m2_313_other`i' "313-Other. Specify any other reason for the third consultation"
+label variable m2_314`i' "314. Was the fourth consultation is for a routine antenatal care visit?"
+*label variable m2_315`i' "315. Was the fourth consultation is for a referral from your antenatal care provider?"
+label variable m2_316_1`i' "316. Was the fourth consultation for any of the following? A new health problem, including an emergency or an injury"
+label variable m2_316_2`i' "316. Was the fourth consultation for any of the following? An existing health problem"
+label variable m2_316_3`i' "316. Was the fourth consultation for any of the following? A lab test, x-ray, or ultrasound"
+label variable m2_316_4`i' "316. Was the fourth consultation for any of the following? To pick up medicine"
+label variable m2_316_5`i' "316. Was the fourth consultation for any of the following? To get a vaccine"
+label variable m2_316_96`i' "316. Was the fourth onsultation for any of the following? Other reasons"
+label variable m2_316_other`i' "316-Other. Specify other reason for the fourth consultation"
+label variable m2_317`i' "317. Was the fifth consultation is for a routine antenatal care visit?"
+label variable m2_318`i' "318. Was the fifth consultation is for a referral from your antenatal care provider?"
+label variable m2_319`i' "319. Was the fifth consultation is for any of the following? A new health problem, including an emergency or an injury"
+label variable m2_319_other`i' "319-Other. Specify other reason for the fifth consultation"
+label variable m2_320_0`i' "320. No reason or you didn't need it"
+label variable m2_320_1`i' "320. You tried but were sent away (e.g., no appointment available) "
+label variable m2_320_2`i' "320. High cost (e.g., high out of pocket payment, not covered by insurance)"
+label variable m2_320_3`i' "320. Far distance (e.g., too far to walk or drive, transport not readily available)"
+label variable m2_320_4`i' "320. Long waiting time (e.g., long line to access facility, long wait for the provider)"
+label variable m2_320_5`i' "320. Poor healthcare provider skills (e.g., spent too little time with patient, did not conduct a thorough exam)"
+label variable m2_320_6`i' "320. Staff don't show respect (e.g., staff is rude, impolite, dismissive)"
+label variable m2_320_7`i' "320. Medicines or equipment are not available (e.g., medicines regularly out of stock, equipment like X-ray machines broken or unavailable)"
+label variable m2_320_8`i' "320. COVID-19 restrictions (e.g., lockdowns, travel restrictions, curfews) "
+label variable m2_320_9`i' "320. COVID-19 fear"
+label variable m2_320_10`i' "320. Don't know where to go/too complicated"
+label variable m2_320_11`i' "320. Fear of discovering serious problem"
+label variable m2_320_96`i' "320. Other, specify"
+label variable m2_320_99`i' "320. Refused"
+label variable m2_320_other`i' "320 Other. Specify other reason preventing receiving more antenatal care"
+label variable m2_321`i' "321. Other than in-person visits, did you have contacs with a health care provider by phone, SMS, or web regarding your pregnancy?"
+label variable m2_401`i' "401. How would you rate the quality of care that you received from the health facility where you took the 1st consultation?"
+label variable m2_402`i' "402. How would you rate the quality of care that you received from the health facility where you took the 2nd consultation?"
+label variable m2_403`i' "403. How would you rate the quality of care that you received from the health facility where you took the 3rd consultation?"
+label variable m2_404`i' "404. How would you rate the quality of care that you received from the health facility where you took the 4th consultation?"
+label variable m2_405`i' "405. How would you rate the quality of care that you received from the health facility where you took the 5th consultation?"
+label variable m2_501a`i' "501a. Did you get your blood pressure measured (with a cuff around your arm)?"
+label variable m2_501b`i' "501b. Did you get your weight taken (using a scale)?"
+label variable m2_501c`i' "501c. Did you get a blood draw (that is, taking blood from your arm with a syringe)?"
+label variable m2_501d`i' "501d. Did you get a blood test using a finger prick (that is, taking a drop of blood from your finger)?"
+label variable m2_501e`i' "501e. Did you get a urine test (that is, where you peed in a container)?"
+label variable m2_501f`i' "501f. Did you get an ultrasound (that is, when a probe is moved on your belly to produce a video of the baby on a screen)?"
+label variable m2_501g`i' "501g. Did you get any other tests?"
+label variable m2_501g_other`i' "501g-Other. Specify any other test you took since you last spoke to us"
+label variable m2_502`i' "502. Did you receive any new test results from a health care provider? By that I mean, any result from a blood or urine sample or from blood pressure measurement. Do not include any results that were given to you during your first antenatal care visit or during the first survey, only new ones."
+label variable m2_503a`i' "503a. Did you receive a result for Anemia?"
+label variable m2_503b`i' "503b. Did you receive a result for HIV?"
+label variable m2_503c`i' "503c. Did you receive a result for HIV viral load?"
+label variable m2_503d`i' "503d. Did you receive a result for Syphilis?"
+label variable m2_503e`i' "503e. Did you receive a result for diabetes?"
+label variable m2_503f`i' "503f. Did you receive a result for Hypertension?"
+label variable m2_503g_za`i' "503g. Did you receive a result for TB?"
+label variable m2_504`i' "504. Did you receive any other new test results?"
+label variable m2_504_other`i' "504-Other. Specify other test result you receive"
+label variable m2_505a`i' "505a. What was the result of the test for anemia?"
+label variable m2_505b`i' "505b. What was the result of the test for HIV?"
+label variable m2_505c`i' "505c. What was the result of the test for HIV viral load?"
+label variable m2_505d`i' "505d. What was the result of the test for syphilis?"
+label variable m2_505e`i' "505e. What was the result of the test for diabetes?"
+label variable m2_505f`i' "505f. What was the result of the test for hypertension?"
+label variable m2_505g`i' "505g. What was the result of the test for other tests?"
+label variable m2_505h_za`i' "505h. What was the result of the test for TB? Remember that this information will remain fully confidential"
+label variable m2_506a`i' "506a. Did you and a healthcare provider discuss about the signs of pregnancy complications that would require you to go to the health facility?"
+label variable m2_506b`i' "506b. Did you and a healthcare provider discuss about your birth plan that is, where you will deliver, how you will get there, and how you need to prepare, or didnt you?"
+label variable m2_506c`i' "506c. Did you and a healthcare provider discuss about care for the newborn when he or she is born such as warmth, hygiene, breastfeeding, or the importance of postnatal care?"
+label variable m2_506d`i' "506d. Did you and a healthcare provider discuss about family planning options for after delivery?"
+label variable m2_507`i' "507. What did the health care provider tell you to do regarding these new symptoms?"
+label variable m2_507_other`i' "507-Other. KE only: Other advice, specify "
+label variable m2_508a`i' "508a. Did you have a session of psychological counseling or therapy with any type of professional?  This could include seeing a mental health professional (like a phycologist, social worker, nurse, spiritual advisor or healer) for problems with your emotions or nerves."
+label variable m2_508b_num`i' "508b. How many of these sessions did you have since you last spoke to us?"
+label variable m2_508c_time`i' "508d. How many minutes did this/these visit(s) last on average?"
+label variable m2_509a`i' "509a. Did a healthcare provider tells you that you needed to go see a specialist like an obstetrician or a gynecologist?"
+label variable m2_509b`i' "509b. Did a healthcare provider tells you that you needed to go to the hospital for follow-up antenatal care?"
+label variable m2_509c`i' "509c. Did a healthcare provider tell you that you will need a C-section?"
+label variable m2_601a`i' "601a. Did you get iron or folic acid pills like IFAS or Pregnacare?"
+label variable m2_601b`i' "601b. Did you get calcium pills?"
+label variable m2_601c`i' "601c. Did you get multivitamins?"
+label variable m2_601d`i' "601d. Did you get food supplements like Super Cereal or Plumpynut?"
+label variable m2_601e`i' "601e. Did you get medicine for intestinal worm?"
+label variable m2_601f`i' "601f. Did you get medicine for malaria?"
+label variable m2_601g`i' "601g. Did you get medicine for HIV?"
+label variable m2_601h`i' "601h. Did you get medicine for your emotions, nerves, depression, or mental health?"
+label variable m2_601i`i' "601i. Did you get medicine for hypertension/high blood pressure?"
+label variable m2_601j`i' "601j. Did you get medicine for diabetes, including injections of insulin?"
+label variable m2_601k`i' "601k. Did you get antibiotics for an infection?"
+label variable m2_601l`i' "601l. Did you get aspirin?"
+label variable m2_601m`i' "601m. Did you get paracetamol, or other pain relief drugs?"
+label variable m2_601o`i' "601o. Iron injection"
+label variable m2_601n_other`i' "601n-oth. Specify other medicine or supplement you took"
+label variable m2_602b`i' "602b. In total, how much did you pay for these new medications or supplements (in Ksh.)?"
+label variable m2_603`i' "603. Are you currently taking iron and folic acid pills like IFAS and Pregnacare?"
+label variable m2_701`i' "701. Did you pay any money out of your pocket for these new visits, including for the consultation or other indirect costs like your transport to the facility?"
+label variable m2_702a_cost`i' "702a. Did you spend money on registration/consultation?"
+label variable m2_702b_cost`i' "702b. Did you spend money on test or investigations (lab tests, ultrasound etc.)?"
+label variable m2_702c_cost`i' "702c. Did you spend money on transport (round trip) including that of the person accompanying you?"
+label variable m2_702d_cost`i' "702d. Did you spend money on food and accommodation including that of person accompanying you?"
+label variable m2_702e_cost`i' "702e. Did you spend money for other services?"
+label variable m2_702_other`i' "702e: Other (specify)"
+label variable m2_703`i' "702. Total amount spent"
+label variable m2_704`i' "703: So, in total you spent [Interview add total from above] – is that correct?"
+label variable m2_704_confirm`i' "704: So how much in total would you say you spent?"
+label variable m2_705_1`i' "705. Current income of any household members"
+label variable m2_705_2`i' "705. Savings (e.g., bank account)" 
+label variable m2_705_3`i' "705. Payment or reimbursement from a health insurance plan"
+label variable m2_705_4`i' "705. Sold items (e.g., furniture, animals, jewellery, furniture)"
+label variable m2_705_5`i' "705. Family members or friends from outside the household"
+label variable m2_705_6`i' "705. Borrowed (from someone other than a friend or family)"
+label variable m2_705_96`i' "705. Other (please specify)"
+label variable m2_705_other`i' "705-Other. Other financial sources, specify"
 
-label variable m2_maternal_death_reported "108. Maternal death reported"
-label variable m2_ga "107a. Gestational age at this call based on LNMP (in weeks)"
-label variable m2_hiv_status "109. HIV status"
-label variable m2_date_of_maternal_death "110. Date of maternal death (D-M-Y)"
-label variable m2_maternal_death_learn "111. How did you learn about the maternal death?"
-label variable m2_maternal_death_learn_other "111-Other. Specify other way of learning maternal death"
-label variable m2_201 "201. In general, how would you rate your overall health?"
-label variable m2_202 "202. Are you still pregnant, or did something else happen?"
+	}
+	
 
-label variable m2_203a "203a. Have you experienced severe or persistent headaches?"
-label variable m2_203b "203b. Have you experienced vaginal bleeding of any amount?"
-label variable m2_203c "203c. Have you experienced fever?"
-label variable m2_203d "203d. Have you experienced severe abdominal pain, not just discomfort?"
-label variable m2_203e "203e. Have you experienced a lot of difficult breathing?"
-label variable m2_203f "203f. Have you experienced convulsions or seizures?"
-label variable m2_203g "203g. Have you experienced repeated fainting or loss of consciousness?"
-label variable m2_203h "203h. Have noticed that the baby has completely stopped moving?"
-label variable m2_204_other "204-Other. Since you last spoke to us, have you experienced any other major health problems? (Specify)"
-label variable m2_205a "205a. How many days have you been bothered by little interest or pleasure in doing things?"
-label variable m2_205b "205b. How many days have you been bothered by feeling down, depressed, or hopeless?"
-label variable m2_206 "206. How often do you currently smoke cigarettes or use any other type of tobacco?"
-label variable m2_301 "301. Have you been seen or attended to by a clinician or healthcare provider for yourself?   "
-label variable m2_302 "302. How many times have you been seen or attended to by a clinician or healthcare provider for yourself?"
-label variable m2_303 "303. Where did this/these new healthcare consultation(s) for yourself take place?"
-label variable m2_303a "303a. Where did this new 1st healthcare consultation for yourself take place?"
-label variable m2_303b "303b. Where did the 2nd healthcare consultation for yourself take place?"
-label variable m2_303c "303c. Where did the 3rd healthcare consultation for yourself take place?"
-label variable m2_303d "303d. Where did the 4th healthcare consultation for yourself take place?"
-label variable m2_303e "303e. Where did the 5th healthcare consultation for yourself take place?"
-label variable m2_304a "304a. What is the name of the facility where this first healthcare consultation took place?"
-label variable m2_304b "304b. What is the name of the facility where the second healthcare consultation took place?"
-label variable m2_304c "304c. What is the name of the facility where the third healthcare consultation took place?"
-label variable m2_304d "304d. What is the name of the facility where the fourth healthcare consultation took place?"
-label variable m2_304e "304e. What is the name of the facility where the fifth healthcare consultation took place?"
-label variable m2_305 "305. Was the first consultation for a routine antenatal care visit?"
-label variable m2_306 "306. Was the first consultation for a referral from your antenatal care provider?"
-label variable m2_307 "307. 1st consultation - Was this visit for any of the following? Include all that apply."
-label variable m2_307_other "307-Other. It other, specify the reason (1st consultation)"
-label variable m2_308 "308. Was the second consultation is for a routine antenatal care visit?"
-label variable m2_309 "309. Was the second consultation is for a referral from your antenatal care provider?"
-label variable m2_310 "310. 2nd consultation - Was this visit for any of the following? Include all that apply."
-label variable m2_310_other "310-Other. Specify other reason for second consultation"
-label variable m2_311 "311. Was the third consultation is for a routine antenatal care visit?"
-label variable m2_312 "312. Was the third consultation is for a referral from your antenatal care provider?"
-label variable m2_313 "313. 3rd consultation - Was this visit for any of the following? Include all that apply."
-label variable m2_313_other "313-Other. Specify any other reason for the third consultation"
-label variable m2_314 "314. Was the fourth consultation is for a routine antenatal care visit?"
-*label variable m2_315 "315. Was the fourth consultation is for a referral from your antenatal care provider?"
-label variable m2_316 "316. 4th consultation - Was this visit for any of the following? Include all that apply."
-label variable m2_316_other "316-Other. Specify other reason for the fourth consultation"
-label variable m2_317 "317. Was the fifth consultation is for a routine antenatal care visit?"
-label variable m2_318 "318. Was the fifth consultation is for a referral from your antenatal care provider?"
-label variable m2_319 "319. 5th consultation - Was this visit for any of the following? Include all that apply."
-label variable m2_319_other "319-Other. Specify other reason for the fifth consultation"
-label variable m2_320 "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us?Tell me all reasons, if any, that apply."
-label variable m2_320_other "320 Other. Specify other reason preventing receiving more antenatal care"
-label variable m2_321 "321. Other than in-person visits, did you have contacs with a health care provider by phone, SMS, or web regarding your pregnancy?"
-label variable m2_401 "401. How would you rate the quality of care that you received from the health facility where you took the 1st consultation?"
-label variable m2_402 "402. How would you rate the quality of care that you received from the health facility where you took the 2nd consultation?"
-label variable m2_403 "403. How would you rate the quality of care that you received from the health facility where you took the 3rd consultation?"
-label variable m2_404 "404. How would you rate the quality of care that you received from the health facility where you took the 4th consultation?"
-label variable m2_405 "405. How would you rate the quality of care that you received from the health facility where you took the 5th consultation?"
-label variable m2_501a "501a. Did you get your blood pressure measured (with a cuff around your arm)?"
-label variable m2_501b "501b. Did you get your weight taken (using a scale)?"
-label variable m2_501c "501c. Did you get a blood draw (that is, taking blood from your arm with a syringe)?"
-label variable m2_501d "501d. Did you get a blood test using a finger prick (that is, taking a drop of blood from your finger)?"
-label variable m2_501e "501e. Did you get a urine test (that is, where you peed in a container)?"
-label variable m2_501f "501f. Did you get an ultrasound (that is, when a probe is moved on your belly to produce a video of the baby on a screen)?"
-label variable m2_501g "501g. Did you get any other tests?"
-label variable m2_501g_other "501g-Other. Specify any other test you took since you last spoke to us"
-label variable m2_502 "502. Did you receive any new test results from a health care provider? By that I mean, any result from a blood or urine sample or from blood pressure measurement. Do not include any results that were given to you during your first antenatal care visit or during the first survey, only new ones."
-label variable m2_503a "503a. Did you receive a result for Anemia?"
-label variable m2_503b "503b. Did you receive a result for HIV?"
-label variable m2_503c "503c. Did you receive a result for HIV viral load?"
-label variable m2_503d "503d. Did you receive a result for Syphilis?"
-label variable m2_503e "503e. Did you receive a result for diabetes?"
-label variable m2_503f "503f. Did you receive a result for Hypertension?"
-label variable m2_503g "503g. Did you receive a result for TB?"
-
-label variable m2_504 "504. Did you receive any other new test results?"
-label variable m2_504_other "504-Other. Specify other test result you receive"
-label variable m2_505a "505a. What was the result of the test for anemia?"
-label variable m2_505b "505b. What was the result of the test for HIV?"
-label variable m2_505c "505c. What was the result of the test for HIV viral load?"
-label variable m2_505d "505d. What was the result of the test for syphilis?"
-label variable m2_505e "505e. What was the result of the test for diabetes?"
-label variable m2_505f "505f. What was the result of the test for hypertension?"
-label variable m2_505g "505g. What was the result of the test for other tests?"
-label variable m2_505h_za "505h. ZA only: What was the result of the test for TB?"
-
-label variable m2_506a "506a. Did you and a healthcare provider discuss about the signs of pregnancy complications that would require you to go to the health facility?"
-label variable m2_506b "506b. Did you and a healthcare provider discuss about your birth plan that is, where you will deliver, how you will get there, and how you need to prepare, or didnt you?"
-label variable m2_506c "506c. Did you and a healthcare provider discuss about care for the newborn when he or she is born such as warmth, hygiene, breastfeeding, or the importance of postnatal care?"
-label variable m2_506d "506d. Did you and a healthcare provider discuss about family planning options for after delivery?"
-label variable m2_507 "507. What did the health care provider tell you to do regarding these new symptoms?"
-label variable m2_507_other "507-Other. Other (specify)"
-label variable m2_508a "508a. Did you have a session of psychological counseling or therapy with any type of professional?  This could include seeing a mental health professional (like a phycologist, social worker, nurse, spiritual advisor or healer) for problems with your emotions or nerves."
-label variable m2_508b_num "508b. How many of these sessions did you have since you last spoke to us?"
-label variable m2_508c_time "508d. How many minutes did this/these visit(s) last on average?"
-
-label variable m2_509a "509a. Did a healthcare provider tells you that you needed to go see a specialist like an obstetrician or a gynecologist?"
-label variable m2_509b "509b. Did a healthcare provider tells you that you needed to go to the hospital for follow-up antenatal care?"
-label variable m2_509c "509c. Did a healthcare provider tell you that you will need a C-section?"
-
-label variable m2_601a "601a. Did you get iron or folic acid pills like IFAS or Pregnacare?"
-label variable m2_601b "601b. Did you get calcium pills?"
-label variable m2_601c "601c. Did you get multivitamins?"
-label variable m2_601d "601d. Did you get food supplements like Super Cereal or Plumpynut?"
-label variable m2_601e "601e. Did you get medicine for intestinal worm?"
-label variable m2_601f "601f. Did you get medicine for malaria?"
-label variable m2_601g "601g. Did you get medicine for HIV?"
-label variable m2_601h "601h. Did you get medicine for your emotions, nerves, depression, or mental health?"
-label variable m2_601i "601i. Did you get medicine for hypertension/high blood pressure?"
-label variable m2_601j "601j. Did you get medicine for diabetes, including injections of insulin?"
-label variable m2_601k "601k. Did you get antibiotics for an infection?"
-label variable m2_601l "601l. Did you get aspirin?"
-label variable m2_601m "601m. Did you get paracetamol, or other pain relief drugs?"
-label variable m2_601n_other "601n-oth. Specify other medicine or supplement you took"
-label variable m2_601o "601o. KE only: Iron drip/injection"
-
-label variable m2_602b "602b. In total, how much did you pay for these new medications or supplements (in Ksh.)?"
-label variable m2_603 "603. Are you currently taking iron and folic acid pills like IFAS and Pregnacare?"
-label variable m2_701 "701. Did you pay any money out of your pocket for these new visits, including for the consultation or other indirect costs like your transport to the facility?"
-label variable m2_702a_cost "702a: How much money did you spend on: Registration/ Consultation"
-label variable m2_702b_cost "702b. How much money did you spend on: Test or investigations (lab tests, ultrasound etc.)"
-label variable m2_702c_cost "702c. How much money did you spend on: Transport (round trip) including that of the person accompanying you"
-label variable m2_702d_cost "702d. How much money did you spend on: Food and accommodation including that of person accompanying you"
-label variable m2_702e_cost "702e. How much money did you spend on: Other (specify)"
-label variable m2_702_other_ke "Other (specify)"
-label variable m2_703 "Total amount spent"
-label variable m2_704 "So, in total you spent [m2_703] – is that correct?"
-label variable m2_704_confirm "704. So how much in total would you say you spent?"
-label variable m2_705 "705. Which of the following financial sources did your household use to pay for this?"
-label variable m2_705_other "705-Other. Other financial sources, specify"
-*/	
 *===============================================================================
+
+drop RESPONSE_QuestionnaireID RESPONSE_QuestionnaireName RESPONSE_QuestionnaireVersion RESPONSE_FieldWorkerID RESPONSE_FieldWorker RESPONSE_StartTime RESPONSE_Location RESPONSE_Lattitude RESPONSE_Longitude RESPONSE_StudyNoPrefix RESPONSE_StudyNo StudyNumber ResponseID
+
 
 	* STEP FIVE: SAVE DATA TO RECODED FOLDER/ORDER VARIABLES
 	
 	* MODULE 2:
-order module m2_attempt_number m2_permission m2_date m2_time_start m2_interviewer ///
-	  m2_maternal_death_reported m2_ga m2_hiv_status m2_date_of_maternal_death ///
-	  m2_maternal_death_learn m2_maternal_death_learn_other, before(m2_201)
+order m1_* m2_*, sequential
+
+* Module 1:
+order pre_screening_num_za Eligible permission country respondentid interviewer_id m1_date m1_start_time study_site ///
+      care_self enrollage enrollage_cat zone_live b5anc b6anc_first b7eligible mobile_phone flash study_site_sd facility
+	  
+order height_cm weight_kg bp_time_1_systolic bp_time_1_diastolic time_1_pulse_rate ///
+	  bp_time_2_systolic bp_time_2_diastolic time_2_pulse_rate bp_time_3_systolic ///
+	  bp_time_3_diastolic time_3_pulse_rate, after(m1_1223)
+	  
+order phq9a phq9b phq9c phq9d phq9e phq9f phq9g phq9h phq9i, after(m1_205e)
+
+	
+* Module 2:
+order m2_completed_attempts* m2_permission* m2_date* m2_time_start* m2_interviewer* m2_maternal_death_reported* m2_date_of_maternal_death* ///
+	  m2_ga* m2_hiv_status* m2_maternal_death_learn* ///
+	  m2_maternal_death_learn_other*, after(m1_1401)
+
+*------------------------------------------------------------------------------*
 
 save "$za_data_final/eco_m1m2_za.dta", replace
 
-codebookout "/Users/shs8688/Dropbox (Harvard University)/SPH-Kruk Team/QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data/Data documents/Country-specific data dictionaries/South Africa/South-Africa_Mod1-2_codebook.xls", replace
 
+*===============================================================================
+* MODULE 3:
 
-codebookout "D:ZA missing codebook.xls", replace
-
+* Import data

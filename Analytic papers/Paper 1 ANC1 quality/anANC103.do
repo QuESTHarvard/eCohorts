@@ -9,39 +9,47 @@ global data "Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts 
 	u "$user/$analysis/ETtmp.dta", clear
 
 	mixed anc1qual i.anyrisk m1_dangersigns poorhealth ib(2).age second healthlit_corr i.tertile   ///
-			primipara preg_intent i.time private facsecond i.sri_cat  i.staff_cat ib(2).site || facility:  , vce(robust)
+			primipara preg_intent  private facsecond i.sri_cat  i.staff_cat ib(2).site || facility:  , vce(robust)
 			estat icc
 	
 	* Collinearity	
 	reg anc1qual i.anyrisk m1_dangersigns poorhealth ib(2).age second healthlit_corr i.tertile   ///
-			primipara preg_intent i.time private facsecond i.sri_cat  i.staff_cat ib(2).site   , vce(robust)
+			primipara preg_intent private facsecond i.sri_cat  i.staff_cat i.vol_cat ib(2).site   , vce(robust)
 			estat vif
 	* Variance analysis
 	quiet mixed anc1qual i.anyrisk m1_dangersigns poorhealth ib(2).age second healthlit_corr i.tertile   ///
-			primipara preg_intent i.time private facsecond i.sri_cat  i.staff_cat ib(2).site || facility:  , vce(robust)
+			primipara preg_intent private facsecond i.sri_cat  i.staff_cat ib(2).site || facility:  , vce(robust)
 			
 	 mixed anc1qual if e(sample)==1 || facility:  , vce(robust) // variance null model
 	 estat icc
+	 
+	 * Number of risk factors
+	 mixed anc1qual i.total_risk m1_dangersigns poorhealth ib(2).age second healthlit_corr i.tertile   ///
+			primipara preg_intent  private facsecond i.sri_cat  i.staff_cat ib(2).site || facility:  , vce(robust)
+
 *-------------------------------------------------------------------------------	
 	* KENYA
 	u "$user/$analysis/KEtmp.dta", clear
 	
 	mixed anc1qual i.anyrisk m1_dangersigns poorhealth ib(2).age second healthlit_corr i.tertile   ///
-			primipara preg_intent i.time private facsecond i.sri_cat  i.staff_cat ib(2).site || facility:  , vce(robust) 
+			primipara preg_intent private facsecond i.sri_cat  i.staff_cat ib(2).site || facility:  , vce(robust) 
 			estat icc
 	* Collinearity
 	reg anc1qual i.anyrisk m1_dangersigns poorhealth ib(2).age second healthlit_corr i.tertile   ///
-			primipara preg_intent i.time private facsecond i.sri_cat i.staff_cat i.vol_cat ib(2).site
+			primipara preg_intent  private facsecond i.sri_cat i.staff_cat i.vol_cat ib(2).site
 			estat vif 
 	
 	* Variance analysis
 	quiet mixed anc1qual i.anyrisk m1_dangersigns poorhealth ib(2).age second healthlit_corr i.tertile   ///
-			primipara preg_intent i.time private facsecond i.sri_cat  i.staff_cat ib(2).site || facility:  , vce(robust) 
+			primipara preg_intent  private facsecond i.sri_cat  i.staff_cat ib(2).site || facility:  , vce(robust) 
 	
 	mixed anc1qual if e(sample)==1 || facility:  , vce(robust) // variance null model
 	 estat icc
 	
-	
+	 * Number of risk factors
+	 mixed anc1qual i.total_risk m1_dangersigns poorhealth ib(2).age second healthlit_corr i.tertile   ///
+			primipara preg_intent  private facsecond i.sri_cat  i.staff_cat ib(2).site || facility:  , vce(robust)
+
 *-------------------------------------------------------------------------------	
 	* INDIA + vol
 	u "$user/$analysis/INtmp.dta", clear
@@ -60,23 +68,31 @@ global data "Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts 
 	
 	mixed anc1qual if e(sample)==1 || facility:  , vce(robust) // variance null model
 	
+	* Number of risks
+	mixed anc1qual i.total_risk m1_dangersigns poorhealth ib(2).age second healthlit_corr i.tertile  ///
+			primipara preg_intent i.facility_lvl i.sri_cat  i.staff_cat i.vol_cat  i.urban || facility: , vce(robust)
+
 *-----------------------------------------------------------------------------	
 	* ZAF	+ vol	 	
 	u "$user/$analysis/ZAtmp.dta", clear
 	
 	mixed anc1qual i.anyrisk m1_dangersigns poorhealth ib(2).age second healthlit_corr i.tertile  ///
-			primipara preg_intent i.time  i.sri_cat  i.staff_cat  i.vol_cat ib(2).site || facility: , vce(robust)
+			primipara preg_intent  i.sri_cat  i.staff_cat  i.vol_cat ib(2).site || facility: , vce(robust)
 			estat icc
 	* Collinearity
 	reg anc1qual i.anyrisk m1_dangersigns poorhealth ib(2).age second healthlit_corr i.tertile  ///
-			primipara preg_intent i.time  i.sri_cat  i.staff_cat  i.vol_cat ib(2).site  , vce(robust)
+			primipara preg_intent   i.sri_cat  i.staff_cat  i.vol_cat ib(2).site  , vce(robust)
 	estat vif
 	
 	* Variance analysis
 	quiet mixed anc1qual i.anyrisk m1_dangersigns poorhealth ib(2).age second healthlit_corr i.tertile  ///
-			primipara preg_intent i.time  i.sri_cat  i.staff_cat  i.vol_cat ib(2).site || facility: , vce(robust)
+			primipara preg_intent   i.sri_cat  i.staff_cat  i.vol_cat ib(2).site || facility: , vce(robust)
 			
 	mixed anc1qual if e(sample)==1 || facility:  , vce(robust) // variance null model
+
+	* Number of risks
+	mixed anc1qual i.total_risk m1_dangersigns poorhealth ib(2).age second healthlit_corr i.tertile  ///
+			primipara preg_intent  i.sri_cat  i.staff_cat  i.vol_cat ib(2).site || facility: , vce(robust)
 
 *-------------------------------------------------------------------------------	
 	/*margins anyrisk, atmeans

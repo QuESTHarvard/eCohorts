@@ -8,7 +8,8 @@
 clear all 
 
 *--------------------DATA FILE:
-u "$in_data/MODULE_0.dta", clear
+u "$in_data/Module0_02_04_2024.dta", clear 
+*u "$in_data/MODULE_0.dta", clear
 *use "$in_data/FacilitySurvey_2024_01_20.dta", clear
 
 *------------------------------------------------------------------------------*
@@ -22,13 +23,8 @@ u "$in_data/MODULE_0.dta", clear
 
 *------------------------------------------------------------------------------*
 
-drop Consent SubmissionDate addcomment instanceID instanceName formdef_version KEY review_quality review_comments review_corrections calc_time_0 start
+*drop Consent SubmissionDate addcomment instanceID instanceName formdef_version KEY review_quality review_comments review_corrections calc_time_0 start
 
-	* STEP 0 DESTRING VARIABLES
-	
-	encode Q209, g(m0_206)
-	encode Q217, g(m0_217)
-	
 	* STEP ONE: RENAME VARIABLES
 	
 rename (end duration) (m0_end_datetime m0_duration)	
@@ -58,9 +54,9 @@ rename (Q112_a Q112_c Q112_d Q112_e Q113_a Q113_c Q113_d Q113_e Q114_a Q114_c Q1
 
 rename (Q115 Q116 Q117 Q118 Q119 Q120 Q121 Q122 Q201) (m0_115 m0_116 m0_117 m0_118 m0_119 m0_120 m0_121 m0_122 m0_201)
 
-rename (Q202_a Q202_b Q204 Q206  Q209_a Q210 Q211) (m0_202 m0_203 m0_204 m0_205  m0_207 m0_208 m0_209)
+rename (Q202_a Q202_b Q204 Q206  Q209_a Q210 Q211 Q209) (m0_202 m0_203 m0_204 m0_205 m0_207 m0_208 m0_209 m0_206)
 
-rename (Q211_other Q212 Q213 Q213_other Q214 Q214_a Q215 Q216  Q218 Q219 Q220) (m0_209_other m0_210 m0_211 m0_211_other m0_212 m0_213 m0_215 m0_216  m0_218 m0_219 m0_220)
+rename (Q211_other Q212 Q213 Q213_other Q214 Q214_a Q215 Q216  Q218 Q219 Q220 Q217) (m0_209_other m0_210 m0_211 m0_211_other m0_212 m0_213 m0_215 m0_216  m0_218 m0_219 m0_220 m0_217)
 
 rename (Q221 Q222 Q223) (m0_221 m0_222 m0_223)
 
@@ -154,7 +150,6 @@ rename (Q503_1 Q503_2 Q503_3 Q503_4 Q503_5 Q503_6) (m0_503a m0_503b m0_503c m0_5
 	
 	* STEP FOUR: LABELING VARIABLES
 	
-	lab drop m0_206
 
 * STEP FIVE: ORDER VARIABLES
 

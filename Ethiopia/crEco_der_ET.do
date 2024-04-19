@@ -97,7 +97,7 @@ u "$et_data_final/eco_m1-m4_et.dta", clear
 			recode m1_713b (2=1) (3=0), gen(anc1calcium)
 			recode m1_713d (2=1) (3=0), gen(anc1deworm)
 			recode m1_715 (2=.), gen(anc1itn) // ITN provision, among women who dont already have one, in kebele with malaria
-			gen anc1depression = m1_716c
+			gen anc1depression = m1_716c // screened for depression
 			gen anc1edd =  m1_801
 
 			egen anc1tq = rowmean(anc1bp anc1weight anc1height anc1muac anc1fetal_hr anc1urine ///
@@ -266,6 +266,11 @@ u "$et_data_final/eco_m1-m4_et.dta", clear
 	lab var m1_malnutrition "Acute malnutrition MUAC<23"
 	lab var m1_BMI "Body mass index"
 	lab var m1_low_BMI "BMI below 18.5 (low)"
+	lab var anc1depression "Screened for depression during ANC1"
+	lab var anc1mental_health_drug "Given or prescribed SSRIs during ANC1"
+	lab var anc1hypertension "Given or prescribed hypertension medicine during ANC1"
+	lab var anc1diabetes "Given or prescribed diabetes medicine during ANC1" 
+	lab var anc1lmp "Asked about date of last menstrual period"
 
 	*** labeled by Wen-Chien April 19
 	lab var educ_cat "Education level category"

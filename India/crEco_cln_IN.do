@@ -6,20 +6,25 @@
 * Import Data 
 clear all 
 
+u "$in_data/Module1_02_04_2024", clear
+*u "$in_data/Module_1.dta", clear 
 *use "$in_data/Archive/Module_1_Baseline_Data.dta", clear
-u "$in_data/Module_1.dta", clear 
-
-* Adjusting to unique facility names
-drop a5
-merge 1:1 q103 using "$in_data/facility_29_02_24.dta"
-drop _merge 
-order a5, after(a4)
 
 *------------------------------------------------------------------------------*
+/* Adjusting unique facility names
+drop a5
+merge 1:1 q103 using "$in_data/Archive/facility_29_02_24.dta"
+drop _merge 
+order a5, after(a4)*/
+
+
 * Dataset was originally sent in upper cap
 foreach var of varlist _all  {
   rename `var' `=strupper("`var'")'
 }
+
+* Dropping duplicate IDs (data collection problems identified in March 2024)
+drop if Q103=="202311171131039696" | Q103=="202312151215032417" | Q103=="202312201759032417" | Q103=="202312201818032417" | Q103=="202401171049032417" | Q103=="202401311139032417" | Q103=="202402051039032417" | Q103=="202402051053032417" | Q103=="202402051720032417" | Q103=="202402061130032417" | Q103=="202402061524032417" | Q103=="202402071437032417"
 
 gen country = "India"
 *===============================================================================

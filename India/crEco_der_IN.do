@@ -105,15 +105,15 @@ u "$in_data_final/eco_m1_in.dta", clear
 			gen anc1malaria_proph =  m1_713e
 			recode anc1malaria_proph (2=1) (3=0)
 			gen anc1edd =  m1_801
-			egen anc1tq = rowmean(anc1bp anc1weight anc1urine anc1blood anc1ultrasound anc1ifa anc1tt anc1calcium ) // 9 items - removed ultrasound
-								 
+			egen anc1tq = rowmean(anc1bp anc1weight anc1urine anc1blood anc1ultrasound anc1ifa anc1tt anc1calcium anc1deworm ) // 9 items 
+			
 			* Counselling at first ANC visit
 			gen counsel_nutri =  m1_716a  
 			gen counsel_exer=  m1_716b
 			gen counsel_complic =  m1_716e
 			gen counsel_comeback = m1_724a
 			gen counsel_birthplan =  m1_809
-			egen anc1counsel = rowmean(counsel_nutri counsel_exer counsel_complic ///
+			egen anc1counsel = rowmean(counsel_nutri counsel_complic ///
 								counsel_comeback counsel_birthplan)
 										
 			* Q713 Other treatments/medicine at first ANC visit 

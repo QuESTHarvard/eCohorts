@@ -22,7 +22,7 @@ macro drop _all
 
 * Setting user globals 
 global user "/Users/shs8688/Dropbox (Harvard University)/SPH-Kruk Team/QuEST Network"
-*global user "/Users/catherine.arsenault/Dropbox/SPH Kruk QuEST Network"
+global user "/Users/catherine.arsenault/Dropbox/SPH Kruk QuEST Network"
 *global user "/Users/neenakapoor/Dropbox (Harvard University)/SPH-Kruk Team/QuEST Network"
 *global user "/Users/katedwright"
 
@@ -59,6 +59,7 @@ global user "/Users/shs8688/Dropbox (Harvard University)/SPH-Kruk Team/QuEST Net
 * Path to GitHub folder 
 global github "$user/Documents/GitHub/eCohorts"
 
+/*
 ********************************************************************************
 
 * Clean each dataset separately 
