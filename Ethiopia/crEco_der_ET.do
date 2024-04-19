@@ -1,5 +1,5 @@
 * MNH: ECohorts derived variable creation (Ethiopia)
-* Date of last update: August 2023
+* Date of last update: April, 2024
 * S Sabwa, K Wright, C Arsenault
 
 /*
