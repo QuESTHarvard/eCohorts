@@ -1,5 +1,5 @@
 * MNH: ECohorts derived variable creation (Ethiopia)
-* Date of last update: August 2023
+* Date of last update: September, 2023
 * S Sabwa, K Wright, C Arsenault
 
 /*
@@ -272,6 +272,134 @@ u "$et_data_final/eco_m1-m4_et.dta", clear
 	lab var anc1diabetes "Given or prescribed diabetes medicine during ANC1" 
 	lab var anc1lmp "Asked about date of last menstrual period"
 
+	*** labeled by Wen-Chien April 19
+	lab var educ_cat "Education level category"
+	lab var electr "Does your household have electricity?"
+	lab var car "Does any member of your household own a car or truck?"
+	lab var radio "Does your household have a radio?"
+	lab var tv "Does your household have a television?"
+	lab var phone "Does your household have a telephone or a mobile phone?"
+	lab var refrig "Does your household have a refrigerator?" 
+	lab var bicycle "Does any member of your household own a bicycle?"
+	lab var motorbik "Does any member of your household own a motorcycle or motor scooter?"
+	lab var bankacc "Does any member of your household have a bank account?"
+	lab var facility_lvl "Facility level"
+	lab var facility_own "Facility ownership (public versus private)"
+	lab var m1_phq2_cat "PHQ9 category"
+	lab var m1_phq9_cat "PHQ2 category"
+	lab var anc1bp "BP measured at 1st ANC visit"
+	lab var anc1weight "Weight measured at 1st ANC visit"
+	lab var anc1height "Height measured at 1st ANC visit"
+	lab var anc1bmi "BMI measured at 1st ANC visit"
+	lab var anc1muac "MUAC measured at 1st ANC visit"
+	lab var anc1fetal_hr "Fetal hear rate measured at 1st ANC visit"
+	lab var anc1urine "Urine test taken at 1st ANC visit"
+	lab var anc1blood "Blood test taken at 1st ANC visit"
+	lab var anc1hiv_test "HIV test taken at 1st ANC visit"
+	lab var anc1syphilis_test "Syphilis test taken at 1st ANC visit"
+	lab var anc1blood_sugar_test "Blood sugar test taken at 1st ANC visit"
+	lab var anc1ultrasound "Ultrasound performed at 1st ANC visit"
+	lab var anc1ifa "IFA given at 1st ANC visit" 
+	lab var anc1tt "TT vaccination given at 1st ANC visit"
+	lab var anc1depression "Anxiety or depression discussed at 1st ANC visit"
+	lab var anc1edd "Estimated due date told by provider at 1st ANC visit"
+	lab var anc1ux "User experience at 1st ANC visit"
+	lab var anc1tq "Content of 1st ANC visit - total quality"
+	lab var anc1counsel "Counseling of 1at ANC visit"
+	lab var anc1food_supp "Food supplement given at 1t ANC visit" 
+	lab var anc1mental_health_drug "Mental health drug given at 1st ANC visit"
+	lab var anc1hypertension "Medicines for hypertension given at 1st ANC visit"
+	lab var anc1diabetes "Medicines for diabetes given at 1st ANC visit"
+	lab var anc1lmp "Last menstrual perioid asked by provider at 1st ANC visit"
+	lab var anc1danger_screen "Danger"
+	lab var m1_health_literacy "Health literacy score"
+	lab var nbpreviouspreg "The number of previous pregnancies"
+	lab var gravidity "How many pregnancies have you had, including the current pregnancy"
+	lab var primipara "First time pregnancy"
+	lab var stillbirths "The number of stillbirths"
+	lab var preg_intent "The pregnancy was intended"
+	lab var m1_Hb "Hemoglobin level from test performed by data collector"
+	lab var m1_registration_cost "The amount of money spent on registration / consultation"
+	lab var m1_med_vax_cost "The amount of money spent for medicine/vaccines"
+	lab var m1_labtest_cost "The amounr of money spent on Test/investigations (x-ray, lab etc.)"
+	lab var m1_indirect_cost "Indirect cost, including transport, accommodation, and other"
+	lab var m1_counsel_comeback "Counselled about coming back for ANC visit"
+	
+	* lab variables from maternal card	
+	lab var mcard_date "Date from maternal card"
+	lab var mcard_age "Age from maternal card"
+	lab var mcard_lmp "LMP from maternal card"
+	lab var mcard_edd "Estimated due date from maternal card"
+	lab var mcard_gravid "Gravidity from maternal card"
+	lab var mcard_para "Partiy from maternal card"
+	lab var mcard_number_of_children_alive "Number of children alive from maternal card"	
+	
+	lab var mcard_previous_stillbirth "Obstetric history: previous history of stillbirths from maternal card"
+	lab var mcard_babywgt2500 "Obstetric history: baby birth weight <2500g from maternal card" 
+	lab var mcard_babywgt4000 "Obstetric history: baby birth weight >4000g from maternal card" 
+	
+	lab var mcard_age16 "Current pregnancy: Age < 16, based on age from maternal card"  
+	lab var mcard_age40 "Current pregnancy: Age > 40, based on age from maternal card"  
+	lab var mcard_iso "Current pregnancy: Isoimmunization in current or previous pregnancy from maternal card"
+	lab var mcard_vag_bleed "Current pregnancy: vaginal bleeding from maternal card"
+	lab var mcard_pelvic_mass "Current pregnancy: pelvic mass from maternal card"
+	lab var mcard_diastolic "Current pregnancy: diastolic pressure 90mmHg or more at booking from maternal card"
+	
+	lab var mcard_dm "General medical: diabetes mellitus from maternal card"
+	lab var mcard_htn "General medical: hypertension from maternal card"
+	lab var mcard_renal "General medical: renal disease from maternal card"
+	lab var mcard_sub_abuse "General medical: substance abuse from maternal card"
+	
+	lab var mcard_pallor "General examination: pallor or not, from maternal card"
+	lab var mcard_jaundice  "General examination: having jaundice or not, from maternal card"
+	lab var mcard_chest_abn_yes "General examination: have chest abnormality, from maternal card"
+	lab var mcard_chest_abn_no "General examination: do not have chest abnormality, from maternal card"
+	lab var mcard_heart_abnormality "General examination: heart abnormality, from maternal card"
+	
+	lab var mcard_valvar_ulcer "GYN examination: having valvar ulcer, from maternal card"
+    lab var mcard_vaginal_dis "GYN examination: vaginal discharge, from maternal card"
+	lab var mcard_uterine_size "GYN examination: uterine size, from maternal card" 
+	lab var mcard_cervical_lesion "GYN examination: cervial lesion from maternal card"
+	
+	lab var mcard_birth_prep "Birth preparedness advised from maternal card"
+	lab var mcard_delivery_advised "Delivery advised from maternal card"
+	lab var mcard_mother_hiv_test "Took HIV test from maternal card"
+	lab var mcard_hiv_test_result "HIV test result from maternal card" 
+	* mcard_mother_hiv_test and mcard_hiv_test_result: not 100% sure which is taking the test, which is test result 
+	lab var mcard_hiv_counsel "HIV test result received with post test counseling"	
+	lab var mcard_feed_counsel "Counseling on infant feeding from maternal card"
+	
+	lab var mcard_referred "Referred for treatment and support from maternal card"
+	lab var mcard_partner_hiv_test "Partner's HIV test result from maternal card"
+		
+	lab var mcard_ga_lmp "Present pregnancy: gestational age based on LMP from maternal card"
+  	lab var mcard_bp_diastolic "Present pregnancy: diastolic blood pressure from maternal card"
+	lab var mcard_bp_systolic "Present pregnancy: systolic blood pressure from maternal card"
+	lab var mcard_weight "Present pregnancy: maternal body weight from maternal card"
+	lab var mcard_fetal_heartbeat "Present pregnancy: fetal heart beat from maternal card"
+	lab var mcard_presentation "Present pregnancy: fetal presentation from maternal card"
+	lab var mcard_urine_infection "Present pregnancy: urine infection from maternal card"
+	lab var mcard_urine_protein "Present pregnancy: urine protein (+) from maternal card"
+	lab var mcard_syphilis_test "Present pregnancy: syphilis test from maternal card"
+	lab var mcard_hemoglobin "Present pregnancy: hemoglobin level from maternal card"
+    lab var mcard_bloodgrp "Present pregnancy: blood group from maternal card" 
+	lab var mcard_tt_doses "Present pregnancy:　the number of TT doses"
+	lab var mcard_mbendazole "Present pregnancy:　took Mebendazole from maternal card"
+	lab var mcard_use_of_itn "Present pregnancy: use ITN from maternal card"
+	lab var mcard_iron "Present pregnancy: take iron from maternal card"
+	lab var mcard_arv_px_type "Present pregnancy: ARV type"
+	lab var mcard_remarks "Present pregnancy: remarks"
+	lab var mcard_action_advice_counseling "Action, advice and counseling from maternal card"
+	lab var mcard_next_appt "Next appointment made"
+	
+	**** Variables that I am unsure about how to label 
+	* mcard_other_dx mcard_dx mcard_hsitory: these two seemed to both refer to other diseases or history. maternal card 1, # 19 
+	* mcard_chest_abn_no_info mcard_chest_abn_ref mcard_chest_abn_unk. Refer to maternal card 3, generanl exam chest abnormality
+	* mcard_prev_survey: Is it previous surgery, not previous survey. Refer to maternal card 1. obstetric history # 6
+	* two about danger signs: mcard_danger_signs mcard_danger_signs2. Is one for a specific visit?
+	* mcard_pelvic_mass1_ mcard_pallor2: seemed to refer to pelvic mass and pallor in a specific visit?
+	* mcard_last_preg mcard_vaginal_dis mcard_fu_visit mcard_consent
+	
 	order facility_own facility_lvl, after(facility)
 	
 save "$et_data_final/eco_m1_et_der.dta", replace
