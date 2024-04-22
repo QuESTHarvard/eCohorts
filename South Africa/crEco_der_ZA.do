@@ -1,5 +1,5 @@
 * MNH: ECohorts derived variable creation (Ethiopia)
-
+* updated: April 2024
 * C Arsenault, S Sabwa, K Wright
 
 /*
@@ -262,6 +262,48 @@ u "$za_data_final/eco_m1_za.dta", clear
 	lab var height_m "Height in meters"
 	lab var BMI "Body mass index"
 	lab var low_BMI "BMI below 18.5 (low)"
-								 
+	
+	*** note : labelled by Wen-Chien (April 21)
+	lab var educ_cat "Education level category"
+	lab var phq2_cat "PHQ2 depression level based on sum of 2 items"
+	lab var anc1tt "Texanus Toxoid vaccination given at 1st ANC visit"
+	lab var anc1depression "Anxiety or depression discussed at 1st ANC visit"
+	lab var anc1blood_sugar_test "Blood sugar test taken at 1st ANC visit"
+	lab var anc1diabetes "Medicines for diabetes given at 1st ANC visit"
+	lab var anc1mental_health_drug "Mental health drug given at 1st ANC visit"
+	lab var anc1hypertension "Medicines for hypertension given at 1st ANC visit"
+	lab var anc1hiv "Medicines for HIV given at 1st ANC visit"
+	lab var anc1lmp "Last menstrual perioid asked by provider at 1st ANC visit"
+	lab var anc1ux "User experience at 1st ANC visit"
+	lab var anc1fetal_hr "Fetal heart rate measured at 1st ANC visit"
+	lab var anc1edd "Estimated due date told by provider at 1st ANC visit"	
+	lab var counsel_comeback "Counselled about coming back for ANC visit"
+	lab var health_literacy "Health literacy score"
+	lab var preg_intent "The pregnancy was intended or not"
+	lab var nbpreviouspreg "The number of previous pregnancies"
+	lab var gravidity "How many pregnancies have you had, including the current pregnancy?"
+	lab var primipara "First time pregnancy"
+	lab var stillbirths "The number of stillbirths"
+	lab var risk_health "Risky behaviors such as smoking or drinking alcohol"
+	lab var stop_risk "Did the provider advise on stopping smoking or drinking alcohol at 1st ANC visit?"
+	lab var registration_cost "The amount of money spent on registration / consultation"
+	lab var med_vax_cost "The amount of money spent for medicine/vaccines"
+	lab var labtest_cost "The amounr of money spent on Test/investigations (x-ray, lab, etc)"
+	lab var indirect_cost "Indirect cost, including transport, accommodation, and other"
+	lab var electr "Does your household have electricity?"
+	lab var car "Does any member of your household own a car or truck?"
+	lab var radio "Does your household have a radio?"
+	lab var tv "Does your household have a television?"
+	lab var phone "Does your household have a telephone or a mobile phone?"
+	lab var refrig "Does your household have a refrigerator?" 
+	lab var bicycle "Does any member of your household own a bicycle?"
+	lab var motorbik "Does any member of your household own a motorcycle or motor scooter?"
+	lab var bankacc "Does any member of your household have a bank account?"
+	lab var Hb "Hemoglobin level from test performed by data collector"
+	lab var physical_verbal "Have you experienced physical or verbal abuse during pregnancy?"
+
+* note by Wen-Chien (April 21)
+* line 126 date_m1 not found, but m1_date in the dataset, so could not label ga_edd, ga, and trimester
+ 
 save "$za_data_final/eco_m1_za_der.dta", replace
 	
