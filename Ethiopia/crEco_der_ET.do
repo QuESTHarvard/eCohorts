@@ -1,16 +1,13 @@
-* MNH: ECohorts derived variable creation (Ethiopia)
+
+* MNH: eCohorts derived variable creation (Ethiopia)
+
 * Date of last update: April, 2024
 * S Sabwa, K Wright, C Arsenault
 
-/*
-	This file creates derived variables for analysis from the MNH ECohorts Ethiopia dataset. 
+* DERIVED VARIABLES: ETHIOPIA
 
-*/
+u "$et_data_final/eco_m1-m4_et_wide.dta", clear
 
-u "$et_data_final/eco_m1-m4_et.dta", clear
-
-			sort redcap_record_id redcap_event_name redcap_repeat_instance
-			egen tagpid=tag(redcap_record_id)
 *------------------------------------------------------------------------------*
 * MODULE 1
 *------------------------------------------------------------------------------*
@@ -31,13 +28,13 @@ u "$et_data_final/eco_m1-m4_et.dta", clear
 *------------------------------------------------------------------------------*	
 	* SECTION 2: HEALTH PROFILE
 	
-			egen m1_phq9_cat = rowtotal(phq9*)
+			egen m1_phq9_cat = rowtotal(m1_phq9*)
 			recode m1_phq9_cat (0/4=1) (5/9=2) (10/14=3) (15/19=4) (20/27=5)
 			label define phq9_cat 1 "none-minimal 0-4" 2 "mild 5-9" 3 "moderate 10-14" ///
 			                        4 "moderately severe 15-19" 5 "severe 20+" 
 			label values m1_phq9_cat phq9_cat
 
-			egen m1_phq2_cat= rowtotal(phq9a phq9b)
+			egen m1_phq2_cat= rowtotal(m1_phq9a m1_phq9b)
 			recode m1_phq2_cat (0/2=0) (3/6=1)
 			
 *------------------------------------------------------------------------------*	
@@ -64,6 +61,7 @@ u "$et_data_final/eco_m1-m4_et.dta", clear
 			recode m1_health_literacy 0/3=1 4=2 5=3 6=4
 			lab def health_lit 1"Poor" 2"Fair" 3"Good" 4"Very good"
 			lab val m1_health_lit health_lit
+			drop mosquito tbherb drink smoke
 *------------------------------------------------------------------------------*	
 	* SECTION 6: USER EXPERIENCE
 			foreach v in m1_601 m1_605a m1_605b m1_605c m1_605d m1_605e m1_605f ///
@@ -190,6 +188,8 @@ u "$et_data_final/eco_m1-m4_et.dta", clear
 			xtile quintile = wealthindex, nq(5)
 			xtile tertile = wealthindex, nq(3)
 			
+			drop safewater-roof 
+			
 			gen m1_registration_cost= m1_1218a_1 // registration
 				replace m1_registration = . if m1_registr==0
 			gen m1_med_vax_cost =  m1_1218b_1 // med or vax
@@ -198,12 +198,13 @@ u "$et_data_final/eco_m1-m4_et.dta", clear
 				replace m1_labtest_cost= . if m1_labtest_cost==0
 			egen m1_indirect_cost = rowtotal (m1_1218d_1 m1_1218e_1 m1_1218f_1 )
 				replace m1_indirect = . if m1_indirect==0
+				
 *------------------------------------------------------------------------------*	
 	* SECTION 13: HEALTH ASSESSMENTS AT BASELINE
 
 			* High blood pressure (HBP)
-			egen systolic_bp= rowmean(bp_time_1_systolic bp_time_2_systolic bp_time_3_systolic)
-			egen diastolic_bp= rowmean(bp_time_1_diastolic bp_time_2_diastolic bp_time_3_diastolic)
+			egen systolic_bp= rowmean(m1_bp_time_1_systolic m1_bp_time_2_systolic m1_bp_time_3_systolic)
+			egen diastolic_bp= rowmean(m1_bp_time_1_diastolic m1_bp_time_2_diastolic m1_bp_time_3_diastolic)
 			gen systolic_high = 1 if systolic_bp >=140 & systolic_bp <.
 			replace systolic_high = 0 if systolic_bp<140
 			gen diastolic_high = 1 if diastolic_bp>=90 & diastolic_bp<.
@@ -222,14 +223,13 @@ u "$et_data_final/eco_m1-m4_et.dta", clear
 			recode m1_Hb (0/6.9999=1) (7/30=0), gen(m1_anemic_7)
 			
 			* MUAC
-			recode muac (999=.)
-			rename muac m1_muac
+			recode m1_muac (999=.)
 			gen m1_malnutrition = 1 if m1_muac<23
 			replace m1_malnutrition = 0 if m1_muac>=23 & m1_muac<.
 			
 			* BMI 
-			gen height_m = height_cm/100
-			gen m1_BMI = weight_kg / (height_m^2)
+			gen m1_height_m = m1_height_cm/100
+			gen m1_BMI = m1_weight_kg / (m1_height_m^2)
 			gen m1_low_BMI= 1 if m1_BMI<18.5 
 			replace m1_low_BMI = 0 if m1_BMI>=18.5 & m1_BMI<.
 
@@ -262,7 +262,7 @@ u "$et_data_final/eco_m1-m4_et.dta", clear
 	lab var m1_HBP "High blood pressure at 1st ANC"
 	lab var m1_anemic_11 "Anemic (Hb <11.0)"
 	*lab var anemic_12 "Anemic (Hb <12.0)"
-	lab var height_m "Height in meters"
+	lab var m1_height_m "Height in meters"
 	lab var m1_malnutrition "Acute malnutrition MUAC<23"
 	lab var m1_BMI "Body mass index"
 	lab var m1_low_BMI "BMI below 18.5 (low)"
@@ -274,15 +274,6 @@ u "$et_data_final/eco_m1-m4_et.dta", clear
 
 	*** labeled by Wen-Chien (April 19)
 	lab var educ_cat "Education level category"
-	lab var electr "Does your household have electricity?"
-	lab var car "Does any member of your household own a car or truck?"
-	lab var radio "Does your household have a radio?"
-	lab var tv "Does your household have a television?"
-	lab var phone "Does your household have a telephone or a mobile phone?"
-	lab var refrig "Does your household have a refrigerator?" 
-	lab var bicycle "Does any member of your household own a bicycle?"
-	lab var motorbik "Does any member of your household own a motorcycle or motor scooter?"
-	lab var bankacc "Does any member of your household have a bank account?"
 	lab var facility_lvl "Facility level"
 	lab var facility_own "Facility ownership (public versus private)"
 	lab var m1_phq2_cat "PHQ2 depression level based on sum of 2 items"
@@ -327,4 +318,6 @@ u "$et_data_final/eco_m1-m4_et.dta", clear
 	
 	order facility_own facility_lvl, after(facility)
 	
-save "$et_data_final/eco_m1_et_der.dta", replace
+	order order m1_phq9_cat-m1_low_BMI, after(m1_trimester)
+	
+save "$et_data_final/eco_m1-m4_et_wide_der.dta", replace

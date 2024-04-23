@@ -2159,6 +2159,7 @@ format m3_313a_baby1 %td
 * 4-11 SS: numeric bc of 0 obs
 format m3_313a_baby2 %td
 
+
 * 4-11 SS: numeric bc of 0 obs
 format m3_313a_baby3 %td
 
@@ -5960,9 +5961,18 @@ order m1_* m2_* m3_* m4_* mcard_*, sequential
 order m2_start m2_date m2_date m2_permission m2_103 m2_time_start m2_maternal_death_reported m2_ga m2_hiv_status ///
 	 m2_date_of_maternal_death m2_maternal_death_learn m2_maternal_death_learn_other m2_111 m2_111_other m2_201,after(m1_end_time)
 
-order height_cm weight_kg bp_time_1_systolic bp_time_1_diastolic time_1_pulse_rate bp_time_2_systolic bp_time_2_diastolic time_2_pulse_rate bp_time_3_systolic bp_time_3_diastolic pulse_rate_time_3 m1_muac m1_1306 m1_1307 m1_1309,after(m1_1223)
+	foreach v in height_cm weight_kg bp_time_1_systolic bp_time_1_diastolic time_1_pulse_rate bp_time_2_systolic bp_time_2_diastolic ///
+    time_2_pulse_rate bp_time_3_systolic bp_time_3_diastolic pulse_rate_time_3 {
+		rename `v' m1_`v'
+	}
+	
+order m1_height_cm m1_weight_kg m1_bp_time_1_systolic m1_bp_time_1_diastolic m1_time_1_pulse_rate m1_bp_time_2_systolic m1_bp_time_2_diastolic ///
+m1_time_2_pulse_rate m1_bp_time_3_systolic m1_bp_time_3_diastolic m1_pulse_rate_time_3 m1_muac m1_1306 m1_1307 m1_1309, after(m1_1223)
 
-order phq9a phq9b phq9c phq9d phq9e phq9f phq9g phq9h phq9i, after(m1_205e)
+
+	rename (phq9a phq9b phq9c phq9d phq9e phq9f phq9g phq9h phq9i) (m1_phq9a m1_phq9b m1_phq9c m1_phq9d m1_phq9e m1_phq9f m1_phq9g m1_phq9h m1_phq9i)
+	
+order m1_phq9a m1_phq9b m1_phq9c m1_phq9d m1_phq9e m1_phq9f m1_phq9g m1_phq9h m1_phq9i, after(m1_205e)
 
 order country redcap_record_id order_redcap study_id interviewer_name_a7 redcap_event_name redcap_repeat_instrument redcap_repeat_instance ///
 	  redcap_data_access_group m1_date m1_start_time country site study_site study_site_sd facility facility_other sampstrata ///
@@ -5984,7 +5994,7 @@ save "$et_data_final/eco_m1-m4_et_long.dta", replace
 	
 	preserve
 		keep if redcap_event_name =="module_1_arm_1"
-		keep country-kebele_intworm m1*
+		keep country-kebele_intworm m1* 
 		save "$et_data_final/tmpm1", replace 
 	restore 
 	
