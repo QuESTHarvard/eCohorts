@@ -1,4 +1,6 @@
+
 * MNH: eCohorts derived variable creation (Ethiopia)
+
 * Date of last update: April, 2024
 * S Sabwa, K Wright, C Arsenault
 
@@ -269,6 +271,7 @@ u "$et_data_final/eco_m1-m4_et_wide.dta", clear
 	lab var anc1hypertension "Given or prescribed hypertension medicine during ANC1"
 	lab var anc1diabetes "Given or prescribed diabetes medicine during ANC1" 
 	lab var anc1lmp "Asked about date of last menstrual period"
+
 	*** labeled by Wen-Chien (April 19)
 	lab var educ_cat "Education level category"
 	lab var facility_lvl "Facility level"

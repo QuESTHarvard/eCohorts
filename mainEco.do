@@ -59,6 +59,7 @@ global user "/Users/catherine.arsenault/Dropbox/SPH Kruk QuEST Network"
 * Path to GitHub folder 
 global github "$user/Documents/GitHub/eCohorts"
 
+/*
 ********************************************************************************
 
 * Clean each dataset separately 
