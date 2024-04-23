@@ -6068,12 +6068,12 @@ save "$et_data_final/eco_m1-m4_et_long.dta", replace
 		merge 1:1 redcap_record_id using "$et_data_final/tmpm4"
 		drop _merge
 	
-	/*
+	
 	rm "$et_data_final/tmpcard.dta" 
 	rm "$et_data_final/tmpm1.dta" 
 	rm "$et_data_final/tmpm2.dta" 
 	rm "$et_data_final/tmpm3.dta" 
-	rm "$et_data_final/tmpm4.dta" */
+	rm "$et_data_final/tmpm4.dta" 
 		
 *===============================================================================
 	* RE-LABELING M2 VARS
