@@ -954,7 +954,7 @@ order m1_1218_total_ke, after(m1_1218_other_total_ke)
 	save "$ke_data_final/eco_m1_ke.dta", replace
 
 *===============================================================================
-* MODULE 2:
+**# * MODULE 2:
 
 * Import data
 clear all 
@@ -967,9 +967,7 @@ drop mod_2_freq_label q_304_label_1 q_304_label_2 q_304_label_3 q_304_label_4 q_
 	 gest_age_baseline date_survey_baseline  q_307_1 q_307_2 q_307_3 q_307_4 q_307_5 q_320 ///
 	 q_702_discrepancy resp_worker module_2_success module_2_first module_2_freq module_2_oth ///
 	 name_confirm name_full outcome_text trim_update q202_oth_continue availability ///
-	 gest_update_calc days_callback_mod3 key today_date survey1consented_grp1pregnant1se ///
-	 today 
-	 
+	 gest_update_calc days_callback_mod3 today_date today enum_name_mod1 enumerator_id enum_name
 	 
 *------------------------------------------------------------------------------*
 
@@ -987,7 +985,8 @@ rename resp_other m2_attempt_relationship
 rename intro_yn m2_consent_recording
 rename mod_2_round m2_completed_attempts
 rename q_103 m2_time_start
-rename enumerator_id m2_interviewer
+rename q_101 m2_interviewer
+*rename enum_name m2_enum
 rename q_107 m2_ga
 rename q_108 m2_hiv_status
 rename county m2_county		
@@ -1728,31 +1727,24 @@ drop if consent !=1
 
 drop today_date availability gest_age_baseline date_survey_baseline gest_age_today gest_age_delivery ///
 	 gest_age_ad_less28 check_continue date_mod4 call_status resp_language resp_available resp_available ///
-	 still_pregnant survey1no_maternal_death1consent v258 v619 v620 v621 v622 name_confirm outcome_text ///
-	 other_facility_before_repeat_cou other_facility_before_repeat_ind
+	 still_pregnant v258 name_confirm outcome_text other_facility_before_repeat_cou other_facility_before_repeat_ind
 
 drop q_103
 
 *------------------------------------------------------------------------------*	
 	* STEP ONE: RENAME VARAIBLES
+	 
+encode q_104, gen(respondentid)		
 	
-rename  
-tostring q_104, gen(respondentid)		
-	
-* SS 4/2: What happened to these vars?	
 * Variables from M2 in this dataset:
-*rename q_110 m2_date_of_maternal_death
+rename q_110 m2_date_of_maternal_death
 *rename q_107 m2_ga
-* q_103 = m2_time_start (dropped)
-* q_101 = m2_interviewer (dropped)
-* q_105 = respondent first name (dropped)
-* q_106 = respondent last name (dropped)
 rename q_108 m2_hiv_status
-*rename q_109 m2_maternal_death_reported
-*rename q_111 m2_maternal_death_learn
-*rename q_111_oth m2_maternal_death_learn_other
+rename q_109 m2_maternal_death_reported
+rename q_111 m2_maternal_death_learn
+rename q_111_oth m2_maternal_death_learn_other
 rename q_202 m2_202
-*rename q_601 m2_601	
+rename q_601 m2_601	
 	
 rename call_response m3_attempt_outcome	
 rename intro_yn m3_consent_recording
@@ -3098,18 +3090,13 @@ clear all
 * import data
 use "$ke_data/Module 4/240418_KEMRI_Module_4_Final_no_pii.dta"
 
-
-drop first_name last_name full_name facility_name county enum_name_mod1 enum_name best_phone_resp baby_name_1 baby_label_1 baby_list baby_alive_list baby_died_list alive_babies dead_babies baby_list_dead baby_name_care_1 baby_label_care_1 baby_list_care baby_name_med_1 baby_label_med_1 baby_list_med confirm_phone end_comment endtime
-
-drop phone1 phone2 phone3 phone4 phone_combi name_baby1 name_baby2 name_baby3 name_baby4 reschedule_date_resp name_confirm name_full name_baby_alive1 name_baby_alive2 name_baby_alive3 name_baby_alive4 name_baby_died1 name_baby_died2 name_baby_died3 name_baby_died4 registered_phone mobile_money_name mobile_prov phone_noavail phone_used phone_used_oth survey1consented_grp1consented1s starttime 
+drop facility_name county enum_name_mod1 enum_name alive_babies dead_babies endtime name_confirm starttime 
 
 ******************************************
 * STEP 1: RENAME VARIABLES
 ******************************************
 
 * Section 1: Identification 
-drop time_start_full text_audit consent_audio section8_audio mean_sound_level min_sound_level max_sound_level sd_sound_level pct_sound_between0_60 pct_sound_above80 pct_conversation date_survey_baseline today_date date_confirm q_104_calc language_label resp_other_name date_death_knows  baby_repeat_count baby_repeat_count q_203_1 q_206_1 q_603_1 baby_died_group_count new_visits_count new_visits_index_1  care_where_label_1 care_facility_name_label_1 care_reason_reg_label_1  q_406_1 q_406_2 q_406_3 q_411_a_1 q_411_a_2 q_411_a_3 q_905 care_rason_oth_label_1 care_visit_reas_rpt_grp_count_1 care_vis_idx_1_1 care_visit_res_1_1 care_vis_idx_1_2 care_visit_res_1_2 care_vis_idx_1_3 care_visit_res_1_3 care_vis_idx_1_4 care_visit_res_1_4 care_vis_idx_1_5 care_visit_res_1_5 care_vis_idx_1_6 care_visit_res_1_6 care_reason_label_1 new_visits_index_2 care_where_label_2 care_facility_name_label_2 care_reason_reg_label_2 q_406_2 care_rason_oth_label_2 care_visit_reas_rpt_grp_count_2 care_vis_idx_2_1 care_visit_res_2_1 care_vis_idx_2_2 care_visit_res_2_2 care_vis_idx_2_3 care_visit_res_2_3 care_vis_idx_2_4 care_visit_res_2_4 care_vis_idx_2_5 care_visit_res_2_5 care_vis_idx_2_6 care_visit_res_2_6 care_reason_label_2 new_visits_index_3 care_where_label_3 care_facility_name_label_3 care_reason_reg_label_3 care_rason_oth_label_3 care_visit_reas_rpt_grp_count_3 care_vis_idx_3_1 care_visit_res_3_1 care_vis_idx_3_2 care_visit_res_3_2 care_vis_idx_3_3 care_visit_res_3_3 care_vis_idx_3_4 care_visit_res_3_4 care_vis_idx_3_5 care_visit_res_3_5 care_vis_idx_3_6 care_visit_res_3_6 care_reason_label_3 user_experience_rpt_count user_exp_idx_1 user_visit_reason_1 user_facility_type_1 user_facility_name_1 user_exp_idx_2 user_visit_reason_2 user_facility_type_2 user_facility_name_2 baby_repeat_care_count baby_index_care_1 q_801_rand_order_count q_801_rand_1 q_801_rand_2 q_801_rand_3 q_801_rand_4 q_801_rand_5 q_801_rand_6 q_801_rand_7 q_801_rand_8 q_801_rand_9 q_801_rand_10 q_801_rand_11 q_801_rand_12 q_801_rand_13 q_801_rand_14 q_801_rand_15 q_801_rand_16 q_801_order_count baby_repeat_med_count baby_index_med_1 q_902a_cost q_902b_cost q_902c_cost q_902d_cost q_902e_cost total_spent date_after28days reschedule_full_noavail resp_worker availability location_endline formdef_version key isvalidated reschedule_full_noavail v685 v686 submissiondate v629 v630 baby_index_1	 
-
 
 *-----according to variable list 
 encode q_104, gen(respondentid)
@@ -3123,28 +3110,27 @@ rename attempts m4_attempt_number
 rename attempts_oth m4_attempt_number_other
 rename call_response m4_attempt_outcome
 rename resp_language m4_resp_language
-rename resp_other m4_attempt_relationship
-rename resp_other_oth m4_attempt_other
+*rename resp_other m4_attempt_relationship
+*rename resp_other_oth m4_attempt_other
 rename resp_available m4_attempt_avail
-rename best_phone_reconfirm m4_attempt_contact
-rename resp_available_when m4_attempt_goodtime
+*rename best_phone_reconfirm m4_attempt_contact
+*rename resp_available_when m4_attempt_goodtime
 rename intro_yn m4_consent_recording
-rename q_109 m4_maternal_death_reported
-rename q_110 m4_date_of_maternal_death 
-rename q_111 m4_maternal_death_learn
-rename q_111_oth m4_maternal_death_learn_other
+*rename q_109 m4_maternal_death_reported
+*rename q_110 m4_date_of_maternal_death 
+*rename q_111 m4_maternal_death_learn
+*rename q_111_oth m4_maternal_death_learn_other
 rename hiv_status m4_hiv_status
 rename c_section m4_c_section
 rename live_babies m4_live_babies 
 rename date_delivery m4_date_delivery
 rename weeks_delivery_mod4 m4_weeks_delivery
-rename refused_why m4_refused_why
+*rename refused_why m4_refused_why
 
 * Section 2: Health -- Baby
 rename q_201_1 m4_201a
 rename q_202_1 m4_baby1_health
 
-rename baby_list_numbers m4_number_of_babies
 *drop  q_203_1
 rename q_203_1_1  m4_baby1_feed_a
 rename q_203_2_1  m4_baby1_feed_b
@@ -3164,8 +3150,8 @@ rename q_205e_1 m4_baby1_mood
 rename q_205f_1 m4_baby1_skin
 rename q_205g_1 m4_baby1_interactivity
 
-*drop q_206_1
-*It just combines all the answers from the qestions below, we didn't have it in the Ethiopian Ds and all information coded in the variables below 
+drop q_206_1 //*It just combines all the answers from the qestions below, we didn't have it in the Ethiopian Ds and all information coded in the variables below 
+
 rename  q_206_1_1 m4_baby1_diarrhea
 rename  q_206_2_1 m4_baby1_fever
 rename  q_206_3_1 m4_baby1_lowtemp
@@ -3198,7 +3184,7 @@ rename  q_307 m4_307
 rename  q_308 m4_308
 rename  q_309 m4_309
 rename  q_309_oth m4_309_other 
-rename  q_310 m4_310
+*rename  q_310 m4_310
 rename  q_401a m4_401a
 rename  q_401b m4_401b
 rename  q_402 m4_402  
@@ -3234,7 +3220,7 @@ rename  q_406_oth_1 m4_406k_other
 
 rename  q_405_2 m4_407
 
-*drop q_406_2
+drop q_406_2
  *It just combines all the answers from the qestions below, we didn't have it in the Ethiopian Ds and all information coded in the variables below
 rename  q_406_1_2 m4_408a
 rename  q_406_2_2 m4_408b
@@ -3250,7 +3236,7 @@ rename  q_406_96_2 m4_408k
 rename  q_406_oth_2 m4_408k_other
 rename  q_405_3 m4_409 
 
-*drop  q_406_3
+drop  q_406_3
  *It just combines all the answers from the qestions below, we didn't have it in the Ethiopian Ds and all information coded in the variables below
 rename  q_406_1_3 m4_410a
 rename  q_406_2_3 m4_410b
@@ -3348,11 +3334,11 @@ rename  q_703f m4_703f
 rename  q_703g m4_703g
 
 rename  q_704a m4_704a
-rename  q_704b m4_704b
-rename  q_704c m4_704c
+*rename  q_704b m4_704b
+*rename  q_704c m4_704c
 
 *----------create one variable for 801-----------*
- egen m4_801a = rowmax( q_801a_1 q_801a_2 q_801a_3 q_801a_4 q_801a_5 q_801a_6 q_801a_7 q_801a_8 q_801a_9 q_801a_10 q_801a_11 q_801a_12 q_801a_13 q_801a_14 q_801a_15 q_801a_16 )
+egen m4_801a = rowmax( q_801a_1 q_801a_2 q_801a_3 q_801a_4 q_801a_5 q_801a_6 q_801a_7 q_801a_8 q_801a_9 q_801a_10 q_801a_11 q_801a_12 q_801a_13 q_801a_14 q_801a_15 q_801a_16 )
 egen m4_801b = rowmax( q_801b_1 q_801b_2 q_801b_3 q_801b_4 q_801b_5 q_801b_6 q_801b_7 q_801b_8 q_801b_9 q_801b_10 q_801b_11 q_801b_12 q_801b_13 q_801b_14 q_801b_15 q_801b_16)
 egen m4_801c = rowmax( q_801c_1 q_801c_2 q_801c_3 q_801c_4 q_801c_5 q_801c_6 q_801c_7 q_801c_8 q_801c_9 q_801c_10 q_801c_11 q_801c_12 q_801c_13 q_801c_14 q_801c_15 q_801c_16)
 egen m4_801d = rowmax( q_801d_1 q_801d_2 q_801d_3 q_801d_4 q_801d_5 q_801d_6 q_801d_7 q_801d_8 q_801d_9 q_801d_10 q_801d_11 q_801d_12 q_801d_13 q_801d_14 q_801d_15 q_801d_16)
@@ -3428,11 +3414,11 @@ rename final_note_alive m4_conclusion_live_babies
 
 rename duration m4_duration
 rename language m4_language 
-rename language_oth m4_language_oth 
-rename unavailable_reschedule m4_unavailable_reschedule
+*rename language_oth m4_language_oth 
+*rename unavailable_reschedule m4_unavailable_reschedule
 rename call_status m4_call_status
-rename reschedule_resp m4_reschedule_resp
-rename reschedule_noavail m4_reschedule_noavail
+*rename reschedule_resp m4_reschedule_resp
+*rename reschedule_noavail m4_reschedule_noavail
 
 rename place m4_place
 
@@ -3455,7 +3441,7 @@ label define respondent 2 "Friend/Neighbor", add
 label define respondent 3 "Colleague", add
 label define respondent 4 "Doesn't know the respondent", add
 label define respondent -96 "Other, specify", add
-label values m4_attempt_relationship respondent 
+*label values m4_attempt_relationship respondent 
 
 label define status 1 "Completed", add
 label define status 2 "Answered, but not completed", add
@@ -4081,7 +4067,7 @@ label variable m4_attempt_number "Which attempt is this at calling the responden
 label variable m4_attempt_number_other "Other attempt. Specify"
 label variable m4_attempt_outcome  "CALL TRACKING: What was the outcome of the call?"
 label variable m4_resp_language "Are you able to communicate with the respondent(language)?"
-label variable m4_attempt_relationship "CALL TRACKING:What is the relationship between the owner of this phone and ___ ?"
+*label variable m4_attempt_relationship "CALL TRACKING:What is the relationship between the owner of this phone and ___ ?"
 label variable m4_attempt_other  "CALL TRACKING:  Specify other relationship with the respondent"
 label variable m4_attempt_avail "CALL TRACKING: Can you pass the phone to the respondent?"
 label variable m4_maternal_death_reported "112. Maternal death reported"
@@ -4342,7 +4328,7 @@ drop _merge
 
 	* STEP FIVE: ORDER VARIABLES
 
-drop preferred_language preferred_language_1 preferred_language_2 preferred_language_3 preferred_language_4 preferred_language__96 preferred_language_oth formdef_version key submissiondate
+drop preferred_language preferred_language_1 preferred_language_2 preferred_language_3 preferred_language_4 preferred_language__96 preferred_language_oth formdef_version submissiondate
 
 drop q814a_calc_e q814b_calc_e q814c_calc_e q814d_calc_e q814e_calc_e q814f_calc_e q814g_calc_e q814h_calc_e q814_calc_e q814a_calc_ki q814b_calc_ki q814c_calc_ki q814d_calc_ki q814e_calc_ki q814f_calc_ki q814g_calc_ki q814h_calc_ki q814_calc_ki q814a_calc_ka q814b_calc_ka q814c_calc_ka q814d_calc_ka q814e_calc_ka q814f_calc_ka q814g_calc_ka q814h_calc_ka q814_calc_ka
 
@@ -4418,7 +4404,7 @@ order m3_endtime m3_duration, after(m3_1106)
 order m3_num_alive_babies m3_num_dead_babies, after(m3_miscarriage)
 
 * Module 4:
-order m4_date m4_time m4_duration m4_interviewer respondentid m4_consent_recording m4_hiv_status m4_c_section m4_live_babies m4_date_delivery m4_weeks_delivery m4_number_of_babies m4_attempt_number m4_attempt_number_other m4_attempt_outcome m4_resp_language  m4_attempt_relationship m4_attempt_other m4_attempt_avail m4_attempt_contact  m4_attempt_goodtime m4_resp_language m4_maternal_death_reported m4_date_of_maternal_death m4_maternal_death_learn m4_maternal_death_learn_other m4_start m4_201a m4_baby1_health m4_baby1_feed_a m4_baby1_feed_b m4_baby1_feed_c m4_baby1_feed_d m4_baby1_feed_e m4_baby1_feed_f m4_baby1_feed_g m4_breastfeeding m4_baby1_sleep m4_baby1_feed  m4_baby1_breath m4_baby1_stool m4_baby1_mood m4_baby1_skin m4_baby1_interactivity m4_baby1_diarrhea m4_baby1_fever m4_baby1_lowtemp m4_baby1_illness m4_baby1_troublebreath m4_baby1_chestprob m4_baby1_troublefeed m4_baby1_convulsions m4_baby1_jaundice m4_206_none m4_baby1_otherprob m4_baby1_other m4_overallhealth m4_302a m4_302b m4_303a m4_303b m4_303c m4_303d m4_303e m4_303f m4_303g m4_303h m4_304 m4_305 m4_306 m4_307 m4_308 m4_309 m4_309_other m4_310 m4_401a m4_401b m4_402 m4_403a m4_403b m4_403c m4_404a m4_404a_other m4_404b m4_404b_other m4_404c m4_404c_other m4_405 m4_406a m4_406b m4_406c m4_406d m4_406e m4_406f m4_406g m4_406h m4_406i m4_406j m4_406k m4_406k_other m4_407 m4_408a m4_408b m4_408c m4_408d m4_408e m4_408f m4_408g m4_408h m4_408i m4_408j m4_408k m4_408k_other m4_409 m4_410a m4_410b m4_410c m4_410d m4_410e m4_410f m4_410g m4_410h m4_410i m4_410j m4_410k m4_410k_other m4_411a m4_411b m4_411c m4_412a m4_412a_unit m4_412b m4_412b_unit m4_412c m4_412c_unit m4_413 m4_413_other m4_501 m4_502 m4_baby1_601a m4_baby1_601b m4_baby1_601c m4_baby1_601d m4_baby1_601e m4_baby1_601f m4_baby1_601g m4_baby1_601h m4_baby1_601i m4_baby1_601i_other m4_602a m4_602b m4_602c m4_602d m4_602e m4_602f m4_602g m4_603_1a m4_603_1b m4_603_1c m4_603_1d  m4_603_1e m4_603_1f m4_603_1g m4_603_1h  m4_603_1h_other m4_701a m4_701b m4_701c m4_701d m4_701e m4_701f m4_701g m4_701h m4_701h_other m4_702 m4_703a m4_703b m4_703c m4_703d m4_703e m4_703f m4_703g m4_704a m4_704b m4_704c m4_801a m4_801b m4_801c m4_801d m4_801e m4_801f m4_801g m4_801h m4_801i m4_801j m4_801k m4_801l m4_801m m4_801n m4_801o m4_801p m4_801q m4_801r m4_801r_other m4_baby1_802a  m4_baby1_802b m4_baby1_802c m4_baby1_802d m4_baby1_802f m4_baby1_802g m4_baby1_802h m4_baby1_802i m4_baby1_802j m4_baby1_802j_other m4_baby1_802k_ke m4_baby1_803a m4_baby1_803b  m4_baby1_803c m4_baby1_803d m4_baby1_803e m4_baby1_803f m4_baby1_803g m4_baby1_804 m4_804_other  m4_805 m4_901 m4_902a_amn m4_902b_amn m4_902c_amn m4_902d_amn m4_902e_amn m4_902e_oth m4_903 m4_904 m4_905a m4_905b m4_905c m4_905d m4_905e m4_905f m4_905g m4_905_other m4_conclusion_live_babies m4_place m4_refused_why m4_language m4_language_oth m4_reschedule_resp m4_unavailable_reschedule m4_reschedule_noavail m4_call_status, after(m3_duration)
+order m4_date m4_time m4_duration m4_interviewer respondentid m4_consent_recording m4_hiv_status m4_c_section m4_live_babies m4_date_delivery m4_weeks_delivery m4_number_of_babies m4_attempt_number m4_attempt_number_other m4_attempt_outcome m4_resp_language m4_attempt_other m4_attempt_avail m4_attempt_contact  m4_attempt_goodtime m4_resp_language m4_maternal_death_reported m4_date_of_maternal_death m4_maternal_death_learn m4_maternal_death_learn_other m4_start m4_201a m4_baby1_health m4_baby1_feed_a m4_baby1_feed_b m4_baby1_feed_c m4_baby1_feed_d m4_baby1_feed_e m4_baby1_feed_f m4_baby1_feed_g m4_breastfeeding m4_baby1_sleep m4_baby1_feed  m4_baby1_breath m4_baby1_stool m4_baby1_mood m4_baby1_skin m4_baby1_interactivity m4_baby1_diarrhea m4_baby1_fever m4_baby1_lowtemp m4_baby1_illness m4_baby1_troublebreath m4_baby1_chestprob m4_baby1_troublefeed m4_baby1_convulsions m4_baby1_jaundice m4_206_none m4_baby1_otherprob m4_baby1_other m4_overallhealth m4_302a m4_302b m4_303a m4_303b m4_303c m4_303d m4_303e m4_303f m4_303g m4_303h m4_304 m4_305 m4_306 m4_307 m4_308 m4_309 m4_309_other m4_310 m4_401a m4_401b m4_402 m4_403a m4_403b m4_403c m4_404a m4_404a_other m4_404b m4_404b_other m4_404c m4_404c_other m4_405 m4_406a m4_406b m4_406c m4_406d m4_406e m4_406f m4_406g m4_406h m4_406i m4_406j m4_406k m4_406k_other m4_407 m4_408a m4_408b m4_408c m4_408d m4_408e m4_408f m4_408g m4_408h m4_408i m4_408j m4_408k m4_408k_other m4_409 m4_410a m4_410b m4_410c m4_410d m4_410e m4_410f m4_410g m4_410h m4_410i m4_410j m4_410k m4_410k_other m4_411a m4_411b m4_411c m4_412a m4_412a_unit m4_412b m4_412b_unit m4_412c m4_412c_unit m4_413 m4_413_other m4_501 m4_502 m4_baby1_601a m4_baby1_601b m4_baby1_601c m4_baby1_601d m4_baby1_601e m4_baby1_601f m4_baby1_601g m4_baby1_601h m4_baby1_601i m4_baby1_601i_other m4_602a m4_602b m4_602c m4_602d m4_602e m4_602f m4_602g m4_603_1a m4_603_1b m4_603_1c m4_603_1d  m4_603_1e m4_603_1f m4_603_1g m4_603_1h  m4_603_1h_other m4_701a m4_701b m4_701c m4_701d m4_701e m4_701f m4_701g m4_701h m4_701h_other m4_702 m4_703a m4_703b m4_703c m4_703d m4_703e m4_703f m4_703g m4_704a m4_704b m4_704c m4_801a m4_801b m4_801c m4_801d m4_801e m4_801f m4_801g m4_801h m4_801i m4_801j m4_801k m4_801l m4_801m m4_801n m4_801o m4_801p m4_801q m4_801r m4_801r_other m4_baby1_802a  m4_baby1_802b m4_baby1_802c m4_baby1_802d m4_baby1_802f m4_baby1_802g m4_baby1_802h m4_baby1_802i m4_baby1_802j m4_baby1_802j_other m4_baby1_802k_ke m4_baby1_803a m4_baby1_803b  m4_baby1_803c m4_baby1_803d m4_baby1_803e m4_baby1_803f m4_baby1_803g m4_baby1_804 m4_804_other  m4_805 m4_901 m4_902a_amn m4_902b_amn m4_902c_amn m4_902d_amn m4_902e_amn m4_902e_oth m4_903 m4_904 m4_905a m4_905b m4_905c m4_905d m4_905e m4_905f m4_905g m4_905_other m4_conclusion_live_babies m4_place m4_refused_why m4_language m4_language_oth m4_reschedule_resp m4_unavailable_reschedule m4_reschedule_noavail m4_call_status, after(m3_duration)
 
 
 *==============================================================================*
@@ -4451,7 +4437,7 @@ drop q504_1 q504_2 q504_3 care_facility_name_label_1 care_facility_name_label_2 
 * Drop these variables that won't be used in data analysis 
 drop deviceid text_audit speed_violations_count mean_sound_level min_sound_level max_sound_level sd_sound_level pct_sound_between0_60 ///
      pct_sound_above80 pct_conversation enum_id_oth gpslatitude gpslongitude gpsaltitude gpsaccuracy no_gps c_section id_resp_calc ///
-	 formdef_version key baby_list_care baby_list_assess timing_endline 
+	 formdef_version baby_list_care baby_list_assess timing_endline 
 	 // note: drop c_section_label becasue c_section indicates the same information
  	 // note: drop id_resp_calc because id_resp indicates the same information
 	 
@@ -5655,7 +5641,7 @@ order m3_endtime m3_duration, after(m3_1106)
 order m3_num_alive_babies m3_num_dead_babies, after(m3_miscarriage)
 
 * Module 4:
-order m4_date m4_time m4_duration m4_interviewer respondentid m4_consent_recording m4_hiv_status m4_c_section m4_live_babies m4_date_delivery m4_weeks_delivery m4_number_of_babies m4_attempt_number m4_attempt_number_other m4_attempt_outcome m4_resp_language  m4_attempt_relationship m4_attempt_other  m4_attempt_avail m4_attempt_contact  m4_attempt_goodtime m4_resp_language  m4_maternal_death_reported m4_date_of_maternal_death m4_maternal_death_learn m4_maternal_death_learn_other m4_start m4_201a m4_baby1_health m4_baby1_feed_a m4_baby1_feed_b m4_baby1_feed_c m4_baby1_feed_d m4_baby1_feed_e m4_baby1_feed_f m4_baby1_feed_g m4_breastfeeding m4_baby1_sleep m4_baby1_feed  m4_baby1_breath m4_baby1_stool m4_baby1_mood m4_baby1_skin m4_baby1_interactivity m4_baby1_diarrhea m4_baby1_fever m4_baby1_lowtemp m4_baby1_illness m4_baby1_troublebreath m4_baby1_chestprob m4_baby1_troublefeed m4_baby1_convulsions m4_baby1_jaundice m4_206_none m4_baby1_otherprob m4_baby1_other m4_overallhealth m4_302a m4_302b m4_303a m4_303b m4_303c m4_303d m4_303e m4_303f m4_303g m4_303h m4_304 m4_305 m4_306 m4_307 m4_308 m4_309 m4_309_other m4_310 m4_401a m4_401b m4_402 m4_403a m4_403b m4_403c m4_404a m4_404a_other m4_404b m4_404b_other m4_404c m4_404c_other m4_405 m4_406a m4_406b m4_406c m4_406d m4_406e m4_406f m4_406g m4_406h m4_406i m4_406j m4_406k m4_406k_other m4_407 m4_408a m4_408b m4_408c m4_408d m4_408e m4_408f m4_408g m4_408h m4_408i m4_408j m4_408k m4_408k_other m4_409 m4_410a m4_410b m4_410c m4_410d m4_410e m4_410f m4_410g m4_410h m4_410i m4_410j m4_410k m4_410k_other m4_411a m4_411b m4_411c m4_412a m4_412a_unit m4_412b m4_412b_unit m4_412c m4_412c_unit m4_413 m4_413_other m4_501 m4_502 m4_baby1_601a m4_baby1_601b m4_baby1_601c m4_baby1_601d m4_baby1_601e m4_baby1_601f m4_baby1_601g m4_baby1_601h m4_baby1_601i m4_baby1_601i_other m4_602a m4_602b m4_602c m4_602d m4_602e m4_602f m4_602g m4_603_1a m4_603_1b m4_603_1c m4_603_1d  m4_603_1e m4_603_1f m4_603_1g m4_603_1h  m4_603_1h_other m4_701a m4_701b m4_701c m4_701d m4_701e m4_701f m4_701g m4_701h m4_701h_other m4_702 m4_703a m4_703b m4_703c m4_703d m4_703e m4_703f m4_703g m4_704a m4_704b m4_704c m4_801a m4_801b m4_801c m4_801d m4_801e m4_801f m4_801g m4_801h m4_801i m4_801j m4_801k m4_801l m4_801m m4_801n m4_801o m4_801p m4_801q m4_801r m4_801r_other m4_baby1_802a  m4_baby1_802b m4_baby1_802c m4_baby1_802d m4_baby1_802f m4_baby1_802g m4_baby1_802h m4_baby1_802i m4_baby1_802j m4_baby1_802j_other m4_baby1_802k_ke m4_baby1_803a m4_baby1_803b  m4_baby1_803c m4_baby1_803d m4_baby1_803e m4_baby1_803f m4_baby1_803g m4_baby1_804 m4_804_other  m4_805 m4_901 m4_902a_amn m4_902b_amn m4_902c_amn m4_902d_amn m4_902e_amn m4_902e_oth m4_903 m4_904 m4_905a m4_905b m4_905c m4_905d m4_905e m4_905f m4_905g m4_905_other m4_conclusion_live_babies m4_place m4_refused_why m4_language m4_language_oth m4_reschedule_resp m4_unavailable_reschedule m4_reschedule_noavail m4_call_status, after(m3_duration)
+order m4_date m4_time m4_duration m4_interviewer respondentid m4_consent_recording m4_hiv_status m4_c_section m4_live_babies m4_date_delivery m4_weeks_delivery m4_number_of_babies m4_attempt_number m4_attempt_number_other m4_attempt_outcome m4_resp_language m4_attempt_other  m4_attempt_avail m4_attempt_contact  m4_attempt_goodtime m4_resp_language  m4_maternal_death_reported m4_date_of_maternal_death m4_maternal_death_learn m4_maternal_death_learn_other m4_start m4_201a m4_baby1_health m4_baby1_feed_a m4_baby1_feed_b m4_baby1_feed_c m4_baby1_feed_d m4_baby1_feed_e m4_baby1_feed_f m4_baby1_feed_g m4_breastfeeding m4_baby1_sleep m4_baby1_feed  m4_baby1_breath m4_baby1_stool m4_baby1_mood m4_baby1_skin m4_baby1_interactivity m4_baby1_diarrhea m4_baby1_fever m4_baby1_lowtemp m4_baby1_illness m4_baby1_troublebreath m4_baby1_chestprob m4_baby1_troublefeed m4_baby1_convulsions m4_baby1_jaundice m4_206_none m4_baby1_otherprob m4_baby1_other m4_overallhealth m4_302a m4_302b m4_303a m4_303b m4_303c m4_303d m4_303e m4_303f m4_303g m4_303h m4_304 m4_305 m4_306 m4_307 m4_308 m4_309 m4_309_other m4_310 m4_401a m4_401b m4_402 m4_403a m4_403b m4_403c m4_404a m4_404a_other m4_404b m4_404b_other m4_404c m4_404c_other m4_405 m4_406a m4_406b m4_406c m4_406d m4_406e m4_406f m4_406g m4_406h m4_406i m4_406j m4_406k m4_406k_other m4_407 m4_408a m4_408b m4_408c m4_408d m4_408e m4_408f m4_408g m4_408h m4_408i m4_408j m4_408k m4_408k_other m4_409 m4_410a m4_410b m4_410c m4_410d m4_410e m4_410f m4_410g m4_410h m4_410i m4_410j m4_410k m4_410k_other m4_411a m4_411b m4_411c m4_412a m4_412a_unit m4_412b m4_412b_unit m4_412c m4_412c_unit m4_413 m4_413_other m4_501 m4_502 m4_baby1_601a m4_baby1_601b m4_baby1_601c m4_baby1_601d m4_baby1_601e m4_baby1_601f m4_baby1_601g m4_baby1_601h m4_baby1_601i m4_baby1_601i_other m4_602a m4_602b m4_602c m4_602d m4_602e m4_602f m4_602g m4_603_1a m4_603_1b m4_603_1c m4_603_1d  m4_603_1e m4_603_1f m4_603_1g m4_603_1h  m4_603_1h_other m4_701a m4_701b m4_701c m4_701d m4_701e m4_701f m4_701g m4_701h m4_701h_other m4_702 m4_703a m4_703b m4_703c m4_703d m4_703e m4_703f m4_703g m4_704a m4_704b m4_704c m4_801a m4_801b m4_801c m4_801d m4_801e m4_801f m4_801g m4_801h m4_801i m4_801j m4_801k m4_801l m4_801m m4_801n m4_801o m4_801p m4_801q m4_801r m4_801r_other m4_baby1_802a  m4_baby1_802b m4_baby1_802c m4_baby1_802d m4_baby1_802f m4_baby1_802g m4_baby1_802h m4_baby1_802i m4_baby1_802j m4_baby1_802j_other m4_baby1_802k_ke m4_baby1_803a m4_baby1_803b  m4_baby1_803c m4_baby1_803d m4_baby1_803e m4_baby1_803f m4_baby1_803g m4_baby1_804 m4_804_other  m4_805 m4_901 m4_902a_amn m4_902b_amn m4_902c_amn m4_902d_amn m4_902e_amn m4_902e_oth m4_903 m4_904 m4_905a m4_905b m4_905c m4_905d m4_905e m4_905f m4_905g m4_905_other m4_conclusion_live_babies m4_place m4_refused_why m4_language m4_language_oth m4_reschedule_resp m4_unavailable_reschedule m4_reschedule_noavail m4_call_status, after(m3_duration)
 
 * Module 5:	
 
