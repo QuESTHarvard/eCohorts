@@ -958,7 +958,7 @@ order m1_1218_total_ke, after(m1_1218_other_total_ke)
 
 * Import data
 clear all 
-use "$ke_data/Module 2/240325_KEMRI_Module_2_ANC_period_no_pii_4-2.dta"
+use "$ke_data/Module 2/240418_KEMRI_Module_2_ANC_period_no_pii_4-23.dta"
 
 drop if call_status !=1 // N=3,858 obs
 
@@ -1721,7 +1721,7 @@ order m2_phq2_ke*, after(m2_205b_r6)
 
 * Import data
 clear all 
-use "$ke_data/Module 3/240325_KEMRI_Module_3_no_pii_4-2.dta"
+use "$ke_data/Module 3/240418_KEMRI_Module_3_no_pii_4-23.dta"
 
 *drop ineligible pids:
 drop if consent !=1
@@ -3096,7 +3096,7 @@ order m3_num_alive_babies m3_num_dead_babies, after(m3_miscarriage)
 clear all
 
 * import data
-use "$ke_data/Module 4/KEMRI_Module_4_Final.dta"
+use "$ke_data/Module 4/240418_KEMRI_Module_4_Final_no_pii.dta"
 
 
 drop first_name last_name full_name facility_name county enum_name_mod1 enum_name best_phone_resp baby_name_1 baby_label_1 baby_list baby_alive_list baby_died_list alive_babies dead_babies baby_list_dead baby_name_care_1 baby_label_care_1 baby_list_care baby_name_med_1 baby_label_med_1 baby_list_med confirm_phone end_comment endtime
