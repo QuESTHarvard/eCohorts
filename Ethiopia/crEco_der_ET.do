@@ -271,7 +271,7 @@ u "$et_data_final/eco_m1-m4_et_wide.dta", clear
 	lab var anc1hypertension "Given or prescribed hypertension medicine during ANC1"
 	lab var anc1diabetes "Given or prescribed diabetes medicine during ANC1" 
 	lab var anc1lmp "Asked about date of last menstrual period"
-
+	lab var anc1ux "User experience score during 1st ANC visit"
 	*** labeled by Wen-Chien (April 19)
 	lab var educ_cat "Education level category"
 	lab var facility_lvl "Facility level"
@@ -289,14 +289,11 @@ u "$et_data_final/eco_m1-m4_et_wide.dta", clear
 	lab var anc1hiv_test "HIV test taken at 1st ANC visit"
 	lab var anc1syphilis_test "Syphilis test taken at 1st ANC visit"
 	lab var anc1blood_sugar_test "Blood sugar test taken at 1st ANC visit"
-	lab var anc1ultrasound "Ultrasound performed at 1st ANC visit"
+	lab var anc1ultrasound "Ultrasound performed at 1st ANC visit (11 items)"
 	lab var anc1ifa "IFA given at 1st ANC visit" 
 	lab var anc1tt "TT vaccination given at 1st ANC visit"
 	lab var anc1depression "Anxiety or depression discussed at 1st ANC visit"
 	lab var anc1edd "Estimated due date told by provider at 1st ANC visit"
-	lab var anc1ux "User experience at 1st ANC visit"
-	lab var anc1tq "Content of 1st ANC visit - total quality"
-	lab var anc1counsel "Counseling of 1st ANC visit"
 	lab var anc1food_supp "Food supplement given at 1st ANC visit" 
 	lab var anc1mental_health_drug "Mental health drug given at 1st ANC visit"
 	lab var anc1hypertension "Medicines for hypertension given at 1st ANC visit"
@@ -321,3 +318,7 @@ u "$et_data_final/eco_m1-m4_et_wide.dta", clear
 	order order m1_phq9_cat-m1_low_BMI, after(m1_trimester)
 	
 save "$et_data_final/eco_m1-m4_et_wide_der.dta", replace
+
+	drop m4_*
+save "$et_data_final/eco_m1-m3_et_wide_der.dta", replace
+	
