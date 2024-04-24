@@ -1,6 +1,6 @@
 * India ECohort Baseline Data - Analyses for Policy Brief 
 * Created by C. Arsenault and Wen-Chien Yang 
-* Update: March 26. 2024
+* Update: April 24. 2024
 
 clear all  
 * Import Data 
@@ -8,7 +8,6 @@ u "$in_data_final/eco_m1_in_der.dta", clear
 
 * SETTING AND DEMOGRAPHICS OF WOMEN ENROLLED
 	tab residence
-	
 	
 	* By residence
 	mean enrollage, over(residence)
@@ -21,7 +20,11 @@ u "$in_data_final/eco_m1_in_der.dta", clear
 	tab educ_cat residence, col
 	tab tertile residence, col
 	gen unemployed= m1_506==10
-	tab unemployed residence, col 
+	tab unemployed residence, col
+	recode m1_506 (1/5 = 1)(6 = 2)(7/9 = 1)(10 = 3)(96 = 1), gen (employ_cat)
+	lab def employcat 1 "employed or student" 2 "homemaker or housewife" 3 "unemployed"
+	lab value employ_cat employcat
+ 	tab employ_cat residence, col
 
 * HIV
 	gen phiv= m1_202e ==1      // m1_202e: previous dx of HIV	
@@ -46,12 +49,10 @@ u "$in_data_final/eco_m1_in_der.dta", clear
 			tabstat anc1tq, by(unemployed) stat(mean sd count)
 			tabstat anc1counsel, by(unemployed) stat(mean sd count)
 	* Items done the least
-
-			tabstat anc1bp anc1weight anc1fetal_hr  anc1blood anc1ultrasound anc1urine  ///
-				    anc1ifa  anc1tt anc1calcium anc1deworm counsel_nutri  ///
-					counsel_complic counsel_comeback counsel_birthplan, ///
+			tabstat anc1bp anc1weight anc1fetal_hr anc1blood anc1ultrasound anc1urine  ///
+				    anc1ifa anc1tt anc1calcium anc1deworm ///  
+					counsel_nutri counsel_complic counsel_comeback counsel_birthplan, ///
 					stat(mean count) col(stat)
-					
 			tab anc1ultrasound if trimester==3
 			tab m1_801 // m1_801: given a due date
 			
@@ -89,9 +90,10 @@ u "$in_data_final/eco_m1_in_der.dta", clear
 			
 * COMPETENT SYSTEMS: RISK FACTORS 
 			* create risk score 
-			egen riskscore = rowtotal(aged18 aged35 DM HTN cardiac MH oth_major_hp HBP anemic multi neodeath preterm PPH csect)
+			egen riskscore = rowtotal(aged18 aged35 DM HTN cardiac MH oth_major_hp HBP anemic multi stillbirth neodeath preterm PPH csect)
 			mean riskscore
-			tab riskscore
+			tab riskscore // 42% of women had risk_score = 0 
+		    tab anyrisk // 58% of women had any_risk = 1  		
 			tabstat anc1tq, by(riskscore) stat(mean sd count)
 			tabstat anc1ultrasound, by(riskscore) stat(mean sd count)
 			tabstat anc1counsel, by(riskscore) stat(mean sd count)
@@ -126,6 +128,8 @@ u "$in_data_final/eco_m1_in_der.dta", clear
 			su lab           
 			su indirect 
 			
+			mean registration // only 27 women in Sonipat spent money on registration 
+			mean med // only 21 women in Sonipat spent money on med 
 			mean registration, over(residence)   
 			mean med, over(residence)            
 			mean lab, over(residence)            
@@ -196,7 +200,7 @@ u "$in_data_final/eco_m1_in_der.dta", clear
 			ta specialist_hosp if cardiac==1
 			ta depression_tx if MH==1
 			ta m1_708c if hiv==1 // m1_708c: did the provider give you medicine for HIV? 
-    *note: I used line 183-197 for the figure in excel and word doc.
+    *note: I used line 188-202 for the cascade figure in excel and word doc.
     
 	* alternate way for prior chronic conditions
 	egen ch_complic = rowmax(DM HTN cardiac MH hiv)                       // var indicating at least one prior chronic conditions
