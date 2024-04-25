@@ -1131,6 +1131,9 @@ drop if respondentid == 21311071736 & m2_interviewer == 7
 
 drop if respondentid == 21501081229 & duration == 1234
 
+*recode m2_602b (-999 = .r) // SS: double check with KE team. Per Laterite: No, this is a typo that will be cleaned during the deep cleaning that we shall do at the end of DC.
+drop if m2_602b == -999
+
 *===============================================================================
 
 	* STEP TWO: ADD VALUE LABELS (NA in KENYA, already labeled)
@@ -1179,9 +1182,7 @@ recode m2_complete (5 = .r)
 
 recode m2_ga_estimate (998 = .d) 
 
-recode m2_602b (-999 = .r) // SS: double check with KE team
-
-recode m2_702_meds_ke m2_702a_cost m2_702b_cost m2_702c_cost m2_702d_cost m2_702e_cost  m2_704_confirm (999 = .d) // SS: double check with KE team
+recode m2_702_meds_ke m2_702a_cost m2_702b_cost m2_702c_cost m2_702d_cost m2_702e_cost  m2_704_confirm (999 = .d)
 
 *------------------------------------------------------------------------------*
 * recoding for skip pattern logic:	   
@@ -2240,9 +2241,8 @@ recode m3_303a m3_baby1_gender m3_baby1_weight m3_baby2_weight m3_baby1_born_ali
 	   m3_1003 m3_1005a m3_1005b m3_1005c m3_1005d m3_1005e m3_1005f m3_1005g m3_1005h m3_1006a ///
 	   m3_1006b m3_1006c m3_1007a m3_1007b m3_1007c m3_1101 m3_1106 m3_1201 m3_614_ke ///
 	   m3_616c_1 m3_1102a_amt m3_1102b_amt m3_1102c_amt m3_1102d_amt m3_1102e_amt m3_1102f_amt (-98 = .d)	 
-
-* SS: confirm m3_ga2_ke 999 = .d	   
-recode m3_ga2_ke (999 = .d)	   
+	   
+recode m3_ga2_ke m3_1102e_amt (999 = .d)	   
 
 recode m3_901_cost (-999 = .d) 	
 
