@@ -1,7 +1,7 @@
 * India ECohort Baseline Data - Analyses for Policy Brief 
 * Created by C. Arsenault and Wen-Chien Yang 
 * Update: April 24. 2024
-
+* This is a test
 clear all  
 * Import Data 
 u "$in_data_final/eco_m1_in_der.dta", clear
