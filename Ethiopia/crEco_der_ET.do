@@ -1,16 +1,13 @@
-* MNH: ECohorts derived variable creation (Ethiopia)
-* Date of last update: August 2023
+
+* MNH: eCohorts derived variable creation (Ethiopia)
+
+* Date of last update: April, 2024
 * S Sabwa, K Wright, C Arsenault
 
-/*
-	This file creates derived variables for analysis from the MNH ECohorts Ethiopia dataset. 
+* DERIVED VARIABLES: ETHIOPIA
 
-*/
+u "$et_data_final/eco_m1-m4_et_wide.dta", clear
 
-u "$et_data_final/eco_m1-m4_et.dta", clear
-
-			sort redcap_record_id redcap_event_name redcap_repeat_instance
-			egen tagpid=tag(redcap_record_id)
 *------------------------------------------------------------------------------*
 * MODULE 1
 *------------------------------------------------------------------------------*
@@ -31,13 +28,13 @@ u "$et_data_final/eco_m1-m4_et.dta", clear
 *------------------------------------------------------------------------------*	
 	* SECTION 2: HEALTH PROFILE
 	
-			egen m1_phq9_cat = rowtotal(phq9*)
+			egen m1_phq9_cat = rowtotal(m1_phq9*)
 			recode m1_phq9_cat (0/4=1) (5/9=2) (10/14=3) (15/19=4) (20/27=5)
 			label define phq9_cat 1 "none-minimal 0-4" 2 "mild 5-9" 3 "moderate 10-14" ///
 			                        4 "moderately severe 15-19" 5 "severe 20+" 
 			label values m1_phq9_cat phq9_cat
 
-			egen m1_phq2_cat= rowtotal(phq9a phq9b)
+			egen m1_phq2_cat= rowtotal(m1_phq9a m1_phq9b)
 			recode m1_phq2_cat (0/2=0) (3/6=1)
 			
 *------------------------------------------------------------------------------*	
@@ -64,6 +61,7 @@ u "$et_data_final/eco_m1-m4_et.dta", clear
 			recode m1_health_literacy 0/3=1 4=2 5=3 6=4
 			lab def health_lit 1"Poor" 2"Fair" 3"Good" 4"Very good"
 			lab val m1_health_lit health_lit
+			drop mosquito tbherb drink smoke
 *------------------------------------------------------------------------------*	
 	* SECTION 6: USER EXPERIENCE
 			foreach v in m1_601 m1_605a m1_605b m1_605c m1_605d m1_605e m1_605f ///
@@ -97,7 +95,7 @@ u "$et_data_final/eco_m1-m4_et.dta", clear
 			recode m1_713b (2=1) (3=0), gen(anc1calcium)
 			recode m1_713d (2=1) (3=0), gen(anc1deworm)
 			recode m1_715 (2=.), gen(anc1itn) // ITN provision, among women who dont already have one, in kebele with malaria
-			gen anc1depression = m1_716c
+			gen anc1depression = m1_716c // screened for depression
 			gen anc1edd =  m1_801
 
 			egen anc1tq = rowmean(anc1bp anc1weight anc1height anc1muac anc1fetal_hr anc1urine ///
@@ -190,6 +188,8 @@ u "$et_data_final/eco_m1-m4_et.dta", clear
 			xtile quintile = wealthindex, nq(5)
 			xtile tertile = wealthindex, nq(3)
 			
+			drop safewater-roof 
+			
 			gen m1_registration_cost= m1_1218a_1 // registration
 				replace m1_registration = . if m1_registr==0
 			gen m1_med_vax_cost =  m1_1218b_1 // med or vax
@@ -198,12 +198,13 @@ u "$et_data_final/eco_m1-m4_et.dta", clear
 				replace m1_labtest_cost= . if m1_labtest_cost==0
 			egen m1_indirect_cost = rowtotal (m1_1218d_1 m1_1218e_1 m1_1218f_1 )
 				replace m1_indirect = . if m1_indirect==0
+				
 *------------------------------------------------------------------------------*	
 	* SECTION 13: HEALTH ASSESSMENTS AT BASELINE
 
 			* High blood pressure (HBP)
-			egen systolic_bp= rowmean(bp_time_1_systolic bp_time_2_systolic bp_time_3_systolic)
-			egen diastolic_bp= rowmean(bp_time_1_diastolic bp_time_2_diastolic bp_time_3_diastolic)
+			egen systolic_bp= rowmean(m1_bp_time_1_systolic m1_bp_time_2_systolic m1_bp_time_3_systolic)
+			egen diastolic_bp= rowmean(m1_bp_time_1_diastolic m1_bp_time_2_diastolic m1_bp_time_3_diastolic)
 			gen systolic_high = 1 if systolic_bp >=140 & systolic_bp <.
 			replace systolic_high = 0 if systolic_bp<140
 			gen diastolic_high = 1 if diastolic_bp>=90 & diastolic_bp<.
@@ -222,14 +223,13 @@ u "$et_data_final/eco_m1-m4_et.dta", clear
 			recode m1_Hb (0/6.9999=1) (7/30=0), gen(m1_anemic_7)
 			
 			* MUAC
-			recode muac (999=.)
-			rename muac m1_muac
+			recode m1_muac (999=.)
 			gen m1_malnutrition = 1 if m1_muac<23
 			replace m1_malnutrition = 0 if m1_muac>=23 & m1_muac<.
 			
 			* BMI 
-			gen height_m = height_cm/100
-			gen m1_BMI = weight_kg / (height_m^2)
+			gen m1_height_m = m1_height_cm/100
+			gen m1_BMI = m1_weight_kg / (m1_height_m^2)
 			gen m1_low_BMI= 1 if m1_BMI<18.5 
 			replace m1_low_BMI = 0 if m1_BMI>=18.5 & m1_BMI<.
 
@@ -262,11 +262,63 @@ u "$et_data_final/eco_m1-m4_et.dta", clear
 	lab var m1_HBP "High blood pressure at 1st ANC"
 	lab var m1_anemic_11 "Anemic (Hb <11.0)"
 	*lab var anemic_12 "Anemic (Hb <12.0)"
-	lab var height_m "Height in meters"
+	lab var m1_height_m "Height in meters"
 	lab var m1_malnutrition "Acute malnutrition MUAC<23"
 	lab var m1_BMI "Body mass index"
 	lab var m1_low_BMI "BMI below 18.5 (low)"
-
+	lab var anc1depression "Screened for depression during ANC1"
+	lab var anc1mental_health_drug "Given or prescribed SSRIs during ANC1"
+	lab var anc1hypertension "Given or prescribed hypertension medicine during ANC1"
+	lab var anc1diabetes "Given or prescribed diabetes medicine during ANC1" 
+	lab var anc1lmp "Asked about date of last menstrual period"
+	lab var anc1ux "User experience score during 1st ANC visit"
+	*** labeled by Wen-Chien (April 19)
+	lab var educ_cat "Education level category"
+	lab var facility_lvl "Facility level"
+	lab var facility_own "Facility ownership (public versus private)"
+	lab var m1_phq2_cat "PHQ2 depression level based on sum of 2 items"
+	lab var m1_phq9_cat "PHQ9 depression level based on sum of 9 items"
+	lab var anc1bp "BP measured at 1st ANC visit"
+	lab var anc1weight "Weight measured at 1st ANC visit"
+	lab var anc1height "Height measured at 1st ANC visit"
+	lab var anc1bmi "BMI measured at 1st ANC visit"
+	lab var anc1muac "MUAC measured at 1st ANC visit"
+	lab var anc1fetal_hr "Fetal heart rate measured at 1st ANC visit"
+	lab var anc1urine "Urine test taken at 1st ANC visit"
+	lab var anc1blood "Blood test taken at 1st ANC visit"
+	lab var anc1hiv_test "HIV test taken at 1st ANC visit"
+	lab var anc1syphilis_test "Syphilis test taken at 1st ANC visit"
+	lab var anc1blood_sugar_test "Blood sugar test taken at 1st ANC visit"
+	lab var anc1ultrasound "Ultrasound performed at 1st ANC visit (11 items)"
+	lab var anc1ifa "IFA given at 1st ANC visit" 
+	lab var anc1tt "TT vaccination given at 1st ANC visit"
+	lab var anc1depression "Anxiety or depression discussed at 1st ANC visit"
+	lab var anc1edd "Estimated due date told by provider at 1st ANC visit"
+	lab var anc1food_supp "Food supplement given at 1st ANC visit" 
+	lab var anc1mental_health_drug "Mental health drug given at 1st ANC visit"
+	lab var anc1hypertension "Medicines for hypertension given at 1st ANC visit"
+	lab var anc1diabetes "Medicines for diabetes given at 1st ANC visit"
+	lab var anc1lmp "Last menstrual perioid asked by provider at 1st ANC visit"
+	lab var anc1danger_screen "Danger signs screened at 1st ANC visit"
+	lab var m1_health_literacy "Health literacy score"
+	lab var nbpreviouspreg "The number of previous pregnancies"
+	lab var gravidity "How many pregnancies have you had, including the current pregnancy?"
+	lab var primipara "First time pregnancy"
+	lab var stillbirths "The number of stillbirths"
+	lab var preg_intent "The pregnancy was intended"
+	lab var m1_Hb "Hemoglobin level from test performed by data collector"
+	lab var m1_registration_cost "The amount of money spent on registration / consultation"
+	lab var m1_med_vax_cost "The amount of money spent for medicine/vaccines"
+	lab var m1_labtest_cost "The amounr of money spent on test/investigations (x-ray, lab, etc.)"
+	lab var m1_indirect_cost "Indirect cost, including transport, accommodation, and other"
+	lab var m1_counsel_comeback "Counselled about coming back for ANC visit"
+	
 	order facility_own facility_lvl, after(facility)
 	
-save "$et_data_final/eco_m1_et_der.dta", replace
+	order order m1_phq9_cat-m1_low_BMI, after(m1_trimester)
+	
+save "$et_data_final/eco_m1-m4_et_wide_der.dta", replace
+
+	drop m4_*
+save "$et_data_final/eco_m1-m3_et_wide_der.dta", replace
+	

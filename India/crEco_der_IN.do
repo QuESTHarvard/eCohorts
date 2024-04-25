@@ -1,5 +1,5 @@
 * MNH: ECohorts derived variable creation (India)
-* Created Jan 24, 2024
+* Updated April, 2024
 * C Arsenault
 * this is test
 /*
@@ -105,15 +105,15 @@ u "$in_data_final/eco_m1_in.dta", clear
 			gen anc1malaria_proph =  m1_713e
 			recode anc1malaria_proph (2=1) (3=0)
 			gen anc1edd =  m1_801
-			egen anc1tq = rowmean(anc1bp anc1weight anc1urine anc1blood anc1ultrasound anc1ifa anc1tt anc1calcium ) // 9 items - removed ultrasound
-								 
+			egen anc1tq = rowmean(anc1bp anc1weight anc1urine anc1blood anc1ultrasound anc1ifa anc1tt anc1calcium anc1deworm ) // 9 items 
+			
 			* Counselling at first ANC visit
 			gen counsel_nutri =  m1_716a  
 			gen counsel_exer=  m1_716b
 			gen counsel_complic =  m1_716e
 			gen counsel_comeback = m1_724a
 			gen counsel_birthplan =  m1_809
-			egen anc1counsel = rowmean(counsel_nutri counsel_exer counsel_complic ///
+			egen anc1counsel = rowmean(counsel_nutri counsel_complic ///
 								counsel_comeback counsel_birthplan)
 										
 			* Q713 Other treatments/medicine at first ANC visit 
@@ -245,13 +245,73 @@ u "$in_data_final/eco_m1_in.dta", clear
 			gen low_BMI= 1 if BMI<18.5 
 			replace low_BMI = 0 if BMI>=18.5 & BMI<.
 
-			
-							
+*------------------------------------------------------------------------------*	
+	* Labeling variables (by Wen-Chien on April 19)
+			lab var anc1bp "BP measured at 1st ANC visit"
+			lab var anc1weight "Weight measured at 1st ANC visit"
+			lab var anc1height "Height measured at 1st ANC visit"
+			lab var anc1bmi "BMI measured at 1st ANC visit"
+			lab var anc1muac "MUAC measured at 1st ANC visit"
+			lab var anc1fetal_hr "Fetal heart rate measured at 1st ANC visit"
+			lab var anc1urine "Urine test taken at 1st ANC visit"
+			lab var anc1blood "Blood test taken at 1st ANC visit"
+			lab var anc1hiv_test "HIV test taken at 1st ANC visit"
+			lab var anc1syphilis_test "Syphilis test taken at 1st ANC visit"
+			lab var anc1blood_sugar_test "Blood sugar test taken at 1st ANC visit"
+			lab var anc1ultrasound "Ultrasound performed at 1st ANC visit"
+			lab var anc1ifa "IFA given at 1st ANC visit" 
+			lab var anc1calcium "Calcium given at 1st ANC"
+			lab var anc1deworm "Dewormning medicines given at 1st ANC"
+			lab var anc1malaria_proph "Malaria medicines given at 1st ANC"
+			lab var anc1tt "Tetanus Toxoid vaccination given at 1st ANC visit"
+			lab var anc1depression "Anxiety or depression discussed at 1st ANC visit"
+			lab var anc1edd "Estimated due date told by provider at 1st ANC visit"
+			lab var anc1ux "User experience at 1st ANC visit"
+			lab var anc1tq "Content of 1st ANC visit - total quality"
+			lab var anc1counsel "Counseling of 1at ANC visit"
+			lab var anc1food_supp "Food supplement given at 1t ANC visit" 
+			lab var anc1mental_health_drug "Mental health drug given at 1st ANC visit"
+			lab var anc1hypertension "Medicines for hypertension given at 1st ANC visit"
+			lab var anc1diabetes "Medicines for diabetes given at 1st ANC visit"
+			lab var anc1lmp "Last menstrual perioid asked by provider at 1st ANC visit"
+			lab var phq2_cat "PHQ2 depression level based on sum of 2 items"
+			lab var educ_cat "Education level category"
+			lab var electr "Does your household have electricity?"
+			lab var car "Does any member of your household own a car or truck?"
+			lab var radio "Does your household have a radio?"
+			lab var tv "Does your household have a television?"
+			lab var phone "Does your household have a telephone or a mobile phone?"
+			lab var refrig "Does your household have a refrigerator?" 
+			lab var bicycle "Does any member of your household own a bicycle?"
+			lab var motorbik "Does any member of your household own a motorcycle or motor scooter?"
+			lab var bankacc "Does any member of your household have a bank account?"
+			lab var facility_lvl "Facility level"
+			lab var m1_dangersigns "Experienced danger signs in pregnancy"
+			lab var m1_health_literacy "Health literacy score"
+			lab var nbpreviouspreg "The number of previous pregnancies"
+			lab var gravidity "How many pregnancies have you had, including the current pregnancy?"
+			lab var primipara "First time pregnancy"
+			lab var stillbirths "The number of stillbirths"
+			lab var preg_intent "The pregnancy was intended"
+			lab var Hb "Hemoglobin level from maternal card"
+			lab var registration_cost "The amount of money spent on registration / consultation"
+			lab var med_vax_cost "The amount of money spent for medicine/vaccines"
+			lab var labtest_cost "The amounr of money spent on Test/investigations (x-ray, lab etc.)"
+			lab var indirect_cost "Indirect cost, including transport, accommodation, and other"
+			lab var counsel_comeback "Counselled about coming back for ANC visit"
+			lab var SYSTOLIC "Systolic pressure at 1st ANC"
+			lab var DIASTOLIC "Diastolic pressure at 1st ANC"
+			lab var Date_of_interview "Date of interview"
+			lab var DATE_OF_INTERVIEW "Date of interview"
+			lab var estimated_delivery_date "Estimated delivery date"
+			lab var ESTIMATED_DELIVERY_DATE "Estimated delivery date"
+			lab var DURATION "Interview duration"
 
- save "$in_data_final/eco_m1_in_der.dta", replace
- 
- 
- 
- 
- 
-
+*** Note by Wen-Chien (April 19)
+* gestational_age gestational_age_1: It looks like people have either data avaiable (not labeled yet)
+* estimated_delivery_date ESTIMATED_DELIVERY_DATE: both are EDD 
+*　Date_of_interview DATE_OF_INTERVIEW: both are interview date 
+* HEM: this might be hemoglobin, not sure if it's the Hb taken during 1st ANC (another var Hb refering to Hb level from maternal card) (not labeled yet)
+* study_id CALC_END_TIME REVIEW_CORRECTIONS REVIEW_COMMENTS REVIEW_QUALITY: not sure about these variables (not labeled yet)
+						
+			save "$in_data_final/eco_m1_in_der.dta", replace

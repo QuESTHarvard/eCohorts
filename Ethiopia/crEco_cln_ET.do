@@ -2159,6 +2159,7 @@ format m3_313a_baby1 %td
 * 4-11 SS: numeric bc of 0 obs
 format m3_313a_baby2 %td
 
+
 * 4-11 SS: numeric bc of 0 obs
 format m3_313a_baby3 %td
 
@@ -5869,6 +5870,82 @@ label variable m4_conclusion_dead_baby "IF BABY DIED: THERE WILL BE NO END LINE 
 label variable m4_ot1 "OT1. What is the Outcome of the phone call? Interviewer should fill the outcome for each phone call at the end."
 label variable m4_ot1_oth "Ot1_Oth. Specify."
 label variable m4_complete "Complete?"
+
+***** note (line 5874 to 5947) 
+* lab variables from maternal card (by Wen-Chien on 2024.04.19)	
+lab var mcard_date "Date from maternal card"
+lab var mcard_age "Age from maternal card"
+lab var mcard_lmp "LMP from maternal card"
+lab var mcard_edd "Estimated due date from maternal card"
+lab var mcard_gravid "Gravidity from maternal card"
+lab var mcard_para "Partiy from maternal card"
+lab var mcard_number_of_children_alive "Number of children alive from maternal card"	
+	
+lab var mcard_previous_stillbirth "Obstetric history: previous history of stillbirths from maternal card"
+lab var mcard_babywgt2500 "Obstetric history: baby birth weight <2500g from maternal card" 
+lab var mcard_babywgt4000 "Obstetric history: baby birth weight >4000g from maternal card" 
+
+lab var mcard_age16 "Current pregnancy: Age < 16, based on age from maternal card"  
+lab var mcard_age40 "Current pregnancy: Age > 40, based on age from maternal card"  
+lab var mcard_iso "Current pregnancy: Isoimmunization in current or previous pregnancy from maternal card"
+lab var mcard_vag_bleed "Current pregnancy: vaginal bleeding from maternal card"
+lab var mcard_pelvic_mass "Current pregnancy: pelvic mass from maternal card"
+lab var mcard_diastolic "Current pregnancy: diastolic pressure 90mmHg or more at booking from maternal card"
+
+lab var mcard_dm "General medical: diabetes mellitus from maternal card"
+lab var mcard_htn "General medical: hypertension from maternal card"
+lab var mcard_renal "General medical: renal disease from maternal card"
+lab var mcard_sub_abuse "General medical: substance abuse from maternal card"
+
+lab var mcard_pallor "General examination: pallor or not, from maternal card"
+lab var mcard_jaundice  "General examination: having jaundice or not, from maternal card"
+lab var mcard_chest_abn_yes "General examination: have chest abnormality, from maternal card"
+lab var mcard_chest_abn_no "General examination: do not have chest abnormality, from maternal card"
+lab var mcard_heart_abnormality "General examination: heart abnormality, from maternal card"
+
+lab var mcard_valvar_ulcer "GYN examination: having valvar ulcer, from maternal card"
+lab var mcard_vaginal_dis "GYN examination: vaginal discharge, from maternal card"
+lab var mcard_uterine_size "GYN examination: uterine size, from maternal card" 
+lab var mcard_cervical_lesion "GYN examination: cervial lesion from maternal card"
+
+lab var mcard_birth_prep "Birth preparedness advised from maternal card"
+lab var mcard_delivery_advised "Delivery advised from maternal card"
+lab var mcard_mother_hiv_test "Took HIV test from maternal card"
+lab var mcard_hiv_test_result "HIV test result from maternal card" 
+* mcard_mother_hiv_test and mcard_hiv_test_result: not 100% sure which is taking the test, which is test result 
+lab var mcard_hiv_counsel "HIV test result received with post test counseling"	
+lab var mcard_feed_counsel "Counseling on infant feeding from maternal card"
+
+lab var mcard_referred "Referred for treatment and support from maternal card"
+lab var mcard_partner_hiv_test "Partner's HIV test result from maternal card"
+	
+lab var mcard_ga_lmp "Present pregnancy: gestational age based on LMP from maternal card"
+lab var mcard_bp_diastolic "Present pregnancy: diastolic blood pressure from maternal card"
+lab var mcard_bp_systolic "Present pregnancy: systolic blood pressure from maternal card"
+lab var mcard_weight "Present pregnancy: maternal body weight from maternal card"
+lab var mcard_fetal_heartbeat "Present pregnancy: fetal heart beat from maternal card"
+lab var mcard_presentation "Present pregnancy: fetal presentation from maternal card"
+lab var mcard_urine_infection "Present pregnancy: urine infection from maternal card"
+lab var mcard_urine_protein "Present pregnancy: urine protein (+) from maternal card"
+lab var mcard_syphilis_test "Present pregnancy: syphilis test from maternal card"
+lab var mcard_hemoglobin "Present pregnancy: hemoglobin level from maternal card"
+lab var mcard_bloodgrp "Present pregnancy: blood group from maternal card" 
+lab var mcard_tt_doses "Present pregnancy:　the number of TT doses"
+lab var mcard_mbendazole "Present pregnancy:　took Mebendazole from maternal card"
+lab var mcard_use_of_itn "Present pregnancy: use ITN from maternal card"
+lab var mcard_iron "Present pregnancy: take iron from maternal card"
+lab var mcard_arv_px_type "Present pregnancy: ARV type"
+lab var mcard_remarks "Present pregnancy: remarks"
+lab var mcard_action_advice_counseling "Action, advice and counseling from maternal card"
+lab var mcard_next_appt "Next appointment made"
+
+**** Wen-Chien note : Variables that I am unsure about how to label (2024.04.19)
+* mcard_other_dx mcard_dx mcard_hsitory: these two seemed to both refer to other diseases or history. maternal card 1, # 19 
+* mcard_chest_abn_no_info mcard_chest_abn_ref mcard_chest_abn_unk. Refer to maternal card 3, generanl exam chest abnormality
+* mcard_prev_survey: Is it previous surgery, not previous survey. Refer to maternal card 1. obstetric history # 6
+* two about danger signs: mcard_danger_signs mcard_danger_signs2. Is one for a specific visit?
+* mcard_pelvic_mass1_ mcard_pallor2: seemed to refer to pelvic mass and pallor in a specific visit?
+* mcard_last_preg mcard_vaginal_dis mcard_fu_visit mcard_consent
 	
 *===============================================================================
 	* STEP FIVE: ORDER VARIABLES
@@ -5884,9 +5961,18 @@ order m1_* m2_* m3_* m4_* mcard_*, sequential
 order m2_start m2_date m2_date m2_permission m2_103 m2_time_start m2_maternal_death_reported m2_ga m2_hiv_status ///
 	 m2_date_of_maternal_death m2_maternal_death_learn m2_maternal_death_learn_other m2_111 m2_111_other m2_201,after(m1_end_time)
 
-order height_cm weight_kg bp_time_1_systolic bp_time_1_diastolic time_1_pulse_rate bp_time_2_systolic bp_time_2_diastolic time_2_pulse_rate bp_time_3_systolic bp_time_3_diastolic pulse_rate_time_3 m1_muac m1_1306 m1_1307 m1_1309,after(m1_1223)
+	foreach v in height_cm weight_kg bp_time_1_systolic bp_time_1_diastolic time_1_pulse_rate bp_time_2_systolic bp_time_2_diastolic ///
+    time_2_pulse_rate bp_time_3_systolic bp_time_3_diastolic pulse_rate_time_3 {
+		rename `v' m1_`v'
+	}
+	
+order m1_height_cm m1_weight_kg m1_bp_time_1_systolic m1_bp_time_1_diastolic m1_time_1_pulse_rate m1_bp_time_2_systolic m1_bp_time_2_diastolic ///
+m1_time_2_pulse_rate m1_bp_time_3_systolic m1_bp_time_3_diastolic m1_pulse_rate_time_3 m1_muac m1_1306 m1_1307 m1_1309, after(m1_1223)
 
-order phq9a phq9b phq9c phq9d phq9e phq9f phq9g phq9h phq9i, after(m1_205e)
+
+	rename (phq9a phq9b phq9c phq9d phq9e phq9f phq9g phq9h phq9i) (m1_phq9a m1_phq9b m1_phq9c m1_phq9d m1_phq9e m1_phq9f m1_phq9g m1_phq9h m1_phq9i)
+	
+order m1_phq9a m1_phq9b m1_phq9c m1_phq9d m1_phq9e m1_phq9f m1_phq9g m1_phq9h m1_phq9i, after(m1_205e)
 
 order country redcap_record_id order_redcap study_id interviewer_name_a7 redcap_event_name redcap_repeat_instrument redcap_repeat_instance ///
 	  redcap_data_access_group m1_date m1_start_time country site study_site study_site_sd facility facility_other sampstrata ///
@@ -5908,7 +5994,7 @@ save "$et_data_final/eco_m1-m4_et_long.dta", replace
 	
 	preserve
 		keep if redcap_event_name =="module_1_arm_1"
-		keep country-kebele_intworm m1*
+		keep country-kebele_intworm m1* 
 		save "$et_data_final/tmpm1", replace 
 	restore 
 	
@@ -5982,12 +6068,12 @@ save "$et_data_final/eco_m1-m4_et_long.dta", replace
 		merge 1:1 redcap_record_id using "$et_data_final/tmpm4"
 		drop _merge
 	
-	/*
+	
 	rm "$et_data_final/tmpcard.dta" 
 	rm "$et_data_final/tmpm1.dta" 
 	rm "$et_data_final/tmpm2.dta" 
 	rm "$et_data_final/tmpm3.dta" 
-	rm "$et_data_final/tmpm4.dta" */
+	rm "$et_data_final/tmpm4.dta" 
 		
 *===============================================================================
 	* RE-LABELING M2 VARS

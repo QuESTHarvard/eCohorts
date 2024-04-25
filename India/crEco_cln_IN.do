@@ -6,15 +6,16 @@
 * Import Data 
 clear all 
 
+u "$in_data/Module1_02_04_2024", clear
+*u "$in_data/Module_1.dta", clear 
 *use "$in_data/Archive/Module_1_Baseline_Data.dta", clear
-u "$in_data/Module_1.dta", clear 
 
 *------------------------------------------------------------------------------*
-* Adjusting unique facility names
+/* Adjusting unique facility names
 drop a5
 merge 1:1 q103 using "$in_data/Archive/facility_29_02_24.dta"
 drop _merge 
-order a5, after(a4)
+order a5, after(a4)*/
 
 
 * Dataset was originally sent in upper cap
