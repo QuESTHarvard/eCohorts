@@ -4335,10 +4335,11 @@ encode id_resp, gen(respondentid)
 drop id_resp
 *format respondentid %12.0f		
 
+rename (q201_1 q202_1) (m5_babyalive m5_babyhealth)
 
-*rename q203_1_1 m5_babyfeed_a
-rename (q201_1 q202_1 q203_2_1 q203_3_1 q203_4_1 q203_5_1 q203_6_1 q203_7_1 q203_99_1 q204) (m5_babyalive m5_babyhealth ///
-        m5_babyfeed_b m5_babyfeed_c m5_babyfeed_d m5_babyfeed_e m5_babyfeed_f m5_babyfeed_g m5_babyfeed_99 m5_breastfeeding)
+rename (q203_1_1 q203_2_1 q203_3_1 q203_4_1 q203_5_1 q203_6_1 q203_7_1 q203_99_1 q204) ///
+       (m5_babyfeed_a m5_babyfeed_b m5_babyfeed_c m5_babyfeed_d m5_babyfeed_e m5_babyfeed_f ///
+	   m5_babyfeed_g m5_babyfeed_99 m5_breastfeeding)
 
 rename (q205a_1 q205b_1 q205c_1 q205d_1 q205e_1 q205f_1 q205g_1) (m5_baby_sleep m5_baby_feed m5_baby_breath m5_baby_stool m5_baby_mood m5_baby_skin ///
         m5_baby_interactivity)
@@ -5071,7 +5072,7 @@ recode m5_1202a (999 = .r) if m5_consent == 1
 ****** 1. recode .a due to skip patterns 
 
 recode m5_babyhealth (. = .a) if m5_babyalive != 1
-*recode m5_babyfeed_a (. = .a) if m5_babyalive != 1 // SS 4-24: not in dataset
+recode m5_babyfeed_a (. = .a) if m5_babyalive != 1 // SS 4-24: not in dataset
 recode m5_babyfeed_b (. = .a) if m5_babyalive != 1
 recode m5_babyfeed_c (. = .a) if m5_babyalive != 1
 recode m5_babyfeed_d (. = .a) if m5_babyalive != 1
