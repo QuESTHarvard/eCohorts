@@ -5072,7 +5072,7 @@ recode m5_1202a (999 = .r) if m5_consent == 1
 ****** 1. recode .a due to skip patterns 
 
 recode m5_babyhealth (. = .a) if m5_babyalive != 1
-*recode m5_babyfeed_a (. = .a) if m5_babyalive != 1 // SS 4-24: not in dataset
+recode m5_babyfeed_a (. = .a) if m5_babyalive != 1 // SS 4-24: not in dataset
 recode m5_babyfeed_b (. = .a) if m5_babyalive != 1
 recode m5_babyfeed_c (. = .a) if m5_babyalive != 1
 recode m5_babyfeed_d (. = .a) if m5_babyalive != 1
