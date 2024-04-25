@@ -28,7 +28,6 @@ keep if consent == 1 // 27 ids dropped
 *drop if q105 == . // 3 ids dropped, pids affected: 1821061320, 1720061414, 1720061210. Removed this filter as these pids are followed after M1 despite not have a phone number in M1
 
 gen country = "Kenya"
-
 *------------------------------------------------------------------------------*
 
 * STEP ONE: RENAME VARAIBLES
@@ -161,6 +160,10 @@ rename date_survey_baseline m1_date
 encode q103, gen(respondentid)
 drop q103
 *format respondentid %12.0f
+
+* Data quality:
+* drop pids:
+drop if respondentid == 21319071529
 
 *===============================================================================
 
@@ -5068,7 +5071,7 @@ recode m5_1202a (999 = .r) if m5_consent == 1
 ****** 1. recode .a due to skip patterns 
 
 recode m5_babyhealth (. = .a) if m5_babyalive != 1
-recode m5_babyfeed_a (. = .a) if m5_babyalive != 1
+*recode m5_babyfeed_a (. = .a) if m5_babyalive != 1 // SS 4-24: not in dataset
 recode m5_babyfeed_b (. = .a) if m5_babyalive != 1
 recode m5_babyfeed_c (. = .a) if m5_babyalive != 1
 recode m5_babyfeed_d (. = .a) if m5_babyalive != 1
