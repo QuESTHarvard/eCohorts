@@ -1,7 +1,7 @@
 * India ECohort Baseline Data - Analyses for Policy Brief 
 * Created by C. Arsenault and Wen-Chien Yang 
 * Update: April 25. 2024
-* This is a test
+
 clear all  
 * Import Data 
 u "$in_data_final/eco_m1_in_der.dta", clear
@@ -74,7 +74,7 @@ u "$in_data_final/eco_m1_in_der.dta", clear
 	gen oth_major_hp = m1_203 ==1 
 	
 	egen chronic = rowmax(DM HTN cardiac MH oth_major_hp)
-	egen general_risk = rowmax(aged18 aged35 chronic HBP anemic)
+	egen general_risk = rowmax(aged18 aged35 chronic HBP anemic )
 	
 * OBSTETRIC RISK FACTORS
 	gen multi= m1_805>1 & m1_805<.  // m1_805: how many babies in this pregnancy 
@@ -118,22 +118,30 @@ u "$in_data_final/eco_m1_in_der.dta", clear
 			mean m1_totalcost_in, over(residence) 
 			mean m1_totalcost_in, over(facility_lvl) 
 			mean m1_totalcost_in, over(residence facility_lvl) 
-            
+			
+			egen m1_totalcost_new= rowtotal(m1_1218a m1_1218b m1_1218c m1_1218d m1_1218e m1_1218f_1)
+            mean m1_totalcost_new, over(residence)
+			
 			gen registration = m1_1218a   // m1_1218a: spend on registration 
 			gen med = m1_1218b            // m1_1218b: spend on medicines and vaccines 
 			gen lab = m1_1218c            // m1_1218c: spend on lab and exams  
 			egen indirect = rowtotal (m1_1218d m1_1218e)  // m1_1218d: spend on transport, m1_1218e: spend on food  
+			g othercost= m1_1218f_1
 			su registration   
 			su med           
 			su lab           
 			su indirect 
+			su othercost 
 			
 			mean registration // only 27 women in Sonipat spent money on registration 
 			mean med // only 21 women in Sonipat spent money on med 
+			
 			mean registration, over(residence)   
 			mean med, over(residence)            
 			mean lab, over(residence)            
 			mean indirect, over(residence)  
+			mean othercost, over(residence)
+			
 				
 * CONFIDENCE
 			tab m1_302 // m1_302: confidence
