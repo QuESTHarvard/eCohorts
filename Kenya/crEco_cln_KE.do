@@ -21,7 +21,7 @@ clear all
 use "$ke_data/Module 1/KEMRI_Module_1_ANC_2023z-9-6.dta"
 
 *------------------------------------------------------------------------------*
-* Create sample: (M1 = 1,007)
+* Create sample: (M1 = 1,010)
 
 keep if consent == 1 // 27 ids dropped
 *drop if q105 == . // 3 ids dropped, pids affected: 1821061320, 1720061414, 1720061210. Removed this filter as these pids are followed after M1 despite not have a phone number in M1
