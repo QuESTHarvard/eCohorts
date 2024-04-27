@@ -389,7 +389,6 @@ egen tag=tag(facility)
 * Obstetric risk factors
 		gen multiple= m1_805 >1 &  m1_805<.
 		gen cesa= m1_1007==1
-		
 		gen neodeath = m1_1010 ==1
 		gen preterm = m1_1005 ==1
 		gen PPH=m1_1006==1

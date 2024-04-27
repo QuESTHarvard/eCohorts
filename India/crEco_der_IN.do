@@ -1,7 +1,7 @@
 * MNH: ECohorts derived variable creation (India)
 * Updated April, 2024
 * C Arsenault
-* this is test
+
 /*
 	This file creates derived variables for analysis from the MNH ECohorts India dataset. 
 */
