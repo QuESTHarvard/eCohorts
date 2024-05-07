@@ -188,6 +188,11 @@ u "$et_data_final/eco_m1-m4_et_wide.dta", clear
 			xtile quintile = wealthindex, nq(5)
 			xtile tertile = wealthindex, nq(3)
 			
+			lab def quintile 1"Poorest" 2"Second" 3"Third" 4"Fourth" 5"Richest"
+			lab val quintile quintile
+			lab def tertile 1"Poorest" 2"Second" 3"Richest"
+			lab val tertile tertile 
+			
 			drop safewater-roof 
 			
 			gen m1_registration_cost= m1_1218a_1 // registration
