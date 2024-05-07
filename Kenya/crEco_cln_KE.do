@@ -164,13 +164,14 @@ rename starttime m1_start_time
 rename time_start_full m1_date_time
 rename endtime m1_end_time
 rename date_survey_baseline m1_date
-encode q103, gen(respondentid)
-drop q103
+*encode q103, gen(respondentid)
+*drop q103
 *format respondentid %12.0f
+rename q103 respondentid
 
 * Data quality:
 * drop pids:
-drop if respondentid == 21319071529
+drop if respondentid == "21319071529"
 
 *===============================================================================
 
@@ -984,10 +985,10 @@ drop mod_2_freq_label q_304_label_1 q_304_label_2 q_304_label_3 q_304_label_4 q_
 
 * STEP ONE: RENAME VARAIBLES
 
-encode q_104, gen(respondentid)
-drop q_104
+*encode q_104, gen(respondentid)
+*drop q_104
 *format respondentid %12.0f
-
+ren q_104 respondentid
 
 rename attempts m2_attempt_number
 rename attempts_oth m2_attempt_number_other
@@ -1136,12 +1137,12 @@ rename endtime m2_endtime
 *respondentid: 21311071736, duplicate M2 submission on same date
 *From KEMTRI: This ID was double-allocated to Isnina and Linah by mistake. That is why we have 2 entries of this ID. Linah has told me that initially the respondent told her she was still pregnant and so she conducted the interview. After she had finalised the interview the respondent then said she had had delivered. Linah proceded to do module 3 even though she had conducted an unnecessary module 2. Also both Isnina and Linah have conducted module 3 so we have 2 module 3 forms for this ID. I am suggesting we accept the module 2 done by Isnina since it was correct and accept module 3 done by Linah since it was the one done first.
 
-drop if respondentid == 21311071736 & m2_interviewer == 7
+drop if respondentid == "21311071736" & m2_interviewer == 7
 
 *respondentid: 21501081229, duplicate entries on same start time and date
 *From KEMTRI: There was an issue with her tablet sending some of the forms. Some forms had failed to submit. I think this what caused this.
 
-drop if respondentid == 21501081229 & duration == 1234
+drop if respondentid == "21501081229" & duration == 1234
 
 *recode m2_602b (-999 = .r) // SS: double check with KE team. Per Laterite: No, this is a typo that will be cleaned during the deep cleaning that we shall do at the end of DC.
 drop if m2_602b == -999
@@ -1753,8 +1754,9 @@ drop q_103
 *------------------------------------------------------------------------------*	
 	* STEP ONE: RENAME VARAIBLES
 	 
-encode q_104, gen(respondentid)		
-drop q_104
+*encode q_104, gen(respondentid)		
+*drop q_104
+rename q_104 respondentid
 	
 * Variables from M2 in this dataset:
 rename q_101 m2_interviewer
@@ -2145,23 +2147,23 @@ rename language m3_language
 *From KEMTRI: This ID was double-allocated to Isnina and Linah by mistake. That is why we have 2 entries of this ID. Linah has told me that initially the respondent told her she was still pregnant and so she conducted the interview. After she had finalised the interview the respondent then said she had had delivered. Linah proceded to do module 3 even though she had conducted an unnecessary module 2. Also both Isnina and Linah have conducted module 3 so we have 2 module 3 forms for this ID. I am suggesting we accept the module 2 done by Isnina since it was correct and accept module 3 done by Linah since it was the one done first.
 
 *drop if respondentid == 21311071736 & m3_enum_name == "Isnina Musa" // SS: add this back in once enum name is fixed
-drop if respondentid == 21311071736
+drop if respondentid == "21311071736"
 
 *respondentid: 21711071310, duplicate M3 submission on same date
 *From KEMRI: Module 3 done twice. Keep the second interview of 2/11/2023. She delivered on 2nd October"
 
-drop if respondentid == 21711071310 & m3_date == date("05oct2023", "DMY") 
+drop if respondentid == "21711071310" & m3_date == date("05oct2023", "DMY") 
 
 
 *respondentid: 1916081238, duplicate M3 submission on same date
 *From KEMRI: I have had a discussion with the en to determine how this happened. The en had a mix-up of the IDs. The second complete form is for 21419071300, a respondent from Kitui who delivered on 25th Oct. So for this second form everything else is correct apart from the respondent ID.
 
-replace respondentid= 21419071300 if respondentid==1916081238 & m3_birth_or_ended== date("25oct2023", "DMY")
+replace respondentid= "21419071300" if respondentid == "1916081238" & m3_birth_or_ended== date("25oct2023", "DMY")
 	
 *respondentid: 21327071350, duplicate M3 on different dates:
 *From KEMRI:  please keep the one from March 18th
 
-drop if respondentid == 21327071350 & m3_date == date("12mar2024", "DMY")
+drop if respondentid == "21327071350" & m3_date == date("12mar2024", "DMY")
 	
 	
 *===============================================================================
@@ -3024,7 +3026,7 @@ lab var m3_endtime "Time of interview ended"
 
 *drop if respondentid == "1916081238" | respondentid == "21311071736" | respondentid == "21711071310"
 
-drop if respondentid == 21327071350 
+drop if respondentid == "21327071350" 
 
 merge 1:1 respondentid using "$ke_data_final/eco_m1m2_ke.dta", force
 
@@ -3132,9 +3134,10 @@ drop facility_name county enum_name_mod1 enum_name alive_babies dead_babies endt
 * Section 1: Identification 
 
 *-----according to variable list 
-encode q_104, gen(respondentid)
+*encode q_104, gen(respondentid)
 *format respondentid %12.0f
-drop q_104
+*drop q_104
+rename q_104 respondentid
 
 rename q_101 m2_interviewer
 rename q_102 m4_date
@@ -4663,9 +4666,11 @@ rename (consent starttime endtime duration date_confirm submissiondate live_babi
 		 m5_dateconfirm m5_submissiondate m5_n_livebabies m5_n_babies m5_n_alivebabies m5_n_deadbabies m5_csection m5_hiv_status ///
 		m5_n_baby_repeat m5_baby_index_1)
 		
-encode id_resp, gen(respondentid)
-drop id_resp
-*format respondentid %12.0f		
+*encode id_resp, gen(respondentid)
+*drop id_resp
+*format respondentid %12.0f	
+
+rename id_resp respondentid
 
 rename (q201_1 q202_1) (m5_babyalive m5_babyhealth)
 
