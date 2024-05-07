@@ -1444,8 +1444,8 @@ recode m2_endtime (. = .a) if m2_date == . | m2_202 != 1 | m2_complete !=1
 drop if m2_completed_attempts == . // SS: change to "."
 *drop if respondentid == "21311071736" | respondentid == "21501081229"
 
-sort m2_date
-bysort respondentid: gen round2 = _n
+sort respondentid m2_date
+by respondentid: gen round2 = _n
 
 gen m2_round = ""
 replace m2_round = "_r1" if round2==1
