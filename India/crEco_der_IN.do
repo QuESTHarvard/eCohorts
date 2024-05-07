@@ -99,7 +99,8 @@ u "$in_data_final/eco_m1_in.dta", clear
 			gen anc1calcium = m1_713b
 			recode anc1calcium (2=1) (3=0)
 			gen anc1deworm= m1_713d
-			recode anc1deworm (2=1) (3=0)
+			recode anc1deworm (2=1) (3=0) 
+			replace anc1deworm =. if m1_804 ==1
 			recode m1_715 (2=1), gen(anc1itn)
 			gen anc1depression = m1_716c
 			gen anc1malaria_proph =  m1_713e
