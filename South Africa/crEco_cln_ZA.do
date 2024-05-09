@@ -3,18 +3,31 @@
 * Updated: Aug 17 2023 
 
 *------------------------------------------------------------------------------*
+* Instructions: All steps are done by Module, search "MODULE _" to find sections
+	
+	* STEPS: 
+		* STEP ONE: RENAME VARIABLES 
+		* STEP TW0: ADD VALUE LABELS - NA in KENYA 
+		* STEP THREE: RECODING MISSING VALUES 
+		* STEP FOUR: LABELING VARIABLES
+		* STEP FIVE: ORDER VARIABLES
+		* STEP SIX: SAVE DATA
 
-* Import Data 
+*------------------------------------------------------------------------------*
+* MODULE 1:
+
+* Import data
 clear all 
 import excel "$za_data/SA MOD-1 - 15 Jan 2024.xlsx", sheet("MNH_Module_1_Baseline") firstrow
-
-*import excel "$za_data/SA MOD-1 - 28Nov2023_updated.xlsx", sheet("MNH_Module_1_Baseline") firstrow
 
 * Notes from original excel:
 	*9999998 = Not applicable
 	*5555555 = Did not meet the eligibility criteria
 	*Blank = Missing value/Incomplete interview
-
+	
+*------------------------------------------------------------------------------*
+* Create sample:
+	
 * keeping eligible participants:
 keep if Eligible == "Yes" // 163 obs dropped
 drop if MOD1_ELIGIBILITY_B3_B == 14 // per Gloria 9-22-23 email: dropping 14 year old who did not meet eligibility criteria
@@ -36,9 +49,6 @@ gen country = "South Africa"
 *------------------------------------------------------------------------------*
 
 	* STEP ONE: RENAME VARAIBLES
-    
-	* MODULE 1:
-
 rename SCRNumBer pre_screening_num_za
 rename (MOD1_META_DATA_A1 MOD1_META_DATA_A2 MOD1_META_DATA_A3 MOD1_META_DATA_A4 MOD1_META_DATA_A4_SD ///
 		MOD1_META_DATA_A5) (interviewer_id m1_date m1_start_time ///
@@ -1393,9 +1403,7 @@ drop __9999998
 
 *===============================================================================
 
-	* STEP ONE: RENAME VARAIBLES
-    
-	* MODULE 2:
+	* STEP ONE: RENAME VARIABLES
 rename V2 m2_completed_attempts
 rename MOD2_Permission_Granted m2_permission
 rename MOD2_Identification_101 m2_interviewer
@@ -1563,9 +1571,6 @@ replace respondentid = "NOK_042" if respondentid == "NOK_42"
 *===============================================================================
 	
 	* STEP TWO: ADD VALUE LABELS
-	
-	* MODULE 2:
-	
 	label define m2_permission 1 "Yes" 0 "No" 
 	label values m2_permission
 	
@@ -1911,7 +1916,6 @@ replace respondentid = "NOK_042" if respondentid == "NOK_42"
 * Formatting Dates (SS: do this for all dates in all modules)	 
 	
 	
-	
 *===============================================================================
 	
 	*STEP THREE: RECODING MISSING VALUES 
@@ -2229,9 +2233,6 @@ drop _merge
 *===============================================================================					   
 	
 	* STEP FOUR: LABELING VARIABLES	
-	
-	* MODULE 2:
-* STEP FOUR: LABELING VARIABLES
 	foreach i in _r1 _r2 _r3 _r4 _r5 _r6 {
 label variable m2_permission`i'  "Permission granted to conduct call"
 label variable m2_completed_attempts`i'  "Module 2 completed attempts"
@@ -2420,11 +2421,8 @@ drop RESPONSE_QuestionnaireID RESPONSE_QuestionnaireName RESPONSE_QuestionnaireV
 
 
 	* STEP FIVE: SAVE DATA TO RECODED FOLDER/ORDER VARIABLES
-	
-	* MODULE 2:
 order m1_* m2_*, sequential
 
-* Module 1:
 order pre_screening_num_za Eligible permission country respondentid interviewer_id m1_date m1_start_time study_site ///
       care_self enrollage enrollage_cat zone_live b5anc b6anc_first b7eligible mobile_phone flash study_site_sd facility
 	  
@@ -2434,8 +2432,6 @@ order height_cm weight_kg bp_time_1_systolic bp_time_1_diastolic time_1_pulse_ra
 	  
 order phq9a phq9b phq9c phq9d phq9e phq9f phq9g phq9h phq9i, after(m1_205e)
 
-	
-* Module 2:
 order m2_completed_attempts* m2_permission* m2_date* m2_time_start* m2_interviewer* m2_maternal_death_reported* m2_date_of_maternal_death* ///
 	  m2_ga* m2_hiv_status* m2_maternal_death_learn* ///
 	  m2_maternal_death_learn_other*, after(m1_1401)
