@@ -82,7 +82,7 @@ drop ic_may_i_proceed_with_the-module_5_end_line_facetoface_sur
 	
 	rename record_id redcap_record_id
 	rename (study_id interviewer_id date_of_interview_m1 time_of_interview_m1) ///
-	       (study_id interviewer_id m1_date m1_start_time)
+	       (respondentid interviewer_id m1_date m1_start_time)
 	rename study_site_a4 study_site
 	rename other_study_site_a4 study_site_sd
 	rename facility_name_a5 facility
@@ -99,7 +99,7 @@ drop ic_may_i_proceed_with_the-module_5_end_line_facetoface_sur
 	rename is_the_respondent_eligible b7eligible
 	rename what_is_your_first_name_101 first_name
 	rename what_is_your_family_name_102 family_name
-	rename assign_respondent_id_103 respondentid
+	rename assign_respondent_id_103 id_et
 	rename do_you_have_a_mobile_phone mobile_phone
 	rename what_is_your_phone_number phone_number
 	rename can_i_flash_this_mobile_num flash
@@ -3995,7 +3995,6 @@ label variable redcap_event_name "Redcap Event Name"
 label variable redcap_repeat_instrument "Redcap Repeat Instrument"
 label variable redcap_repeat_instance "Redcap Repeat Instance"
 label variable redcap_data_access_group "Redcap Data Access Group"
-label variable study_id "Study ID"
 label variable interviewer_id "Interviewer ID"
 
 	** MODULE 1:		
@@ -4019,7 +4018,7 @@ lab var continuecare "ETH-1-B. Do you plan to continue receiving care for your p
 lab var b7eligible "B7. Is the respondent eligible to participate in the study AND signed a consent form?"
 lab var first_name "101. What is your first name?"
 lab var family_name "102. What is your family name?"
-lab var respondentid "103. Assign respondent ID"
+lab var id_et "103. Assign respondent ID"
 lab var mobile_phone "104. Do you have a mobile phone with you today?"
 lab var phone_number "105. What is your phone number?"
 lab var flash "106. Can I 'flash' this number now to make sure I have noted it correctly?"
@@ -5974,10 +5973,10 @@ m1_time_2_pulse_rate m1_bp_time_3_systolic m1_bp_time_3_diastolic m1_pulse_rate_
 	
 order m1_phq9a m1_phq9b m1_phq9c m1_phq9d m1_phq9e m1_phq9f m1_phq9g m1_phq9h m1_phq9i, after(m1_205e)
 
-order country redcap_record_id order_redcap study_id interviewer_name_a7 redcap_event_name redcap_repeat_instrument redcap_repeat_instance ///
+order country redcap_record_id order_redcap respondentid  interviewer_name_a7 redcap_event_name redcap_repeat_instrument redcap_repeat_instance ///
 	  redcap_data_access_group m1_date m1_start_time country site study_site study_site_sd facility facility_other sampstrata ///
 	  facility_type permission care_self site sampstrata study_site study_site_sd facility interviewer_id permission ///
-	  care_self zone_live b5anc b6anc_first b6anc_first_conf continuecare b7eligible respondentid mobile_phone ///
+	  care_self zone_live b5anc b6anc_first b6anc_first_conf continuecare b7eligible  mobile_phone ///
 	  flash kebele_malaria kebele_intworm
 *===============================================================================
 	* SAVE A LONG FORM DATASET
