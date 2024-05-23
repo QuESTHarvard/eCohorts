@@ -1389,7 +1389,7 @@ clear all
 * import data:
 import excel "$za_data/Module 2/MNH-Module-2 17Apr2024 - 24Apr2024.xlsx", firstrow clear
 
-drop RESPONSE_QuestionnaireID RESPONSE_QuestionnaireName RESPONSE_QuestionnaireVersion RESPONSE_FieldWorkerID RESPONSE_FieldWorker RESPONSE_StartTime RESPONSE_Location RESPONSE_Lattitude RESPONSE_Longitude RESPONSE_StudyNoPrefix RESPONSE_StudyNo ResponseID ER
+drop RESPONSE_QuestionnaireID RESPONSE_QuestionnaireName RESPONSE_QuestionnaireVersion RESPONSE_FieldWorkerID RESPONSE_FieldWorker RESPONSE_StartTime RESPONSE_Location RESPONSE_Lattitude RESPONSE_Longitude RESPONSE_StudyNoPrefix RESPONSE_StudyNo ResponseID ER StudyNumber NoofFollowupCalls
 
 *===============================================================================
 
@@ -2202,8 +2202,6 @@ replace m2_round = "_r8" if round2==8
 			
 * Use the string variable to reshape wide
 drop round2
-
-drop StudyNumber NoofFollowupCalls
 				
 reshape wide m2_permission m2_interviewer m2_date m2_time_start m2_ga m2_hiv_status m2_maternal_death_reported m2_date_of_maternal_death m2_maternal_death_learn m2_maternal_death_learn_other m2_201 m2_202 m2_203a m2_203b m2_203c m2_203d m2_203e m2_203f m2_203g m2_203h m2_204_other m2_205a m2_205b m2_206 m2_301 m2_302 m2_303 m2_303a m2_304a m2_303b m2_304b m2_303c m2_304c m2_303d m2_304d m2_303e m2_304e m2_305 m2_306 m2_307_other m2_308 m2_309 m2_310_other m2_311 m2_312 m2_313_other m2_314 m2_316_other m2_317 m2_318 m2_319 m2_319_other m2_319_1 m2_319_2 m2_319_3 m2_319_4 m2_319_5 m2_319_96 m2_320_other m2_321 m2_401 m2_402 m2_403 m2_404 m2_405 m2_501a m2_501b m2_501c m2_501d m2_501e m2_501f m2_501g m2_501g_other m2_502 m2_503a m2_505a m2_503b m2_505b m2_503c m2_505c m2_503d m2_505d m2_503e m2_505e m2_503f m2_505f m2_503g_za m2_505h_za m2_504 m2_504_other m2_505g m2_506a m2_506b m2_506c m2_506d m2_507 m2_507_other m2_508a m2_508b_num m2_508c_time m2_509a m2_509b m2_509c m2_601a m2_601o m2_601b m2_601c m2_601d m2_601e m2_601f m2_601g m2_601h m2_601i m2_601j m2_601k m2_601l m2_601m m2_601n_other m2_602b m2_603 m2_701 m2_702a_cost m2_702b_cost m2_702c_cost m2_702d_cost m2_702_other m2_702b_other m2_703 m2_704 m2_704_confirm m2_705_other m2_307_1 m2_307_2 m2_307_3 m2_307_4 m2_307_5 m2_307_96 m2_310_1 m2_310_2 m2_310_3 m2_310_4 m2_310_5 m2_310_96 m2_313_1 m2_313_2 m2_313_3 m2_313_4 m2_313_5 m2_313_96 m2_316_1 m2_316_2 m2_316_3 m2_316_4 m2_316_5 m2_316_96 m2_320_0 m2_320_1 m2_320_2 m2_320_3 m2_320_4 m2_320_5 m2_320_6 m2_320_7 m2_320_8 m2_320_9 m2_320_10 m2_320_11 m2_320_96 m2_320_99 m2_705_1 m2_705_2 m2_705_3 m2_705_4 m2_705_5 m2_705_6 m2_705_96 m2_315, i(respondentid) j(m2_round, string) 
 
@@ -2638,7 +2636,6 @@ rename (MOD3_MAN_Complications_709_B1 MOD3_MAN_Complications_709_B1_Ot  ////
 
 rename (MOD3_MAN_Complications_709_B2 MOD3_MAN_Complications_709_B2_Ot) (m3_baby2_issue_oth m3_baby2_issue_oth_text)
 tostring MOD3_MAN_Complications_708_B3, gen(m3_708c)
-*drop MOD3_MAN_COMPLICATIONS_708_B3
 
 rename (MOD3_MAN_Complications_709_B3 MOD3_MAN_Complications_709_B3_Ot) ////
 		(m3_baby3_issue_oth m3_baby3_issue_oth_text)
@@ -3518,7 +3515,7 @@ replace m3_1206 = ".a" if m3_1205 == .a & m3_1205_other == .a
 
 ren rec* *
 
-drop m2_interviewer m2_ga m2_hiv_status m2_maternal_death_reported m2_date_of_maternal_death m2_maternal_death_learn m2_maternal_death_learn_other m2_201 m2_202
+drop m2_interviewer m2_ga m2_hiv_status m2_maternal_death_reported m2_date_of_maternal_death m2_maternal_death_learn m2_maternal_death_learn_other m2_201 m2_202 MOD3_MAN_Complications_708_B3
 
 *==============================================================================*
 	
@@ -3552,23 +3549,38 @@ lab var m3_baby1_health "309. In general, how would you rate the first baby's ov
 lab var m3_baby2_health "309. In general, how would you rate the second baby's overall health?"
 lab var m3_baby3_health "309. In general, how would you rate the third baby's overall health?"
 
-lab var m3_baby1_feed_a "310a. Please indicate how you have fed the 1st baby in the last 7 days? Breast milk"
-lab var m3_baby1_feed_b "310a. Please indicate how you have fed the 1st baby in the last 7 days? Formula"
-lab var m3_baby1_feed_c "310a. Please indicate how you have fed the 1st baby in the last 7 days? Water"
-lab var m3_baby1_feed_d "310a. Please indicate how you have fed the 1st baby in the last 7 days? Juice"
-lab var m3_baby1_feed_e "310a. Please indicate how you have fed the 1st baby in the last 7 days? Broth"
-lab var m3_baby1_feed_f "310a. Please indicate how you have fed the 1st baby in the last 7 days? Baby food"
-lab var m3_baby1_feed_g "310a. Please indicate how you have fed the 1st baby in the last 7 days? Local food"
-lab var m3_baby1_feed_99 "310a. Please indicate how you have fed the 1st baby in the last 7 days? NR/RF"
+lab var m3_baby1_feed_a "310a. Please indicate how you have fed the first baby in the last 7 days? Breast milk"
+lab var m3_baby1_feed_b "310a. Please indicate how you have fed the first baby in the last 7 days? Formula"
+lab var m3_baby1_feed_c "310a. Please indicate how you have fed the first baby in the last 7 days? Water"
+lab var m3_baby1_feed_d "310a. Please indicate how you have fed the first baby in the last 7 days? Juice"
+lab var m3_baby1_feed_e "310a. Please indicate how you have fed the first baby in the last 7 days? Broth"
+lab var m3_baby1_feed_f "310a. Please indicate how you have fed the first baby in the last 7 days? Baby food"
+lab var m3_baby1_feed_g "310a. Please indicate how you have fed the first baby in the last 7 days? Local food"
+lab var m3_baby1_feed_95 "310a. Please indicate how you have fed the first baby in the last 7 days? Not applicable"
+lab var m3_baby1_feed_98 "310a. Please indicate how you have fed the first baby in the last 7 days? Don't Know"
+lab var m3_baby1_feed_99 "310a. Please indicate how you have fed the first baby in the last 7 days? NR/RF"
 
-lab var m3_baby2_feed_a "310a. Please indicate how you have fed the 2nd baby in the last 7 days? Breast milk"
-lab var m3_baby2_feed_b "310a. Please indicate how you have fed the 2nd baby in the last 7 days? Formulak"
-lab var m3_baby2_feed_c "310a. Please indicate how you have fed the 2nd aby in the last 7 days? Water"
-lab var m3_baby2_feed_d "310a. Please indicate how you have fed the 2nd baby in the last 7 days? Juice"
-lab var m3_baby2_feed_e "310a. Please indicate how you have fed the 2nd baby in the last 7 days? Broth"
-lab var m3_baby2_feed_f "310a. Please indicate how you have fed the 2nd baby in the last 7 days? Baby food"
-lab var m3_baby2_feed_g "310a. Please indicate how you have fed the 2nd baby in the last 7 days? Local food"
+lab var m3_baby2_feed_a "310a. Please indicate how you have fed the second baby in the last 7 days? Breast milk"
+lab var m3_baby2_feed_b "310a. Please indicate how you have fed the second baby in the last 7 days? Formulak"
+lab var m3_baby2_feed_c "310a. Please indicate how you have fed the second aby in the last 7 days? Water"
+lab var m3_baby2_feed_d "310a. Please indicate how you have fed the second baby in the last 7 days? Juice"
+lab var m3_baby2_feed_e "310a. Please indicate how you have fed the second baby in the last 7 days? Broth"
+lab var m3_baby2_feed_f "310a. Please indicate how you have fed the second baby in the last 7 days? Baby food"
+lab var m3_baby2_feed_g "310a. Please indicate how you have fed the second baby in the last 7 days? Local food"
+lab var m3_baby2_feed_95 "310a. Please indicate how you have fed the second baby in the last 7 days? Not applicable"
+lab var m3_baby2_feed_98 "310a. Please indicate how you have fed the second baby in the last 7 days? Don't Know"
 lab var m3_baby2_feed_99 "310a. Please indicate how you have fed the second baby in the last 7 days? NR/RF"
+
+lab var m3_baby3_feed_a "310a. Please indicate how you have fed the third baby in the last 7 days? Breast milk"
+lab var m3_baby3_feed_b "310a. Please indicate how you have fed the third baby in the last 7 days? Formulak"
+lab var m3_baby3_feed_c "310a. Please indicate how you have fed the third aby in the last 7 days? Water"
+lab var m3_baby3_feed_d "310a. Please indicate how you have fed the third baby in the last 7 days? Juice"
+lab var m3_baby3_feed_e "310a. Please indicate how you have fed the third baby in the last 7 days? Broth"
+lab var m3_baby3_feed_f "310a. Please indicate how you have fed the third baby in the last 7 days? Baby food"
+lab var m3_baby3_feed_g "310a. Please indicate how you have fed the third baby in the last 7 days? Local food"
+lab var m3_baby3_feed_95 "310a. Please indicate how you have fed the third baby in the last 7 days? Not applicable"
+lab var m3_baby3_feed_98 "310a. Please indicate how you have fed the third baby in the last 7 days? Don't Know"
+lab var m3_baby3_feed_99 "310a. Please indicate how you have fed the third baby in the last 7 days? NR/RF"
 
 lab var m3_breastfeeding "310b. As of today, how confident do you feel about breastfeeding your baby/babies?"
 
@@ -3825,9 +3837,10 @@ lab var m3_711b_dys "711. How long did the second baby stay at the health facili
 lab var m3_711c "711. How long did the third baby stay at the health facility after being born? [Hours]"
 lab var m3_711c_dys	"711. How long did the third baby stay at the health facility after being born? [Days]"
 	
-	
 lab var m3_801a "801a. Over the past 2 weeks, on how many days have you been bothered little interest or pleasure in doing things?"
 lab var m3_801b "801b. Over the past 2 weeks, on how many days have you been bothered feeling down, depressed, or hopeless in doing things?"
+lab var m3_phq2_score "PHQ-2 score"
+
 lab var m3_802a "802a. Since you last spoke to us, did you have a session of psychological counseling or therapy with any type of professional?  This could include seeing a mental health professional (like a phycologist, social worker, nurse, spiritual advisor or healer) for problems with your emotions or nerves?"
 
 lab var m3_802b "802b. How many of these sessions did you have since you last spoke to us?"
@@ -3942,7 +3955,10 @@ lab var m3_1201 "1201. When the misrriage occurred, did you go to a health facil
 lab var m3_1202 "1202. Overall, how would you rate the quality of care that you received for your miscarriage?"
 lab var m3_1203 "1203. Did you go to a health facility to receive this abortion?"
 lab var m3_1204 "1204. Overall, how would you rate the quality of care that you received for your abortion?" 
-
+lab var m3_1205 "1205. Where did this take place?"
+lab var m3_1205_other "1205_other. Other, specify"
+lab var m3_1206 "1206. What is the name of the facility?"
+ 
 *==============================================================================*
 
 * merge dataset with M1-M2
@@ -3962,7 +3978,7 @@ drop _merge
 	
 	* STEP FIVE: ORDER VARIABLES
 	
-order m1_* m2_*, sequential
+order m1_* m2_* m3_*, sequential
 
 order pre_screening_num_za Eligible permission country respondentid interviewer_id m1_date m1_start_time study_site ///
       care_self enrollage enrollage_cat zone_live b5anc b6anc_first b7eligible mobile_phone flash study_site_sd facility
@@ -3973,42 +3989,47 @@ order height_cm weight_kg bp_time_1_systolic bp_time_1_diastolic time_1_pulse_ra
 	  
 order phq9a phq9b phq9c phq9d phq9e phq9f phq9g phq9h phq9i, after(m1_205e)
 
+* Module 2:
 order m2_permission* m2_date* m2_time_start* m2_interviewer* m2_maternal_death_reported* m2_date_of_maternal_death* ///
 	  m2_ga* m2_hiv_status* m2_maternal_death_learn* ///
 	  m2_maternal_death_learn_other*, after(m1_1401)
 
-
 * Module 3:
-order m3_permission m3_date m3_birth_or_ended, before(m3_303a)
-order m3_baby1_gender m3_baby2_gender, after(m3_303c)
-order m3_baby1_weight m3_baby2_weight m3_baby2_weight, after(m3_baby2_gender)
-order m3_baby1_size m3_baby2_size m3_baby2_size, after(m3_baby2_weight)
-order m3_baby1_health m3_baby2_health, after(m3_baby2_size)
-order m3_baby1_feeding m3_baby1_feed_a m3_baby1_feed_b m3_baby1_feed_c m3_baby1_feed_d m3_baby1_feed_e m3_baby1_feed_f   m3_baby1_feed_g  m3_baby1_feed_99, after(m3_baby2_health) 
-order m3_baby2_feeding m3_baby2_feed_a m3_baby2_feed_b m3_baby2_feed_c m3_baby2_feed_d m3_baby2_feed_e m3_baby2_feed_f  m3_baby2_feed_g  m3_baby2_feed_99, after(m3_baby1_feed_99)
-order m3_baby3_feeding m3_baby3_feed_a m3_baby3_feed_b m3_baby3_feed_c m3_baby3_feed_d m3_baby3_feed_e m3_baby3_feed_f  m3_baby3_feed_g  m3_baby3_feed_99, after(m3_baby2_feed_99)
-order m3_breastfeeding,after(m3_baby2_feed_99)
-order m3_baby1_born_alive m3_baby2_born_alive, after(m3_breastfeeding)
+order m3_permission m3_date m3_time m3_birth_or_ended, before(m3_303a)
+order m3_baby1_gender m3_baby2_gender m3_baby3_gender, after(m3_303c)
+order m3_baby1_age_weeks m3_baby1_weight m3_baby2_weight m3_baby3_weight, after(m3_baby3_gender)
+order m3_baby1_size m3_baby2_size m3_baby2_size m3_baby3_size, after(m3_baby3_weight)
+order m3_baby1_health m3_baby2_health m3_baby3_health, after(m3_baby3_size)
+order m3_baby1_feeding m3_baby1_feed_a m3_baby1_feed_b m3_baby1_feed_c m3_baby1_feed_d m3_baby1_feed_e m3_baby1_feed_f   m3_baby1_feed_g m3_baby1_feed_95 m3_baby1_feed_98 m3_baby1_feed_99, after(m3_baby3_health) 
+order m3_baby2_feeding m3_baby2_feed_a m3_baby2_feed_b m3_baby2_feed_c m3_baby2_feed_d m3_baby2_feed_e m3_baby2_feed_f  m3_baby2_feed_g m3_baby2_feed_95 m3_baby2_feed_98 m3_baby2_feed_99, after(m3_baby1_feed_99)
+order m3_baby3_feeding m3_baby3_feed_a m3_baby3_feed_b m3_baby3_feed_c m3_baby3_feed_d m3_baby3_feed_e m3_baby3_feed_f  m3_baby3_feed_g m3_baby3_feed_95 m3_baby3_feed_98 m3_baby3_feed_99, after(m3_baby2_feed_99)
+order m3_breastfeeding,after(m3_baby3_feed_99)
+order m3_baby1_deathga m3_baby2_deathga m3_baby3_deathga, after(m3_breastfeeding)
+order m3_baby1_born_alive m3_baby2_born_alive m3_baby3_born_alive, after(m3_breastfeeding)
 order m3_death_cause_baby1 m3_death_cause_baby1_other m3_death_cause_baby2 m3_1201 m3_1202, after(m3_313e_baby3)
 order m3_consultation_1 m3_consultation_referral_1 m3_consultation1_reason m3_consultation1_reason_other, after(m3_402) 
 order m3_consultation_2 m3_consultation_referral_2 m3_consultation2_reason m3_consultation2_reason_other,after(m3_consultation1_reason_other) 
 order m3_consultation_3 m3_consultation_referral_3 m3_consultation3_reason m3_consultation3_reason_other,after(m3_consultation2_reason_other) 
 
-order m3_baby1_sleep m3_baby2_sleep, after(m3_622c) 
-order m3_baby2_feeding, after(m3_baby2_sleep)
-order m3_baby1_breath m3_baby2_breath, after(m3_baby2_feeding)
-order m3_baby1_stool m3_baby2_stool,after(m3_baby2_breath)
-order m3_baby1_mood m3_baby2_mood, after(m3_baby2_stool)
-order m3_baby1_skin m3_baby2_skin, after(m3_baby2_mood)
-order m3_baby1_interactivity m3_baby2_interactivity, after(m3_baby2_skin)
+order m3_baby1_sleep m3_baby2_sleep m3_baby3_sleep, after(m3_622c) 
+order m3_baby1_feeding m3_baby2_feeding m3_baby3_feeding, after(m3_baby3_sleep)
+order m3_baby1_breath m3_baby2_breath m3_baby3_breath, after(m3_baby3_feeding)
+order m3_baby1_stool m3_baby2_stool m3_baby3_stool,after(m3_baby3_breath)
+order m3_baby1_mood m3_baby2_mood m3_baby3_mood, after(m3_baby3_stool)
+order m3_baby1_skin m3_baby2_skin m3_baby3_skin, after(m3_baby3_mood)
+order m3_baby1_interactivity m3_baby2_interactivity m3_baby3_interactivity, after(m3_baby3_skin)
 
-order m3_baby1_issues_a m3_baby1_issues_b m3_baby1_issues_c m3_baby1_issues_d m3_baby1_issues_e m3_baby1_issues_f m3_baby1_issues_98 m3_baby1_issues_99, after(m3_707)
+order m3_baby1_issues_a m3_baby1_issues_b m3_baby1_issues_c m3_baby1_issues_d m3_baby1_issues_e m3_baby1_issues_f m3_baby1_issues_95 m3_baby1_issues_98 m3_baby1_issues_99 m3_baby1_issue_oth m3_baby1_issue_oth_text, after(m3_707)
 
-order m3_baby2_issues_a m3_baby2_issues_b m3_baby2_issues_c m3_baby2_issues_d m3_baby2_issues_e m3_baby2_issues_f m3_baby2_issues_98 m3_baby2_issues_99, after(m3_baby1_issues_99)
+order m3_baby2_issues_a m3_baby2_issues_b m3_baby2_issues_c m3_baby2_issues_d m3_baby2_issues_e m3_baby2_issues_f m3_baby2_issues_95 m3_baby2_issues_98 m3_baby2_issues_99 m3_baby2_issue_oth m3_baby2_issue_oth_text, after(m3_baby1_issue_oth_text)
+
+order m3_baby3_issues_a m3_baby3_issues_b m3_baby3_issues_c m3_baby3_issues_d m3_baby3_issues_e m3_baby3_issues_f m3_baby3_issues_95 m3_baby3_issues_98 m3_baby3_issues_99 m3_baby3_issue_oth m3_baby3_issue_oth_text, after(m3_baby2_issues_99)
+
+order m3_baby1_710 m3_baby2_710 m3_baby3_710, after(m3_baby3_issue_oth_text)
 
 order m3_phq2_score, after(m3_801b)                 
 
-order m3_death_cause_baby1 m3_death_cause_baby1_other m3_death_cause_baby2,after(m3_313e_baby3)
+order m3_death_cause_baby1 m3_death_cause_baby1_other m3_death_cause_baby2 m3_death_cause_baby2_other m3_death_cause_baby3 m3_death_cause_baby3_other,after(m3_313e_baby3)
 
 *==============================================================================*
 	
