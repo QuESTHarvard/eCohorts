@@ -3251,7 +3251,7 @@ replace m3_503 = ".a" if m3_501 !=1  // this should be a numeric var
 replace m3_503 = ".d" if m3_503 == "98"
 replace m3_503 = ".r" if m3_503 == "99"
 
-*replace m3_503_outside_zone_other = ".a" if // ASK: ALL WOMEN WHO DELIVERED IN A FACILITY OUTSIDE OF ZONE/COUNTY
+replace m3_503_outside_zone_other = ".a" if m3_501 !=1 // ASK: ALL WOMEN WHO DELIVERED IN A FACILITY OUTSIDE OF ZONE/COUNTY
  
 recode m3_505a (. 9999998 = .a) if m2_202 !=2 | m3_502 == . | m3_502 == .a | m3_502 == 1 // confirm people who delivered at home wouldn't have been asked this question
 
@@ -3281,7 +3281,7 @@ recode m3_510 (. 9999998 = .a) if m3_501 !=1 // N=2 with 999998 responses
 
 recode m3_511 (. 9999998 = .a) if m3_510 !=1
 
-recode m3_512 (. 9999998 = .a) if m3_511 <=1 | m3_511 == . | m3_511 == .a
+recode m3_512 (. 9999998 = .a) if m3_510 !=1 | m3_511 <=1 | m3_511 == . | m3_511 == .a
 
 replace m3_513a = ".a" if m3_510 !=1
 
@@ -3294,7 +3294,7 @@ encode m3_514, gen(recm3_514) // N =4 missing data
 drop m3_514
 format recm3_514 %tcHH:MM
 
-recode m3_515 (. 9999998 = .a) if m3_511 ==.d | m3_511 ==.r | m3_511 ==.a
+recode m3_515 (. 9999998 = .a) if m3_510 !=1 | m3_511 ==.d | m3_511 ==.r | m3_511 ==.a
 
 recode m3_516 (. 9999998 = .a) if m3_515 !=4 | m3_515 !=5
 
