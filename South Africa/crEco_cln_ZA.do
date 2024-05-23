@@ -3958,8 +3958,13 @@ lab var m3_1204 "1204. Overall, how would you rate the quality of care that you 
 lab var m3_1205 "1205. Where did this take place?"
 lab var m3_1205_other "1205_other. Other, specify"
 lab var m3_1206 "1206. What is the name of the facility?"
- 
-*==============================================================================*
+
+*------------------------------------------------------------------------------*
+*save M3 only dataset
+
+save "$za_data_final/eco_m3_za.dta", replace
+
+*------------------------------------------------------------------------------*
 
 * merge dataset with M1-M2
 
