@@ -120,7 +120,7 @@ u "$za_data_final/eco_m1_za.dta", clear
 			
 			egen dangersigns = rowmax(m1_814a m1_814b m1_814c m1_814d  m1_814f m1_814g)
 			
-		    gen ga_edd = 40-((m1_802a - date_m1)/7)
+		    gen ga_edd = 40-((m1_802a - m1_date)/7)
 			gen ga = trunc(ga_edd)
 			replace ga = m1_803 if ga==.
 			
