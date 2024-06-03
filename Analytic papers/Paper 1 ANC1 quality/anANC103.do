@@ -12,22 +12,30 @@ global data "Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts 
 
 u "$user/$analysis/ETtmp.dta", clear
 recode site 2=0 // 0 ES 1 Adama
+egen facid=concat(country facility)
+drop facility
 save "$user/$analysis/allcountrytmp.dta", replace
 
 u "$user/$analysis/KEtmp.dta", clear
 recode site 1=3 // 2 Kitui 3 Kiambu
 lab drop a4
+egen facid=concat(country facility)
+drop facility
 append using "$user/$analysis/allcountrytmp.dta", force
 save "$user/$analysis/allcountrytmp.dta", replace
 
 u "$user/$analysis/INtmp.dta", clear
 recode urban 0=4 1=5, g(site) // 4 Rural 5 Urban
+egen facid=concat(country facility)
+drop facility
 append using "$user/$analysis/allcountrytmp.dta", force
 save "$user/$analysis/allcountrytmp.dta", replace
 
 u "$user/$analysis/ZAtmp.dta", clear 
 recode site 1=7 2=6
 lab drop study_site_sd
+egen facid=concat(country facility)
+drop facility
 append using "$user/$analysis/allcountrytmp.dta", force
 
 lab def site 0"Rural-ETH" 1"Urban-ETH" 2"Rural-KEN" 3"Urban-KEN" 4"Rural-IND" 5"Urban-IND" 6 "Rural-ZAF" 7 "Urban-ZAF", modify
@@ -79,7 +87,7 @@ by co, sort: tabstat severe_anemia chronic overweight young old multiple complic
 *------------------------------------------------------------------------------*
 * Creating analytic dataset
 
-keep country site facility anc1bp anc1weight anc1height anc1muac anc1blood ///
+keep country site facid anc1bp anc1weight anc1height anc1muac anc1blood ///
 		anc1urine ultrasound anc1lmp anc1depression anc1danger_screen previous_preg ///
 		m1_counsel_nutri m1_counsel_exer m1_counsel_complic m1_counsel_birthplan edd ///
 		m1_counsel_comeback anc1ifa calcium deworm tt anc1itn anc1qual enrollage age second ///
@@ -125,7 +133,9 @@ keep country site facility anc1bp anc1weight anc1height anc1muac anc1blood ///
 		lab var staff_cat  "Country-specific tertiles of number of obstetric care staff"
 		lab var vol_cat "Country-specific tertiles of monthly number of ANC visits"
 		lab var m1_counsel_comeback "Counseled to come back for additional ANC visits at ANC1"
-		
+		lab var site "Multi Country study site"
+		lab var facid "Multi Country Facility ID"
+		order country site facid 
 save "$user/$analysis/eCOANC1.dta", replace
 /*------------------------------------------------------------------------------*
 * Ethiopia - BY FACILITY 
