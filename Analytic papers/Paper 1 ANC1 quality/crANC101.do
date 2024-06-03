@@ -191,7 +191,7 @@ u "$user/$data/Kenya/02 recoded data/eco_m1_ke_der.dta", clear
 		gen neodeath = m1_1010 ==1
 		gen preterm = m1_1005 ==1
 		gen PPH=m1_1006==1
-		egen complic = rowmax(stillbirth neodeath preterm PPH cesa)
+		egen complic = rowmax(stillbirth neodeath preterm PPH cesa) 
 	
 * Visit time
 		 extrdate hh time  = m1_start_time
