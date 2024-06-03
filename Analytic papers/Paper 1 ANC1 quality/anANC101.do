@@ -2,6 +2,9 @@
 u "$user/$analysis/ETtmp.dta", clear
 cd "$user/$analysis"
 
+*------------------------------------------------------------------------------*
+* DESCRIPTIVE TABLES
+
 global qualvarsET anc1bp anc1weight anc1height anc1muac anc1blood ///
 		anc1urine ultrasound anc1lmp anc1depression anc1danger_screen previous_preg ///
 		m1_counsel_nutri m1_counsel_exer m1_counsel_complic m1_counsel_birthplan edd ///
@@ -10,7 +13,7 @@ global qualvarsET anc1bp anc1weight anc1height anc1muac anc1blood ///
 	* Supp Table 1. ANC1 quality
 		tabstat  $qualvarsET if site==2, stat(mean count) col(stat) // East Shewa
 		tabstat  $qualvarsET if site==1, stat(mean count) col(stat) // Adama
-		tabstat anc1qual, by(site) stat(mean sd )
+		tabstat anc1qual, by(site) stat(mean sd)
 		
 	* Table 1 Demog & health 		
 		summtab , contvars(enrollage ) catvars(second healthlit_corr young tertile marriedp ///
