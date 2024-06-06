@@ -4,8 +4,7 @@ global analysis "Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH E-Coh
 global data "Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data"
 
 *------------------------------------------------------------------------------*
-* COUNTRY-SPECIFIC REGRESSION ANALYSES
-
+* COUNTRY-SPECIFIC REGRESSION ANALYSES: BINARY RISK
 *-------------------------------------------------------------------------------	
 	* ETHIOPIA
 	u "$user/$analysis/ETtmp.dta", clear
@@ -95,7 +94,65 @@ global data "Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts 
 	* Number of risks
 	mixed anc1qual i.total_risk m1_dangersigns poorhealth ib(2).age second healthlit_corr i.tertile  ///
 			primipara preg_intent  i.sri_cat  i.staff_cat  i.vol_cat ib(2).site || facility: , vce(robust)
+*------------------------------------------------------------------------------*
+* COUNTRY-SPECIFIC REGRESSION ANALYSES: RISK CATEGORIES
+*-------------------------------------------------------------------------------	
+	
+	* ETHIOPIA
+	u "$user/$analysis/ETtmp.dta", clear
 
+	mixed anc1qual i.total_risk m1_dangersigns poorhealth ib(2).age second healthlit_corr i.tertile   ///
+			primipara preg_intent  private facsecond i.sri_cat  i.staff_cat ib(2).site || facility:  , vce(robust)
+
+	* KENYA
+	u "$user/$analysis/KEtmp.dta", clear
+	
+	mixed anc1qual i.total_risk m1_dangersigns poorhealth ib(2).age second healthlit_corr i.tertile   ///
+			primipara preg_intent private facsecond i.sri_cat  i.staff_cat ib(2).site || facility:  , vce(robust) 
+			
+	* INDIA + vol
+	u "$user/$analysis/INtmp.dta", clear
+		
+	mixed anc1qual i.total_risk m1_dangersigns poorhealth ib(2).age second healthlit_corr i.tertile  ///
+			primipara preg_intent i.facility_lvl i.sri_cat  i.staff_cat i.vol_cat  i.urban || facility: , vce(robust)
+	
+	* ZAF	+ vol	 	
+	u "$user/$analysis/ZAtmp.dta", clear
+	
+	mixed anc1qual i.total_risk m1_dangersigns poorhealth ib(2).age second healthlit_corr i.tertile  ///
+			primipara preg_intent  i.sri_cat  i.staff_cat  i.vol_cat ib(2).site || facility: , vce(robust)
+			
+*------------------------------------------------------------------------------*
+* SUB ANALYSIS: THREE CATEGORIES OF SERVICE READINESS
+*-------------------------------------------------------------------------------	
+	* ETHIOPIA
+	u "$user/$analysis/ETtmp.dta", clear
+
+	mixed anc1qual i.total_risk m1_dangersigns poorhealth ib(2).age second healthlit_corr i.tertile   ///
+			primipara preg_intent  private facsecond ultra_st  i.staff_cat ib(2).site || facility:  , vce(robust)
+
+	* KENYA
+	u "$user/$analysis/KEtmp.dta", clear
+	
+	mixed anc1qual i.total_risk m1_dangersigns poorhealth ib(2).age second healthlit_corr i.tertile   ///
+			primipara preg_intent private facsecond ultra_st  i.staff_cat ib(2).site || facility:  , vce(robust) 
+			
+	* INDIA + vol
+	u "$user/$analysis/INtmp.dta", clear
+		
+	mixed anc1qual i.total_risk m1_dangersigns poorhealth ib(2).age second healthlit_corr i.tertile  ///
+			primipara preg_intent i.facility_lvl ultra_st  i.staff_cat i.vol_cat  i.urban || facility: , vce(robust)
+	
+	* ZAF	+ vol	 	
+	u "$user/$analysis/ZAtmp.dta", clear
+	
+	mixed anc1qual i.total_risk m1_dangersigns poorhealth ib(2).age second healthlit_corr i.tertile  ///
+			primipara preg_intent  sri_basicamenities sri_equip sri_diag i.staff_cat  i.vol_cat ib(2).site || facility: , vce(robust)
+	
+	reg anc1qual i.total_risk m1_dangersigns poorhealth ib(2).age second healthlit_corr i.tertile  ///
+			primipara preg_intent  sri_basicamenities sri_equip sri_diag i.staff_cat  i.vol_cat ib(2).site  , vce(robust)
+
+			estat vif
 *-------------------------------------------------------------------------------	
 	/*margins anyrisk, atmeans
 	marginsplot, recast(line) plot1opts(lcolor(gs8)) ciopt(color(black%20)) recastci(rarea) title("Quality of 1st ANC visit, Average Marginal Effects of risk profile") xtitle("Risk score") ytitle("Predicted ANC quality") ylabel(40(20)85, labsize(small) ) 

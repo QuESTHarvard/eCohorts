@@ -5,7 +5,6 @@ global data "Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts 
 
 *------------------------------------------------------------------------------- 
 * RECODES MODULE 1 VARIABLES
-
 *-------------------------------------------------------------------------------
 * ETHIOPIA
 
@@ -92,7 +91,9 @@ u "$user/$data/Ethiopia/02 recoded data/eco_m1_et_der.dta", clear
 	
 egen anyrisk =rowmax(m1_anemic_11 chronic maln_underw overweight young old multiple complic )
 egen total_risk=rowtotal(m1_anemic_11 chronic maln_underw overweight young old multiple complic)
-
+	recode total_risk 3=2
+	lab def total_risk 0"No risk factor" 1"One risk factor" 2"Two or more risk factors"
+	lab val total_risk total_risk
 * Visit time
 	encode m1_start_time, gen(time)
 	recode time 1/8=2 9/20=3 21/202=1 203/321=2 322/418=3
@@ -201,8 +202,11 @@ u "$user/$data/Kenya/02 recoded data/eco_m1_ke_der.dta", clear
 	
 egen anyrisk =rowmax(anemic chronic maln_underw overweight young old multiple complic )
 egen total_risk=rowtotal(anemic chronic maln_underw overweight young old multiple complic)
-	recode total_risk 4=3
-		rename dangersign m1_dangersigns
+	recode total_risk 3/4=2
+	lab def total_risk 0"No risk factor" 1"One risk factor" 2"Two or more risk factors"
+	lab val total_risk total_risk
+	
+	rename dangersign m1_dangersigns
 		
 * MERGING WITH M0 DATA
 	merge m:1 facility using "$user/$analysis/KEtmpfac.dta"
@@ -315,7 +319,10 @@ egen anyrisk =rowmax(anemic chronic maln_underw overweight young old multiple co
 egen anyrisk_nohiv=rowmax(anemic chronic_nohiv maln_underw overweight young old multiple complic )
 egen total_risk=rowtotal(anemic chronic maln_underw overweight young old multiple complic)
 	recode total_risk 4/5=3
-		rename dangersign m1_dangersigns
+	lab def total_risk 0"No risk factor" 1"One risk factor" 2"Two risk factors" 3"3 or more risk factors"
+	lab val total_risk total_risk
+	
+	rename dangersign m1_dangersigns
 		
 * MERGING WITH M0 DATA
 	merge m:1 facility using "$user/$analysis/ZAtmpfac.dta"
@@ -396,7 +403,10 @@ egen tag=tag(facility)
 
 egen anyrisk =rowmax(anemic chronic maln_underw overweight young old multiple complic )
 egen total_risk=rowtotal(anemic chronic maln_underw overweight young old multiple complic)
-	recode total_risk 4=3
+	recode total_risk 3/4=2
+	lab def total_risk 0"No risk factor" 1"One risk factor" 2"Two or more risk factors"
+	lab val total_risk total_risk
+		
 		drop if anc1qual==. // 1 woman had no data on ANC content
 	
 * MERGING WITH M0 FACILITY-LEVEL DATA
