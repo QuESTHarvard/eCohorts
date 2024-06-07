@@ -1740,7 +1740,7 @@ order language_r* language_oth_r*, after(m2_attempt_relationship_r9)
 
 * Import data
 clear all 
-use "$ke_data/Module 3/240418_KEMRI_Module_3_no_pii_4-23.dta"
+use "$ke_data/Module 3/240606_KEMRI_Module_3_no_pii_6-6.dta"
 
 *drop ineligible pids:
 drop if consent !=1
