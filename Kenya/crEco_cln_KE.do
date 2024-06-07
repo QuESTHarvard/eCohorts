@@ -37,7 +37,6 @@ drop q513b q513d q513e_1 q513e_2 q513f_1 q513f_2 q513g_1 q513g_2 q513h_1 q513h_2
 *------------------------------------------------------------------------------*
 
 * STEP ONE: RENAME VARAIBLES
-
 rename a1 interviewer_id
 rename enum_name m1_interviewer
 rename a4 study_site
@@ -45,7 +44,6 @@ rename a5 facility_name2
 rename b1 permission
 rename (b2 b3) (care_self enrollage)
 rename (b4 b4_oth b5 b6) (zone_live zone_live_other b5anc b6anc_first)
-*rename a2 device_date_ke
 rename (q104 q106) (mobile_phone flash)
 rename q201 m1_201
 rename (q202a q202b q202c q202d q202e) (m1_202a m1_202b m1_202c m1_202d m1_202e)
@@ -131,12 +129,6 @@ rename (q513a q513a_1 q513a_2 q513a_3 q513a_4 q513a_5 q513a_6 q513a__96 q513a_0)
 		(m1_513a m1_513a_1 m1_513a_2 m1_513a_3 m1_513a_4 m1_513a_5 m1_513a_6 ///
 		m1_513a_7 m1_513a_8)		
 rename q513c m1_513c
-
-*these were dropped from the dataset above
-*rename (q513d q513e_1 q513e_2 q513f_1 q513f_2 q513g_1 q513g_2 q513h_1 q513h_2 ///
-		*q513i_1 q513i_2 q514a q514b_1 q514b_2) (m1_513d m1_513e_name m1_513e m1_513f_name ///
-		*m1_513f m1_513g_name m1_513g m1_513h_name m1_513h m1_513i_name m1_513i m1_514a ///
-		*m1_514b m1_514c_ke)	
 		
 rename (q515_5 q515_3 q515_4 q515_1 q515_1_oth q515_2 q515_2_oth q516 q517 q519_3 q519_4 ///
 		q519_1 q519_1_oth q519_2 q519_2_oth q519_5 q519_6) (m1_515_address m1_515_ward ///
@@ -164,9 +156,6 @@ rename starttime m1_start_time
 rename time_start_full m1_date_time
 rename endtime m1_end_time
 rename date_survey_baseline m1_date
-*encode q103, gen(respondentid)
-*drop q103
-*format respondentid %12.0f
 rename q103 respondentid
 
 * Data quality:
@@ -176,31 +165,15 @@ drop if respondentid == "21319071529"
 *===============================================================================
 
 	* STEP TWO: ADD VALUE LABELS (NA in KENYA, already labeled)
-
-	*encode facility_name, generate(facility) // SS 2-27: looks like facility_name is already numeric
-	/*
-	label def facility 1 "Githunguri health centre" 2 "Igegania sub district hospital" ///
-					   3 "Ikutha Sub County Hospital" 4 "Kalimoni mission hospital" ///
-					   5 "Katse Health Centre" 6 "Kauwi Sub County Hospital" ///
-					   7 "Kiambu County referral hospital" 8 "Kisasi Health Centre (Kitui Rural)" ///
-					   9 "Kitui County Referral Hospital" 10 "Makongeni dispensary" ///
-					   11 "Mercylite hospital" 12 "Mulango (AIC) Health Centre" ///
-					   13 "Muthale Mission Hospital" 14 "Neema Hospital" 15 "Ngomeni Health Centre" ///
-					   16 "Nuu Sub County Hospital" 17 "Our Lady of Lourdes Mutomo Hospital" ///
-					   18 "Plainsview nursing home" 19 "St. Teresas Nursing Home" ///
-					   20 "Waita Health Centre" 21 "Wangige Sub-County Hospital",modify	
-	label define facility facility				   
- 	*/
 	
 	label define b4 19 "Mwingi West" 20 "Kitui East", modify
 	label define q515_2 20 "Kitui East", modify
 	label define q519_2 20 "Kitui East", modify
 	
 	
-* Formatting Dates (SS: do this for all dates in all modules)	 
+* Formatting Dates: 
 
 * Generate new vars:
-
 destring (m1_clinic_cost_ke),replace
 
 egen m1_1218_other_total_ke = rowtotal(m1_1218d_1 m1_1218e_1 m1_1218f_1) 
@@ -503,9 +476,6 @@ replace m1_1218f_other = ".a" if m1_1218f == 0 | m1_1218f == .a | m1_1218f == .
 
 recode m1_1218_total_ke (. = .a) if m1_1217 == 0 | m1_1217 == .
 
-* delete after drop:
-*replace m1_1218g = ".a" if m1_1217 == 0 | m1_1217 == .
-
 recode m1_1219 (.  = .a) if (m1_1218_ke == .a) & ///
 						   (m1_1218a_1 == .a | m1_1218a_1 ==.) & ///
 						   (m1_1218b_1 == .a | m1_1218b_1 == .) & ///
@@ -515,8 +485,6 @@ recode m1_1219 (.  = .a) if (m1_1218_ke == .a) & ///
 						   (m1_1218f_1 == .a | m1_1218f_1 == .) // & 
 						   *(m1_clinic_cost_ke == .a)
 
-* delete after drop:						   
-*replace m1_other_costs_ke = ".a" if m1_1217 == 0 | m1_1217 == .
 
 recode m1_1218_other_total_ke (. = .a) if m1_1217 == 0 | m1_1217 == . 						   
 						   
@@ -534,13 +502,11 @@ recode m1_1308 (.  = .a) if m1_1306 == 1 | m1_1306 == .
 
 recode m1_1309 (.  = .a) if m1_1308 == 0 | m1_1308 == . | m1_1308 == .a	  
 
-*replace pref_language_other_ke = ".a" if pref_language_96_ke != 1
 *===============================================================================
 
 ren rec* *	
 	
 	* STEP FOUR: LABELING VARIABLES
-		
 lab var country "Country"
 lab var interviewer_id "Interviewer ID"
 lab var m1_date "A2. Date of interview"
@@ -985,11 +951,7 @@ drop q_304_label_1 q_304_label_2 q_304_label_3 q_304_label_4 q_304_label_5 ///
 
 * STEP ONE: RENAME VARAIBLES
 
-*encode q_104, gen(respondentid)
-*drop q_104
-*format respondentid %12.0f
-ren q_104 respondentid
-
+rename q_104 respondentid
 rename attempts m2_attempt_number
 rename attempts_oth m2_attempt_number_other
 rename call_response m2_attempt_outcome
@@ -1441,7 +1403,7 @@ recode m2_endtime (. = .a) if m2_date == . | m2_202 != 1 | m2_complete !=1
 *===============================================================================
 * reshape data from long to wide
 
-drop if m2_completed_attempts == . // SS: change to "."
+drop if m2_completed_attempts == . 
 *drop if respondentid == "21311071736" | respondentid == "21501081229"
 drop m2_completed_attempts
 
@@ -1740,7 +1702,9 @@ order language_r* language_oth_r*, after(m2_attempt_relationship_r9)
 
 * Import data
 clear all 
+
 use "$ke_data/Module 3/240606_KEMRI_Module_3_no_pii_6-6.dta"
+
 
 *drop ineligible pids:
 drop if consent !=1
@@ -1755,8 +1719,6 @@ drop q_103
 *------------------------------------------------------------------------------*	
 	* STEP ONE: RENAME VARAIBLES
 	 
-*encode q_104, gen(respondentid)		
-*drop q_104
 rename q_104 respondentid
 	
 * Variables from M2 in this dataset:
@@ -1774,8 +1736,6 @@ rename q_304_1 m3_baby1_name
 rename q_304_2 m3_baby2_name
 
 rename pregnancy_loss m3_pregnancy_loss
-
-
 	
 rename call_response m3_attempt_outcome	
 rename intro_yn m3_consent_recording
@@ -1793,9 +1753,6 @@ rename after2weeks_call m3_after2weeks_call_ke
 rename q_308_1 m3_baby1_weight
 rename q_308_2 m3_baby2_weight 
 rename (q_307_2 q_309_1 q_309_2) (m3_baby2_size m3_baby1_health m3_baby2_health)
- 
-*replace q_310a_1_1 = "No" if q_310a_1_1 == "0"
-*replace q_310a_1_1 = "Yes" if q_310a_1_1 == "1"
 
 rename q_310a_1_1 m3_baby1_feed_a
 rename q_310a_2_1 m3_baby1_feed_b
@@ -1832,8 +1789,6 @@ rename (q_312_1 q_312a_1 q_312_2 q_313a_1 q_313b_1 q_313b_unit_1 q_313a_2 q_313b
 rename q_314_1 m3_death_cause_baby1
 rename q_314_2 m3_death_cause_baby2	
 
-*rename (baby_death3 baby_death4) ( ) // not in the dataset 
-
 rename miscarriage m3_miscarriage		
 rename abortion m3_abortion
 rename alive_babies m3_num_alive_babies
@@ -1866,22 +1821,6 @@ rename q_405_4_2 m3_consultation2_reason_d
 rename q_405_5_2 m3_consultation2_reason_e
 rename q_405__96_2 m3_consultation2_reason_96
 
-/* SS: these vars are not in the dataset right now but will need to be updated to match the code above
-encode q_405_1_3,gen(m3_consultation3_reason_a)
-drop q_405_1_3
-encode q_405_2_3,gen(m3_consultation3_reason_b)
-drop q_405_2_3
-encode q_405_3_3,gen(m3_consultation3_reason_c)
-drop q_405_3_3
-encode q_405_4_3,gen(m3_consultation3_reason_d)
-drop q_405_4_3
-encode q_405_5_3,gen(m3_consultation3_reason_e)
-drop q_405_5_3
-encode q_405__96_3,gen(m3_consultation3_reason_96)
-drop q_405__96_3
-
-*/
-
 rename (q_412a_1 q_412b_1 q_412c_1 q_412d_1 q_412e_1 q_412f_1 q_412g_1 q_412g_oth_1 q_412i_1) ///
        (m3_412a_1_ke m3_412b_1_ke m3_412c_1_ke m3_412d_1_ke m3_412e_1_ke m3_412f_1_ke m3_412g_1_ke ///
 	   m3_412g_1_other m3_412i_1_ke)
@@ -1891,13 +1830,11 @@ rename (q_412a_2 q_412a_3 q_412b_2 q_412b_3 q_412c_2 q_412c_3 q_412d_2 q_412d_3 
 		q_412e_3 q_412f_2 q_412f_3 q_412g_2 q_412g_3 q_412i_2) (m3_412a_2_ke m3_412a_3_ke ///
 		m3_412b_2_ke m3_412b_3_ke m3_412c_2_ke m3_412c_3_ke m3_412d_2_ke m3_412d_3_ke m3_412e_2_ke ///
 		m3_412e_3_ke m3_412f_2_ke m3_412f_3_ke m3_412g_2_ke m3_412g_3_ke m3_412i_2_ke)
-		
-* 4-2 SS: removed q_412g_oth_3		
+			
 rename (q_412g_oth_2) (m3_412g_2_other)		
 
 rename q_503_final m3_503_final
-	   
-* 4-2 SS: no longer in dataset (q_513_calc)		   
+		   
 rename (q_504_n q_504_c q_504_r  q_506_pre q_506_pre_oth q_508 ///
  		q_508_oth q_513a q_513b_n q_513b_c q_513_r q_514 q_515 q_516 ///
 		q_517 q_518_oth_del q_518_oth q_519 q_519_o q_520 q_521 q_521_unit) ///
@@ -1912,30 +1849,7 @@ rename (q_518 q_518_0 q_518_1 q_518_2 q_518_3 q_518_4 q_518_5 q_518_6 q_518_7 q_
 		q_518_9 q_518_10 q_518__96 q_518__97 q_518__98 q_518__99) (m3_518 m3_518a_ke m3_518b_ke ///
 		m3_518c_ke m3_518d_ke m3_518e_ke m3_518f_ke m3_518g_ke m3_518h_ke m3_518i_ke ///
 		m3_518j_ke m3_518k_ke m3_518_96_ke m3_518_97_ke m3_518_98_ke m3_518_99_ke)
-		
-		
-/* SS: q_518 answers are stored as 0/1 in q_518_0 - q_518_99
-       ** q_518 is a string variables: use replace if and then rename (line 191 to 206)
-replace q_518 = "The provider did not give a reason" if q_518 == "0"
-replace q_518 = "No space or no bed available" if q_518 == "1"
-replace q_518 = "Facility did not provide delivery care" if q_518 == "2"
-replace q_518 = "Prolonged labor" if q_518 == "3"
-replace q_518 = "Obstructed labor" if q_518 == "4"
-replace q_518 = "Eclampsia/pre-eclampsia" if q_518 == "5"
-replace q_518 = "Previous cesarean section scar" if q_518 == "6"
-replace q_518 = "Fetal distress" if q_518 == "7"
-replace q_518 = "Fetal presentations" if q_518 == "8"
-replace q_518 = "No fetal movement" if q_518 == "9"
-replace q_518 = "Bleeding" if q_518 == "10"
-replace q_518 = "Other delivery complications (s" if q_518 == "-96"
-replace q_518 = "Other reasons(specify)" if q_518 == "-97"
-replace q_518 = "Don't Know" if q_518 == "-98"
-replace q_518 = "NR/RF" if q_518 == "-99"
-rename (q_518) (m3_518)
-********When tabulate q_518, there are a few strange observations (8 -97, 8 9). I did not label them.
-*/		
-
-* 4-2 SS: q_618a_2, q_618b_2 no longer in the dataset				
+					
 rename (q_601a q_601b q_601c q_602a q_602b q_603a q_603b q_603c q_604a q_604b q_605a q_605b q_605c q_605c_o ///
 		q_606 q_607 q_608 q_609 q_610a q_610b q_611 q_612 q_612_unit q_613 q_614 q_614_unit q_615_1 q_615_2 ///
 		q_616_1 q_616_unit_1 q_616_2 q_616_unit_2 q_617_1 q_617_2 q_618a_1 q_618b_1 q_618c_1) (m3_601_hiv ///
@@ -1947,17 +1861,6 @@ rename (q_601a q_601b q_601c q_602a q_602b q_603a q_603b q_603c q_604a q_604b q_
 rename (q_619a q_619b q_619c q_619d q_619e q_619f q_619g q_620_1 q_620_2 q_621b q_621c q_621c_unit q_622a q_622b ///
 		q_622c) (m3_619a m3_619b m3_619c m3_619d m3_619e m3_619g m3_619h m3_620_1 m3_620_2 m3_621b m3_621c_ke ///
 		m3_621c_ke_unit m3_622a m3_622b m3_622c)
-
-/* SS: 621a is a multiple checkbox field that has the answers in "yes" and "no" in 621a_1 - 621a_99		
-       ** q_621a is a string variables: use replace if and then rename (line 219 to 226)		
-replace q_621a = "A relative or a friend" if q_621a == "1"
-replace q_621a = "A traditional birth attendant" if q_621a == "2"
-replace q_621a = "A community health worker" if q_621a == "3"
-replace q_621a = "A nurse" if q_621a == "4"
-replace q_621a = "A midwife" if q_621a == "5"
-replace q_621a = "Don´t know [DO NOT READ]" if q_621a == "-98"
-replace q_621a = "NR/RF" if q_621a == "-99"
-*/
 
 rename (q_621a q_621a_1 q_621a_2 q_621a_3 q_621a_4 q_621a_5 q_621a_6 q_621a__98 q_621a__99) ////
 	   (m3_621a m3_621a_1_ke m3_621a_2_ke m3_621a_3_ke m3_621a_4_ke m3_621a_5_ke m3_621a_6_ke ///
@@ -2004,7 +1907,6 @@ rename (q_901a q_901b q_901c q_901d q_901de q_901f q_901g q_901h q_901i q_901j q
 		
 rename (q_901_cost q_902_cost_1 q_902_cost_2) (m3_901_cost m3_902_1_cost m3_902_2_cost)
 
-* 4-2 SS: q_902i_2 removed from dataset
 rename (q_902a_1 q_902a_2 q_902b_1 q_902b_2 q_902c_1 q_902c_2 q_902d_1 q_902d_2 q_902e_1 q_902e_2 ///
 		q_902f_1 q_902f_2 q_902g_1 q_902g_2 q_902h_1 q_902h_2 q_902i_1 q_902j_1 q_902j_oth_1 ///
 		q_902j_2 q_902j_oth_2) (m3_902a_baby1 m3_902a_baby2 m3_902b_baby1 m3_902b_baby2 m3_902c_baby1 ///
@@ -2109,22 +2011,20 @@ rename (q_1004a q_1004h) (m3_1004a m3_1004h)
 
 drop q_1004h_1 q_1004h_2 q_1004h_3 q_1004h_4 q_1004h_5 q_1004h_6 q_1004h_7
 		
-*rename facility_name m3_site
-*rename date_confirm m3_date_confirm
+
 rename q_102 m3_date 
 rename starttime m3_date_time 
-*rename time_start m3_start_time
+
 rename q_302 m3_birth_or_ended_date
 rename gestational_update m3_ga2_ke
 rename q_301 m3_303a
 rename (q_303_1 q_303_2) (m3_303b m3_303c)
-*rename q_304_1 m3_baby1_name
-*rename q_304_2 m3_baby2_name
+
 rename q_305_1 m3_baby1_gender
-*rename q_306_1 m3_baby1_age_weeks
+
 rename q_307_1 m3_baby1_size
 rename q_305_2 m3_baby2_gender
-*rename q_306_2 m3_baby2_age_weeks
+
 rename q_501 m3_501
 rename q_502 m3_502
 rename q_503 m3_503
@@ -2136,9 +2036,9 @@ rename q_705 m3_705
 rename endtime m3_endtime
 rename duration m3_duration	
 rename attempts m3_attempt_number
-*rename attempts_oth m3_attempt_number_other
+
 rename language m3_language
-*rename language_oth m3_language_other
+
 	
 	
 * Data quality: (dropping incorrect responses)
@@ -2147,18 +2047,13 @@ rename language m3_language
 *respondentid: 21311071736, duplicate M3 submission on same date
 *From KEMTRI: This ID was double-allocated to Isnina and Linah by mistake. That is why we have 2 entries of this ID. Linah has told me that initially the respondent told her she was still pregnant and so she conducted the interview. After she had finalised the interview the respondent then said she had had delivered. Linah proceded to do module 3 even though she had conducted an unnecessary module 2. Also both Isnina and Linah have conducted module 3 so we have 2 module 3 forms for this ID. I am suggesting we accept the module 2 done by Isnina since it was correct and accept module 3 done by Linah since it was the one done first.
 
-<<<<<<< Updated upstream
-*drop if respondentid == 21311071736 & m3_enum_name == "Isnina Musa" // SS: add this back in once enum name is fixed
-drop if respondentid == "21311071736"
-=======
-*drop if respondentid == "21311071736" & m3_enum_name == "Isnina Musa" // SS 5-15: it looks like this is already dropped
->>>>>>> Stashed changes
+
+*drop if respondentid == "21311071736" & m3_enum_name == "Isnina Musa" // SS 5-15: it looks like this is already dropped  
 
 *respondentid: 21711071310, duplicate M3 submission on same date
 *From KEMRI: Module 3 done twice. Keep the second interview of 2/11/2023. She delivered on 2nd October"
 
 drop if respondentid == "21711071310" & m3_date == date("05oct2023", "DMY") 
-
 
 *respondentid: 1916081238, duplicate M3 submission on same date
 *From KEMRI: I have had a discussion with the en to determine how this happened. The en had a mix-up of the IDs. The second complete form is for 21419071300, a respondent from Kitui who delivered on 25th Oct. So for this second form everything else is correct apart from the respondent ID.
@@ -2174,42 +2069,12 @@ drop if respondentid == "21327071350" & m3_date == date("12mar2024", "DMY")
 *===============================================================================
 
 	* STEP TWO: ADD VALUE LABELS (NA in KENYA, already labeled)
-/*		
-label define m3_death_cause_baby2 0 "Not told anything" 1 "The baby was premature" 2 "An infection" 3 "A congenital abnormality" 4 "A birth injury or asphyxia" 5 "Difficulties breathing" 6 "Unexplained causes" 7 "You decided to have an abortion" -96 "Other (specify)",modify
-label values m3_death_cause_baby2 m3_death_cause_baby2
-		
-label define m3_baby1_weight -98 "DO NOT KNOW"
-label values m3_baby1_weight m3_baby1_weight
-label define m3_baby2_weight -98 "DO NOT KNOW"
-label values m3_baby2_weight m3_baby2_weight
-	
-label define YN_m3 1 "Yes" 0 "No"
-label values m3_baby2_issues_other_ke m3_902j_baby2 YN_m3
-
-label define m3_303a 1 "One" 2 "Two" 3 "Three or more" -98 "Don't Know" -99 "NR/RF"
-label values m3_303a m3_303a	
-
-label define m3_807 0 "Not at all" 1 "1" 2 "2" 3 "3" 4 "4" 5 "5" 6 "6" 7 "7" 8 "8" 9 "9" 10 "A great deal"
-label values m3_807 m3_807
-
-*/
 
 recode m3_phq2_score (1 = 0) (2 = 1) (3 = 2) (4 = 3) (5 = 4) (6 = 5)
 label define m3_phq2_score 1 "1" 2 "2" 3 "3" 4 "4" 5 "5", modify
 	
 	
-/* Formatting Dates
-
-	*Date and time of M3 - 4-2 SS: this was dropped
-	gen _m3_date_time_ = date(m3_date_time,"YMDhms")
-	drop m3_date_time
-	rename _m3_date_time_ m3_date_time
-	format m3_date_time %td */ 
-	
-	*gen _m3_date_ = date(m3_date,"YMD")
-	*drop m3_date
-	*rename _m3_date_ m3_date
-	*format m3_date %td  
+	* Formatting Dates
 	
 	gen _m3_birth_or_ended_date_ = date(m3_birth_or_ended_date,"YMD")
 	drop m3_birth_or_ended_date
@@ -2297,9 +2162,6 @@ recode m3_303a (. = .a) if m2_202 !=2 | m2_202 !=3
 
 recode m3_303b (. = .a) if m3_303a !=1 // SS: missing date on N=17 women?
 recode m3_303c (. = .a) if m3_303a !=2 
-
-*replace m3_baby1_name = ".a" if m3_303b !=1
-*replace m3_baby2_name = ".a" if m3_303c !=1
 
 recode m3_baby1_gender m3_baby1_weight m3_baby1_size m3_baby1_health (. = .a) if m3_303b !=1 // SS: fix data labels
 recode m3_baby2_gender m3_baby2_weight m3_baby2_size m3_baby1_health (. = .a) if m3_303c !=1
@@ -3126,7 +2988,7 @@ order m3_num_alive_babies m3_num_dead_babies, after(m3_miscarriage)
 clear all
 
 * import data
-use "$ke_data/Module 4/240418_KEMRI_Module_4_Final_no_pii.dta"
+use "$ke_data/Module 4/240510_KEMRI_Module_4_Final_no_pii.dta"
 
 drop facility_name county enum_name_mod1 enum_name alive_babies dead_babies endtime name_confirm starttime today_date resp_worker availability resp_available ///
 	 date_after28days location_endline enum_name_mod1
@@ -3138,11 +3000,7 @@ drop facility_name county enum_name_mod1 enum_name alive_babies dead_babies endt
 * Section 1: Identification 
 
 *-----according to variable list 
-*encode q_104, gen(respondentid)
-*format respondentid %12.0f
-*drop q_104
 rename q_104 respondentid
-
 rename q_101 m2_interviewer
 rename q_102 m4_date
 rename q_103 m4_time

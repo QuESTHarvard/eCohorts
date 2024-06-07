@@ -56,7 +56,8 @@ u "$user/$analysis/ETtmp.dta", clear
 	ta m1_specialist_hosp if m1_dangersign==1
 	
 	* Undernourished
-	ta anc1muac if maln_under==1
+	egen mubmi=rowmax(anc1muac anc1bmi)
+	ta mubmi if maln_under==1
 	ta anc1food if maln_under==1
 
 	* Obese
@@ -122,7 +123,8 @@ u "$user/$analysis/KEtmp.dta", clear
 	ta specialist_hosp if m1_dangersign==1
 	
 	* Undernourished
-	ta anc1muac if maln_under==1
+	egen mubmi=rowmax(anc1muac anc1bmi)
+	ta mubmi if maln_under==1
 	ta anc1food if maln_under==1
 
 	* Obese
@@ -188,7 +190,8 @@ u "$user/$analysis/ZAtmp.dta", clear
 	ta specialist_hosp if m1_dangersign==1		
 	
 	* Undernourished
-	ta anc1muac if maln_under==1
+	egen mubmi=rowmax(anc1muac anc1bmi)
+	ta mubmi if maln_under==1
 	ta anc1food if maln_under==1
 	
 	* Obese
@@ -234,7 +237,7 @@ u "$user/$analysis/INtmp.dta", clear
 	ta specialist_hosp if complic4==1
 	
 	* Depression
-	g depression_address = m1_716c if depress==1
+	ta m1_716c if depress==1
 	egen depress_tx=rowmax(m1_724d anc1mental_health_drug)
 	ta depress_tx if depress==1
 	
@@ -260,7 +263,8 @@ u "$user/$analysis/INtmp.dta", clear
 	ta specialist_hosp if m1_dangersign==1		
 			
 	* Undernourished
-	ta anc1muac if maln_under==1
+	egen mubmi=rowmax(anc1muac anc1bmi)
+	ta mubmi if maln_under==1
 	ta anc1food if maln_under==1
 		
 	* Obese

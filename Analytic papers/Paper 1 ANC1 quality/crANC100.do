@@ -94,7 +94,7 @@ u "$user/$data/Ethiopia/02 recoded data/eco_m0_et.dta", clear
 	lab var anc_mont "Average number of ANC visits per month"
 	lab var anc_vol_staff_onc "Average monthly number of ANC visits per staff providing obstetric care"
 	
-	keep facility sri_score sri_basicamenities sri_equip sri_diag total_staff  ///
+	keep facility sri_score sri_basicamenities sri_equip sri_diag total_staff ultra_st ///
 	      anc_mont anc_vol_staff* ftdoc beds m0_a8_fac_own m0_a6_fac_type
 	
 	gen private = m0_a8_fac_own
@@ -202,7 +202,7 @@ Average of 6 items: electricity, water, toilet, communication, computer & intern
 	lab var anc_mont "Average number of ANC visits per month"
 	lab var anc_vol_staff_onc "Average monthly number of ANC visits per staff providing obstetric care"
 	
-	keep facility sri_score sri_basicamenities sri_equip sri_diag total_staff ///
+	keep facility sri_score sri_basicamenities sri_equip sri_diag total_staff ultra_st ///
 		    anc_mont anc_vol_staff* ftdoc beds m0_facility_own m0_facility_type 
 	
 	gen private = m0_facility_own==2
@@ -295,7 +295,7 @@ Average of 6 items: electricity, water, toilet, communication, computer & intern
 	lab var anc_mont "Average number of ANC visits per month"
 	lab var anc_vol_staff_onc "Average monthly number of ANC visits per staff providing obstetric care"
 	
-	keep facility sri_score sri_basicamenities sri_equip sri_diag total_staff  ///
+	keep facility sri_score sri_basicamenities sri_equip sri_diag total_staff  ultra_st ///
 		     anc_mont anc_vol_staff* ftdoc beds m0_facility_own m0_facility_type	
 
 save  "$user/$analysis/ZAtmpfac.dta", replace  
@@ -373,7 +373,7 @@ Average of 6 items: electricity, water, toilet, communication, computer & intern
 * BEDS
 	gen beds = m0_201
 	
-	keep facility sri_score sri_basicamenities sri_equip sri_diag  total_staff  ///
+	keep facility sri_score sri_basicamenities sri_equip sri_diag  total_staff  ultra_st ///
 		    anc_mont beds anc_vol_staff* 
 	
 save  "$user/$analysis/INtmpfac.dta", replace  
