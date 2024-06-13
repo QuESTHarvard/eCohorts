@@ -1949,7 +1949,7 @@ label values m3_baby1_gender m3_baby2_gender m3_baby3_gender m3_gender
 	
 label define m3_weight 1 "Very large" 2 "Larger than average" 3 "Average" ///
 					   4 "Smaller than average" 5 "Very small"
-label values m3_baby1_weight m3_baby2_weight m3_baby3_weight m3_weight
+label values m3_baby1_size m3_baby2_size m3_baby3_size m3_weight
 	
 label define m3_overallhealth 1 "Excellent" 2 "Very Good" 3 "Good" ///
 							  4 "Fair" 5 "Poor" 99 "NR/RF"
