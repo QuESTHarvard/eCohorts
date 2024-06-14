@@ -6,7 +6,7 @@
 	This file creates derived variables for analysis from the MNH ECohorts Kenya dataset. 
 */
 
-u "$ke_data_final/eco_m1-m3_ke.dta", clear
+u "$ke_data_final/eco_m1-m4_ke.dta", clear
 
 *------------------------------------------------------------------------------*
 * MODULE 1
