@@ -977,11 +977,11 @@ rename what_healthcare_provide_603___4 m4_baby1_603e
 rename what_healthcare_provide_603___5 m4_baby1_603f
 rename what_healthcare_provide_603___6 m4_baby1_603g
 rename what_healthcare_provide_603___96 m4_baby1_603_96
-rename what_healthcare_provide_603___98 m4_baby2_603_98
-rename what_healthcare_provide_603___99 m4_baby2_603_99
-rename v1544 m4_baby2_603_998 
-rename v1545 m4_baby2_603_999 
-rename what_healthcare_provide_603___88 m4_baby2_603_888
+rename what_healthcare_provide_603___98 m4_baby1_603_98
+rename what_healthcare_provide_603___99 m4_baby1_603_99
+rename v1544 m4_baby1_603_998 
+rename v1545 m4_baby1_603_999 
+rename what_healthcare_provide_603___88 m4_baby1_603_888
 rename other_thing_provided m4_baby1_603_other
 
 rename m4_603b___0 m4_baby2_603a
@@ -2437,7 +2437,7 @@ foreach var of varlist m4_602a - m4_602g  {
                  label values `var' m4_401a
           }	
 
-foreach var of varlist m4_baby1_603a - m4_baby2_603_888  {
+foreach var of varlist m4_baby1_603a m4_baby1_603b m4_baby1_603c m4_baby1_603d m4_baby1_603e m4_baby1_603f m4_baby1_603g m4_baby1_603_96 m4_baby1_603_98 m4_baby1_603_99 m4_baby1_603_998 m4_baby1_603_999 m4_baby1_603_888  {
                  label values `var' m4_baby1_feed_a
           }			  
 foreach var of varlist m4_baby2_603a - m4_baby2_603_888  {
@@ -3951,11 +3951,11 @@ recode  m4_413a m4_413b m4_413c  m4_413d  m4_413e  m4_413f m4_413g  m4_413h  m4_
 recode  m4_413a m4_413b m4_413c  m4_413d  m4_413e  m4_413f m4_413g  m4_413h  m4_413i   m4_413j m4_413k m4_413_96 (0 = .r) if  m4_413_999 == 1
 recode  m4_413a m4_413b m4_413c  m4_413d  m4_413e  m4_413f m4_413g  m4_413h  m4_413i   m4_413j m4_413k m4_413_96 (0 = .d) if  m4_413_888 == 1
 
-recode  m4_baby1_603a m4_baby1_603b m4_baby1_603c m4_baby1_603d m4_baby1_603e m4_baby1_603f m4_baby1_603g m4_baby1_603_96 (0 = .d) if  m4_baby2_603_98 == 1
-recode  m4_baby1_603a m4_baby1_603b m4_baby1_603c m4_baby1_603d m4_baby1_603e m4_baby1_603f m4_baby1_603g m4_baby1_603_96 (0 = .r) if  m4_baby2_603_99 == 1
-recode  m4_baby1_603a m4_baby1_603b m4_baby1_603c m4_baby1_603d m4_baby1_603e m4_baby1_603f m4_baby1_603g m4_baby1_603_96 (0 = .d) if  m4_baby2_603_998 == 1 
-recode  m4_baby1_603a m4_baby1_603b m4_baby1_603c m4_baby1_603d m4_baby1_603e m4_baby1_603f m4_baby1_603g m4_baby1_603_96 (0 = .r) if  m4_baby2_603_999 == 1
-recode  m4_baby1_603a m4_baby1_603b m4_baby1_603c m4_baby1_603d m4_baby1_603e m4_baby1_603f m4_baby1_603g m4_baby1_603_96 (0 = .d) if  m4_baby2_603_888 == 1
+recode  m4_baby1_603a m4_baby1_603b m4_baby1_603c m4_baby1_603d m4_baby1_603e m4_baby1_603f m4_baby1_603g m4_baby1_603_96 (0 = .d) if  m4_baby1_603_98 == 1
+recode  m4_baby1_603a m4_baby1_603b m4_baby1_603c m4_baby1_603d m4_baby1_603e m4_baby1_603f m4_baby1_603g m4_baby1_603_96 (0 = .r) if  m4_baby1_603_99 == 1
+recode  m4_baby1_603a m4_baby1_603b m4_baby1_603c m4_baby1_603d m4_baby1_603e m4_baby1_603f m4_baby1_603g m4_baby1_603_96 (0 = .d) if  m4_baby1_603_998 == 1 
+recode  m4_baby1_603a m4_baby1_603b m4_baby1_603c m4_baby1_603d m4_baby1_603e m4_baby1_603f m4_baby1_603g m4_baby1_603_96 (0 = .r) if  m4_baby1_603_999 == 1
+recode  m4_baby1_603a m4_baby1_603b m4_baby1_603c m4_baby1_603d m4_baby1_603e m4_baby1_603f m4_baby1_603g m4_baby1_603_96 (0 = .d) if  m4_baby1_603_888 == 1
 
 recode m4_baby2_603a m4_baby2_603b m4_baby2_603c m4_baby2_603d m4_baby2_603e m4_baby2_603f m4_baby2_603g m4_baby2_603_96  (0 = .d) if  m4_baby2_603_98 == 1
 recode  m4_baby2_603a m4_baby2_603b m4_baby2_603c m4_baby2_603d m4_baby2_603e m4_baby2_603f m4_baby2_603g m4_baby2_603_96 (0 = .r) if  m4_baby2_603_99 == 1
@@ -3973,7 +3973,7 @@ recode  m4_905a m4_905b m4_905c m4_905d m4_905e m4_905f m4_905_96  (0 = .d) if  
 recode  m4_905a m4_905b m4_905c m4_905d m4_905e m4_905f m4_905_96  (0 = .r) if  m4_905_999 == 1
 recode  m4_905a m4_905b m4_905c m4_905d m4_905e m4_905f m4_905_96  (0 = .d) if  m4_905_888 == 1
 
-drop m4_203_1_99 m4_203_1_999 m4_203_1_998 m4_203_1_888 m4_203_2_99 m4_203_2_999 m4_203_2_998 m4_203_2_888 m4_203_3_99 m4_203_3_998 m4_203_3_999 m4_203_3_888 m4_baby1_210j98 m4_baby1_210j99 m4_baby1_210i88 m4_baby2_210j98 m4_baby2_210j99 m4_baby2_210i88 m4_baby3_210j98 m4_baby3_210j99 m4_baby3_210i88 m4_405a_998 m4_405a_999 m4_405a_888 m4_405b_998 m4_405b_999 m4_405b_888 m4_405c_998 m4_405c_999 m4_405c_888 m4_413_99 m4_413_998 m4_413_999 m4_413_888 m4_baby2_603_98 m4_baby2_603_99   m4_baby2_603_888 m4_baby2_603_98 m4_baby2_603_99 m4_baby2_603_998 m4_baby2_603_999 m4_baby2_603_888 m4_baby3_603_98 m4_baby3_603_99 m4_baby3_603_998 m4_baby3_603_999 m4_baby3_603_888 m4_905_998 m4_905_999 m4_905_888
+drop m4_203_1_99 m4_203_1_999 m4_203_1_998 m4_203_1_888 m4_203_2_99 m4_203_2_999 m4_203_2_998 m4_203_2_888 m4_203_3_99 m4_203_3_998 m4_203_3_999 m4_203_3_888 m4_baby1_210j98 m4_baby1_210j99 m4_baby1_210i88 m4_baby2_210j98 m4_baby2_210j99 m4_baby2_210i88 m4_baby3_210j98 m4_baby3_210j99 m4_baby3_210i88 m4_405a_998 m4_405a_999 m4_405a_888 m4_405b_998 m4_405b_999 m4_405b_888 m4_405c_998 m4_405c_999 m4_405c_888 m4_413_99 m4_413_998 m4_413_999 m4_413_888 m4_baby1_603_98 m4_baby1_603_99 m4_baby1_603_888 m4_baby1_603_98 m4_baby2_603_99 m4_baby2_603_998 m4_baby2_603_999 m4_baby2_603_888 m4_baby3_603_98 m4_baby3_603_99 m4_baby3_603_998 m4_baby3_603_999 m4_baby3_603_888 m4_905_998 m4_905_999 m4_905_888
 
 
 
