@@ -99,6 +99,7 @@ global qualvarsZA anc1bp anc1weight anc1height anc1muac anc1blood ///
 * INDIA	
 u "$user/$analysis/INtmp.dta", clear 
 cd "$user/$analysis"
+
 global qualvarsIND anc1bp anc1weight anc1blood ///
 		anc1urine ultra anc1lmp  previous_preg counsel_nutri  counsel_complic counsel_birthplan edd ///
 		counsel_comeback anc1ifa calcium anc1deworm tt
