@@ -300,8 +300,6 @@ u "$in_data_final/eco_m1_in.dta", clear
 			lab var labtest_cost "The amounr of money spent on Test/investigations (x-ray, lab etc.)"
 			lab var indirect_cost "Indirect cost, including transport, accommodation, and other"
 			lab var counsel_comeback "Counselled about coming back for additional ANC visit"
-			lab var SYSTOLIC "Systolic pressure at 1st ANC"
-			lab var DIASTOLIC "Diastolic pressure at 1st ANC"
 			lab var Date_of_interview "Date of interview"
 			lab var DATE_OF_INTERVIEW "Date of interview"
 			lab var estimated_delivery_date "Estimated delivery date"
