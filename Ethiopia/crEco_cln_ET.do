@@ -70,9 +70,6 @@ drop if module_1_baseline_face_to_face_e == 0
 *drop m2_complete (not useful) and drop call tracking questions/module (also not useful) - 1/24
 drop m2_attempt_avail m2_attempt_bestnumber m2_attempt_contact m2_attempt_date m2_attempt_goodtime m2_attempt_other m2_attempt_outcome m3_attempt_outcome m3_attempt_outcome_p2 m3_attempt_date m3_attempt_outcome2 module_2_phone_surveys_prenatal_
 
-*** Dropping M5 for cleaning purposes:
-drop ic_may_i_proceed_with_the-module_5_end_line_facetoface_sur	
-
 		
 *------------------------------------------------------------------------------*
 
@@ -1165,6 +1162,183 @@ rename conclusion_dead_baby_m4 m4_conclusion_dead_baby
 rename module_4_follow_up_phone_survey_ m4_complete
 
 
+	* MODULE 5:
+rename ic_may_i_proceed_with_the m5_start
+rename b1_permission_granted_to_c m5_consent
+rename q103_m5 m5_starttime
+rename q102_m5 m5_date
+rename (q113_m5 q114_m5 q115_m5 q115_m5_oth) (m5_maternal_death_reported  ///
+		m5_date_of_maternal_death m5_maternal_death_learn m5_maternal_death_learn_other)
+
+rename (q201a_m5 q201b_m5 q201c_m5 q202a_m5 q202b_m5 q202c_m5 q203a_m5___1 q203a_m5___2 ///
+		q203a_m5___3 q203a_m5___4 q203a_m5___5 q203a_m5___6 q203a_m5___7 q203a_m5___99 q203b_m5___1 ///
+		q203b_m5___2 q203b_m5___3 q203b_m5___4 q203b_m5___5 q203b_m5___6 q203b_m5___7 q203b_m5___99 ///
+		q203c_m5___1 q203c_m5___2 q203c_m5___3 q203c_m5___4 q203c_m5___5 q203c_m5___6 q203c_m5___7 ///
+		q203c_m5___99 eth_1_2_m5 eth_1_2_m5_unk q204_m5) (m5_baby1_alive m5_baby2_alive ///
+		m5_baby3_alive m5_baby1_health m5_baby2_health m5_baby3_health m5_baby1_feed_a ///
+		m5_baby1_feed_b m5_baby1_feed_c m5_baby1_feed_d m5_baby1_feed_e m5_baby1_feed_f m5_baby1_feed_h  ///
+		m5_baby1_feed_99 m5_baby2_feed_a m5_baby2_feed_b m5_baby2_feed_c m5_baby2_feed_d m5_baby2_feed_e ///
+		m5_baby2_feed_f m5_baby2_feed_h m5_baby2_feed_99 m5_baby3_feed_a m5_baby3_feed_b m5_baby3_feed_c ///
+		m5_baby3_feed_d m5_baby3_feed_e m5_baby3_feed_f m5_baby3_feed_h m5_baby3_feed_99 m5_feed_freq_et ///
+		m5_feed_freq_et_unk m5_breastfeeding)		
+
+rename (q205a_1_m5 q205a_2_m5 q205a_3_m5 q205b_1_m5 q205b_2_m5 q205b_3_m5 q205c_1_m5 ///
+		q205c_2_m5 q205c_3_m5 q205d_1_m5 q205d_2_m5 q205d_3_m5 q205e_1_m5 q205e_2_m5 ///
+		q205e_3_m5 q205f_1_m5 q205f_2_m5 q205f_3_m5 q205g_1_m5 q205g_2_m5 q205g_3_m5) ///
+		(m5_baby1_sleep m5_baby2_sleep m5_baby3_sleep m5_baby1_feed m5_baby2_feed ///
+		m5_baby3_feed m5_baby1_breath m5_baby2_breath m5_baby3_breath m5_baby1_stool ///
+		m5_baby2_stool m5_baby3_stool m5_baby1_mood m5_baby2_mood m5_baby3_mood m5_baby1_skin ///
+		m5_baby2_skin m5_baby3_skin m5_baby1_interactivity m5_baby2_interactivity m5_baby3_interactivity)
+
+rename (q206a_1_m5 q206a_2_m5 q206a_3_m5 q206b_1_m5 q206b_2_m5 q206b_3_m5 ///
+		q206c_1_m5 q206c_2_m5 q206c_3_m5 q206d_1_m5 q206d_2_m5 q206d_3_m5 ///
+		q206e_1_m5 q206e_2_m5 q206e_3_m5 q206f_1_m5 q206f_2_m5 q206f_3_m5 ///
+		q206g_1_m5 q206g_2_m5 q206g_3_m5 q206h_1_m5 q206h_2_m5 q206h_3_m5 ///
+		q206i_1_m5 q206i_2_m5 q206i_3_m5 q206j_1_m5 q206j_2_m5 q206j_3_m5 ///
+		q206k_1_m5 q206_k_2_m5 q206_k_3_m5 q206_i_1_m5 q206_i_2_m5 q206_i_3_m5) ///
+	   (m5_baby1_issue_a m5_baby2_issue_a m5_baby3_issue_a m5_baby1_issue_b m5_baby2_issue_b ///
+	    m5_baby3_issue_b m5_baby1_issue_c m5_baby2_issue_c m5_baby3_issue_c m5_baby1_issue_d ///
+		m5_baby2_issue_d m5_baby3_issue_d m5_baby1_issue_e m5_baby2_issue_e m5_baby3_issue_e ///
+		m5_baby1_issue_f m5_baby2_issue_f m5_baby3_issue_f m5_baby1_issue_g m5_baby2_issue_g ///
+		m5_baby3_issue_g m5_baby1_issue_h m5_baby2_issue_h m5_baby3_issue_h m5_baby1_issue_i ///
+		m5_baby2_issue_i m5_baby3_issue_i m5_baby1_issue_j m5_baby2_issue_j m5_baby3_issue_j ///
+		m5_baby1_issue_k m5_baby2_issue_k m5_baby3_issue_k m5_baby1_issue_l m5_baby2_issue_l m5_baby3_issue_l)
+
+rename (q207a_1_m5 q207a_2_m5 q207a_3_m5 q207a_1_m5_oth q207a_2_m5_oth q207a_3_m5_oth ///
+		q208a_1_m5 q208a_2_m5 q208a_3_m5 q208a_1_m5_oth q208a_2_m5_oth q208a_3_m5_oth) ///
+	   (m5_baby1_issue_oth m5_baby2_issue_oth m5_baby3_issue_oth m5_baby1_issue_oth_text ///
+	   m5_baby2_issue_oth_text m5_baby3_issue_oth_text m5_baby1_death m5_baby2_death ///
+	   m5_baby3_death m5_baby1_death_date m5_baby2_death_date m5_baby3_death_date)
+		
+rename (q209a_m5 q209b_m5 q209c_m5 q210a_m5) (m5_baby1_death_age m5_baby2_death_age m5_baby3_death_age ///
+		m5_baby1_death_cause)		
+
+rename (q210a_m5_oth q210b_m5 q210b_m5_oth q210c_m5 q210c_m5_oth q211a_m5 q211b_m5 before_died_baby_3_v2 ///
+		q212a_m5 q212b_m5 q212c_m5) (m5_baby1_deathcause_other m5_baby2_death_cause m5_baby2_deathcause_other ///
+		m5_baby3_death_cause m5_baby3_deathcause_other m5_baby1_advice m5_baby2_advice m5_baby3_advice ///
+		m5_baby1_deathloc m5_baby2_deathloc m5_baby3_deathloc)
+
+rename (q301_m5 q302a_m5 q302b_m5 q302c_m5 q302d_m5 q302e_m5 q303a_m5 q303b_m5 q303c_m5 q303d_m5 q303e_m5 ///
+		q303f_m5 q303g_m5 q303h_m5 q303i_m5) (m5_health m5_health_a m5_health_b m5_health_c m5_health_d ///
+		m5_health_e m5_depression_a m5_depression_b m5_depression_c m5_depression_d m5_depression_e ///
+		m5_depression_f m5_depression_g m5_depression_h m5_depression_i)
+
+rename (q304_m5 q305a_m5 q305b_m5 q305c_m5 q305d_m5 q305e_m5 q305f_m5 q305g_m5 q305h_m5 q306_m5 q307_m5 ///
+		q308_m5 q309_m5 q310_m5) (m5_affecthealth_scale m5_feeling_a m5_feeling_b m5_feeling_c m5_feeling_d ///
+		m5_feeling_e m5_feeling_f m5_feeling_g m5_feeling_h m5_pain m5_leakage m5_leakage_when ///
+		m5_leakage_affect m5_leakage_tx)
+		
+rename (q311_m5___0 q311_m5___1 q311_m5___2 q311_m5___3 q311_m5___4 q311_m5___5 q311_m5___6 q311_m5___7 ///
+		q311_m5___8) (m5_leakage_notx_reason_0 m5_leakage_notx_reason_1 m5_leakage_notx_reason_2 ///
+		m5_leakage_notx_reason_3 m5_leakage_notx_reason_4 m5_leakage_notx_reason_5 m5_leakage_notx_reason_6 ///
+		m5_leakage_notx_reason_7 m5_leakage_notx_reason_8)		
+		
+rename q311_m5_oth m5_leakage_notx_reason_oth		
+
+rename (q312_m5 q401_m5 q402_m5 q403_m5 q404_m5 q405a_m5 q405b_m5 q406a_m5 q406b_m5 q501a_m5 q501b_m5 q502_m5) ///
+	   (m5_leakage_txeffect m5_401 m5_402 m5_403 m5_404 m5_405a m5_405b m5_406a m5_406b m5_501a m5_501b m5_502)
+
+rename (q503a_1_m5 q503b_1_m5 q503c_1_m5 q504a_1_m5 q504a_1_m5_oth q504a_1_1_m5_oth q504b_1_m5 ///
+		q504c_1_m5 q505_m5 q507_m5 q509_m5) (m5_503_1 m5_503_2 m5_503_3 m5_504a_1 m5_504a_other_a_1 ///
+		m5_504a_other_b_1 m5_504a_2 m5_504a_3 m5_505_1 m5_505_2 m5_505_3)
+
+rename (q506_m5___1 q506_m5___2 q506_m5___3 q506_m5___4 q506_m5___5 q506_m5___6 q506_m5___7 q506_m5___8 ///
+		q506_m5___9 q506_m5___10 q506_m5___96 q506_m5___98 q506_m5___99 q506_m5_oth) (m5_consultation1_a ///
+		m5_consultation1_b m5_consultation1_c m5_consultation1_d m5_consultation1_e m5_consultation1_f ///
+		m5_consultation1_g m5_consultation1_h m5_consultation1_i m5_consultation1_j m5_consultation1_oth ///
+		m5_consultation1_98 m5_consultation1_99 m5_consultation1_oth_text)
+
+rename (q508_m5___1 q508_m5___2 q508_m5___3 q508_m5___4 q508_m5___5 q508_m5___6 q508_m5___7 q508_m5___8 ///
+		q508_m5___9 q508_m5___10 q508_m5___96 q508_m5___98 q508_m5___99 q508_m5_oth) (m5_consultation2_a ///
+		m5_consultation2_b m5_consultation2_c m5_consultation2_d m5_consultation2_e m5_consultation2_f ///
+		m5_consultation2_g m5_consultation2_h m5_consultation2_i m5_consultation2_j m5_consultation2_oth ///
+		m5_consultation2_98 m5_consultation2_99 m5_consultation2_oth_text)
+
+rename (q510_m5___1 q510_m5___2 q510_m5___3 q510_m5___4 q510_m5___5 q510_m5___6 q510_m5___7 q510_m5___8 ///
+		q510_m5___9 q510_m5___10 q510_m5___96 q510_m5___98 q510_m5___99 q510_m5_oth) (m5_consultation3_a ///
+		m5_consultation3_b m5_consultation3_c m5_consultation3_d m5_consultation3_e m5_consultation3_f ///
+		m5_consultation3_g m5_consultation3_h m5_consultation3_i m5_consultation3_j m5_consultation3_oth ///
+		m5_consultation3_98 m5_consultation3_99 m5_consultation3_oth_text)
+
+rename (q511_m5___1 q511_m5___2 q511_m5___3 q511_m5___4 q511_m5___5 q511_m5___6 q511_m5___7 ///
+		q511_m5___8 q511_m5___9 q511_m5___10 q511_m5___11 q511_m5___96 q511_m5___98 q511_m5___99 ///
+		q511_m5_oth q601_m5 q602_m5 q603_m5) (m5_no_visit_a m5_no_visit_b m5_no_visit_c m5_no_visit_d ///
+		m5_no_visit_e m5_no_visit_f m5_no_visit_g m5_no_visit_h m5_no_visit_i m5_no_visit_j m5_no_visit_k ///
+		m5_no_visit_96 m5_no_visit_98 m5_no_visit_99 m5_no_visit_oth m5_consultation1_carequality ///
+		m5_consultation2_carequality  m5_consultation3_carequality )
+
+rename (q701a_m5 q701b_m5 q701c_m5 q701d_m5 q701e_m5 chest_listened_601f_v2 q701g_m5 q701h_m5 q701i_m5 ///
+		q701i_m5_oth q702a_m5 q702b_m5 q702c_m5 q702d_m5 q702e_m5 q702f_m5 q702g_m5) (m5_701a m5_701b ///
+		m5_701c m5_701d m5_701e m5_701f m5_701g m5_701h m5_701i m5_701_other m5_702a m5_702b m5_702c ///
+		m5_702d m5_702e m5_702f m5_702g)
+
+rename (q703_m5___0 q703_m5___1 q703_m5___2 q703_m5___3 q703_m5___4 q703_m5___5 q703_m5___6 q703_m5___96 ///
+		q703_m5___98 q703_m5___99 q703_m5_oth) (m5_baby1_703a m5_baby1_703b m5_baby1_703c m5_baby1_703d ///
+		m5_baby1_703e m5_baby1_703f m5_baby1_703g m5_baby1_703_96 m5_baby1_703_98 m5_baby1_703_99 ///
+		m5_baby1_703_other)
+
+rename (q703_2_m5___0 q703_2_m5___1 q703_2_m5___2 q703_2_m5___3 q703_2_m5___4 q703_2_m5___5 q703_2_m5___6 ///
+		q703_2_m5___96 q703_2_m5___98 q703_2_m5___99 q703_m5_oth_2) (m5_baby2_703a m5_baby2_703b m5_baby2_703c ///
+		m5_baby2_703d m5_baby2_703e m5_baby2_703f m5_baby2_703g m5_baby2_703_96 m5_baby2_703_98 m5_baby2_703_99 ///
+		m5_baby2_703_other)
+
+rename (q703_3_m5___0 q703_3_m5___1 q703_3_m5___2 q703_3_m5___3 q703_3_m5___4 q703_3_m5___5 q703_3_m5___6 ///
+		q703_3_m5___96 q703_3_m5___98 q703_3_m5___99 q703_m5_oth_3) (m5_baby3_703a m5_baby3_703b m5_baby3_703c ///
+		m5_baby3_703d m5_baby3_703e m5_baby3_703f m5_baby3_703g m5_baby3_703_96 m5_baby3_703_98 m5_baby3_703_99 ///
+		m5_baby3_703_other)
+
+rename (q801a_m5 q801b_m5 q801c_m5 q801d_m5 q801e_m5 q801f_m5 q801g_m5 q801h_m5 q801h_m5_oth) (m5_801a ///
+		m5_801b m5_801c m5_801d m5_801e m5_801f m5_801g m5_801h m5_801_other)
+
+rename (q802_m5 q803a_m5 q803b_m5 q803c_m5 q803d_m5 q803e_m5 q803f_m5 q803g_m5 q804a_m5 q804b_m5 q804c_m5) ///
+	   (m5_802 m5_803a m5_803b m5_803c m5_803d m5_803e m5_803f m5_803g m5_804a m5_804b m5_804c)
+
+rename (q901a_m5 q901b_m5 q901c_m5 q901d_m5 q901e_m5 q901f_m5 q901g_m5 q901h_m5 q901i_m5 q901j_m5 ///
+		q901k_m5 q901l_m5 q901m_m5 q901n_m5 q901o_m5 q901p_m5 q901q_m5 q901r_m5 q901s_m5 q901s_m5_oth) ///
+	   (m5_901a m5_901b m5_901c m5_901d m5_901e m5_901f m5_901g m5_901h m5_901i m5_901j m5_901k m5_901l ///
+	   m5_901m m5_901n m5_901o m5_901p m5_901q m5_901r m5_901s m5_901s_other)
+
+rename (q902c_m5 q902d_m5 q902e_m5) (m5_902b  m5_902c  m5_902d)
+
+rename q902g_m5 m5_902f 
+
+rename (q902h q902i_m5 q902j_m5 q902j_m5_oth q902a_m5 q902b_m5 q902f_m5 q903a_m5 q903b_m5 q903c_m5 ///
+		q903d_m5 q903e_m5 q903f_m5 q903g_m5 q903g_m5_oth q904_m5) (m5_902h m5_902i m5_902j m5_902_other ///
+		m5_902k m5_902l m5_902m m5_903a m5_903b m5_903c m5_903d m5_903e m5_903f m5_903_other m5_903_oth_text ///
+		m5_904)
+
+rename (in_total_how_much_did_805_v2 q1001_m5 q1002a_m5 q1002a_m5_oth q1002b_m5 q1002b_m5_oth q1002c_m5 ///
+		q1002c_m5_oth q1002d_m5 q1002d_m5_oth q1002e_m5 q1002e_m5_oth) (m5_905 m5_1001 m5_1002a_yn ///
+		m5_1002a m5_1002b_yn m5_1002b m5_1002c_yn m5_1002c m5_1002d_yn m5_1002d m5_1002e_yn m5_1002e)
+
+rename (q1003a_m5 q1003b_m5 q1004_m5) (m5_1003 m5_1003_confirm m5_1004)
+
+rename (q1005_m5___1 q1005_m5___2 q1005_m5___3 q1005_m5___4 q1005_m5___5 q1005_m5___6 q1005_m5___96 ///
+		q1005_m5_oth q1101_m5 q1102_m5) (m5_1005a m5_1005b m5_1005c m5_1005d m5_1005e m5_1005f ///
+		m5_1005_other m5_1005_oth_text m5_1101 m5_1102)
+
+rename q1102_m5_oth m5_1102_other
+
+rename (q1103_m5 q1104_m5) (m5_1103 m5_1104)
+
+rename q1103_m5_oth m5_1104_other
+
+rename (q1105_m5 q1201_m5 m5_1202) (m5_1105 m5_1201 m5_1202a)
+
+rename (q1301_m5 q1302_m5 m5_1302 time_1_systolic time_1_diastolic_1301b time_1_pulse_rate_per_1301c ///
+		time_1_systolic_2 time_1_diastolic_1301b_2 time_1_pulse_rate_per_1301c_2 time_1_systolic_3 ///
+		time_1_diastolic_1301b_3 time_1_pulse_rate_per_1301c_3 q1306_m5 hemoglobin_level_from_1307) ///
+	   (m5_height m5_weight m5_muac m5_sbp1 m5_dbp1 m5_hr1 m5_sbp2 m5_dbp2 m5_hr2 m5_sbp3 m5_dbp3 ///
+	   m5hr3 m5_anemiatest m5_hb_level)
+
+rename (q1401_m5 m5_1401_2 q1401_m10) (m5_baby1_weight m5_baby2_weight m5_baby3_weight)
+
+rename (q1402_m5 q1402_m6 q1402_m7) (m5_baby1_length m5_baby2_length m5_baby3_length)
+
+rename (q1403_m6 q1403_m5 q1403_m7) (m5_baby1_hc m5_baby2_hc m5_baby3_hc)
+
+rename module_5_end_line_facetoface_sur m5_complete
+
 	* MATERNAL CARDS:
 rename (q1501 date age gravid lmp edd para number_of_children_alive previous_stillbirth ///
 		history_of_3 birthweight2500 birthweight4000 last_pregnancy previous_survey) ///
@@ -1410,7 +1584,7 @@ label values m1_517 residence
 	 label values m1_205e EQ5Danxiety
 	 
 * QoC labels 
-	label define recommend 1 "Very likely" 2 "Somewhat likely" 3 "Not too likely" 4 "Not at all likely" 99 "NR/RF" 
+	label define recommend 1 "Very likely" 2 "SomWhat likely" 3 "Not too likely" 4 "Not at all likely" 99 "NR/RF" 
 	label values m1_602 recommend
    
 	label define satisfaction 1 "Very satisfied" 2 "Satisfied" 3 "Neither satisfied nor dissatisfied" 4 "Dissatisfied" 5 "Very dissatisfied" 98 "DK" 99 "NR/RF" 
@@ -1430,7 +1604,7 @@ label values m1_517 residence
 	label values m1_302 hsview
 	
 	label define confidence 1 "Very confident" ///
-	                        2 "Somewhat confident" ///
+	                        2 "SomWhat confident" ///
 							3 "Not very confident" ///
 							4 "Not at all confident" ///
 							98 "DK" ///
@@ -1957,7 +2131,7 @@ label values m3_baby1_health m3_baby2_health m3_baby3_health m3_1001 ///
 			 m3_1004a m3_1004b m3_1004c m3_1004d m3_1004e m3_1004f ///
 			 m3_1004g m3_1004h m3_overallhealth	
 
-label define m3_confidence 1 "Very confident" 2 "Confident" 3 "Somewhat confident" ///
+label define m3_confidence 1 "Very confident" 2 "Confident" 3 "SomWhat confident" ///
 						   4 "Not very confident" 5 "Not at all confident" ///
 						   96 "I do not breastfeed" 98 "DK" 99 "NR/RF"
 label values m3_breastfeeding m3_confidence
@@ -2119,7 +2293,7 @@ label values m3_808b m3_808b
 label define m3_809 1 "YES, NO MORE LEAKAGE AT ALL" 2 "YES, BUT STILL SOME LEAKAGE" 3 "NO, STILL HAVE PROBLEM" 98 "Don't Know" 99 "NR/RF"
 label values m3_809 m3_809
 
-label define m3_agree 1 "Very likely" 2 "Somewhat likely" 3 "Not too likely" 4 "Not at all likely" 98 "Don't Know" 99 "NR/RF"
+label define m3_agree 1 "Very likely" 2 "SomWhat likely" 3 "Not too likely" 4 "Not at all likely" 98 "Don't Know" 99 "NR/RF"
 label values m3_1002 m3_agree
 
 replace m3_1105 = "1" if m3_1105 == "A"
@@ -2250,7 +2424,7 @@ foreach var of varlist m4_baby1_feed_a-  m4_203_3_888 {
 
 
 
-label define m4_204a 1 "Not at all confident" 2 " Not very confident" 3 "Somewhat confident" 4 "Confident" 5 " Very confident"  
+label define m4_204a 1 "Not at all confident" 2 " Not very confident" 3 "SomWhat confident" 4 "Confident" 5 " Very confident"  
 label values m4_204a m4_204a
 
 label define m4_baby1_sleep 1 "Sleeps well" 2 "Slightly affected sleep" 3 "Moderately affected sleep" 4 "Severely disturbed sleep" 
@@ -2334,7 +2508,7 @@ foreach var of varlist m4_303a - m4_303h  {
                  label values `var' m4_303a
           }
 
-label define m4_304 0 "Have not had sex" 1 "Not at all" 2 "A little bit" 3 "Somewhat" 4 "Quite a bit" 5 "Very much" 
+label define m4_304 0 "Have not had sex" 1 "Not at all" 2 "A little bit" 3 "SomWhat" 4 "Quite a bit" 5 "Very much" 
 label values m4_304 m4_304
 
 label define m4_305 1 "Yes" 0 "No" 
@@ -2496,6 +2670,128 @@ label values m4_ot1 m4_ot1
 label define m4_complete 0 "Incomplete" 1 "Unverified" 2 "Complete" 
 label values m4_complete m4_complete	
 
+
+	* MODULE 5:
+label define YN_m5 1 "Yes" 0 "No" 98 "DK" 99 "RF"
+lab val m5_start m5_consent m5_maternal_death_reported m5_baby1_issue_a m5_baby2_issue_a m5_baby3_issue_a  ///
+		m5_baby1_issue_b m5_baby2_issue_b m5_baby3_issue_b m5_baby1_issue_c m5_baby2_issue_c m5_baby3_issue_c  ///
+		m5_baby1_issue_d m5_baby2_issue_d m5_baby3_issue_d m5_baby1_issue_e m5_baby2_issue_e m5_baby3_issue_e  ///
+		m5_baby1_issue_f m5_baby2_issue_f m5_baby3_issue_f m5_baby1_issue_g m5_baby2_issue_g m5_baby3_issue_g  ///
+		m5_baby1_issue_h m5_baby2_issue_h m5_baby3_issue_h m5_baby1_issue_i m5_baby2_issue_i m5_baby3_issue_i ///
+		m5_baby1_issue_j m5_baby2_issue_j m5_baby3_issue_j m5_baby1_issue_k m5_baby2_issue_k m5_baby3_issue_k ///
+		m5_baby1_issue_l m5_baby2_issue_l m5_baby3_issue_l m5_baby1_issue_oth m5_baby2_issue_oth  ///
+		m5_baby3_issue_oth m5_baby1_death m5_baby2_death m5_baby3_death m5_baby1_advice m5_baby2_advice ///
+		m5_baby3_advice m5_leakage m5_leakage_tx m5_406a m5_406b m5_501a m5_501b m5_505_1 m5_505_2 m5_505_3 ///
+		m5_701a m5_701b m5_701c m5_701d m5_701e m5_701f m5_701g m5_701h m5_701i m5_702a m5_702b m5_702c ///
+		m5_702d m5_702e m5_702f m5_702g m5_801a m5_801b m5_801c m5_801d m5_801e m5_801f m5_801g m5_801h m5_802 ///
+		m5_803a m5_803b m5_803c m5_803d m5_803e m5_803f m5_803g m5_804a m5_901a m5_901b m5_901c m5_901d ///
+		m5_901e m5_901f m5_901g m5_901h m5_901i m5_901j m5_901k m5_901l m5_901m m5_901n m5_901o m5_901p ///
+		m5_901q m5_901r m5_901s m5_902b m5_902c m5_902d m5_902f m5_902h m5_902i ///
+		m5_902j m5_902k m5_902l m5_902m m5_903a m5_903b m5_903c m5_903d m5_903e m5_903f m5_903_other m5_1001  ///
+		m5_1002a_yn m5_1002b_yn m5_1002c_yn m5_1002d_yn m5_1002e_yn m5_1003_confirm m5_1101 m5_1103 m5_1105 ///
+		m5_anemiatest YN_m5 	
+
+lab def m5_maternal_death_learn 1 "called respondent phone, someone else responded" 2 "called spouse/partner phone, was informed" 3 "called close friend or family member phone number, was informed" 4 "called CHW phone number, was informed" 96 "Other" 
+lab val m5_maternal_death_learn m5_maternal_death_learn
+
+lab def baby_status 1 "Alive" 0 "Died"
+lab val m5_baby1_alive m5_baby2_alive m5_baby3_alive baby_status
+
+lab def m5_likert 1 "Excellent" 2 "Very good" 3 "Good" 4 "Fair" 5 "Poor" 99 "NR/RF"
+lab val m5_baby1_health m5_baby2_health m5_baby3_health m5_health m5_401 m5_consultation1_carequality ///
+		m5_consultation2_carequality m5_consultation3_carequality  m5_likert
+
+lab def m5_confidence 1 "Very confident" 2 "Confident" 3 "SomWhat confident" 4 "Not very confident" 5 "Not at all confident" 96 "I do not breastfeed" 98 "DK" 99 "NR/RF" 
+lab val m5_breastfeeding m5_confidence
+
+label define m5_confidence2 1 "Very confident" 2 "SomWhat confident" 3 "Not very confident" 4 "Not at all confident" 98 "DK" 99 "NR/RF" 
+lab val m5_403 m5_404 m5_405a m5_405b m5_confidence2
+
+label define m5_sleep 1 "Sleeps well" 2 "Slightly affected sleep" 3 "Moderately affected sleep" 4 "Severely disturbed sleep" 
+lab val m5_baby1_sleep m5_baby2_sleep m5_baby3_sleep m5_sleep 
+
+label define m5_feeding 1 "Normal feeding" 2 "Slight feeding problems" 3 "Moderate feeding problems" 4 "Severe feeding problems" 
+lab val m5_baby1_feed m5_baby2_feed m5_baby3_feed
+
+label define m5_breath 1 "Normal breathing" 2 "Slight breathing problems" 3 "Moderate breathing problems" 4 "Severe breathing problems" 
+lab val m5_baby1_breath m5_baby2_breath m5_baby3_breath m5_breath
+
+label define m5_stool 1 "Normal stooling/poo" 2 "Slight stooling/poo problems" 3 "Moderate stooling/poo problems" 4 "Severe stooling/poo problems" 
+lab val m5_baby1_stool m5_baby2_stool m5_baby3_stool m5_stool
+
+label define m5_mood 1 "Happy/content" 2 "Fussy/irritable" 3 "Crying" 4 "Inconsolable crying" 
+lab val m5_baby1_mood m5_baby2_mood m5_baby3_mood m5_mood
+
+label define m5_skin 1 "Normal skin" 2 "Dry or red skin" 3 "Irritated or itchy skin" 4 "Bleeding or cracked skin"
+lab val m5_baby1_skin m5_baby2_skin m5_baby3_skin m5_skin
+
+label define m5_interactivity 1 "Highly playful/interactive" 2 "Playful/interactive" 3 "Less playful/less interactive" 4 "Low energy/inactive/dull"
+lab val m5_baby1_interactivity m5_baby2_interactivity m5_baby3_interactivity m5_interactivity
+
+label define m5_causedeath 0 "Not told anything" 1 "The baby was premature (born too early)" 2 "A birth injury or asphyxia (occurring because of delivery complications)" 3 "A congenital abnormality (genetic or acquired issues with growth/ development)" 4 "Malaria" 5 "An acute respiratory infection" 6 "Diarrhea" 7 "Another type of infection" 8 "Severe acute malnutrition" 9 "An accident or injury" 96 "Another cause, (Specify)" 
+lab val m5_baby1_death_cause m5_baby2_death_cause m5_baby3_death_cause m5_causedeath
+
+label define m5_deathloc 1 "In a health facility" 2 "On the way to the health facility" 3 "Your house or someone elses house" 96 "Other, please specify" 98 "DK" 99 "NR/RF" 
+lab val m5_baby1_deathloc m5_baby2_deathloc m5_baby3_deathloc m5_deathloc
+
+label define m5_mobility 1 "I have no problems in walking about" 2 "I have some problems in walking about" 3 "I am confined to bed" 99 "NR/RF"
+lab val m5_health_a m5_mobility
+
+label define m5_washing 1 "I have no problems with washing or dressing myself" 2 "I have some problems washing or dressing myself" 3 "I am unable to wash or dress myself" 99 "NR/RF" 
+lab val m5_health_b m5_washing
+
+label define m5_activity 1 "I have no problems with performing my usual activities" 2 "I have some problems with performing my usual activities" 3 "I am unable to perform my usual activities" 99 "NR/RF" 
+lab val m5_health_c m5_activity
+
+label define m5_pain_discomf 1 "I have no pain or discomfort" 2 "I have moderate pain or discomfort" 3 "I have extreme pain or discomfort" 99 "NR/RF" 
+lab val m5_health_d m5_pain_discomf 
+
+label define m5_mentalhealth 1 "I am not anxious or depressed" 2 "I am moderately anxious or depressed" 3 "I am extremely anxious or depressed" 4 "NR/RF" 
+lab val m5_health_e m5_mentalhealth
+
+label define m5_phq9 0 "None of the days" 1 "Several days" 2 "More than half the days (>7)" 3 "3 Nearly every day" 99 "NR/RF" 
+label val m5_depression_a m5_depression_b m5_depression_c m5_depression_d m5_depression_e m5_depression_f ///
+	  m5_depression_g m5_depression_h m5_depression_i m5_phq9
+	
+label define m5_affecthealth_scale  0 "Have not had pain" 1 "Not at all" 2 "A little bit" 3 "SomWhat" 4 "Quite a bit" 5 "Very much" 98 "DK/N/A" 99 "NR/RF" 
+lab val m5_affecthealth_scale m5_affecthealth_scale 
+
+label define m5_endorse 1 "Very much" 2 "A lot" 3 "A little" 4 "Not at all" 99 "NR/RF" 
+lab val m5_feeling_a m5_feeling_b m5_feeling_c m5_feeling_d m5_feeling_e m5_feeling_f m5_feeling_g ///
+		m5_feeling_h m5_endorse
+
+label define m5_pain 0 "Have not had sex" 1 "Not at all" 2 "A little bit" 3 "SomWhat" 4 "Quite a bit" 5 "Very much" 98 "DK" 99 "NR/RF" 
+lab val m5_pain m5_pain
+
+label define m5_leakage_affect 0 "Never" 1 "Less than once per month" 2 "Less than once per week & greater than once per month" 3 "Less than once per day & greater than once per month" 4 "Once a day or more than/ once a day" 98 "DK" 99 "NR/RF"
+label val m5_leakage_affect m5_leakage_affect
+
+label define m5_leakage_txeffect 1 "YES, NO MORE LEAKAGE AT ALL" 2 "YES, BUT STILL SOME LEAKAGE" 3 "NO, STILL HAVE PROBLEM" 99 "NR/RF" 
+lab val m5_leakage_txeffect m5_leakage_txeffect
+
+label define m5_402 1 "On the whole, the system works pretty well, and only minor changes are necessary to make it work better" 2 "There are some good things in our health care system, but major changes are needed to make it work better" 3 "Our health care system has so much wrong with it that we need to completely rebuild it" 98 "DK" 99 "NR/RF" 
+lab val m5_402 m5_402
+
+label define m5_consultations 1 "One" 2 "Two" 3 "Three" 
+lab val m5_502 m5_consultations
+
+label define m5_consultations_loc 1 "In your home" 2 "Someone elses home" 3 "Government hospital" 4 "Government health center" 5 "Government health post" 6 "NGO or faith-based health facility" 7 "Private hospital" 8 "Private specialty maternity center" 9 "Private specialty maternity clinic" 10 "Private clinic" 11 "Another private medical facility (including pharmacy, shop, traditional healer)" 98 "DK" 99 "NR/RF" 
+lab val m5_503_1 m5_503_2 m5_503_3 m5_consultations_loc
+
+label define m5_consultations_fac 1 "Meki Catholic Primary Clinic" 2 "Bote Health Center" 3 "Meki Health Center" 4 "Adami Tulu Health Center" 5 "Bulbula Health Center" 6 "Dubisa Health Center" 7 "Olenchiti Primary Hospital" 8 "Awash Malkasa Health Center" 9 "koka Health Center" 10 "Biyo Health Center" 11 "Ejersa Health Center" 12 "Catholic Church Primary Clinic" 13 "Noh Primary Clinic" 14 "Adama Health Center" 15 "Family Guidance Nazret Specialty Clinic" 16 "Biftu" 17 "Bokushenen" 18 "Adama Teaching Hospital" 19 "Hawas" 20 "Medhanialem Hospital" 21 "Sister Aklisiya Hospital" 22 "Marie stopes Specialty Clinic" 23 "Other in East Shewa or Adama, Specify" 96 "Other outside of the zone" 
+lab val m5_504a_1 m5_504a_2 m5_504a_3 m5_consultations_fac
+
+label define m5_904 1 "At home" 2 "At a facility" 3 "At another location" 
+lab val m5_904 m5_904 
+
+label define m5_violence 1 "Current husband" 2 "Mother; Father" 3 "Step-mother" 4 "Step-father" 5 "Sister" 6 "Brother" 7 "Daughter" 8 "Son" 9 "Late /last / ex-husband/partner" 10 "Current boyfriend" 11 "Former boyfriend" 12 "Mother-in-law;/Father-in-law" 13 "Other female relative/in-law" 14 "Other male relative/in-law" 15 "Female friend /acquaintance" 16 "Male friend/acquaintance" 17 "Teacher" 18 "Employer" 19 "Stranger" 96 "Other (specify)" 98 "DK" 99 "NR/RF" 
+lab val m5_1102 m5_1104 m5_violence
+
+label define m5_satisfaction 1 "Very satisfied" 2 "Satisfied" 3 "Neither satisfied nor dissatisfied" 4 "Dissatisfied" 5 "Very dissatisfied" 98 "DK" 99 "NR" 
+lab val m5_1201 m5_satisfaction
+
+label define m5_complete 0 "Incomplete" 1 "Unverified" 2 "Complete" 
+lab val m5_complete m5_complete
 	
 *===============================================================================
 		
@@ -2522,11 +2818,16 @@ label values m4_complete m4_complete
 	recode recm3_506b recm3_507 m3_514_unknown recm3_520 m3_521 (998 = .d)
 	
 	** MODULE 4:	
-	recode  m4_108  m4_baby1_health m4_baby2_health  m4_baby3_health m4_204a  m4_baby1_diarrhea m4_baby2_diarrhea m4_baby3_diarrhea m4_baby1_fever m4_baby2_fever m4_baby3_fever m4_baby1_lowtemp m4_baby2_lowtemp m4_baby3_lowtemp m4_baby1_illness m4_baby2_illness m4_baby3_illness m4_baby1_troublebreath m4_baby2_troublebreath m4_baby3_troublebreath m4_baby1_chestprob m4_baby2_chestprob m4_baby3_chestprob  m4_baby1_troublefeed m4_baby2_troublefeed m4_baby3_troublefeed m4_baby1_convulsions m4_baby2_convulsions m4_baby3_convulsions m4_baby1_jaundice m4_baby2_jaundice m4_baby3_jaundice m4_baby1_yellowpalms m4_baby2_yellowpalms m4_baby3_yellowpalms m4_baby1_lethargic m4_baby2_lethargic m4_baby3_lethargic m4_baby1_bulgedfont m4_baby2_bulgedfont m4_baby3_bulgedfont m4_baby1_otherprob m4_baby2_otherprob m4_baby3_otherprob m4_baby2_death_date m4_baby3_death_date m4_210_et m4_baby1_advice m4_baby2_advice m4_baby3_advice m4_baby1_death_loc m4_baby2_death_loc m4_baby3_death_loc (99 = .r )
+	recode m4_108  m4_baby1_health m4_baby2_health  m4_baby3_health m4_204a  m4_baby1_diarrhea m4_baby2_diarrhea m4_baby3_diarrhea m4_baby1_fever m4_baby2_fever m4_baby3_fever m4_baby1_lowtemp m4_baby2_lowtemp m4_baby3_lowtemp m4_baby1_illness m4_baby2_illness m4_baby3_illness m4_baby1_troublebreath m4_baby2_troublebreath m4_baby3_troublebreath m4_baby1_chestprob m4_baby2_chestprob m4_baby3_chestprob  m4_baby1_troublefeed m4_baby2_troublefeed m4_baby3_troublefeed m4_baby1_convulsions m4_baby2_convulsions m4_baby3_convulsions m4_baby1_jaundice m4_baby2_jaundice m4_baby3_jaundice m4_baby1_yellowpalms m4_baby2_yellowpalms m4_baby3_yellowpalms m4_baby1_lethargic m4_baby2_lethargic m4_baby3_lethargic m4_baby1_bulgedfont m4_baby2_bulgedfont m4_baby3_bulgedfont m4_baby1_otherprob m4_baby2_otherprob m4_baby3_otherprob m4_baby2_death_date m4_baby3_death_date m4_210_et m4_baby1_advice m4_baby2_advice m4_baby3_advice m4_baby1_death_loc m4_baby2_death_loc m4_baby3_death_loc (99 = .r )
  
 	recode m4_108 m4_204a m4_baby1_diarrhea m4_baby2_diarrhea m4_baby3_diarrhea m4_baby1_fever m4_baby2_fever m4_baby3_fever m4_baby1_lowtemp m4_baby2_lowtemp m4_baby3_lowtemp m4_baby1_illness m4_baby2_illness m4_baby3_illness m4_baby1_troublebreath m4_baby2_troublebreath m4_baby3_troublebreath m4_baby1_chestprob m4_baby2_chestprob m4_baby3_chestprob  m4_baby1_troublefeed m4_baby2_troublefeed m4_baby3_troublefeed m4_baby1_convulsions m4_baby2_convulsions m4_baby3_convulsions m4_baby1_jaundice m4_baby2_jaundice m4_baby3_jaundice m4_baby1_yellowpalms m4_baby2_yellowpalms m4_baby3_yellowpalms m4_baby1_lethargic m4_baby2_lethargic m4_baby3_lethargic m4_baby1_bulgedfont m4_baby2_bulgedfont m4_baby3_bulgedfont m4_baby1_otherprob m4_baby2_otherprob m4_baby3_otherprob m4_baby2_death_date m4_baby3_death_date m4_210_et m4_baby1_advice m4_baby2_advice m4_baby3_advice m4_baby1_death_loc m4_baby2_death_loc m4_baby3_death_loc (98 = .d)
 
-************** Recode missing values to NA for questions respondents would not have been asked due to skip patterns:
+	** MODULE 5:
+	recode m5_baby1_health m5_baby2_health m5_baby3_health m5_breastfeeding m5_baby1_issue_a m5_baby2_issue_a m5_baby3_issue_a m5_baby1_issue_b m5_baby2_issue_b m5_baby3_issue_b m5_baby1_issue_c m5_baby2_issue_c m5_baby3_issue_c m5_baby1_issue_d m5_baby2_issue_d m5_baby3_issue_d m5_baby1_issue_e m5_baby2_issue_e m5_baby3_issue_e m5_baby1_issue_f m5_baby2_issue_f m5_baby3_issue_f m5_baby1_issue_g m5_baby2_issue_g m5_baby3_issue_g m5_baby1_issue_h m5_baby2_issue_h m5_baby3_issue_h m5_baby1_issue_i m5_baby2_issue_i m5_baby3_issue_i m5_baby2_issue_j m5_baby3_issue_j m5_baby1_issue_k m5_baby2_issue_k m5_baby3_issue_k m5_baby1_issue_l m5_baby2_issue_l m5_baby3_issue_l m5_baby2_issue_oth m5_baby3_issue_oth m5_baby2_death m5_baby3_death m5_baby1_advice m5_baby2_advice m5_baby3_advice m5_baby1_deathloc m5_baby2_deathloc m5_baby3_deathloc m5_health m5_health_a m5_health_b m5_health_c m5_health_d m5_health_e  m5_depression_a m5_depression_b m5_depression_c m5_depression_d m5_depression_e m5_depression_f m5_depression_g m5_depression_h m5_depression_i m5_affecthealth_scale m5_feeling_a m5_feeling_b m5_feeling_c m5_feeling_d m5_feeling_e m5_feeling_f m5_feeling_g m5_feeling_h m5_pain m5_leakage_affect m5_leakage_tx m5_leakage_txeffect m5_401 m5_402 m5_403 m5_404 m5_405a m5_405b m5_406a m5_406b m5_501a m5_501b m5_503_1 m5_503_2 m5_503_3 m5_505_1 m5_505_2 m5_505_3 m5_consultation1_carequality m5_consultation2_carequality m5_consultation3_carequality m5_701a m5_701b m5_701c m5_701d m5_701e m5_701f m5_701g m5_701h m5_701i m5_702a m5_702b m5_702c m5_702d m5_702e m5_702f m5_702g m5_801a m5_801b m5_801c m5_801d m5_801e m5_801f m5_801g m5_801h m5_802 m5_803a m5_803b m5_803c m5_803d m5_803e m5_803f m5_803g m5_804a m5_901a m5_901b m5_901c m5_901d m5_901e m5_901f m5_901g m5_901h m5_901i m5_901j m5_901k m5_901l m5_901m m5_901n m5_901o m5_901p m5_901q m5_901r m5_901s m5_902b m5_902c m5_902d m5_902f m5_902h m5_902i m5_902j m5_902k m5_902l m5_902m m5_903a m5_903b m5_903c m5_903d m5_903e m5_903f m5_903_other m5_1001 m5_1002a_yn m5_1002b_yn m5_1002c_yn m5_1002d_yn m5_1002e_yn m5_1101 m5_1102 m5_1103 m5_1104 m5_1105 m5_1201 m5_1302 (99 = .r)
+	
+	recode m5_breastfeeding m5_baby1_issue_a m5_baby2_issue_a m5_baby3_issue_a m5_baby1_issue_b m5_baby2_issue_b m5_baby3_issue_b m5_baby1_issue_c m5_baby2_issue_c m5_baby3_issue_c m5_baby1_issue_d m5_baby2_issue_d m5_baby3_issue_d m5_baby1_issue_e m5_baby2_issue_e m5_baby3_issue_e m5_baby1_issue_f m5_baby2_issue_f m5_baby3_issue_f m5_baby1_issue_g m5_baby2_issue_g m5_baby3_issue_g m5_baby1_issue_h m5_baby2_issue_h m5_baby3_issue_h m5_baby1_issue_i m5_baby2_issue_i m5_baby3_issue_i m5_baby2_issue_j m5_baby3_issue_j m5_baby1_issue_k m5_baby2_issue_k m5_baby3_issue_k m5_baby1_issue_l m5_baby2_issue_l m5_baby3_issue_l m5_baby2_issue_oth m5_baby3_issue_oth m5_baby2_death m5_baby3_death m5_baby1_advice m5_baby2_advice m5_baby3_advice m5_baby1_deathloc m5_baby2_deathloc m5_baby3_deathloc m5_health m5_affecthealth_scale m5_pain m5_leakage_affect m5_401 m5_402 m5_403 m5_404 m5_405a m5_405b m5_406a m5_406b m5_501a m5_501b m5_503_1 m5_503_2 m5_503_3 m5_505_1 m5_505_2 m5_505_3 m5_701a m5_701b m5_701c m5_701d m5_701e m5_701f m5_701g m5_701h m5_701i m5_702a m5_702b m5_702c m5_702d m5_702e m5_702f m5_702g m5_801a m5_801b m5_801c m5_801d m5_801e m5_801f m5_801g m5_801h m5_802 m5_803a m5_803b m5_803c m5_803d m5_803e m5_803f m5_803g m5_804a m5_901a m5_901b m5_901c m5_901d m5_901e m5_901f m5_901g m5_901h m5_901i m5_901j m5_901k m5_901l m5_901m m5_901n m5_901o m5_901p m5_901q m5_901r m5_901s m5_902b m5_902c m5_902d m5_902f m5_902h m5_902i m5_902j m5_902k m5_902l m5_902m m5_903a m5_903b m5_903c m5_903d m5_903e m5_903f m5_903_other m5_1001 m5_1002a_yn m5_1002b_yn m5_1002c_yn m5_1002d_yn m5_1002e_yn m5_1102 m5_1104 m5_1105 m5_1201 (98 = .r)
+		
+************ Recode missing values to NA for questions respondents would not have been asked due to skip patterns:
 
 * MODULE 1:
 * Kept these recode commands here even though everyone has given permission 
@@ -3784,7 +4085,6 @@ recode m3_1106 m3_p2_outcome (. = .a) if m3_permission_p2 !=1
 recode recm3_endtime recm3_duration (. = .a) if m3_permission_p2 !=1 | (m3_303b !=1  & m3_303c !=1 & m3_303d !=1 & m3_202 !=3)
 
 *recode m3_p2_outcome_other (. = .a) if m3_p2_outcome !=96 // numeric because of 0 obs SS fix
-
 *recode m3_p2_date_of_rescheduled recm3_p2_time_of_rescheduled (. = .a) if m3_attempt_outcome_p2 !=6
 
 * MODULE 4:
@@ -3976,6 +4276,8 @@ recode  m4_905a m4_905b m4_905c m4_905d m4_905e m4_905f m4_905_96  (0 = .d) if  
 drop m4_203_1_99 m4_203_1_999 m4_203_1_998 m4_203_1_888 m4_203_2_99 m4_203_2_999 m4_203_2_998 m4_203_2_888 m4_203_3_99 m4_203_3_998 m4_203_3_999 m4_203_3_888 m4_baby1_210j98 m4_baby1_210j99 m4_baby1_210i88 m4_baby2_210j98 m4_baby2_210j99 m4_baby2_210i88 m4_baby3_210j98 m4_baby3_210j99 m4_baby3_210i88 m4_405a_998 m4_405a_999 m4_405a_888 m4_405b_998 m4_405b_999 m4_405b_888 m4_405c_998 m4_405c_999 m4_405c_888 m4_413_99 m4_413_998 m4_413_999 m4_413_888 m4_baby1_603_98 m4_baby1_603_99 m4_baby1_603_888 m4_baby1_603_98 m4_baby2_603_99 m4_baby2_603_998 m4_baby2_603_999 m4_baby2_603_888 m4_baby3_603_98 m4_baby3_603_99 m4_baby3_603_998 m4_baby3_603_999 m4_baby3_603_888 m4_905_998 m4_905_999 m4_905_888
 
 
+	** MODULE 5:
+
 
 *------------------------------------------------------------------------------*
 * drop variables after recoding/renaming
@@ -3998,7 +4300,6 @@ label variable redcap_data_access_group "Redcap Data Access Group"
 label variable interviewer_id "Interviewer ID"
 
 	** MODULE 1:		
-
 lab var m1_date"A2. Date of interview"
 lab var m1_start_time "A3. Time of interview"
 lab var study_site "A4. Study site"
@@ -4687,44 +4988,44 @@ label variable m3_baby3_size "308c. When the third baby was born, were they: ver
 label variable m3_baby1_health "309a. In general, how would you rate the first baby's overall health?"
 label variable m3_baby2_health "309b. In general, how would you rate the second baby's overall health?"
 label variable m3_baby3_health "309c. In general, how would you rate the third baby's overall health?"
-label variable m3_baby1_feed_a "310a.1. People feed their babies in different ways. Please indicate how you have fed the first baby in the last 7 days? Indicate all that apply. (choice=Breast milk)"
-label variable m3_baby1_feed_b "310a. People feed their babies in different ways. Please indicate how you have fed the first baby in the last 7 days? Indicate all that apply. (choice=Formula/Cow milk)"
-label variable m3_baby1_feed_c "310a. People feed their babies in different ways. Please indicate how you have fed the first baby in the last 7 days? Indicate all that apply. (choice=Water)"
-label variable m3_baby1_feed_d "310a. People feed their babies in different ways. Please indicate how you have fed the first baby in the last 7 days? Indicate all that apply. (choice=Juice)"
-label variable m3_baby1_feed_e "310a. People feed their babies in different ways. Please indicate how you have fed the first baby in the last 7 days? Indicate all that apply. (choice=Broth)"
-label variable m3_baby1_feed_f "310a. People feed their babies in different ways. Please indicate how you have fed the first babyin the last 7 days? Indicate all that apply. (choice=Baby food)"
-label variable m3_baby1_feed_g "310a. People feed their babies in different ways. Please indicate how you have fed [what_is_the_1st_baby_name] in the last 7 days? Indicate all that apply. (choice=Local food)"
-label variable m3_baby1_feed_96 "310a. People feed their babies in different ways. Please indicate how you have fed [what_is_the_1st_baby_name] in the last 7 days? Indicate all that apply. (choice=Other, specify)"
-label variable m3_baby1_feed_99 "310a. People feed their babies in different ways. Please indicate how you have fed [what_is_the_1st_baby_name] in the last 7 days? Indicate all that apply. (choice=NR/RF)"
-label variable m3_baby1_feed_998 "310a. People feed their babies in different ways. Please indicate how you have fed [what_is_the_1st_baby_name] in the last 7 days? Indicate all that apply. (choice=Unknown)"
-label variable m3_baby1_feed_999 "310a. People feed their babies in different ways. Please indicate how you have fed [what_is_the_1st_baby_name] in the last 7 days? Indicate all that apply. (choice=Refuse to answer)"
-label variable m3_baby1_feed_888 "310a. People feed their babies in different ways. Please indicate how you have fed [what_is_the_1st_baby_name] in the last 7 days? Indicate all that apply. (choice=No Information)"
+label variable m3_baby1_feed_a "310a.1. People feed their babies in different ways. Please indicate how you have fed the first baby in the last 7 days?. (choice=Breast milk)"
+label variable m3_baby1_feed_b "310a. People feed their babies in different ways. Please indicate how you have fed the first baby in the last 7 days?. (choice=Formula/Cow milk)"
+label variable m3_baby1_feed_c "310a. People feed their babies in different ways. Please indicate how you have fed the first baby in the last 7 days?. (choice=Water)"
+label variable m3_baby1_feed_d "310a. People feed their babies in different ways. Please indicate how you have fed the first baby in the last 7 days?. (choice=Juice)"
+label variable m3_baby1_feed_e "310a. People feed their babies in different ways. Please indicate how you have fed the first baby in the last 7 days?. (choice=Broth)"
+label variable m3_baby1_feed_f "310a. People feed their babies in different ways. Please indicate how you have fed the first baby in the last 7 days?. (choice=Baby food)"
+label variable m3_baby1_feed_g "310a. People feed their babies in different ways. Please indicate how you have fed first baby in the last 7 days?. (choice=Local food)"
+label variable m3_baby1_feed_96 "310a. People feed their babies in different ways. Please indicate how you have fed first baby in the last 7 days?. (choice=Other, specify)"
+label variable m3_baby1_feed_99 "310a. People feed their babies in different ways. Please indicate how you have fed first baby in the last 7 days?. (choice=NR/RF)"
+label variable m3_baby1_feed_998 "310a. People feed their babies in different ways. Please indicate how you have fed first baby in the last 7 days?. (choice=Unknown)"
+label variable m3_baby1_feed_999 "310a. People feed their babies in different ways. Please indicate how you have fed first baby in the last 7 days?. (choice=Refuse to answer)"
+label variable m3_baby1_feed_888 "310a. People feed their babies in different ways. Please indicate how you have fed first baby in the last 7 days?. (choice=No Information)"
 label variable m3_baby1_feed_other "310a_Oth. Other specify"
-label variable m3_baby2_feed_a "310a. People feed their babies in different ways. Please indicate how you have fed the second baby in the last 7 days? Indicate all that apply. (choice=Breast milk)"
-label variable m3_baby2_feed_b "310a. People feed their babies in different ways. Please indicate how you have fed the second baby in the last 7 days? Indicate all that apply. (choice=Formula/Cow milk)"
-label variable m3_baby2_feed_c "310a. People feed their babies in different ways. Please indicate how you have fed the second baby in the last 7 days? Indicate all that apply. (choice=Water)"
-label variable m3_baby2_feed_d "310a. People feed their babies in different ways. Please indicate how you have fed the second baby in the last 7 days? Indicate all that apply. (choice=Juice)"
-label variable m3_baby2_feed_e "310a. People feed their babies in different ways. Please indicate how you have fed the second baby in the last 7 days? Indicate all that apply.(choice=Broth)"
-*label variable m3_baby2_feed_f "310a. People feed their babies in different ways. Please indicate how you have fed the second baby in the last 7 days? Indicate all that apply. (choice=Baby food)"
-label variable m3_baby2_feed_g "310a. People feed their babies in different ways. Please indicate how you have fed the second baby in the last 7 days? Indicate all that apply. (choice=Local food)"
-label variable m3_baby2_feed_96 "310a. People feed their babies in different ways. Please indicate how you have fed the second baby in the last 7 days? Indicate all that apply. (choice=Other, specify)"
-label variable m3_baby2_feed_99 "310a. People feed their babies in different ways. Please indicate how you have fed the second baby in the last 7 days? Indicate all that apply. (choice=NR/RF)"
-label variable m3_baby2_feed_998 "310a. People feed their babies in different ways. Please indicate how you have fed the second baby in the last 7 days? Indicate all that apply. (choice=Unknown)"
-label variable m3_baby2_feed_999 "310a. People feed their babies in different ways. Please indicate how you have fed the second baby in the last 7 days? Indicate all that apply. (choice=Refuse to answer)"
-label variable m3_baby2_feed_888 "310a. People feed their babies in different ways. Please indicate how you have fed the second baby in the last 7 days? Indicate all that apply. (choice=No Information)"
+label variable m3_baby2_feed_a "310a. People feed their babies in different ways. Please indicate how you have fed the second baby in the last 7 days?. (choice=Breast milk)"
+label variable m3_baby2_feed_b "310a. People feed their babies in different ways. Please indicate how you have fed the second baby in the last 7 days?. (choice=Formula/Cow milk)"
+label variable m3_baby2_feed_c "310a. People feed their babies in different ways. Please indicate how you have fed the second baby in the last 7 days?. (choice=Water)"
+label variable m3_baby2_feed_d "310a. People feed their babies in different ways. Please indicate how you have fed the second baby in the last 7 days?. (choice=Juice)"
+label variable m3_baby2_feed_e "310a. People feed their babies in different ways. Please indicate how you have fed the second baby in the last 7 days?.(choice=Broth)"
+*label variable m3_baby2_feed_f "310a. People feed their babies in different ways. Please indicate how you have fed the second baby in the last 7 days?. (choice=Baby food)"
+label variable m3_baby2_feed_g "310a. People feed their babies in different ways. Please indicate how you have fed the second baby in the last 7 days?. (choice=Local food)"
+label variable m3_baby2_feed_96 "310a. People feed their babies in different ways. Please indicate how you have fed the second baby in the last 7 days?. (choice=Other, specify)"
+label variable m3_baby2_feed_99 "310a. People feed their babies in different ways. Please indicate how you have fed the second baby in the last 7 days?. (choice=NR/RF)"
+label variable m3_baby2_feed_998 "310a. People feed their babies in different ways. Please indicate how you have fed the second baby in the last 7 days?. (choice=Unknown)"
+label variable m3_baby2_feed_999 "310a. People feed their babies in different ways. Please indicate how you have fed the second baby in the last 7 days?. (choice=Refuse to answer)"
+label variable m3_baby2_feed_888 "310a. People feed their babies in different ways. Please indicate how you have fed the second baby in the last 7 days?. (choice=No Information)"
 label variable m3_baby2_feed_other "310a_Oth. Other specify"
-label variable m3_baby3_feed_a "310a. People feed their babies in different ways. Please indicate how you have fed the third baby in the last 7 days? Indicate all that apply. (choice=Breast milk)"
-label variable m3_baby3_feed_b "310a. People feed their babies in different ways. Please indicate how you have fed the third baby in the last 7 days? Indicate all that apply. (choice=Formula/Cow milk)"
-label variable m3_baby3_feed_c "310a. People feed their babies in different ways. Please indicate how you have fed the third baby in the last 7 days? Indicate all that apply. (choice=Water)"
-label variable m3_baby3_feed_d "310a. People feed their babies in different ways. Please indicate how you have fed the third baby in the last 7 days? Indicate all that apply. (choice=Juice)"
-label variable m3_baby3_feed_e "310a. People feed their babies in different ways. Please indicate how you have fed the third baby in the last 7 days? Indicate all that apply. (choice=Broth)"
-*label variable m3_baby3_feed_f "310a. People feed their babies in different ways. Please indicate how you have fed the third baby in the last 7 days? Indicate all that apply. (choice=Baby food)"
-label variable m3_baby3_feed_g "310a. People feed their babies in different ways. Please indicate how you have fed the third baby in the last 7 days? Indicate all that apply. (choice=Local food/butter)"
-label variable m3_baby3_feed_96 "310a. People feed their babies in different ways. Please indicate how you have fed the third baby in the last 7 days? Indicate all that apply. (choice=Other, specify)"
-label variable m3_baby3_feed_99 "310a. People feed their babies in different ways. Please indicate how you have fed the third baby in the last 7 days? Indicate all that apply. (choice=NR/RF)"
-label variable m3_baby3_feed_998 "310a. People feed their babies in different ways. Please indicate how you have fed the third baby in the last 7 days? Indicate all that apply. (choice=Unknown)"
-label variable m3_baby3_feed_999 "310a. People feed their babies in different ways. Please indicate how you have fed the third baby in the last 7 days? Indicate all that apply. (choice=Refuse to answer)"
-label variable m3_baby3_feed_888 "310a. People feed their babies in different ways. Please indicate how you have fed the third baby in the last 7 days? Indicate all that apply. (choice=No Information)"
+label variable m3_baby3_feed_a "310a. People feed their babies in different ways. Please indicate how you have fed the third baby in the last 7 days?. (choice=Breast milk)"
+label variable m3_baby3_feed_b "310a. People feed their babies in different ways. Please indicate how you have fed the third baby in the last 7 days?. (choice=Formula/Cow milk)"
+label variable m3_baby3_feed_c "310a. People feed their babies in different ways. Please indicate how you have fed the third baby in the last 7 days?. (choice=Water)"
+label variable m3_baby3_feed_d "310a. People feed their babies in different ways. Please indicate how you have fed the third baby in the last 7 days?. (choice=Juice)"
+label variable m3_baby3_feed_e "310a. People feed their babies in different ways. Please indicate how you have fed the third baby in the last 7 days?. (choice=Broth)"
+*label variable m3_baby3_feed_f "310a. People feed their babies in different ways. Please indicate how you have fed the third baby in the last 7 days?. (choice=Baby food)"
+label variable m3_baby3_feed_g "310a. People feed their babies in different ways. Please indicate how you have fed the third baby in the last 7 days?. (choice=Local food/butter)"
+label variable m3_baby3_feed_96 "310a. People feed their babies in different ways. Please indicate how you have fed the third baby in the last 7 days?. (choice=Other, specify)"
+label variable m3_baby3_feed_99 "310a. People feed their babies in different ways. Please indicate how you have fed the third baby in the last 7 days?. (choice=NR/RF)"
+label variable m3_baby3_feed_998 "310a. People feed their babies in different ways. Please indicate how you have fed the third baby in the last 7 days?. (choice=Unknown)"
+label variable m3_baby3_feed_999 "310a. People feed their babies in different ways. Please indicate how you have fed the third baby in the last 7 days?. (choice=Refuse to answer)"
+label variable m3_baby3_feed_888 "310a. People feed their babies in different ways. Please indicate how you have fed the third baby in the last 7 days?. (choice=No Information)"
 label variable m3_baby3_feed_other "310a_Oth. Other specify"
 label variable m3_breastfeeding "310b. As of today, how confident do you feel about breastfeeding your baby/babies?"
 label variable m3_breastfeeding_fx_et "Eth 1-3. How often per day in average your baby  or babies breastfed?"
@@ -4948,9 +5249,9 @@ label variable m3_616c "616c. How long in hour after delivery was the third baby
 label variable m3_617a "617a. Did the first baby receive a vaccine for BCG while you were still in the facility? That is an injection in the arm that can sometimes cause a scar"
 label variable m3_617b "617b. Did the second baby receive a vaccine for BCG while you were still in the facility?"
 label variable m3_617c "617c. Did the 3rd baby receive a vaccine for BCG while you were still in the facility? That is an injection in the arm that can sometimes cause a scar."
-label variable m3_617d_et "Eth-6-6a. Did the first baby receive an injection [vaccine] on thigh? That I mean is a vitamin K injection?"
-label variable m3_617e_et "Eth-6-6b. Did the second baby receive an injection [vaccine] on thigh? That I mean is a vitamin K injection?"
-label variable m3_617f_et "Eth-6-6c. Did the third baby receive an injection [vaccine] on thigh? That I mean is a vitamin K injection?"
+label variable m3_617d_et "Eth-6-6a. Did the first baby receive an injection (vaccine) on thigh? That I mean is a vitamin K injection?"
+label variable m3_617e_et "Eth-6-6b. Did the second baby receive an injection (vaccine) on thigh? That I mean is a vitamin K injection?"
+label variable m3_617f_et "Eth-6-6c. Did the third baby receive an injection (vaccine) on thigh? That I mean is a vitamin K injection?"
 label variable m3_617g_et "Eth-7-6a. Did the first baby receive eye ointment?"
 label variable m3_617h_et "Eth-7-6b. Did the second baby receive eye ointment?"
 label variable m3_617i_et "Eth-7-6c. Did the third baby receive eye ointment?"
@@ -5079,8 +5380,8 @@ label variable m3_901b "901b. Since we last spoke, did you get iron injection?"
 label variable m3_901c "901c. Since we last spoke, did you get calcium pills?"
 label variable m3_901d "901d. Since we last spoke, did you get multivitamins?"
 label variable m3_901e "901e. Since we last spoke, did you get food supplements like Super Cereal or Plumpynut?"
-label variable m3_901f "901f. Since we last spoke, did you get medicine for intestinal worms [endemic areas]?"
-label variable m3_901g "901g. Since we last spoke, did you get medicine for malaria [endemic areas]?"
+label variable m3_901f "901f. Since we last spoke, did you get medicine for intestinal worms?"
+label variable m3_901g "901g. Since we last spoke, did you get medicine for malaria?"
 label variable m3_901h "901h. Since we last spoke, did you get Medicine for HIV?"
 label variable m3_901i "901i. Since we last spoke, did you get medicine for your emotions, nerves, depression, or mental health?"
 label variable m3_901j "901j. Since we last spoke, did you get medicine for hypertension?"
@@ -5114,9 +5415,9 @@ label variable m3_902f_baby3 "902f. Since they were born, did the third baby get
 label variable m3_902g_baby1 "902g. Since they were born, did the first baby get medicine to prevent pneumonia?"
 label variable m3_902g_baby2 "902g. Since they were born, did the second baby get medicine to prevent pneumonia?"
 label variable m3_902g_baby3 "902g. Since they were born, did the third baby get medicine to prevent pneumonia?"
-label variable m3_902h_baby1 "902h. Since they were born, did the first baby get medicine for malaria [endemic areas]?"
-label variable m3_902h_baby2 "902h. Since they were born, did the second baby get medicine for malaria [endemic areas]?"
-label variable m3_902h_baby3 "902h. Since they were born, did the third baby get medicine for malaria [endemic areas]?"
+label variable m3_902h_baby1 "902h. Since they were born, did the first baby get medicine for malaria?"
+label variable m3_902h_baby2 "902h. Since they were born, did the second baby get medicine for malaria?"
+label variable m3_902h_baby3 "902h. Since they were born, did the third baby get medicine for malaria?"
 label variable m3_902i_baby1 "902i. Since they were born, did the first baby get medicine for HIV (HIV+ mothers only)?"
 label variable m3_902i_baby2 "902i. Since they were born, did the second baby get medicine for HIV (HIV+ mothers only)?"
 label variable m3_902i_baby3 "902i. Since they were born, did the third baby get medicine for HIV (HIV+ mothers only)?"
@@ -5209,30 +5510,30 @@ label variable m4_baby3_status "201. I would like to start by asking some questi
 label variable m4_baby1_health "202. In general, how would you rate 1st baby's overall health?"
 label variable m4_baby2_health "202. In general, how would you rate 2nd baby's overall health?"
 label variable m4_baby3_health "202. In general, how would you rate 3rd baby's overall health?"
-label variable m4_baby1_feed_a "203. People feed their babies in different ways. Please indicate how you have fed 1st baby in the last 7 days? Indicate all that apply - BREAST MILK"
-label variable m4_baby1_feed_b "203. People feed their babies in different ways. Please indicate how you have fed 1st baby in the last 7 days? Indicate all that apply - FORMULA"
-label variable m4_baby1_feed_c "203. People feed their babies in different ways. Please indicate how you have fed 1st baby in the last 7 days? Indicate all that apply - WATER"
-label variable m4_baby1_feed_d "203. People feed their babies in different ways. Please indicate how you have fed 1st baby in the last 7 days? Indicate all that apply - JUICE"
-label variable m4_baby1_feed_e "203. People feed their babies in different ways. Please indicate how you have fed 1st baby in the last 7 days? Indicate all that apply - BROTH"
-label variable m4_baby1_feed_f "203. People feed their babies in different ways. Please indicate how you have fed 1st baby in the last 7 days? Indicate all that apply - BABY FOOD"
-label variable m4_baby1_feed_g "203. People feed their babies in different ways. Please indicate how you have fed 1st baby in the last 7 days? Indicate all that apply - LOCAL FOOD"
+label variable m4_baby1_feed_a "203. People feed their babies in different ways. Please indicate how you have fed 1st baby in the last 7 days? - BREAST MILK"
+label variable m4_baby1_feed_b "203. People feed their babies in different ways. Please indicate how you have fed 1st baby in the last 7 days? - FORMULA"
+label variable m4_baby1_feed_c "203. People feed their babies in different ways. Please indicate how you have fed 1st baby in the last 7 days? - WATER"
+label variable m4_baby1_feed_d "203. People feed their babies in different ways. Please indicate how you have fed 1st baby in the last 7 days? - JUICE"
+label variable m4_baby1_feed_e "203. People feed their babies in different ways. Please indicate how you have fed 1st baby in the last 7 days? - BROTH"
+label variable m4_baby1_feed_f "203. People feed their babies in different ways. Please indicate how you have fed 1st baby in the last 7 days? - BABY FOOD"
+label variable m4_baby1_feed_g "203. People feed their babies in different ways. Please indicate how you have fed 1st baby in the last 7 days? - LOCAL FOOD"
 
 
-label variable m4_baby2_feed_a "203. People feed their babies in different ways. Please indicate how you have fed 2nd baby in the last 7 days? Indicate all that apply - BREAST MILK"
-label variable m4_baby2_feed_b "203. People feed their babies in different ways. Please indicate how you have fed 2nd baby in the last 7 days? Indicate all that apply - FORMULA"
-label variable m4_baby2_feed_c "203. People feed their babies in different ways. Please indicate how you have fed 2nd baby in the last 7 days? Indicate all that apply - WATER"
-label variable m4_baby2_feed_d "203. People feed their babies in different ways. Please indicate how you have fed 2nd baby in the last 7 days? Indicate all that apply - JUICE"
-label variable m4_baby2_feed_e "203. People feed their babies in different ways. Please indicate how you have fed 2nd baby in the last 7 days? Indicate all that apply - BROTH"
-label variable m4_baby2_feed_f "203. People feed their babies in different ways. Please indicate how you have fed 2nd baby in the last 7 days? Indicate all that apply - BABY FOOD"
-label variable m4_baby2_feed_g "203. People feed their babies in different ways. Please indicate how you have fed 2nd baby in the last 7 days? Indicate all that apply - LOCAL FOOD"
+label variable m4_baby2_feed_a "203. People feed their babies in different ways. Please indicate how you have fed 2nd baby in the last 7 days? - BREAST MILK"
+label variable m4_baby2_feed_b "203. People feed their babies in different ways. Please indicate how you have fed 2nd baby in the last 7 days? - FORMULA"
+label variable m4_baby2_feed_c "203. People feed their babies in different ways. Please indicate how you have fed 2nd baby in the last 7 days? - WATER"
+label variable m4_baby2_feed_d "203. People feed their babies in different ways. Please indicate how you have fed 2nd baby in the last 7 days? - JUICE"
+label variable m4_baby2_feed_e "203. People feed their babies in different ways. Please indicate how you have fed 2nd baby in the last 7 days? - BROTH"
+label variable m4_baby2_feed_f "203. People feed their babies in different ways. Please indicate how you have fed 2nd baby in the last 7 days? - BABY FOOD"
+label variable m4_baby2_feed_g "203. People feed their babies in different ways. Please indicate how you have fed 2nd baby in the last 7 days? - LOCAL FOOD"
 
-label variable m4_baby3_feed_a "203. People feed their babies in different ways. Please indicate how you have fed 3rd baby in the last 7 days? Indicate all that apply - BREAST MILK"
-label variable m4_baby3_feed_b "203. People feed their babies in different ways. Please indicate how you have fed 3rd baby in the last 7 days? Indicate all that apply - FORMULA"
-label variable m4_baby3_feed_c "203. People feed their babies in different ways. Please indicate how you have fed 3rd baby in the last 7 days? Indicate all that apply - WATER"
-label variable m4_baby3_feed_d "203. People feed their babies in different ways. Please indicate how you have fed 3rd baby in the last 7 days? Indicate all that apply - JUICE"
-label variable m4_baby3_feed_e "203. People feed their babies in different ways. Please indicate how you have fed 3rd baby in the last 7 days? Indicate all that apply - BROTH"
-label variable m4_baby3_feed_f "203. People feed their babies in different ways. Please indicate how you have fed 3rd baby in the last 7 days? Indicate all that apply - BABY FOOD"
-label variable m4_baby3_feed_g "203. People feed their babies in different ways. Please indicate how you have fed 3rd baby in the last 7 days? Indicate all that apply - LOCAL FOOD"
+label variable m4_baby3_feed_a "203. People feed their babies in different ways. Please indicate how you have fed 3rd baby in the last 7 days? - BREAST MILK"
+label variable m4_baby3_feed_b "203. People feed their babies in different ways. Please indicate how you have fed 3rd baby in the last 7 days? - FORMULA"
+label variable m4_baby3_feed_c "203. People feed their babies in different ways. Please indicate how you have fed 3rd baby in the last 7 days? - WATER"
+label variable m4_baby3_feed_d "203. People feed their babies in different ways. Please indicate how you have fed 3rd baby in the last 7 days? - JUICE"
+label variable m4_baby3_feed_e "203. People feed their babies in different ways. Please indicate how you have fed 3rd baby in the last 7 days? - BROTH"
+label variable m4_baby3_feed_f "203. People feed their babies in different ways. Please indicate how you have fed 3rd baby in the last 7 days? - BABY FOOD"
+label variable m4_baby3_feed_g "203. People feed their babies in different ways. Please indicate how you have fed 3rd baby in the last 7 days? - LOCAL FOOD"
 
 label variable m4_203d_et "203. On average how frequently do you breastfeed your baby per day (Ethiopia only)" 
 label variable m4_204a "204. As of today, how confident do you feel about breastfeeding your baby?" 
@@ -5444,93 +5745,93 @@ label variable m4_404c_other_2 "404C-other.2. Specify other facility for the 3rd
 
 label variable m4_405a "405. Was the 1st new consultation for a routine or regular checkup after the delivery?"
 
-label variable m4_405a_1 "406. Was this 1st consultation for any of the following? Please tell me all that apply."
+label variable m4_405a_1 "406. Was this 1st consultation for any of the following?"
 
-label variable m4_405a_2 "406. Was this 1st consultation for any of the following? Please tell me all that apply."
+label variable m4_405a_2 "406. Was this 1st consultation for any of the following?"
 
-label variable m4_405a_3 "406. Was this 1st consultation for any of the following? Please tell me all that apply."
+label variable m4_405a_3 "406. Was this 1st consultation for any of the following?"
 
-label variable m4_405a_4 "406. Was this 1st consultation for any of the following? Please tell me all that apply."
+label variable m4_405a_4 "406. Was this 1st consultation for any of the following?"
 
-label variable m4_405a_5 "406. Was this 1st consultation for any of the following? Please tell me all that apply."
+label variable m4_405a_5 "406. Was this 1st consultation for any of the following?"
 
-label variable m4_405a_6 "406. Was this 1st consultation for any of the following? Please tell me all that apply."
+label variable m4_405a_6 "406. Was this 1st consultation for any of the following?"
 
-label variable m4_405a_7 "406. Was this 1st consultation for any of the following? Please tell me all that apply."
+label variable m4_405a_7 "406. Was this 1st consultation for any of the following?"
 
-label variable m4_405a_8 "406. Was this 1st consultation for any of the following? Please tell me all that apply."
+label variable m4_405a_8 "406. Was this 1st consultation for any of the following?"
 
-label variable m4_405a_9 "406. Was this 1st consultation for any of the following? Please tell me all that apply."
+label variable m4_405a_9 "406. Was this 1st consultation for any of the following?"
 
-label variable m4_405a_10 "406. Was this 1st consultation for any of the following? Please tell me all that apply."
+label variable m4_405a_10 "406. Was this 1st consultation for any of the following?"
 
-label variable m4_405a_96 "406. Was this 1st consultation for any of the following? Please tell me all that apply."
+label variable m4_405a_96 "406. Was this 1st consultation for any of the following?"
 
 label variable m4_405a_other "406-Other.Specify other reasons why the 1st consultation was."
 
 label variable m4_405b "407. Was the 2nd new consultation for a routine or regular checkup after the delivery?"
 
-label variable m4_405b_1 "408. Was this 2nd consultation for any of the following? Please tell me all that apply."
+label variable m4_405b_1 "408. Was this 2nd consultation for any of the following?"
 
-label variable m4_405b_2 "408. Was this 2nd consultation for any of the following? Please tell me all that apply."
+label variable m4_405b_2 "408. Was this 2nd consultation for any of the following?"
 
-label variable m4_405b_3 "408. Was this 2nd consultation for any of the following? Please tell me all that apply."
+label variable m4_405b_3 "408. Was this 2nd consultation for any of the following?"
 
-label variable m4_405b_4 "408. Was this 2nd consultation for any of the following? Please tell me all that apply."
+label variable m4_405b_4 "408. Was this 2nd consultation for any of the following?"
 
-label variable m4_405b_5 "408. Was this 2nd consultation for any of the following? Please tell me all that apply."
+label variable m4_405b_5 "408. Was this 2nd consultation for any of the following?"
 
-label variable m4_405b_6 "408. Was this 2nd consultation for any of the following? Please tell me all that apply."
+label variable m4_405b_6 "408. Was this 2nd consultation for any of the following?"
 
-label variable m4_405b_7 "408. Was this 2nd consultation for any of the following? Please tell me all that apply."
+label variable m4_405b_7 "408. Was this 2nd consultation for any of the following?"
 
-label variable m4_405b_8 "408. Was this 2nd consultation for any of the following? Please tell me all that apply."
+label variable m4_405b_8 "408. Was this 2nd consultation for any of the following?"
 
-label variable m4_405b_9 "408. Was this 2nd consultation for any of the following? Please tell me all that apply."
+label variable m4_405b_9 "408. Was this 2nd consultation for any of the following?"
 
-label variable m4_405b_10 "408. Was this 2nd consultation for any of the following? Please tell me all that apply."
+label variable m4_405b_10 "408. Was this 2nd consultation for any of the following?"
 
-label variable m4_405b_96 "408. Was this 2nd consultation for any of the following? Please tell me all that apply."
+label variable m4_405b_96 "408. Was this 2nd consultation for any of the following?"
 
 label variable m4_405b_other "408-Other. Specify other reason why the 2nd consultation was"
 
 label variable m4_405c "409. Was the 3rd new consultation is for a routine or regular checkup after the delivery?"
 
-label variable m4_405c_1 "410. Was this 3rd consultation for any of the following? Please tell me all that apply."
+label variable m4_405c_1 "410. Was this 3rd consultation for any of the following?"
 
-label variable m4_405c_2 "410. Was this 3rd consultation for any of the following? Please tell me all that apply."
+label variable m4_405c_2 "410. Was this 3rd consultation for any of the following?"
 
-label variable m4_405c_3 "410. Was this 3rd consultation for any of the following? Please tell me all that apply."
+label variable m4_405c_3 "410. Was this 3rd consultation for any of the following?"
 
-label variable m4_405c_4 "410. Was this 3rd consultation for any of the following? Please tell me all that apply."
+label variable m4_405c_4 "410. Was this 3rd consultation for any of the following?"
 
-label variable m4_405c_5 "410. Was this 3rd consultation for any of the following? Please tell me all that apply."
+label variable m4_405c_5 "410. Was this 3rd consultation for any of the following?"
 
-label variable m4_405c_6 "410. Was this 3rd consultation for any of the following? Please tell me all that apply."
+label variable m4_405c_6 "410. Was this 3rd consultation for any of the following?"
 
-label variable m4_405c_7 "410. Was this 3rd consultation for any of the following? Please tell me all that apply."
+label variable m4_405c_7 "410. Was this 3rd consultation for any of the following?"
 
-label variable m4_405c_8 "410. Was this 3rd consultation for any of the following? Please tell me all that apply."
+label variable m4_405c_8 "410. Was this 3rd consultation for any of the following?"
 
-label variable m4_405c_9 "410. Was this 3rd consultation for any of the following? Please tell me all that apply."
+label variable m4_405c_9 "410. Was this 3rd consultation for any of the following?"
 
-label variable m4_405c_10 "410. Was this 3rd consultation for any of the following? Please tell me all that apply."
+label variable m4_405c_10 "410. Was this 3rd consultation for any of the following?"
 
-label variable m4_405c_96 "410. Was this 3rd consultation for any of the following? Please tell me all that apply."
+label variable m4_405c_96 "410. Was this 3rd consultation for any of the following?"
 
 label variable m4_405c_other "510-Other. Specify other reason why the 3rd consultation was"
 
-label variable m4_411a "411A. On what day did the 1st new consultation take place? (D-M-Y) ?"
+label variable m4_411a "411A. On what day did the 1st new consultation take place? (D-M-Y)?"
 
-label variable m4_411b "411B. On what day did the 2nd new consultation take place? (D-M-Y) ?"
+label variable m4_411b "411B. On what day did the 2nd new consultation take place? (D-M-Y)?"
 
-label variable m4_411c "411C. On what day did the 2nd new consultation take place? (D-M-Y) ?"
+label variable m4_411c "411C. On what day did the 2nd new consultation take place? (D-M-Y)?"
 
-label variable m4_412a "412A. Approximately how long days after the delivery did this 1st new visit take place ?"
+label variable m4_412a "412A. Approximately how long days after the delivery did this 1st new visit take place?"
 
-label variable m4_412b "412B. Approximately how long days after the delivery did this 1st new visit take place ?"
+label variable m4_412b "412B. Approximately how long days after the delivery did this 1st new visit take place?"
 
-label variable m4_412c "412C. Approximately how long days after the delivery did this 1st new visit take place ?"
+label variable m4_412c "412C. Approximately how long days after the delivery did this 1st new visit take place?"
 
 label variable m4_413a "413. Are there any reasons that prevented you from receiving postnatal or postpartum care since the delivery? Tell me all reasons, if any, that apply. "
 
@@ -5645,9 +5946,9 @@ label variable m4_baby3_618b "618B.3. What was the result of your 3rd baby's HIV
 
 label variable m4_baby3_618c "618C.3 Was your 3rd baby given medication to prevent HIV/AIDS?"
 
-label variable m4_602a "602A. Since the delivery, did you discuss with a health care provider about how often the baby eats ?"
+label variable m4_602a "602A. Since the delivery, did you discuss with a health care provider about how often the baby eats?"
 
-label variable m4_602b "602B. Since the delivery, did you discuss with a health care provider about what the baby should eat (only breast milk or other foods) ? "
+label variable m4_602b "602B. Since the delivery, did you discuss with a health care provider about what the baby should eat (only breast milk or other foods)? "
 
 label variable m4_602c "602C. Since the delivery, did you discuss with a health care provider about vaccinations for the baby? "
 
@@ -5777,13 +6078,13 @@ label variable m4_baby1_802e "802E_1. Did your 1st baby get Antiseptic ointment?
 label variable m4_baby2_802e "802E_2. Did your 2nd baby get Antiseptic ointment?" 
 label variable m4_baby3_802e "802E_3. Did your 3rd baby get Antiseptic ointment?"
 
-label variable m4_baby1_802f "802F_1. Did your 1st baby get antibiotics ?"
-label variable m4_baby2_802f "802F_2. Did your 2nd baby get antibiotics ?" 
-label variable m4_baby3_802f "802F_3. Did your 3rd baby get antibiotics ?"
+label variable m4_baby1_802f "802F_1. Did your 1st baby get antibiotics?"
+label variable m4_baby2_802f "802F_2. Did your 2nd baby get antibiotics?" 
+label variable m4_baby3_802f "802F_3. Did your 3rd baby get antibiotics?"
 
-label variable m4_baby1_802g "802G_1. Did your 1st baby get medicine to prevent pneumonia ?"
-label variable m4_baby2_802g "802G_2. Did your 2nd baby get medicine to prevent pneumonia ?" 
-label variable m4_baby3_802g "802G_3. Did your 3rd baby get medicine to prevent pneumonia ?"
+label variable m4_baby1_802g "802G_1. Did your 1st baby get medicine to prevent pneumonia?"
+label variable m4_baby2_802g "802G_2. Did your 2nd baby get medicine to prevent pneumonia?" 
+label variable m4_baby3_802g "802G_3. Did your 3rd baby get medicine to prevent pneumonia?"
 
 label variable m4_baby1_802h "802H_1. Did your 1st baby get Medicine for malaria [endemic areas]?"
 label variable m4_baby2_802h "802H_2. Did your 2nd baby get Medicine for malaria [endemic areas]?" 
@@ -5870,6 +6171,467 @@ label variable m4_ot1 "OT1. What is the Outcome of the phone call? Interviewer s
 label variable m4_ot1_oth "Ot1_Oth. Specify."
 label variable m4_complete "Complete?"
 
+
+		** MODULE 5:
+label variable m5_start "IC: May I proceed with the interview? "
+label variable m5_consent "B1: : Permission granted to conduct interview"
+label variable m5_date "102. Date of interview (D-M-Y) "
+label variable m5_starttime "103. Time of interview "
+label variable m5_maternal_death_reported "113. Maternal death reported"
+label variable m5_date_of_maternal_death "114. Date of maternal death "
+label variable m5_maternal_death_learn "115. How did you learn about the maternal death? "
+label variable m5_maternal_death_learn_other "115_Oth. Specify how you heard maternal death "
+label variable m5_baby1_alive "201a. Could you please confirm if your 1st baby is still alive, or died something else happen?"
+label variable m5_baby2_alive "201b. Could you please confirm if your 2nd baby is still alive, or died something else happen?"
+label variable m5_baby3_alive "201c. Could you please confirm if your 3rd baby is still alive, or died something else happen?"
+label variable m5_baby1_health "202a. I am glad to hear this. In general, how would you rate the 1st baby's overall health?"
+label variable m5_baby2_health "202b. I am glad to hear this. In general, how would you rate 2nd baby's overall health?"
+label variable m5_baby3_health "202c. I am glad to hear thisIn general, how would you rate 3rd baby's overall health?"
+label variable m5_baby1_feed_a "203a. People feed their babies in different ways. Please indicate what you have fed your 1st baby in the last 7 days? (choice=Breast milk)"
+label variable m5_baby1_feed_b "203a. People feed their babies in different ways. Please indicate what you have fed your 1st baby in the last 7 days? (choice=Formula)"
+label variable m5_baby1_feed_c "203a. People feed their babies in different ways. Please indicate what you have fed your 1st baby in the last 7 days? (choice=Water)"
+label variable m5_baby1_feed_d "203a. People feed their babies in different ways. Please indicate what you have fed your 1st baby in the last 7 days? (choice=Juice)"
+label variable m5_baby1_feed_e "203a. People feed their babies in different ways. Please indicate what you have fed your 1st baby in the last 7 days? (choice=Broth)"
+label variable m5_baby1_feed_f "203a. People feed their babies in different ways. Please indicate what you have fed your 1st baby in the last 7 days? (choice=Baby food)"
+label variable m5_baby1_feed_h "203a. People feed their babies in different ways. Please indicate what you have fed your 1st baby in the last 7 days? (choice=Milk/soup / Porridge)"
+label variable m5_baby1_feed_99 "203a. People feed their babies in different ways. Please indicate what you have fed your 1st baby in the last 7 days? (choice=NR/RF)"
+label variable m5_baby1_feed_998 "203a. People feed their babies in different ways. Please indicate what you have fed your 1st baby in the last 7 days? (choice=Unknown)"
+label variable m5_baby1_feed_999 "203a. People feed their babies in different ways. Please indicate what you have fed your 1st baby in the last 7 days? (choice=Refuse to answer)"
+label variable m5_baby1_feed_888 "203a. People feed their babies in different ways. Please indicate what you have fed your 1st baby in the last 7 days? (choice=No Information)"
+
+label variable m5_baby2_feed_a "203b. People feed their babies in different ways. Please indicate what you have fed your 2nd baby in the last 7 days? (choice=Breast milk)"
+label variable m5_baby2_feed_b "203b. People feed their babies in different ways. Please indicate what you have fed your 2nd baby in the last 7 days? (choice=Formula)"
+label variable m5_baby2_feed_c "203b. People feed their babies in different ways. Please indicate what you have fed your 2nd baby in the last 7 days? (choice=Water)"
+label variable m5_baby2_feed_d "203b. People feed their babies in different ways. Please indicate what you have fed your 2nd baby in the last 7 days? (choice=Juice)"
+label variable m5_baby2_feed_e "203b. People feed their babies in different ways. Please indicate what you have fed your 2nd baby in the last 7 days? (choice=Broth)"
+label variable m5_baby2_feed_f "203b. People feed their babies in different ways. Please indicate what you have fed your 2nd baby in the last 7 days? (choice=Baby food)"
+label variable m5_baby2_feed_h "203b. People feed their babies in different ways. Please indicate what you have fed your 2nd baby in the last 7 days? (choice=Milk/soup / Porridge)"
+label variable m5_baby2_feed_99 "203b. People feed their babies in different ways. Please indicate what you have fed your 2nd baby in the last 7 days? (choice=NR/RF)"
+label variable m5_baby2_feed_998 "203b. People feed their babies in different ways. Please indicate what you have fed your 2nd baby in the last 7 days? (choice=Unknown)"
+label variable m5_baby2_feed_999 "203b. People feed their babies in different ways. Please indicate what you have fed your 2nd baby in the last 7 days? (choice=Refuse to answer)"
+label variable m5_baby2_feed_888 "203b. People feed their babies in different ways. Please indicate what you have fed your 2nd baby in the last 7 days? (choice=No Information)"
+
+label variable m5_baby3_feed_a "203c. People feed their babies in different ways. Please indicate how you have fed your 3rd baby in the last 7 days? (choice=Breast milk)"
+label variable m5_baby3_feed_b "203c. People feed their babies in different ways. Please indicate how you have fed your 3rd baby in the last 7 days? (choice=Formula)"
+label variable m5_baby3_feed_c "203c. People feed their babies in different ways. Please indicate how you have fed your 3rd baby in the last 7 days? (choice=Water)"
+label variable m5_baby3_feed_d "203c. People feed their babies in different ways. Please indicate how you have fed your 3rd baby in the last 7 days? (choice=Juice)"
+label variable m5_baby3_feed_e "203c. People feed their babies in different ways. Please indicate how you have fed your 3rd baby in the last 7 days? (choice=Broth)"
+label variable m5_baby3_feed_f "203c. People feed their babies in different ways. Please indicate how you have fed your 3rd baby in the last 7 days? (choice=Baby food)"
+label variable m5_baby3_feed_h "203c. People feed their babies in different ways. Please indicate how you have fed your 3rd baby in the last 7 days? (choice=Milk/soup / Porridge)"
+label variable m5_baby3_feed_99 "203c. People feed their babies in different ways. Please indicate how you have fed your 3rd baby in the last 7 days? (choice=NR/RF)"
+label variable m5_baby3_feed_998 "203c. People feed their babies in different ways. Please indicate how you have fed your 3rd baby in the last 7 days? (choice=Unknown)"
+label variable m5_baby3_feed_999 "203c. People feed their babies in different ways. Please indicate how you have fed your 3rd baby in the last 7 days? (choice=Refuse to answer)"
+label variable m5_baby3_feed_888 "203c. People feed their babies in different ways. Please indicate how you have fed your 3rd baby in the last 7 days? (choice=No Information)"
+
+label variable m5_feed_freq_et "Eth-1-2. How frequently in average do you feed your baby/babies per day?"
+label variable m5_feed_freq_et_unk "Eth-1-2_unk. If the number of feeding is not known enter (98)"
+label variable m5_breastfeeding "204. As of today, how confident do you feel about breastfeeding your baby/babies?"
+label variable m5_baby1_sleep "205a.1. Regarding sleep, which response best describes your 1st baby today?"
+label variable m5_baby2_sleep "205a.2. Regarding sleep, which response best describes your 2rd baby  today?"
+label variable m5_baby3_sleep "205a.3. Regarding sleep, which response best describes your 3rd baby today?"
+label variable m5_baby1_feed "205b.1. Regarding feeding, which response best describes your 1st baby today?"
+label variable m5_baby2_feed "205b.2. Regarding feeding, which response best describes your 2nd baby today?"
+label variable m5_baby3_feed "205b.3. Regarding feeding, which response best describes your 3rd baby today?"
+label variable m5_baby1_breath "205c.1. Regarding breathing, which response best describes your 1st baby today? "
+label variable m5_baby2_breath "205c.2. Regarding breathing, which response best describes your 2nd baby today?"
+label variable m5_baby3_breath "205c.3. Regarding breathing, which response best describes your 3rd baby today?"
+label variable m5_baby1_stool "205d.1. Regarding stooling/poo, which response best describes your 1st baby today?"
+label variable m5_baby2_stool "205d.2. Regarding stooling/poo, which response best describes your 2nd baby  today?"
+label variable m5_baby3_stool "205d.3. Regarding stooling/poo, which response best describes your 3rd baby today?"
+label variable m5_baby1_mood "205e.1. Regarding their mood, which response best describes your 1st baby today?"
+label variable m5_baby2_mood "205e.2.Regarding their mood, which response best describes your 2nd baby  today?"
+label variable m5_baby3_mood "205e.3. Regarding their mood, which response best describes your 3rd baby today?"
+label variable m5_baby1_skin "205f.1. Regarding their skin, which response best describes your 1st baby today?"
+label variable m5_baby2_skin "205f.2.Regarding their skin, which response best describes your 2nd baby  today?"
+label variable m5_baby3_skin "205f.3. Regarding their skin, which response best describes your 3rd baby today?"
+label variable m5_baby1_interactivity "205g.1. Regarding interactivity, which response best describes your 1st baby today?"
+label variable m5_baby2_interactivity "205g.2. Regarding interactivity, which response best describes your 2nd baby  today?"
+label variable m5_baby3_interactivity "205g.3. Regarding interactivity, which response best describes your 3rd baby today?"
+label variable m5_baby1_issue_a "206a.1. Did your 1st baby experience Diarrhea with blood in the stools since you last spoke to us, or not?"
+label variable m5_baby2_issue_a "206a.2. Did your 2nd baby  experience Diarrhea with blood in the stools since you last spoke to us, or not?"
+label variable m5_baby3_issue_a "206a.3. Did your 3rd baby experience Diarrhea with blood in the stools since you last spoke to us, or not?"
+label variable m5_baby1_issue_b "206b.1. Did your 1st baby experience A fever (a temperature > 37.5 C) since you last spoke to us, or not?"
+label variable m5_baby2_issue_b "206b.2. Did your 2nd baby  experience A fever (a temperature > 37.5 C) since you last spoke to us, or not?"
+label variable m5_baby3_issue_b "206b.3. Did your 3rd baby experience A fever (a temperature > 37.5 C) since you last spoke to us, or not?"
+label variable m5_baby1_issue_c "206c.1. Did your 1st baby experience A low temperature (< 35.5 C) since you last spoke to us, or not?"
+label variable m5_baby2_issue_c "206c.2. Did your 2nd baby  experience A low temperature (< 35.5 C) since you last spoke to us, or not?"
+label variable m5_baby3_issue_c "206c.3. Did your 3rd baby experience a low temperature (a temperature < 35.5 C) since you last spoke to us, or not?"
+label variable m5_baby1_issue_d "206d.1. Did your 1st baby experience an illness with a cough since you last spoke to us, or not?"
+label variable m5_baby2_issue_d "206d.2. Did your 2nd baby  experience an illness with a cough since you last spoke to us, or not?"
+label variable m5_baby3_issue_d "206d.3. Did your 3rd baby experience an illness with a cough since you last spoke to us, or not?"
+label variable m5_baby1_issue_e "206e.1. Did your 1st baby experience Trouble breathing or very fast breathing with short rapid breaths since you last spoke to us, or not?"
+label variable m5_baby2_issue_e "206e.2. Did your 2nd baby  experience Trouble breathing or very fast breathing with short rapid breaths since you last spoke to us, or not?"
+label variable m5_baby3_issue_e "206e.3. Did your 3rd baby experience Trouble breathing or very fast breathing with short rapid breaths since you last spoke to us, or not?"
+label variable m5_baby1_issue_f "206f.1. Did your 1st baby experience a problem in the chest since you last spoke to us, or not?"
+label variable m5_baby2_issue_f "206f.2. Did your 2nd baby  experience a problem in the chest since you last spoke to us, or not?"
+label variable m5_baby3_issue_f "206f.3. Did your 3rd baby experience a problem in the chest since you last spoke to us, or not?"
+label variable m5_baby1_issue_g "206g.1. Did your 1st baby experience trouble feeding since you last spoke to us, or not?"
+label variable m5_baby2_issue_g "206g.2. Did your 2nd baby  experience trouble feeding since you last spoke to us, or not?"
+label variable m5_baby3_issue_g "206g.3. Did your 3rd baby experience trouble feeding since you last spoke to us, or not?"
+label variable m5_baby1_issue_h "206h.1. Did your 1st baby experience convulsions since you last spoke to us, or not?"
+label variable m5_baby2_issue_h "206h.2. Did your 2nd baby  experience convulsions since you last spoke to us, or not?"
+label variable m5_baby3_issue_h "206h.3. Did your 3rd baby experience convulsions since you last spoke to us, or not?"
+label variable m5_baby1_issue_i "206i.1. Did your 1st baby experience Jaundice (that is, yellow colour of the skin) since you last spoke to us, or not?"
+label variable m5_baby2_issue_i "206i.2. Did your 2nd baby  experience Jaundice (that is, yellow colour of the skin) since you last spoke to us, or not?"
+label variable m5_baby3_issue_i "206i.3. Did your 3rd baby experience Jaundice (that is, yellow colour of the skin) since you last spoke to us, or not?"
+label variable m5_baby1_issue_j "206j.1. Did your 1st baby experience yellow palms or soles since you last spoke to us, or not?"
+label variable m5_baby2_issue_j "206j.2. Did your 2nd baby  experience yellow palms or soles since you last spoke to us, or not?"
+label variable m5_baby3_issue_j "206j.3. Did your 3rd baby experience yellow palms or soles since you last spoke to us, or not?"
+label variable m5_baby1_issue_k "206k.1. Did your 1st baby experience Lethargic/ unconscious since you last spoke to us, or not?"
+label variable m5_baby2_issue_k "206.k.2. Did your 2nd baby experience Lethargic/ unconscious since you last spoke to us, or not?"
+label variable m5_baby3_issue_k "206.k.3. Did your 3rd baby experience Lethargic/ unconscious since you last spoke to us, or not?"
+label variable m5_baby1_issue_l "206.I.1. Did your 1st baby experience Bulged fontanels since you last spoke to us, or not?"
+label variable m5_baby2_issue_l "206.I.2. Did your 2nd baby experience Bulged fontanels since you last spoke to us, or not?"
+label variable m5_baby3_issue_l "206.I.3. Did your 3rd baby experience Bulged fontanels since you last spoke to us, or not?"
+label variable m5_baby1_issue_oth "207a.1. Did your 1st baby experience any other health problems since you last spoke to us?"
+label variable m5_baby1_issue_oth_text "Oth-207a.1. Specify any other problem on your 1st baby"
+label variable m5_baby2_issue_oth "207a.2 Did your 2nd baby  experience any other health problems since you last spoke to us?"
+label variable m5_baby2_issue_oth_text "Oth-207a.2. Specify any other problem on your 2nd baby"
+label variable m5_baby3_issue_oth "207a.3 Did your 3rd baby  experience any other health problems since you last spoke to us?"
+label variable m5_baby3_issue_oth_text "Oth-207a.3. Specify any other problem on your 3rd baby"
+label variable m5_baby1_death "208a.1.  Do you know when your 1st baby died?"
+label variable m5_baby1_death_date "Oth-208a.1. On what date did your 1st baby died? (D-M-Y)"
+label variable m5_baby2_death "208a.2. Do you know when your 1st baby died?"
+label variable m5_baby2_death_date "Oth-208a.2. On what date did your 2nd baby died?"
+label variable m5_baby3_death "208a.3. Do you know when your 3rd baby died?"
+label variable m5_baby3_death_date "Oth-208a.3. On what date did your 3rd baby died? (D-M-Y)"
+label variable m5_baby1_death_age "209a. Exactly how many  days old was your 1st baby when he/she died?"
+label variable m5_baby2_death_age "209b. Exactly how many  days old was your 2nd baby when he/she died?"
+label variable m5_baby3_death_age "209c. Exactly how many days old was your 3rd baby when he/she died?"
+label variable m5_baby1_death_cause "210a. What were you told was the cause of death of your 1st baby?"
+label variable m5_baby1_deathcause_other "Oth-210a. What other causes you told was the cause of death of your 1st baby death?"
+label variable m5_baby2_death_cause "210b. What were you told was the cause of death of your 2nd baby"
+label variable m5_baby2_deathcause_other "Oth-210b. What other causes you told was the cause of death of your 2nd baby death"
+label variable m5_baby3_death_cause "210c. What were you told was the cause of death of your 3rd baby?"
+label variable m5_baby3_deathcause_other "Oth-210c. What other causes you told was the cause of death of your 3rd baby death?"
+label variable m5_baby1_advice "211a. Before your 1st baby died, did you seek advice or treatment for the illness from any source?"
+label variable m5_baby2_advice "211b. Before your 2nd baby died, did you seek advice or treatment for the illness from any source? "
+label variable m5_baby3_advice "211c. Before your 3rd baby died, did you seek advice or treatment for the illness from any source?"
+label variable m5_baby1_deathloc "212a. Where did your 1st baby die?"
+label variable m5_baby2_deathloc "212b. Where did your 2nd baby die?"
+label variable m5_baby3_deathloc "212c. Where did your 3rd baby die?"
+label variable m5_health "301. In general, how would you rate your overall health? "
+label variable m5_health_a "302a. I am going to read three statements about your mobility, by which I mean your ability to walk around"
+label variable m5_health_b "302b. I am now going to read three statements regarding your ability to self-care, by which I mean whether you can wash and dress yourself without assistance"
+label variable m5_health_c "302c. I am going to read three statements regarding your ability to perform your usual daily activities, by which I mean your ability to work, take care of your family or perform leisure activities"
+label variable m5_health_d "302d. I am going to read three statements regarding your experience with physical pain or discomfort"
+label variable m5_health_e "302e. I am going to read three statements regarding your experience with anxiety or depression"
+label variable m5_depression_a "303a. Over the past 2 weeks, on how many days have you been bothered by little interest or pleasure in doing things?"
+label variable m5_depression_b "303b. Over the past 2 weeks, on how many days have you been bothered by feeling down, depressed, or hopeless?"
+label variable m5_depression_c "303c. Over the past 2 weeks, on how many days have you been bothered Trouble falling or staying asleep, or sleeping too much?"
+label variable m5_depression_d "303d. Over the past 2 weeks, on how many days have you been bothered Feeling tired or having little energy?"
+label variable m5_depression_e "303e. Over the past 2 weeks, on how many days have you been bothered Poor appetite or overeating?"
+label variable m5_depression_f "303f. Over the past 2 weeks, on how many days have you been bothered Feeling bad about yourself - or that you are a failure or have let yourself or your family down?"
+label variable m5_depression_g "303g. Over the past 2 weeks, on how many days have you been bothered Trouble concentrating on things, such as your work or home duties?"
+label variable m5_depression_h "303h. Over the past 2 weeks, on how many days have you been bothered Moving or speaking so slowly that other people could have noticed? Or so fidgety or restless that you have been moving a lot more than usual?"
+label variable m5_depression_i "303i, Over the past 2 weeks, on how many days have you been bothered Thoughts that you would be better off dead, or thoughts of hurting yourself in some way? "
+label variable m5_affecthealth_scale  "304. During the past seven days, how much did any health problems affect your productivity while you were working?"
+label variable m5_feeling_a "305a. Please tell me what best describes how have felt about your baby loving"
+label variable m5_feeling_b "305b. Please tell me what best describes how have felt about your baby resentful"
+label variable m5_feeling_c "305c. Please tell me what best describes how have felt about your baby neutral or felt nothing"
+label variable m5_feeling_d "305d. Please tell me what best describes how have felt about your baby Joyful"
+label variable m5_feeling_e "305e. Please tell me what best describes how have felt about your baby Dislike"
+label variable m5_feeling_f "305f. Please tell me what best describes how have felt about your baby Protective"
+label variable m5_feeling_g "305g. Please tell me what best describes how have felt about your baby Disappointed"
+label variable m5_feeling_h "305h. Please tell me what best describes how have felt about your baby aggressive?  "
+label variable m5_pain "306. In the past 30 days, how much has pain affected your satisfaction with your sex life?"
+label variable m5_leakage "307. Since you gave birth to your baby, have you experienced a constant leakage of urine or stool from your vagina during the day and night?"
+label variable m5_leakage_when "308. How many days after giving birth did these symptoms start?"
+label variable m5_leakage_affect "309. How much does this problem alter your lifestyle or daily activities?"
+label variable m5_leakage_tx "310. Have you sought treatment for this condition?"
+label variable m5_leakage_notx_reason_0 "311. Why have you not sought treatment? (choice=Do not know it can be fixed)"
+label variable m5_leakage_notx_reason_1 "311. Why have you not sought treatment? (choice=You tried but were sent away)"
+label variable m5_leakage_notx_reason_2 "311. Why have you not sought treatment? (choice=High cost)"
+label variable m5_leakage_notx_reason_3 "311. Why have you not sought treatment? (choice=Far distance)"
+label variable m5_leakage_notx_reason_4 "311. Why have you not sought treatment? (choice=Poor healthcare provider skills)"
+label variable m5_leakage_notx_reason_5 "311. Why have you not sought treatment? (choice=Staff dont show respect)"
+label variable m5_leakage_notx_reason_6 "311. Why have you not sought treatment? (choice=Medicines or equipment are not available)"
+label variable m5_leakage_notx_reason_7 "311. Why have you not sought treatment? (choice=COVID-19 fear)"
+label variable m5_leakage_notx_reason_8 "311. Why have you not sought treatment? (choice=Dont know where to go/too complicated)"
+label variable m5_leakage_notx_reason_9 "311. Why have you not sought treatment? (choice=Could not get permission)"
+label variable m5_leakage_notx_reason_10 "311. Why have you not sought treatment? (choice=Embarrassment)"
+label variable m5_leakage_notx_reason_11 "311. Why have you not sought treatment? (choice=Problem disappeared)"
+label variable m5_leakage_notx_reason_96 "311. Why have you not sought treatment? (choice=Other (specify))"
+label variable m5_leakage_notx_reason_99 "311. Why have you not sought treatment? (choice=NR/RF)"
+label variable m5_leakage_notx_reason_998 "311. Why have you not sought treatment? (choice=Unknown)"
+label variable m5_leakage_notx_reason_999 "311. Why have you not sought treatment? (choice=Refuse to answer)"
+label variable m5_leakage_notx_reason_888 "311. Why have you not sought treatment? (choice=No Information)"
+label variable m5_leakage_notx_reason_oth "Oth-311. Other reason, specify"
+label variable m5_leakage_txeffect "312.  Did the treatment stop the problem?"
+label variable m5_401 "401. Now I would like to hear your thoughts about the healthcare system in your country as a whole.  How would you rate the overall quality of medical care in Ethiopia?"
+label variable m5_402 "402. Which of the following statements comes closest to expressing your overall view of the health care system in your country?"
+label variable m5_403 "403. How confident are you that if you became very sick tomorrow, you would receive good quality healthcare from the health system?"
+label variable m5_404 "404. How confident are you that you would be able to afford the healthcare you needed if you became very sick?"
+label variable m5_405a "405a. When you think about your health, how confident Very confident are you that, You are the person who is responsible  for managing your overall health?"
+label variable m5_405b "405b. When you think about your health, how confident  are you that, you can tell a healthcare provider concerns you have even when he or she does not ask?"
+label variable m5_406a "406a. Since your first antenatal care visit for this pregnancy, please tell me if the following events have happened to you personally?  You thought a medical mistake was made in your treatment or care"
+label variable m5_406b "406b. You were treated unfairly or discriminated against by a doctor, nurse, or another healthcare provider"
+label variable m5_501a "501a. Since we last spoke, did you or your baby/babies have any new health care consultations?"
+label variable m5_501b "501b. Since we last spoke, did you have any new health care consultations?"
+label variable m5_502 "502. Since we last spoke, how many new healthcare consultations did you have?"
+label variable m5_503_1 "503a. Where did this new 1st healthcare consultation for yourself or for your baby/babies take place?)"
+label variable m5_503_2 "503b. Where did this new 2nd healthcare consultation for yourself or for your baby/babies take place?"
+label variable m5_503_3 "503c. Where did this new 3rd healthcare consultation for yourself or for your baby/babies take place?"
+label variable m5_504a_1 "504a. What is the name of the facility where the 1st new health care consultation took place?"
+label variable m5_504a_other_a_1 "Oth-504a.1. Specify Other facility in East Shewa or Adama"
+label variable m5_504a_other_b_1 "Oth-504a.1.1. Specify Other facility outside of East Shewa or Adama "
+label variable m5_504a_2 "504b. What is the name of the facility where the 2nd new health care consultation took place?"
+label variable m5_504a_3 "504c. What is the name of the facility where the 3rd new health care consultation took place?"
+label variable m5_505_1 "505. Was the 1st new consultation is for a routine or regular checkup after the delivery?"
+label variable m5_consultation1_a "506. Was this 1st new consultation for any of the following? (choice=A new health problem for the baby, including an emergency or an injury)"
+label variable m5_consultation1_b "506. Was this 1st new consultation for any of the following? (choice=A new health problem for yourself, including an emergency or an injury)"
+label variable m5_consultation1_c "506. Was this 1st new consultation for any of the following? (choice=An existing health problem for the baby)"
+label variable m5_consultation1_d "506. Was this 1st new consultation for any of the following? (choice=An existing health problem for yourself)"
+label variable m5_consultation1_e "506. Was this 1st new consultation for any of the following? (choice=A lab test, x-ray, or ultrasound for yourself)"
+label variable m5_consultation1_f "506. Was this 1st new consultation for any of the following? (choice=A lab test, x-ray, or ultrasound for the baby)"
+label variable m5_consultation1_g "506. Was this 1st new consultation for any of the following? (choice=Getting a vaccine for the baby)"
+label variable m5_consultation1_h "506. Was this 1st new consultation for any of the following? (choice=Getting a vaccine for yourself)"
+label variable m5_consultation1_i "506. Was this 1st new consultation for any of the following? (choice=To get medicine for yourself)"
+label variable m5_consultation1_j "506. Was this 1st new consultation for any of the following? (choice=To get medicine for the baby)"
+label variable m5_consultation1_oth "506. Was this 1st new consultation for any of the following? (choice=Other)"
+label variable m5_consultation1_98 "506. Was this 1st new consultation for any of the following? (choice=DK)"
+label variable m5_consultation1_99 "506. Was this 1st new consultation for any of the following? (choice=NR/RF)"
+label variable m5_consultation1_998 "506. Was this 1st new consultation for any of the following? (choice=Unknown)"
+label variable m5_consultation1_999 "506. Was this 1st new consultation for any of the following? (choice=Refuse to answer)"
+label variable m5_consultation1_888 "506. Was this 1st new consultation for any of the following? (choice=No Information)"
+label variable m5_consultation1_oth_text "506-Other.Specify other reasons why the 1st consultation was"
+label variable m5_505_2 "507. Was the 2nd new consultation is for a routine or regular checkup after the delivery?"
+label variable m5_consultation2_a "508. Was this consultation for any of the following? (choice=A new health problem for the baby, including an emergency or an injury)"
+label variable m5_consultation2_b "508. Was this consultation for any of the following? (choice=A new health problem for yourself, including an emergency or an injury)"
+label variable m5_consultation2_c "508. Was this consultation for any of the following? (choice=An existing health problem for the baby)"
+label variable m5_consultation2_d "508. Was this consultation for any of the following? (choice=An existing health problem for yourself)"
+label variable m5_consultation2_e "508.  Was this consultation for any of the following? (choice=A lab test, x-ray, or ultrasound for yourself)"
+label variable m5_consultation2_f "508.  Was this consultation for any of the following? (choice=A lab test, x-ray, or ultrasound for the baby)"
+label variable m5_consultation2_g "508.  Was this consultation for any of the following? (choice=Getting a vaccine for the baby)"
+label variable m5_consultation2_h "508.  Was this consultation for any of the following? (choice=Getting a vaccine for yourself)"
+label variable m5_consultation2_i "508.  Was this consultation for any of the following? (choice=To get medicine for yourself)"
+label variable m5_consultation2_j "508.  Was this consultation for any of the following? (choice=To get medicine for the baby)"
+label variable m5_consultation2_oth "508.  Was this consultation for any of the following? (choice=Other)"
+label variable m5_consultation2_98 "508.  Was this consultation for any of the following? (choice=DK)"
+label variable m5_consultation2_99 "508.  Was this consultation for any of the following? (choice=NR/RF)"
+label variable m5_consultation2_998 "508.  Was this consultation for any of the following? (choice=Unknown)"
+label variable m5_consultation2_999 "508.  Was this consultation for any of the following? (choice=Refuse to answer)"
+label variable m5_consultation2_888 "508.  Was this consultation for any of the following? (choice=No Information)"
+label variable m5_consultation2_oth_text "Oth-508. For any other service, specify it"
+label variable m5_505_3 "509.   Was the 3rd new consultation is for a routine or regular checkup after the delivery?"
+label variable m5_consultation3_a "510. Was this consultation for any of the following? (choice=A new health problem for the baby, including an emergency or an injury)"
+label variable m5_consultation3_b "510. Was this consultation for any of the following? (choice=A new health problem for yourself, including an emergency or an injury)"
+label variable m5_consultation3_c "510. Was this consultation for any of the following? (choice=An existing health problem for the baby)"
+label variable m5_consultation3_d "510. Was this consultation for any of the following? (choice=An existing health problem for yourself)"
+label variable m5_consultation3_e "510. Was this consultation for any of the following? (choice=A lab test, x-ray, or ultrasound for yourself)"
+label variable m5_consultation3_f "510. Was this consultation for any of the following? (choice=A lab test, x-ray, or ultrasound for the baby)"
+label variable m5_consultation3_g "510. Was this consultation for any of the following? (choice=Getting a vaccine for the baby)"
+label variable m5_consultation3_h "510. Was this consultation for any of the following? (choice=Getting a vaccine for yourself)"
+label variable m5_consultation3_i "510. Was this consultation for any of the following? (choice=To get medicine for yourself)"
+label variable m5_consultation3_j "510. Was this consultation for any of the following? (choice=To get medicine for the baby)"
+label variable m5_consultation3_oth "510. Was this consultation for any of the following? (choice=Other)"
+label variable m5_consultation3_98 "510. Was this consultation for any of the following? (choice=DK)"
+label variable m5_consultation3_99 "510. Was this consultation for any of the following? (choice=NR/RF)"
+label variable q510_m5___998 "510. Was this consultation for any of the following? (choice=Unknown)"
+label variable q510_m5___999 "510. Was this consultation for any of the following? (choice=Refuse to answer)"
+label variable q510_m5___888 "510. Was this consultation for any of the following? (choice=No Information)"
+label variable q510_m5_oth "Oth-510. For any other service, specify it "
+label variable q511_m5___1 "511. Are there any reasons that prevented you from receiving postnatal or postpartum care since we last spoke? (choice=No reason or the baby and I didnt need it)"
+label variable q511_m5___2 "511. Are there any reasons that prevented you from receiving postnatal or postpartum care since we last spoke? (choice=You tried but were sent away (e.g., no appointment available))"
+label variable q511_m5___3 "511. Are there any reasons that prevented you from receiving postnatal or postpartum care since we last spoke? (choice=High cost (e.g., high out of pocket payment, not covered by insurance))"
+label variable q511_m5___4 "511. Are there any reasons that prevented you from receiving postnatal or postpartum care since we last spoke? (choice=Far distance (e.g., too far to walk or drive, transport not readily available)"
+label variable q511_m5___5 "511. Are there any reasons that prevented you from receiving postnatal or postpartum care since we last spoke? (choice=Long waiting time (e.g., long line to access facility, long wait for the provider))"
+label variable q511_m5___6 "511. Are there any reasons that prevented you from receiving postnatal or postpartum care since we last spoke? (choice=Poor healthcare provider skills (e.g., spent too little time with patient, did not conduct a thorough exam))"
+label variable q511_m5___7 "511. Are there any reasons that prevented you from receiving postnatal or postpartum care since we last spoke? (choice=Staff dont show respect (e.g., staff is rude, impolite, dismissive))"
+label variable q511_m5___8 "511. Are there any reasons that prevented you from receiving postnatal or postpartum care since we last spoke? (choice=Medicines or equipment are not available (e.g., medicines regularly out of stock, equipment like X-ray machines broken or unavailable))"
+label variable q511_m5___9 "511. Are there any reasons that prevented you from receiving postnatal or postpartum care since we last spoke? (choice=COVID-19 fear)"
+label variable q511_m5___10 "511. Are there any reasons that prevented you from receiving postnatal or postpartum care since we last spoke? (choice=Dont know where to go/too complicated)"
+label variable q511_m5___11 "511. Are there any reasons that prevented you from receiving postnatal or postpartum care since we last spoke? (choice=Fear of discovering serious problem)"
+label variable q511_m5___96 "511. Are there any reasons that prevented you from receiving postnatal or postpartum care since we last spoke? (choice=Other)"
+label variable q511_m5___98 "511. Are there any reasons that prevented you from receiving postnatal or postpartum care since we last spoke? (choice=DK)"
+label variable q511_m5___99 "511. Are there any reasons that prevented you from receiving postnatal or postpartum care since we last spoke? (choice=NR/RF)"
+label variable q511_m5___998 "511. Are there any reasons that prevented you from receiving postnatal or postpartum care since we last spoke? (choice=Unknown)"
+label variable q511_m5___999 "511. Are there any reasons that prevented you from receiving postnatal or postpartum care since we last spoke? (choice=Refuse to answer)"
+label variable q511_m5___888 "511. Are there any reasons that prevented you from receiving postnatal or postpartum care since we last spoke? (choice=No Information)"
+label variable q511_m5_oth "Oth-512. Specify other reasons that prevented you from receiving postnatal or postpartum care since the delivery "
+label variable q601_m5 "601. Overall, how would you rate the quality of care that you received at the 1st new healthcare consultation facility?"
+label variable q602_m5 "602. Overall, how would you rate the quality of care that you received at the 2nd new healthcare consultation facility?"
+label variable q603_m5 "603. Overall, how would you rate the quality of care that you received at the 3rd new healthcare consultation facility?"
+label variable q701a_m5 "701a. Since we last spoke, did your baby/babies receive their temperature taken (using a thermometer)?"
+label variable q701b_m5 "701b. Since we last spoke, did your baby/babies receive their weight taken (using a scale)?"
+label variable q701c_m5 "701c. Since we last spoke, did your baby/babies receive their length measured (using a measuring tape)?"
+label variable q701d_m5 "701d. Since we last spoke, did your baby/babies receive their eyes examined?"
+label variable q701e_m5 "701e. Since the delivery, did your baby/babies receive their hearing checked?"
+label variable chest_listened_601f_v2 "701f. Since we last spoke, did your baby/babies receive their chest listened to with a stethoscope?"
+label variable q701g_m5 "701g. Since we last spoke, did your baby/babies receive a blood test using a finger prick?"
+label variable q701h_m5 "701h. Since we last spoke, did your baby/babies receive a malaria test?"
+label variable q701i_m5 "701i. Since we last spoke, did your baby/babies receive any other test?"
+label variable q701i_m5_oth "Oth-701i. Specify other test your baby/babies received?"
+label variable q702a_m5 "702a. Since the delivery, did you discuss with a health care provider about how often the baby eats?"
+label variable q702b_m5 "702b. Since  the delivery, did you discuss with a health care provider about what the baby should eat?"
+label variable q702c_m5 "702c. Since the delivery, did you discuss with a health care provider about Vaccinations for the baby?"
+label variable q702d_m5 "702d. Since the delivery, did you discuss with a health care provider about the position the baby should sleep in? "
+label variable q702e_m5 "702e. Since the delivery, did you discuss with a health care provider about danger signs or symptoms you should watch out for in the baby that would mean you should go to a health facility? "
+label variable q702f_m5 "702f.  Since the delivery, did you discuss how you should play and interact with the baby?"
+label variable q702g_m5 "702g. Since the delivery, did you discuss with a health care provider that you should take the baby to the hospital or to see a specialist like a pediatrician or a neonatologist?"
+label variable q703_m5___0 "703.1. What did the health care provider tell you to do regarding these symptoms? (choice=I did not speak about this with a health care provider)"
+label variable q703_m5___1 "703.1. What did the health care provider tell you to do regarding these symptoms? (choice=Provider told you that it was not serious, and there was nothing to be done)"
+label variable q703_m5___2 "703.1. What did the health care provider tell you to do regarding these symptoms? (choice=Provider to monitor the baby and come back if it got worse)"
+label variable q703_m5___3 "703.1. What did the health care provider tell you to do regarding these symptoms? (choice=Provider told you to get medication)"
+label variable q703_m5___4 "703.1. What did the health care provider tell you to do regarding these symptoms? (choice=Provider gave you advice on feeding)"
+label variable q703_m5___5 "703.1. What did the health care provider tell you to do regarding these symptoms? (choice=Provider told you to get a lab test or imaging for the baby (e.g., blood tests, ultrasound, x-ray, heart echo))"
+label variable q703_m5___6 "703.1. What did the health care provider tell you to do regarding these symptoms? (choice=Provider told you to go to hospital or to see a specialist like a pediatrician or neonatologist)"
+label variable q703_m5___96 "703.1. What did the health care provider tell you to do regarding these symptoms? (choice=Other, specify)"
+label variable q703_m5___98 "703.1. What did the health care provider tell you to do regarding these symptoms? (choice=DK)"
+label variable q703_m5___99 "703.1. What did the health care provider tell you to do regarding these symptoms? (choice=NR/RF)"
+label variable q703_m5___998 "703.1. What did the health care provider tell you to do regarding these symptoms? (choice=Unknown)"
+label variable q703_m5___999 "703.1. What did the health care provider tell you to do regarding these symptoms? (choice=Refuse to answer)"
+label variable q703_m5___888 "703.1. What did the health care provider tell you to do regarding these symptoms? (choice=No Information)"
+label variable q703_m5_oth "Oth-703. Specify other thing that your health care provider told you to do "
+label variable q703_2_m5___0 "703.2. What did the health care provider tell you to do regarding these symptoms? (choice=I did not speak about this with a health care provider)"
+label variable q703_2_m5___1 "703.2. What did the health care provider tell you to do regarding these symptoms? (choice=Provider told you that it was not serious, and there was nothing to be done)"
+label variable q703_2_m5___2 "703.2. What did the health care provider tell you to do regarding these symptoms? (choice=Provider to monitor the baby and come back if it got worse)"
+label variable q703_2_m5___3 "703.2. What did the health care provider tell you to do regarding these symptoms? (choice=Provider told you to get medication)"
+label variable q703_2_m5___4 "703.2. What did the health care provider tell you to do regarding these symptoms? (choice=Provider gave you advice on feeding)"
+label variable q703_2_m5___5 "703.2. What did the health care provider tell you to do regarding these symptoms? (choice=Provider told you to get a lab test or imaging for the baby (e.g., blood tests, ultrasound, x-ray, heart echo))"
+label variable q703_2_m5___6 "703.2. What did the health care provider tell you to do regarding these symptoms? (choice=Provider told you to go to hospital or to see a specialist like a pediatrician or neonatologist)"
+label variable q703_2_m5___96 "703.2. What did the health care provider tell you to do regarding these symptoms? (choice=Other, specify)"
+label variable q703_2_m5___98 "703.2. What did the health care provider tell you to do regarding these symptoms? (choice=DK)"
+label variable q703_2_m5___99 "703.2. What did the health care provider tell you to do regarding these symptoms? (choice=NR/RF)"
+label variable q703_2_m5___998 "703.2. What did the health care provider tell you to do regarding these symptoms? (choice=Unknown)"
+label variable q703_2_m5___999 "703.2. What did the health care provider tell you to do regarding these symptoms? (choice=Refuse to answer)"
+label variable q703_2_m5___888 "703.2. What did the health care provider tell you to do regarding these symptoms? (choice=No Information)"
+label variable q703_m5_oth_2 "Oth-703. Specify other thing that your health care provider told you to do "
+label variable q703_3_m5___0 "703.3 What did the health care provider tell you to do regarding these symptoms? (choice=I did not speak about this with a health care provider)"
+label variable q703_3_m5___1 "703.3 What did the health care provider tell you to do regarding these symptoms? (choice=Provider told you that it was not serious, and there was nothing to be done)"
+label variable q703_3_m5___2 "703.3 What did the health care provider tell you to do regarding these symptoms? (choice=Provider to monitor the baby and come back if it got worse)"
+label variable q703_3_m5___3 "703.3 What did the health care provider tell you to do regarding these symptoms? (choice=Provider told you to get medication)"
+label variable q703_3_m5___4 "703.3 What did the health care provider tell you to do regarding these symptoms? (choice=Provider gave you advice on feeding)"
+label variable q703_3_m5___5 "703.3 What did the health care provider tell you to do regarding these symptoms? (choice=Provider told you to get a lab test or imaging for the baby (e.g., blood tests, ultrasound, x-ray, heart echo))"
+label variable q703_3_m5___6 "703.3 What did the health care provider tell you to do regarding these symptoms? (choice=Provider told you to go to hospital or to see a specialist like a pediatrician or neonatologist)"
+label variable q703_3_m5___96 "703.3 What did the health care provider tell you to do regarding these symptoms? (choice=Other, specify)"
+label variable q703_3_m5___98 "703.3 What did the health care provider tell you to do regarding these symptoms? (choice=DK)"
+label variable q703_3_m5___99 "703.3 What did the health care provider tell you to do regarding these symptoms? (choice=NR/RF/)"
+label variable q703_3_m5___998 "703.3 What did the health care provider tell you to do regarding these symptoms? (choice=Unknown)"
+label variable q703_3_m5___999 "703.3 What did the health care provider tell you to do regarding these symptoms? (choice=Refuse to answer)"
+label variable q703_3_m5___888 "703.3 What did the health care provider tell you to do regarding these symptoms? (choice=No Information)"
+label variable q703_m5_oth_3 "Oth-703. Specify other thing that your health care provider told you to do"
+label variable q801a_m5 "801a. Since last you spoke to us, did you get your blood pressure measured (with a cuff around your arm)?"
+label variable q801b_m5 "801b. Since last you spoke to us, did you get your temperature taken (with a thermometer)?"
+label variable q801c_m5 "801c. Since the delivery, did you receive a vaginal exam?"
+label variable q801d_m5 "801d. Since last you spoke to us, did you receive a blood draw?"
+label variable q801e_m5 "801e. Since last you spoke to us, did you receive a blood test using a finger prick?"
+label variable q801f_m5 "801f. Since last you spoke to us, did you receive an HIV test?"
+label variable q801g_m5 "801g. Since last you spoke to us, did you receive a urine test?"
+label variable q801h_m5 "801h. Since last you spoke to us, did you receive any other test or examination?"
+label variable q801h_m5_oth "Oth-801. Since you last spoke to us, specify any other test you received"
+label variable q802_m5 "802. Since we last spoke, did a health care provider examine your c-section scar?"
+label variable q803a_m5 "803a. Since the delivery, did you discuss how to take care of your breasts with a health care provider?"
+label variable q803b_m5 "803b. Since the delivery, did you receive danger signs or symptoms you should watch out for in yourself that would mean you should go to a health facility with a health care provider?"
+label variable q803c_m5 "803c. Since the delivery, did you receive your level of anxiety or depression with a health care provider?"
+label variable q803d_m5 "803d. Since the delivery, did you receive your family planning options after the delivery?"
+label variable q803e_m5 "803e. Since the delivery, did you receive resuming sexual activity after birth?"
+label variable q803f_m5 "803f. Since the delivery, did you receive the importance of exercise or physical activity after giving birth?"
+label variable q803g_m5 "803g. Since the delivery, did you receive the importance of sleeping under a bed net?"
+label variable q804a_m5 "804a. Since we last spoke, did you have a session of psychological counseling or therapy with any type of professional?"
+label variable q804b_m5 "804b. How many of these sessions did you have since we last spoke?"
+label variable q804c_m5 "804c. How many minutes did this/these visit(s) last on average?"
+label variable q901a_m5 "901a. Since we last spoke, did you get Iron or folic acid pills for yourself?"
+label variable q901b_m5 "901b. Since we last spoke, did you get Iron injection for yourself? "
+label variable q901c_m5 "901c. Since we last spoke, did you get Calcium pills for yourself?"
+label variable q901d_m5 "901d. Since we last spoke, did you get Multivitamins for yourself? "
+label variable q901e_m5 "901e. Since we last spoke, did you get Food supplements like Super Cereal or Plumpynut for yourself?"
+label variable q901f_m5 "901f. Since we last spoke, did you get Medicine for intestinal worms for yourself?"
+label variable q901g_m5 "901g. Since we last spoke, did you get Medicine for malaria for yourself?"
+label variable q901h_m5 "901h. Since we last spoke, did you get Medicine for HIV for yourself?"
+label variable q901i_m5 "901i. Since we last spoke, did you get Medicine for your emotions, nerves, depression, or mental health for yourself?"
+label variable q901j_m5 "901j. Since we last spoke, did you get Medicine for hypertension for yourself?"
+label variable q901k_m5 "901k. Since we last spoke, did you get Medicine for diabetes, including injections of insulin for yourself?"
+label variable q901l_m5 "901l. Since we last spoke, did you get Antibiotics for an infection for yourself?"
+label variable q901m_m5 "901m. Since we last spoke, did you get Aspirin for yourself?"
+label variable q901n_m5 "901n. Since we last spoke, did you get Paracetamol or other pain relief drugs for yourself?"
+label variable q901o_m5 "901o. Since we last spoke, did you get Contraceptive pills for yourself?"
+label variable q901p_m5 "901p. Since we last spoke, did you get Contraceptive injection for yourself?"
+label variable q901q_m5 "901q. Since we last spoke, did you get other contraception method for yourself?"
+label variable q901r_m5 "901r. Since we last spoke, did you get antifungal medicine for yourself?"
+label variable q901s_m5 "901s. Since we last spoke, did you get any other medicine or supplement for yourself?"
+label variable q901s_m5_oth "Oth-901s. Specify any other medicine or supplement you got since we last spoke"
+label variable q902a_m5 "902a. Since we last spoke, did your baby/babies get Baby formula?"
+label variable q902b_m5 "902b. Since we last spoke, did your baby/babies get Food supplements like Super Cereal or Plumpy nut?"
+label variable q902c_m5 "902c. Since we last spoke, did your baby/babies get Vitamin A supplements?"
+label variable q902d_m5 "902d. Since we last spoke, did your baby/babies get Vitamin D supplements?"
+label variable q902e_m5 "902e. Since we last spoke, did your baby/babies get Oral rehydration salts?"
+label variable q902f_m5 "902f. Since we last spoke, did your baby/babies get Antiseptic ointment?"
+label variable q902g_m5 "902g. Since we last spoke, did your baby/babies get Antibiotics for an infection?"
+label variable q902h "902h. Since we last spoke, did your baby/babies get Medicine for malaria?"
+label variable q902i_m5 "902i. Since we last spoke, did your baby/babies get Medicine for HIV?"
+label variable q902j_m5 "902j. Since we last spoke, did your baby/babies get any other medicine or supplement?"
+label variable q902j_m5_oth "Oth-902j. Specify another medicine or supplement your baby/babies took"
+label variable q903a_m5 "903a. Since the delivery, did your baby/babies get a vaccine for BCG against tuberculosis?"
+label variable q903b_m5 "903b. Since the delivery, did your baby/babies get a vaccine against polio that is taken either orally, usually two drops in the mouth, or through an injection to prevent polio?"
+label variable q903c_m5 "903c. Since the delivery, did your baby/babies get a pentavalent vaccination"
+label variable q903d_m5 "903d. Since the delivery, did your baby/babies get a pneumococcal vaccination?"
+label variable q903e_m5 "903e. Since the delivery, did your baby/babies get a rotavirus vaccination?"
+label variable q903f_m5 "903f. Since the delivery, did your baby/babies get an injection to protect against polio?"
+label variable q903g_m5 "903g. Since the delivery, did your baby/babies get any other vaccines or immunizations?"
+label variable q903g_m5_oth "Oth-903g. Specify any other vaccines or immunizations your baby/babies taken"
+label variable q904_m5 "904. Where did the baby get these vaccines?"
+label variable in_total_how_much_did_805_v2 "905. In total, how much did you pay for these new medications, supplements and vaccines for yourself or the baby/babies?"
+label variable q1001_m5 "1001. Did you pay any money out of your pocket for these new visits, including for the consultation or other indirect costs like your transport to the facility?"
+label variable q1002a_m5 "1002a. Did you spend on Registration/ Consultation?"
+label variable q1002a_m5_oth "Oth-1002a. How much money did you spend on registration?"
+label variable q1002b_m5 "1002b. Did you spend money on Test or investigations (lab tests, ultrasound etc.)?"
+label variable q1002b_m5_oth "Oth-1002b. How much money did you spend on Test or investigations (lab tests, ultrasound etc.)?"
+label variable q1002c_m5 "1002c. Did you spend money on transport (round trip) including that of the person accompanying you?"
+label variable q1002c_m5_oth "Oth-1002c. How much money did you spend on Transport (round trip) including that of the person accompanying you?"
+label variable q1002d_m5 "1002d. Did you spend money on Food and accommodation including that of person accompanying you?"
+label variable q1002d_m5_oth "Oth-1002d. How much money did you spend on Food and accommodation including that of person accompanying you?"
+label variable q1002e_m5 "1002e. Did you spend money on Other"
+label variable q1002e_m5_oth "Oth-1002e. How much money did you spend on other services?"
+label variable q1003a_m5 "1003a. So, in total you spent ____"
+label variable q1003b_m5 "1003b. Is that correct?"
+label variable q1004_m5 "1004. So how much in total would you say you spent?"
+label variable q1005_m5___1 "1005. Which of the following financial sources did your household use to pay for this? (choice=Current income of any household members)"
+label variable q1005_m5___2 "1005. Which of the following financial sources did your household use to pay for this? (choice=Savings (e.g., bank account))"
+label variable q1005_m5___3 "1005. Which of the following financial sources did your household use to pay for this? (choice=Payment or reimbursement from a health insurance plan)"
+label variable q1005_m5___4 "1005. Which of the following financial sources did your household use to pay for this? (choice=Sold items (e.g., furniture, animals, jewellery, furniture))"
+label variable q1005_m5___5 "1005. Which of the following financial sources did your household use to pay for this? (choice=Family members or friends from outside the household)"
+label variable q1005_m5___6 "1005. Which of the following financial sources did your household use to pay for this? (choice=Borrowed (from someone other than a friend or family))"
+label variable q1005_m5___96 "1005. Which of the following financial sources did your household use to pay for this? (choice=Other (please specify))"
+label variable q1005_m5___998 "1005. Which of the following financial sources did your household use to pay for this? (choice=Unknown)"
+label variable q1005_m5___999 "1005. Which of the following financial sources did your household use to pay for this? (choice=Refuse to answer)"
+label variable q1005_m5___888 "1005. Which of the following financial sources did your household use to pay for this? (choice=No Information)"
+label variable q1005_m5_oth "Oth-1005. Specify other financial source you paid your cost for the services you received"
+label variable q1101_m5 "1101. At any point during this pregnancy and since the delivery, has anyone ever hit, slapped, kicked, or done anything else to hurt you physically?  "
+label variable q1102_m5 "1102. Who did these things to physically hurt you?"
+label variable q1102_m5_oth "Oth-1102. Other (specify)"
+label variable q1103_m5 "1103. At any point during your this most recent pregnancy or since the delivery, has anyone ever said or done something to humiliate you, insulted you or made you feel bad about yourself?"
+label variable q1104_m5 "1104. Who did these things to emotionally hurt you?"
+label variable q1103_m5_oth "Oth-1104. Other (specify)"
+label variable q1105_m5 "1105. During your pregnancy or since the delivery, did a health provider discuss with you where you can seek support for these things?"
+label variable q1201_m5 "1201. Please tell me how satisfied you are with the health services you received throughout your pregnancy and delivery. That is, from the first antenatal care visit until today?"
+label variable m5_1202 "1202. Think about all possible your household total monthly household income. Please give your best estimate and include all sources of income that your household receives per month."
+label variable q1301_m5 "1301. HEIGHT IN CENTIMETERS"
+label variable q1302_m5 "1302. WEIGHT IN KILOGRAMS"
+label variable m5_1302 "1303. Upper arm circumference of the woman."
+label variable time_1_systolic "TIME 1 (Systolic)"
+label variable time_1_diastolic_1301b "TIME 1 (Diastolic)"
+label variable time_1_pulse_rate_per_1301c "TIME 1 (Pulse rate) per minute"
+label variable time_1_systolic_2 "TIME 2 (Systolic)"
+label variable time_1_diastolic_1301b_2 "TIME 2 (Diastolic)"
+label variable time_1_pulse_rate_per_1301c_2 "TIME 2 (Pulse rate) per minute"
+label variable time_1_systolic_3 "TIME 3 (Systolic)"
+label variable time_1_diastolic_1301b_3 "TIME 3 (Diastolic)"
+label variable time_1_pulse_rate_per_1301c_3 "TIME 3 (Pulse rate) per minute"
+label variable q1306_m5 "1306. Anemia test"
+label variable hemoglobin_level_from_1307 "1307. HEMOGLOBIN LEVEL FROM TEST PERFORMED BY DATA COLLECTOR"
+label variable q1401_m5 "1401. Babys weight in kilograms"
+label variable m5_1401_2 "1401.2: Second Babys weight in kilograms"
+label variable q1401_m10 "1401.3: Third Babys weight in kilograms"
+label variable q1402_m5 "1402. Babys length in centimeters"
+label variable q1402_m6 "1402.2: Second Babys length in centimeters"
+label variable q1402_m7 "1402.3: Third Babys length in centimetres"
+label variable q1403_m6 "1403. Babys head circumference in centimeters"
+label variable q1403_m5 "1403.2: Second Babys head circumference in cm"
+label variable q1403_m7 "1403.3: Third Babys head circumference in cm"
+label variable module_5_end_line_fa_v_0 "Complete?"
+
+			
 ***** note (line 5874 to 5947) 
 * lab variables from maternal card (by Wen-Chien on 2024.04.19)	
 lab var mcard_date "Date from maternal card"
