@@ -196,13 +196,14 @@ tabstat anc1qual, by(state) stat(mean sd ) // Sonipat  66.13274 Jodhpur 72.59736
 	egen med_anc1qual =median(anc1qual), by (facility)
 	g facnum = facility
 	
-	graph box anc1qual if site==2, over(facnum, sort(med_anc1qual)) ///
-	yline( 73.3169) saving(NON, replace) asyvars legend(off) scheme(white_tableau) ///
-	ylabel(0(20)100, labsize(small) ) title("Nongoma") ytitle("Antenatal Care Quality Index")
-	graph box anc1qual if site==1, over(facnum, sort(med_anc1qual)) scheme(white_tableau) ///
-	yline(77.93765 ) saving(UM, replace) asyvars legend(off) ///
-	ylabel(0(20)100, labsize(small) ) title("uMhlathuze") ytitle("Antenatal Care Quality Index")
-	graph combine NON.gph UM.gph
+	graph box anc1qual if state==2, over(facnum, sort(med_anc1qual)) ///
+	yline( 73.3169) saving(Jod, replace) asyvars legend(off) scheme(white_tableau) ///
+	ylabel(0(20)100, labsize(small) ) title("Jod") ytitle("Antenatal Care Quality Index")
+	
+	graph box anc1qual if state==1, over(facnum, sort(med_anc1qual)) scheme(white_tableau) ///
+	yline(77.93765 ) saving(Ha, replace) asyvars legend(off) ///
+	ylabel(0(20)100, labsize(small) ) title("Hary") ytitle("Antenatal Care Quality Index")
+	graph combine Jod.gph Ha.gph
 *------------------------------------------------------------------------------*
 * Ethiopia - BY RISK 
 u "$user/$analysis/ETtmp.dta", clear
