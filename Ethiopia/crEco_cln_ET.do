@@ -1459,7 +1459,7 @@ drop m2_drop
 		drop time_between_m1m2 time_between_m1m3
 		
 		order m2_lastdate, after(m2_date)
-		
+	
 		*Extra cleaning from Emma's code:
 		* Recode birth dates with data entry errors
 		gen _m3_birth_or_ended_ = date(m3_birth_or_ended,"YMD")
@@ -1473,6 +1473,12 @@ drop m2_drop
 		replace m3_birth_or_ended = date("2023-12-28", "YMD") if redcap_record_id=="1707-38" // fixed year
 		replace m3_birth_or_ended = . if redcap_record_id=="1686-1" //date of birth was entered as being before the ANC1
 	
+	
+		* Date of LNMP
+		gen _m1_802c_et_ = date(m1_802c_et,"YMD")
+		drop m1_802c_et
+		rename _m1_802c_et_ m1_802c_et
+		format m1_802c_et %td
 		
 *===============================================================================
 	
