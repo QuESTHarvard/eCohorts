@@ -6,7 +6,7 @@
 
 * DERIVED VARIABLES: ETHIOPIA
 
-u "$et_data_final/eco_m1-m4_et_wide.dta", clear
+u "$et_data_final/eco_m1-m5_et_wide.dta", clear
 
 *------------------------------------------------------------------------------*
 * MODULE 1
@@ -322,8 +322,8 @@ u "$et_data_final/eco_m1-m4_et_wide.dta", clear
 	
 	order order m1_phq9_cat-m1_low_BMI, after(m1_trimester)
 	
-save "$et_data_final/eco_m1-m4_et_wide_der.dta", replace
+save "$et_data_final/eco_m1-m5_et_wide_der.dta", replace
 
-	drop m4_*
+	drop m4_* m5_*
 save "$et_data_final/eco_m1-m3_et_wide_der.dta", replace
 	

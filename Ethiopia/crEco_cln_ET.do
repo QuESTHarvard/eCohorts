@@ -78,8 +78,11 @@ drop m2_attempt_avail m2_attempt_bestnumber m2_attempt_contact m2_attempt_date m
 	* MODULE 1:
 	
 	rename record_id redcap_record_id
-	rename (study_id interviewer_id date_of_interview_m1 time_of_interview_m1) ///
-	       (respondentid interviewer_id m1_date m1_start_time)
+	rename (interviewer_id date_of_interview_m1 time_of_interview_m1) ///
+	       (interviewer_id m1_date m1_start_time)
+	
+	tostring(study_id), gen(respondentid)	   
+		   
 	rename study_site_a4 study_site
 	rename other_study_site_a4 study_site_sd
 	rename facility_name_a5 facility
