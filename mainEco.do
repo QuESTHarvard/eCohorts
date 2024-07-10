@@ -24,7 +24,6 @@ macro drop _all
 global user "/Users/shs8688/Dropbox (Harvard University)/SPH-Kruk Team/QuEST Network"
 global user "/Users/catherine.arsenault/Dropbox/SPH Kruk QuEST Network"
 *global user "/Users/neenakapoor/Dropbox (Harvard University)/SPH-Kruk Team/QuEST Network"
-*global user "/Users/katedwright"
 
 ********************************************************************************
 * Setting file path globals for raw data
