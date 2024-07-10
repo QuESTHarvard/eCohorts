@@ -3147,7 +3147,7 @@ recode m3_506a (12784 = .a) // jan 01 1995 = .a?
  
 recode m3_303a (. = .a) if m2_202 !=2
 
-recode m3_birth_or_ended m3_303b (. = .a) if m2_202 !=2 | m2_202 !=3
+recode m3_birth_or_ended m3_303b (. = .a) if m2_202 ==.
 
 recode m3_303c (. 9999998 = .a) if m2_202 !=2 | m2_202 !=3 | m3_303a !=2 | m3_303a !=3
 
