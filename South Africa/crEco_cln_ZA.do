@@ -252,6 +252,10 @@ destring(m1_723), generate(recm1_723)
 
 * Data quality fixes to respondent id naming:
 replace respondentid = "QEE_083" if respondentid == "QEE_O83"
+replace respondentid = "MND_013" if respondentid == "MND-013"
+*replace respondentid = "TOK_081" if respondentid == "TOK_081" // not in M1, ask Londi to review
+*replace respondentid = "NWE_057" if respondentid == "NWE_057" // not in M1, ask Londi to review
+
 
 *===============================================================================
 	
@@ -2436,6 +2440,9 @@ import excel "$za_data/Module 3/Module 3_21Mar2024_clean.xlsx", sheet("MNH-Modul
 drop if MOD3_Permission_Granted !=1 // N=9 dropped
 drop if MOD3_Identification_102 == .
 
+*dropping empty respondentid's with no data:
+drop if CRHID == ""
+
 *------------------------------------------------------------------------------*
 
 *dropping extra vars
@@ -2705,7 +2712,24 @@ rename (MOD3_Econ_OutC_1102F_Total MOD3_Econ_OutC_1104) (m3_1102_total m3_1105)
 rename (MOD3_Econ_OutC_1104_Other MOD3_Econ_OutC_1105) (m3_1105_other m3_1106)
 
 * Data quality:
+*cleaning duplicate pids
+replace respondentid = "MBA_007" if respondentid == "MBA_002" & m2_interviewer == "MSB"
+drop if respondentid == "NEL_022" & m2_interviewer == "MTN"
+drop if respondentid == "NEL_043" & m2_interviewer == "KHS"
+drop if respondentid == "NWE_044" & m2_interviewer == "MTN"
+drop if respondentid == "PAP_001"
+drop if respondentid == "PAP_037" & m2_interviewer == "KHS"
+drop if respondentid == "RCH_084" & m2_hiv_status == 98
+drop if respondentid == "TOK_014" & m2_interviewer == "KHS"
+drop if respondentid == "TOK_021" & m2_interviewer == "KHS"
+drop if respondentid == "TOK_082" & m2_interviewer == "KHS"
 
+*drop pids that did not merge
+drop if respondentid == "BNE_013" | respondentid == "NEL_001" | respondentid == "MPH_015"
+
+*duplicate: RCH_022 - collapsing all M3 data by id
+order respondentid, before(m3_permission)
+collapse (firstnm) m3_permission-m3_1206, by(respondentid)
 
 *==============================================================================*
 
