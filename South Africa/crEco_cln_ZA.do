@@ -253,9 +253,9 @@ destring(m1_723), generate(recm1_723)
 * Data quality fixes to respondent id naming:
 replace respondentid = "QEE_083" if respondentid == "QEE_O83"
 replace respondentid = "MND_013" if respondentid == "MND-013"
-*replace respondentid = "TOK_081" if respondentid == "TOK_081" // not in M1, ask Londi to review
+replace respondentid = "TOK_081" if respondentid == "C" // not in M1, ask Londi to review
 *replace respondentid = "NWE_057" if respondentid == "NWE_057" // not in M1, ask Londi to review
-
+replace respondentid = "MER_046" if pre_screening_num_za == "SCR-G054"
 
 *===============================================================================
 	
@@ -1395,6 +1395,9 @@ import excel "$za_data/Module 2/MNH-Module-2 17Apr2024 - 24Apr2024.xlsx", firstr
 
 drop RESPONSE_QuestionnaireID RESPONSE_QuestionnaireName RESPONSE_QuestionnaireVersion RESPONSE_FieldWorkerID RESPONSE_FieldWorker RESPONSE_StartTime RESPONSE_Location RESPONSE_Lattitude RESPONSE_Longitude RESPONSE_StudyNoPrefix RESPONSE_StudyNo ResponseID ER StudyNumber NoofFollowupCalls
 
+*pids that were ineligible in M1:
+drop if CRHID == "QEE_109"
+
 *===============================================================================
 
 	* STEP ONE: RENAME VARIABLES
@@ -1551,7 +1554,7 @@ replace respondentid = "KAN_009" if respondentid == "KAN-009"
 replace respondentid = "MER_028" if respondentid == "MER-028"
 replace respondentid = "MER_042" if respondentid == "MMER_042"
 replace respondentid = "MND-011" if respondentid == "MND_011"
-replace respondentid = "MND-013" if respondentid == "MND_013"
+replace respondentid = "MND-012" if respondentid == "MND_012"
 replace respondentid = "MND_010" if respondentid == "MND-010"
 replace respondentid = "NEL_054" if respondentid == "NEL-054"
 replace respondentid = "NWE_040" if respondentid == "NWE-040"
@@ -2217,7 +2220,7 @@ save "$za_data_final/eco_m2_za.dta", replace
 *------------------------------------------------------------------------------*
 * merge dataset with M1
 
-merge 1:1 respondentid using "$za_data_final/eco_m1_za.dta" // N= 8 in master only (M2) not in using (M1).
+merge 1:1 respondentid using "$za_data_final/eco_m1_za.dta" // N= 10 in master only (M2) not in using (M1).
 
 drop _merge  
 
@@ -2431,6 +2434,7 @@ save "$za_data_final/eco_m1m2_za.dta", replace
 
 *===============================================================================
 * MODULE 3:
+clear all 
 
 * Import data
 import excel "$za_data/Module 3/Module 3_21Mar2024_clean.xlsx", sheet("MNH-Module-3-v0-2024321-945") firstrow clear
