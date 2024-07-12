@@ -252,6 +252,10 @@ destring(m1_723), generate(recm1_723)
 
 * Data quality fixes to respondent id naming:
 replace respondentid = "QEE_083" if respondentid == "QEE_O83"
+replace respondentid = "MND_013" if respondentid == "MND-013"
+replace respondentid = "TOK_081" if respondentid == "C" // not in M1, ask Londi to review
+*replace respondentid = "NWE_057" if respondentid == "NWE_057" // not in M1, ask Londi to review
+replace respondentid = "MER_046" if pre_screening_num_za == "SCR-G054"
 
 *===============================================================================
 	
@@ -1391,6 +1395,9 @@ import excel "$za_data/Module 2/MNH-Module-2 17Apr2024 - 24Apr2024.xlsx", firstr
 
 drop RESPONSE_QuestionnaireID RESPONSE_QuestionnaireName RESPONSE_QuestionnaireVersion RESPONSE_FieldWorkerID RESPONSE_FieldWorker RESPONSE_StartTime RESPONSE_Location RESPONSE_Lattitude RESPONSE_Longitude RESPONSE_StudyNoPrefix RESPONSE_StudyNo ResponseID ER StudyNumber NoofFollowupCalls
 
+*pids that were ineligible in M1:
+drop if CRHID == "QEE_109"
+
 *===============================================================================
 
 	* STEP ONE: RENAME VARIABLES
@@ -1547,7 +1554,7 @@ replace respondentid = "KAN_009" if respondentid == "KAN-009"
 replace respondentid = "MER_028" if respondentid == "MER-028"
 replace respondentid = "MER_042" if respondentid == "MMER_042"
 replace respondentid = "MND-011" if respondentid == "MND_011"
-replace respondentid = "MND-013" if respondentid == "MND_013"
+replace respondentid = "MND-012" if respondentid == "MND_012"
 replace respondentid = "MND_010" if respondentid == "MND-010"
 replace respondentid = "NEL_054" if respondentid == "NEL-054"
 replace respondentid = "NWE_040" if respondentid == "NWE-040"
@@ -2213,7 +2220,7 @@ save "$za_data_final/eco_m2_za.dta", replace
 *------------------------------------------------------------------------------*
 * merge dataset with M1
 
-merge 1:1 respondentid using "$za_data_final/eco_m1_za.dta" // N= 8 in master only (M2) not in using (M1).
+merge 1:1 respondentid using "$za_data_final/eco_m1_za.dta" // N= 10 in master only (M2) not in using (M1).
 
 drop _merge  
 
@@ -2427,6 +2434,7 @@ save "$za_data_final/eco_m1m2_za.dta", replace
 
 *===============================================================================
 * MODULE 3:
+clear all 
 
 * Import data
 import excel "$za_data/Module 3/Module 3_21Mar2024_clean.xlsx", sheet("MNH-Module-3-v0-2024321-945") firstrow clear
@@ -2435,6 +2443,9 @@ import excel "$za_data/Module 3/Module 3_21Mar2024_clean.xlsx", sheet("MNH-Modul
 
 drop if MOD3_Permission_Granted !=1 // N=9 dropped
 drop if MOD3_Identification_102 == .
+
+*dropping empty respondentid's with no data:
+drop if CRHID == ""
 
 *------------------------------------------------------------------------------*
 
@@ -2705,7 +2716,24 @@ rename (MOD3_Econ_OutC_1102F_Total MOD3_Econ_OutC_1104) (m3_1102_total m3_1105)
 rename (MOD3_Econ_OutC_1104_Other MOD3_Econ_OutC_1105) (m3_1105_other m3_1106)
 
 * Data quality:
+*cleaning duplicate pids
+replace respondentid = "MBA_007" if respondentid == "MBA_002" & m2_interviewer == "MSB"
+drop if respondentid == "NEL_022" & m2_interviewer == "MTN"
+drop if respondentid == "NEL_043" & m2_interviewer == "KHS"
+drop if respondentid == "NWE_044" & m2_interviewer == "MTN"
+drop if respondentid == "PAP_001"
+drop if respondentid == "PAP_037" & m2_interviewer == "KHS"
+drop if respondentid == "RCH_084" & m2_hiv_status == 98
+drop if respondentid == "TOK_014" & m2_interviewer == "KHS"
+drop if respondentid == "TOK_021" & m2_interviewer == "KHS"
+drop if respondentid == "TOK_082" & m2_interviewer == "KHS"
 
+*drop pids that did not merge
+drop if respondentid == "BNE_013" | respondentid == "NEL_001" | respondentid == "MPH_015"
+
+*duplicate: RCH_022 - collapsing all M3 data by id
+order respondentid, before(m3_permission)
+collapse (firstnm) m3_permission-m3_1206, by(respondentid)
 
 *==============================================================================*
 
@@ -3147,7 +3175,7 @@ recode m3_506a (12784 = .a) // jan 01 1995 = .a?
  
 recode m3_303a (. = .a) if m2_202 !=2
 
-recode m3_birth_or_ended m3_303b (. = .a) if m2_202 !=2 | m2_202 !=3
+recode m3_birth_or_ended m3_303b (. = .a) if m2_202 ==.
 
 recode m3_303c (. 9999998 = .a) if m2_202 !=2 | m2_202 !=3 | m3_303a !=2 | m3_303a !=3
 
