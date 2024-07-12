@@ -25,6 +25,9 @@ import excel "$za_data/Module 1/SA MOD-1 - 15 Jan 2024.xlsx", sheet("MNH_Module_
 	*5555555 = Did not meet the eligibility criteria
 	*Blank = Missing value/Incomplete interview
 	
+replace CRHID = trim(CRHID)
+replace CRHID = subinstr(CRHID," ","",.)	
+	
 *------------------------------------------------------------------------------*
 * Create sample:
 	
@@ -1393,6 +1396,9 @@ clear all
 * import data:
 import excel "$za_data/Module 2/MNH-Module-2 17Apr2024 - 24Apr2024.xlsx", firstrow clear
 
+replace CRHID = trim(CRHID)
+replace CRHID = subinstr(CRHID," ","",.)
+
 drop RESPONSE_QuestionnaireID RESPONSE_QuestionnaireName RESPONSE_QuestionnaireVersion RESPONSE_FieldWorkerID RESPONSE_FieldWorker RESPONSE_StartTime RESPONSE_Location RESPONSE_Lattitude RESPONSE_Longitude RESPONSE_StudyNoPrefix RESPONSE_StudyNo ResponseID ER StudyNumber NoofFollowupCalls
 
 *pids that were ineligible in M1:
@@ -1565,11 +1571,12 @@ replace respondentid = "TOK_019" if respondentid == "TOk_019"
 replace respondentid = "BXE_010" if respondentid == "BXE__010"
 replace respondentid = "NOK_042" if respondentid == "NOK_42"
 
+/*
 replace respondentid = "NWE_004" if respondentid == "NWE_004 "
 replace respondentid = "KAN_051" if respondentid == "KAN_051 "
 replace respondentid = "RCH_089" if respondentid == "RCH_089 "
 replace respondentid = "EUB_003" if respondentid == "EUB_003 "
-replace respondentid = "BCH_010" if respondentid == "BCH_010 "
+replace respondentid = "BCH_010" if respondentid == "BCH_010 " */
 
 *===============================================================================
 	
@@ -2444,6 +2451,9 @@ clear all
 
 * Import data
 import excel "$za_data/Module 3/Module 3_21Mar2024_clean.xlsx", sheet("MNH-Module-3-v0-2024321-945") firstrow clear
+
+replace CRHID = trim(CRHID)
+replace CRHID = subinstr(CRHID," ","",.)
 
 * SS: Dropping people who did not give permission (confirm with Catherine/ZA team)
 
