@@ -6,18 +6,7 @@
 * Import Data 
 clear all 
 u "$in_data/Module1_07_06_2024.dta", clear
-*u "$in_data/Module1_02_04_2024", clear
-*u "$in_data/Module_1.dta", clear 
-*use "$in_data/Archive/Module_1_Baseline_Data.dta", clear
-
 *------------------------------------------------------------------------------*
-/* Adjusting unique facility names
-drop a5
-merge 1:1 q103 using "$in_data/Archive/facility_29_02_24.dta"
-drop _merge 
-order a5, after(a4)*/
-
-
 * Dataset was originally sent in upper cap
 foreach var of varlist _all  {
   rename `var' `=strupper("`var'")'
@@ -464,9 +453,6 @@ recode m1_1308 (.  = .a) if m1_1306 == 1 | m1_1306 == .a | m1_1306 == .d | m1_13
 
 recode m1_1309 (.  = .a) if m1_1308 !=1		
 
-
-
-	
 *===============================================================================					   
 	
 	* STEP FOUR: LABELING VARIABLES
