@@ -7,7 +7,7 @@
 	This file creates derived variables for analysis from the MNH ECohorts South Africa (KZN) dataset. 
 
 */
-u "$za_data_final/eco_m1_za.dta", clear
+u "$za_data_final/eco_m1-m3_za.dta", clear
 
 *------------------------------------------------------------------------------*
 * MODULE 1
@@ -305,5 +305,5 @@ u "$za_data_final/eco_m1_za.dta", clear
 * note by Wen-Chien (April 21)
 * line 126 date_m1 not found, but m1_date in the dataset, so could not label ga_edd, ga, and trimester
  
-save "$za_data_final/eco_m1_za_der.dta", replace
+save "$za_data_final/eco_m1-m3_za_der.dta", replace
 	
