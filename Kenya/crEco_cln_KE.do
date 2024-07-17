@@ -2116,7 +2116,7 @@ recode m3_303a m3_303b m3_baby1_gender m3_baby1_health m3_breastfeeding m3_baby1
 	   m3_902d_baby2 m3_902e_baby2 m3_902f_baby2 m3_902g_baby2 m3_902h_baby2 m3_1001 ///
 	   m3_1002 m3_1003 m3_1004a m3_1005a m3_1005b m3_1005c m3_1005d m3_1005e m3_1005f m3_1005g m3_1005h ///
 	   m3_1006a m3_1006b m3_1006c m3_1007a m3_1007b m3_1007c m3_1101 m3_1106 m3_1201 m3_1202 ///
-	   m3_1102a_amt m3_1102b_amt m3_1102c_amt m3_1102d_amt m3_1102e_amt m3_1102f_amt (-99 = .r)
+	   m3_1102a_amt m3_1102b_amt m3_1102c_amt m3_1102d_amt m3_1102e_amt m3_1102f_amt m3_baby1_weight (-99 = .r)
 
 recode m3_303a m3_baby1_gender m3_baby1_weight m3_baby2_weight m3_baby1_born_alive1 ///
 	   m3_baby1_born_alive2 m3_baby2_gender m3_baby2_weight m3_baby2_born_alive1 ///
@@ -2140,7 +2140,9 @@ recode m3_303a m3_baby1_gender m3_baby1_weight m3_baby2_weight m3_baby1_born_ali
 	   m3_902d_baby2 m3_902e_baby2 m3_902f_baby2 m3_902g_baby2 m3_902h_baby2 m3_1002 ///
 	   m3_1003 m3_1005a m3_1005b m3_1005c m3_1005d m3_1005e m3_1005f m3_1005g m3_1005h m3_1006a ///
 	   m3_1006b m3_1006c m3_1007a m3_1007b m3_1007c m3_1101 m3_1106 m3_1201 m3_614_ke ///
-	   m3_616c_1 m3_1102a_amt m3_1102b_amt m3_1102c_amt m3_1102d_amt m3_1102e_amt m3_1102f_amt (-98 = .d)	 
+	   m3_616c_1 m3_1102a_amt m3_1102b_amt m3_1102c_amt m3_1102d_amt m3_1102e_amt m3_1102f_amt m3_baby1_weight (-98 = .d)	 
+	   
+recode m3_baby1_weight (98 = .d)	   
 	   
 recode m3_ga2_ke m3_1102e_amt (999 = .d)	   
 
@@ -2148,6 +2150,7 @@ recode m3_901_cost (-999 = .d)
 
 replace m3_412g_1_other = ".r" if m3_412g_1_other == "-99" 
 replace m3_412g_1_other = ".d" if m3_412g_1_other == "-98" 
+replace m3_baby1_weight = ".d" if m3_baby1_weight == .98
 
 *------------------------------------------------------------------------------*
 * recoding for skip pattern logic:	   
@@ -4584,7 +4587,7 @@ order m4_date m4_time m4_duration m4_consent_recording m4_hiv_status m4_c_sectio
 	* STEP SIX: SAVE DATA TO RECODED FOLDER
 
 	save "$ke_data_final/eco_m1-m4_ke.dta", replace
-/*
+
 *==============================================================================*	
 * MODULE 5:	
 * Updated: March 21, 2024
