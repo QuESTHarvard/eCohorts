@@ -2142,7 +2142,8 @@ recode m3_303a m3_baby1_gender m3_baby1_weight m3_baby2_weight m3_baby1_born_ali
 	   m3_1006b m3_1006c m3_1007a m3_1007b m3_1007c m3_1101 m3_1106 m3_1201 m3_614_ke ///
 	   m3_616c_1 m3_1102a_amt m3_1102b_amt m3_1102c_amt m3_1102d_amt m3_1102e_amt m3_1102f_amt m3_baby1_weight (-98 = .d)	 
 	   
-recode m3_baby1_weight (98 = .d)	   
+recode m3_baby1_weight (98 = .d) // SS 7-17: confirm with KE team	
+recode m3_baby1_weight (.98 = .d) // SS 7-17: confirm with KE team	
 	   
 recode m3_ga2_ke m3_1102e_amt (999 = .d)	   
 
@@ -2150,7 +2151,6 @@ recode m3_901_cost (-999 = .d)
 
 replace m3_412g_1_other = ".r" if m3_412g_1_other == "-99" 
 replace m3_412g_1_other = ".d" if m3_412g_1_other == "-98" 
-replace m3_baby1_weight = ".d" if m3_baby1_weight == .98
 
 *------------------------------------------------------------------------------*
 * recoding for skip pattern logic:	   
