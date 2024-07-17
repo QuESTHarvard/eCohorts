@@ -25,6 +25,9 @@ import excel "$za_data/Module 1/SA MOD-1 - 15 Jan 2024.xlsx", sheet("MNH_Module_
 	*5555555 = Did not meet the eligibility criteria
 	*Blank = Missing value/Incomplete interview
 	
+replace CRHID = trim(CRHID)
+replace CRHID = subinstr(CRHID," ","",.)	
+	
 *------------------------------------------------------------------------------*
 * Create sample:
 	
@@ -1393,6 +1396,9 @@ clear all
 * import data:
 import excel "$za_data/Module 2/MNH-Module-2 17Apr2024 - 24Apr2024.xlsx", firstrow clear
 
+replace CRHID = trim(CRHID)
+replace CRHID = subinstr(CRHID," ","",.)
+
 drop RESPONSE_QuestionnaireID RESPONSE_QuestionnaireName RESPONSE_QuestionnaireVersion RESPONSE_FieldWorkerID RESPONSE_FieldWorker RESPONSE_StartTime RESPONSE_Location RESPONSE_Lattitude RESPONSE_Longitude RESPONSE_StudyNoPrefix RESPONSE_StudyNo ResponseID ER StudyNumber NoofFollowupCalls
 
 *pids that were ineligible in M1:
@@ -1564,6 +1570,13 @@ replace respondentid = "RCH_028" if respondentid == "RCh_028"
 replace respondentid = "TOK_019" if respondentid == "TOk_019"
 replace respondentid = "BXE_010" if respondentid == "BXE__010"
 replace respondentid = "NOK_042" if respondentid == "NOK_42"
+
+/*
+replace respondentid = "NWE_004" if respondentid == "NWE_004 "
+replace respondentid = "KAN_051" if respondentid == "KAN_051 "
+replace respondentid = "RCH_089" if respondentid == "RCH_089 "
+replace respondentid = "EUB_003" if respondentid == "EUB_003 "
+replace respondentid = "BCH_010" if respondentid == "BCH_010 " */
 
 *===============================================================================
 	
@@ -1945,7 +1958,7 @@ recode m2_hiv_status m2_203a m2_203b m2_203c m2_203d m2_203e m2_203f m2_203g ///
 
 recode m2_702a_cost m2_702b_cost m2_702c_cost (999 = .r) //SS: confirm with KE team that this is correct
 
-*recode (95 = .d)
+recode m2_305 m2_306 m2_308 m2_309 m2_311 m2_312 m2_314 m2_315 m2_317 m2_318 (95 = .a) //SS: confirm with KE team that this is correct
 
 *------------------------------------------------------------------------------*
 * recoding for skip pattern logic:	   
@@ -2438,6 +2451,9 @@ clear all
 
 * Import data
 import excel "$za_data/Module 3/Module 3_21Mar2024_clean.xlsx", sheet("MNH-Module-3-v0-2024321-945") firstrow clear
+
+replace CRHID = trim(CRHID)
+replace CRHID = subinstr(CRHID," ","",.)
 
 * SS: Dropping people who did not give permission (confirm with Catherine/ZA team)
 
