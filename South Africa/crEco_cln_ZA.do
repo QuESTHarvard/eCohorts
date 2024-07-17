@@ -27,7 +27,7 @@ import excel "$za_data/Module 1/SA MOD-1 - 15 Jan 2024.xlsx", sheet("MNH_Module_
 	
 replace CRHID = trim(CRHID)
 replace CRHID = subinstr(CRHID," ","",.)	
-	
+	 
 *------------------------------------------------------------------------------*
 * Create sample:
 	
