@@ -260,6 +260,15 @@ replace respondentid = "TOK_081" if respondentid == "C" // not in M1, ask Londi 
 *replace respondentid = "NWE_057" if respondentid == "NWE_057" // not in M1, ask Londi to review
 replace respondentid = "MER_046" if pre_screening_num_za == "SCR-G054"
 
+* phantom pregnancies - dropped 
+drop if respondentid == "MND_007"
+
+*per Londi: Recruited twice, EUB_007 also recruited as UUT_014. Please remove UUT_014 from the MOD1 dataset.
+drop if respondentid == "UUT_014"
+
+*per Catherine's email: missing entire sections of module 1
+drop if respondentid == "NEL_045"
+
 *===============================================================================
 	
 	* STEP TWO: ADD VALUE LABELS 
@@ -1578,6 +1587,12 @@ replace respondentid = "RCH_089" if respondentid == "RCH_089 "
 replace respondentid = "EUB_003" if respondentid == "EUB_003 "
 replace respondentid = "BCH_010" if respondentid == "BCH_010 " */
 
+* phantom pregnancies - dropped 
+drop if respondentid == "MND_007"
+
+*per Londi: Recruited twice, EUB_007 also recruited as UUT_014. Please remove UUT_014 from the MOD1 dataset.
+drop if respondentid == "UUT_014"
+
 *===============================================================================
 	
 	* STEP TWO: ADD VALUE LABELS
@@ -2750,6 +2765,12 @@ drop if respondentid == "BNE_013" | respondentid == "NEL_001" | respondentid == 
 *duplicate: RCH_022 - collapsing all M3 data by id
 order respondentid, before(m3_permission)
 collapse (firstnm) m3_permission-m3_1206, by(respondentid)
+
+* phantom pregnancies - dropped 
+drop if respondentid == "MND_007"
+
+*per Londi: Recruited twice, EUB_007 also recruited as UUT_014. Please remove UUT_014 from the MOD1 dataset.
+drop if respondentid == "UUT_014"
 
 *==============================================================================*
 
