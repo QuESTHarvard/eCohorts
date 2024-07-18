@@ -2770,7 +2770,10 @@ collapse (firstnm) m3_permission-m3_1206, by(respondentid)
 drop if respondentid == "MND_007"
 
 *per Londi: Recruited twice, EUB_007 also recruited as UUT_014. Please remove UUT_014 from the MOD1 dataset.
-drop if respondentid == "UUT_014"
+drop if respondentid == "UUT_014" 
+
+*fixing baby death dates:
+replace m3_313a_baby1 = 23318 if respondentid == "IIB_037"
 
 *==============================================================================*
 
