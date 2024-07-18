@@ -1394,12 +1394,12 @@ save "$za_data_final/eco_m1_za.dta", replace
 clear all
 
 * import data:
-import excel "$za_data/Module 2/MNH-Module-2 17Apr2024 - 24Apr2024.xlsx", firstrow clear
+import excel "$za_data/Module 2/MNH-Module-2 - 17Jul2024SS.xlsx", firstrow clear
 
 replace CRHID = trim(CRHID)
 replace CRHID = subinstr(CRHID," ","",.)
 
-drop RESPONSE_QuestionnaireID RESPONSE_QuestionnaireName RESPONSE_QuestionnaireVersion RESPONSE_FieldWorkerID RESPONSE_FieldWorker RESPONSE_StartTime RESPONSE_Location RESPONSE_Lattitude RESPONSE_Longitude RESPONSE_StudyNoPrefix RESPONSE_StudyNo ResponseID ER StudyNumber NoofFollowupCalls
+drop RESPONSE_QuestionnaireID RESPONSE_QuestionnaireName RESPONSE_QuestionnaireVersion RESPONSE_FieldWorkerID RESPONSE_FieldWorker RESPONSE_StartTime RESPONSE_Location RESPONSE_Lattitude RESPONSE_Longitude RESPONSE_StudyNoPrefix RESPONSE_StudyNo ResponseID StudyNumber NoofFollowupCalls
 
 *pids that were ineligible in M1:
 drop if CRHID == "QEE_109"
@@ -2145,7 +2145,7 @@ replace m2_507_other = ".a" if m2_507 !=96
 						  						  
 recode m2_508a (. 9999998 = .a) if (m2_205a+m2_205b) <3 | m2_202 !=1 | m2_301 !=1 | m2_302 ==0 | m2_302 ==. | m2_302 ==.a // SS: confirm response "95", N=11 missing responses
 recode m2_508b_num (. 9999998 = .a) if m2_508a !=1 // SS: confirm response of "Yes", responses are supposed to be numeric
-replace m2_508c_time = ".a" if m2_508a !=1
+recode m2_508c_time (. = .a) if m2_508a !=1
 
 recode m2_509a (. 9999998 = .a) if m2_301 !=1 | m2_302 ==0 | m2_302 ==. | m2_302 ==.a
 recode m2_509b (. 9999998 = .a) if m2_301 !=1 | m2_302 ==0 | m2_302 ==. | m2_302 ==.a
