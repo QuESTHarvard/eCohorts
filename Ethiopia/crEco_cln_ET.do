@@ -1467,7 +1467,7 @@ drop m2_drop
 		*New gestational age vars:
 	
 		generate m2_ga = m1_ga + time_between_m1m2
-		generate m3_ga = m1_ga + time_between_m1m3
+		*generate m3_ga = m1_ga + time_between_m1m3
 	
 		drop time_between_m1m2 time_between_m1m3
 		
@@ -1487,6 +1487,8 @@ drop m2_drop
 		replace m3_birth_or_ended = . if redcap_record_id=="1686-1" //date of birth was entered as being before the ANC1
 	
 	
+		gen pregnancyend_ga = ((m3_birth_or_ended)-m1_date)/7 + m1_ga
+
 		* Date of LNMP
 		gen _m1_802c_et_ = date(m1_802c_et,"YMD")
 		drop m1_802c_et
@@ -3723,7 +3725,7 @@ recode m2_endstatus (. = .a) if m2_endtime == ""
 
 * MODULE 3:
 recode m3_permission (. = .a) if m3_start_p1 !=1
-recode m3_date recm3_time m3_birth_or_ended m3_303a m3_ga (. = .a) if m3_permission !=1 // SS 2-21: removed m3_ga1 m3_ga2
+recode m3_date recm3_time m3_birth_or_ended m3_303a (. = .a) if m3_permission !=1 // SS 2-21: removed m3_ga1 m3_ga2
 
 recode m3_303b (. = .a) if m3_303a == . | m3_303a == .a
 recode m3_303c (. = .a) if m3_303a == 1 | m3_303a == . | m3_303a == .a | m3_303a == .d | m3_303a == .r
@@ -7407,6 +7409,13 @@ label variable m2_int_duration`i' "103C. Total Duration of interview (In minutes
 label variable m2_endstatus`i' "What is this womens current status at the end of the interview?"	
 
 	}
+	
+*set to missing if the baby is not born alive or baby is born at a weight <25mg
+		gen ga_according_to_dob = 40-((m3_birth_or_ended - m1_date)/7)
+		
+		recode ga_according_to_dob (. = .a) if m3_baby1_born_alive !=1 & m3_baby2_born_alive !=1 & m3_baby3_born_alive !=1 // need to add if any baby's are under 25
+	
+	
 *===============================================================================
 * STEP SEVEN: SAVE DATA TO RECODED FOLDER
 	 save "$et_data_final/eco_m1-m5_et_wide.dta", replace
