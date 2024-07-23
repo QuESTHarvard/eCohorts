@@ -4595,26 +4595,25 @@ order m4_date m4_time m4_duration m4_consent_recording m4_hiv_status m4_c_sectio
 
 * import data
 clear all
-use "$ke_data/Module 5/KEMRI_Module_5_Final.dta"
+use "$ke_data/Module 5/KEMRI_Module_5.dta"
 
 *------------------------------------------------------------------------------*
 
 drop today_date today key no_consent
 
 * Drop these variables that contain identifiable individual names or facility names
-drop name_enumerator full_name list_baby_names name_baby1 name_baby2 name_baby3 name_baby4 name_confirm name_confirm_oth baby_name_1 ///
-	 name_baby_alive1 name_baby_alive2 name_baby_alive3 name_baby_alive4 name_baby_died1 name_baby_died2 name_baby_died3 name_baby_died4 ///
-	 enum_id baby_list baby_alive_list baby_died_list baby_list_med baby_name_1 baby_label_1 baby_name_assess_1 baby_label_assess_1 ///
-	 baby_name_care_1 baby_label_care_1 baby_name_med_1 baby_label_med_1
+drop name_confirm name_confirm_oth baby_name_1 baby_list_numbers baby_list_care baby_list_med baby_list_assess ///
+	 baby_list_s15a baby_list_s15b baby_list_s15c baby_list_med baby_name_1 baby_name_assess_1 baby_name_care_1 baby_name_med_1 
 
 * Drop these variables that contain identifiable facility names or location names
-drop q504_1 q504_2 q504_3 care_facility_name_label_1 care_facility_name_label_2 care_facility_name_label_3 user_facility_name_1 user_facility_name_2 ///
-	 user_facility_name_3 q504_1 q504_2 q504_3 county county_label location_endline // These are facility names and location names     
+drop q504_1 q504_2 q504_3 q504_4 q504_5 q504_6 q504_7 q504_8 care_facility_name_label_1 care_facility_name_label_2 ///
+	 care_facility_name_label_3 care_facility_name_label_4 care_facility_name_label_5 care_facility_name_label_6 ///
+	 care_facility_name_label_7 care_facility_name_label_8 user_facility_name_1 user_facility_name_2 ///
+	 user_facility_name_3 user_facility_name_4 user_facility_name_5 user_facility_name_6 user_facility_name_7 user_facility_name_8 ///
+	 county county_label location_endline // These are facility names and location names     
 	 
 * Drop these variables that won't be used in data analysis 
-drop deviceid text_audit speed_violations_count mean_sound_level min_sound_level max_sound_level sd_sound_level pct_sound_between0_60 ///
-     pct_sound_above80 pct_conversation enum_id_oth gpslatitude gpslongitude gpsaltitude gpsaccuracy no_gps c_section id_resp_calc ///
-	 formdef_version baby_list_care baby_list_assess timing_endline 
+drop c_section_label id_resp_calc formdef_version  
 	 // note: drop c_section_label becasue c_section indicates the same information
  	 // note: drop id_resp_calc because id_resp indicates the same information
 	 
@@ -4624,62 +4623,94 @@ drop calc_303a calc_303b calc_303c calc_303d calc_303e calc_303f calc_303g calc_
 drop new_visits_count 
      // note: q502 means the same thing: the N of consultations	 
 
-drop care_where_label_1 care_where_label_2 care_where_label_3 user_facility_type_1 user_facility_type_2 user_facility_type_3 
+drop care_where_label_1 care_where_label_2 care_where_label_3 care_where_label_4 care_where_label_5 care_where_label_6 ///
+	 care_where_label_7 care_where_label_8 user_facility_type_1 user_facility_type_2 user_facility_type_3 ///
+	 user_facility_type_4 user_facility_type_5 user_facility_type_6 user_facility_type_7 user_facility_type_8
      // note: drop becasue q503_1 q503_2 q503_3 indicate the same information about facilty type for consultation 1, 2, 3
 	 
-drop user_visit_reason_1 user_visit_reason_2 user_visit_reason_3 care_visit_reas_rpt_grp_count_1 care_visit_reas_rpt_grp_count_2 ///
-	 care_visit_reas_rpt_grp_count_3
+drop user_visit_reason_1 user_visit_reason_2 user_visit_reason_3 user_visit_reason_4 user_visit_reason_5 user_visit_reason_6 ///
+	 user_visit_reason_7 user_visit_reason_8 care_visit_reas_rpt_grp_count_1 care_visit_reas_rpt_grp_count_2 ///
+	 care_visit_reas_rpt_grp_count_3 care_visit_reas_rpt_grp_count_4 care_visit_reas_rpt_grp_count_5 ///
+	 care_visit_reas_rpt_grp_count_6 care_visit_reas_rpt_grp_count_7 care_visit_reas_rpt_grp_count_8
      // note: drop becasue q505_1 q505_2 q505_3 indicate the same information about whether the consultation was for routine checkup after delivery 
 
-drop care_rason_oth_label_1 care_rason_oth_label_2 care_rason_oth_label_3 care_vis_idx_1_1 care_vis_idx_2_1 care_vis_idx_3_1 care_visit_res_1_1 ///
-     care_visit_res_2_1 care_visit_res_3_1
+drop care_rason_oth_label_1 care_rason_oth_label_2 care_rason_oth_label_3 care_rason_oth_label_4 care_rason_oth_label_5 ///
+	 care_rason_oth_label_6 care_rason_oth_label_7 care_rason_oth_label_8 care_vis_idx_1_1 care_vis_idx_1_2 care_vis_idx_1_3 ///
+	 care_vis_idx_2_1 care_vis_idx_2_2 care_vis_idx_2_3 care_vis_idx_3_1 care_vis_idx_3_2 care_vis_idx_3_3 care_visit_res_1_1 ///
+	 care_visit_res_1_2 care_visit_res_1_3 care_visit_res_2_1 care_visit_res_2_2 care_visit_res_2_3 care_visit_res_3_1 ///
+	 care_visit_res_3_2 care_visit_res_3_3
      // note: drop because q506_1 q506_2 q506_3 indicate the same information about reasons for visit
 	 
-drop care_reason_label_1 care_reason_label_2 care_reason_label_3 care_reason_reg_label_1 care_reason_reg_label_2 care_reason_reg_label_3
+drop care_vis_idx_4_1 care_visit_res_4_1 care_vis_idx_4_2 care_visit_res_4_2 care_vis_idx_4_3 care_visit_res_4_3 care_vis_idx_5_1 care_visit_res_5_1 care_vis_idx_5_2 care_visit_res_5_2 care_vis_idx_5_3 care_visit_res_5_3 care_vis_idx_6_1 care_visit_res_6_1 care_vis_idx_6_2 care_visit_res_6_2 care_vis_idx_6_3 care_visit_res_6_3 care_vis_idx_7_1 care_visit_res_7_1 care_vis_idx_7_2 care_visit_res_7_2 care_vis_idx_7_3 care_visit_res_7_3 care_vis_idx_8_1 care_visit_res_8_1 care_vis_idx_8_2 care_visit_res_8_2 care_vis_idx_8_3 care_visit_res_8_3	 
+	 
+drop care_reason_label_1 care_reason_label_2 care_reason_label_3 care_reason_label_4 care_reason_label_5 care_reason_label_6 ///
+	 care_reason_label_7 care_reason_label_8 care_reason_reg_label_1 care_reason_reg_label_2 care_reason_reg_label_3 ///
+	 care_reason_reg_label_4 care_reason_reg_label_5 care_reason_reg_label_6 care_reason_reg_label_7 care_reason_reg_label_8
      // note: drop because q506_1_1 to q506_10_1, q506__96_1, q506_oth_1; q506_1_2 to q506_10_2, q506__96_2, q506_oth_2; q506_1_3 to q506_10_3,   
 	 // q506__96_3, q506_oth_3 indicate the same information   
 	 	 
-drop user_exp_idx_1 user_exp_idx_2 user_exp_idx_3 
+drop user_exp_idx_1 user_exp_idx_2 user_exp_idx_3 user_exp_idx_4 user_exp_idx_5 user_exp_idx_6 user_exp_idx_7 user_exp_idx_8
      // note: drop because q601_1 q601_2 q601_3 indicate the same information about use experience
 
 drop q1002a_cost q1002b_cost q1002c_cost q1002d_cost q1002e_cost total_spent
      // note: drop becasue q1002a q1002b q1002c q1002d q1002e q1003 indicatie the same information  
 
-drop q203_1 q206_1 q210_1 q703_1 
+drop q203_1 q203_2 q206_1 q206_2 q210_1 q210_2 q703_1 q703_2
      // drop because these are parent variables 
+	 
+drop baby_index_1 baby_repeat_count baby_index_assess_1 baby_repeat_assess_count end_comment live_babies dead_babies dup_tag
+
+drop baby_index_2 baby_name_2 alive_babies baby_index_care_2 baby_name_care_2 baby_index_med_2 baby_name_med_2 baby_index_assess_2 baby_name_assess_2 baby_repeat_s15a_count baby_index_s15a_1 baby_name_s15a_1 baby_index_s15a_2 baby_name_s15a_2 baby_repeat_s15b_count baby_index_s15b_1 baby_name_s15b_1 baby_index_s15b_2 baby_name_s15b_2 baby_repeat_s15c_count baby_index_s15c_1 baby_name_s15c_1 baby_index_s15c_2 baby_name_s15c_2 baby_label_s15c_2 baby_repeat_s15a_count baby_repeat_s15b_count baby_repeat_s15c_count baby_index_care_1 baby_repeat_care_count baby_index_med_1
+
+*droppping Mcard vars until I get a codebook 
+drop q15101a q15101b q15101b_other q15102_1 q15103_1 q15104a_1 q15104b_1 q15104c_1 q15105_1 q15106_1 q15107_1 q15108_1 q15109_1 q15110_1 q15111_1 q15112_1 q15113_1 q15114a_1 q15114b_1 q15102_2 q15103_2 q15104a_2 q15104b_2 q15104c_2 q15105_2 q15106_2 q15107_2 q15108_2 q15109_2 q15110_2 q15111_2 q15112_2 q15113_2 q15114a_2 q15114b_2 q15201 q15202 q15203 q15204 q15205 q15206 q15207 q15208 q15209 q15210 q15211 q15212 q15213 q15214 q15215 q15216 q15223 q15224 q15225 q15226 q15227 q15228 q15229 q15230 q15231 q15232 q15233 q15234 q15235 q15242 q15243 q15244 q15245 q15246 q15247 q15248 q15249 q15250 q15251 q15252 q15253 q15254 q15217_1 q15217_other_1 q15218_1 q15219_1 q15220_1 q15221_1 q15222_1 q15222b_1 q15236_1 q15236_other_1 q15237_1 q15238_1 q15239_1 q15240_1 q15241_1 q15255_1 q15255_other_1 q15256_1 q15257_1 q15258_1 q15259_1 q15260_1 q15217_2 q15217_other_2 q15218_2 q15219_2 q15220_2 q15221_2 q15222_2 q15222b_2 q15236_2 q15236_other_2 q15237_2 q15238_2 q15239_2 q15240_2 q15241_2 q15255_2 q15255_other_2 q15256_2 q15257_2 q15258_2 q15259_2 q15260_2 q15261_1 q15262_1 q15262_1_1 q15262_2_1 q15262_3_1 q15262_4_1 q15262_5_1 q15262_6_1 q15262_7_1 q15262_8_1 q15262_9_1 q15262_10_1 q15262_11_1 q15262_12_1 q15262_13_1 q15262_14_1 q15262__96_1 q15263_1 q15264_1 q15265_1 q15265a_1 q15265b_1 q15266a_1 q15266b_1 q15267a_1 q15267b_1 q15268a_1 q15268b_1 q15261_2 q15262_2 q15262_1_2 q15262_2_2 q15262_3_2 q15262_4_2 q15262_5_2 q15262_6_2 q15262_7_2 q15262_8_2 q15262_9_2 q15262_10_2 q15262_11_2 q15262_12_2 q15262_13_2 q15262_14_2 q15262__96_2 q15263_2 q15264_2 q15265_2 q15265a_2 q15265b_2 q15266a_2 q15266b_2 q15267a_2 q15267b_2 q15268a_2 q15268b_2
 
 *===============================================================================
 
 * STEP ONE: RENAME VARAIBLES
 
-rename (consent starttime endtime duration date_confirm submissiondate live_babies baby_list_numbers alive_babies ///
-        dead_babies c_section hiv_status baby_repeat_count baby_index_1) (m5_consent m5_starttime m5_endtime m5_duration ///
-		 m5_dateconfirm m5_submissiondate m5_n_livebabies m5_n_babies m5_n_alivebabies m5_n_deadbabies m5_csection m5_hiv_status ///
-		m5_n_baby_repeat m5_baby_index_1)
+rename (consent starttime endtime duration date_confirm submissiondate c_section hiv_status) ///
+	   (m5_consent m5_starttime m5_endtime m5_duration m5_dateconfirm m5_submissiondate m5_csection m5_hiv_status)
 		
-*encode id_resp, gen(respondentid)
-*drop id_resp
-*format respondentid %12.0f	
-
 rename id_resp respondentid
 
-rename (q201_1 q202_1) (m5_baby1_alive m5_baby1_health)
-
-rename (q203_1_1 q203_2_1 q203_3_1 q203_4_1 q203_5_1 q203_6_1 q203_7_1 q203_99_1 q204) ///
+rename (q201_1 q201_2 q202_1 q202_2) (m5_baby1_alive m5_baby2_alive m5_baby1_health m5_baby2_health)
+ 
+rename (q203_1_1 q203_2_1 q203_3_1 q203_4_1 q203_5_1 q203_6_1 q203_7_1 q203_99_1 q204_1) ///
        (m5_baby1_feed_a m5_baby1_feed_b m5_baby1_feed_c m5_baby1_feed_d m5_baby1_feed_e m5_baby1_feed_f ///
-	   m5_baby1_feed_g m5_baby1_feed_99 m5_breastfeeding)
+	   m5_baby1_feed_g m5_baby1_feed_99 m5_baby1_breastfeeding)
+	   
+rename (q203_1_2 q203_2_2 q203_3_2 q203_4_2 q203_5_2 q203_6_2 q203_7_2 q203_99_2 q204_2) ///
+       (m5_baby2_feed_a m5_baby2_feed_b m5_baby2_feed_c m5_baby2_feed_d m5_baby2_feed_e m5_baby2_feed_f ///
+	   m5_baby2_feed_g m5_baby2_feed_99 m5_baby2_breastfeeding)	   
 
-rename (q205a_1 q205b_1 q205c_1 q205d_1 q205e_1 q205f_1 q205g_1) (m5_baby1_sleep m5_baby1_feed m5_baby1_breath m5_baby1_stool m5_baby1_mood m5_baby1_skin ///
-        m5_baby1_interactivity)
+rename (q205a_1 q205b_1 q205c_1 q205d_1 q205e_1 q205f_1 q205g_1) (m5_baby1_sleep m5_baby1_feed m5_baby1_breath ///
+	    m5_baby1_stool m5_baby1_mood m5_baby1_skin m5_baby1_interactivity)
+		
+rename (q205a_2 q205b_2 q205c_2 q205d_2 q205e_2 q205f_2 q205g_2) (m5_baby2_sleep m5_baby2_feed m5_baby2_breath ///
+	    m5_baby2_stool m5_baby2_mood m5_baby2_skin m5_baby2_interactivity)		
 
 rename (q206_1_1 q206_2_1 q206_3_1 q206_4_1 q206_5_1 q206_6_1 q206_7_1 q206_8_1 q206_9_1 q206_0_1 q207a_1 q207b_1 q208_1 q209_1 q209_unit_1) ///
-       (m5_baby1_issue_a m5_baby1_issue_b m5_baby1_issue_c m5_baby1_issue_d m5_baby1_issue_e m5_baby1_issue_f m5_baby1_issue_g m5_baby1_issue_h m5_baby1_issue_i ///
-	    m5_baby1_issue_j m5_baby1_issue_oth m5_baby1_issue_oth_text m5_baby_death_date m5_baby_death_time m5_baby_death_time_unit)
+       (m5_baby1_issue_a m5_baby1_issue_b m5_baby1_issue_c m5_baby1_issue_d m5_baby1_issue_e m5_baby1_issue_f m5_baby1_issue_g ///
+	   m5_baby1_issue_h m5_baby1_issue_i m5_baby1_issue_j m5_baby1_issue_oth m5_baby1_issue_oth_text m5_baby1_death_date ///
+	   m5_baby1_death_time m5_baby1_death_time_unit)
+	   
+rename (q206_1_2 q206_2_2 q206_3_2 q206_4_2 q206_5_2 q206_6_2 q206_7_2 q206_8_2 q206_9_2 q206_0_2 q207a_2 q207b_2 q208_2 q209_2 q209_unit_2) ///
+       (m5_baby2_issue_a m5_baby2_issue_b m5_baby2_issue_c m5_baby2_issue_d m5_baby2_issue_e m5_baby2_issue_f m5_baby2_issue_g ///
+	   m5_baby2_issue_h m5_baby2_issue_i m5_baby2_issue_j m5_baby2_issue_oth m5_baby2_issue_oth_text m5_baby2_death_date ///
+	   m5_baby2_death_time m5_baby2_death_time_unit)	   
 
 rename (q210_0_1 q210_1_1 q210_2_1 q210_3_1 q210_4_1 q210_5_1 q210_6_1 q210_7_1 q210_8_1 q210_9_1 q210__96_1 q210_98_1 q210_99_1 q210_oth_1 q211_1 ///
-        q212_1 q212_oth_1) (m5_death_cause_a m5_death_cause_b m5_death_cause_c m5_death_cause_d m5_death_cause_e m5_death_cause_f m5_death_cause_g ///
-		m5_death_cause_h m5_death_cause_i m5_death_cause_j m5_death_cause_oth m5_death_cause_98 m5_death_cause_99 m5_death_cause_oth_text ///
-		m5_death_treatment m5_death_place m5_death_place_oth)
+        q212_1 q212_oth_1) (m5_baby1_death_cause_a m5_baby1_death_cause_b m5_baby1_death_cause_c m5_baby1_death_cause_d ///
+		m5_baby1_death_cause_e m5_baby1_death_cause_f m5_baby1_death_cause_g m5_baby1_death_cause_h m5_baby1_death_cause_i ///
+		m5_baby1_death_cause_j m5_baby1_death_cause_oth m5_baby1_death_cause_98 m5_baby1_death_cause_99 m5_baby1_death_cause_oth_text ///
+		m5_baby1_death_treatment m5_baby1_death_place m5_baby1_death_place_oth) 
+		
+rename (q210_0_2 q210_1_2 q210_2_2 q210_3_2 q210_4_2 q210_5_2 q210_6_2 q210_7_2 q210_8_2 q210_9_2 q210__96_2 q210_98_2 q210_99_2 ///
+		q210_oth_2 q211_2 q212_2 q212_oth_2) (m5_baby2_death_cause_a m5_baby2_death_cause_b m5_baby2_death_cause_c m5_baby2_death_cause_d  ///
+		m5_baby2_death_cause_e m5_baby2_death_cause_f m5_baby2_death_cause_g m5_baby2_death_cause_h m5_baby2_death_cause_i ///
+		m5_baby2_death_cause_j m5_baby2_death_cause_oth m5_baby2_death_cause_98 m5_baby2_death_cause_99 m5_baby2_death_cause_oth_text ///
+		m5_baby2_death_treatment m5_baby2_death_place m5_baby2_death_place_oth)		
 
 rename (q301 q302a q302b q302c q302d q302e q303a q303b q303c q303d q303e q303f q303g q303h q303i depression_sum q304) (m5_health m5_health_a ///
         m5_health_b m5_health_c m5_health_d m5_health_e m5_depression_a m5_depression_b m5_depression_c m5_depression_d m5_depression_e ///
@@ -4691,8 +4722,11 @@ rename (q305a q305b q305c q305d q305e q305f q305g q305h q306 q307 q308 q309 q310
 
 rename (q401 q402 q403 q404 q405a q405b q406a q406b) (m5_401 m5_402 m5_403 m5_404 m5_405a m5_405b m5_406a m5_406b)
 
-rename (q501a q501b q502 new_visits_index_1 new_visits_index_2 new_visits_index_3 q503_1 q503_2 q503_3 q505_1 q505_2 q505_3) ///
-       (m5_501a m5_501b m5_502 m5_new_visits_index_1 m5_new_visits_index_2 m5_new_visits_index_3 m5_503_1 m5_503_2 m5_503_3 m5_505_1 m5_505_2 m5_505_3)
+rename (q501a q501b q502 new_visits_index_1 new_visits_index_2 new_visits_index_3 new_visits_index_4 new_visits_index_5 new_visits_index_6  ///
+		new_visits_index_7 new_visits_index_8 q503_1 q503_2 q503_3 q503_4 q503_5 q503_6 q503_7 q503_8 q505_1 q505_2 q505_3 q505_4 q505_5 ///
+		q505_6 q505_7 q505_8) (m5_501a m5_501b m5_502 m5_new_visits_index_1 m5_new_visits_index_2 m5_new_visits_index_3 m5_new_visits_index_4  ///
+		m5_new_visits_index_5 m5_new_visits_index_6 m5_new_visits_index_7 m5_new_visits_index_8 m5_503_1 m5_503_2 m5_503_3 m5_503_4 m5_503_5 ///
+		m5_503_6 m5_503_7 m5_503_8 m5_505_1 m5_505_2 m5_505_3 m5_505_4 m5_505_5 m5_505_6 m5_505_7 m5_505_8)
 
 rename (q506_1 q506_1_1 q506_2_1 q506_3_1 q506_4_1 q506_5_1 q506_6_1 q506_7_1 q506_8_1 q506_9_1 q506_10_1 q506__96_1 q506_oth_1) (m5_consultation1 ///
         m5_consultation1_a m5_consultation1_b m5_consultation1_c m5_consultation1_d m5_consultation1_e m5_consultation1_f m5_consultation1_g ///
@@ -4702,19 +4736,50 @@ rename (q506_2 q506_1_2 q506_2_2 q506_3_2 q506_4_2 q506_5_2 q506_6_2 q506_7_2 q5
         m5_consultation2_a m5_consultation2_b m5_consultation2_c m5_consultation2_d m5_consultation2_e m5_consultation2_f m5_consultation2_g ///
 		m5_consultation2_h m5_consultation2_i m5_consultation2_j m5_consultation2_oth m5_consultation2_oth_text)
 
-rename (q506_3 q506_1_3 q506_2_3 q506_3_3 q506_4_3 q506_5_3 q506_6_3 q506_7_3 q506_8_3 q506_9_3 q506_10_3 q506__96_3 q506_oth_3) (m5_consultation3 ///
-        m5_consultation3_a m5_consultation3_b m5_consultation3_c m5_consultation3_d m5_consultation3_e m5_consultation3_f m5_consultation3_g ///
-		m5_consultation3_h m5_consultation3_i m5_consultation3_j m5_consultation3_oth m5_consultation3_oth_text)
+rename (q506_3 q506_1_3 q506_2_3 q506_3_3 q506_4_3 q506_5_3 q506_6_3 q506_7_3 q506_8_3 q506_9_3 q506_10_3 q506__96_3 q506_oth_3) ///
+	   (m5_consultation3 m5_consultation3_a m5_consultation3_b m5_consultation3_c m5_consultation3_d m5_consultation3_e m5_consultation3_f ///
+	   m5_consultation3_g m5_consultation3_h m5_consultation3_i m5_consultation3_j m5_consultation3_oth m5_consultation3_oth_text)
 
-rename (q511 q511_oth q601_1 q601_2 q601_3 user_experience_rpt_count) (m5_no_visit m5_no_visit_oth m5_consultation1_carequal ///
-        m5_consultation2_carequal m5_consultation3_carequal m5_n_consultation_carequality)
+rename (q506_4 q506_1_4 q506_2_4 q506_3_4 q506_4_4 q506_5_4 q506_6_4 q506_7_4 q506_8_4 q506_9_4 q506_10_4 q506__96_4 q506_oth_4) ///
+	   (m5_consultation4 m5_consultation4_a m5_consultation4_b m5_consultation4_c m5_consultation4_d m5_consultation4_e m5_consultation4_f ///
+	   m5_consultation4_g m5_consultation4_h m5_consultation4_i m5_consultation4_j m5_consultation4_oth m5_consultation4_oth_text)
+	   
+rename (q506_5 q506_1_5 q506_2_5 q506_3_5 q506_4_5 q506_5_5 q506_6_5 q506_7_5 q506_8_5 q506_9_5 q506_10_5 q506__96_5 q506_oth_5) ///
+	   (m5_consultation5 m5_consultation5_a m5_consultation5_b m5_consultation5_c m5_consultation5_d m5_consultation5_e m5_consultation5_f ///
+	   m5_consultation5_g m5_consultation5_h m5_consultation5_i m5_consultation5_j m5_consultation5_oth m5_consultation5_oth_text)
+	   
+rename (q506_6 q506_1_6 q506_2_6 q506_3_6 q506_4_6 q506_5_6 q506_6_6 q506_7_6 q506_8_6 q506_9_6 q506_10_6 q506__96_6 q506_oth_6) ///
+	   (m5_consultation6 m5_consultation6_a m5_consultation6_b m5_consultation6_c m5_consultation6_d m5_consultation6_e m5_consultation6_f ///
+	   m5_consultation6_g m5_consultation6_h m5_consultation6_i m5_consultation6_j m5_consultation6_oth m5_consultation6_oth_text)
+	  
+rename (q506_7 q506_1_7 q506_2_7 q506_3_7 q506_4_7 q506_5_7 q506_6_7 q506_7_7 q506_8_7 q506_9_7 q506_10_7 q506__96_7 q506_oth_7) ///
+	   (m5_consultation7 m5_consultation7_a m5_consultation7_b m5_consultation7_c m5_consultation7_d m5_consultation7_e m5_consultation7_f ///
+	   m5_consultation7_g m5_consultation7_h m5_consultation7_i m5_consultation7_j m5_consultation7_oth m5_consultation7_oth_text)
+	
+rename (q506_8 q506_1_8 q506_2_8 q506_3_8 q506_4_8 q506_5_8 q506_6_8 q506_7_8 q506_8_8 q506_9_8 q506_10_8 q506__96_8 q506_oth_8) ///
+	   (m5_consultation8 m5_consultation8_a m5_consultation8_b m5_consultation8_c m5_consultation8_d m5_consultation8_e m5_consultation8_f ///
+	   m5_consultation8_g m5_consultation8_h m5_consultation8_i m5_consultation8_j m5_consultation8_oth m5_consultation8_oth_text)
+		  	  
+rename (q511 q511_oth q601_1 q601_2 q601_3 q601_4 q601_5 q601_6 q601_7 q601_8 user_experience_rpt_count) ///
+	   (m5_no_visit m5_no_visit_oth m5_consultation1_carequal m5_consultation2_carequal m5_consultation3_carequal ///
+	   m5_consultation4_carequal m5_consultation5_carequal m5_consultation6_carequal m5_consultation7_carequal ///
+	   m5_consultation8_carequal m5_n_consultation_carequality)
 
-rename (baby_index_care_1 q701a_1 q701b_1 q701c_1 q701d_1 q701e_1 q701f_1 q701g_1 q701h_1 q701i_1 q701_oth_1 baby_repeat_care_count q702a q702b q702c ///
-        q702d q702e q702f q702g) (m5_baby_index_care_1 m5_701a m5_701b m5_701c m5_701d m5_701e m5_701f m5_701g m5_701h m5_701i ///
-		m5_701i_other m5_n_baby_care m5_702a m5_702b m5_702c m5_702d m5_702e m5_702f m5_702g)
+rename (q701a_1 q701b_1 q701c_1 q701d_1 q701e_1 q701f_1 q701g_1 q701h_1 q701i_1 q701_oth_1) (m5_baby1_701a m5_baby1_701b m5_baby1_701c ///
+		m5_baby1_701d m5_baby1_701e m5_baby1_701f m5_baby1_701g m5_baby1_701h m5_baby1_701i m5_baby1_701i_other) 
+		
+rename (q701a_2 q701b_2 q701c_2 q701d_2 q701e_2 q701f_2 q701g_2 q701h_2 q701i_2 q701_oth_2) (m5_baby2_701a m5_baby2_701b m5_baby2_701c ///
+		m5_baby2_701d m5_baby2_701e m5_baby2_701f m5_baby2_701g m5_baby2_701h m5_baby2_701i m5_baby2_701i_other) 		
 
-rename (q703_0_1 q703_1_1 q703_2_1 q703_3_1 q703_4_1 q703_5_1 q703_6_1 q703__96_1 q703_98_1 q703_99_1 q703_oth_1) (m5_703a m5_703b m5_703c m5_703d ///
-        m5_703e m5_703f m5_703g m5_703h m5_703_98 m5_703_99 m5_703_other)
+rename (q702a q702b q702c q702d q702e q702f q702g) (m5_702a m5_702b m5_702c m5_702d m5_702e m5_702f m5_702g)
+
+rename (q703_0_1 q703_1_1 q703_2_1 q703_3_1 q703_4_1 q703_5_1 q703_6_1 q703__96_1 q703_98_1 q703_99_1 q703_oth_1) ///
+	   (m5_baby1_703a m5_baby1_703b m5_baby1_703c m5_baby1_703d ///
+        m5_baby1_703e m5_baby1_703f m5_baby1_703g m5_baby1_703h m5_baby1_703_98 m5_baby1_703_99 m5_baby1_703_other) 
+		
+rename (q703_0_2 q703_1_2 q703_2_2 q703_3_2 q703_4_2 q703_5_2 q703_6_2 q703__96_2 q703_98_2 q703_99_2 q703_oth_2) ///
+		(m5_baby2_703a m5_baby2_703b m5_baby2_703c m5_baby2_703d m5_baby2_703e m5_baby2_703f m5_baby2_703g ///
+		m5_baby2_703h m5_baby2_703_98 m5_baby2_703_99 m5_baby2_703_other)		
 
 rename (q801a q801b q801c q801d q801e q801f q801g q801h q801oth q802 q803a q803b q803c q803d q803e q803f q803g q804a q804b q804c baby_repeat_med_count) ///
        (m5_801a m5_801b m5_801c m5_801d m5_801e m5_801f m5_801g m5_801h m5_801_other m5_802 m5_803a m5_803b m5_803c m5_803d m5_803e m5_803f ///
@@ -5286,11 +5351,21 @@ drop q901a_16 q901b_16 q901c_16 q901d_16 q901e_16 q901f_16 q901g_16 q901h_16 q90
 rename (q901_1 q901_2 q901_3 q901_4 q901_5 q901_6 q901_7 q901_8 q901_9 q901_10 q901_11 q901_12 q901_13 q901_14 q901_15 q901_16) (m5_901a ///
         m5_901b m5_901c m5_901d m5_901e m5_901f m5_901g m5_901h m5_901i m5_901j m5_901k m5_901l m5_901m m5_901n m5_901o m5_901p)
 
-rename (baby_index_med_1 q902a_1 q902b_1 q902c_1 q902d_1 q902e_1 q902f_1 q902g_1 q902h_1 q902i_1 q902j_1 q902_oth_1) (m5_baby_index_med_1 m5_902a ///
-        m5_902b m5_902c m5_902d m5_902e m5_902f m5_902g m5_902h m5_902i m5_902j m5_902_other)
+rename (q902a_1 q902b_1 q902c_1 q902d_1 q902e_1 q902f_1 q902g_1 q902h_1 q902i_1 q902j_1 q902_oth_1) (m5_baby1_902a ///
+        m5_baby1_902b m5_baby1_902c m5_baby1_902d m5_baby1_902e m5_baby1_902f m5_baby1_902g m5_baby1_902h ///
+		m5_baby1_902i m5_baby1_902j m5_baby1_902_other) 
+		
+rename (q902a_2 q902b_2 q902c_2 q902d_2 q902e_2 q902f_2 q902g_2 q902h_2 q902i_2 q902j_2 q902_oth_2) (m5_baby2_902a ///
+        m5_baby2_902b m5_baby2_902c m5_baby2_902d m5_baby2_902e m5_baby2_902f m5_baby2_902g m5_baby2_902h m5_baby2_902i ///
+		m5_baby2_902j m5_baby2_902_other)
+		
+rename (q903a_1 q903b_1 q903c_1 q903d_1 q903e_1 q903f_1 q903_oth_1) (m5_baby1_903a m5_baby1_903b m5_baby1_903c m5_baby1_903d ///
+	    m5_baby1_903e m5_baby1_903f m5_baby1_903_other) 
 
-rename (q903a q903b q903c q903d q903e q903f q903_oth q904_1 q904_oth_1 q905) (m5_903a m5_903b m5_903c m5_903d m5_903e m5_903f m5_903_other m5_904 ///
-        m5_904_other m5_905)
+rename (q903a_2 q903b_2 q903c_2 q903d_2 q903e_2 q903f_2 q903_oth_2) (m5_baby2_903a m5_baby2_903b m5_baby2_903c m5_baby2_903d ///
+	    m5_baby2_903e m5_baby2_903f m5_baby2_903_other) 		
+	
+rename (q904_1 q904_oth_1 q904_2 q904_oth_2 q905) (m5_baby1_904 m5_baby1_904_other m5_baby2_904 m5_baby2_904_other m5_905)	
 	
 rename (q1001 q1002a q1002b q1002c q1002d q1002e q1002_oth q1003 q1004 q1005 q1005_1 q1005_2 q1005_3 q1005_4 q1005_5 q1005_6 q1005__96 q1005_oth) ///
        (m5_1001 m5_1002a m5_1002b m5_1002c m5_1002d m5_1002e m5_1002_other m5_1003 m5_1004 m5_1005 m5_1005a m5_1005b m5_1005c m5_1005d m5_1005e ///
@@ -5306,8 +5381,7 @@ rename (q1103 q1104 q1104_1 q1104_2 q1104_3 q1104_4 q1104_5 q1104_6 q1104_7 q110
 rename (q1201 q1202 q1202_v2 q1301 q1302 q1303a q1303b q1303c q1304a q1304b q1304c q1305a q1305b q1305c q1306 q1307) (m5_1201 m5_1202a m5_1202b ///
         m5_height m5_weight m5_sbp1 m5_dbp1 m5_pr1 m5_sbp2 m5_dbp2 m5_pr2 m5_sbp3 m5_dbp3 m5_pr3 m5_anemiatest m5_hb_level)
 		
-rename (baby_index_assess_1 q1401 q1402 q1403 baby_repeat_assess_count end_comment) (m5_baby_index_assess_1 m5_baby_weight m5_baby_length m5_baby_hc ///
-        m5_n_baby_assess m5_end_comment)
+rename (q1401_1 q1401_2 q1402_1 q1402_2 q1403_1 q1403_2) (m5_baby1_weight m5_baby2_weight m5_baby1_length m5_baby2_length m5_baby1_hc m5_baby2_hc)
 
 *===============================================================================
 
