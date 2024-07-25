@@ -4662,9 +4662,6 @@ drop baby_index_1 baby_repeat_count baby_index_assess_1 baby_repeat_assess_count
 
 drop baby_index_2 baby_name_2 alive_babies baby_index_care_2 baby_name_care_2 baby_index_med_2 baby_name_med_2 baby_index_assess_2 baby_name_assess_2 baby_repeat_s15a_count baby_index_s15a_1 baby_name_s15a_1 baby_index_s15a_2 baby_name_s15a_2 baby_repeat_s15b_count baby_index_s15b_1 baby_name_s15b_1 baby_index_s15b_2 baby_name_s15b_2 baby_repeat_s15c_count baby_index_s15c_1 baby_name_s15c_1 baby_index_s15c_2 baby_name_s15c_2 baby_label_s15c_2 baby_repeat_s15a_count baby_repeat_s15b_count baby_repeat_s15c_count baby_index_care_1 baby_repeat_care_count baby_index_med_1
 
-*droppping Mcard vars until I get a codebook 
-drop q15101a q15101b q15101b_other q15102_1 q15103_1 q15104a_1 q15104b_1 q15104c_1 q15105_1 q15106_1 q15107_1 q15108_1 q15109_1 q15110_1 q15111_1 q15112_1 q15113_1 q15114a_1 q15114b_1 q15102_2 q15103_2 q15104a_2 q15104b_2 q15104c_2 q15105_2 q15106_2 q15107_2 q15108_2 q15109_2 q15110_2 q15111_2 q15112_2 q15113_2 q15114a_2 q15114b_2 q15201 q15202 q15203 q15204 q15205 q15206 q15207 q15208 q15209 q15210 q15211 q15212 q15213 q15214 q15215 q15216 q15223 q15224 q15225 q15226 q15227 q15228 q15229 q15230 q15231 q15232 q15233 q15234 q15235 q15242 q15243 q15244 q15245 q15246 q15247 q15248 q15249 q15250 q15251 q15252 q15253 q15254 q15217_1 q15217_other_1 q15218_1 q15219_1 q15220_1 q15221_1 q15222_1 q15222b_1 q15236_1 q15236_other_1 q15237_1 q15238_1 q15239_1 q15240_1 q15241_1 q15255_1 q15255_other_1 q15256_1 q15257_1 q15258_1 q15259_1 q15260_1 q15217_2 q15217_other_2 q15218_2 q15219_2 q15220_2 q15221_2 q15222_2 q15222b_2 q15236_2 q15236_other_2 q15237_2 q15238_2 q15239_2 q15240_2 q15241_2 q15255_2 q15255_other_2 q15256_2 q15257_2 q15258_2 q15259_2 q15260_2 q15261_1 q15262_1 q15262_1_1 q15262_2_1 q15262_3_1 q15262_4_1 q15262_5_1 q15262_6_1 q15262_7_1 q15262_8_1 q15262_9_1 q15262_10_1 q15262_11_1 q15262_12_1 q15262_13_1 q15262_14_1 q15262__96_1 q15263_1 q15264_1 q15265_1 q15265a_1 q15265b_1 q15266a_1 q15266b_1 q15267a_1 q15267b_1 q15268a_1 q15268b_1 q15261_2 q15262_2 q15262_1_2 q15262_2_2 q15262_3_2 q15262_4_2 q15262_5_2 q15262_6_2 q15262_7_2 q15262_8_2 q15262_9_2 q15262_10_2 q15262_11_2 q15262_12_2 q15262_13_2 q15262_14_2 q15262__96_2 q15263_2 q15264_2 q15265_2 q15265a_2 q15265b_2 q15266a_2 q15266b_2 q15267a_2 q15267b_2 q15268a_2 q15268b_2
-
 *===============================================================================
 
 * STEP ONE: RENAME VARAIBLES
@@ -4688,6 +4685,8 @@ encode q203_5_2,gen(m5_baby2_feed_e)
 encode q203_6_2,gen(m5_baby2_feed_f)	
 encode q203_7_2,gen(m5_baby2_feed_g)	
 encode q203_99_2,gen(m5_baby2_feed_99)	
+
+drop q203_1_2 q203_2_2 q203_3_2 q203_4_2 q203_5_2 q203_6_2 q203_7_2 q203_99_2
 
 rename q204_2 m5_baby2_breastfeeding	   
 
@@ -4713,7 +4712,9 @@ encode q206_6_2,gen(m5_baby2_issue_f)
 encode q206_7_2,gen(m5_baby2_issue_g)	
 encode q206_8_2,gen(m5_baby2_issue_h)	
 encode q206_9_2,gen(m5_baby2_issue_i)	   	   
-encode q206_0_2,gen(m5_baby2_issues_none)	   
+encode q206_0_2,gen(m5_baby2_issues_none)	 
+
+drop q206_1_2 q206_2_2 q206_3_2 q206_4_2 q206_5_2 q206_6_2 q206_7_2 q206_8_2 q206_9_2 q206_0_2
 
 rename (q207a_2 q207b_2 q208_2 q209_2 q209_unit_2) (m5_baby2_issue_oth m5_baby2_issue_oth_text m5_baby2_death_date ///
 	   m5_baby2_death_time m5_baby2_death_time_unit)	   
@@ -4738,6 +4739,8 @@ encode q210__96_2,gen(m5_baby2_death_cause_oth)
 encode q210_98_2,gen(m5_baby2_death_cause_98)
 encode q210_99_2,gen(m5_baby2_death_cause_99)	
 rename q210_oth_2 m5_baby2_death_cause_oth_text
+
+drop q210_0_2 q210_1_2 q210_2_2 q210_3_2 q210_4_2 q210_5_2 q210_6_2 q210_7_2 q210_8_2 q210_9_2 q210__96_2 q210_98_2 q210_99_2
 
 rename q211_2 m5_baby2_death_tx
 rename q212_2 m5_baby2_death_loc
@@ -4846,6 +4849,8 @@ encode q506_9_8, gen(m5_consultation8_i)
 encode q506_10_8, gen(m5_consultation8_j)
 encode q506__96_8, gen(m5_consultation8_oth)
 rename q506_oth_8 m5_consultation8_oth_text
+
+drop q506_4 q506_1_4 q506_2_4 q506_3_4 q506_4_4 q506_5_4 q506_6_4 q506_7_4 q506_8_4 q506_9_4 q506_10_4 q506__96_4 q506_5 q506_1_5 q506_2_5 q506_3_5 q506_4_5 q506_5_5 q506_6_5 q506_7_5 q506_8_5 q506_9_5 q506_10_5 q506__96_5 q506_6 q506_1_6 q506_2_6 q506_3_6 q506_4_6 q506_5_6 q506_6_6 q506_7_6 q506_8_6 q506_9_6 q506_10_6 q506__96_6 q506_7 q506_1_7 q506_2_7 q506_3_7 q506_4_7 q506_5_7 q506_6_7 q506_7_7 q506_8_7 q506_9_7 q506_10_7 q506__96_7 q506_8 q506_1_8 q506_2_8 q506_3_8 q506_4_8 q506_5_8 q506_6_8 q506_7_8 q506_8_8 q506_9_8 q506_10_8 q506__96_8
 	   
 		  	  
 rename (q511 q511_oth q601_1 q601_2 q601_3 q601_4 q601_5 q601_6 q601_7 q601_8 user_experience_rpt_count) ///
@@ -4876,7 +4881,9 @@ encode q703_6_2,gen(m5_baby2_703g)
 encode q703__96_2,gen(m5_baby2_703h)
 encode q703_98_2,gen(m5_baby2_703_98)
 encode q703_99_2,gen(m5_baby2_703_99)
-rename q703_oth_2 m5_baby2_703_other		
+rename q703_oth_2 m5_baby2_703_other	
+
+drop q703_0_2 q703_1_2 q703_2_2 q703_3_2 q703_4_2 q703_5_2 q703_6_2 q703__96_2 q703_98_2 q703_99_2
 
 rename (q801a q801b q801c q801d q801e q801f q801g q801h q801oth q802 q803a q803b q803c q803d q803e q803f q803g q804a q804b q804c baby_repeat_med_count) ///
        (m5_801a m5_801b m5_801c m5_801d m5_801e m5_801f m5_801g m5_801h m5_801_other m5_802 m5_803a m5_803b m5_803c m5_803d m5_803e m5_803f ///
@@ -5480,6 +5487,193 @@ rename (q1201 q1202 q1202_v2 q1301 q1302 q1303a q1303b q1303c q1304a q1304b q130
 		
 rename (q1401_1 q1401_2 q1402_1 q1402_2 q1403_1 q1403_2) (m5_baby1_weight m5_baby2_weight m5_baby1_length m5_baby2_length m5_baby1_hc m5_baby2_hc)
 
+
+	* MATERNAL CARDS:
+rename q15101a mcard_available_ke
+rename q15101b mcard_edition_ke
+rename q15101b_other mcard_edition_oth_ke
+
+rename q15102_1 mcard_b1_mode
+rename q15103_1 mcard_b1_hivtest
+rename q15104a_1 mcard_b1_apgar_1min
+rename q15104b_1 mcard_b1_apgar_5min
+rename q15104c_1 mcard_b1_apgar_10min
+rename q15105_1 mcard_b1_resuscitation
+rename q15106_1 mcard_b1_pre_eclamp
+rename q15107_1 mcard_b1_eclamp
+rename q15108_1 mcard_b1_pph 
+rename q15109_1 mcard_b1_bloodloss
+rename q15110_1 mcard_b1_obs_labor
+rename q15111_1 mcard_b1_mothercondition
+rename q15112_1 mcard_b1_babywgt
+rename q15113_1 mcard_b1_babycondition
+
+rename q15114a_1 mcard_b1_birthabn
+rename q15114b_1 mcard_b1_birthabn_y
+
+rename q15102_2 mcard_b2_mode
+rename q15103_2 mcard_b2_hivtest
+rename q15104a_2 mcard_b2_apgar_1min
+rename q15104b_2 mcard_b2_apgar_5min
+rename q15104c_2 mcard_b2_apgar_10min
+rename q15105_2 mcard_b2_resuscitation
+rename q15106_2 mcard_b2_pre_eclamp
+rename q15107_2 mcard_b2_eclamp
+rename q15108_2 mcard_b2_pph
+rename q15109_2 mcard_b2_bloodloss
+rename q15110_2 mcard_b2_obs_labor
+rename q15111_2 mcard_b2_mothercondition
+rename q15112_2 mcard_b2_babywgt
+rename q15113_2 mcard_b2_babycondition
+
+rename q15114a_2 mcard_b2_birthabn
+rename q15114b_2 mcard_b2_birthabn_y
+
+rename q15201 mcard_pnc_48h
+rename q15202 mcard_pnc_1w
+rename q15203 mcard_pnc_4w
+
+rename q15204 mcard_m_bp_48h
+rename q15205 mcard_m_temp_48h
+rename q15206 mcard_m_pr_48h
+rename q15207 mcard_m_rr_48h
+rename q15208 mcard_m_cond_48h
+rename q15209 mcard_m_breast_48h
+rename q15210 mcard_m_cs_scar_48h
+rename q15211 mcard_m_pelvic_exam_48h
+rename q15212 mcard_m_epis_48h
+rename q15213 mcard_m_hb_48h
+rename q15214 mcard_m_hiv_status_48h
+rename q15215 mcard_m_fp_48h
+rename q15216 mcard_m_mentalscr_48h
+rename q15223 mcard_m_bp_1w
+rename q15224 mcard_m_temp_1w
+rename q15225 mcard_m_pr_1w
+rename q15226 mcard_m_rr_1w
+rename q15227 mcard_m_cond_1w
+rename q15228 mcard_m_breast_1w
+rename q15229 mcard_m_cs_scar_1w
+rename q15230 mcard_m_pelvic_exam_1w
+rename q15231 mcard_m_epis_1w
+rename q15232 mcard_m_hb_1w
+rename q15233 mcard_m_hiv_status_1w
+rename q15234 mcard_m_fp_1w
+rename q15235 mcard_m_mentalscr_1w
+rename q15242 mcard_m_bp_4w
+rename q15243 mcard_m_temp_4w
+rename q15244 mcard_m_pr_4w
+rename q15245 mcard_m_rr_4w
+rename q15246 mcard_m_cond_4w
+rename q15247 mcard_m_breast_4w
+rename q15248 mcard_m_cs_scar_4w
+rename q15249 mcard_m_pelvic_exam_4w
+rename q15250 mcard_m_epis_4w
+rename q15251 mcard_m_hb_4w
+rename q15252 mcard_m_hiv_status_4w
+rename q15253 mcard_m_fp_4w
+rename q15254 mcard_m_mentalscr_4w
+
+rename q15217_1 mcard_b1_cond_48h
+rename q15217_other_1 mcard_b1_cond_48h_oth
+rename q15218_1 mcard_b1_temp_48h
+rename q15219_1 mcard_b1_bbm_48h
+rename q15220_1 mcard_b1_feed_48h
+rename q15221_1 mcard_b1_breastpos_48h
+rename q15222_1 mcard_b1_umb_48h
+rename q15222b_1 mcard_b1_imm_48h
+rename q15236_1 mcard_b1_cond_1w
+rename q15236_other_1 mcard_b1_cond_1w_oth
+rename q15237_1 mcard_b1_temp_1w
+rename q15238_1 mcard_b1_bbm_1w
+rename q15239_1 mcard_b1_feed_1w
+rename q15240_1 mcard_b1_breastpos_1w
+rename q15241_1 mcard_b1_umb_1w
+rename q15255_1 mcard_b1_cond_4w
+rename q15255_other_1 mcard_b1_cond_4w_oth
+rename q15256_1 mcard_b1_temp_4w
+rename q15257_1 mcard_b1_bbm_4w
+rename q15258_1 mcard_b1_feed_4w
+rename q15259_1 mcard_b1_breastpos_4w
+rename q15260_1 mcard_b1_umb_4w
+rename q15217_2 mcard_b2_cond_48h
+rename q15217_other_2 mcard_b2_cond_48h_oth
+rename q15218_2 mcard_b2_temp_48h
+rename q15219_2 mcard_b2_bbm_48h
+rename q15220_2 mcard_b2_feed_48h
+rename q15221_2 mcard_b2_breastpos_48h
+rename q15222_2 mcard_b2_umb_48h
+rename q15222b_2 mcard_b2_imm_48h
+rename q15236_2 mcard_b2_cond_1w
+rename q15236_other_2 mcard_b2_cond_1w_oth
+rename q15237_2 mcard_b2_temp_1w
+rename q15238_2 mcard_b2_bbm_1w
+rename q15239_2 mcard_b2_feed_1w
+rename q15240_2 mcard_b2_breastpos_1w
+rename q15241_2 mcard_b2_umb_1w
+rename q15255_2 mcard_b2_cond_4w
+rename q15255_other_2 mcard_b2_cond_4w_oth
+rename q15256_2 mcard_b2_temp_4w
+rename q15257_2 mcard_b2_bbm_4w
+rename q15258_2 mcard_b2_feed_4w
+rename q15259_2 mcard_b2_breastpos_4w
+rename q15260_2 mcard_b2_umb_4w
+rename q15261_1 mcard_b1_specialcare
+rename q15262_1 mcard_b1_specialcare_reason
+rename q15262_1_1 mcard_b1_reason1
+rename q15262_2_1 mcard_b1_reason2
+rename q15262_3_1 mcard_b1_reason3
+rename q15262_4_1 mcard_b1_reason4
+rename q15262_5_1 mcard_b1_reason5
+rename q15262_6_1 mcard_b1_reason6
+rename q15262_7_1 mcard_b1_reason7
+rename q15262_8_1 mcard_b1_reason8
+rename q15262_9_1 mcard_b1_reason9
+rename q15262_10_1 mcard_b1_reason10
+rename q15262_11_1 mcard_b1_reason11
+rename q15262_12_1 mcard_b1_reason12
+rename q15262_13_1 mcard_b1_reason13
+rename q15262_14_1 mcard_b1_reason14
+rename q15262__96_1 mcard_b1_reason15
+rename q15263_1 mcard_b1_reason_oth
+rename q15264_1 mcard_b1_bcg
+rename q15265_1 mcard_b1_polio
+rename q15265a_1 mcard_b1_polio1
+rename q15265b_1 mcard_b1_polio2
+rename q15266a_1 mcard_b1_dtap1
+rename q15266b_1 mcard_b1_dtap2
+rename q15267a_1 mcard_b1_pvac1
+rename q15267b_1 mcard_b1_pvac2
+rename q15268a_1 mcard_b1_rota1
+rename q15268b_1 mcard_b1_rota2
+rename q15261_2 mcard_b2_specialcare
+rename q15262_2 mcard_b2_specialcare_reason
+rename q15262_1_2 mcard_b2_reason1
+rename q15262_2_2 mcard_b2_reason2
+rename q15262_3_2 mcard_b2_reason3
+rename q15262_4_2 mcard_b2_reason4
+rename q15262_5_2 mcard_b2_reason5
+rename q15262_6_2 mcard_b2_reason6
+rename q15262_7_2 mcard_b2_reason7
+rename q15262_8_2 mcard_b2_reason8
+rename q15262_9_2 mcard_b2_reason9
+rename q15262_10_2 mcard_b2_reason10
+rename q15262_11_2 mcard_b2_reason11
+rename q15262_12_2 mcard_b2_reason12
+rename q15262_13_2 mcard_b2_reason13
+rename q15262_14_2 mcard_b2_reason14
+rename q15262__96_2 mcard_b2_reason15 
+rename q15263_2 mcard_b2_reason_oth
+rename q15264_2 mcard_b2_bcg
+rename q15265_2 mcard_b2_polio
+rename q15265a_2 mcard_b2_polio1
+rename q15265b_2 mcard_b2_polio2
+rename q15266a_2 mcard_b2_dtap1
+rename q15266b_2 mcard_b2_dtap2
+rename q15267a_2 mcard_b2_pvac1
+rename q15267b_2 mcard_b2_pvac2
+rename q15268a_2 mcard_b2_rota1
+rename q15268b_2 mcard_b2_rota2
+
 *===============================================================================
 
 	* STEP TWO: ADD VALUE LABELS (NA in KENYA, already labeled)
@@ -5905,12 +6099,27 @@ recode m5_baby2_length (. = .a) if m5_baby2_alive != 1
 recode m5_baby1_hc (. = .a) if m5_baby1_alive != 1 
 recode m5_baby2_hc (. = .a) if m5_baby1_alive != 1 
 
-*===============================================================================
-* merge dataset with M1-M4
+	* MATERNAL CARDS:
+recode mcard_pnc_48h mcard_m_bp_48h mcard_m_temp_48h mcard_m_pr_48h mcard_m_rr_48h mcard_m_breast_48h mcard_m_cs_scar_48h mcard_m_pelvic_exam_48h mcard_m_epis_48h mcard_m_hb_48h mcard_m_hiv_status_48h mcard_m_fp_48h mcard_m_mentalscr_48h mcard_b1_cond_48h mcard_b1_temp_48h mcard_b1_bbm_48h mcard_b1_feed_48h mcard_b1_breastpos_48h mcard_b1_umb_48h mcard_b1_imm_48h mcard_b2_cond_48h mcard_b2_temp_48h mcard_b2_bbm_48h mcard_b2_feed_48h mcard_b2_breastpos_48h mcard_b2_umb_48h mcard_b2_imm_48h (. = .a) if mcard_pnc_48h !=1
 
-*merge 1:1 respondentid using "$ke_data_final/eco_m1-m4_ke.dta"
+replace mcard_b1_cond_48h_oth = ".a" if mcard_pnc_48h !=1
+replace mcard_b2_cond_48h_oth = ".a" if mcard_pnc_48h !=1
+replace mcard_m_cond_48h = ".a" if mcard_pnc_48h !=1
+	
+recode mcard_m_bp_1w mcard_m_temp_1w mcard_m_pr_1w mcard_m_rr_1w mcard_m_breast_1w mcard_m_cs_scar_1w mcard_m_pelvic_exam_1w mcard_m_epis_1w mcard_m_hb_1w mcard_m_hiv_status_1w mcard_m_fp_1w mcard_m_mentalscr_1w mcard_b1_cond_1w  mcard_b1_temp_1w mcard_b1_bbm_1w mcard_b1_feed_1w mcard_b1_breastpos_1w mcard_b1_umb_1w mcard_b2_cond_1w  mcard_b2_temp_1w mcard_b2_bbm_1w mcard_b2_feed_1w mcard_b2_breastpos_1w mcard_b2_umb_1w (. = .a) if mcard_pnc_1w !=1
 
-*drop _merge
+replace mcard_b1_cond_1w_oth = ".a" if mcard_pnc_1w !=1
+replace mcard_b2_cond_1w_oth = ".a" if mcard_pnc_1w !=1
+replace mcard_m_cond_1w = ".a" if mcard_pnc_1w !=1
+
+recode mcard_m_bp_4w mcard_m_temp_4w mcard_m_pr_4w mcard_m_rr_4w mcard_m_breast_4w mcard_m_cs_scar_4w mcard_m_pelvic_exam_4w mcard_m_epis_4w mcard_m_hb_4w mcard_m_hiv_status_4w mcard_m_fp_4w mcard_m_mentalscr_4w mcard_b1_cond_4w mcard_b1_temp_4w mcard_b1_bbm_4w mcard_b1_feed_4w mcard_b1_breastpos_4w mcard_b1_umb_4w mcard_b2_cond_4w mcard_b2_temp_4w mcard_b2_bbm_4w mcard_b2_feed_4w mcard_b2_breastpos_4w mcard_b2_umb_4w (. = .a) if mcard_pnc_4w !=1
+
+replace mcard_b1_cond_4w_oth = ".a" if mcard_pnc_4w !=1
+replace mcard_b2_cond_4w_oth = ".a" if mcard_pnc_4w !=1
+replace mcard_m_cond_4w = ".a" if mcard_pnc_4w !=1
+
+replace mcard_b1_reason_oth = ".a" if mcard_b1_reason15 != "1"
+replace mcard_b2_reason_oth = ".a" if mcard_b2_reason15 != "1"
 
 *===============================================================================
 	
@@ -6443,16 +6652,12 @@ drop _merge
 *==============================================================================*
 	
 
-order m1_* m2_* m3_* m4_* m5_*, sequential
+order m1_* m2_* m3_* m4_* m5_* mcard_*, sequential
 
 
 *------------------------------------------------------------------------------*
-	
 	* STEP SIX: ORDER/SAVE DATA TO RECODED FOLDER
 
-	*save "$ke_data_final/eco_m1-m5_ke.dta", replace
-
-*===============================================================================
-
+	save "$ke_data_final/eco_m1-m5_ke.dta", replace
 
 *===============================================================================
