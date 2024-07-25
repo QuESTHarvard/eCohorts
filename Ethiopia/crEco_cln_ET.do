@@ -1485,6 +1485,14 @@ drop m2_drop
 		replace m3_birth_or_ended = date("2023-12-25", "YMD") if redcap_record_id=="1697-40" // fixed year
 		replace m3_birth_or_ended = date("2023-12-28", "YMD") if redcap_record_id=="1707-38" // fixed year
 		replace m3_birth_or_ended = . if redcap_record_id=="1686-1" //date of birth was entered as being before the ANC1
+		*added 7-25-24 (SS):
+		replace m3_birth_or_ended = date("2023-12-30", "YMD") if redcap_record_id=="1713-44"
+		replace m3_birth_or_ended = date("2023-09-20", "YMD") if redcap_record_id=="1695-11"
+		replace m3_birth_or_ended = date("2023-08-18", "YMD") if redcap_record_id=="1712-56"
+		replace m3_birth_or_ended = date("2023-09-13", "YMD") if redcap_record_id=="1696-32"
+		replace m3_birth_or_ended = date("2023-11-14", "YMD") if redcap_record_id=="1686-19"
+		replace m3_birth_or_ended = date("2023-11-11", "YMD") if redcap_record_id=="1701-32"
+		replace m3_birth_or_ended = date("2023-09-26", "YMD") if redcap_record_id=="1695-37"
 	
 	
 		gen pregnancyend_ga = ((m3_birth_or_ended)-m1_date)/7 + m1_ga
