@@ -1,5 +1,5 @@
 * South Africa MNH ECohort Data Cleaning File 
-* Created by S. Sabwa
+* Created by S. Sabwa, C.Arsenault
 * Updated: Aug 17 2023 
 
 *------------------------------------------------------------------------------*
@@ -27,7 +27,7 @@ import excel "$za_data/Module 1/SA MOD-1 - 15 Jan 2024.xlsx", sheet("MNH_Module_
 	
 replace CRHID = trim(CRHID)
 replace CRHID = subinstr(CRHID," ","",.)	
-	
+	 
 *------------------------------------------------------------------------------*
 * Create sample:
 	
@@ -259,6 +259,15 @@ replace respondentid = "MND_013" if respondentid == "MND-013"
 replace respondentid = "TOK_081" if respondentid == "C" // not in M1, ask Londi to review
 *replace respondentid = "NWE_057" if respondentid == "NWE_057" // not in M1, ask Londi to review
 replace respondentid = "MER_046" if pre_screening_num_za == "SCR-G054"
+
+* phantom pregnancies - dropped 
+drop if respondentid == "MND_007"
+
+*per Londi: Recruited twice, EUB_007 also recruited as UUT_014. Please remove UUT_014 from the MOD1 dataset.
+drop if respondentid == "UUT_014"
+
+*per Catherine's email: missing entire sections of module 1
+drop if respondentid == "NEL_045"
 
 *===============================================================================
 	
@@ -1394,12 +1403,12 @@ save "$za_data_final/eco_m1_za.dta", replace
 clear all
 
 * import data:
-import excel "$za_data/Module 2/MNH-Module-2 17Apr2024 - 24Apr2024.xlsx", firstrow clear
+import excel "$za_data/Module 2/MNH-Module-2 - 17Jul2024SS.xlsx", firstrow clear
 
 replace CRHID = trim(CRHID)
 replace CRHID = subinstr(CRHID," ","",.)
 
-drop RESPONSE_QuestionnaireID RESPONSE_QuestionnaireName RESPONSE_QuestionnaireVersion RESPONSE_FieldWorkerID RESPONSE_FieldWorker RESPONSE_StartTime RESPONSE_Location RESPONSE_Lattitude RESPONSE_Longitude RESPONSE_StudyNoPrefix RESPONSE_StudyNo ResponseID ER StudyNumber NoofFollowupCalls
+drop RESPONSE_QuestionnaireID RESPONSE_QuestionnaireName RESPONSE_QuestionnaireVersion RESPONSE_FieldWorkerID RESPONSE_FieldWorker RESPONSE_StartTime RESPONSE_Location RESPONSE_Lattitude RESPONSE_Longitude RESPONSE_StudyNoPrefix RESPONSE_StudyNo ResponseID StudyNumber NoofFollowupCalls
 
 *pids that were ineligible in M1:
 drop if CRHID == "QEE_109"
@@ -1577,6 +1586,12 @@ replace respondentid = "KAN_051" if respondentid == "KAN_051 "
 replace respondentid = "RCH_089" if respondentid == "RCH_089 "
 replace respondentid = "EUB_003" if respondentid == "EUB_003 "
 replace respondentid = "BCH_010" if respondentid == "BCH_010 " */
+
+* phantom pregnancies - dropped 
+drop if respondentid == "MND_007"
+
+*per Londi: Recruited twice, EUB_007 also recruited as UUT_014. Please remove UUT_014 from the MOD1 dataset.
+drop if respondentid == "UUT_014"
 
 *===============================================================================
 	
@@ -2145,7 +2160,7 @@ replace m2_507_other = ".a" if m2_507 !=96
 						  						  
 recode m2_508a (. 9999998 = .a) if (m2_205a+m2_205b) <3 | m2_202 !=1 | m2_301 !=1 | m2_302 ==0 | m2_302 ==. | m2_302 ==.a // SS: confirm response "95", N=11 missing responses
 recode m2_508b_num (. 9999998 = .a) if m2_508a !=1 // SS: confirm response of "Yes", responses are supposed to be numeric
-replace m2_508c_time = ".a" if m2_508a !=1
+recode m2_508c_time (. = .a) if m2_508a !=1
 
 recode m2_509a (. 9999998 = .a) if m2_301 !=1 | m2_302 ==0 | m2_302 ==. | m2_302 ==.a
 recode m2_509b (. 9999998 = .a) if m2_301 !=1 | m2_302 ==0 | m2_302 ==. | m2_302 ==.a
@@ -2750,6 +2765,15 @@ drop if respondentid == "BNE_013" | respondentid == "NEL_001" | respondentid == 
 *duplicate: RCH_022 - collapsing all M3 data by id
 order respondentid, before(m3_permission)
 collapse (firstnm) m3_permission-m3_1206, by(respondentid)
+
+* phantom pregnancies - dropped 
+drop if respondentid == "MND_007"
+
+*per Londi: Recruited twice, EUB_007 also recruited as UUT_014. Please remove UUT_014 from the MOD1 dataset.
+drop if respondentid == "UUT_014" 
+
+*fixing baby death dates:
+replace m3_313a_baby1 = 23318 if respondentid == "IIB_037"
 
 *==============================================================================*
 

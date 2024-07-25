@@ -40,7 +40,7 @@ gen country = "Ethiopia"
 	
 		
 		*2) Add any new vars here:
-		by record_id: carryforward hiv_status_109_m2 what_was_the_result_of_hiv module_1_baseline_face_to_face_e ///
+		by record_id: carryforward study_id hiv_status_109_m2 what_was_the_result_of_hiv module_1_baseline_face_to_face_e ///
 								   how_many_babies_do_you_303a is_the_respondent_eligible ///
 								   module_1_baseline_face_to_face_e date_of_interview_m1, replace
 
@@ -384,7 +384,10 @@ rename (do_you_know_weight_1st_baby do_you_know_weight_2nd_baby do_you_know_weig
 		how_confiden_on_breastfeed how_often_per_day_in_eth1_3 born_alive_baby_1 as_you_know_this_survey_202 born_alive_baby_2 born_alive_baby_3 ///
 		q313b_1 q313b_2) (m3_baby1_size m3_baby2_size m3_baby3_size m3_baby1_health m3_baby2_health m3_baby3_health m3_baby1_feed_other ///
 	    m3_baby2_feed_other m3_baby3_feed_other m3_breastfeeding m3_breastfeeding_fx_et m3_baby1_born_alive m3_202 ///
-		m3_baby2_born_alive m3_baby3_born_alive m3_313a_baby1 m3_313b_baby1)		
+		m3_baby2_born_alive m3_baby3_born_alive m3_313a_baby1 m3_313b_baby1)	
+		
+replace m3_313a_baby1 = "2023-08-11" if respondentid == "121515"
+replace m3_313a_baby1 = "2023-06-19" if respondentid == "180813"
 		
 rename (how_you_feed_1st_baby___1 how_you_feed_1st_baby___2 how_you_feed_1st_baby___3 how_you_feed_1st_baby___4 how_you_feed_1st_baby___5 ///
 		how_you_feed_1st_baby___6 how_you_feed_1st_baby___7 how_you_feed_1st_baby___96 how_you_feed_1st_baby___99 how_you_feed_1st_baby___998 ///
@@ -1464,7 +1467,7 @@ drop m2_drop
 		*New gestational age vars:
 	
 		generate m2_ga = m1_ga + time_between_m1m2
-		generate m3_ga = m1_ga + time_between_m1m3
+		*generate m3_ga = m1_ga + time_between_m1m3
 	
 		drop time_between_m1m2 time_between_m1m3
 		
@@ -1484,6 +1487,8 @@ drop m2_drop
 		replace m3_birth_or_ended = . if redcap_record_id=="1686-1" //date of birth was entered as being before the ANC1
 	
 	
+		gen pregnancyend_ga = ((m3_birth_or_ended)-m1_date)/7 + m1_ga
+
 		* Date of LNMP
 		gen _m1_802c_et_ = date(m1_802c_et,"YMD")
 		drop m1_802c_et
@@ -3720,7 +3725,7 @@ recode m2_endstatus (. = .a) if m2_endtime == ""
 
 * MODULE 3:
 recode m3_permission (. = .a) if m3_start_p1 !=1
-recode m3_date recm3_time m3_birth_or_ended m3_303a m3_ga (. = .a) if m3_permission !=1 // SS 2-21: removed m3_ga1 m3_ga2
+recode m3_date recm3_time m3_birth_or_ended m3_303a (. = .a) if m3_permission !=1 // SS 2-21: removed m3_ga1 m3_ga2
 
 recode m3_303b (. = .a) if m3_303a == . | m3_303a == .a
 recode m3_303c (. = .a) if m3_303a == 1 | m3_303a == . | m3_303a == .a | m3_303a == .d | m3_303a == .r
@@ -7404,6 +7409,13 @@ label variable m2_int_duration`i' "103C. Total Duration of interview (In minutes
 label variable m2_endstatus`i' "What is this womens current status at the end of the interview?"	
 
 	}
+	
+*set to missing if the baby is not born alive or baby is born at a weight <25mg
+		gen ga_according_to_dob = 40-((m3_birth_or_ended - m1_date)/7)
+		
+		recode ga_according_to_dob (. = .a) if m3_baby1_born_alive !=1 & m3_baby2_born_alive !=1 & m3_baby3_born_alive !=1 // need to add if any baby's are under 25
+	
+	
 *===============================================================================
 * STEP SEVEN: SAVE DATA TO RECODED FOLDER
 	 save "$et_data_final/eco_m1-m5_et_wide.dta", replace
