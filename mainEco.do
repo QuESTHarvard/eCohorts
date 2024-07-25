@@ -1,6 +1,7 @@
 * Ecohorts main code file 
-* Date of last update: Jan 2024
-* Last updated by: S Sabwa
+* Date of last update: July 22 2024
+* Last updated by: MK Trimner
+* Version Number 1.01
 
 /* Purpose of code file: 
 	
@@ -9,6 +10,15 @@
 	
 	Countries included: Ethiopia, Kenya, South Africa, India
 	
+*******************************************************************************
+* Change log
+* 				Updated
+*				version
+* Date 			number 	Name			What Changed
+2024-07-22		1.01	MK Trimner		Added change log
+										Added user global for MKT
+*										Adjusted other user globals to include "Core Research/Echohorts" because MKT folder structure is different	
+										Changed other input & output globals to remove "Core Research/Echohorts"
 */
 
 * Setting up files and macros
@@ -24,39 +34,45 @@ macro drop _all
 global user "/Users/shs8688/Dropbox (Harvard University)/SPH-Kruk Team/QuEST Network"
 global user "/Users/catherine.arsenault/Dropbox/SPH Kruk QuEST Network"
 *global user "/Users/neenakapoor/Dropbox (Harvard University)/SPH-Kruk Team/QuEST Network"
+*global user "/Users/katedwright"
 
+* Because MKT's folder path is different, adjusting the above user globals to include Core Research/Echohorts
+global user "/Users/shs8688/Dropbox (Harvard University)/SPH-Kruk Team/QuEST Network/Core Research/Ecohorts"
+global user "/Users/catherine.arsenault/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts"
+global user "/Users/HP/Dropbox (Biostat Global)"
 ********************************************************************************
 * Setting file path globals for raw data
 	*ETHIOPIA:
-	global et_data "$user/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data/Ethiopia/01 raw data"
+	global et_data "$user/MNH Ecohorts QuEST-shared/Data/Ethiopia/01 raw data"
 	
 	*KENYA:
-	global ke_data "$user/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data/Kenya/01 raw data"
+	global ke_data "$user/MNH Ecohorts QuEST-shared/Data/Kenya/01 raw data"
 	
 	*SOUTH AFRICA:
-	global za_data "$user/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data/South Africa/01 raw data"
+	global za_data "$user/MNH Ecohorts QuEST-shared/Data/South Africa/01 raw data"
 	
 	*INDIA:
-	global in_data "$user/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data/India/01 raw data"
+	global in_data "$user/MNH Ecohorts QuEST-shared/Data/India/01 raw data"
 	
 ********************************************************************************	
 * Path to recoded data folders:
 	*ETHIOPIA:
-	global et_data_final "$user/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data/Ethiopia/02 recoded data"
+	global et_data_final "$user/MNH Ecohorts QuEST-shared/Data/Ethiopia/02 recoded data"
 
 	*KENYA:
-	global ke_data_final "$user/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data/Kenya/02 recoded data"
+	global ke_data_final "$user/MNH Ecohorts QuEST-shared/Data/Kenya/02 recoded data"
 	
 	*SOUTH AFRICA:
-	global za_data_final "$user/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data/South Africa/02 recoded data"
+	global za_data_final "$user/MNH Ecohorts QuEST-shared/Data/South Africa/02 recoded data"
 	
 	*INDIA:
-	global in_data_final "$user/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data/India/02 recoded data"
+	global in_data_final "$user/MNH Ecohorts QuEST-shared/Data/India/02 recoded data"
 	
 ********************************************************************************
 
 * Path to GitHub folder 
 global github "$user/Documents/GitHub/eCohorts"
+global github "$user/MKT GitHub/eCohorts"
 
 /*
 ********************************************************************************
