@@ -2850,6 +2850,10 @@ lab val m5_complete m5_complete
 		encode q103_m5, gen(m5_starttime)
 		drop q103_m5
 		
+		*data cleaning (SS 7-29):
+		replace m5_date = date("2023-12-28", "YMD") if respondentid=="30103" // corrected interview date
+		replace m5_date = date("2023-12-28", "YMD") if respondentid=="30134" // corrected interview date
+		
 		* M5 Date of maternal death	
 		gen _m5_date_of_maternal_death_ = date(m5_date_of_maternal_death,"YMD")
 		drop m5_date_of_maternal_death
@@ -2861,6 +2865,8 @@ lab val m5_complete m5_complete
 		drop m5_baby1_death_date
 		rename _m5_baby1_death_date_ m5_baby1_death_date
 		format m5_baby1_death_date %td
+		 
+		
 		
 		/*
 		gen _m5_baby2_death_date_ = date(m5_baby2_death_date,"YMD")
