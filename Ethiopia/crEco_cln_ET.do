@@ -328,17 +328,17 @@ drop m2_attempt_avail m2_attempt_bestnumber m2_attempt_contact m2_attempt_date m
 	rename (m2_314_reason___1 m2_314_reason___2 m2_314_reason___3 m2_314_reason___4 ///
 	m2_314_reason___5 m2_314_reason___96 m2_314_reason___998 m2_314_reason___999 ///
 	m2_314_reason___888) (m2_316_1 m2_316_2 m2_316_3 m2_316_4 m2_316_5 m2_316_96 ///
-	m2_314_998_et  m2_314_999_et m2_314_888_et)
+	m2_316_998_et  m2_316_999_et m2_316_888_et)
 	
 		rename (m2_317_reason___1 m2_317_reason___2 m2_317_reason___3 m2_317_reason___4 ///
 	m2_317_reason___5 m2_317_reason___96 m2_317_reason___998 m2_317_reason___999 ///
-	m2_317_reason___888) (m2_317_1 m2_317_2 m2_317_3 m2_317_4 m2_317_5 m2_317_96 ///
-	m2_317_998_et  m2_317_999_et m2_317_888_et)
+	m2_317_reason___888) (m2_319_1 m2_319_2 m2_319_3 m2_319_4 m2_319_5 m2_319_96 ///
+	m2_319_998_et  m2_319_999_et m2_319_888_et)
 	
 	rename (m2_320___0 m2_320___1 m2_320___2 m2_320___3 m2_320___4 m2_320___5 m2_320___6 m2_320___7 ///
 			m2_320___8 m2_320___9 m2_320___10 m2_320___11 m2_320___96 m2_320___99 m2_320___998 ///
-			m2_320___999 m2_320___888) (m2_320_a m2_320_b m2_320_c m2_320_d m2_320_e m2_320_f ///
-			m2_320_g m2_320_h m2_320_i m2_320_j m2_320_k m2_320_l m2_320_96 m2_320_99 m2_320_998_et ///
+			m2_320___999 m2_320___888) (m2_320_0 m2_320_1 m2_320_2 m2_320_3 m2_320_4 m2_320_5 ///
+			m2_320_6 m2_320_7 m2_320_8 m2_320_9 m2_320_10 m2_320_11 m2_320_96 m2_320_99 m2_320_998_et ///
 			m2_320_999_et m2_320_888_et)
 
 	rename (quality_rate_of_care_1st_consult quality_rate_of_care_2nd_consult quality_rate_of_care_3rd_consult quality_rate_of_care_4th_consult quality_rate_of_care_5th_consult) (m2_401 m2_402 m2_403 m2_404 m2_405)
@@ -353,7 +353,7 @@ drop m2_attempt_avail m2_attempt_bestnumber m2_attempt_contact m2_attempt_date m
 	rename (since_you_last_discuss_sign_506a since_you_last_care_newborn_506c since_you_last_family_plan_506d ///
 			session_of_psychological_508 do_you_know_the_number_session_o how_many_of_these_sessio_508b ///
 			do_you_know_how_long_visit_508c how_many_minutes_did_this_508c)(m2_506a m2_506c m2_506d m2_508a ///
-			m2_508b_number m2_508b_last m2_508c m2_508d)
+			m2_508b_yn m2_508b_num m2_508c_yn m2_508c_time)
 	
 	rename (a_since_we_last_spoke_did_509a since_we_last_spoke_did_509b since_we_last_spoke_did_509c since_we_last_spoke_did_601a since_we_last_spoke_did_601b since_we_last_spoke_did_601c since_we_last_spoke_did_601d since_we_last_spoke_did_601e since_we_last_spoke_did_601f since_we_last_spoke_did_601g since_we_last_spoke_did_601h since_we_last_spoke_did_601i since_we_last_spoke_did_601j since_we_last_spoke_did_601k since_we_last_spoke_did_601l since_we_last_spoke_did_601m since_we_last_spoke_did_601n specify_other_medicine_sup)(m2_509a m2_509b m2_509c m2_601a m2_601b m2_601c m2_601d m2_601e m2_601f m2_601g m2_601h m2_601i m2_601j m2_601k m2_601l m2_601m m2_601n m2_601n_other)
 	
@@ -1408,7 +1408,7 @@ rename (hemoglobin blood_group_and_rh tt_does iron_folic_acid mbendazole use_of_
 
 * dropping people with incomplete M2 surveys	
 		
-egen m2_drop = rowtotal(m2_201 m2_202 m2_203a m2_203b m2_203c m2_203d m2_203e m2_203f m2_203g m2_203h m2_203i m2_204a_et m2_204b_et m2_204c_et m2_204d_et m2_204e_et m2_204f_et m2_204g_et m2_204h_et m2_204i m2_205a m2_205b m2_205c m2_205d m2_205e m2_205f m2_205g m2_205h m2_205i m2_206 m2_207 m2_208 m2_301 m2_302 m2_303a m2_303b m2_303c m2_303d m2_303e m2_304a m2_304b m2_304c m2_304d m2_304e m2_305 m2_306 m2_307_1 m2_307_2 m2_307_3 m2_307_4 m2_307_5 m2_307_96 m2_307_888_et m2_307_998_et m2_307_999_et m2_308 m2_310_1 m2_310_2 m2_310_3 m2_310_4 m2_310_5 m2_310_96 m2_310_888_et m2_310_998_et m2_310_999_et m2_309 m2_311 m2_313_1 m2_313_2 m2_313_3 m2_313_4 m2_313_5 m2_313_96 m2_313_888_et m2_313_998_et m2_313_999_et m2_312 m2_314 m2_316_1 m2_316_2 m2_316_3 m2_316_4 m2_316_5 m2_316_96 m2_314_888_et m2_314_998_et m2_314_999_et m2_315 m2_317 m2_317_1 m2_317_2 m2_317_3 m2_317_4 m2_317_5 m2_317_96 m2_317_888_et m2_317_998_et m2_317_999_et m2_318 m2_320_a m2_320_b m2_320_c m2_320_d m2_320_e m2_320_f m2_320_g m2_320_h m2_320_i m2_320_j m2_320_k m2_320_l m2_320_96 m2_320_99 m2_320_888_et m2_320_998_et m2_320_999_et m2_321 m2_401 m2_402 m2_403 m2_404 m2_405 m2_501a m2_501b m2_501c m2_501d m2_501e m2_501f m2_501g m2_502 m2_503a m2_503b m2_503c m2_503d m2_503e m2_503f m2_504 m2_505a m2_505b m2_505c m2_505d m2_505e m2_505f m2_506a m2_506b m2_506c m2_506d m2_507 m2_508a m2_508b_last m2_508b_number m2_508c m2_508d m2_509a m2_509b m2_509c m2_601a m2_601b m2_601c m2_601d m2_601e m2_601f m2_601g m2_601h m2_601i m2_601j m2_601k m2_601l m2_601m m2_601n m2_602a m2_602b m2_603 m2_604 m2_701 m2_702a m2_702b m2_702c m2_702d m2_702e m2_703 m2_704 m2_705_1 m2_705_2 m2_705_3 m2_705_4 m2_705_5 m2_705_6 m2_705_96 m2_705_888_et m2_705_998_et m2_705_999_et) 
+egen m2_drop = rowtotal(m2_201 m2_202 m2_203a m2_203b m2_203c m2_203d m2_203e m2_203f m2_203g m2_203h m2_203i m2_204a_et m2_204b_et m2_204c_et m2_204d_et m2_204e_et m2_204f_et m2_204g_et m2_204h_et m2_204i m2_205a m2_205b m2_205c m2_205d m2_205e m2_205f m2_205g m2_205h m2_205i m2_206 m2_207 m2_208 m2_301 m2_302 m2_303a m2_303b m2_303c m2_303d m2_303e m2_304a m2_304b m2_304c m2_304d m2_304e m2_305 m2_306 m2_307_1 m2_307_2 m2_307_3 m2_307_4 m2_307_5 m2_307_96 m2_307_888_et m2_307_998_et m2_307_999_et m2_308 m2_310_1 m2_310_2 m2_310_3 m2_310_4 m2_310_5 m2_310_96 m2_310_888_et m2_310_998_et m2_310_999_et m2_309 m2_311 m2_313_1 m2_313_2 m2_313_3 m2_313_4 m2_313_5 m2_313_96 m2_313_888_et m2_313_998_et m2_313_999_et m2_312 m2_314 m2_316_1 m2_316_2 m2_316_3 m2_316_4 m2_316_5 m2_316_96 m2_316_888_et m2_316_998_et m2_316_999_et m2_315 m2_317 m2_319_1 m2_319_2 m2_319_3 m2_319_4 m2_319_5 m2_319_96 m2_319_888_et m2_319_998_et m2_319_999_et m2_318 m2_320_0 m2_320_1 m2_320_2 m2_320_3 m2_320_4 m2_320_5 m2_320_6 m2_320_7 m2_320_8 m2_320_9 m2_320_10 m2_320_11 m2_320_96 m2_320_99 m2_320_888_et m2_320_998_et m2_320_999_et m2_321 m2_401 m2_402 m2_403 m2_404 m2_405 m2_501a m2_501b m2_501c m2_501d m2_501e m2_501f m2_501g m2_502 m2_503a m2_503b m2_503c m2_503d m2_503e m2_503f m2_504 m2_505a m2_505b m2_505c m2_505d m2_505e m2_505f m2_506a m2_506b m2_506c m2_506d m2_507 m2_508a m2_508b_num m2_508b_yn m2_508c_yn m2_508c_time m2_509a m2_509b m2_509c m2_601a m2_601b m2_601c m2_601d m2_601e m2_601f m2_601g m2_601h m2_601i m2_601j m2_601k m2_601l m2_601m m2_601n m2_602a m2_602b m2_603 m2_604 m2_701 m2_702a m2_702b m2_702c m2_702d m2_702e m2_703 m2_704 m2_705_1 m2_705_2 m2_705_3 m2_705_4 m2_705_5 m2_705_6 m2_705_96 m2_705_888_et m2_705_998_et m2_705_999_et) 
 
 drop if m2_drop == 0 & redcap_event_name == "module_2_arm_1"
 
@@ -2053,14 +2053,11 @@ label values m1_517 residence
 	label define m2_508a 1 "Yes" 0 "No" 98 "DK" 99 "RF" 
 	label values m2_508a m2_508a
 	
-	label define m2_508b_number 1 "Yes" 0 "No" 98 "DK" 99 "RF" 
-	label values m2_508b_number m2_508b_number
+	label define m2_508b_yn 1 "Yes" 0 "No" 98 "DK" 99 "RF" 
+	label values m2_508b_yn m2_508b_yn
 
-	label define m2_508b_last 1 "Yes" 0 "No" 98 "DK" 99 "RF" 
-	label values m2_508b_last m2_508b_last
-	
-	label define m2_508c 1 "Yes" 0 "No" 98 "DK" 99 "RF" 
-	label values m2_508c m2_508c
+	label define m2_508c_yn 1 "Yes" 0 "No" 98 "DK" 99 "RF" 
+	label values m2_508c_yn m2_508c_yn
 
 	label define m2_509a 1 "Yes" 0 "No" 98 "DK" 99 "RF" 
 	label values m2_509a m2_509a
@@ -2895,9 +2892,9 @@ lab val m5_complete m5_complete
 	recode m1_401 m1_404 m1_501 m1_506 m1_507 m1_509b m1_510b m1_511 m1_512 m1_700 m1_701 m1_702 m1_703 m1_704 m1_705 m1_706 m1_707 m1_708a m1_708b m1_708c m1_708d m1_708e m1_708f m1_709a m1_709b m1_710a m1_710b m1_710c m1_711a m1_711b m1_712 m1_713a m1_713b m1_713c m1_713d m1_713e m1_713f m1_713g m1_713h m1_713i m1_714a m1_714b m1_716a m1_716b m1_716c m1_716d m1_716e m1_717 m1_718 m1_719 m1_720 m1_721 m1_722 m1_723 m1_724a m1_724c m1_724d m1_724e m1_724f m1_724g m1_724h m1_724i m1_801 m1_803 m1_805 m1_806 m1_807 m1_809 m1_810a m1_810b m1_811 m1_812a m1_813a m1_813b m1_813c m1_813d m1_813e m1_8a_et m1_8b_et m1_8c_et m1_8d_et m1_8e_et m1_8f_et m1_8g_et m1_2_8_et m1_814a m1_814b m1_814c m1_814d m1_814e m1_814f m1_814g m1_814h m1_814i m1_816 m1_901 m1_902 m1_903 m1_904 m1_905 m1_907 m1_1004 m1_1005 m1_1006 m1_1_10_et m1_1007 m1_1008 m1_1010 m1_1011a m1_1011b m1_1011c m1_1011d m1_1011e m1_1011f m1_1101 m1_1105 m1_1201 m1_1202 m1_1203 m1_1204 m1_1205 m1_1206 m1_1207 m1_1208 m1_1209 m1_1210 m1_1211 m1_1212 m1_1213 m1_1214 m1_1215 m1_1216 m1_1218a m1_1218b m1_1218c m1_1218d m1_1218e m1_1218f m1_1221 m1_1223 m1_804 (98 = .d)
 
 	** MODULE 2:
-	recode m2_301 m2_203a m2_203b m2_203c m2_203d m2_203e m2_203f m2_203g m2_203h m2_203i m2_204a_et m2_204b_et m2_204c_et m2_204d_et m2_204e_et m2_204f_et m2_204g_et m2_204h_et m2_204i m2_205c m2_205d m2_205e m2_205f m2_205g m2_205h m2_205i m2_206 m2_207 m2_208 m2_301 m2_303a m2_303b m2_303c m2_303d m2_303e m2_305 m2_306 m2_308 m2_309 m2_311 m2_312 m2_314 m2_315 m2_317 m2_318 m2_321 m2_401 m2_402 m2_403 m2_404 m2_405 m2_501a m2_501b m2_501c m2_501d m2_501e m2_501f m2_501g m2_502 m2_503a m2_503b m2_503c m2_503d m2_503e m2_503f m2_504 m2_505a m2_505b m2_505c m2_505d m2_505e m2_505f m2_506a m2_506b m2_506c m2_506d m2_507 m2_508a m2_508b_number m2_508c m2_509a m2_509b m2_509c m2_601a m2_601b m2_601c m2_601d m2_601e m2_601f m2_601g m2_601h m2_601i m2_601j m2_601k m2_601l m2_601m m2_601n m2_602a m2_603 m2_604 m2_701 m2_702a m2_702b m2_702c m2_702d m2_702e m2_704 (99 = .r)
+	recode m2_301 m2_203a m2_203b m2_203c m2_203d m2_203e m2_203f m2_203g m2_203h m2_203i m2_204a_et m2_204b_et m2_204c_et m2_204d_et m2_204e_et m2_204f_et m2_204g_et m2_204h_et m2_204i m2_205c m2_205d m2_205e m2_205f m2_205g m2_205h m2_205i m2_206 m2_207 m2_208 m2_301 m2_303a m2_303b m2_303c m2_303d m2_303e m2_305 m2_306 m2_308 m2_309 m2_311 m2_312 m2_314 m2_315 m2_317 m2_318 m2_321 m2_401 m2_402 m2_403 m2_404 m2_405 m2_501a m2_501b m2_501c m2_501d m2_501e m2_501f m2_501g m2_502 m2_503a m2_503b m2_503c m2_503d m2_503e m2_503f m2_504 m2_505a m2_505b m2_505c m2_505d m2_505e m2_505f m2_506a m2_506b m2_506c m2_506d m2_507 m2_508a m2_508b_yn m2_508c_yn m2_509a m2_509b m2_509c m2_601a m2_601b m2_601c m2_601d m2_601e m2_601f m2_601g m2_601h m2_601i m2_601j m2_601k m2_601l m2_601m m2_601n m2_602a m2_603 m2_604 m2_701 m2_702a m2_702b m2_702c m2_702d m2_702e m2_704 (99 = .r)
 	
-	recode m2_201 m2_203a m2_203b m2_203c m2_203d m2_203e m2_203f m2_203g m2_203h m2_203i m2_204a_et m2_204b_et m2_204c_et m2_204d_et m2_204e_et m2_204f_et m2_204g_et m2_204h_et m2_204i m2_206 m2_207 m2_208 m2_301 m2_303a m2_303b m2_303c m2_303d m2_303e m2_305 m2_306 m2_308 m2_309 m2_311 m2_312 m2_314 m2_315 m2_317 m2_318 m2_321 m2_401 m2_402 m2_403 m2_404 m2_405 m2_501a m2_501b m2_501c m2_501d m2_501e m2_501f m2_501g m2_502 m2_503a m2_503b m2_503c m2_503d m2_503e m2_503f m2_504 m2_505a m2_505b m2_505c m2_505d m2_505e m2_505f m2_506a m2_506b m2_506c m2_506d m2_507 m2_508a m2_508b_number m2_508c m2_509a m2_509b m2_509c m2_601a m2_601b m2_601c m2_601d m2_601e m2_601f m2_601g m2_601h m2_601i m2_601j m2_601k m2_601l m2_601m m2_601n m2_602a m2_603 m2_604 m2_701 m2_702a m2_702b m2_702c m2_702d m2_702e m2_704 kebele_malaria kebele_intworm (98 = .d)
+	recode m2_201 m2_203a m2_203b m2_203c m2_203d m2_203e m2_203f m2_203g m2_203h m2_203i m2_204a_et m2_204b_et m2_204c_et m2_204d_et m2_204e_et m2_204f_et m2_204g_et m2_204h_et m2_204i m2_206 m2_207 m2_208 m2_301 m2_303a m2_303b m2_303c m2_303d m2_303e m2_305 m2_306 m2_308 m2_309 m2_311 m2_312 m2_314 m2_315 m2_317 m2_318 m2_321 m2_401 m2_402 m2_403 m2_404 m2_405 m2_501a m2_501b m2_501c m2_501d m2_501e m2_501f m2_501g m2_502 m2_503a m2_503b m2_503c m2_503d m2_503e m2_503f m2_504 m2_505a m2_505b m2_505c m2_505d m2_505e m2_505f m2_506a m2_506b m2_506c m2_506d m2_507 m2_508a m2_508b_yn m2_508c_yn m2_509a m2_509b m2_509c m2_601a m2_601b m2_601c m2_601d m2_601e m2_601f m2_601g m2_601h m2_601i m2_601j m2_601k m2_601l m2_601m m2_601n m2_602a m2_603 m2_604 m2_701 m2_702a m2_702b m2_702c m2_702d m2_702e m2_704 kebele_malaria kebele_intworm (98 = .d)
 
 	** MODULE 3:
 	recode m3_303a m3_303b m3_303c m3_303d m3_baby1_gender m3_baby2_gender m3_baby3_gender m3_baby1_health m3_baby2_health m3_baby3_health m3_breastfeeding m3_505a m3_517 m3_1201 m3_1202 m3_1203 m3_1204 m3_401 m3_consultation_1 m3_consultation_referral_1 m3_consultation_2 m3_consultation_referral_2 m3_consultation_3 m3_consultation_referral_3 m3_consultation_4 m3_consultation_referral_4 m3_consultation_5 m3_consultation_referral_5 m3_412a m3_412b m3_412c m3_412d m3_412e m3_412f m3_412g m3_501 m3_510 m3_601a m3_601b m3_601c m3_602b m3_603a m3_603b m3_603c m3_603d m3_604b m3_605a m3_605b m3_606 m3_607 m3_607a_et m3_607b_et m3_607c_et m3_607d_et m3_607e_et m3_608 m3_609 m3_610a m3_610b m3_611 m3_613 m3_615a m3_615b m3_615c m3_617a m3_617b m3_617c m3_617d_et m3_617e_et m3_617f_et m3_617g_et m3_617h_et m3_617i_et m3_619a m3_619b m3_619c m3_619d m3_619e m3_619f m3_619g m3_619h m3_619i m3_619j m3_620 m3_621b m3_622a m3_622c m3_701 m3_703 m3_704a m3_704b m3_704c m3_704d m3_704e m3_704f m3_704g m3_705 m3_706 m3_710a m3_710b m3_710c m3_802a m3_803a m3_803b m3_803c m3_803d m3_803e m3_803f m3_803g m3_803h m3_803i m3_805 m3_901a m3_901b m3_901c m3_901d m3_901e m3_901f m3_901g m3_901h m3_901i m3_901j m3_901k m3_901l m3_901m m3_901n m3_901o m3_901p m3_901q m3_901r m3_902a_baby1 m3_902a_baby2 m3_902a_baby3 m3_902b_baby1 m3_902b_baby2 m3_902b_baby3 m3_902c_baby1 m3_902c_baby2 m3_902c_baby3 m3_902d_baby1 m3_902d_baby2 m3_902d_baby3 m3_902e_baby1 m3_902e_baby2 m3_902e_baby3 m3_902f_baby1 m3_902f_baby2 m3_902f_baby3 m3_902g_baby1 m3_902g_baby2 m3_902g_baby3 m3_902h_baby1 m3_902h_baby2 m3_902h_baby3 m3_902i_baby1 m3_902i_baby2 m3_902i_baby3 m3_902j_baby1 m3_902j_baby2 m3_902j_baby3 m3_1003 m3_1005a m3_1005b m3_1005c m3_1005d m3_1005e m3_1005f m3_1005g m3_1005h m3_1006a m3_1006b m3_1006c m3_1007a m3_1007b m3_1007c m3_1101 m3_1102a m3_1102b m3_1102c m3_1102d m3_1102e m3_1102f m3_baby1_gender m3_baby2_gender m3_baby3_gender m3_baby1_health m3_baby2_health m3_baby3_health m3_1001 m3_1004a m3_1004b m3_1004c m3_1004d m3_1004e m3_1004f m3_1004g m3_1004h m3_breastfeeding m3_1202 m3_1204 m3_1004i m3_1004j m3_1004k m3_502 m3_503 m3_509 m3_512 m3_513a m3_516 m3_518 m3_519 m3_602a m3_604a m3_621a m3_801a m3_801b m3_807 m3_808b m3_809 m3_1002 m3_1106 (99 = .r)
@@ -3026,37 +3023,37 @@ recode m1_808_99_et (0 = .a) if m1_804 == 1 | m1_804 == . | m1_804 == .a | m1_80
 * SS: Fix in redcap to add this skip pattern
 recode m1_812b_0_et (. = .a) (0 = .a) if m1_812a == 0 | m1_812a ==. | m1_812a == .d 
 
-recode m1_812b_1 (0 = .a) if m1_812b_0_et == 1 | m1_812b_0_et == 98 | m1_812b_0_et == 99
+recode m1_812b_1 (0 = .a) if m1_812b_0_et !=0
 recode m1_812b_1 (0 = .) if m1_812b_0_et == 0
 
-recode m1_812b_2 (0 = .a) if m1_812b_0_et == 1 | m1_812b_0_et == 98 | m1_812b_0_et == 99
+recode m1_812b_2 (0 = .a) if m1_812b_0_et !=0
 recode m1_812b_2 (0 = .) if m1_812b_0_et == 0
 
-recode m1_812b_3 (0 = .a) if m1_812b_0_et == 1 | m1_812b_0_et == 98 | m1_812b_0_et == 99
+recode m1_812b_3 (0 = .a) if m1_812b_0_et !=0
 recode m1_812b_3 (0 = .) if m1_812b_0_et == 0
 
-recode m1_812b_4 (0 = .a) if m1_812b_0_et == 1 | m1_812b_0_et == 98 | m1_812b_0_et == 99
+recode m1_812b_4 (0 = .a) if m1_812b_0_et !=0
 recode m1_812b_4 (0 = .) if m1_812b_0_et == 0
 
-recode m1_812b_5 (0 = .a) if m1_812b_0_et == 1 | m1_812b_0_et == 98 | m1_812b_0_et == 99
+recode m1_812b_5 (0 = .a) if m1_812b_0_et !=0
 recode m1_812b_5 (0 = .) if m1_812b_0_et == 0
 
-recode m1_812b_96 (0 = .a) if m1_812b_0_et == 1 | m1_812b_0_et == 98 | m1_812b_0_et == 99
+recode m1_812b_96 (0 = .a) if m1_812b_0_et !=0
 recode m1_812b_96 (0 = .) if m1_812b_0_et == 0
 
-recode m1_812b_98 (0 = .a) if m1_812b_0_et == 1 | m1_812b_0_et == 98 | m1_812b_0_et == 99
+recode m1_812b_98 (0 = .a) if m1_812b_0_et !=0
 recode m1_812b_98 (0 = .) if m1_812b_0_et == 0
 
-recode m1_812b_99 (0 = .a) if m1_812b_0_et == 1 | m1_812b_0_et == 98 | m1_812b_0_et == 99
+recode m1_812b_99 (0 = .a) if m1_812b_0_et !=0
 recode m1_812b_99 (0 = .) if m1_812b_0_et == 0
 
-recode m1_812b_998_et (0 = .a) if m1_812b_0_et == 1 | m1_812b_0_et == 98 | m1_812b_0_et == 99
+recode m1_812b_998_et (0 = .a) if m1_812b_0_et !=0
 recode m1_812b_998_et (0 = .) if m1_812b_0_et == 0
 
-recode m1_812b_999_et (0 = .a) if m1_812b_0_et == 1 | m1_812b_0_et == 98 | m1_812b_0_et == 99
+recode m1_812b_999_et (0 = .a) if m1_812b_0_et !=0
 recode m1_812b_999_et (0 = .) if m1_812b_0_et == 0
 
-recode m1_812b_888_et (0 = .a) if m1_812b_0_et == 1 | m1_812b_0_et == 98 | m1_812b_0_et == 99
+recode m1_812b_888_et (0 = .a) if m1_812b_0_et !=0
 recode m1_812b_888_et (0 = .) if m1_812b_0_et == 0
 
 replace m1_812b_other = ".a" if m1_812b_96 !=1
@@ -3416,9 +3413,9 @@ recode m2_203a m2_203b m2_203c m2_203d m2_203e ///
 	   m2_204b_et m2_204c_et m2_204d_et m2_204e_et m2_204f_et ///
 	   m2_204g_et m2_204h_et m2_204i m2_205a m2_205b ///
 	   m2_205c m2_205d m2_205e m2_205f m2_205g ///
-	   m2_205h m2_205i m2_206 m2_207 m2_208 m2_301 (. = .a) if m2_202 == 0
+	   m2_205h m2_205i m2_206 m2_207 m2_208 m2_301 (. = .a) if m2_202 !=1
 
-recode m2_302 (. = .a) if m2_301 == 0 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
+recode m2_302 (. = .a) if m2_301 !=1
 
 recode m2_303a (. = .a) if m2_302 == . | m2_302 == .a
 
@@ -3442,300 +3439,306 @@ recode m2_304e (. = .a) if m2_302 == . | m2_302 == 1 | m2_302 == 2 | m2_302 == 3
 
 recode m2_305 (. = .a) if m2_302 == . | m2_302 == .a
 
-recode m2_306 (. = .a) if m2_305 == 1 | m2_305 == 98 | m2_305 == 99
+recode m2_306 (. = .a) if m2_305 !=0
 
-recode m2_307_1 (0 = .a) if m2_306 == 1 | m2_306 == 98 | m2_306 == 99
+recode m2_307_1 (0 = .a) if m2_306 !=0
 recode m2_307_1 (0 = .) if m2_306 == 0
 
-recode m2_307_2 (0 = .a) if m2_306 == 1 | m2_306 == 98 | m2_306 == 99
+recode m2_307_2 (0 = .a) if m2_306 !=0
 recode m2_307_2 (0 = .) if m2_306 == 0
 
-recode m2_307_3 (0 = .a) if m2_306 == 1 | m2_306 == 98 | m2_306 == 99
+recode m2_307_3 (0 = .a) if m2_306 !=0
 recode m2_307_3 (0 = .) if m2_306 == 0
 
-recode m2_307_4 (0 = .a) if m2_306 == 1 | m2_306 == 98 | m2_306 == 99
+recode m2_307_4 (0 = .a) if m2_306 !=0
 recode m2_307_4 (0 = .) if m2_306 == 0
 
-recode m2_307_5 (0 = .a) if m2_306 == 1 | m2_306 == 98 | m2_306 == 99
+recode m2_307_5 (0 = .a) if m2_306 !=0
 recode m2_307_5 (0 = .) if m2_306 == 0
 
-recode m2_307_96 (0 = .a) if m2_306 == 1 | m2_306 == 98 | m2_306 == 99
+recode m2_307_96 (0 = .a) if m2_306 !=0
 recode m2_307_96 (0 = .) if m2_306 == 0
 
-replace m2_307_other = ".a" if m2_307_96 ==1
+replace m2_307_other = ".a" if m2_307_96 !=1
 
 recode m2_308 (. = .a) if m2_302 == 1 | m2_302 == . | m2_302 == .a
 
-recode m2_309 (. = .a) if m2_308 == 1 | m2_308 == 98 | m2_308 == 99
+recode m2_309 (. = .a) if m2_308 !=0
 
-recode m2_310_1 (0 = .a) if m2_306 == 1 | m2_306 == 98 | m2_306 == 99
-recode m2_310_1 (0 = .) if m2_306 == 0
+recode m2_310_1 (0 = .a) if m2_309 !=0
+recode m2_310_1 (0 = .) if m2_309 == 0
 
-recode m2_310_2 (0 = .a) if m2_309 == 1 | m2_309 == 98 | m2_309 == 99
+recode m2_310_2 (0 = .a) if m2_309 !=0
 recode m2_310_2 (0 = .) if m2_309 == 0
 
-recode m2_310_3 (0 = .a) if m2_309 == 1 | m2_309 == 98 | m2_309 == 99
+recode m2_310_3 (0 = .a) if m2_309 !=0
 recode m2_310_3 (0 = .) if m2_309 == 0
 
-recode m2_310_4 (0 = .a) if m2_309 == 1 | m2_309 == 98 | m2_309 == 99
+recode m2_310_4 (0 = .a) if m2_309 !=0
 recode m2_310_4 (0 = .) if m2_309 == 0
 
-recode m2_310_5 (0 = .a) if m2_309 == 1 | m2_309 == 98 | m2_309 == 99
+recode m2_310_5 (0 = .a) if m2_309 !=0
 recode m2_310_5 (0 = .) if m2_309 == 0
 
-recode m2_310_96 (0 = .a) if m2_309 == 1 | m2_309 == 98 | m2_309 == 99
+recode m2_310_96 (0 = .a) if m2_309 !=0
 recode m2_310_96 (0 = .) if m2_309 == 0
 
-replace m2_310_other = ".a" if m2_310_96 ==1
+replace m2_310_other = ".a" if m2_310_96 !=1
 
 recode m2_311 (. = .a) if m2_302 == 1 | m2_302 == . | m2_302 == .a | m2_302 == 2
 
-recode m2_312 (. = .a) if m2_311 == 1 | m2_311 == 98 | m2_311 == 99
+recode m2_312 (. = .a) if m2_311 !=0
 
-recode m2_313_1 (0 = .a) if m2_312 == 1 | m2_312 == 98 | m2_312 == 99
+recode m2_313_1 (0 = .a) if m2_312 !=0
 recode m2_313_1 (0 = .) if m2_312 == 0
 
-recode m2_313_2 (0 = .a) if m2_312 == 1 | m2_312 == 98 | m2_312 == 99
+recode m2_313_2 (0 = .a) if m2_312 !=0
 recode m2_313_2 (0 = .) if m2_312 == 0
 
-recode m2_313_3 (0 = .a) if m2_312 == 1 | m2_312 == 98 | m2_312 == 99
+recode m2_313_3 (0 = .a) if m2_312 !=0
 recode m2_313_3 (0 = .) if m2_312 == 0
 
-recode m2_313_4 (0 = .a) if m2_312 == 1 | m2_312 == 98 | m2_312 == 99
+recode m2_313_4 (0 = .a) if m2_312 !=0
 recode m2_313_4 (0 = .) if m2_312 == 0
 
-recode m2_313_5 (0 = .a) if m2_312 == 1 | m2_312 == 98 | m2_312 == 99
+recode m2_313_5 (0 = .a) if m2_312 !=0
 recode m2_313_5 (0 = .) if m2_312 == 0
 
-recode m2_313_96 (0 = .a) if m2_312 == 1 | m2_312 == 98 | m2_312 == 99
+recode m2_313_96 (0 = .a) if m2_312 !=0
 recode m2_313_96 (0 = .) if m2_312 == 0
 
-replace m2_313_other = ".a" if m2_313_96 ==1
+replace m2_313_other = ".a" if m2_313_96 !=1
 
-recode m2_314 (. = .a) if m2_302 == 1 | m2_302 == . | m2_302 == .a | m2_302 == 2 | m2_302 == 3
+recode m2_314 (. = .a) if m2_302 !=4 | m2_302 !=5
 
-recode m2_315 (. = .a) if m2_314 == 1 | m2_314 == 98 | m2_314 == 99
+recode m2_315 (. = .a) if m2_314 !=0
 
-recode m2_316_1 (0 = .a) if m2_315 == 1 | m2_315 == 98 | m2_315 == 99
+recode m2_316_1 (0 = .a) if m2_315 !=0
 recode m2_316_1 (0 = .) if m2_315 == 0
 
-recode m2_316_2 (0 = .a) if m2_315 == 1 | m2_315 == 98 | m2_315 == 99
+recode m2_316_2 (0 = .a) if m2_315 !=0
 recode m2_316_2 (0 = .) if m2_315 == 0
 
-recode m2_316_3 (0 = .a) if m2_315 == 1 | m2_315 == 98 | m2_315 == 99
+recode m2_316_3 (0 = .a) if m2_315 !=0
 recode m2_316_3 (0 = .) if m2_315 == 0
 
-recode m2_316_4 (0 = .a) if m2_315 == 1 | m2_315 == 98 | m2_315 == 99
+recode m2_316_4 (0 = .a) if m2_315 !=0
 recode m2_316_4 (0 = .) if m2_315 == 0
 
-recode m2_316_5 (0 = .a) if m2_315 == 1 | m2_315 == 98 | m2_315 == 99
+recode m2_316_5 (0 = .a) if m2_315 !=0
 recode m2_316_5 (0 = .) if m2_315 == 0
 
-recode m2_316_96 (0 = .a) if m2_315 == 1 | m2_315 == 98 | m2_315 == 99
+recode m2_316_96 (0 = .a) if m2_315 !=0
 recode m2_316_96 (0 = .) if m2_315 == 0
 
-replace m2_316_other = ".a" if m2_316_96 ==1
+replace m2_316_other = ".a" if m2_316_96 !=1
 
-recode m2_317 (. = .a) if m2_302 == 1 | m2_302 == . | m2_302 == .a | m2_302 == 2 | m2_302 == 3 | m2_302 == 4
-recode m2_318 (. = .a) if m2_317 == 1 | m2_317 == 98 | m2_317 == 99
+recode m2_317 (. = .a) if m2_302 !=5
+recode m2_318 (. = .a) if m2_317 !=0
 
-recode m2_317_1 (0 = .a) if m2_318 == 1 | m2_318 == 98 | m2_318 == 99
-recode m2_317_1 (0 = .) if m2_318 == 0
+recode m2_319_1 (0 = .a) if m2_318 !=0
+recode m2_319_1 (0 = .) if m2_318 == 0
 
-recode m2_317_2 (0 = .a) if m2_318 == 1 | m2_318 == 98 | m2_318 == 99
-recode m2_317_2 (0 = .) if m2_318 == 0
+recode m2_319_2 (0 = .a) if m2_318 !=0
+recode m2_319_2 (0 = .) if m2_318 == 0
 
-recode m2_317_3 (0 = .a) if m2_318 == 1 | m2_318 == 98 | m2_318 == 99
-recode m2_317_3 (0 = .) if m2_318 == 0
+recode m2_319_3 (0 = .a) if m2_318 !=0
+recode m2_319_3 (0 = .) if m2_318 == 0
 
-recode m2_317_4 (0 = .a) if m2_318 == 1 | m2_318 == 98 | m2_318 == 99
-recode m2_317_4 (0 = .) if m2_318 == 0
+recode m2_319_4 (0 = .a) if m2_318 !=0
+recode m2_319_4 (0 = .) if m2_318 == 0
 
-recode m2_317_5 (0 = .a) if m2_318 == 1 | m2_318 == 98 | m2_318 == 99
-recode m2_317_5 (0 = .) if m2_318 == 0
+recode m2_319_5 (0 = .a) if m2_318 !=0
+recode m2_319_5 (0 = .) if m2_318 == 0
 
-recode m2_317_96 (0 = .a) if m2_318 == 1 | m2_318 == 98 | m2_318 == 99
-recode m2_317_96 (0 = .) if m2_318 == 0
+recode m2_319_96 (0 = .a) if m2_318 !=0
+recode m2_319_96 (0 = .) if m2_318 == 0
 
-replace m2_319_other = .a if m2_317_96 == 1
+replace m2_319_other = .a if m2_319_96 != 1
 
-recode m2_320_a (0 = .a) if m2_202 == 0 | m2_202 == 98 | m2_202 == 99 | m2_301 == 1 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
-recode m2_320_a (0 = .) if m2_202 == 1 & m2_301 == 0
+recode m2_320_0 (0 = .a) if m2_202 !=1 | m2_301 !=0
+recode m2_320_0 (0 = .) if m2_202 == 1 & m2_301 == 0
 
-recode m2_320_b (0 = .a) if m2_202 == 0 | m2_202 == 98 | m2_202 == 99 | m2_301 == 1 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
-recode m2_320_b (0 = .) if m2_202 == 1 & m2_301 == 0
+recode m2_320_1 (0 = .a) if m2_202 !=1 | m2_301 !=0
+recode m2_320_1 (0 = .) if m2_202 == 1 & m2_301 == 0
 
-recode m2_320_c (0 = .a) if m2_202 == 0 | m2_202 == 98 | m2_202 == 99 | m2_301 == 1 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
-recode m2_320_c (0 = .) if m2_202 == 1 & m2_301 == 0
+recode m2_320_2 (0 = .a) if m2_202 !=1 | m2_301 !=0
+recode m2_320_2 (0 = .) if m2_202 == 1 & m2_301 == 0
 
-recode m2_320_d (0 = .a) if m2_202 == 0 | m2_202 == 98 | m2_202 == 99 | m2_301 == 1 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
-recode m2_320_d (0 = .) if m2_202 == 1 & m2_301 == 0
+recode m2_320_3 (0 = .a) if m2_202 !=1 | m2_301 !=0
+recode m2_320_3 (0 = .) if m2_202 == 1 & m2_301 == 0
 
-recode m2_320_e (0 = .a) if m2_202 == 0 | m2_202 == 98 | m2_202 == 99 | m2_301 == 1 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
-recode m2_320_e (0 = .) if m2_202 == 1 & m2_301 == 0
+recode m2_320_4 (0 = .a) if m2_202 !=1 | m2_301 !=0
+recode m2_320_4 (0 = .) if m2_202 == 1 & m2_301 == 0
 
-recode m2_320_f (0 = .a) if m2_202 == 0 | m2_202 == 98 | m2_202 == 99 | m2_301 == 1 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
-recode m2_320_f (0 = .) if m2_202 == 1 & m2_301 == 0
+recode m2_320_5 (0 = .a) if m2_202 !=1 | m2_301 !=0
+recode m2_320_5 (0 = .) if m2_202 == 1 & m2_301 == 0
 
-recode m2_320_g (0 = .a) if m2_202 == 0 | m2_202 == 98 | m2_202 == 99 | m2_301 == 1 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
-recode m2_320_g (0 = .) if m2_202 == 1 & m2_301 == 0
+recode m2_320_6 (0 = .a) if m2_202 !=1 | m2_301 !=0
+recode m2_320_6 (0 = .) if m2_202 == 1 & m2_301 == 0
 
-recode m2_320_h (0 = .a) if m2_202 == 0 | m2_202 == 98 | m2_202 == 99 | m2_301 == 1 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
-recode m2_320_h (0 = .) if m2_202 == 1 & m2_301 == 0
+recode m2_320_7 (0 = .a) if m2_202 !=1 | m2_301 !=0
+recode m2_320_7 (0 = .) if m2_202 == 1 & m2_301 == 0
 
-recode m2_320_i (0 = .a) if m2_202 == 0 | m2_202 == 98 | m2_202 == 99 | m2_301 == 1 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
-recode m2_320_i (0 = .) if m2_202 == 1 & m2_301 == 0
+recode m2_320_8 (0 = .a) if m2_202 !=1 | m2_301 !=0
+recode m2_320_8 (0 = .) if m2_202 == 1 & m2_301 == 0
 
-recode m2_320_j (0 = .a) if m2_202 == 0 | m2_202 == 98 | m2_202 == 99 | m2_301 == 1 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
-recode m2_320_j (0 = .) if m2_202 == 1 & m2_301 == 0
+recode m2_320_9 (0 = .a) if m2_202 !=1 | m2_301 !=0
+recode m2_320_9 (0 = .) if m2_202 == 1 & m2_301 == 0
 
-recode m2_320_k (0 = .a) if m2_202 == 0 | m2_202 == 98 | m2_202 == 99 | m2_301 == 1 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
-recode m2_320_k (0 = .) if m2_202 == 1 & m2_301 == 0
+recode m2_320_10 (0 = .a) if m2_202 !=1 | m2_301 !=0
+recode m2_320_10 (0 = .) if m2_202 == 1 & m2_301 == 0
 
-recode m2_320_l (0 = .a) if m2_202 == 0 | m2_202 == 98 | m2_202 == 99 | m2_301 == 1 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
-recode m2_320_l (0 = .) if m2_202 == 1 & m2_301 == 0
+recode m2_320_11 (0 = .a) if m2_202 !=1 | m2_301 !=0
+recode m2_320_11 (0 = .) if m2_202 == 1 & m2_301 == 0
 
-recode m2_320_96 (0 = .a) if m2_202 == 0 | m2_202 == 98 | m2_202 == 99 | m2_301 == 1 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
+recode m2_320_96 (0 = .a) if m2_202 !=1 | m2_301 !=0
 recode m2_320_96 (0 = .) if m2_202 == 1 & m2_301 == 0
 
-recode m2_320_99 (0 = .a) if m2_202 == 0 | m2_202 == 98 | m2_202 == 99 | m2_301 == 1 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
+recode m2_320_99 (0 = .a) if m2_202 !=1 | m2_301 !=0
 recode m2_320_99 (0 = .) if m2_202 == 1 & m2_301 == 0
 
-recode m2_321 (. = .a) if m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a
+recode m2_321 (. = .a) if m2_202 !=1
                        
-recode m2_401 (. = .a) if (m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a) | (m2_302 == . | m2_302 == .a)
+recode m2_401 (. = .a) if (m2_202 !=1) | (m2_302 == . | m2_302 == .a)
 
-recode m2_402 (. = .a) if (m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a) | (m2_302 == 1 | m2_302 == . | m2_302 == .a)				   
+recode m2_402 (. = .a) if (m2_202 !=1) | (m2_302 == 1 | m2_302 == . | m2_302 == .a)				   
 
-recode m2_403 (. = .a) if (m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a) | (m2_302 == 1 | m2_302 == . | m2_302 == .a | m2_302 == 2)	
+recode m2_403 (. = .a) if (m2_202 !=1) | (m2_302 == 1 | m2_302 == . | m2_302 == .a | m2_302 == 2)	
 
-recode m2_404 (. = .a) if (m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a) | (m2_302 == 1 | m2_302 == . | m2_302 == .a | m2_302 == 2 | m2_302 == 3)			   
-recode m2_405 (. = .a) if (m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a) | (m2_302 == 1 | m2_302 == . | m2_302 == .a | m2_302 == 2 | m2_302 == 3 | m2_302 == 4)
+recode m2_404 (. = .a) if (m2_202 !=1) | (m2_302 == 1 | m2_302 == . | m2_302 == .a | m2_302 == 2 | m2_302 == 3)			   
+recode m2_405 (. = .a) if (m2_202 !=1) | (m2_302 == 1 | m2_302 == . | m2_302 == .a | m2_302 == 2 | m2_302 == 3 | m2_302 == 4)
 
-recode m2_501a (. = .a) if m2_301 == 0 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
-recode m2_501b (. = .a) if m2_301 == 0 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
-recode m2_501c (. = .a) if m2_301 == 0 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
-recode m2_501d (. = .a) if m2_301 == 0 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
-recode m2_501e (. = .a) if m2_301 == 0 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
-recode m2_501f (. = .a) if m2_301 == 0 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
-recode m2_501g (. = .a) if m2_301 == 0 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
+recode m2_501a (. = .a) if m2_301 !=1
+recode m2_501b (. = .a) if m2_301 !=1
+recode m2_501c (. = .a) if m2_301 !=1
+recode m2_501d (. = .a) if m2_301 !=1
+recode m2_501e (. = .a) if m2_301 !=1
+recode m2_501f (. = .a) if m2_301 !=1
+recode m2_501g (. = .a) if m2_301 !=1
 
-recode m2_502 (. = .a) if m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a | m2_301 == 0 | m2_301 == 98 | m2_301 == 99  | m2_301 == . | m2_301 == .a
+replace m2_501g_other = ".a" if m2_501g !=1
 
-recode m2_503a (. = .a) if m2_502 == 0 | m2_502 == 98 | m2_502 == 99
-recode m2_503b (. = .a) if m2_502 == 0 | m2_502 == 98 | m2_502 == 99
-recode m2_503c (. = .a) if m2_502 == 0 | m2_502 == 98 | m2_502 == 99
-recode m2_503d (. = .a) if m2_502 == 0 | m2_502 == 98 | m2_502 == 99
-recode m2_503e (. = .a) if m2_502 == 0 | m2_502 == 98 | m2_502 == 99
-recode m2_503f (. = .a) if m2_502 == 0 | m2_502 == 98 | m2_502 == 99
-recode m2_504 (. = .a) if m2_502 == 0 | m2_502 == 98 | m2_502 == 99
+recode m2_502 (. = .a) if m2_202 !=1 | m2_301 !=1
 
-recode m2_505a (. = .a) if m2_503a == 0 | m2_503a == 98 | m2_503a == 99
-recode m2_505b (. = .a) if m2_503b == 0 | m2_503b == 98 | m2_503b == 99
-recode m2_506c (. = .a) if m2_503c == 0 | m2_503c == 98 | m2_503c == 99
-recode m2_505d (. = .a) if m2_503d == 0 | m2_503d == 98 | m2_503d == 99
-recode m2_505e (. = .a) if m2_503e == 0 | m2_503e == 98 | m2_503e == 99
-recode m2_505f (. = .a) if m2_503f == 0 | m2_503f == 98 | m2_503f == 99
-*recode m2_505g (. = .a) if m2_504 == 0 | m2_504 == 98 | m2_504 == 99
+recode m2_503a (. = .a) if m2_502 !=1
+recode m2_503b (. = .a) if m2_502 !=1
+recode m2_503c (. = .a) if m2_502 !=1
+recode m2_503d (. = .a) if m2_502 !=1
+recode m2_503e (. = .a) if m2_502 !=1
+recode m2_503f (. = .a) if m2_502 !=1
+recode m2_504 (. = .a) if m2_502 !=1
 
-recode m2_506a (. = .a) if m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a | m2_301 == 0 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
+replace m2_504_other = ".a" if m2_504 !=1
 
-recode m2_506b (. = .a) if m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a | m2_301 == 0 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
+recode m2_505a (. = .a) if m2_503a !=1
+recode m2_505b (. = .a) if m2_503b !=1
+recode m2_506c (. = .a) if m2_503c !=1
+recode m2_505d (. = .a) if m2_503d !=1
+recode m2_505e (. = .a) if m2_503e !=1
+recode m2_505f (. = .a) if m2_503f !=1
+replace m2_505g = ".a" if m2_504 !=1
 
-recode m2_506c (. = .a) if m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a | m2_301 == 0 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
+recode m2_506a (. = .a) if m2_202 !=1 | m2_301 !=1
 
-recode m2_506d (. = .a) if m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a | m2_301 == 0 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
+recode m2_506b (. = .a) if m2_202 !=1 | m2_301 !=1
 
-recode m2_507 (. = .a) if m2_203a == 0 & m2_203b == 0 & m2_203c == 0 & m2_203d == 0 & m2_203e == 0 & m2_203f == 0 & m2_203g == 0 & m2_203h == 0 & m2_203i == 0 | m2_301 == 0 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
+recode m2_506c (. = .a) if m2_202 !=1 | m2_301 !=1
 
-*double check this:
-recode m2_508a (. = .a) if (m2_205a+m2_205b) < 3
+recode m2_506d (. = .a) if m2_202 !=1 | m2_301 !=1
 
-recode m2_508b_number (. = .a) if m2_508a == 0 | m2_508a == 98 | m2_508a == 99  | m2_508a == . | m2_508a == .a 
+recode m2_507 (. = .a) if m2_203a !=1 & m2_203b !=1 & m2_203c !=1 & m2_203d !=1 & m2_203e !=1 & m2_203f !=1 & m2_203g !=1 & m2_203h !=1 & m2_203i !=1 | m2_301 !=1
 
-recode m2_508b_last (. = .a) if m2_508b_number == 0 | m2_508b_number == 98 | m2_508b_number == 99 | m2_508b_number == . | m2_508b_number == .a  
 
-recode m2_508c (. = .a) if m2_508b_number == 0 | m2_508b_number == 98 | m2_508b_number == 99 | m2_508b_number == . | m2_508b_number == .a
+egen m2_phqscore = rowtotal(m2_205a m2_205b)
+recode m2_508a (. = .a) if m2_phqscore <3
+drop m2_phqscore
+
+recode m2_508b_yn (. = .a) if m2_508a !=1
+
+recode m2_508b_num (. = .a) if m2_508b_yn !=1  
+
+recode m2_508c_yn (. = .a) if m2_508b_yn !=1
  
-recode m2_508d (. = .a) if m2_508c == 0 | m2_508c == 98 | m2_508c == 99 | m2_508c == . | m2_508c == .a
+recode m2_508c_time (. = .a) if m2_508c_yn !=1
 
-recode m2_509a (. = .a) if m2_301 == 0 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
-recode m2_509b (. = .a) if m2_301 == 0 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
-recode m2_509c (. = .a) if m2_301 == 0 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
+recode m2_509a (. = .a) if m2_301 !=1
+recode m2_509b (. = .a) if m2_301 !=1
+recode m2_509c (. = .a) if m2_301 !=1
 
-recode m2_601a (. = .a) if m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a
-recode m2_601b (. = .a) if m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a
-recode m2_601c (. = .a) if m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a
-recode m2_601c (. = .a) if m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a
-recode m2_601d (. = .a) if m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a
-recode m2_601e (. = .a) if m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a
-recode m2_601f (. = .a) if m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a
-recode m2_601g (. = .a) if m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a
-recode m2_601h (. = .a) if m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a
-recode m2_601i (. = .a) if m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a
-recode m2_601j (. = .a) if m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a
-recode m2_601l (. = .a) if m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a
-recode m2_601m (. = .a) if m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a
-recode m2_601n (. = .a) if m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a
+recode m2_601a (. = .a) if m2_202 !=1
+recode m2_601b (. = .a) if m2_202 !=1
+recode m2_601c (. = .a) if m2_202 !=1
+recode m2_601c (. = .a) if m2_202 !=1
+recode m2_601d (. = .a) if m2_202 !=1
+recode m2_601e (. = .a) if m2_202 !=1
+recode m2_601f (. = .a) if m2_202 !=1
+recode m2_601g (. = .a) if m2_202 !=1
+recode m2_601h (. = .a) if m2_202 !=1
+recode m2_601i (. = .a) if m2_202 !=1
+recode m2_601j (. = .a) if m2_202 !=1
+recode m2_601l (. = .a) if m2_202 !=1
+recode m2_601m (. = .a) if m2_202 !=1
+recode m2_601n (. = .a) if m2_202 !=1
 
-recode m2_602a (. = .a) if (m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a )| ///
+recode m2_602a (. = .a) if (m2_202 !=1 )| ///
 						  (m2_601a !=1 & m2_601b !=1 & m2_601c !=1 & m2_601d !=1 & m2_601e !=1 & ///
 						  m2_601f !=1 & m2_601g !=1 & m2_601h !=1 & m2_601i !=1 & m2_601j !=1 & ///
 						  m2_601k !=1 & m2_601l !=1 & m2_601m !=1 & m2_601n !=1)
 						  
-recode m2_602b (. = .a) if m2_602a == 0 | m2_602a == 98 | m2_602a == 99	| m2_602a == . | m2_602a == .a
+recode m2_602b (. = .a) if m2_602a !=1
 
-recode m2_603 (. = .a) if m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a 
-recode m2_604 (. = .a) if m2_603 == 2 | m2_603 == 3 | m2_603 == . | m2_603 == .a 
+recode m2_603 (. = .a) if m2_202 !=1 
+recode m2_604 (. = .a) if m2_603 !=1
 			
-recode m2_701 (. = .a) if m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a | m2_301 == 0 | m2_301 == 98 | m2_301 == 99 | m2_301 == . | m2_301 == .a
+recode m2_701 (. = .a) if m2_202 !=1 | m2_301 !=1
 
-recode m2_702a (. = .a) if m2_701 == 0 | m2_701 == 98 | m2_701 == 99 | m2_701 ==. | m2_701 == .a
+recode m2_702a (. = .a) if m2_701 !=1
 recode m2_702a_other (. = .a) if m2_702a !=1
 
-recode m2_702b (. = .a) if m2_701 == 0 | m2_701 == 98 | m2_701 == 99 | m2_701 ==. | m2_701 == .a
+recode m2_702b (. = .a) if m2_701 !=1
 recode m2_702b_other (. = .a) if m2_702b !=1
 
-recode m2_702c (. = .a) if m2_701 == 0 | m2_701 == 98 | m2_701 == 99 | m2_701 ==. | m2_701 == .a
+recode m2_702c (. = .a) if m2_701 !=1
 recode m2_702c_other (. = .a) if m2_702c !=1
 
-recode m2_702d (. = .a) if m2_701 == 0 | m2_701 == 98 | m2_701 == 99 | m2_701 ==. | m2_701 == .a
+recode m2_702d (. = .a) if m2_701 !=1
 recode m2_702d_other (. = .a) if m2_702d !=1
 
-recode m2_702e (. = .a) if m2_701 == 0 | m2_701 == 98 | m2_701 == 99 | m2_701 ==. | m2_701 == .a
+recode m2_702e (. = .a) if m2_701 !=1
 recode m2_702e_other (. = .a) if m2_702e !=1
 
 * SS: Ask Kate if we should add 98 into branching logic for 704_other
-recode m2_703 m2_704 (. = .a) if m2_701 == 0 | m2_701 == 98 | m2_701 == 99 | m2_701 ==. | m2_701 == .a
+recode m2_703 m2_704 (. = .a) if m2_701 !=1
 
 recode m2_704_other (. = .a) if m2_704 != 1 
 
-recode m2_705_1 (0 = .a) if m2_701 == 0 | m2_701 == 98 | m2_701 == 99 | m2_701 ==. | m2_701 == .a
+recode m2_705_1 (0 = .a) if m2_701 !=1
 recode m2_705_1 (0 = .) if m2_701 == 1
 
-recode m2_705_2 (0 = .a) if m2_701 == 0 | m2_701 == 98 | m2_701 == 99 | m2_701 ==. | m2_701 == .a
+recode m2_705_2 (0 = .a) if m2_701 !=1
 recode m2_705_2 (0 = .) if m2_701 == 1
 
-recode m2_705_3 (0 = .a) if m2_701 == 0 | m2_701 == 98 | m2_701 == 99 | m2_701 ==. | m2_701 == .a
+recode m2_705_3 (0 = .a) if m2_701 !=1
 recode m2_705_3 (0 = .) if m2_701 == 1
 
-recode m2_705_4 (0 = .a) if m2_701 == 0 | m2_701 == 98 | m2_701 == 99 | m2_701 ==. | m2_701 == .a
+recode m2_705_4 (0 = .a) if m2_701 !=1
 recode m2_705_4 (0 = .) if m2_701 == 1
 
-recode m2_705_5 (0 = .a) if m2_701 == 0 | m2_701 == 98 | m2_701 == 99 | m2_701 ==. | m2_701 == .a
+recode m2_705_5 (0 = .a) if m2_701 !=1
 recode m2_705_5 (0 = .) if m2_701 == 1
 
-recode m2_705_6 (0 = .a) if m2_701 == 0 | m2_701 == 98 | m2_701 == 99 | m2_701 ==. | m2_701 == .a
+recode m2_705_6 (0 = .a) if m2_701 !=1
 recode m2_705_6 (0 = .) if m2_701 == 1
 
-recode m2_705_96 (0 = .a) if m2_701 == 0 | m2_701 == 98 | m2_701 == 99 | m2_701 ==. | m2_701 == .a
+recode m2_705_96 (0 = .a) if m2_701 !=1
 recode m2_705_96 (0 = .) if m2_701 == 1
 
-recode m2_interview_inturrupt (. = .a) if m2_permission == 0 | m2_permission == . | m2_permission == .a | m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a 
+recode m2_interview_inturrupt (. = .a) if m2_permission !=1 | m2_202 !=1 
  
-recode m2_interview_restarted (. = .a) if m2_permission == 0 | m2_permission == . | m2_permission == .a | m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a  | m2_interview_inturrupt == 0 | m2_interview_inturrupt == . | m2_interview_inturrupt == .a
+recode m2_interview_restarted (. = .a) if m2_permission !=1 | m2_202 !=1  | m2_interview_inturrupt !=1
 
-recode m2_int_duration (. = .a) if m2_permission == 0 | m2_permission == . | m2_permission == .a | m2_202 == 2 | m2_202 == 3 | m2_202 == . | m2_202 == .a 
+recode m2_int_duration (. = .a) if m2_permission !=1 | m2_202 !=1 
 
 recode m2_endstatus (. = .a) if m2_endtime == ""
 
@@ -5182,34 +5185,34 @@ label variable m2_316_3 "316. Was the fourth consultation for any of the followi
 label variable m2_316_4 "316. Was the fourth consultation for any of the following? To pick up medicine"
 label variable m2_316_5 "316. Was the fourth consultation for any of the following? To get a vaccine"
 label variable m2_316_96 "316. Was the fourth onsultation for any of the following? Other reasons"
-label variable m2_314_888_et "316. No information"
-label variable m2_314_998_et "316. Unknown"
-label variable m2_314_999_et "316. Refuse to answer"
+label variable m2_316_888_et "316. No information"
+label variable m2_316_998_et "316. Unknown"
+label variable m2_316_999_et "316. Refuse to answer"
 label variable m2_316_other "316-oth. Specify other reason for the fourth consultation"
 label variable m2_317 "317. Was the fifth consultation is for a routine antenatal care visit?"
 label variable m2_318 "318. Was the fifth consultation is for a referral from your antenatal care provider?"
-label variable m2_317_1 "319. Was the fifth consultation is for any of the following? A new health problem, including an emergency or an injury"
-label variable m2_317_2 "319. Was the fifth consultation is for any of the following? An existing health problem"
-label variable m2_317_3 "319. Was the fifth consultation is for any of the following? A lab test, x-ray, or ultrasound"
-label variable m2_317_4 "319. Was the fifth consultation is for any of the following? To pick up medicine"
-label variable m2_317_5 "319. Was the fifth consultation is for any of the following? To get a vaccine"
-label variable m2_317_96 "319. Was the fifth consultation is for any of the following? Other reasons"
-label variable m2_317_888_et "319. No information"
-label variable m2_317_998_et "319. Unknown"
-label variable m2_317_999_et "319. Refuse to answer"
+label variable m2_319_1 "319. Was the fifth consultation is for any of the following? A new health problem, including an emergency or an injury"
+label variable m2_319_2 "319. Was the fifth consultation is for any of the following? An existing health problem"
+label variable m2_319_3 "319. Was the fifth consultation is for any of the following? A lab test, x-ray, or ultrasound"
+label variable m2_319_4 "319. Was the fifth consultation is for any of the following? To pick up medicine"
+label variable m2_319_5 "319. Was the fifth consultation is for any of the following? To get a vaccine"
+label variable m2_319_96 "319. Was the fifth consultation is for any of the following? Other reasons"
+label variable m2_319_888_et "319. No information"
+label variable m2_319_998_et "319. Unknown"
+label variable m2_319_999_et "319. Refuse to answer"
 label variable m2_319_other "319-oth. Specify other reason for the fifth consultation"
-label variable m2_320_a "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? No reason or you didn't need it"
-label variable m2_320_b "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? You tried but were sent away (e.g., no appointment available) "
-label variable m2_320_c "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? High cost (e.g., high out of pocket payment, not covered by insurance)"
-label variable m2_320_d "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? Far distance (e.g., too far to walk or drive, transport not readily available)"
-label variable m2_320_e "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? Long waiting time (e.g., long line to access facility, long wait for the provider)"
-label variable m2_320_f "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? Poor healthcare provider skills (e.g., spent too little time with patient, did not conduct a thorough exam)"
-label variable m2_320_g "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? Staff don't show respect (e.g., staff is rude, impolite, dismissive)"
-label variable m2_320_h "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? Medicines or equipment are not available (e.g., medicines regularly out of stock, equipment like X-ray machines broken or unavailable)"
-label variable m2_320_i "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? COVID-19 restrictions (e.g., lockdowns, travel restrictions, curfews) "
-label variable m2_320_j "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? COVID-19 fear"
-label variable m2_320_k "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? Don't know where to go/too complicated"
-label variable m2_320_l "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? Fear of discovering serious problem"
+label variable m2_320_0 "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? No reason or you didn't need it"
+label variable m2_320_1 "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? You tried but were sent away (e.g., no appointment available) "
+label variable m2_320_2 "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? High cost (e.g., high out of pocket payment, not covered by insurance)"
+label variable m2_320_3 "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? Far distance (e.g., too far to walk or drive, transport not readily available)"
+label variable m2_320_4 "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? Long waiting time (e.g., long line to access facility, long wait for the provider)"
+label variable m2_320_5 "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? Poor healthcare provider skills (e.g., spent too little time with patient, did not conduct a thorough exam)"
+label variable m2_320_6 "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? Staff don't show respect (e.g., staff is rude, impolite, dismissive)"
+label variable m2_320_7 "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? Medicines or equipment are not available (e.g., medicines regularly out of stock, equipment like X-ray machines broken or unavailable)"
+label variable m2_320_8 "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? COVID-19 restrictions (e.g., lockdowns, travel restrictions, curfews) "
+label variable m2_320_9 "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? COVID-19 fear"
+label variable m2_320_10 "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? Don't know where to go/too complicated"
+label variable m2_320_11 "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? Fear of discovering serious problem"
 label variable m2_320_96 "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? Other, specify"
 label variable m2_320_99 "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? Refused"
 label variable m2_320_888_et "320. No information"
@@ -5252,10 +5255,10 @@ label variable m2_506c "506c. Since you last spoke to us, did you and a healthca
 label variable m2_506d "506d. Since you last spoke to us, did you and a healthcare provider discuss about family planning options for after delivery?"
 label variable m2_507 "507. What did the health care provider tell you to do regarding these new symptoms?"
 label variable m2_508a "508a. id you have a session of psychological counseling or therapy with any type of professional?  This could include seeing a mental health professional (like a phycologist, social worker, nurse, spiritual advisor or healer) for problems with your emotions or nerves."
-label variable m2_508b_number "508b. Do you know the number of psychological counseling or therapy session you had?"
-label variable m2_508b_last "508b. How many of these sessions did you have since you last spoke to us?"
-label variable m2_508c "508c. Do you know how long this/these visits took?"
-label variable m2_508d "508d. How many minutes did this/these visit(s) last on average?"
+label variable m2_508b_yn "508b. Do you know the number of psychological counseling or therapy session you had?"
+label variable m2_508b_num "508b. How many of these sessions did you have since you last spoke to us?"
+label variable m2_508c_yn "508c. Do you know how long this/these visits took?"
+label variable m2_508c_time "508d. How many minutes did this/these visit(s) last on average?"
 label variable m2_509a "509a.  id a healthcare provider tells you that you needed to go see a specialist like an obstetrician or a gynecologist?"
 label variable m2_509b "509b. id a healthcare provider tells you that you needed to go to the hospital for follow-up antenatal care?"
 label variable m2_509c "509c. id a healthcare provider tell you that you will need a C-section?"
@@ -7295,34 +7298,34 @@ label variable m2_316_3`i' "316. Was the fourth consultation for any of the foll
 label variable m2_316_4`i' "316. Was the fourth consultation for any of the following? To pick up medicine"
 label variable m2_316_5`i' "316. Was the fourth consultation for any of the following? To get a vaccine"
 label variable m2_316_96`i' "316. Was the fourth onsultation for any of the following? Other reasons"
-label variable m2_314_888_et`i' "316. No information"
-label variable m2_314_998_et`i' "316. Unknown"
-label variable m2_314_999_et`i' "316. Refuse to answer"
+label variable m2_316_888_et`i' "316. No information"
+label variable m2_316_998_et`i' "316. Unknown"
+label variable m2_316_999_et`i' "316. Refuse to answer"
 label variable m2_316_other`i' "316-oth. Specify other reason for the fourth consultation"
 label variable m2_317`i' "317. Was the fifth consultation is for a routine antenatal care visit?"
 label variable m2_318`i' "318. Was the fifth consultation is for a referral from your antenatal care provider?"
-label variable m2_317_1`i' "319. Was the fifth consultation is for any of the following? A new health problem, including an emergency or an injury"
-label variable m2_317_2`i' "319. Was the fifth consultation is for any of the following? An existing health problem"
-label variable m2_317_3`i' "319. Was the fifth consultation is for any of the following? A lab test, x-ray, or ultrasound"
-label variable m2_317_4`i' "319. Was the fifth consultation is for any of the following? To pick up medicine"
-label variable m2_317_5`i' "319. Was the fifth consultation is for any of the following? To get a vaccine"
-label variable m2_317_96`i' "319. Was the fifth consultation is for any of the following? Other reasons"
-label variable m2_317_888_et`i' "319. No information"
-label variable m2_317_998_et`i' "319. Unknown"
-label variable m2_317_999_et`i' "319. Refuse to answer"
+label variable m2_319_1`i' "319. Was the fifth consultation is for any of the following? A new health problem, including an emergency or an injury"
+label variable m2_319_2`i' "319. Was the fifth consultation is for any of the following? An existing health problem"
+label variable m2_319_3`i' "319. Was the fifth consultation is for any of the following? A lab test, x-ray, or ultrasound"
+label variable m2_319_4`i' "319. Was the fifth consultation is for any of the following? To pick up medicine"
+label variable m2_319_5`i' "319. Was the fifth consultation is for any of the following? To get a vaccine"
+label variable m2_319_96`i' "319. Was the fifth consultation is for any of the following? Other reasons"
+label variable m2_319_888_et`i' "319. No information"
+label variable m2_319_998_et`i' "319. Unknown"
+label variable m2_319_999_et`i' "319. Refuse to answer"
 label variable m2_319_other`i' "319-oth. Specify other reason for the fifth consultation"
-label variable m2_320_a`i' "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? No reason or you didn't need it"
-label variable m2_320_b`i' "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? You tried but were sent away (e.g., no appointment available) "
-label variable m2_320_c`i' "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? High cost (e.g., high out of pocket payment, not covered by insurance)"
-label variable m2_320_d`i' "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? Far distance (e.g., too far to walk or drive, transport not readily available)"
-label variable m2_320_e`i' "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? Long waiting time (e.g., long line to access facility, long wait for the provider)"
-label variable m2_320_f`i' "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? Poor healthcare provider skills (e.g., spent too little time with patient, did not conduct a thorough exam)"
-label variable m2_320_g`i' "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? Staff don't show respect (e.g., staff is rude, impolite, dismissive)"
-label variable m2_320_h`i' "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? Medicines or equipment are not available (e.g., medicines regularly out of stock, equipment like X-ray machines broken or unavailable)"
-label variable m2_320_i`i' "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? COVID-19 restrictions (e.g., lockdowns, travel restrictions, curfews) "
-label variable m2_320_j`i' "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? COVID-19 fear"
-label variable m2_320_k`i' "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? Don't know where to go/too complicated"
-label variable m2_320_l`i' "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? Fear of discovering serious problem"
+label variable m2_320_0`i' "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? No reason or you didn't need it"
+label variable m2_320_1`i' "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? You tried but were sent away (e.g., no appointment available) "
+label variable m2_320_2`i' "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? High cost (e.g., high out of pocket payment, not covered by insurance)"
+label variable m2_320_3`i' "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? Far distance (e.g., too far to walk or drive, transport not readily available)"
+label variable m2_320_4`i' "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? Long waiting time (e.g., long line to access facility, long wait for the provider)"
+label variable m2_320_5`i' "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? Poor healthcare provider skills (e.g., spent too little time with patient, did not conduct a thorough exam)"
+label variable m2_320_6`i' "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? Staff don't show respect (e.g., staff is rude, impolite, dismissive)"
+label variable m2_320_7`i' "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? Medicines or equipment are not available (e.g., medicines regularly out of stock, equipment like X-ray machines broken or unavailable)"
+label variable m2_320_8`i' "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? COVID-19 restrictions (e.g., lockdowns, travel restrictions, curfews) "
+label variable m2_320_9`i' "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? COVID-19 fear"
+label variable m2_320_10`i' "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? Don't know where to go/too complicated"
+label variable m2_320_11`i' "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? Fear of discovering serious problem"
 label variable m2_320_96`i' "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? Other, specify"
 label variable m2_320_99`i' "320. Are there any reasons that prevented you from receiving more antenatal care since you last spoke to us? Refused"
 label variable m2_320_888_et`i' "320. No information"
@@ -7365,10 +7368,10 @@ label variable m2_506c`i' "506c. Since you last spoke to us, did you and a healt
 label variable m2_506d`i' "506d. Since you last spoke to us, did you and a healthcare provider discuss about family planning options for after delivery?"
 label variable m2_507`i' "507. What did the health care provider tell you to do regarding these new symptoms?"
 label variable m2_508a`i' "508a. id you have a session of psychological counseling or therapy with any type of professional?  This could include seeing a mental health professional (like a phycologist, social worker, nurse, spiritual advisor or healer) for problems with your emotions or nerves."
-label variable m2_508b_number`i' "508b. Do you know the number of psychological counseling or therapy session you had?"
-label variable m2_508b_last`i' "508b. How many of these sessions did you have since you last spoke to us?"
-label variable m2_508c`i' "508c. Do you know how long this/these visits took?"
-label variable m2_508d`i' "508d. How many minutes did this/these visit(s) last on average?"
+label variable m2_508b_yn`i' "508b. Do you know the number of psychological counseling or therapy session you had?"
+label variable m2_508b_num`i' "508b. How many of these sessions did you have since you last spoke to us?"
+label variable m2_508c_yn`i' "508c. Do you know how long this/these visits took?"
+label variable m2_508c_time`i' "508d. How many minutes did this/these visit(s) last on average?"
 label variable m2_509a`i' "509a.  id a healthcare provider tells you that you needed to go see a specialist like an obstetrician or a gynecologist?"
 label variable m2_509b`i' "509b. id a healthcare provider tells you that you needed to go to the hospital for follow-up antenatal care?"
 label variable m2_509c`i' "509c. id a healthcare provider tell you that you will need a C-section?"
