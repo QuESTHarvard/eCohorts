@@ -388,6 +388,7 @@ rename (do_you_know_weight_1st_baby do_you_know_weight_2nd_baby do_you_know_weig
 		
 replace m3_313a_baby1 = "2023-08-11" if respondentid == "121515"
 replace m3_313a_baby1 = "2023-06-19" if respondentid == "180813"
+replace m3_313a_baby1 = "2023-11-26" if redcap_record_id == "1708-36"
 		
 rename (how_you_feed_1st_baby___1 how_you_feed_1st_baby___2 how_you_feed_1st_baby___3 how_you_feed_1st_baby___4 how_you_feed_1st_baby___5 ///
 		how_you_feed_1st_baby___6 how_you_feed_1st_baby___7 how_you_feed_1st_baby___96 how_you_feed_1st_baby___99 how_you_feed_1st_baby___998 ///
@@ -1503,6 +1504,13 @@ drop m2_drop
 		rename _m1_802c_et_ m1_802c_et
 		format m1_802c_et %td
 		
+		replace m1_802c_et = date("2022-01-16 ", "YMD") if redcap_record_id=="1685-24"
+		replace m1_802c_et = date("2022-11-19 ", "YMD") if redcap_record_id=="1690-19"
+		replace m1_802c_et = date("2022-11-21 ", "YMD") if redcap_record_id=="1690-39"
+		replace m1_802c_et = date("2022-11-30", "YMD") if redcap_record_id=="1713-54"
+		replace m1_802c_et = date("2022-10-03 ", "YMD") if redcap_record_id=="1708-7"
+
+
 *===============================================================================
 	
 	* STEP TWO: ADD VALUE LABELS 
@@ -3845,7 +3853,9 @@ recode m3_1204 (. = .a) if m3_1203 !=1
 
 recode m3_401 (. = .a) if (m3_303b !=1 & m3_303c !=1 & m3_303d !=1) | m3_202 !=3 | ///
 						  (m3_baby1_born_alive != 1 & m3_baby2_born_alive !=1 & m3_baby3_born_alive !=1)
-
+						  
+replace m3_401 = 0 if redcap_record_id == "1708-36"
+						  
 recode m3_402 (. = .a) if m3_401 !=1 & m3_consultation_3 !=1
 
 recode m3_consultation_1 (. = .a) if m3_402 !=1 & m3_402 !=2 & m3_402 !=3 & m3_402 !=4 & m3_402 !=5
@@ -3909,9 +3919,15 @@ replace m3_412g_other = ".a" if m3_412g !=1
 
 recode m3_501 (. = .a) if (m3_303b !=1 & m3_303c !=1 & m3_303d !=1) & (m3_baby1_born_alive !=1 & m3_baby2_born_alive !=1 & m3_baby3_born_alive !=1) & m3_202 !=3
 
+replace m3_501 = 1 if redcap_record_id == "1708-36"
+
 recode m3_502 m3_503 (. = .a) if m3_501 !=1
 
+replace m3_502 = 1 if redcap_record_id == "1708-36"
+
 replace m3_503_inside_zone_other = ".a" if m3_503 !=96
+
+replace m3_501 = "Mojo hospital" if redcap_record_id == "1708-36"
 
 replace m3_503_outside_zone_other = ".a" if m3_503 !=97
 
