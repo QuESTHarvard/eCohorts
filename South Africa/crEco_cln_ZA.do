@@ -2775,8 +2775,18 @@ drop if respondentid == "UUT_014"
 *fixing baby death dates:
 replace m3_313a_baby1 = 23318 if respondentid == "IIB_037"
 
-*==============================================================================*
+*fixing M3 dates:
+replace m3_date = 23341 if respondentid == "PAP_014" // change to 27-Nov-23
+replace m3_date = 23331 if respondentid == "RCH_026" // change to 17-Nov-23
+replace m3_date = 23299 if respondentid == "NUZ_004" // change to 16-Oct-23
+replace m3_date = 23268 if respondentid == "PAP_009" // change to 15-Sep-23
+replace m3_date = 23300 if respondentid == "PAP_028" // change to 17-Oct-23
 
+*fixing m3_birth_or_ended
+replace m3_birth_or_ended = 23284 if respondentid == "EUB_012" // change to 1-Oct-23
+replace m3_birth_or_ended = 23324 if respondentid == "MER_047" // change to 10-Nov-23
+
+*==============================================================================*
 	* STEP TWO: ADD VALUE LABELS
 	* Will need to add data for baby 3 once that data is available 
 
