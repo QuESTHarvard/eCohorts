@@ -6,7 +6,7 @@
 	This file creates derived variables for analysis from the MNH ECohorts Kenya dataset. 
 */
 
-u "$ke_data_final/eco_m1-m4_ke.dta", clear
+u "$ke_data_final/eco_m1-m5_ke.dta", clear
 
 *------------------------------------------------------------------------------*
 * MODULE 1
@@ -340,5 +340,5 @@ u "$ke_data_final/eco_m1-m4_ke.dta", clear
 	order wealthindex quintile tertile bsl_phq9_cat bsl_phq2_cat, after(health_lit)
 	order anc1* , after(bsl_low_BMI)
 	
-save "$ke_data_final/eco_m1-m4_ke_der.dta", replace
+save "$ke_data_final/eco_m1-m5_ke_der.dta", replace
 
