@@ -261,3 +261,9 @@ gen total_tests =
 *other questions we could explore:
 	* Confidence affording care if became sick: m1_304
 	* 404. How confident are you that you would be able to afford the healthcare you needed if you became very sick? This means you would be able to afford care without suffering financial hardship.:m5_404
+	
+	
+*===============================================================================*
+* Save new dataset 	   
+	   
+save "/Users/shs8688/Dropbox (Harvard University)/SPH-Kruk Team/QuEST Network/Core Research/Ecohorts/MNH E-Cohorts-internal/Analyses/Manuscripts/OOP paper/Data/cr_oop_paper.dta", replace
