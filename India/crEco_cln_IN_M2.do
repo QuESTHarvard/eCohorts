@@ -10,7 +10,9 @@
 *				version
 * Date 			number 	Name			What Changed
 2024-07-22		1.01	MK Trimner		Original M2 file
-										
+2024-08-07		1.02	MK Trimner		Made corrections per Shalom's 7-31-2024 email
+*										Aligned m2_hiv_status with 0, 1 & 99 values and added it to the recoding for 99 = .r
+*										Removed m2_203i as it is not in the IN dataset																
 *									
 *******************************************************************************
 
@@ -87,8 +89,6 @@ replace q103 = subinstr(q103," ","",.)
 
 	* Need to adjust this to align with m2_hiv_status label definition
 	clonevar m2_hiv_status = Q108
-	replace m2_hiv_status = 2 if Q108 == 0
-	replace m2_hiv_status = 98 if Q108 == 99
 		
 	clonevar m2_maternal_death_reported = Q109
 	clonevar m2_date_of_maternal_death = Q110
@@ -110,9 +110,9 @@ replace q103 = subinstr(q103," ","",.)
 		clonevar m2_203`v' = Q203_`v'
 	}
 	
-	clonevar m2_203i = Q204
 	clonevar m2_204i = Q204
 	clonevar m2_204_other = Q204_a
+	exit 99
 	
 	* We need to recode those values in Q204_a to populate any valid m2_203<letters> variables
 	gen other_health = trim(upper(Q204_a))
@@ -309,8 +309,8 @@ replace q103 = subinstr(q103," ","",.)
 		clonevar m2_702`v'_cost = Q702_`v'
 	}
 	
-	clonevar m2_702e_other = Q702_e_other
-	label var m2_702e_other "Other specified"
+	clonevar m2_702_other = Q702_e_other
+	label var m2_702_other "Other specified"
 	
 	clonevar m2_703 = Q703
 	clonevar m2_704_confirm = Q704
@@ -339,7 +339,7 @@ replace q103 = subinstr(q103," ","",.)
 	label define maternal_death_reported 1 "Yes" 0 "No" 
 	label values m2_maternal_death_reported maternal_death_reported
 	
-	label define m2_hiv_status 1 "Positive" 2 "Negative" 3 "Unknown" 
+	label define m2_hiv_status 1 "Positive" 0 "Negative" 99 "NR/RF" 
 	label values m2_hiv_status m2_hiv_status
 	
 	label define m2_maternal_death_learn 1 "Called respondent phone, someone else responded" ///
@@ -536,12 +536,12 @@ replace q103 = subinstr(q103," ","",.)
 		recode m2_permission (. = .a) if m2_maternal_death_reported == 1
 		
 		* If permission was not granted all other questions should have been skipped
-		recode m2_201 m2_202 m2_203a m2_203b m2_203c m2_203d m2_203e m2_203f m2_203g m2_203h m2_203i m2_204i  m2_204a m2_204b m2_204c m2_204d m2_204e m2_204f m2_204g m2_204h m2_205a m2_205b m2_206 m2_301 m2_302 m2_303a m2_304a m2_303b m2_304b m2_303c m2_304c m2_303d m2_304d m2_303e m2_304e  m2_305 m2_306  m2_307_1 m2_307_2 m2_307_3 m2_307_4 m2_307_5 m2_307_96  m2_308 m2_309  m2_310_1 m2_310_2 m2_310_3 m2_310_4 m2_310_5 m2_310_96  m2_311 m2_312 m2_313 m2_313_1 m2_313_2 m2_313_3 m2_313_4 m2_313_5 m2_313_96  m2_314 m2_315 m2_316 m2_316_1 m2_316_2 m2_316_3 m2_316_4 m2_316_5 m2_316_96 m2_317 m2_318 m2_319 m2_319_1 m2_319_2 m2_319_3 m2_319_4 m2_319_5 m2_319_96  m2_320_0 m2_320_1 m2_320_2 m2_320_3 m2_320_4 m2_320_5 m2_320_6 m2_320_7 m2_320_8 m2_320_9 m2_320_10 m2_320_11 m2_320_96 m2_320_99 m2_321 m2_321_0 m2_321_1 m2_321_2 m2_321_3 m2_321_98 m2_321_99 m2_401 m2_402 m2_403 m2_404 m2_405 m2_501a m2_501b m2_501c m2_501d m2_501e m2_501f m2_501g  m2_502 m2_503a m2_505a m2_503b m2_505b m2_503c m2_505c m2_503d m2_505d m2_503e m2_505e m2_503f m2_505f m2_505g m2_504 m2_506a m2_506b m2_506c m2_506d m2_507_1 m2_507_2 m2_507_3 m2_507_4 m2_507_5 m2_507_6 m2_507_7 m2_507_96 m2_507_98 m2_507_99 m2_508a m2_508b_num m2_508c_time m2_509a m2_509b m2_509c m2_601a m2_601b m2_601c m2_601d m2_601e m2_601f m2_601g m2_601h m2_601i m2_601j m2_601k m2_601l m2_601m m2_601n m2_601o m2_602b m2_603 m2_701 m2_702a_cost m2_702b_cost m2_702c_cost m2_702d_cost m2_702e_cost m2_703 m2_704_confirm  m2_705_1 m2_705_2 m2_705_3 m2_705_4 m2_705_5 m2_705_6 m2_705_96 (. = .a) if m2_permission != 1
+		recode m2_201 m2_202 m2_203a m2_203b m2_203c m2_203d m2_203e m2_203f m2_203g m2_203h m2_204i  m2_204a m2_204b m2_204c m2_204d m2_204e m2_204f m2_204g m2_204h m2_205a m2_205b m2_206 m2_301 m2_302 m2_303a m2_304a m2_303b m2_304b m2_303c m2_304c m2_303d m2_304d m2_303e m2_304e  m2_305 m2_306  m2_307_1 m2_307_2 m2_307_3 m2_307_4 m2_307_5 m2_307_96  m2_308 m2_309  m2_310_1 m2_310_2 m2_310_3 m2_310_4 m2_310_5 m2_310_96  m2_311 m2_312 m2_313 m2_313_1 m2_313_2 m2_313_3 m2_313_4 m2_313_5 m2_313_96  m2_314 m2_315 m2_316 m2_316_1 m2_316_2 m2_316_3 m2_316_4 m2_316_5 m2_316_96 m2_317 m2_318 m2_319 m2_319_1 m2_319_2 m2_319_3 m2_319_4 m2_319_5 m2_319_96  m2_320_0 m2_320_1 m2_320_2 m2_320_3 m2_320_4 m2_320_5 m2_320_6 m2_320_7 m2_320_8 m2_320_9 m2_320_10 m2_320_11 m2_320_96 m2_320_99 m2_321 m2_321_0 m2_321_1 m2_321_2 m2_321_3 m2_321_98 m2_321_99 m2_401 m2_402 m2_403 m2_404 m2_405 m2_501a m2_501b m2_501c m2_501d m2_501e m2_501f m2_501g  m2_502 m2_503a m2_505a m2_503b m2_505b m2_503c m2_505c m2_503d m2_505d m2_503e m2_505e m2_503f m2_505f m2_505g m2_504 m2_506a m2_506b m2_506c m2_506d m2_507_1 m2_507_2 m2_507_3 m2_507_4 m2_507_5 m2_507_6 m2_507_7 m2_507_96 m2_507_98 m2_507_99 m2_508a m2_508b_num m2_508c_time m2_509a m2_509b m2_509c m2_601a m2_601b m2_601c m2_601d m2_601e m2_601f m2_601g m2_601h m2_601i m2_601j m2_601k m2_601l m2_601m m2_601n m2_601o m2_602b m2_603 m2_701 m2_702a_cost m2_702b_cost m2_702c_cost m2_702d_cost m2_702e_cost m2_703 m2_704_confirm  m2_705_1 m2_705_2 m2_705_3 m2_705_4 m2_705_5 m2_705_6 m2_705_96 (. = .a) if m2_permission != 1
 
 		// m2_204_other 304a_other m2_304b_other m2_304c_other m2_304d_other m2_304e_other m2_307_other m2_310_other m2_313_other m2_316_other m2_319_other m2_320_other m2_321_org m2_501g_other m2_504_other m2_507_other m2_601o_other m2_705_other m2_307 m2_320 m2_705 m2_310
 		
 		* If the pregnancy has ended all remaining questions should be missing
-		recode m2_203a m2_203b m2_203c m2_203d m2_203e m2_203f m2_203g m2_203h m2_203i m2_204i m2_204a m2_204b m2_204c m2_204d m2_204e m2_204f m2_204g m2_204h m2_205a m2_205b m2_206 m2_301 m2_302 m2_303a m2_304a m2_303b m2_304b  m2_303c m2_304c m2_303d m2_304d m2_303e m2_304e m2_305 m2_306 m2_307_1 m2_307_2 m2_307_3 m2_307_4 m2_307_5 m2_307_96 m2_308 m2_309 m2_310_1 m2_310_2 m2_310_3 m2_310_4 m2_310_5 m2_310_96 m2_311 m2_312 m2_313 m2_313_1 m2_313_2 m2_313_3 m2_313_4 m2_313_5 m2_313_96 m2_314 m2_315 m2_316 m2_316_1 m2_316_2 m2_316_3 m2_316_4 m2_316_5 m2_316_96 m2_317 m2_318 m2_319 m2_319_1 m2_319_2 m2_319_3 m2_319_4 m2_319_5 m2_319_96  m2_320_0 m2_320_1 m2_320_2 m2_320_3 m2_320_4 m2_320_5 m2_320_6 m2_320_7 m2_320_8 m2_320_9 m2_320_10 m2_320_11 m2_320_96 m2_320_99 m2_321 m2_321_0 m2_321_1 m2_321_2 m2_321_3 m2_321_98 m2_321_99 m2_401 m2_402 m2_403 m2_404 m2_405 m2_501a m2_501b m2_501c m2_501d m2_501e m2_501f m2_501g m2_502 m2_503a m2_505a m2_503b m2_505b m2_503c m2_505c m2_503d m2_505d m2_503e m2_505e m2_503f m2_505f m2_505g m2_504 m2_506a m2_506b m2_506c m2_506d m2_507_1 m2_507_2 m2_507_3 m2_507_4 m2_507_5 m2_507_6 m2_507_7 m2_507_96 m2_507_98 m2_507_99 m2_508a m2_508b_num m2_508c_time m2_509a m2_509b m2_509c m2_601a m2_601b m2_601c m2_601d m2_601e m2_601f m2_601g m2_601h m2_601i m2_601j m2_601k m2_601l m2_601m m2_601n m2_601o m2_602b m2_603 m2_701 m2_702a_cost m2_702b_cost m2_702c_cost m2_702d_cost m2_702e_cost m2_703 m2_704_confirm  m2_705_1 m2_705_2 m2_705_3 m2_705_4 m2_705_5 m2_705_6 m2_705_96  (. = .a) if m2_202 != 1
+		recode m2_203a m2_203b m2_203c m2_203d m2_203e m2_203f m2_203g m2_203h m2_204i m2_204a m2_204b m2_204c m2_204d m2_204e m2_204f m2_204g m2_204h m2_205a m2_205b m2_206 m2_301 m2_302 m2_303a m2_304a m2_303b m2_304b  m2_303c m2_304c m2_303d m2_304d m2_303e m2_304e m2_305 m2_306 m2_307_1 m2_307_2 m2_307_3 m2_307_4 m2_307_5 m2_307_96 m2_308 m2_309 m2_310_1 m2_310_2 m2_310_3 m2_310_4 m2_310_5 m2_310_96 m2_311 m2_312 m2_313 m2_313_1 m2_313_2 m2_313_3 m2_313_4 m2_313_5 m2_313_96 m2_314 m2_315 m2_316 m2_316_1 m2_316_2 m2_316_3 m2_316_4 m2_316_5 m2_316_96 m2_317 m2_318 m2_319 m2_319_1 m2_319_2 m2_319_3 m2_319_4 m2_319_5 m2_319_96  m2_320_0 m2_320_1 m2_320_2 m2_320_3 m2_320_4 m2_320_5 m2_320_6 m2_320_7 m2_320_8 m2_320_9 m2_320_10 m2_320_11 m2_320_96 m2_320_99 m2_321 m2_321_0 m2_321_1 m2_321_2 m2_321_3 m2_321_98 m2_321_99 m2_401 m2_402 m2_403 m2_404 m2_405 m2_501a m2_501b m2_501c m2_501d m2_501e m2_501f m2_501g m2_502 m2_503a m2_505a m2_503b m2_505b m2_503c m2_505c m2_503d m2_505d m2_503e m2_505e m2_503f m2_505f m2_505g m2_504 m2_506a m2_506b m2_506c m2_506d m2_507_1 m2_507_2 m2_507_3 m2_507_4 m2_507_5 m2_507_6 m2_507_7 m2_507_96 m2_507_98 m2_507_99 m2_508a m2_508b_num m2_508c_time m2_509a m2_509b m2_509c m2_601a m2_601b m2_601c m2_601d m2_601e m2_601f m2_601g m2_601h m2_601i m2_601j m2_601k m2_601l m2_601m m2_601n m2_601o m2_602b m2_603 m2_701 m2_702a_cost m2_702b_cost m2_702c_cost m2_702d_cost m2_702e_cost m2_703 m2_704_confirm  m2_705_1 m2_705_2 m2_705_3 m2_705_4 m2_705_5 m2_705_6 m2_705_96  (. = .a) if m2_202 != 1
 
 		//m2_204_other m2_304a_other m2_304b_other m2_304c_other m2_304d_other m2_304e_other m2_307_other m2_310_other m2_313_other m2_316_other m2_319_other m2_320_other m2_321_org m2_501g_other m2_504_other m2_507_other m2_601o_other m2_705_other m2_307 m2_320 m2_705 m2_310
 		* If there were no additional consultations these questions should be missing
@@ -592,11 +592,11 @@ replace q103 = subinstr(q103," ","",.)
 			recode m2_40`n' (99 = .r)
 		}
 		
-		recode m2_201 m2_203a m2_203b m2_203c m2_203d m2_203e m2_203f m2_203g m2_203h m2_203i m2_204i m2_205a m2_205b m2_206 m2_301 m2_303a m2_303b m2_303c m2_303d m2_303e m2_321 m2_501a m2_501b m2_501c m2_501d m2_501e m2_501f m2_501g m2_502 m2_506a m2_506b m2_506c m2_506d m2_507_1 m2_507_2 m2_507_3 m2_507_4 m2_507_5 m2_507_6 m2_507_7 m2_507_96 m2_507_98 m2_507_99 m2_508a m2_509a m2_509b m2_509c m2_601a m2_601b m2_601c m2_601d m2_601e m2_601f m2_601g m2_601h m2_601i m2_601j m2_601k m2_601l m2_601m m2_601n m2_601o m2_603 m2_701 m2_702a_cost m2_702b_cost m2_702c_cost m2_702d_cost m2_702e_cost (99 = .r)
+		recode m2_201 m2_203a m2_203b m2_203c m2_203d m2_203e m2_203f m2_203g m2_203h m2_204i m2_205a m2_205b m2_206 m2_301 m2_303a m2_303b m2_303c m2_303d m2_303e m2_321 m2_501a m2_501b m2_501c m2_501d m2_501e m2_501f m2_501g m2_502 m2_506a m2_506b m2_506c m2_506d m2_507_1 m2_507_2 m2_507_3 m2_507_4 m2_507_5 m2_507_6 m2_507_7 m2_507_96 m2_507_98 m2_507_99 m2_508a m2_509a m2_509b m2_509c m2_601a m2_601b m2_601c m2_601d m2_601e m2_601f m2_601g m2_601h m2_601i m2_601j m2_601k m2_601l m2_601m m2_601n m2_601o m2_603 m2_701 m2_702a_cost m2_702b_cost m2_702c_cost m2_702d_cost m2_702e_cost m2_hiv_status (99 = .r)
 		
 		//m2_501g_other m2_507_other
 		
-		recode m2_203a m2_203b m2_203c m2_203d m2_203e m2_203f m2_203g m2_203h m2_203i m2_206 m2_301 m2_303a m2_303b m2_303c m2_303d m2_303e m2_321 m2_501a m2_501b m2_501c m2_501d m2_501e m2_501f m2_501g  m2_502 m2_506a m2_506b m2_506c m2_506d m2_507_1 m2_507_2 m2_507_3 m2_507_4 m2_507_5 m2_507_6 m2_507_7 m2_507_96 m2_507_98 m2_507_99  m2_508a m2_509a m2_509b m2_509c m2_601a m2_601b m2_601c m2_601d m2_601e m2_601f m2_601g m2_601h m2_601i m2_601j m2_601k m2_601l m2_601m m2_601n m2_601o m2_603 m2_701 m2_702a_cost m2_702b_cost m2_702c_cost m2_702d_cost m2_702e_cost (98 = .d)
+		recode m2_203a m2_203b m2_203c m2_203d m2_203e m2_203f m2_203g m2_203h m2_206 m2_301 m2_303a m2_303b m2_303c m2_303d m2_303e m2_321 m2_501a m2_501b m2_501c m2_501d m2_501e m2_501f m2_501g  m2_502 m2_506a m2_506b m2_506c m2_506d m2_507_1 m2_507_2 m2_507_3 m2_507_4 m2_507_5 m2_507_6 m2_507_7 m2_507_96 m2_507_98 m2_507_99  m2_508a m2_509a m2_509b m2_509c m2_601a m2_601b m2_601c m2_601d m2_601e m2_601f m2_601g m2_601h m2_601i m2_601j m2_601k m2_601l m2_601m m2_601n m2_601o m2_603 m2_701 m2_702a_cost m2_702b_cost m2_702c_cost m2_702d_cost m2_702e_cost (98 = .d)
 		
 		//m2_501g_other m2_507_other
 		
@@ -647,7 +647,6 @@ replace q103 = subinstr(q103," ","",.)
 			local name `:var label m2_203`v''
 			label var m2_203`v' "Experienced: `name'"
 		}
-		label var m2_203i "Experienced: Other major health problems"
 		
 		label var m2_204i "Experienced: Other major health problems"
 		label var m2_204_other "Experienced: Other major health problems specified"

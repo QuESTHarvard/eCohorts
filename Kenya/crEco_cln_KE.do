@@ -2,6 +2,16 @@
 * Updated by S. Sabwa, K. Wright, W. Chien
 * Last Updated: 13 Mar 2024
 
+/*******************************************************************************
+* Change log
+* 				Updated
+*				version
+* Date 			number 	Name			What Changed
+2024-08-07		1.01	MK Trimner		Removed the suffix _ke from m2_507_# variables
+*										Removed the suffix _ke from m2_702_other
+*******************************************************************************/
+
+
 *------------------------------------------------------------------------------*
 * Instructions: All steps are done by Module, search "MODULE _" to find sections
 	
@@ -1043,8 +1053,8 @@ rename (q_505a q_505b q_505c q_505d q_505e q_505f q_505g) ///
 rename (q_506_1 q_506_2 q_506_3 q_506_4 q_506_0) ///
        (m2_506a m2_506b m2_506c m2_506d m2_506_0)
 rename (q_507_1 q_507_2 q_507_3 q_507_4 q_507_5 q_507_6 q_507_7 q_507__96 ///
-		q_507_other) (m2_507_1_ke m2_507_2_ke m2_507_3_ke m2_507_4_ke ///
-		m2_507_5_ke m2_507_6_ke m2_507_7_ke m2_507_96_ke m2_507_other_ke)
+		q_507_other) (m2_507_1 m2_507_2 m2_507_3 m2_507_4 ///
+		m2_507_5 m2_507_6 m2_507_7 m2_507_96 m2_507_other)
 rename (q_508a q_508b q_508c) (m2_508a m2_508b_num m2_508c_time)	  
 rename (q_509_1 q_509_2 q_509_3 q_509_0) (m2_509a m2_509b m2_509c m2_509_0) 
 
@@ -1057,7 +1067,7 @@ rename q_602 m2_602b
 rename q_603 m2_603 
 
 rename (q_702a q_702b q_702c q_702d q_702e q_702e_other) ///
-       (m2_702a_cost m2_702b_cost m2_702c_cost m2_702d_cost m2_702e_cost m2_702_other_ke)
+       (m2_702a_cost m2_702b_cost m2_702c_cost m2_702d_cost m2_702e_cost m2_702_other)
 	   
 rename q_701_total m2_703
 
@@ -1378,7 +1388,7 @@ recode m2_702b_cost (. = .a) if m2_701 !=1
 recode m2_702c_cost (. = .a) if m2_701 !=1
 recode m2_702d_cost (. = .a) if m2_701 !=1
 recode m2_702e_cost (. = .a) if m2_701 !=1
-replace m2_702_other_ke = ".a" if m2_702e_cost !=1
+replace m2_702_other = ".a" if m2_702e_cost !=1
 
 recode m2_703 m2_704_confirm (. = .a) if m2_701 !=1 | m2_702_meds_ke ==.
 
@@ -1426,7 +1436,7 @@ replace m2_round = "_r10" if round2==10
 * Use the string variable to reshape wide
 drop round2
 				
-reshape wide m2_start_time m2_endtime m2_date m2_time_start duration m2_interviewer m2_ga m2_hiv_status m2_site m2_county m2_attempt_number m2_attempt_number_other m2_attempt_outcome resp_language m2_attempt_relationship m2_maternal_death_reported m2_date_of_maternal_death date_death_knows m2_maternal_death_learn m2_maternal_death_learn_oth m2_consent_recording consent m2_201 m2_202 m2_202_other m2_202_delivery_date m2_202_other_date m2_ga_estimate m2_203a m2_203b m2_203c m2_203d m2_203e m2_203f m2_203g m2_203h m2_204i m2_204i_other m2_205a m2_205b m2_phq2_ke m2_206 m2_301 m2_302 m2_303a m2_304a m2_304a_other m2_305 m2_306 m2_306_1 m2_306_2 m2_306_3 m2_306_4 m2_306_5 m2_306_96 m2_307_other m2_303b m2_304b m2_304b_other m2_308 m2_309 m2_308_1 m2_308_2 m2_308_3 m2_308_4 m2_308_5 m2_308_96 m2_310_other m2_303c m2_304c m2_304c_other m2_311 m2_312 m2_311_1 m2_311_2 m2_311_3 m2_311_4 m2_311_5 m2_311_96 m2_313_other m2_303d m2_304d m2_304d_other m2_314 m2_315 m2_314_1 m2_314_2 m2_314_3 m2_314_4 m2_314_5 m2_314_96 m2_316_other m2_303e m2_304e m2_304e_other m2_317 m2_318 m2_317_1 m2_317_2 m2_317_3 m2_317_4 m2_317_5 m2_317_96 m2_319_other m2_320_0 m2_320a m2_320b m2_320c m2_320d m2_320e m2_320f m2_320g m2_320h m2_320i m2_320j m2_320k m2_320_12_ke m2_320_96 m2_320_99 m2_320_other m2_321 m2_401 m2_402 m2_403 m2_404 m2_405 m2_501 m2_501a m2_501b m2_501c m2_501d m2_501e m2_501f m2_501g m2_501_0 m2_501g_other m2_502 m2_503 m2_503a m2_503b m2_503c m2_503d m2_503e m2_503f m2_503_0 m2_505a m2_505b m2_505c m2_505d m2_505e m2_505f m2_504 m2_504_other m2_505g m2_506 m2_506a m2_506b m2_506c m2_506d m2_506_0 m2_507 m2_507_1_ke m2_507_2_ke m2_507_3_ke m2_507_4_ke m2_507_5_ke m2_507_6_ke m2_507_7_ke m2_507_96_ke m2_507_other_ke m2_508a m2_508b_num m2_508c_time m2_509 m2_509a m2_509b m2_509c m2_509_0 m2_601 m2_601a m2_601o m2_601b m2_601c m2_601d m2_601e m2_601f m2_601g m2_601h m2_601i m2_601j m2_601k m2_601l m2_601m m2_601n m2_601_0 m2_601n_other m2_602b m2_603 m2_701 m2_704_confirm m2_702_meds_ke m2_702a_cost m2_702b_cost m2_702c_cost m2_702d_cost m2_702e_cost m2_702_other_ke m2_703 m2_705 m2_705_1 m2_705_2 m2_705_3 m2_705_4 m2_705_5 m2_705_6 m2_705_96 m2_705_other language language_oth m2_date_time, i(respondentid) j(m2_round, string) 
+reshape wide m2_start_time m2_endtime m2_date m2_time_start duration m2_interviewer m2_ga m2_hiv_status m2_site m2_county m2_attempt_number m2_attempt_number_other m2_attempt_outcome resp_language m2_attempt_relationship m2_maternal_death_reported m2_date_of_maternal_death date_death_knows m2_maternal_death_learn m2_maternal_death_learn_oth m2_consent_recording consent m2_201 m2_202 m2_202_other m2_202_delivery_date m2_202_other_date m2_ga_estimate m2_203a m2_203b m2_203c m2_203d m2_203e m2_203f m2_203g m2_203h m2_204i m2_204i_other m2_205a m2_205b m2_phq2_ke m2_206 m2_301 m2_302 m2_303a m2_304a m2_304a_other m2_305 m2_306 m2_306_1 m2_306_2 m2_306_3 m2_306_4 m2_306_5 m2_306_96 m2_307_other m2_303b m2_304b m2_304b_other m2_308 m2_309 m2_308_1 m2_308_2 m2_308_3 m2_308_4 m2_308_5 m2_308_96 m2_310_other m2_303c m2_304c m2_304c_other m2_311 m2_312 m2_311_1 m2_311_2 m2_311_3 m2_311_4 m2_311_5 m2_311_96 m2_313_other m2_303d m2_304d m2_304d_other m2_314 m2_315 m2_314_1 m2_314_2 m2_314_3 m2_314_4 m2_314_5 m2_314_96 m2_316_other m2_303e m2_304e m2_304e_other m2_317 m2_318 m2_317_1 m2_317_2 m2_317_3 m2_317_4 m2_317_5 m2_317_96 m2_319_other m2_320_0 m2_320a m2_320b m2_320c m2_320d m2_320e m2_320f m2_320g m2_320h m2_320i m2_320j m2_320k m2_320_12_ke m2_320_96 m2_320_99 m2_320_other m2_321 m2_401 m2_402 m2_403 m2_404 m2_405 m2_501 m2_501a m2_501b m2_501c m2_501d m2_501e m2_501f m2_501g m2_501_0 m2_501g_other m2_502 m2_503 m2_503a m2_503b m2_503c m2_503d m2_503e m2_503f m2_503_0 m2_505a m2_505b m2_505c m2_505d m2_505e m2_505f m2_504 m2_504_other m2_505g m2_506 m2_506a m2_506b m2_506c m2_506d m2_506_0 m2_507 m2_507_1 m2_507_2 m2_507_3 m2_507_4 m2_507_5 m2_507_6 m2_507_7 m2_507_96 m2_507_other m2_508a m2_508b_num m2_508c_time m2_509 m2_509a m2_509b m2_509c m2_509_0 m2_601 m2_601a m2_601o m2_601b m2_601c m2_601d m2_601e m2_601f m2_601g m2_601h m2_601i m2_601j m2_601k m2_601l m2_601m m2_601n m2_601_0 m2_601n_other m2_602b m2_603 m2_701 m2_704_confirm m2_702_meds_ke m2_702a_cost m2_702b_cost m2_702c_cost m2_702d_cost m2_702e_cost m2_702_other m2_703 m2_705 m2_705_1 m2_705_2 m2_705_3 m2_705_4 m2_705_5 m2_705_6 m2_705_96 m2_705_other language language_oth m2_date_time, i(respondentid) j(m2_round, string) 
 
 *------------------------------------------------------------------------------*
 * merge dataset with M1
@@ -1595,15 +1605,15 @@ label variable m2_506b`i' "506b. Did you and a healthcare provider discuss about
 label variable m2_506c`i' "506c. Did you and a healthcare provider discuss about care for the newborn when he or she is born such as warmth, hygiene, breastfeeding, or the importance of postnatal care?"
 label variable m2_506d`i' "506d. Did you and a healthcare provider discuss about family planning options for after delivery?"
 label variable m2_507`i' "507. What did the health care provider tell you to do regarding these new symptoms?"
-label variable m2_507_1_ke`i' "507. KE only: Nothing, we did not discuss this"
-label variable m2_507_2_ke`i' "507. KE only: They told you to get a lab test or imaging (e.g., ultrasound, blood tests, x-ray, heart echo)"
-label variable m2_507_3_ke`i' "507. KE only: They provided a treatment in the visit"
-label variable m2_507_4_ke`i' "507. KE only: They prescribed a medication"
-label variable m2_507_5_ke`i' "507. KE only: They told you to come back to this health facility"
-label variable m2_507_6_ke`i' "507. KE only: They told you to go somewhere else for higher level care"
-label variable m2_507_7_ke`i' "507. KE only: They told you to wait and see"
-label variable m2_507_96_ke`i' "507. KE only: Other (Specify)"
-label variable m2_507_other_ke`i' "507-Other. KE only: Other advice, specify "
+label variable m2_507_1`i' "507. KE only: Nothing, we did not discuss this"
+label variable m2_507_2`i' "507. KE only: They told you to get a lab test or imaging (e.g., ultrasound, blood tests, x-ray, heart echo)"
+label variable m2_507_3`i' "507. KE only: They provided a treatment in the visit"
+label variable m2_507_4`i' "507. KE only: They prescribed a medication"
+label variable m2_507_5`i' "507. KE only: They told you to come back to this health facility"
+label variable m2_507_6`i' "507. KE only: They told you to go somewhere else for higher level care"
+label variable m2_507_7`i' "507. KE only: They told you to wait and see"
+label variable m2_507_96`i' "507. KE only: Other (Specify)"
+label variable m2_507_other`i' "507-Other. KE only: Other advice, specify "
 label variable m2_508a`i' "508a. Did you have a session of psychological counseling or therapy with any type of professional?  This could include seeing a mental health professional (like a phycologist, social worker, nurse, spiritual advisor or healer) for problems with your emotions or nerves."
 label variable m2_508b_num`i' "508b. How many of these sessions did you have since you last spoke to us?"
 label variable m2_508c_time`i' "508d. How many minutes did this/these visit(s) last on average?"
@@ -1639,7 +1649,7 @@ label variable m2_702c_cost`i' "702c. Did you spend money on transport (round tr
 label variable m2_702d_cost`i' "702d. Did you spend money on food and accommodation including that of person accompanying you?"
 label variable m2_702e_cost`i' "702e. Did you spend money for other services?"
 label variable m2_702_meds_ke`i' "702. KE only: Are the costs for medicine (m2_602b) you indicated in section 6 included in the total costs of (m2_704_confirm)?"
-label variable m2_702_other_ke`i' "702e. Specify other costs"
+label variable m2_702_other`i' "702e. Specify other costs"
 label variable m2_703`i' "703. So, in total you spent (m2_704_confirm), is that correct?"
 label variable m2_704_confirm`i' "704. How much money did you spend in total for these new healthcare visits, including registration, tests/investigations, transport, food and accommodation (in Ksh.)?"
 label variable m2_705`i' "705. Which of the following financial sources did your household use to pay for this?"
