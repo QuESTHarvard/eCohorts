@@ -12,11 +12,11 @@ set more off
 use "/Users/shs8688/Dropbox (Harvard University)/SPH-Kruk Team/QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data/Ethiopia/02 recoded data/eco_m1-m5_et_wide.dta", clear
 
 *===============================================================================*
-* Keep variables for analysis (to make it easier to append countries to each other)
+/* Keep variables for analysis (to make it easier to append countries to each other)
 
 keep m1_1217 m1_1218a_1 m1_1218b_1 m1_1218c_1 m1_1218d_1 m1_1218e_1 m1_1218f_1 m1_1219 m2_701_r1 m2_701_r2 m2_701_r3 m2_701_r4 m2_701_r5 m2_701_r6 m2_701_r7 m2_701_r8 m2_702a_other_r1 m2_702a_other_r2 m2_702a_other_r3 m2_702a_other_r4 m2_702a_other_r5 m2_702a_other_r6		m2_702a_other_r7 m2_702a_other_r8 m2_702b_other_r1 m2_702b_other_r2 m2_702b_other_r3 m2_702b_other_r4 m2_702b_other_r5 m2_702b_other_r6 m2_702b_other_r7 m2_702b_other_r8 m2_702c_other_r1 m2_702c_other_r2 m2_702c_other_r3 m2_702c_other_r4 m2_702c_other_r5 m2_702c_other_r6 m2_702c_other_r7 m2_702c_other_r8 m2_702d_other_r1 m2_702d_other_r2 m2_702d_other_r3 m2_702d_other_r4 m2_702d_other_r5 m2_702d_other_r6 m2_702d_other_r7 m2_702d_other_r8 m2_702e_other_r1 m2_702e_other_r2 m2_702e_other_r3 m2_702e_other_r4 m2_702e_other_r5 m2_702e_other_r6 m2_702e_other_r7 m2_702e_other_r8 m2_703_r1 m2_703_r2 m2_703_r3 m2_703_r4 m2_703_r5 m2_703_r6 m2_703_r7 m2_703_r8 m2_704_other_r1 m2_704_other_r2 m2_704_other_r3 m2_704_other_r4 m2_704_other_r5 m2_704_other_r6 m2_704_other_r7 m2_704_other_r8 m3_1101 m3_1102a_amt m3_1102b_amt m3_1102c_amt m3_1102d_amt m3_1102e_amt m3_1102f_amt m3_1103 m3_1104 m4_901 m4_902a_amt m4_902b_amt m4_902c_amt m4_902d_amt m4_902e_amt m4_903 m4_904 m5_1001 m5_1002a_yn m5_1002b_yn m5_1002c_yn m5_1002d_yn m5_1002e_yn m5_1003 m5_1004
 
-
+*/
 *===============================================================================*
 *Break down the OOP expenses by:
 	*Antenatal (cumulative over pregnancy), delivery, postnatal (where is the bulk of the spending?)
@@ -43,7 +43,7 @@ keep m1_1217 m1_1218a_1 m1_1218b_1 m1_1218c_1 m1_1218d_1 m1_1218e_1 m1_1218f_1 m
 			*Food/accomodation: m2_702d_other_r1 m2_702d_other_r2 m2_702d_other_r3 m2_702d_other_r4 m2_702d_other_r5 m2_702d_other_r6 m2_702d_other_r7 m2_702d_other_r8
 			*Other item/service: m2_702e_other_r1 m2_702e_other_r2 m2_702e_other_r3 m2_702e_other_r4 m2_702e_other_r5 m2_702e_other_r6 m2_702e_other_r7 m2_702e_other_r8
 			*Total spending: m2_703_r1, m2_703_r2, m2_703_r3, m2_703_r4, m2_703_r5, m2_703_r6, m2_703_r7, m2_703_r8
-			*Total spending confirmation:m2_704_other_r1, m2_704_other_r2, m2_704_other_r3, m2_704_other_r4, m2_704_other_r5, m2_704_other_r6, m2_704_other_r7, m2_704_other_r8
+			*Total spending confirmation: m2_704_other_r1, m2_704_other_r2, m2_704_other_r3, m2_704_other_r4, m2_704_other_r5, m2_704_other_r6, m2_704_other_r7, m2_704_other_r8
 		
 		** M3 vars (delivery): m3_1101 (any expense- y/n), m3_1102a_amt m3_1102b_amt m3_1102c_amt m3_1102d_amt m3_1102e_amt m3_1102f_amt, m3_1103, m3_1104
 		
@@ -54,31 +54,117 @@ keep m1_1217 m1_1218a_1 m1_1218b_1 m1_1218c_1 m1_1218d_1 m1_1218e_1 m1_1218f_1 m
 *--------Create var of people with any expenses (y/n):
 
 *ANC:
-gen anyexp_anc = .
+egen anyexp_anc = rowmax(m1_1217 m2_701_r1 m2_701_r2 m2_701_r3 m2_701_r4 m2_701_r5 m2_701_r6 m2_701_r7 m2_701_r8)
 
-replace anyexp_anc = 1 if m1_1217 == 1 | m2_701_r1 == 1 | m2_701_r2 == 1 | m2_701_r3 == 1 | m2_701_r4 == 1 | m2_701_r5 == 1 | m2_701_r6 == 1 | m2_701_r7 == 1 | m2_701_r8 == 1 
-
-replace anyexp_anc == 0 if m1_1217 !=1 & m2_701_r1 !=1 & m2_701_r2 !=1 & m2_701_r3 !=1 & m2_701_r4 !=1 & m2_701_r5 !=1 & m2_701_r6 !=1 & m2_701_r7 !=1 & m2_701_r8 !=1 
+lab var anyexp_anc "Any expenses during ANC period"
+lab def anyexp_anc 0 "No expenses during ANC" 1 "Had expenses during ANC"
+lab val anyexp_anc anyexp_anc
 
 *Delivery
 gen anyexp_del = m3_1101
 
-*PNC:
-gen anyexp_pnc = .
+lab var anyexp_del "Any expenses during delivery"
+lab def anyexp_del 0 "No expenses during delivery" 1 "Had expenses during delivery"
+lab val anyexp_del anyexp_del
 
-replace anyexp_pnc = 1 if m4_901 == 1 | m5_1001 == 1
-replace anyexp_pnc = 0 if m4_901 != 1 | m5_1001 = 1
+*PNC:
+egen anyexp_pnc = rowmax(m4_901 m5_1001)
+
+lab var anyexp_pnc "Any expenses during PNC"
+lab def anyexp_pnc 0 "No expenses during PNC" 1 "Had expenses during PNC"
+lab val anyexp_pnc anyexp_pnc
 
 *--------Total expenditures:
 
 *ANC:
-tab m1_1219 // existing var
-m1_1218a_1, m1_1218b_1, m1_1218c_1, m1_1218d_1, m1_1218e_1, m1_1218f_1, //manually coded, ask Aleks what we should use
+gen totalspent_m2_r1 = m2_703_r1
+replace totalspent_m2_r1 = m2_704_other_r1 if m2_704_r1 == 0
 
+gen totalspent_m2_r2 = m2_703_r2
+replace totalspent_m2_r2 = m2_704_other_r2 if m2_704_r2 == 0
+
+gen totalspent_m2_r3 = m2_703_r3
+replace totalspent_m2_r3 = m2_704_other_r3 if m2_704_r3 == 0
+
+gen totalspent_m2_r4 = m2_703_r4
+replace totalspent_m2_r4 = m2_704_other_r4 if m2_704_r4 == 0
+
+gen totalspent_m2_r5 = m2_703_r5
+replace totalspent_m2_r5 = m2_704_other_r5 if m2_704_r5 == 0
+
+gen totalspent_m2_r6 = m2_703_r6
+replace totalspent_m2_r6 = m2_704_other_r6 if m2_704_r6 == 0
+
+gen totalspent_m2_r7 = m2_703_r7
+replace totalspent_m2_r7 = m2_704_other_r7 if m2_704_r7 == 0
+
+gen totalspent_m2_r8 = m2_703_r8
+replace totalspent_m2_r8 = m2_704_other_r8 if m2_704_r8 == 0
+
+egen totalspent_m2 = rowtotal(totalspent_m2_r1 totalspent_m2_r2 totalspent_m2_r3 totalspent_m2_r4 totalspent_m2_r5 totalspent_m2_r6 totalspent_m2_r7 totalspent_m2_r8)
+
+drop totalspent_m2_r1 totalspent_m2_r2 totalspent_m2_r3 totalspent_m2_r4 totalspent_m2_r5 totalspent_m2_r6 totalspent_m2_r7 totalspent_m2_r8
+
+egen totalspent_anc = rowtotal(m1_1219 totalspent_m2)
+lab var totalspent_anc "Total spent during ANC period"
+
+drop totalspent_m2
+
+*Delivery:
+*egen totalspent_del = rowtotal(m3_1102a_amt m3_1102b_amt m3_1102c_amt m3_1102d_amt m3_1102e_amt m3_1102f_amt) 
+*br totalspent_del m3_1103 //did this to double-check and all data adds up
+
+gen totalspent_del = m3_1103 
+replace total_spent_del = m3_1104 if m3_1103_confirm == 0 // N=11 people said "No" to m3_1103_confirm and have other data for m3_1104 confirm, confirm with Aleks that its ok to replace the data in m3_1103 with m3_1104 (the value)
+
+lab var totalspent_del "Total spent during delivery"
+
+*PNC:
+gen totalspent_m4 = m4_903
+replace totalspent_m4 = m4_904 if m4_904 !=. // There was no y/n trigger question here. It looks like we had a calculated field in redcap (m4_903) then we asked them to confirm the amount in m4_904. Most numbers were the same though.
+
+gen totalspent_m5 = m5_1003
+replace totalspent_m5 = m5_1004 if m5_1003_confirm == 0
+
+egen totalspent_pnc = rowtotal(totalspent_m4 totalspent_m5)
+drop totalspent_m4 totalspent_m5
+
+lab var totalspent_pnc "Total spent during PNC"
 	
 *--------Across whole pregnancy: total spent on each item:
-gen total_reg = 
-gen total_tests =
+
+*Total spent during ANC
+	*total spent on Registration:	
+egen totalspent_reg_anc = rowtotal(m1_1218a_1 m2_702a_other_r1, m2_702a_other_r2, m2_702a_other_r3, m2_702a_other_r4, m2_702a_other_r5, m2_702a_other_r6, 		m2_702a_other_r7, m2_702a_other_r8)
+	
+	*total spent on Test/investigations:
+	*total spent on Transport:
+	*total spent on Food/accomodation:
+	*total spent on Other item/service:
+
+*Total spent during delivery
+	*total spent on Registration:
+gen totalspent_reg_del = m3_1102a_amt
+
+
+	*total spent on Test/investigations:
+	*total spent on Transport:
+	*total spent on Food/accomodation:
+	*total spent on Other item/service:
+
+*Total spent during PNC
+	*total spent on Registration:
+egen totalspent_reg_pnc = rowtotal(m4_902a_amt m5_1002a_yn)	
+
+	*total spent on Test/investigations:
+	*total spent on Transport:
+	*total spent on Food/accomodation:
+	*total spent on Other item/service:
+
+
+*Total across continuum of care:	
+gen totalspent_reg = rowtotal(totalspent_reg_anc totalspent_reg_del totalspent_reg_pnc)
+*gen total_tests =
 	
 *===============================================================================*
 *Compare how women paid for the expenses 
@@ -205,26 +291,39 @@ gen total_tests =
 
 *===============================================================================*
 *Compare costs by women in private vs. public vs. faith-based facilities. (Note from Catherine: Note that the facility type chosen for follow up visits and delivery may not be the same as the facility type for baseline. So it will be a bit of a coding nightmare to assess this and link costs to facility types)
+	*Discuss with Aleks how to code women since facility types change
 
 *-------
 *Variables:
 		** M1 vars (ANC): facility_type (1: General Hospital, 2:Primary Hospital, 3:Health center, 4: MCH Specialty Clinic/Center, 5:Primary clinic)
 		
 		** M2 vars (ANC): 
-			*1 : In your home, 2: Someone else's home, 3: Gov't hospital, 4: Gov't health center, 5: Gov't health post, 6: NGO/faith-based health facility, 7: Private hospital, 8: Private speciality maternity center, 9: Private speciality maternity clnic, Private clinic, Another private medical facility (including pharmacy, shop, traditional healer), 98: DK, 99: RF
+			*asks about any new health consulatations:
 			*m2_303a_r1 m2_303a_r2 m2_303a_r3 m2_303a_r4 m2_303a_r5 m2_303a_r6 m2_303a_r7 m2_303a_r8 
 			*m2_303b_r1 m2_303b_r2 m2_303b_r3 m2_303b_r4 m2_303b_r5 m2_303b_r6 m2_303b_r7 m2_303b_r8 
 			*m2_303c_r1 m2_303c_r2 m2_303c_r3 m2_303c_r4 m2_303c_r5 m2_303c_r6 m2_303c_r7 m2_303c_r8
 			*m2_303d_r1 m2_303d_r2 m2_303d_r3 m2_303d_r4 m2_303d_r5 m2_303d_r6 m2_303d_r7 m2_303d_r8
 			*m2_303e_r1 m2_303e_r2 m2_303e_r3 m2_303e_r4 m2_303e_r5 m2_303e_r6 m2_303e_r7 m2_303e_r8
+				*1 : In your home, 2: Someone else's home, 3: Gov't hospital, 4: Gov't health center, 5: Gov't health post, 6: NGO/faith-based health facility, 7: Private hospital, 8: Private speciality maternity center, 9: Private speciality maternity clnic, Private clinic, Another private medical facility (including pharmacy, shop, traditional healer), 98: DK, 99: RF
 		
 		** M3 vars (delivery): 
 			*m3_501: Did you deliver in a health facility? (y/n)
 			*m3_502: What kind of facility was it? (1 : Gov't hospital, 2: Gov't health center, 3: Gov't health post, 4: NGO/faith-based health facility, 5: Private hospital, 6: Private speciality maternity center, 7: Private speciality maternity clinics, 8: Private clinic, 9: Another private medical facility (including pharmacy, shop, traditional healer), 98: DK, 99: NR/RF)
 			
-		** M4 vars (PNC):		
+		** M4 vars (PNC): 
+			*asks about any new health consulatations:
+			*m4_403a, m4_403b, m4_403c
+				*1 : In your home, 2: Someone else's home, 3: Gov't hospital, 4: Gov't health center, 5: Gov't health post, 6: NGO/faith-based health facility, 7: Private hospital, 8: Private speciality maternity center, 9: Private speciality maternity clnic, Private clinic, Another private medical facility (including pharmacy, shop, traditional healer), 98: DK, 99: RF
+
+			
 		** M5 vars (PNC):
-			*We just have names of facilities at M5
+			*asks about any new health consulatations:
+			*m5_503_1, m5_503_2, m5_503_3
+			
+*-------Women who changed facility type (explore)
+
+
+*-------Indicator for facility type (private vs. public vs. faith-based facilities)		
 
 *===============================================================================*
 *Define women whose OOP costs for maternal care equates to "catastrophic health expenditures" (>10% of annual income spent on maternal health)
@@ -234,12 +333,15 @@ gen total_tests =
 
 
 *-------
-*Variables:
-		** M1 vars (ANC):  
-		** M2 vars (ANC): 		
-		** M3 vars (delivery): 
-		** M4 vars (PNC):		
-		** M5 vars (PNC):
+*Variables (income):		
+		** M5 vars (PNC): m5_1202
+		
+*Analysis vars (created above):
+		** Total spent	
+		
+*------- Variable for 10% of annual income (multiply monthly income)
+
+*-------Variable for women who spent more than 10% of annual income		
 
 *===============================================================================*
 *MULTIVARIABLE ANALYSIS:
@@ -261,3 +363,9 @@ gen total_tests =
 *other questions we could explore:
 	* Confidence affording care if became sick: m1_304
 	* 404. How confident are you that you would be able to afford the healthcare you needed if you became very sick? This means you would be able to afford care without suffering financial hardship.:m5_404
+	
+	
+*===============================================================================*
+/* Save new dataset 	   
+	   
+save "/Users/shs8688/Dropbox (Harvard University)/SPH-Kruk Team/QuEST Network/Core Research/Ecohorts/MNH E-Cohorts-internal/Analyses/Manuscripts/OOP paper/Data/cr_oop_paper.dta", replace
