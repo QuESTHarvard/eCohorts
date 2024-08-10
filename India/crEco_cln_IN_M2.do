@@ -17,12 +17,6 @@
 *******************************************************************************
 
 										*/
-
-* Questions for Shalom
-* QUESTION :  what is the difference between m2_consent and m2_permission?
-* QUESTION : what are the values for m2_hiv_status since they do not align with the dataset? 1 "Positive" 2 "Negative" 3 "Unknown" 
-
-
 * QUESTION - Gestational age - what is this supposed to be in? Why are we dropping it in ET? 
 
 * QUESTION - what is the expected time between visits? what would be too close? too late?
@@ -40,11 +34,12 @@ local module2 Module_2_24062024
 clear all 
 u "$in_data/`module2'.dta", clear
 
+
 * Add a character with the original var name
 foreach v of varlist * {
 	local name `v'
-	local s1 = strpos("`v'","Q")
-	if `s1' == 1 local name = substr("`v'",2,.)
+	*local s1 = strpos("`v'","Q")
+	*if `s1' == 1 local name = substr("`v'",2,.)
 	char `v'[Original_Varname] `name'
 }
 
@@ -71,7 +66,11 @@ replace q103 = subinstr(q103," ","",.)
 
 	* MODULE 2: STEP ONE - RENAME VARIABLES
 	clonevar m2_date = Q102
+	char m2_date[Original_Varname] Q102
+	
 	clonevar m2_respondentid = q103
+	char m2_respondentid[Original_Varname] q103
+	
 	clonevar m2_time_start = Q103
 	
 	clonevar m2_ga = Q107
@@ -94,6 +93,7 @@ replace q103 = subinstr(q103," ","",.)
 	clonevar m2_date_of_maternal_death = Q110
 	
 	clonevar m2_maternal_death_learn = Q111
+	
 	* This survey has a different value for other, so we want to clean this up so it aligns with other surveys
 	recode m2_maternal_death_learn (96 = 5) if m2_maternal_death_reported == 96
 	
@@ -112,7 +112,6 @@ replace q103 = subinstr(q103," ","",.)
 	
 	clonevar m2_204i = Q204
 	clonevar m2_204_other = Q204_a
-	exit 99
 	
 	* We need to recode those values in Q204_a to populate any valid m2_203<letters> variables
 	gen other_health = trim(upper(Q204_a))
@@ -238,15 +237,16 @@ replace q103 = subinstr(q103," ","",.)
 	gen m2_321 = 0 if Q321 == "0"
 	char m2_321[Original_Varname] 321
 	
-	replace m2_321 = 1 if Q321 == "1"
-	replace m2_321 = 2 if Q321 == "2"
-	replace m2_321 = 3 if Q321 == "3"
-	replace m2_321 = 98 if Q321 == "98"
-	replace m2_321 = 99 if Q321 == "99"
-	replace m2_321 = 12 if Q321 == "1 2" 	
+	replace m2_321 = 1 if Q321 == "1" & !missing(Q321)
+	replace m2_321 = 2 if Q321 == "2" & !missing(Q321)
+	replace m2_321 = 3 if Q321 == "3" & !missing(Q321)
+	replace m2_321 = 98 if Q321 == "98" & !missing(Q321)
+	replace m2_321 = 99 if Q321 == "99" & !missing(Q321)
+	replace m2_321 = 12 if Q321 == "1 2" & !missing(Q321)	 
 	
 	foreach v in 0 1 2 3 98 99 {
-		clonevar m2_321_`v' = Q321_`v'
+		clonevar m2_321_`v' = Q321_`v' 
+		replace m2_321_`v' = . if m2_321_`v' == 0 & m2_202 != 1
 	}
 	
 	forvalues v = 1/5 {
@@ -295,7 +295,9 @@ replace q103 = subinstr(q103," ","",.)
 		clonevar m2_601`v' = Q601_`v'
 	}
 	
-	gen m2_601o = !inlist(Q601_o,"no") if m2_202 == 1 
+	replace Q601_o = trim(upper(Q601_o)) 
+	
+	gen m2_601o = !inlist(Q601_o,"NO","NO COMMENTS","NO.","NOO","N0","NA") if m2_202 == 1 
 	char m2_601o[Original_Varname] 601_o
 	
 	clonevar m2_601o_other = Q601_o
@@ -334,7 +336,7 @@ replace q103 = subinstr(q103," ","",.)
 	
 	* MODULE 2: STEP TW0 - ADD VALUE LABELS/FORMATTING		
 	label define m2_permission 1 "Yes" 0 "No" 
-	label values m2_permission
+	label values m2_permission m2_permission
 	
 	label define maternal_death_reported 1 "Yes" 0 "No" 
 	label values m2_maternal_death_reported maternal_death_reported
@@ -358,7 +360,7 @@ replace q103 = subinstr(q103," ","",.)
 	* Create a single label for all variables that use Yes, No , DK, and NR/NF
 	label define yes_no_dnk_nr 1 "Yes" 0 "No" 98 "DK" 99 "NR/RF", replace
 	 
-	local m2_203 a b c d e f g h i
+	local m2_203 a b c d e f g h 
 	local m2_204 a b c d e f g h i
 	local m2_501 a b c d e f g 
 	local m2_502 
@@ -513,10 +515,27 @@ replace q103 = subinstr(q103," ","",.)
 						96 "Other, specify" ///
 						98 "DK" ///
 						99 "RF" 
-											
-	* Only keep the variables necessary for the dataset
-	keep m2_*
 	
+	
+	* Only keep the variables necessary for the dataset & data quality checks
+	keep m2_* total_* Q303* Q301
+	
+	drop Q303_12 Q303_11
+	
+
+	preserve
+	* Run the M2 DQ checks on the long dataset.	
+	do "${github}\India\m2_data_quality_checks.do" 
+
+	restore
+
+	drop total_* Q303* Q301
+	
+	* save a long version of the dataset that will be used for DQ checks before the recoding occurs
+	save "${in_data_final}/eco_m2_in_long", replace // 969
+	
+	
+
 	****************************************************************************
 	****************************************************************************
 	****************************************************************************
@@ -542,6 +561,7 @@ replace q103 = subinstr(q103," ","",.)
 		
 		* If the pregnancy has ended all remaining questions should be missing
 		recode m2_203a m2_203b m2_203c m2_203d m2_203e m2_203f m2_203g m2_203h m2_204i m2_204a m2_204b m2_204c m2_204d m2_204e m2_204f m2_204g m2_204h m2_205a m2_205b m2_206 m2_301 m2_302 m2_303a m2_304a m2_303b m2_304b  m2_303c m2_304c m2_303d m2_304d m2_303e m2_304e m2_305 m2_306 m2_307_1 m2_307_2 m2_307_3 m2_307_4 m2_307_5 m2_307_96 m2_308 m2_309 m2_310_1 m2_310_2 m2_310_3 m2_310_4 m2_310_5 m2_310_96 m2_311 m2_312 m2_313 m2_313_1 m2_313_2 m2_313_3 m2_313_4 m2_313_5 m2_313_96 m2_314 m2_315 m2_316 m2_316_1 m2_316_2 m2_316_3 m2_316_4 m2_316_5 m2_316_96 m2_317 m2_318 m2_319 m2_319_1 m2_319_2 m2_319_3 m2_319_4 m2_319_5 m2_319_96  m2_320_0 m2_320_1 m2_320_2 m2_320_3 m2_320_4 m2_320_5 m2_320_6 m2_320_7 m2_320_8 m2_320_9 m2_320_10 m2_320_11 m2_320_96 m2_320_99 m2_321 m2_321_0 m2_321_1 m2_321_2 m2_321_3 m2_321_98 m2_321_99 m2_401 m2_402 m2_403 m2_404 m2_405 m2_501a m2_501b m2_501c m2_501d m2_501e m2_501f m2_501g m2_502 m2_503a m2_505a m2_503b m2_505b m2_503c m2_505c m2_503d m2_505d m2_503e m2_505e m2_503f m2_505f m2_505g m2_504 m2_506a m2_506b m2_506c m2_506d m2_507_1 m2_507_2 m2_507_3 m2_507_4 m2_507_5 m2_507_6 m2_507_7 m2_507_96 m2_507_98 m2_507_99 m2_508a m2_508b_num m2_508c_time m2_509a m2_509b m2_509c m2_601a m2_601b m2_601c m2_601d m2_601e m2_601f m2_601g m2_601h m2_601i m2_601j m2_601k m2_601l m2_601m m2_601n m2_601o m2_602b m2_603 m2_701 m2_702a_cost m2_702b_cost m2_702c_cost m2_702d_cost m2_702e_cost m2_703 m2_704_confirm  m2_705_1 m2_705_2 m2_705_3 m2_705_4 m2_705_5 m2_705_6 m2_705_96  (. = .a) if m2_202 != 1
+
 
 		//m2_204_other m2_304a_other m2_304b_other m2_304c_other m2_304d_other m2_304e_other m2_307_other m2_310_other m2_313_other m2_316_other m2_319_other m2_320_other m2_321_org m2_501g_other m2_504_other m2_507_other m2_601o_other m2_705_other m2_307 m2_320 m2_705 m2_310
 		* If there were no additional consultations these questions should be missing
@@ -913,15 +933,20 @@ replace q103 = subinstr(q103," ","",.)
 
 *===============================================================================
 * STEP SEVEN: SAVE DATA TO RECODED FOLDER
-	 save "${in_data_final}/eco_m2_in_wide.dta", replace
+* add this respondentid variable for merging purposes
+clonevar respondentid = m2_respondentid
+
+
+save "${in_data_final}/eco_m2_in_wide.dta", replace
+
 
 		* MODULE 2: STEP SEVEN - SAVE DATA
 
 *===============================================================================
 * STEP EIGHT: MERGE with M1 data
-clonevar respondentid = m2_respondentid
 merge 1:1 respondentid using "${in_data_final}/eco_m1_in"
 
 save "${in_data_final}/eco_m1_and_m2_in.dta", replace
 
-
+* all those from M2 should be in M1
+assert _merge != 1 
