@@ -1,16 +1,7 @@
 	
-	local country in
-	local output C:\Users\HP\Dropbox (Biostat Global)\Harvard - eCohorts\MKT Working Folder
-	
-	local country = lower("`country'")
-	capture assert inlist("`country'","et","in","ke","za")
-	if _rc != 0  {
-		di as error "Country provided must valid value of ET, KE, ZA or IN"
-		exit 99
-	}
-	
+	local country in	
+
 	if "`excel'" == "" local excel Module_2_Data_Quality_checks.xlsx
-	*if "`input'" == "" local input ${`country'_data_final}/eco_m2_`country'_long
 	if "`output'" == "" local output ${`country'_data_final}
 	
 	* CD to the location that you want to save the DQ checks
@@ -23,8 +14,6 @@
 	local ids m2_respondentid m2_date 
 	local standard_values idlist(`ids') excel(`excel')
 	
-	* Bring in the cleaned up M2 dataset
-	*use "`input'", clear
 	
 	****************************************************************************
 	****************************************************************************
