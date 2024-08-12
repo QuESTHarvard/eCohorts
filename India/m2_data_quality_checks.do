@@ -1,8 +1,16 @@
-	
+* m2_data_quality_checks
+*******************************************************************************
+* Change log
+* 				Updated
+*				version
+* Date 			number 	Name			What Changed
+2024-08-12		1.00	MK Trimner		Original Program
+*******************************************************************************
+*/
 	local country in	
 
 	if "`excel'" == "" local excel Module_2_Data_Quality_checks.xlsx
-	if "`output'" == "" local output ${`country'_data_final}
+	if "`output'" == "" local output ${`country'_data}
 	
 	* CD to the location that you want to save the DQ checks
 	cd "`output'"
