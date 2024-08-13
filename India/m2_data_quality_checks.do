@@ -1,10 +1,10 @@
 * m2_data_quality_checks
-*******************************************************************************
+/*******************************************************************************
 * Change log
 * 				Updated
 *				version
 * Date 			number 	Name			What Changed
-2024-08-12		1.00	MK Trimner		Original Program
+* 2024-08-12		1.00	MK Trimner		Original Program
 *******************************************************************************
 */
 	local country in	
