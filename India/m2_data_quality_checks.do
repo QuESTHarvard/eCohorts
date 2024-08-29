@@ -5,6 +5,7 @@
 *				version
 * Date 			number 	Name			What Changed
 * 2024-08-12		1.00	MK Trimner		Original Program
+* 2024-08-20		1.10	MK Trimner	Corrected assertion to be 90 days instead of 60 for GA 
 *******************************************************************************
 */
 	local country in	
@@ -59,7 +60,7 @@
 	}
 	
 	assertlist time_between_surveys >= 21 if time_between_surveys != 0, list(m2_date time_between_surveys) tag(`"m2_date (`m2_date[Original_Varname]'): Time between each survey should be more than 3 weeks (21 days)"') `standard_values' sheet(`sheet_name')
-	assertlist time_between_surveys < 60 if time_between_surveys != 0, list(m2_date time_between_surveys) tag(`"m2_date (`m2_date[Original_Varname]'): Time between each survey should be less than 3 months (90 days)"') `standard_values' sheet(`sheet_name')
+	assertlist time_between_surveys < 90 if time_between_surveys != 0, list(m2_date time_between_surveys) tag(`"m2_date (`m2_date[Original_Varname]'): Time between each survey should be less than 3 months (90 days)"') `standard_values' sheet(`sheet_name')
 
 	* Check Gestational age makes sense
 	assertlist m2_ga > 0, list(m2_ga) tag(`"m2_ga (`m2_ga[Original_Varname]'): Gestational Age is less than 0 weeks"') `standard_values' sheet(`sheet_name')

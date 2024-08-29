@@ -1,7 +1,7 @@
 * India MNH ECohort Data Cleaning File for Module 2 
 * Created by MK Trimner
-* Last Updated: 2024-07-22
-* Version Number: 	1.00
+* Last Updated: 2024-08-28
+* Version Number: 	1.03
 *------------------------------------------------------------------------------*
 
 /*******************************************************************************
@@ -13,7 +13,7 @@
 2024-08-07		1.02	MK Trimner		Made corrections per Shalom's 7-31-2024 email
 *										Aligned m2_hiv_status with 0, 1 & 99 values and added it to the recoding for 99 = .r
 *										Removed m2_203i as it is not in the IN dataset																
-*									
+*2024-08-28		1.03	MK Trimner		Renamed _merge variable to identify where it came from									
 *******************************************************************************
 
 										*/
@@ -945,6 +945,11 @@ save "${in_data_final}/eco_m2_in_wide.dta", replace
 *===============================================================================
 * STEP EIGHT: MERGE with M1 data
 merge 1:1 respondentid using "${in_data_final}/eco_m1_in"
+
+rename _merge merge_m2_to_m1
+label var merge_m2_to_m1 "Match between M2 dataset and M1 and M2 dataset"
+label define m2 1 "M2 Only" 2 "M1 only" 3 "Both M1 & M2"
+label value merge_m2_to_m1 m2
 
 save "${in_data_final}/eco_m1_and_m2_in.dta", replace
 
