@@ -3428,7 +3428,7 @@ recode m3_610b (. 9999998 = .a) if m3_610a !=1
 
 recode m3_612_za (. 9998 99998 999998 9999998 = .a) if m3_501 !=1 | (m3_303b ==0 & m3_303c ==0 & m3_303d==0)
 
-recode m3_612_za (96 = .a) // confirm with Catherine because 96 == "I never breastfed"
+*recode m3_612_za (96 = .a) // confirm with Catherine because 96 == "I never breastfed"
  
 recode m3_614 (. 998 9998 99998 9999998 = .a) if m3_613 == 0 | m3_613 == .a // confirm that 98 = .d
  
