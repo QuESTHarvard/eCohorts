@@ -1,7 +1,7 @@
 * Ecohorts main code file 
-* Date of last update: July 22 2024
+* Date of last update: Aug 14 2024
 * Last updated by: MK Trimner
-* Version Number 1.01
+* Version Number 1.02
 
 /* Purpose of code file: 
 	
@@ -19,6 +19,9 @@
 										Added user global for MKT
 *										Adjusted other user globals to include "Core Research/Echohorts" because MKT folder structure is different	
 										Changed other input & output globals to remove "Core Research/Echohorts"
+										
+* 2024-08-14	1.02	MK Trimner		Got a new computer, added new path	
+* 2024-08-28	1.03	MK Trimner		Added adopath addition to so we can call the standardized programs									
 */
 
 * Setting up files and macros
@@ -40,6 +43,8 @@ global user "/Users/catherine.arsenault/Dropbox/SPH Kruk QuEST Network"
 global user "/Users/shs8688/Dropbox (Harvard University)/SPH-Kruk Team/QuEST Network/Core Research/Ecohorts"
 global user "/Users/catherine.arsenault/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts"
 global user "/Users/HP/Dropbox (Biostat Global)"
+
+global user "\Users\MaryKayTrimner\Biostat Global Dropbox\Mary Kay Trimner"
 ********************************************************************************
 * Setting file path globals for raw data
 	*ETHIOPIA:
@@ -73,6 +78,8 @@ global user "/Users/HP/Dropbox (Biostat Global)"
 * Path to GitHub folder 
 global github "$user/Documents/GitHub/eCohorts"
 global github "$user/MKT GitHub/eCohorts"
+
+adopath + "$github"
 
 /*
 ********************************************************************************

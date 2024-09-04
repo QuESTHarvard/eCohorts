@@ -1425,8 +1425,8 @@ drop m2_drop
 			replace m1_ga = m1_803 if m1_ga == . // ga based on self report of weeks pregnant if LMP not known
 			lab var m1_ga "Gestional age based on LNMP (calc)"
 			
-			recode m1_ga (1/12.99999 = 1) (13/26.99999= 2) (27/50=3), gen(m1_trimester)
-			lab def trimester2 1"1st trimester 0-12wks" 2"2nd trimester 13-26 wks" 3 "3rd trimester 27-42 wks"
+			recode m1_ga (1/12.99999 = 1) (13/27.99999= 2) (28/50=3), gen(m1_trimester)
+			lab def trimester2 1"1st trimester 0-12wks" 2"2nd trimester 13-27 wks" 3 "3rd trimester 27-42 wks"
 			lab val m1_trimester trimester2 	
 			
 			*Carryfoward:

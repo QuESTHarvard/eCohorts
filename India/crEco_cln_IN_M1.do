@@ -1,7 +1,15 @@
 * India MNH ECohort Data Cleaning File 
 * Created by S. Sabwa
-* Last Updated: Jan 22 2024 
+* Last Updated: 2024-08-08
 *------------------------------------------------------------------------------*
+/*******************************************************************************
+* Change log
+* 				Updated
+*				version
+* Date 			number 	Name			What Changed
+2024-08-08		1.01	MK Trimner		Corrected respondent id "202310031133022010 to remove the " i the first char so it will merge with M2
+*									
+*******************************************************************************/
 
 * Import Data 
 clear all 
@@ -859,6 +867,10 @@ order phq9a phq9b phq9c phq9d phq9e phq9f phq9g phq9h phq9i, after(m1_205e)
 *===============================================================================
 	* STEP SIX: SAVE DATA TO RECODED FOLDER
 
+	* We need to trim the respondentid variables and strip any "
+	replace respondentid = subinstr(respondentid,`"""',"",.)
+	replace respondentid = trim(respondentid)
+	
 	save "$in_data_final/eco_m1_in.dta", replace
 
 *===============================================================================
