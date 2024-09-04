@@ -2539,13 +2539,13 @@ rename (MOD3_Newborn_313b_1_Baby1 MOD3_Newborn_313a_2_Baby2) (m3_313e_baby1 m3_3
 rename (MOD3_Newborn_313b_2_Baby2 MOD3_Newborn_313a_3_Baby3) (m3_313e_baby2 m3_313a_baby3)
 
 rename MOD3_Newborn_313b_3_Baby3 m3_313e_baby3
-rename MOD3_Newborn_314_1_Baby1 m3_death_cause_baby1 // SS: will likely need to pull data out from check boxes
+rename MOD3_Newborn_314_1_Baby1 m3_death_cause_baby1
 
 rename MOD3_Newborn_314_1_Baby1_Other m3_death_cause_baby1_other
-rename MOD3_Newborn_314_2_Baby2 m3_death_cause_baby2 // SS: will likely need to pull data out from check boxes
+rename MOD3_Newborn_314_2_Baby2 m3_death_cause_baby2 
 
 rename MOD3_Newborn_314_2_Baby2_Other m3_death_cause_baby2_other
-rename MOD3_Newborn_314_3_Baby3 m3_death_cause_baby3 // SS: will likely need to pull data out from check boxes
+rename MOD3_Newborn_314_3_Baby3 m3_death_cause_baby3 
 
 rename MOD3_Newborn_314_3_Baby3_Other m3_death_cause_baby3_other
 rename MOD3_AB_MC_1201 m3_1201
@@ -2555,11 +2555,11 @@ rename (MOD3_AB_MC_1202 MOD3_AB_MC_1203 MOD3_AB_MC_1204 MOD3_AB_MC_1205 ///
 		MOD3_ANC_Care_402 MOD3_ANC_Care_403_C1 MOD3_ANC_Care_404_C1 ///
 		MOD3_ANC_Care_405_C1) (m3_1202 m3_1203 m3_1204 m3_1205 m3_1205_other ///
 		m3_1206 m3_401 m3_402 m3_consultation_1 m3_consultation_referral_1  ///
-		m3_consultation1_reason) // SS: will likely need to pull data out from check boxes for m3_consultation1_reason
+		m3_consultation1_reason)
 
 rename (MOD3_ANC_Care_405_C1Other MOD3_ANC_Care_406_C2 MOD3_ANC_Care_407_C2 ///
 		MOD3_ANC_Care_408_C2) (m3_consultation1_reason_other m3_consultation_2 ///
-		m3_consultation_referral_2 m3_consultation2_reason) // SS: will likely need to pull data out from check boxes for m3_consultation1_reason
+		m3_consultation_referral_2 m3_consultation2_reason) 
 
 rename (MOD3_ANC_Care_408_C2Other MOD3_ANC_Care_409_C3 MOD3_ANC_Care_410_C3 ///
 		MOD3_ANC_Care_411_C3) (m3_consultation2_reason_other m3_consultation_3 ///
@@ -3428,7 +3428,7 @@ recode m3_610b (. 9999998 = .a) if m3_610a !=1
 
 recode m3_612_za (. 9998 99998 999998 9999998 = .a) if m3_501 !=1 | (m3_303b ==0 & m3_303c ==0 & m3_303d==0)
 
-recode m3_612_za (96 = .a) // confirm with Catherine because 96 == "I never breastfed"
+*recode m3_612_za (96 = .a) // confirm with Catherine because 96 == "I never breastfed"
  
 recode m3_614 (. 998 9998 99998 9999998 = .a) if m3_613 == 0 | m3_613 == .a // confirm that 98 = .d
  
