@@ -11,6 +11,7 @@
 *										Corrected several M3 recoding statements
 *										Updated some M3 replace statements for string variables that had been cleaned up
 *										Removed dupliate drop in M3 as there are no longer any duplicate respondentids
+* 2024-09-08	1.02	MK Trimner		Corrected the M2 sorting before the reshape so that it correctly sorted by respondentid and m2_date
 *******************************************************************************
 */
 	local country in	
@@ -2234,8 +2235,8 @@ recode m2_ga (. = .a) if m2_date == . | m2_202 !=1
 
 drop if respondentid == ""
 
-sort m2_date
-bysort respondentid: gen round2 = _n
+sort respondentid m2_date
+bysort respondentid : gen round2 = _n
 
 gen m2_round = ""
 replace m2_round = "_r1" if round2==1
