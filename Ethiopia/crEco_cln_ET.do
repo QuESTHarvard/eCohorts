@@ -3927,7 +3927,7 @@ replace m3_502 = 1 if redcap_record_id == "1708-36"
 
 replace m3_503_inside_zone_other = ".a" if m3_503 !=96
 
-replace m3_501 = "Mojo hospital" if redcap_record_id == "1708-36"
+replace m3_503_inside_zone_other = "Mojo hospital" if redcap_record_id == "1708-36"
 
 replace m3_503_outside_zone_other = ".a" if m3_503 !=97
 
