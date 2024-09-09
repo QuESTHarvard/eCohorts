@@ -2,6 +2,19 @@
 * Created by S. Sabwa, C.Arsenault
 * Updated: Aug 17 2023 
 
+/*******************************************************************************
+* Change log
+* 				Updated
+*				version
+* Date 			number 	Name			What Changed
+* 2024-09-05	1.01	MK Trimner		Updated with new M3 dataset
+*										Corrected several M3 recoding statements
+*										Updated some M3 replace statements for string variables that had been cleaned up
+*										Removed dupliate drop in M3 as there are no longer any duplicate respondentids
+* 2024-09-08	1.02	MK Trimner		Corrected the M2 sorting before the reshape so that it correctly sorted by respondentid and m2_date
+*******************************************************************************
+*/
+	local country in	
 *------------------------------------------------------------------------------*
 * Instructions: All steps are done by Module, search "MODULE _" to find sections
 	
@@ -2222,8 +2235,8 @@ recode m2_ga (. = .a) if m2_date == . | m2_202 !=1
 
 drop if respondentid == ""
 
-sort m2_date
-bysort respondentid: gen round2 = _n
+sort respondentid m2_date
+bysort respondentid : gen round2 = _n
 
 gen m2_round = ""
 replace m2_round = "_r1" if round2==1
@@ -2465,18 +2478,31 @@ save "$za_data_final/eco_m1m2_za.dta", replace
 clear all 
 
 * Import data
-import excel "$za_data/Module 3/Module 3_21Mar2024_clean.xlsx", sheet("MNH-Module-3-v0-2024321-945") firstrow clear
+*import excel "$za_data/Module 3/Module 3_21Mar2024_clean.xlsx", sheet("MNH-Module-3-v0-2024321-945") firstrow clear
+
+* Note that the updated excel file does not have the data in row 1... there is additional information in rows 1 & 2 that we do not want to read in
+* Confirmed that all the variable names are the same between both excel files so we should be good to use the same code
+import excel "$za_data/Module 3/Module 3 - 28Aug2024 - v1.xlsx", sheet("MNH-Module-3-v0-2024321-945") cellrange(A4:LN896) firstrow clear
 
 replace CRHID = trim(CRHID)
 replace CRHID = subinstr(CRHID," ","",.)
 
 * SS: Dropping people who did not give permission (confirm with Catherine/ZA team)
 
-drop if MOD3_Permission_Granted !=1 // N=9 dropped
-drop if MOD3_Identification_102 == .
+drop if MOD3_Permission_Granted !=1 //MKT 2024-08-29 - In updated dataset there are no respondents that did not give permission. // Previous comment from original dataset = N=9 dropped
+drop if MOD3_Identification_102 == . // MKT 2024-08-29 - In updated dataset there are no respondents missing 102
 
 *dropping empty respondentid's with no data:
-drop if CRHID == ""
+drop if CRHID == ""  // MKT 2024-08-29 - In updated dataset there are no respondents missing CRHID
+
+
+* MKT added 2024-09-03: The value of 9999998 is a missing value. So we will wipe this out for all variables
+* We also know that the date value of 9978082 is not valid, so we will wipe those out
+foreach v of varlist * {
+	local type = substr("`:type `v''",1,3)
+	if 	"`type'" == "str" replace `v' = "" if `v' == "9999998"
+	else replace `v' = . if inlist(`v',9999998,9978082)
+}
 
 *------------------------------------------------------------------------------*
 
@@ -2491,6 +2517,16 @@ drop MOD3_Newborn_304_BabyName1 MOD3_Newborn_304a_BabyName2 MOD3_Newborn_304c_Ba
 *------------------------------------------------------------------------------*	
 	* STEP ONE: RENAME VARAIBLES
 	
+* Add character with original variable name
+* Add a character with the original var name
+foreach v of varlist * {
+	local name `v'
+	*local s1 = strpos("`v'","Q")
+	*if `s1' == 1 local name = substr("`v'",2,.)
+	char `v'[Original_ZA_Varname] `name'
+}
+
+	
 * Variables from M2 in this dataset (keeping for skip pattern recoding in M3)
 rename MOD3_Identification_101 m2_interviewer
 rename CRHID respondentid
@@ -2502,6 +2538,8 @@ rename MOD3_Identification_111 m2_maternal_death_learn
 rename MOD3_Identification_111_Other m2_maternal_death_learn_other
 rename MOD3_Identification_201 m2_201
 rename MOD3_Identification_202 m2_202 // 1 = yes still pregnant (no one in this module), 2 = no delievered, 3 = no something else happened 
+label define m2_202 1 "Still pregnant" 2 "No, delivered" 3 "No, something else happened", replace
+label value m2_202 m2_202
 	
 rename MOD3_Permission_Granted m3_permission
 rename MOD3_Identification_102 m3_date
@@ -2748,7 +2786,10 @@ rename (MOD3_Econ_OutC_1104_Other MOD3_Econ_OutC_1105) (m3_1105_other m3_1106)
 
 * Data quality:
 *cleaning duplicate pids
-replace respondentid = "MBA_007" if respondentid == "MBA_002" & m2_interviewer == "MSB"
+* MKT 2024-08-29 : Check to see if there are still duplicate respondentids in the cleaned up dataset
+bysort respondentid: assert _N == 1
+
+/*replace respondentid = "MBA_007" if respondentid == "MBA_002" & m2_interviewer == "MSB"
 drop if respondentid == "NEL_022" & m2_interviewer == "MTN"
 drop if respondentid == "NEL_043" & m2_interviewer == "KHS"
 drop if respondentid == "NWE_044" & m2_interviewer == "MTN"
@@ -2758,15 +2799,46 @@ drop if respondentid == "RCH_084" & m2_hiv_status == 98
 drop if respondentid == "TOK_014" & m2_interviewer == "KHS"
 drop if respondentid == "TOK_021" & m2_interviewer == "KHS"
 drop if respondentid == "TOK_082" & m2_interviewer == "KHS"
+*/
+
+
+count if respondentid == "MBA_002" & m2_interviewer == "MSB" // 0 respondents
+count if respondentid == "NEL_022" & m2_interviewer == "MTN" // 0 respondents
+count if respondentid == "NEL_043" & m2_interviewer == "KHS" // 1 respondent
+count if respondentid == "NWE_044" & m2_interviewer == "MTN" // 0 respondents
+count if respondentid == "PAP_001" // 1 respondent
+count if respondentid == "PAP_037" & m2_interviewer == "KHS" // 1 respondent
+count if respondentid == "RCH_084" & m2_hiv_status == 98 // 0 respondents
+count if respondentid == "TOK_014" & m2_interviewer == "KHS" // 1 respondent
+count if respondentid == "TOK_021" & m2_interviewer == "KHS" // 1 respondent
+count if respondentid == "TOK_082" & m2_interviewer == "KHS" // 0 respondents
+
+* Clean these ids based on M2 for merging purposes
+replace respondentid = "MND-011" if respondentid == "MND_011"
+replace respondentid = "MND-012" if respondentid == "MND_012"
+
+* MKT 2024-08-29 - ADDED for merging purposes
+replace respondentid = "NWE_057" if respondentid == "NWE_057" // not in M1, ask Londi to review
+
 
 *drop pids that did not merge
 drop if respondentid == "BNE_013" | respondentid == "NEL_001" | respondentid == "MPH_015"
 
 *duplicate: RCH_022 - collapsing all M3 data by id
+* MKT 2024-08-29: In updated dataset there is not a duplicate respondentid == "RCH_022"
+* Confirmed that collapsing does not change the dataset so i am commenting out the code.
+
 order respondentid, before(m3_permission)
+
+
+/*tempfile m3
+save `m3', replace
 collapse (firstnm) m3_permission-m3_1206, by(respondentid)
+cf2 _all using `m3', verbose
+*/
 
 * phantom pregnancies - dropped 
+* MKT 2024-08-29 : Not present in updated dataset
 drop if respondentid == "MND_007"
 
 *per Londi: Recruited twice, EUB_007 also recruited as UUT_014. Please remove UUT_014 from the MOD1 dataset.
@@ -2808,10 +2880,17 @@ lab def health 1 "Excellent" 2 "Very Good" 3 "Good" 4 "Fair" 5 "Poor" 99 "NR/RF"
 lab val m3_baby1_health m3_baby2_health m3_baby3_health health
 
 *m3_baby1_feeding
+* MKT : 2024-09-03 added if statement so it is only populated if answered
 	tab MOD3_Newborn_310a_1_IYCF_B1,m
-	replace MOD3_Newborn_310a_1_IYCF_B1 =".a" if m3_303b !=1 | m2_202 ==3 | m2_202 ==.
+	* MKT 2024-09-03 Commented out replace statement as we wiped out all 9999998 values. We dont want to add the .a yet
+	
+	*replace MOD3_Newborn_310a_1_IYCF_B1 =".a" if m3_303b !=1 | m2_202 ==3 | m2_202 ==.
+	*replace MOD3_Newborn_310a_1_IYCF_B1 =".a" if m3_303b !=1 //| m2_202 ==3 | m2_202 ==.
+
+	* MKT 2024-09-03 : Added an if statement to only populate these if !missing original variable
 	forval j = 1/99 {
-    gen m3_baby1_feed_`j' = strpos("," + MOD3_Newborn_310a_1_IYCF_B1 + ",", ",`j',") > 0
+		gen m3_baby1_feed_`j' = strpos("," + MOD3_Newborn_310a_1_IYCF_B1 + ",", ",`j',") > 0 if !missing(MOD3_Newborn_310a_1_IYCF_B1) 
+		char m3_baby1_feed_`j'[Original_ZA_Varname] MOD3_Newborn_310a_1_IYCF_B1
 	}
 	drop m3_baby1_feed_8-m3_baby1_feed_94
 	drop m3_baby1_feed_96-m3_baby1_feed_97
@@ -2822,13 +2901,18 @@ lab val m3_baby1_health m3_baby2_health m3_baby3_health health
 			m3_baby1_feed_c m3_baby1_feed_d m3_baby1_feed_e m3_baby1_feed_f m3_baby1_feed_g)
 	
 	label values m3_baby1_feed_a m3_baby1_feed_b m3_baby1_feed_c m3_baby1_feed_d ///
-				 m3_baby1_feed_e m3_baby1_feed_f m3_baby1_feed_g m3_baby1_feed_95 m3_baby1_feed_98 m3_baby1_feed_98 YN
+				 m3_baby1_feed_e m3_baby1_feed_f m3_baby1_feed_g m3_baby1_feed_95 m3_baby1_feed_98 m3_baby1_feed_99 YN // MKT 2024-09-03 corrected typo to add 99
 	
 *m3_baby2_feeding
 	tab MOD3_Newborn_310a_2_IYCF_B2,m
-	replace MOD3_Newborn_310a_2_IYCF_B2 =".a" if m3_303c !=1 | m2_202 ==3 | m2_202 ==. | m3_303a !=2 // N=1 missing, N=1 changed from 2 to .a
+	* MKT 2024-09-03 : Commented out replace statement as wiped out all 9999998 values. We dont want to add the .a yet
+	*replace MOD3_Newborn_310a_2_IYCF_B2 =".a" if m3_303c !=1 | m2_202 ==3 | m2_202 ==. | m3_303a !=2 // N=1 missing, N=1 changed from 2 to .a
+	
+	* MKT 2024-09-03: Added an if statement to only populate these if !missing the original variable
 	forval j = 1/99 {
-    gen m3_baby2_feed_`j' = strpos("," + MOD3_Newborn_310a_2_IYCF_B2 + ",", ",`j',") > 0
+		gen m3_baby2_feed_`j' = strpos("," + MOD3_Newborn_310a_2_IYCF_B2 + ",", ",`j',") > 0 if !missing(MOD3_Newborn_310a_2_IYCF_B2) 
+		char m3_baby2_feed_`j'[Original_ZA_Varname] MOD3_Newborn_310a_2_IYCF_B2
+
 	}
 	drop m3_baby2_feed_8-m3_baby2_feed_94
 	drop m3_baby2_feed_96-m3_baby2_feed_97
@@ -2841,13 +2925,20 @@ lab val m3_baby1_health m3_baby2_health m3_baby3_health health
 	label values m3_baby2_feed_a m3_baby2_feed_b m3_baby2_feed_c m3_baby2_feed_d ///
 				 m3_baby2_feed_e m3_baby2_feed_f m3_baby2_feed_g m3_baby2_feed_95 m3_baby2_feed_98 m3_baby2_feed_99 YN
 
-
 *m3_baby3_feeding - 5-20 SS: only 99998 in the data for this var
 	tab MOD3_Newborn_310a_3_IYCF_B3,m
 	tostring MOD3_Newborn_310a_3_IYCF_B3, replace
-	replace MOD3_Newborn_310a_3_IYCF_B3 =".a" if m3_303d !=1 | m2_202 ==3 | m2_202 ==. | m3_303a !=3
+	
+	* MKT 2024-09-03 - replaced missing value of "." to be ""
+	replace MOD3_Newborn_310a_3_IYCF_B3 = "" if MOD3_Newborn_310a_3_IYCF_B3 == "."
+	* MKT 2024-09-03 : Commented out replace statement as wiped out all 9999998 values. We dont want to add the .a yet
+	*replace MOD3_Newborn_310a_3_IYCF_B3 =".a" if m3_303d !=1 | m2_202 ==3 | m2_202 ==. | m3_303a !=3
+	
+	* MKT 2024-09-03: Added an if statement to only populate these if !missing the original variable
 	forval j = 1/99 {
-    gen m3_baby3_feed_`j' = strpos("," + MOD3_Newborn_310a_3_IYCF_B3 + ",", ",`j',") > 0
+		gen m3_baby3_feed_`j' = strpos("," + MOD3_Newborn_310a_3_IYCF_B3 + ",", ",`j',") > 0 if !missing(MOD3_Newborn_310a_3_IYCF_B3) 
+		char m3_baby3_feed_`j'[Original_ZA_Varname] MOD3_Newborn_310a_3_IYCF_B3
+
 	}
 	drop m3_baby3_feed_8-m3_baby3_feed_94
 	drop m3_baby3_feed_96-m3_baby3_feed_97
@@ -2859,6 +2950,7 @@ lab val m3_baby1_health m3_baby2_health m3_baby3_health health
 	
 	label values m3_baby3_feed_a m3_baby3_feed_b m3_baby3_feed_c m3_baby3_feed_d ///
 				 m3_baby3_feed_e m3_baby3_feed_f m3_baby3_feed_g m3_baby3_feed_95 m3_baby3_feed_98 m3_baby3_feed_99 YN
+				 
 
 lab def confidence 1 "Not at all confident" 2 "Not very confident" 3 "Somewhat confident" ///
 				   4 "Confident" 5 "Very confident" 96 "I do not breastfeed" 99 "NR/RF"
@@ -2924,6 +3016,7 @@ lab def m3_502 1 "In your home" 2 "Someone else's home" 3 "Public clinic" ///
 lab val m3_502 m3_502
 
 lab val m3_505a m3_508 YN 
+
 
 lab def m3_509 1 "High cost" 2 "Far distance" 3 "Long waiting time" ///
 			   4 "Poor healthcare provider skills" 5 "Staff don't show respect" ///
@@ -3018,12 +3111,14 @@ lab val m3_706 YN
 
 *m3_708a
 	tab m3_708a,m 
+	* MKT 2024-09-03 : Added if statement to make missing if missing original variable
 	forval j = 1/99 {
-    gen m3_baby1_issues_`j' = strpos("," + m3_708a + ",", ",`j',") > 0
+		gen m3_baby1_issues_`j' = strpos("," + m3_708a + ",", ",`j',") > 0 if !missing(m3_708a)
+		char m3_baby1_issues_`j'[Original_ZA_Varname] m3_708a
 	}
 	drop m3_baby1_issues_7-m3_baby1_issues_94
 	drop m3_baby1_issues_96-m3_baby1_issues_97 
-	drop m3_708a
+	//drop m3_708a
 	
 	rename (m3_baby1_issues_1 m3_baby1_issues_2 m3_baby1_issues_3 m3_baby1_issues_4 ///
 			m3_baby1_issues_5 m3_baby1_issues_6) (m3_baby1_issues_a m3_baby1_issues_b ///
@@ -3034,12 +3129,15 @@ lab val m3_706 YN
 
 *m3_708b
 	tab m3_708b,m 
+	* MKT 2024-09-03 : Added if statement to make missing if missing original variable
 	forval j = 1/99 {
-    gen m3_baby2_issues_`j' = strpos("," + m3_708b + ",", ",`j',") > 0
+		gen m3_baby2_issues_`j' = strpos("," + m3_708b + ",", ",`j',") > 0 if !missing(m3_708b)
+		char m3_baby2_issues_`j'[Original_ZA_Varname] m3_708b
+
 	}
 	drop m3_baby2_issues_7-m3_baby2_issues_94
 	drop m3_baby2_issues_96-m3_baby2_issues_97
-	drop m3_708b
+	//drop m3_708b
 	
 	rename (m3_baby2_issues_1 m3_baby2_issues_2 m3_baby2_issues_3 m3_baby2_issues_4 ///
 			m3_baby2_issues_5 m3_baby2_issues_6) (m3_baby2_issues_a m3_baby2_issues_b ///
@@ -3050,12 +3148,16 @@ lab val m3_706 YN
  
 *m3_708c
 	tab m3_708c,m 
+	* MKT 2024-09-03 : replaced to missing if = "."
+	replace m3_708c = "" if m3_708c == "."
+	* MKT 2024-09-03 : Added if statement to make missing if missing original variable
 	forval j = 1/99 {
-    gen m3_baby3_issues_`j' = strpos("," + m3_708c + ",", ",`j',") > 0
+		gen m3_baby3_issues_`j' = strpos("," + m3_708c + ",", ",`j',") > 0 if !missing(m3_708c)
+		char m3_baby3_issues_`j'[Original_ZA_Varname] m3_708c
 	}
 	drop m3_baby3_issues_7-m3_baby3_issues_94
 	drop m3_baby3_issues_96-m3_baby3_issues_97
-	drop m3_708c
+	//drop m3_708c
 	
 	rename (m3_baby3_issues_1 m3_baby3_issues_2 m3_baby3_issues_3 m3_baby3_issues_4 ///
 			m3_baby3_issues_5 m3_baby3_issues_6) (m3_baby3_issues_a m3_baby3_issues_b ///
@@ -3112,8 +3214,11 @@ lab val m3_1005a m3_1005b m3_1005c m3_1005d m3_1005e m3_1005f m3_1005g m3_1005h 
 
 *m3_1105
 	tab m3_1105 
+	* MKT 2024-09-03 : Added if statement to make missing if missing original variable
 	forval j = 1/96 {
-    gen m3_1105`j' = strpos("," + m3_1105 + ",", ",`j',") > 0
+		gen m3_1105`j' = strpos("," + m3_1105 + ",", ",`j',") > 0 if !missing(m3_1105)
+		char m3_1105`j'[Original_ZA_Varname] m3_1105
+
 	}
 	drop m3_11057-m3_110595
 	drop m3_1105
@@ -3140,12 +3245,21 @@ lab val m3_1205 m3_1205
 * Formatting Dates
 * Dates: m3_313a_baby1,m3_313a_baby2, m3_313a_baby3, m3_506a
 
-*==============================================================================*	
+* Create copies of the m2_ variables that we can pass through
+foreach v of varlist m2_* {
+	local name =substr("`v'",4,.)
 	
+	clonevar m3_`name' = `v'
+}
+
+save eco_m3_before_recode, replace
+
+
+*==============================================================================*	
 	*STEP THREE: RECODING MISSING VALUES 
 		* Recode refused and don't know values
 		* Note: .a means NA, .r means refused, .d is don't know, . is missing 
-		
+
 *SS: missing vars because 0 obs or not in dataset: m3_baby3_feeding
 
 recode m3_303a m3_baby1_size m3_baby2_size m3_baby3_size m3_baby1_born_alive ///
@@ -3166,7 +3280,7 @@ recode m3_303a m3_baby1_size m3_baby2_size m3_baby3_size m3_baby1_born_alive ///
 	   m3_902e_baby1 m3_902f_baby1 m3_902g_baby1 m3_902h_baby1 m3_902i_baby1 m3_902j_baby1 ///
 	   m3_1001 m3_1002 m3_1003 m3_1005a m3_1005b m3_1005c m3_1005d m3_1005e m3_1005f m3_1005g ///
 	   m3_1005h m3_1006a m3_1006b m3_1006c m3_1007a m3_1007b m3_1007c m3_1106 m3_1205 ///
-	   m3_baby1_weight m3_baby2_weigh m3_612_za m3_614 m3_616a m3_802b m3_802c (98 = .d) // add m3_507 once it's cleaned
+	   m3_baby1_weight m3_baby2_weigh m3_612_za m3_614 m3_616a m3_802b m3_802c m3_507 (98 = .d) // MKT Added m3_507 with August cleaned dataset
 		
 recode m3_303a m3_303b m3_303c m3_303d m3_baby1_gender m3_baby2_gender ///
 	   m3_baby3_gender m3_baby1_health m3_baby2_health m3_baby3_health ///
@@ -3198,6 +3312,7 @@ recode m3_303a m3_303b m3_303c m3_303d m3_baby1_gender m3_baby2_gender ///
 *SS: confirm with Catherine that she wants these to be recoded like this	
 	* Also should m3_1001 be here?
 	* confirm 95 in m3_507 = .a?
+	
 recode m3_303c m3_303d m3_baby2_gender m3_baby3_gender m3_baby2_size ///
 	   m3_baby3_size m3_baby2_health m3_baby3_health m3_baby2_feed_a ///
 	   m3_baby2_feed_b m3_baby2_feed_c m3_baby2_feed_d m3_baby2_feed_e ///
@@ -3210,7 +3325,21 @@ recode m3_303c m3_303d m3_baby2_gender m3_baby3_gender m3_baby2_size ///
 	   m3_death_cause_baby3 m3_consultation_3 m3_505a m3_508 m3_510 m3_517 m3_609 ///
 	   m3_615a m3_615b m3_615c m3_617b m3_617c m3_618a_1 m3_618a_2 m3_618a_3 ///
 	   m3_618b_2 m3_618b_3 m3_618c_2 m3_618c_3 m3_620_2 m3_620_3 m3_705 m3_baby2_710 ///
-	   m3_baby3_710 m3_802a m3_902a_baby1 m3_902i_baby1 m3_614 m3_616a m3_616b (95 = .a) // add m3_507 once it's cleaned, confirm m3_614, m3_616a, and m3_616b should be here
+	   m3_baby3_710 m3_802a m3_902a_baby1 m3_902i_baby1 m3_614 m3_616a m3_616b m3_507 (95 = .n) // MKT Added m3_507 with August cleaned dataset.... I also changed this from .a to .n as this appears to be somethign different than skipped appropriately
+	 
+		//SS : confirm m3_614, m3_616a, and m3_616b should be here
+	   // MKT 2024-08-29 : I dont believe m3_614 should be added here. 95 (NA) would only be relevant if they did not say yes to m3_613
+	   // So instead i would do a one off recode for this variable to ensure we are not wiping out any relevant values
+	   recode m3_614 (. 95 = .n) if m3_613 != 1 
+	   
+	   * MKT 2024-08-29 - I would say the same is true for m3_616a, m3_616b and m3_616c. We only want to wipe out the 95 values if they said the baby was not checked on
+		foreach v in a b c {
+			recode m3_616`v' (. 95 = .n) if m3_615`v' != 1
+		}
+		
+	   * MKT 2024-08-29 : Added code for m3_1003 only recode 95 value to .a if they said they did not deliver at the facility
+	   recode m3_1001 (95 = .n) if m3_501 != 1
+	   
 	   
 * Other
 * ZA only: 01-01-1998 = .d and 01-01-1999 = .r
@@ -3222,144 +3351,198 @@ recode m3_506a (12784 = .a) // jan 01 1995 = .a?
 *------------------------------------------------------------------------------*
 * recoding for skip pattern logic:	   
 * Recode missing values to NA for questions respondents would not have been asked due to skip patterns
- 
-recode m3_303a (. = .a) if m2_202 !=2
 
-recode m3_birth_or_ended m3_303b (. = .a) if m2_202 ==.
+* MKT updated recodings based on logic in questionnaire
+* MKT changed to only replace to .a if still pregnant or missing this value
+*recode m3_303a (. = .a) if m2_202 !=2
+//recode m3_303a (. 9999998 = .a) if !inlist(m2_202,2,3) 
+* MKT 2024-09-03 :added recode for All variables in m3 should be appropriately missing if did not deliver or something else happened
+foreach v of varlist m3_* {
+	local type = substr("`:type `v''",1,3)
+	if "`type'" == "str" replace `v' =  ".a" if missing(`v') & !inlist(m2_202,2,3)
+	else recode `v' (. .n = .a) if !inlist(m2_202,2,3)
+}
 
-recode m3_303c (. 9999998 = .a) if m2_202 !=2 | m2_202 !=3 | m3_303a !=2 | m3_303a !=3
+* MKT Commented out all code that references m2_202 as we already appropriately added these skip logics
+*recode m3_birth_or_ended m3_303b (. .n = .a) if m2_202 ==.
+* MKT added recode based on the number of babies said born
+recode m3_303b (. .n = .a) if  !inlist(m3_303a,1,2,3)
+recode m3_303c (. .n = .a) if  !inlist(m3_303a,2,3)
+recode m3_303d (. .n = .a) if  !inlist(m3_303a,3)
+*recode m3_303c (. .n 9999998 = .a) if //m2_202 !=2 | m2_202 !=3 | m3_303a !=2 | m3_303a !=3
+*recode m3_303d (. .n 9999998 = .a) if m2_202 !=2 | m2_202 !=3 | m3_303a !=3
 
-recode m3_303d (. 9999998 = .a) if m2_202 !=2 | m2_202 !=3 | m3_303a !=3
+* Added recode to recode all baby# specific variables based on the number of babies
+local 1  !inlist(m3_303a,1,2,3)
+local 2  !inlist(m3_303a,2,3)
+local 3  !inlist(m3_303a,3)
 
-recode m3_baby1_gender m3_baby1_weight m3_baby1_health m3_baby1_sleep m3_baby1_feeding m3_baby1_breath ///
-	   m3_baby1_stool m3_baby1_mood m3_baby1_skin m3_baby1_interactivity m3_baby1_size (. 9999998 = .a) if m2_202 !=2 | m2_202 !=3
+local 1_l b
+local 2_l c
+local 3_l d
+forvalues i = 1/3 {
+	foreach v of varlist *baby`i'* {
+		di "`v'"
+		local type = substr("`:type `v''",1,3)
+		di "`type'"
+		if "`type'" == "str" {
+			replace `v' = ".a" if inlist(`v',"",".")
+			replace `v' = ".a" if m3_303``i'_l' != 1
+		}
+		else {
+			recode `v' (. .n =.a) if ``i''
+			recode `v' (. .n = .a) if m3_303``i'_l' != 1
+		}
+	} 
+}
 
-recode m3_baby2_gender m3_baby2_weight m3_baby2_health m3_baby2_sleep m3_baby2_feeding m3_baby2_breath ///
-	   m3_baby2_stool m3_baby2_mood m3_baby2_skin m3_baby2_interactivity m3_baby2_size (. 9999998 = .a) if m2_202 !=2 | m2_202 !=3 | ///
+recode m3_baby1_age_weeks (. .n  9998 99998 999998 = .a) if !missing(m3_birth_or_ended)
+recode m3_baby1_age_weeks (9998 99998 999998 = .d) if missing(m3_birth_or_ended)
+
+*recode m3_baby1_gender m3_baby1_weight m3_baby1_health m3_baby1_sleep m3_baby1_feeding m3_baby1_breath ///
+	   m3_baby1_stool m3_baby1_mood m3_baby1_skin m3_baby1_interactivity m3_baby1_size (. .n 9999998 = .a) if m2_202 !=2 | m2_202 !=3
+
+*recode m3_baby2_gender m3_baby2_weight m3_baby2_health m3_baby2_sleep m3_baby2_feeding m3_baby2_breath ///
+	   m3_baby2_stool m3_baby2_mood m3_baby2_skin m3_baby2_interactivity m3_baby2_size (. .n 9999998 = .a) if m2_202 !=2 | m2_202 !=3 | ///
 	   m3_303a !=2 | m3_303a !=3
 
-recode m3_baby3_gender m3_baby3_weight m3_baby3_health m3_baby3_sleep m3_baby3_feeding m3_baby3_breath ///
-	   m3_baby3_stool m3_baby3_mood m3_baby3_skin m3_baby3_interactivity m3_baby3_size (. 9999998 = .a) ///
+*recode m3_baby3_gender m3_baby3_weight m3_baby3_health m3_baby3_sleep m3_baby3_feeding m3_baby3_breath ///
+	   m3_baby3_stool m3_baby3_mood m3_baby3_skin m3_baby3_interactivity m3_baby3_size (. .n 9999998 = .a) ///
 	   if m2_202 !=2 | m2_202 !=3 | m3_303a !=3
 
-recode m3_baby1_age_weeks (99998 999998 9999998 . = .a) if m2_202 !=2 | m2_202 !=3
+*recode m3_baby1_age_weeks (99998 999998 9999998 . = .a) if m2_202 !=2 | m2_202 !=3
 
-recode m3_baby1_feed_a m3_baby1_feed_b m3_baby1_feed_c m3_baby1_feed_d m3_baby1_feed_e m3_baby1_feed_f m3_baby1_feed_g ///
+* MKT the if statements are incorrect. The | logic replaces all 0's 
+* These are handled with the code up above to replace these to .a if !inlist(m2_202,2,3)
+*recode m3_baby1_feed_a m3_baby1_feed_b m3_baby1_feed_c m3_baby1_feed_d m3_baby1_feed_e m3_baby1_feed_f m3_baby1_feed_g ///
 	   m3_baby1_feed_95 m3_baby1_feed_98 m3_baby1_feed_99 (0 = .a) if m2_202 !=2 | m2_202 !=3
 	   
-recode m3_baby2_feed_a m3_baby2_feed_b m3_baby2_feed_c m3_baby2_feed_d m3_baby2_feed_e m3_baby2_feed_f m3_baby2_feed_g ///
+*recode m3_baby2_feed_a m3_baby2_feed_b m3_baby2_feed_c m3_baby2_feed_d m3_baby2_feed_e m3_baby2_feed_f m3_baby2_feed_g ///
 	   m3_baby2_feed_95 m3_baby2_feed_98 m3_baby2_feed_99 (0 = .a) if m2_202 !=2 | m2_202 !=3 | m3_303a !=2 
 	   
-recode m3_baby3_feed_a m3_baby3_feed_b m3_baby3_feed_c m3_baby3_feed_d m3_baby3_feed_e m3_baby3_feed_f m3_baby3_feed_g ///
+*recode m3_baby3_feed_a m3_baby3_feed_b m3_baby3_feed_c m3_baby3_feed_d m3_baby3_feed_e m3_baby3_feed_f m3_baby3_feed_g ///
 	   m3_baby3_feed_95 m3_baby3_feed_98 m3_baby3_feed_99 (0 = .a) if m2_202 !=2 | m2_202 !=3 | m3_303a !=3 
 	   
-recode m3_breastfeeding (. 9999998 = .a) if m2_202 !=2 | m2_202 !=3 	 
+*recode m3_breastfeeding (. .n 9999998 = .a) if m2_202 !=2 | m2_202 !=3 	 
 
-recode m3_baby1_deathga (. 9999998 = .a) if m3_303b !=0
+recode m3_baby1_deathga (. .n = .a) if m3_303b !=0
 
-recode m3_baby2_deathga (. 9999998 = .a) if m3_303c !=0
+recode m3_baby2_deathga (. .n = .a) if m3_303c !=0
 
-recode m3_baby3_deathga (. 9999998 = .a) if m3_303d !=0
+recode m3_baby3_deathga (. .n = .a) if m3_303d !=0
 
-recode m3_baby1_born_alive (. 9999998 = .a) if m3_baby1_deathga !=2
+recode m3_baby1_born_alive (. .n = .a) if m3_baby1_deathga !=2
 
-recode m3_baby2_born_alive (. 9999998 = .a) if m3_baby2_deathga !=2
+recode m3_baby2_born_alive (. .n = .a) if m3_baby2_deathga !=2
 
-recode m3_baby3_born_alive (. 9999998 = .a) if m3_baby3_deathga !=2
+recode m3_baby3_born_alive (. .n = .a) if m3_baby3_deathga !=2
 
-recode m3_313a_baby1 m3_313e_baby1 (. 9978082 9999998 = .a) if m3_baby1_born_alive !=1
+ 
+recode m3_313a_baby1 m3_313e_baby1 (. .n 9978082 = .a) if m3_baby1_born_alive !=1
 
-recode m3_313a_baby2 m3_313e_baby2 (. 9978082 9999988 9999998 = .a) if m3_baby2_born_alive !=1
+recode m3_313a_baby2 m3_313e_baby2 (. .n 9978082 9999988 = .a) if m3_baby2_born_alive !=1
 
-recode m3_313a_baby3 m3_313e_baby3 (. 9999998 = .a) if m3_baby3_born_alive !=1
+recode m3_313a_baby3 m3_313e_baby3 (. .n = .a) if m3_baby3_born_alive !=1
 
-recode m3_death_cause_baby1 (. 9999998 = .a) if m3_baby1_born_alive !=1
+recode m3_death_cause_baby1 (. .n = .a) if m3_baby1_born_alive !=1
 
 replace m3_death_cause_baby1_other = ".a" if m3_death_cause_baby1 !=96
 
-recode m3_death_cause_baby2 (. 9999998 = .a) if m3_baby2_born_alive !=1
+recode m3_death_cause_baby2 (. .n = .a) if m3_baby2_born_alive !=1
 
-recode m3_death_cause_baby2_other (. 9999998 = .a) if m3_death_cause_baby2 !=96 // numeric bc of 0 obs
+replace m3_death_cause_baby2_other = ".a" if m3_death_cause_baby2 !=96 // MKT 2024-08-29: In updated datset it is no longer numeric // SS numeric bc of 0 obs
 
-recode m3_death_cause_baby3 (. 9999998 = .a) if m3_baby3_born_alive !=1
+recode m3_death_cause_baby3 (. .n = .a) if m3_baby3_born_alive !=1
 
-recode m3_death_cause_baby3_other (. 9999998 = .a) if m3_death_cause_baby3 !=96 // numeric bc of 0 obs
+tostring m3_death_cause_baby3_other, replace // MKT 2024-08-29: Because this is numeric but should be a string variable we will change it
+replace m3_death_cause_baby3_other = ".a" if m3_death_cause_baby3 !=96 // numeric bc of 0 obs
 
-recode m3_401 (. 9999998 = .a) if m2_202 !=2 | m2_202 !=3
+recode m3_401 (. .n = .a) if !inlist(m2_202,2,3) //m2_202 !=2 | m2_202 !=3
 
-recode m3_402 (. 9999998 = .a) if m3_401 !=1
+recode m3_402 (. .n = .a) if m3_401 !=1
 
-recode m3_consultation_1 (. 9999998 = .a) if m3_401 !=1 | m3_402 == . | m3_402 == .a
+recode m3_consultation_1 (. .n = .a) if m3_401 !=1 | m3_402 == . | m3_402 == .a
 
-recode m3_consultation_referral_1 (. 9999998 = .a) if m3_401 !=1 | m3_consultation_1 !=0 
+recode m3_consultation_referral_1 (. .n = .a) if m3_401 !=1 | m3_consultation_1 !=0 
 
-recode m3_consultation1_reason (. 9999998 = .a) if m3_401 !=1 | m3_consultation_1 !=0 | ///
+recode m3_consultation1_reason (. .n = .a) if m3_401 !=1 | m3_consultation_1 !=0 | ///
 	   m3_consultation_referral_1 !=0 
 
 replace m3_consultation1_reason_other = ".a" if m3_consultation1_reason !=96	   
 	   
-recode m3_consultation_2 (. 9999998 = .a) if m3_401 !=1 | m3_402 == 1 | m3_402 == . | m3_402 == .a
+recode m3_consultation_2 (. .n = .a) if m3_401 !=1 | m3_402 == 1 | m3_402 == . | m3_402 == .a
 
-recode m3_consultation_referral_2 (. 9999998 = .a) if m3_401 !=1 | m3_consultation_2 !=0 
+recode m3_consultation_referral_2 (. .n = .a) if m3_401 !=1 | m3_consultation_2 !=0 
 
-recode m3_consultation2_reason (. 9999998 = .a) if m3_401 !=1 | m3_consultation_2 !=0 | ///
+recode m3_consultation2_reason (. .n = .a) if m3_401 !=1 | m3_consultation_2 !=0 | ///
 	   m3_consultation_referral_2 !=0 
 	   
 replace m3_consultation2_reason_other = ".a" if m3_consultation2_reason !=96	 
 	   
-recode m3_consultation_3 (. 9999998 = .a) if m3_401 !=1 | m3_402 == 2 | m3_402 == 1 | m3_402 == . | m3_402 == .a
+recode m3_consultation_3 (. .n = .a) if m3_401 !=1 | m3_402 == 2 | m3_402 == 1 | m3_402 == . | m3_402 == .a
 
-recode m3_consultation_referral_3 (. 9999998 = .a) if m3_401 !=1 | m3_consultation_3 !=0 
+recode m3_consultation_referral_3 (. .n = .a) if m3_401 !=1 | m3_consultation_3 !=0 
 
-recode m3_consultation3_reason (. 9999998 = .a) if m3_401 !=1 | m3_consultation_3 !=0 | ///
+recode m3_consultation3_reason (. .n = .a) if m3_401 !=1 | m3_consultation_3 !=0 | ///
 	   m3_consultation_referral_3 !=0 
 	   
 replace m3_consultation3_reason_other = ".a" if m3_consultation3_reason !=96	 
 
-recode m3_412a m3_412b m3_412c m3_412d m3_412e m3_412f m3_412g (. 9999998 = .a) if m3_401 !=1 // N= 8 missing data 
+recode m3_412a m3_412b m3_412c m3_412d m3_412e m3_412f m3_412g (. .n = .a) if m3_401 !=1 // N= 8 missing data 
 
 replace m3_412g_1_other = ".a" if m3_412g !=1
 
-recode m3_501 (. 9999998 = .a) if m3_birth_or_ended == . | m3_birth_or_ended == .a | m3_birth_or_ended == .d | ///
-								  m3_303b !=1 | m3_303b ==. | m3_303b ==.a | m2_202 !=2 // N= 96 people who delivered who have no data if they delivered in a health facility?
+* MKT : This should only have been aked of those that delivered
+recode m3_501 (. .n = .a) if m2_202 != 2 //m3_birth_or_ended == . | m3_birth_or_ended == .a | m3_birth_or_ended == .d | ///
+								  //m3_303b !=1 | m3_303b ==. | m3_303b ==.a | m2_202 !=2 // N= 96 people who delivered who have no data if they delivered in a health facility?
+recode m3_502 (. .n = .a) if m3_501 != 1 // This is asked of all those that said they did not deleiver at health facility
 
-recode m3_502 (. 9999998 = .a) if m3_501 !=1
-
-replace m3_503 = ".a" if m3_501 !=1  // this should be a numeric var
-replace m3_503 = ".d" if m3_503 == "98"
-replace m3_503 = ".r" if m3_503 == "99"
+replace m3_503 = ".a" if m3_501 == 0 // this should be a numeric var
+replace m3_503 = ".d" if m3_503 == "98" & m3_501 == 1
+replace m3_503 = ".r" if m3_503 == "99" & m3_501 == 1
 
 replace m3_503_outside_zone_other = ".a" if m3_501 !=1 // ASK: ALL WOMEN WHO DELIVERED IN A FACILITY OUTSIDE OF ZONE/COUNTY
- 
-recode m3_505a (. 9999998 = .a) if m2_202 !=2 | m3_502 == . | m3_502 == .a | m3_502 == 1 // confirm people who delivered at home wouldn't have been asked this question
 
-recode m3_505b (. 9999998 999998= .a) if m3_505a !=1
+ * MKT changed recode logic to only reference those that said they did not deliver in the facility
+recode m3_505a (. .n = .a) if m3_501 != 1 //m2_202 !=2 | m3_502 == . | m3_502 == .a | m3_502 == 1 // confirm people who delivered at home wouldn't have been asked this question
 
-recode m3_506a m3_506b (. 9978082 9999998 998 = .a) if m3_501 !=1 | (m3_501 ==1 & m3_505a !=1) // what is 01jan199 and 21feb1995 in m3_506a? confirm 00:00 (many) and 8.621e+14 in m3_506b. add m3_507 once it's cleaned
+recode m3_505b (. .n 9999998 999998= .a) if m3_505a !=1
+recode m3_505b (9999998 999998= .d) if m3_505a ==1
 
-replace m3_506b = .a if m3_501 !=1 
-replace m3_506b = .a if m3_506a ==.a
+
+* MKT removed the logic with m3_505a as itis not relelvant to m3_506a and b
+recode m3_506a m3_506b (. .n 9978082 9999998 998 = .a) if m3_501 !=1 //| (m3_501 ==1 & m3_505a !=1) // what is 01jan199 and 21feb1995 in m3_506a? confirm 00:00 (many) and 8.621e+14 in m3_506b. add m3_507 once it's cleaned
+recode m3_506a m3_506b (9999998 998 = .d) if m3_501 ==1 //| (m3_501 ==1 & m3_505a !=1) // what is 01jan199 and 21feb1995 in m3_506a? confirm 00:00 (many) and 8.621e+14 in m3_506b. add m3_507 once it's cleaned
+
+//replace m3_506b = .a if m3_501 !=1 
+//replace m3_506b = .a if m3_506a ==.a
 
 *m3_507 
+* MKT 2024-08-29 = In the latest version of the dataset this has been cleaned and the variables are numeric
+* So we do not need to remove the strings. Commenting out the the code and adding code to replace based on m3_501
+recode m3_507 (. .n = .a) if m3_501 != 1 // this is the excel file  == 9999998
+replace m3_507 = . if m3_507 != 1 & m3_507 > 24 // this is an invalid value and we want to capture it
+/*
 replace m3_507 = ".d" if m3_507 == "98"
 replace m3_507 = ".a" if m3_501 !=1
 replace m3_507 = "12:00" if m3_507 == "12:00_ 03 January 2024"
 replace m3_507 = ".a" if m3_507 == "95"
 replace m3_507 = "8:40" if m3_507 == "8;40"
 replace m3_507 = "14:00" if m3_507 == "16 Dec 2023. ...14:00"
-replace m3_507 = ".a" if m3_501 !=1 & m3_505a !=1
- 
-recode m3_508 (. 9999998 = .a) if m2_202 !=2 | m3_502 != 1
+replace m3_507 = ".a" if m3_501 !=1 & m3_505a !=1*/
 
-recode m3_509 (. 9999998 = .a) if m2_202 !=2 | m3_502 != 1
+recode m3_508 (. .n = .a) if m3_501 != 0 //m2_202 !=2 | m3_502 != 1
+
+* MKT there is some 
+recode m3_509 (. .n = .a) if m3_501 != 0 // MKT Changed to reference 501 instead of 502 ...m3_502 != 1 //m3_502 != 1 //m2_202 !=2 | 
 
 replace m3_509_other = ".a" if m3_509 !=96 // N=1 missing response
 
-recode m3_510 (. 9999998 = .a) if m3_501 !=1 // N=2 with 999998 responses
+recode m3_510 (. .n = .a) if m3_501 !=1 // N=2 with 999998 responses
 
-recode m3_511 (. 9999998 = .a) if m3_510 !=1
+recode m3_511 (. .n = .a) if m3_510 !=1
 
-recode m3_512 (. 9999998 = .a) if m3_510 !=1 | m3_511 <=1 | m3_511 == . | m3_511 == .a
+recode m3_512 (. .n = .a) if m3_510 !=1 // MKT Commented these out... these should not be replacing this to missing. it should be populated unless | m3_511 <=1 | m3_511 == . | m3_511 == .a
 
 replace m3_513a = ".a" if m3_510 !=1
 
@@ -3367,29 +3550,34 @@ replace m3_513b1 = ".a" if m3_510 !=1
 
 replace m3_514 = "08:00" if m3_514 == "08:00 a.m"
 replace m3_514 = "00:00" if m3_514 == "00:00:00"
-replace m3_514 = ".a" if m3_511 ==.d | m3_511 ==.r | m3_511 ==.a | m3_510 == 0 
+replace m3_514 = ".a" if m3_510 != 1 & m3_514 == "" // MKT changed this to only use m3_510 .... m3_511 ==.d | m3_511 ==.r | m3_511 ==.a | m3_510 == 0 
 encode m3_514, gen(recm3_514) // N =4 missing data 
 drop m3_514
 format recm3_514 %tcHH:MM
+rename recm3_514 m3_514
 
-recode m3_515 (. 9999998 = .a) if m3_510 !=1 | m3_511 ==.d | m3_511 ==.r | m3_511 ==.a
+recode m3_515 (. .n  = .a) if m3_510 !=1 // MKT commented out.. only basing this on m3_510...| m3_511 ==.d | m3_511 ==.r | m3_511 ==.a
 
-recode m3_516 (. 9999998 = .a) if m3_515 !=4 | m3_515 !=5
+recode m3_516 (. .n  = .a) if !inlist(m3_515,4,5) //m3_515 !=4 | m3_515 !=5
 
-replace m3_516_other = ".a" if m3_516 !=96
+replace m3_516_other = ".a" if m3_516 !=96 & missing(m3_516_other) // MKT added & missing(m3_516_other) so we are not wiping out other variables
+// MKT added this to replace those that should not have answered it based on not selecting apprpriate 515 value
+replace m3_516_other = ".a" if !inlist(m3_515,4,5) & missing(m3_516_other)
 
-recode m3_517 (. 9999998 = .a) if m3_515 !=2 | m3_515 !=3
+recode m3_517 (. .n  = .a) if !inlist(m3_515,2,3) //m3_515 !=2 | m3_515 !=3
 
-recode m3_518 (. 9999998 = .a) if m3_517 !=1 | m3_517 !=.a
+recode m3_518 (. .n  = .a) if m3_517 !=1 //| m3_517 !=.a
 
-replace m3_518_other_complications = ".a" if m3_518 !=96
+replace m3_518_other_complications = ".a" if m3_518 !=96 & missing(m3_518_other_complications)
 
-replace m3_518_other = ".a" if m3_518 !=97
+replace m3_518_other = ".a" if m3_518 !=97 & missing(m3_518_other)
 
-recode m3_519 (. 9999998 = .a) if m3_510 == 1 | m3_510 == .a | m3_510 == 9999998 | m3_501 !=1
+recode m3_519 (. .n  = .a) if m3_510 != 0 //| m3_510 == .a | m3_510 == 9999998 | m3_501 !=1
 
-replace m3_520 = ".a" if m3_501 !=1
-replace m3_520 = ".a" if m3_520 == "95" // SS: confirm
+* MKT 2024-08-29 = In the updated dataset these are no longer needed
+* Commenting out the the code and adding code to replace based on m3_501
+replace m3_520 = .a if m3_501 !=1 & missing(m3_520)
+/*replace m3_520 = ".a" if m3_520 == "95" // SS: confirm
 replace m3_520 = ".d" if m3_520 == "98" // SS: confirm
 replace m3_520 = ".d" if m3_520 == "Don't remember" // SS: confirm
 replace m3_520 = "." if m3_520 == "Had C-section before" // SS: confirm
@@ -3402,196 +3590,318 @@ replace m3_520 = "11:00" if m3_520 == "11h00" // SS: confirm
 replace m3_520 = "00:00" if m3_520 == "00:00:00" // SS: confirm
 encode m3_520, gen(recm3_520) // N =4 missing data 
 drop m3_520
-format recm3_520 %tcHH:MM
+format recm3_520 %tcHH:MM*/
 
-recode m3_521 (. 9998 9999998= .a) if m3_501 !=1 //SS: why are there decimal numbers in this var?, who are the N=7 missing data?
+recode m3_521 (. .n 9998 9999998= .a) if m3_501 !=1 //SS: why are there decimal numbers in this var?, who are the N=7 missing data?
+recode m3_521 (9998 9999998= .d) if m3_501 ==1 //SS: why are there decimal numbers in this var?, who are the N=7 missing data?
 
-recode m3_601a m3_601b m3_601c m3_602a (. 9999998 = .a) if m3_501 !=1 //N= 3 missing data
+recode m3_601a m3_601b m3_601c m3_602a (. .n  = .a) if m3_501 !=1 //N= 3 missing data
 
-recode m3_602b (. 9999998 = .a) if m3_602a == 1 | m3_602a == .a | m3_602a == . | ///
-								   m3_602a == .d | m3_602a == .r | m3_602a == 9999998
+recode m3_602b (. .n  = .a) if m3_602a == 1 //| m3_602a == .a | m3_602a == . | ///
+								   //m3_602a == .d | m3_602a == .r | m3_602a == 9999998
+recode m3_602b (. .n = .a) if m3_501 != 1 
+
+recode m3_603a m3_603b m3_603c m3_604a m3_604b m3_605a (. .n  = .a) if m3_501 !=1
  
-recode m3_603a m3_603b m3_603c m3_604a m3_604b m3_605a (. 9999998 = .a) if m3_501 !=1
+recode m3_605b m3_605c (. .n  = .a) if m3_605a != 1 //m3_605a ==0 | m3_605a == . | m3_605a == .a
  
-recode m3_605b m3_605c (. 9999998 = .a) if m3_605a == 0 | m3_605a == . | m3_605a == .a
- 
-replace m3_605c_other = ".a" if m3_605c !=96
+replace m3_605c_other = ".a" if m3_605c !=96 & missing(m3_605c_other) // MKT added & missing(m3_605c_other)
 
-recode m3_606 m3_607 (. 9999998 = .a) if  m3_605a == 1 | m3_605a == .a | m3_605a == .d | m3_605a == .r
+recode m3_606 m3_607 (. .n  = .a) if  m3_605a != 0 //m3_605a == 1 | m3_605a == .a | m3_605a == .d | m3_605a == .r
 
-recode m3_608 (. 9999998 = .a) if m3_501 !=1 
+recode m3_608 (. .n  = .a) if m3_501 !=1 
 
 * SS: double check: ASK: WOMEN WHO DELIVERED IN A HEALTH FACILITY & BABY WAS BORN ALIVE
-recode m3_609 m3_610a m3_611 m3_613 (. 9999998 = .a) if m3_501 !=1 | (m3_303b ==0 & m3_303c ==0 & m3_303d ==0) // N=4 missing
+recode m3_609 m3_610a m3_610b m3_611 m3_613 (. .n  = .a) if m3_501 !=1 
+recode m3_609 m3_610a m3_610b m3_611 (. .n = .a) if (m3_303b !=1 & m3_303c !=1 & m3_303d !=1 & m3_baby1_born_alive != 1 & m3_baby2_born_alive != 1 & m3_baby3_born_alive != 1)
+// MKT changed this code from using just if the baby is alive to include if the baby was born alive (m3_303b ==0 & m3_303c ==0 & m3_303d ==0) // N=4 missing
  
-recode m3_610b (. 9999998 = .a) if m3_610a !=1 
+ 
+* MKT CHECK... this is not how the dataset looks now. it looks like it is asking for everyone 
+recode m3_610b (. .n  = .a) if m3_610a !=1 
 
-recode m3_612_za (. 9998 99998 999998 9999998 = .a) if m3_501 !=1 | (m3_303b ==0 & m3_303c ==0 & m3_303d==0)
+recode m3_612_za (. .n 9998 99998 999998 9999998 = .a) if m3_501 !=1 | (m3_303b !=1 & m3_303c !=1 & m3_303d !=1 & m3_baby1_born_alive != 1 & m3_baby2_born_alive != 1 & m3_baby3_born_alive != 1)
+recode m3_612_za (9998 99998 999998 = .d) if m3_501 ==1 & (m3_303b ==1 | m3_303c ==1 | m3_303d ==1 | m3_baby1_born_alive == 1 | m3_baby2_born_alive == 1 | m3_baby3_born_alive == 1)
+recode m3_612_za (999999 = .r) if m3_501 ==1 & (m3_303b ==1 | m3_303c ==1 | m3_303d ==1 | m3_baby1_born_alive == 1 | m3_baby2_born_alive == 1 | m3_baby3_born_alive == 1)
 
+
+* MKT 2024-08-29 - Commenting out now as i think this is relevant information
 *recode m3_612_za (96 = .a) // confirm with Catherine because 96 == "I never breastfed"
- 
-recode m3_614 (. 998 9998 99998 9999998 = .a) if m3_613 == 0 | m3_613 == .a // confirm that 98 = .d
- 
-recode m3_615a (. 9999998 = .a) if m3_501 !=1 | m3_303b ==0  
+recode m3_612_za (96 = 100096) if m3_501 == 1 & (m3_303b == 1 | m3_303c == 1 | m3_303d == 1 | m3_baby1_born_alive == 1 | m3_baby2_born_alive == 1 | m3_baby3_born_alive == 1)
+label define m3_612 100096 "I have never breastfed", replace
+label value m3_612_za m3_612 
 
-recode m3_616a (. 9999998 = .a) if m3_615a == .a | m3_615a == .d | m3_615a == .r | m3_615a == 0 
- 
-recode m3_615b (. 9999998 = .a) if m3_501 !=1 | m3_303b ==0 | m3_303a !=2 
+* MKT 2024-09-03 Removing the 96 from wipe out as we want to capture all those that should not have answered these
+* Wipe out the 96 value if said never breastfed
+* recode m3_612_za (. .n 96 = .a) if m3_501 != 1 
+recode m3_612_za (. .n = .a) if m3_501 != 1 | (m3_303b != 1 & m3_303c != 1 & m3_303d != 1 & m3_baby1_born_alive != 1 & m3_baby2_born_alive != 1 & m3_baby3_born_alive != 1)
 
+* MKT 2024-08-29 This only should have been asked of those that had a live birth in the facility
+*replace m3_612_za = .a if m3_303b != 1 & m3_303c != 1 & m3_303d != 1 & m3_baby1_born_alive != 1 & m3_baby2_born_alive != 1 & m3_baby3_born_alive != 1
+
+rename m3_612_za m3_612_hours
+
+* We want to create a m3_612_days variable
+gen m3_612_days = int(m3_612_hours/24) if m3_612_hours != 100096 & !missing(m3_612_hours)
+replace m3_612_days = m3_612_hours if missing(m3_612_days)
+label value m3_612_days m3_612
+label var m3_612_days "Days after baby/babies born first breastfed"
+char m3_612_days[Original_ZA_Varname] `m3_612_hours[Original_ZA_Varname]'
+
+recode m3_614 (. .n  9999998 = .a) if m3_613 != 1 //m3_613 == 0 | m3_613 == .a // confirm that 98 = .d
+recode m3_614 (998 9998 99998 = .d) if m3_501 == 1 & m3_613 == 1
+recode m3_614 (999 9999 99999 = .r) if m3_501 == 1 & m3_613 == 1
+
+local b 1
+
+local 1 b 
+local 2 c
+local 3 d
+foreach v in a b c { 
+	recode m3_615`v' (. .n  = .a) if m3_501 !=1 | m3_303``b'' !=1 | m3_baby`b'_born_alive != 1 
+
+	recode m3_616`v' (. .n = .a) if m3_615`v' != 1
+	recode m3_616`v' (998 9998 = .d) if m3_615`v' == 1
+	
+	recode m3_617`v' (. .n = .a) if m3_501 !=1 | m3_303``b'' !=1 | m3_baby`b'_born_alive != 1
+	
+	recode m3_618a_`b' (. .n = .a) if m3_501 !=1 | m2_hiv_status != 1 | (m3_303``b'' !=1 & m3_baby`b'_born_alive != 1) 
+
+	recode m3_618b_`b' (. .n = .a) if m3_501 !=1 | m2_hiv_status != 1 | (m3_303``b'' !=1 & m3_baby`b'_born_alive != 1) | m3_618a_`b' != 1
+
+	recode m3_618c_`b' (. .n = .a) if m3_501 !=1 | m2_hiv_status != 1 | (m3_303``b'' !=1 & m3_baby`b'_born_alive != 1) 
+
+	local ++b
+}
+
+
+/*recode m3_616a (. = .a) if m3_615a == .a | m3_615a == .d | m3_615a == .r | m3_615a == 0 
+recode m3_615b (.  = .a) if m3_501 !=1 | m3_303b ==0 | m3_303a !=2 
 recode m3_616b (. 998 9998 9999998 = .a) if m3_615b == .a | m3_615a == .d | m3_615a == .r | m3_615a == 0 | m3_303a !=2
-
-recode m3_615c (. 9999998 = .a) if m3_501 !=1 | m3_303d ==0 | m3_303a !=3
-
+recode m3_615c (.  = .a) if m3_501 !=1 | m3_303d ==0 | m3_303a !=3
 recode m3_616c (. 998 9998 9999998 = .a) if m3_615c == .a | m3_615a == .d | m3_615a == .r | m3_615a == 0 | m3_303a !=3
+recode m3_617a (.  = .a) if m3_501 !=1 | m3_303b ==0  
+recode m3_617b (.  = .a) if m3_501 !=1 | m3_303b ==0 | m3_303a !=2 
+recode m3_617c (.  = .a) if m3_501 !=1 | m3_303d ==0 | m3_303a !=3
 
-recode m3_617a (. 9999998 = .a) if m3_501 !=1 | m3_303b ==0  
+* MKT These appear to have incorrect variables referenced. m3_303a should not be referecned or m3_617b
+recode m3_618a_1 (. .n  = .a) if m2_hiv_status !=1 | m3_303a !=1 | m3_617b ==.a // SS:confirm
 
-recode m3_617b (. 9999998 = .a) if m3_501 !=1 | m3_303b ==0 | m3_303a !=2 
+recode m3_618a_2 (. .n  = .a) if m2_hiv_status !=1 | m3_303a !=2 
 
-recode m3_617c (. 9999998 = .a) if m3_501 !=1 | m3_303d ==0 | m3_303a !=3
+recode m3_618a_3 (. .n  = .a) if m2_hiv_status !=1 | m3_303a !=3
 
-recode m3_618a_1 (. 9999998 = .a) if m2_hiv_status !=1 | m3_303a !=1 | m3_617b ==.a // SS:confirm
 
-recode m3_618a_2 (. 9999998 = .a) if m2_hiv_status !=1 | m3_303a !=2 
+recode m3_618b_1 (. .n  = .a) if m3_618a_1 !=1
 
-recode m3_618a_3 (. 9999998 = .a) if m2_hiv_status !=1 | m3_303a !=3
+recode m3_618b_2 (. .n  = .a) if m3_618a_2 !=1
 
-recode m3_618b_1 (. 9999998 = .a) if m3_618a_1 !=1
+recode m3_618b_3 (. .n  = .a) if m3_618a_3 !=1
 
-recode m3_618b_2 (. 9999998 = .a) if m3_618a_2 !=1
+recode m3_618c_1 (. .n  = .a) if m3_618b_1 !=1 // this says it should be asked of all HIV women, regardless of how the child tested
 
-recode m3_618b_3 (. 9999998 = .a) if m3_618a_3 !=1
+recode m3_618c_2 (. .n  = .a) if m3_618b_2 !=1 // this says it should be asked of all HIV women, regardless of how the child tested
+ 
+recode m3_618c_3 (. .n  = .a) if m3_618b_3 !=1 // this says it should be asked of all HIV women, regardless of how the child tested
+*/
 
-recode m3_618c_1 (. 9999998 = .a) if m3_618b_1 !=1
+recode m3_619a m3_619b m3_619c m3_619d m3_619e m3_619g m3_619h  (. .n = .a) if m3_501 !=1 | (m3_303b != 1 & m3_303c != 1 & m3_303d != 1 & m3_baby1_born_alive != 1 & m3_baby2_born_alive != 1 & m3_baby3_born_alive != 1)
 
-recode m3_618c_2 (. 9999998 = .a) if m3_618b_2 !=1
+local b 1
 
-recode m3_618c_3 (. 9999998 = .a) if m3_618b_3 !=1
+local 1 b 
+local 2 c
+local 3 d
+foreach v in a b c { 
+	recode m3_620_`b' (. .n = .a) if m3_501 != 1 | m3_303``b'' != 1 | m3_baby`b'_born_alive != 1
+	local ++b
+}
 
-recode m3_619a m3_619b m3_619c m3_619d m3_619e m3_619g m3_619h m3_620_1 m3_620_2 m3_620_3 (. 9999998 = .a) if m3_501 !=1 | (m3_303b ==0 & m3_303c ==0 & m3_303d ==0) 
+/*recode m3_620_1 (. .n  = .a) if m3_501 !=1 | m3_303b ==0 | m3_303b ==.a // N= 5 missing data
+recode m3_620_2 (. .n  = .a) if m3_501 !=1 | m3_303c ==0 | m3_303c ==.a
+recode m3_620_3 (. .n  = .a) if m3_501 !=1 | m3_303d ==0 | m3_303d ==.a
+*/
+recode m3_621a m3_621b (. .n  = .a) if m3_501 != 0
+recode m3_621c (. .n  = .a) if m3_621b !=1
 
-recode m3_620_1 (. 9999998 = .a) if m3_501 !=1 | m3_303b ==0 | m3_303b ==.a // N= 5 missing data
+recode m3_622a m3_622c (. .n = .a) if !inlist(m2_202,2,3) // this should be asked for all respondents
+recode m3_622b (. .n = .a) if m3_622a != 1
 
-recode m3_620_2 (. 9999998 = .a) if m3_501 !=1 | m3_303c ==0 | m3_303c ==.a
 
-recode m3_620_3 (. 9999998 = .a) if m3_501 !=1 | m3_303d ==0 | m3_303d ==.a
+recode m3_701 (. .n  = .a) if !inlist(m2_202,2,3) // This should be asked for all respondents m3_501 !=1 
+replace m3_702 = ".a" if m3_701 !=1 & missing(m3_702)
 
-recode m3_621a m3_621b (. 9999998 = .a) if m3_501 !=1
+recode m3_703 (. .n  = .a) if m3_701 !=1
 
-recode m3_621c (. 9999998 999998 = .a) if m3_621b !=1
+recode m3_704a m3_704b m3_704c m3_704d m3_704e m3_704f m3_704g   (. .n  = .a) if !inlist(m2_202,2,3)  // This should be asked for all respondents m3_501 !=1 // N=4-5 missing data
 
-recode m3_622a m3_622c m3_701 (. 9999998 = .a) if m3_501 !=1
+recode m3_705 m3_706 m3_707 (. .n = .a) if m3_501 != 1 // These only apply to those in a facility
 
-recode m3_622b (. 9999998 = .a) if m3_622a !=1
+*recode m3_707  (. .n  = .a) if m3_501 !=1 | m3_705 !=.a
 
-replace m3_702 = ".a" if m3_701 !=1
+* MKT Question: Why are we wiping out all 0 values?
+* No longer doing this as changed how these variables were created
+*recode m3_baby1_issues_a  (0 = .a) if m2_202 !=2 & m2_202 !=3
 
-recode m3_703 (. 9999998 = .a) if m3_701 !=1
+*recode m3_baby1_issues_a m3_baby1_issues_b m3_baby1_issues_c m3_baby1_issues_d m3_baby1_issues_e m3_baby1_issues_f m3_baby1_issues_95 m3_baby1_issues_98 m3_baby1_issues_99 (0 = .a) if m2_202 !=2 | m2_202 !=3
 
-recode m3_704a m3_704b m3_704c m3_704d m3_704e m3_704f m3_704g m3_705 m3_706 (. 9999998 = .a) if m3_501 !=1 // N=4-5 missing data
+*recode m3_baby2_issues_a m3_baby2_issues_b m3_baby2_issues_c m3_baby2_issues_d m3_baby2_issues_e m3_baby2_issues_f m3_baby2_issues_95 m3_baby2_issues_98 m3_baby2_issues_99 (0 = .a) if m2_202 !=2 | m2_202 !=3 | m3_303a !=2 
 
-recode m3_707 (. 9999998 = .a) if m3_501 !=1 | m3_705 !=.a
+*recode m3_baby3_issues_a m3_baby3_issues_b m3_baby3_issues_c m3_baby3_issues_d m3_baby3_issues_e m3_baby3_issues_f m3_baby3_issues_95 m3_baby3_issues_98 m3_baby3_issues_99 (0 = .a) if m2_202 !=2 | m2_202 !=3 | m3_303a !=3 
 
-recode m3_baby1_issues_a m3_baby1_issues_b m3_baby1_issues_c m3_baby1_issues_d m3_baby1_issues_e m3_baby1_issues_f m3_baby1_issues_95 m3_baby1_issues_98 m3_baby1_issues_99 (0 = .a) if m2_202 !=2 | m2_202 !=3
+local b 1
 
-recode m3_baby2_issues_a m3_baby2_issues_b m3_baby2_issues_c m3_baby2_issues_d m3_baby2_issues_e m3_baby2_issues_f m3_baby2_issues_95 m3_baby2_issues_98 m3_baby2_issues_99 (0 = .a) if m2_202 !=2 | m2_202 !=3 | m3_303a !=2 
+local 1 b
+local 2 c
+local 3 d
+foreach v in a b c {
+	foreach q in a b c d e f 95 98 99 {
+		recode m3_baby`b'_issues_`q' (. .n = .a) if (m3_303``b'' != 1 & m3_baby`b'_born_alive != 1)
+	}
+	
+	recode m3_baby`b'_issue_oth (. .n = .a) if (m3_303``b'' !=1 & m3_baby`b'_born_alive != 1)
+	
+	tostring m3_baby`b'_issue_oth_text, replace
+	replace m3_baby`b'_issue_oth_text = ".a" if (m3_baby`b'_issue_oth != 1 & missing(m3_baby`b'_issue_oth_text))
+	
+	recode m3_baby`b'_710 (. .n = .a) if m3_501 != 1 | ( m3_303``b'' !=1 & m3_baby`b'_born_alive != 1)
+		
+	local ++b
+}
 
-recode m3_baby3_issues_a m3_baby3_issues_b m3_baby3_issues_c m3_baby3_issues_d m3_baby3_issues_e m3_baby3_issues_f m3_baby3_issues_95 m3_baby3_issues_98 m3_baby3_issues_99 (0 = .a) if m2_202 !=2 | m2_202 !=3 | m3_303a !=3 
 
-recode m3_baby1_issue_oth (. 9999998 = .a) if m2_202 !=2 | m2_202 !=3
+/*
+recode m3_baby1_issue_oth (. .n  = .a) if m2_202 !=2 | m2_202 !=3
 replace m3_baby1_issue_oth_text = ".a" if m3_baby1_issue_oth !=1
   
-recode m3_baby2_issue_oth (. 9999998 = .a) if m2_202 !=2 | m2_202 !=3 | m3_303a !=2
-recode m3_baby2_issue_oth_text (. 9999998 = .a) if m3_baby2_issue_oth !=1  
+recode m3_baby2_issue_oth (. .n  = .a) if m2_202 !=2 | m2_202 !=3 | m3_303a !=2
+recode m3_baby2_issue_oth_text (. .n  = .a) if m3_baby2_issue_oth !=1  
 
-recode m3_baby3_issue_oth (. 9999998 = .a) if m2_202 !=2 | m2_202 !=3 | m3_303a !=3
-recode m3_baby3_issue_oth_text (. 9999998 = .a) if m3_baby3_issue_oth !=1  
+recode m3_baby3_issue_oth (. .n  = .a) if m2_202 !=2 | m2_202 !=3 | m3_303a !=3
+recode m3_baby3_issue_oth_text (. .n  = .a) if m3_baby3_issue_oth !=1  
 
-recode m3_baby1_710 (. 9999998 = .a) if m3_501 !=1 | m3_303b !=1 // N=7 missing data 
-recode m3_baby2_710 (. 9999998 = .a) if m3_501 !=1 | m3_303c !=1 // N=1 missing data
-recode m3_baby3_710 (. 9999998 = .a) if m3_501 !=1 | m3_303d !=1
+recode m3_baby1_710 (. .n  = .a) if m3_501 !=1 | m3_303b !=1 // N=7 missing data 
+recode m3_baby2_710 (. .n  = .a) if m3_501 !=1 | m3_303c !=1 // N=1 missing data
+recode m3_baby3_710 (. .n  = .a) if m3_501 !=1 | m3_303d !=1
+*/
 
-recode m3_711a (. 9999998 = .a) if m2_202 !=2 | m2_202 !=3 | m3_501 !=1 | m3_303b !=1 
-recode m3_711a_dys (. 9998 99998 999998 9999998 = .a) if m2_202 !=2 | m2_202 !=3 | m3_501 !=1 | m3_303b !=1 
+local b 1
 
-recode m3_711b (. 9999998 = .a) if m2_202 !=2 | m2_202 !=3 | m3_501 !=1 | m3_303b !=1 | m3_303a !=2
-recode m3_711b_dys (. 999998 9999998 9999998 99999998 = .a) if m2_202 !=2 | m2_202 !=3 | m3_501 !=1 | m3_303b !=1 | m3_303a !=2
+local 1 b
+local 2 c
+local 3 d
 
-recode m3_711c (. 9999998 = .a) if m2_202 !=2 | m2_202 !=3 | m3_501 !=1 | m3_303b !=1 | m3_303a !=3
-recode m3_711c_dys (. 9999998 = .a) if m2_202 !=2 | m2_202 !=3 | m3_501 !=1 | m3_303b !=1 | m3_303a !=3
+foreach v in a b c {
+	rename m3_711`v' m3_711`v'_hours
+	rename m3_711`v'_dys m3_711`v'_days
+	
+	recode m3_711`v'_hours (. .n 9998 99998 999998 9999998  = .a) if m3_501 != 1 | ( m3_303``b'' !=1 & m3_baby`b'_born_alive != 1) //m3_501 != 1 | (m2_202 !=2 | m2_202 !=3 | m3_501 !=1 | m3_303b !=1 
+	recode m3_711`v'_hours (9998 99998 999998 9999998 = .d) if m3_501 == 1 &  (m3_303``b'' ==1 | m3_baby`b'_born_alive == 1)
+	
+	recode m3_711`v'_days (. .n 9998 99998 999998 9999998 = .a) if m3_501 != 1 | ( m3_303``b'' !=1 & m3_baby`b'_born_alive != 1) //m2_202 !=2 | m2_202 !=3 | m3_501 !=1 | m3_303b !=1 
+	recode m3_711`v'_days (9998 99998 999998 9999998 = .d) if m3_501 == 1 &  (m3_303``b'' ==1 | m3_baby`b'_born_alive == 1)
+
+	local ++b
+}
+
+/*recode m3_711b (. .n  = .a) if m2_202 !=2 | m2_202 !=3 | m3_501 !=1 | m3_303b !=1 | m3_303a !=2
+recode m3_711b_dys (. .n 999998 9999998 9999998 99999998 = .a) if m2_202 !=2 | m2_202 !=3 | m3_501 !=1 | m3_303b !=1 | m3_303a !=2
+
+recode m3_711c (. .n  = .a) if m2_202 !=2 | m2_202 !=3 | m3_501 !=1 | m3_303b !=1 | m3_303a !=3
+recode m3_711c_dys (. .n 9999998 = .a) if m2_202 !=2 | m2_202 !=3 | m3_501 !=1 | m3_303b !=1 | m3_303a !=3
+ */
+recode m3_801a m3_801b (. .n  = .a) if !inlist(m2_202,2,3) //m2_202 !=2 | m2_202 !=3
+
+
+egen m3_phq2_score = rowtotal(m3_801a m3_801b) if inlist(m2_202,2,3)
+
+recode m3_phq2_score (. 0 = .a) if (m3_801a == . | m3_801a == .a | m3_801a == .d | m3_801a == .r) & ///
+								 (m3_801b == . | m3_801b == .a | m3_801b == .d | m3_801b == .r) | !inlist(m2_202,2,3)
+
+recode m3_802a (. .n  = .a) if m3_phq2_score <3 | m3_phq2_score ==.a
   
-recode m3_801a (. 9999998 = .a) if m2_202 !=2 | m2_202 !=3
-recode m3_801b (. 9999998 = .a) if m2_202 !=2 | m2_202 !=3 
+recode m3_802b (. .n  = .a) if m3_802a !=1
 
-egen m3_phq2_score = rowtotal(m3_801a m3_801b)
-recode m3_phq2_score (0 = .a) if (m3_801a == . | m3_801a == .a | m3_801a == .d | m3_801a == .r) & ///
-								 (m3_801b == . | m3_801b == .a | m3_801b == .d | m3_801b == .r)
+recode m3_802c (. .n 9999998 99999998 = .a) if m3_802a !=1
 
-recode m3_802a (. 9999998 = .a) if m3_phq2_score <3 | m3_phq2_score ==.a
+recode m3_803a m3_803b m3_803c m3_803d m3_803e m3_803f m3_803g m3_803h m3_803j (. .n 9999998 = .a) if !inlist(m2_202,2,3) //m2_202 !=2 | m2_202 !=3
+recode m3_803a m3_803b m3_803c m3_803d m3_803e m3_803f m3_803g m3_803h m3_803j (9999998 = .d) if inlist(m2_202,2,3) //m2_202 !=2 | m2_202 !=3
+
+replace m3_803j_other = ".a" if m3_803j !=1 & missing(m3_803j_other)
+
+recode m3_805 (. .n  = .a) if !inlist(m2_202,2,3) //m2_202 !=2 | m2_202 !=3
+
+recode m3_806 m3_807 m3_808a (. .n  = .a) if m3_805 !=1
+recode m3_806 (98 = .d) if m3_805 == 1
+
+recode m3_807 (99 = .r) if m3_805 == 1
+
+
+recode m3_808b (. .n  = .a) if m3_808a !=0
+
+replace m3_808b_other = ".a" if m3_808b !=96 & missing(m3_808b_other)
+ 
+recode m3_809 (. .n  = .a) if m3_808a !=1
+
+
+
+recode m3_901a m3_901b m3_901c m3_901d m3_901e m3_901f m3_901g m3_901h m3_901i m3_901j m3_901k m3_901l m3_901m m3_901n m3_901o m3_901p m3_901q m3_901r (. .n  = .a) if !inlist(m2_202,2,3) //m2_202 !=2 | m2_202 !=3
+
+replace m3_901r_other = ".a" if m3_901r !=1 & missing(m3_901r_other)
+
+* These next questions are only asked for children that are still alive
+recode m3_902a_baby1 m3_902b_baby1 m3_902c_baby1 m3_902d_baby1 m3_902e_baby1 m3_902f_baby1 m3_902g_baby1 m3_902h_baby1 m3_902i_baby1 m3_902j_baby1 (. .n  = .a) if !inlist(m2_202,2,3) | (m3_303b != 1 & m3_303c != 1 & m3_303d != 1) //m3_303b !=1 | m2_202 !=2 | m2_202 !=3 // need to do this for baby 2-3
   
-recode m3_802b (. 9999998 = .a) if m3_802a !=1
+replace m3_902j_baby1_other = ".a" if m3_902j_baby1 !=1 & missing(m3_902j_baby1_other)
 
-recode m3_802c (. 9999998 99999998 = .a) if m3_802a !=1
 
-recode m3_803a m3_803b m3_803c m3_803d m3_803e m3_803f m3_803g m3_803h m3_803j (. 9999998 = .a) if m2_202 !=2 | m2_202 !=3
+
  
-replace m3_803j_other = ".a" if m3_803j !=1
+recode m3_1001 m3_1002 m3_1003 m3_1004a m3_1004b m3_1004c m3_1004d m3_1004e m3_1004f m3_1004g m3_1004h m3_1005a m3_1005b m3_1005c m3_1005d m3_1005e m3_1005f m3_1005g m3_1005h m3_1006a (. .n  = .a) if m3_501 !=1 //| m2_202 !=2 | m2_202 !=3
 
-recode m3_805 (. 9999998 = .a) if m2_202 !=2 | m2_202 !=3
+recode m3_1006b m3_1006c (. .n  = .a) if m3_1006a !=1 // N=1 missing data
 
-recode m3_806 m3_807 m3_808a (. 9999998 = .a) if m3_805 !=1
+recode m3_1007a m3_1007b m3_1007c m3_1101 (. .n  = .a) if m3_501 !=1 //| m2_202 !=2 | m2_202 !=3
 
-recode m3_808b (. 9999998 = .a) if m3_808a !=0
+recode m3_1102a_amt m3_1102b_amt m3_1102c_amt m3_1102d_amt m3_1102e_amt m3_1102f_amt (. .n  = .a) if m3_1101 !=1 //| m2_202 !=2 | m2_202 !=3 // SS: this line made me realize most 99998 responses are if the women as not given birth yet, double check above
 
-replace m3_808b_other = ".a" if m3_808b !=96
+replace m3_1102f_oth = trim(m3_1102f_oth)
+
+replace m3_1102f_oth = ".a" if m3_1101 != 1 & missing(m3_1102f_oth) //m3_1102a_amt ==.a & m3_1102b_amt ==.a & m3_1102c_amt ==.a & m3_1102d_amt ==.a & ///
+							   //m3_1102e_amt ==.a & m3_1102f_amt ==.a // SS: confirm, also should this var have text?
+
+gen m3_1102_total_calc = 0 if m3_1101 == 1
+foreach v of varlist m3_1102*_amt {
+	replace m3_1102_total_calc = m3_1102_total_calc + `v' if !inlist(`v',.,.a,.d,.r) & m3_1101 == 1
+}
+
+recode m3_1102_total m3_1102_total_calc (. .n  = .a) if m3_1101 !=1 //| ((m3_1102a_amt ==.a | m3_1102a_amt ==0) & ///
+													//	(m3_1102b_amt ==.a | m3_1102b_amt ==0) & ///
+														//(m3_1102c_amt ==.a | m3_1102c_amt ==0) & ///
+														//(m3_1102d_amt ==.a | m3_1102d_amt ==0) & ///
+														//(m3_1102e_amt ==.a | m3_1102e_amt ==0) & ///
+														//(m3_1102f_amt ==.a | m3_1102f_amt ==0)) // N=1 missing 			   
  
-recode m3_809 (. 9999998 = .a) if m3_808a !=1
+recode m3_1103 (. .n  = .a) if m3_1101 !=1 // m3_1102_total == .a | m3_1102_total == . // N=1 missing
 
-recode m3_901a m3_901b m3_901c m3_901d m3_901e m3_901f m3_901g m3_901h m3_901i m3_901j m3_901k m3_901l m3_901m m3_901n m3_901o m3_901p m3_901q m3_901r (. 9999998 = .a) if m2_202 !=2 | m2_202 !=3
 
-replace m3_901r_other = ".a" if m3_901r !=1
+recode m3_1105a m3_1105b m3_1105c m3_1105d m3_1105e m3_1105f m3_1105_96 (. = .a) if m3_1101 != 1 //m3_1103 ==.a
 
-recode m3_902a_baby1 m3_902b_baby1 m3_902c_baby1 m3_902d_baby1 m3_902e_baby1 m3_902f_baby1 m3_902g_baby1 m3_902h_baby1 m3_902i_baby1 m3_902j_baby1 (. 9999998 = .a) if m3_303b !=1 | m2_202 !=2 | m2_202 !=3 // need to do this for baby 2-3
-   
-replace m3_902j_baby1_other = ".a" if m3_902j_baby1 !=1
+replace m3_1105_other = ".a" if m3_1105_96 !=1 & missing(m3_1105_other) //| m3_1102_total == .
+
+recode m3_1106 (. .n  = .a) if !inlist(m2_202,2,3) //m2_202 !=2 | m2_202 !=3
+
+recode m3_1201 (. .n  = .a) if m3_baby1_deathga !=1 & m3_baby2_deathga !=1 & m3_baby3_deathga !=1
  
-recode m3_1001 m3_1002 m3_1003 m3_1004a m3_1004b m3_1004c m3_1004d m3_1004e m3_1004f m3_1004g m3_1004h m3_1005a m3_1005b m3_1005c m3_1005d m3_1005e m3_1005f m3_1005g m3_1005h m3_1006a (. 9999998 = .a) if m3_501 !=1 | m2_202 !=2 | m2_202 !=3
+recode m3_1202 (. .n  = .a) if m3_1201 !=1
 
-recode m3_1006b m3_1006c (. 9999998 = .a) if m3_1006a !=1 // N=1 missing data
+recode m3_1203 m3_1204 m3_1205 (. .n  = .a) if m3_death_cause_baby1 !=7  & m3_death_cause_baby2 !=7 & m3_death_cause_baby3 !=7 
 
-recode m3_1007a m3_1007b m3_1007c m3_1101 (. 9999998 = .a) if m3_501 !=1 | m2_202 !=2 | m2_202 !=3
+recode m3_1205_other (. .n  = .a) if m3_1205 !=6  // numeric because of 0 obs
 
-recode m3_1102a_amt m3_1102b_amt m3_1102c_amt m3_1102d_amt m3_1102e_amt m3_1102f_amt (. 9999998 = .a) if m3_1101 !=1 | m2_202 !=2 | m2_202 !=3 // SS: this line made me realize most 99998 responses are if the women as not given birth yet, double check above
+replace m3_1206 = ".a" if m3_death_cause_baby1 !=7  & m3_death_cause_baby2 !=7 & m3_death_cause_baby3 !=7  // m3_1205 == .a & m3_1205_other == .a
 
-replace m3_1102f_oth = ".a" if m3_1102a_amt ==.a & m3_1102b_amt ==.a & m3_1102c_amt ==.a & m3_1102d_amt ==.a & ///
-							   m3_1102e_amt ==.a & m3_1102f_amt ==.a // SS: confirm, also should this var have text?
-
-recode m3_1102_total (. 9999998 = .a) if m3_1101 !=1 | ((m3_1102a_amt ==.a | m3_1102a_amt ==0) & ///
-														(m3_1102b_amt ==.a | m3_1102b_amt ==0) & ///
-														(m3_1102c_amt ==.a | m3_1102c_amt ==0) & ///
-														(m3_1102d_amt ==.a | m3_1102d_amt ==0) & ///
-														(m3_1102e_amt ==.a | m3_1102e_amt ==0) & ///
-														(m3_1102f_amt ==.a | m3_1102f_amt ==0)) // N=1 missing 			   
- 
-recode m3_1103 (. 9999998 = .a) if m3_1102_total == .a | m3_1102_total == . // N=1 missing
-
-recode m3_1105a m3_1105b m3_1105c m3_1105d m3_1105e m3_1105f m3_1105_96 (0 = .a) if m3_1103 ==.a
-
-replace m3_1105_other = ".a" if m3_1105_96 !=1 | m3_1102_total == .
- 
-recode m3_1106 (. 9999998 = .a) if m2_202 !=2 | m2_202 !=3
-
-recode m3_1201 (. 9999998 = .a) if m3_baby1_deathga !=1 | m3_baby2_deathga !=1 | m3_baby3_deathga !=1
- 
-recode m3_1202 (. 9999998 = .a) if m3_1201 !=1
-
-recode m3_1203 m3_1204 m3_1205 (. 9999998 = .a) if m3_death_cause_baby1 !=7  | m3_death_cause_baby2 !=7 | m3_death_cause_baby3 !=7 
-
-recode m3_1205_other (. 9999998 = .a) if m3_1205 !=6  // numeric because of 0 obs
-
-replace m3_1206 = ".a" if m3_1205 == .a & m3_1205_other == .a
-
-ren rec* *
+*ren rec* *
 
 drop m2_interviewer m2_ga m2_hiv_status m2_maternal_death_reported m2_date_of_maternal_death m2_maternal_death_learn m2_maternal_death_learn_other m2_201 m2_202 MOD3_MAN_Complications_708_B3
 
@@ -3801,7 +4111,7 @@ lab var m3_609 "609. Immediately after delivery, did a health care provider dry 
 lab var m3_610a "610a. Immediately after delivery, was/were the baby/babies put on your chest?"
 lab var m3_610b "610b. Immediately after delivery, was/were the babys/babies bare skin touching your bare skin?"
 lab var m3_611 "611. Immediately after delivery, did a health care provider help you with breastfeeding the baby/babies?"
-lab var m3_612_za "612. ZA only: How long after the baby/babies was born did you first breastfeed he/she/them? Convert days into hours."
+lab var m3_612_hours "612. ZA only: How long after the baby/babies was born did you first breastfeed he/she/them? Convert days into hours."
 
 lab var m3_613 "613. Did anyone check on your health while you were still in the facility?"
 lab var m3_614 "614. How long after delivery did the first check take place? Convert days and weeks to hours."
@@ -3908,12 +4218,12 @@ lab var m3_baby1_710 "710. Did the first baby spend time in a special care nurse
 lab var m3_baby2_710 "710. Did the second baby spend time in a special care nursery or intensive care unit before discharge?"
 lab var m3_baby3_710 "710. Did the third baby spend time in a special care nursery or intensive care unit before discharge?"
 	
-lab var m3_711a "711. How long did the first baby stay at the health facility after being born? [Hours]"
-lab var m3_711a_dys "711. How long did the first baby stay at the health facility after being born? [Days]"
-lab var m3_711b "711. How long did the second baby stay at the health facility after being born? [Hours]"
-lab var m3_711b_dys "711. How long did the second baby stay at the health facility after being born? [Days]"
-lab var m3_711c "711. How long did the third baby stay at the health facility after being born? [Hours]"
-lab var m3_711c_dys	"711. How long did the third baby stay at the health facility after being born? [Days]"
+lab var m3_711a_hours "711. How long did the first baby stay at the health facility after being born? [Hours]"
+lab var m3_711a_days "711. How long did the first baby stay at the health facility after being born? [Days]"
+lab var m3_711b_hours "711. How long did the second baby stay at the health facility after being born? [Hours]"
+lab var m3_711b_days "711. How long did the second baby stay at the health facility after being born? [Days]"
+lab var m3_711c_hours "711. How long did the third baby stay at the health facility after being born? [Hours]"
+lab var m3_711c_days	"711. How long did the third baby stay at the health facility after being born? [Days]"
 	
 lab var m3_801a "801a. Over the past 2 weeks, on how many days have you been bothered little interest or pleasure in doing things?"
 lab var m3_801b "801b. Over the past 2 weeks, on how many days have you been bothered feeling down, depressed, or hopeless in doing things?"
@@ -4048,13 +4358,19 @@ save "$za_data_final/eco_m3_za.dta", replace
 
 *dropping duplicates (remove later after they are addressed)
 
-drop if respondentid == "MBA_002" | respondentid == "NEL_022" | respondentid == "NEL_043" | ///
+* Confirm there are no duplicates based on respondentid
+bysort respondentid : assert _N == 1
+
+* MKT 2024-08-29: Since there are no longer any duplicates, we will comment out this line of code
+*drop if respondentid == "MBA_002" | respondentid == "NEL_022" | respondentid == "NEL_043" | ///
 		respondentid == "NWE_044" | respondentid == "PAP_001" | respondentid == "PAP_037" | ///
 		respondentid == "RCH_022" | respondentid == "RCH_084" | respondentid == "TOK_014" | ///
 		respondentid == "TOK_021" | respondentid == "TOK_082"
 
-merge 1:1 respondentid using "$za_data_final/eco_m1m2_za.dta", force
+merge 1:1 respondentid using "$za_data_final/eco_m1m2_za.dta" //, force
 
+list respondentid if _merge == 1
+drop if _merge == 1
 drop _merge
 
 *==============================================================================*
@@ -4119,6 +4435,9 @@ order m3_death_cause_baby1 m3_death_cause_baby1_other m3_death_cause_baby2 m3_de
 	* STEP SIX: SAVE DATA TO RECODED FOLDER
 	
 	save "$za_data_final/eco_m1-m3_za.dta", replace
+	* Run the derived variable code
+	do "${github}\South Africa\crEco_der_ZA.do"
+	save "$za_data_final/eco_m1-m3_za_der.dta", replace
 
 *==============================================================================*
 * MODULE 4:		

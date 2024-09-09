@@ -2,12 +2,22 @@
 * updated: April 2024
 * C Arsenault, S Sabwa, K Wright
 
-/*
 
-	This file creates derived variables for analysis from the MNH ECohorts South Africa (KZN) dataset. 
+/*******************************************************************************
+* Change log
+* 				Updated
+*				version
+* Date 			number 	Name			What Changed
+* 2024-09-06	1.01	MK Trimner		Commented out the using file and save command so this can be ran automatically at the end of the program
+*										
+*										
+*										
+*******************************************************************************/
+
+*	This file creates derived variables for analysis from the MNH ECohorts South Africa (KZN) dataset. 
 
 */
-u "$za_data_final/eco_m1-m3_za.dta", clear
+*u "$za_data_final/eco_m1-m3_za.dta", clear
 
 *------------------------------------------------------------------------------*
 * MODULE 1
@@ -305,5 +315,5 @@ u "$za_data_final/eco_m1-m3_za.dta", clear
 * note by Wen-Chien (April 21)
 * line 126 date_m1 not found, but m1_date in the dataset, so could not label ga_edd, ga, and trimester
  
-save "$za_data_final/eco_m1-m3_za_der.dta", replace
+*save "$za_data_final/eco_m1-m3_za_der.dta", replace
 	
