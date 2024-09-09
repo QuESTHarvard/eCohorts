@@ -359,9 +359,22 @@ drop m2_attempt_avail m2_attempt_bestnumber m2_attempt_contact m2_attempt_date m
 	
 	rename (how_much_paid_602 in_total_how_much_did_you_602 are_you_currently_taking_603 how_often_do_you_take_604 i_would_now_like_to_ask_ab_701)(m2_602a m2_602b m2_603 m2_604 m2_701)
 	
-	rename (have_you_spent_money_702a how_much_money_did_you_702a have_you_spent_money_702b how_much_money_did_you_702b have_you_spent_money_702c how_much_money_did_you_702c have_you_spent_money_702d how_much_money_did_you_702d have_you_spent_money_702e how_much_money_did_you_702e so_in_total_you_spent_703 you_know_how_much_704 so_how_much_in_total_would_704)(m2_702a m2_702a_other m2_702b m2_702b_other m2_702c m2_702c_other m2_702d m2_702d_other m2_702e m2_702e_other m2_703 m2_704 m2_704_other)
+	rename have_you_spent_money_702a m2_702a
+	rename how_much_money_did_you_702a m2_702a_cost
+	rename have_you_spent_money_702b m2_702b
+	rename how_much_money_did_you_702b m2_702b_cost
+	rename have_you_spent_money_702c m2_702c
+	rename how_much_money_did_you_702c m2_702c_cost
+	rename have_you_spent_money_702d m2_702d
+	rename how_much_money_did_you_702d m2_702d_cost
+	rename have_you_spent_money_702e m2_702e
+	rename how_much_money_did_you_702e m2_702e_cost
+	rename so_in_total_you_spent_703 m2_703
+	rename you_know_how_much_704 m2_704
+	rename so_how_much_in_total_would_70 m2_704_confirm
 	
-	rename (m2_705___1 m2_705___2 m2_705___3 m2_705___4 m2_705___5 m2_705___6 m2_705___96 m2_705___998 m2_705___999 m2_705___888) (m2_705_1 m2_705_2 m2_705_3 m2_705_4 m2_705_5 m2_705_6 m2_705_96 m2_705_998_et m2_705_999_et m2_705_888_et)
+	rename (m2_705___1 m2_705___2 m2_705___3 m2_705___4 m2_705___5 m2_705___6 m2_705___96 m2_705___998 m2_705___999 m2_705___888) ///
+		   (m2_705_1 m2_705_2 m2_705_3 m2_705_4 m2_705_5 m2_705_6 m2_705_96 m2_705_998_et m2_705_999_et m2_705_888_et)
 	
 	rename (specify_other_income_sourc m2_time_it_is_interru at_what_time_it_is_restart time_of_interview_end_103b total_duration_of_interv_103c)(m2_705_other m2_interupt_time m2_restart_time m2_endtime m2_int_duration)
 	
@@ -3702,24 +3715,24 @@ recode m2_604 (. = .a) if m2_603 !=1
 recode m2_701 (. = .a) if m2_202 !=1 | m2_301 !=1
 
 recode m2_702a (. = .a) if m2_701 !=1
-recode m2_702a_other (. = .a) if m2_702a !=1
+recode m2_702a_cost (. = .a) if m2_702a !=1
 
 recode m2_702b (. = .a) if m2_701 !=1
-recode m2_702b_other (. = .a) if m2_702b !=1
+recode m2_702b_cost (. = .a) if m2_702b !=1
 
 recode m2_702c (. = .a) if m2_701 !=1
-recode m2_702c_other (. = .a) if m2_702c !=1
+recode m2_702c_cost (. = .a) if m2_702c !=1
 
 recode m2_702d (. = .a) if m2_701 !=1
-recode m2_702d_other (. = .a) if m2_702d !=1
+recode m2_702d_cost (. = .a) if m2_702d !=1
 
 recode m2_702e (. = .a) if m2_701 !=1
-recode m2_702e_other (. = .a) if m2_702e !=1
+recode m2_702e_cost (. = .a) if m2_702e !=1
 
 * SS: Ask Kate if we should add 98 into branching logic for 704_other
 recode m2_703 m2_704 (. = .a) if m2_701 !=1
 
-recode m2_704_other (. = .a) if m2_704 != 1 
+recode m2_704_confirm (. = .a) if m2_704 != 1 
 
 recode m2_705_1 (0 = .a) if m2_701 !=1
 recode m2_705_1 (0 = .) if m2_701 == 1
@@ -5299,18 +5312,18 @@ label variable m2_603 "603. Are you currently taking iron and folic acid pills, 
 label variable m2_604 "604. How often do you take iron and folic acid pills?"
 label variable m2_701 "701. I would now like to ask about the cost of these new health care visits.  Did you pay any money out of your pocket for these new visits, including for the consultation or other indirect costs like your transport to the facility?  Do not include the cost of medicines that you have already told me about."
 label variable m2_702a "702a. Did you spend money on Registration/Consultation?"
-label variable m2_702a_other "702a-oth. How much money did you spend on Registration/Consultation?"
+label variable m2_702a_cost "702a-oth. How much money did you spend on Registration/Consultation?"
 label variable m2_702b "702b. Did you spend money on Test or investigations (lab tests, ultrasound etc.?"
-label variable m2_702b_other "702b-oth. How much money did you spend on Test or investigations (lab tests, ultrasound etc.)"
+label variable m2_702b_cost "702b-oth. How much money did you spend on Test or investigations (lab tests, ultrasound etc.)"
 label variable m2_702c "702c. Did you spend money on Transport (round trip) including that of the person accompanying you?"
-label variable m2_702c_other "702c-oth. How much money did you spend on Transport (round trip) including that of the person accompanying you?"
+label variable m2_702c_cost "702c-oth. How much money did you spend on Transport (round trip) including that of the person accompanying you?"
 label variable m2_702d "702d. Did you spend money on Food and accommodation including that of person accompanying you?"
-label variable m2_702d_other "702d-oth. How much money did you spend on Food and accommodation including that of person accompanying you?"
+label variable m2_702d_cost "702d-oth. How much money did you spend on Food and accommodation including that of person accompanying you?"
 label variable m2_702e "702e. Did you spend money for other services?"
-label variable m2_702e_other "702e-oth. How much money did you spend on other item/service?"
+label variable m2_702e_cost "702e-oth. How much money did you spend on other item/service?"
 label variable m2_703 "703. So, in total you spent"
 label variable m2_704 "704. Is the total cost correct?"
-label variable m2_704_other "704-oth. So how much in total would you say you spent?"
+label variable m2_704_confirm "704-oth. So how much in total would you say you spent?"
 label variable m2_705_1 "705. Which of the following financial sources did your household use to pay for this? Current income of any household members"
 label variable m2_705_2 "705. Which of the following financial sources did your household use to pay for this? Savings (e.g., bank account)"
 label variable m2_705_3 "705. Which of the following financial sources did your household use to pay for this? Payment or reimbursement from a health insurance plan"
@@ -7412,18 +7425,18 @@ label variable m2_603`i' "603. Are you currently taking iron and folic acid pill
 label variable m2_604`i' "604. How often do you take iron and folic acid pills?"
 label variable m2_701`i' "701. I would now like to ask about the cost of these new health care visits.  Did you pay any money out of your pocket for these new visits, including for the consultation or other indirect costs like your transport to the facility?  Do not include the cost of medicines that you have already told me about."
 label variable m2_702a`i' "702a. Did you spend money on Registration/Consultation?"
-label variable m2_702a_other`i' "702a-oth. How much money did you spend on Registration/Consultation?"
+label variable m2_702a_cost`i' "702a-oth. How much money did you spend on Registration/Consultation?"
 label variable m2_702b`i' "702b. Did you spend money on Test or investigations (lab tests, ultrasound etc.?"
-label variable m2_702b_other`i' "702b-oth. How much money did you spend on Test or investigations (lab tests, ultrasound etc.)"
+label variable m2_702b_cost`i' "702b-oth. How much money did you spend on Test or investigations (lab tests, ultrasound etc.)"
 label variable m2_702c`i' "702c. Did you spend money on Transport (round trip) including that of the person accompanying you?"
-label variable m2_702c_other`i' "702c-oth. How much money did you spend on Transport (round trip) including that of the person accompanying you?"
+label variable m2_702c_cost`i' "702c-oth. How much money did you spend on Transport (round trip) including that of the person accompanying you?"
 label variable m2_702d`i' "702d. Did you spend money on Food and accommodation including that of person accompanying you?"
-label variable m2_702d_other`i' "702d-oth. How much money did you spend on Food and accommodation including that of person accompanying you?"
+label variable m2_702d_cost`i' "702d-oth. How much money did you spend on Food and accommodation including that of person accompanying you?"
 label variable m2_702e`i' "702e. Did you spend money for other services?"
-label variable m2_702e_other`i' "702e-oth. How much money did you spend on other item/service?"
+label variable m2_702e_cost`i' "702e-oth. How much money did you spend on other item/service?"
 label variable m2_703`i' "703. So, in total you spent"
 label variable m2_704`i' "704. Is the total cost correct?"
-label variable m2_704_other`i' "704-oth. So how much in total would you say you spent?"
+label variable m2_704_confirm`i' "704-oth. So how much in total would you say you spent?"
 label variable m2_705_1`i' "705. Which of the following financial sources did your household use to pay for this? Current income of any household members"
 label variable m2_705_2`i' "705. Which of the following financial sources did your household use to pay for this? Savings (e.g., bank account)"
 label variable m2_705_3`i' "705. Which of the following financial sources did your household use to pay for this? Payment or reimbursement from a health insurance plan"

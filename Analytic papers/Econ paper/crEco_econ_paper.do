@@ -9,10 +9,11 @@ set more off
 * Import clean data with derived variables (by country)
 
 *ethiopia:
-use "/Users/shs8688/Dropbox (Harvard University)/SPH-Kruk Team/QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data/Ethiopia/02 recoded data/eco_m1-m5_et_wide.dta", clear
+use "/Users/shs8688/Dropbox (Harvard University)/SPH-Kruk Team/QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data/Ethiopia/02 recoded data/eco_m1-m5_et_wide_der.dta", clear
 
 *===============================================================================*
 /* Keep variables for analysis (to make it easier to append countries to each other)
+**add all vars here once done
 
 keep m1_1217 m1_1218a_1 m1_1218b_1 m1_1218c_1 m1_1218d_1 m1_1218e_1 m1_1218f_1 m1_1219 m2_701_r1 m2_701_r2 m2_701_r3 m2_701_r4 m2_701_r5 m2_701_r6 m2_701_r7 m2_701_r8 m2_702a_other_r1 m2_702a_other_r2 m2_702a_other_r3 m2_702a_other_r4 m2_702a_other_r5 m2_702a_other_r6		m2_702a_other_r7 m2_702a_other_r8 m2_702b_other_r1 m2_702b_other_r2 m2_702b_other_r3 m2_702b_other_r4 m2_702b_other_r5 m2_702b_other_r6 m2_702b_other_r7 m2_702b_other_r8 m2_702c_other_r1 m2_702c_other_r2 m2_702c_other_r3 m2_702c_other_r4 m2_702c_other_r5 m2_702c_other_r6 m2_702c_other_r7 m2_702c_other_r8 m2_702d_other_r1 m2_702d_other_r2 m2_702d_other_r3 m2_702d_other_r4 m2_702d_other_r5 m2_702d_other_r6 m2_702d_other_r7 m2_702d_other_r8 m2_702e_other_r1 m2_702e_other_r2 m2_702e_other_r3 m2_702e_other_r4 m2_702e_other_r5 m2_702e_other_r6 m2_702e_other_r7 m2_702e_other_r8 m2_703_r1 m2_703_r2 m2_703_r3 m2_703_r4 m2_703_r5 m2_703_r6 m2_703_r7 m2_703_r8 m2_704_other_r1 m2_704_other_r2 m2_704_other_r3 m2_704_other_r4 m2_704_other_r5 m2_704_other_r6 m2_704_other_r7 m2_704_other_r8 m3_1101 m3_1102a_amt m3_1102b_amt m3_1102c_amt m3_1102d_amt m3_1102e_amt m3_1102f_amt m3_1103 m3_1104 m4_901 m4_902a_amt m4_902b_amt m4_902c_amt m4_902d_amt m4_902e_amt m4_903 m4_904 m5_1001 m5_1002a_yn m5_1002b_yn m5_1002c_yn m5_1002d_yn m5_1002e_yn m5_1003 m5_1004
 
@@ -60,12 +61,16 @@ lab var anyexp_anc "Any expenses during ANC period"
 lab def anyexp_anc 0 "No expenses during ANC" 1 "Had expenses during ANC"
 lab val anyexp_anc anyexp_anc
 
+*check: br m1_1217 m2_701_r1 m2_701_r2 m2_701_r3 m2_701_r4 m2_701_r5 m2_701_r6 m2_701_r7 m2_701_r8 anyexp_anc
+
 *Delivery
 gen anyexp_del = m3_1101
 
 lab var anyexp_del "Any expenses during delivery"
 lab def anyexp_del 0 "No expenses during delivery" 1 "Had expenses during delivery"
 lab val anyexp_del anyexp_del
+
+*check: br m3_1101 anyexp_del //SS: confirm with Aleks if we should drop missings? (N=17 true missings)
 
 *PNC:
 egen anyexp_pnc = rowmax(m4_901 m5_1001)
@@ -74,11 +79,14 @@ lab var anyexp_pnc "Any expenses during PNC"
 lab def anyexp_pnc 0 "No expenses during PNC" 1 "Had expenses during PNC"
 lab val anyexp_pnc anyexp_pnc
 
+*check: br m4_901 m5_1001 anyexp_pnc //SS: N=167 true missings
+
 *--------Total expenditures:
 
 *ANC:
 gen totalspent_m2_r1 = m2_703_r1
 replace totalspent_m2_r1 = m2_704_other_r1 if m2_704_r1 == 0
+*check:br m2_703_r1 m2_704_other_r1 totalspent_m2_r1 
 
 gen totalspent_m2_r2 = m2_703_r2
 replace totalspent_m2_r2 = m2_704_other_r2 if m2_704_r2 == 0
@@ -165,6 +173,8 @@ egen totalspent_reg_pnc = rowtotal(m4_902a_amt m5_1002a_yn)
 *Total across continuum of care:	
 gen totalspent_reg = rowtotal(totalspent_reg_anc totalspent_reg_del totalspent_reg_pnc)
 *gen total_tests =
+
+*Bar graphs:
 	
 *===============================================================================*
 *Compare how women paid for the expenses 
