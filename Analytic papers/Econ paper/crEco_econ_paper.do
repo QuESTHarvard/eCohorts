@@ -15,7 +15,7 @@ use "/Users/shs8688/Dropbox (Harvard University)/SPH-Kruk Team/QuEST Network/Cor
 /* Keep variables for analysis (to make it easier to append countries to each other)
 **add all vars here once done
 
-keep m1_1217 m1_1218a_1 m1_1218b_1 m1_1218c_1 m1_1218d_1 m1_1218e_1 m1_1218f_1 m1_1219 m2_701_r1 m2_701_r2 m2_701_r3 m2_701_r4 m2_701_r5 m2_701_r6 m2_701_r7 m2_701_r8 m2_702a_other_r1 m2_702a_other_r2 m2_702a_other_r3 m2_702a_other_r4 m2_702a_other_r5 m2_702a_other_r6		m2_702a_other_r7 m2_702a_other_r8 m2_702b_other_r1 m2_702b_other_r2 m2_702b_other_r3 m2_702b_other_r4 m2_702b_other_r5 m2_702b_other_r6 m2_702b_other_r7 m2_702b_other_r8 m2_702c_other_r1 m2_702c_other_r2 m2_702c_other_r3 m2_702c_other_r4 m2_702c_other_r5 m2_702c_other_r6 m2_702c_other_r7 m2_702c_other_r8 m2_702d_other_r1 m2_702d_other_r2 m2_702d_other_r3 m2_702d_other_r4 m2_702d_other_r5 m2_702d_other_r6 m2_702d_other_r7 m2_702d_other_r8 m2_702e_other_r1 m2_702e_other_r2 m2_702e_other_r3 m2_702e_other_r4 m2_702e_other_r5 m2_702e_other_r6 m2_702e_other_r7 m2_702e_other_r8 m2_703_r1 m2_703_r2 m2_703_r3 m2_703_r4 m2_703_r5 m2_703_r6 m2_703_r7 m2_703_r8 m2_704_other_r1 m2_704_other_r2 m2_704_other_r3 m2_704_other_r4 m2_704_other_r5 m2_704_other_r6 m2_704_other_r7 m2_704_other_r8 m3_1101 m3_1102a_amt m3_1102b_amt m3_1102c_amt m3_1102d_amt m3_1102e_amt m3_1102f_amt m3_1103 m3_1104 m4_901 m4_902a_amt m4_902b_amt m4_902c_amt m4_902d_amt m4_902e_amt m4_903 m4_904 m5_1001 m5_1002a_yn m5_1002b_yn m5_1002c_yn m5_1002d_yn m5_1002e_yn m5_1003 m5_1004
+keep m1_1217 m1_1218a_1 m1_1218b_1 m1_1218c_1 m1_1218d_1 m1_1218e_1 m1_1218f_1 m1_1219 m2_701_r1 m2_701_r2 m2_701_r3 m2_701_r4 m2_701_r5 m2_701_r6 m2_701_r7 m2_701_r8 m2_702a_cost_r1 m2_702a_cost_r2 m2_702a_cost_r3 m2_702a_cost_r4 m2_702a_cost_r5 m2_702a_cost_r6		m2_702a_cost_r7 m2_702a_cost_r8 m2_702b_cost_r1 m2_702b_cost_r2 m2_702b_cost_r3 m2_702b_cost_r4 m2_702b_cost_r5 m2_702b_cost_r6 m2_702b_cost_r7 m2_702b_cost_r8 m2_702c_cost_r1 m2_702c_cost_r2 m2_702c_cost_r3 m2_702c_cost_r4 m2_702c_cost_r5 m2_702c_cost_r6 m2_702c_cost_r7 m2_702c_cost_r8 m2_702d_cost_r1 m2_702d_cost_r2 m2_702d_cost_r3 m2_702d_cost_r4 m2_702d_cost_r5 m2_702d_cost_r6 m2_702d_cost_r7 m2_702d_cost_r8 m2_702e_cost_r1 m2_702e_cost_r2 m2_702e_cost_r3 m2_702e_cost_r4 m2_702e_cost_r5 m2_702e_cost_r6 m2_702e_cost_r7 m2_702e_cost_r8 m2_703_r1 m2_703_r2 m2_703_r3 m2_703_r4 m2_703_r5 m2_703_r6 m2_703_r7 m2_703_r8 m2_704_confirm_r1 m2_704_confirm_r2 m2_704_confirm_r3 m2_704_confirm_r4 m2_704_confirm_r5 m2_704_confirm_r6 m2_704_confirm_r7 m2_704_confirm_r8 m3_1101 m3_1102a_amt m3_1102b_amt m3_1102c_amt m3_1102d_amt m3_1102e_amt m3_1102f_amt m3_1103 m3_1104 m4_901 m4_902a_amt m4_902b_amt m4_902c_amt m4_902d_amt m4_902e_amt m4_903 m4_904 m5_1001 m5_1002a_yn m5_1002b_yn m5_1002c_yn m5_1002d_yn m5_1002e_yn m5_1003 m5_1004
 
 */
 *===============================================================================*
@@ -38,13 +38,13 @@ keep m1_1217 m1_1218a_1 m1_1218b_1 m1_1218c_1 m1_1218d_1 m1_1218e_1 m1_1218f_1 m
 		
 		** M2 vars (ANC): 
 			*Any expense- y/n: m2_701_r1 m2_701_r2 m2_701_r3 m2_701_r4 m2_701_r5 m2_701_r6 m2_701_r7 m2_701_r8 
-			*Registration: m2_702a_other_r1, m2_702a_other_r2, m2_702a_other_r3, m2_702a_other_r4, m2_702a_other_r5, m2_702a_other_r6, 		m2_702a_other_r7, m2_702a_other_r8
-			*Test/investigations: m2_702b_other_r1 m2_702b_other_r2 m2_702b_other_r3 m2_702b_other_r4 m2_702b_other_r5 m2_702b_other_r6 m2_702b_other_r7 m2_702b_other_r8
-			*Transport:m2_702c_other_r1 m2_702c_other_r2 m2_702c_other_r3 m2_702c_other_r4 m2_702c_other_r5 m2_702c_other_r6 m2_702c_other_r7 m2_702c_other_r8
-			*Food/accomodation: m2_702d_other_r1 m2_702d_other_r2 m2_702d_other_r3 m2_702d_other_r4 m2_702d_other_r5 m2_702d_other_r6 m2_702d_other_r7 m2_702d_other_r8
-			*Other item/service: m2_702e_other_r1 m2_702e_other_r2 m2_702e_other_r3 m2_702e_other_r4 m2_702e_other_r5 m2_702e_other_r6 m2_702e_other_r7 m2_702e_other_r8
+			*Registration: m2_702a_cost_r1, m2_702a_cost_r2, m2_702a_cost_r3, m2_702a_cost_r4, m2_702a_cost_r5, m2_702a_cost_r6, 		m2_702a_cost_r7, m2_702a_cost_r8
+			*Test/investigations: m2_702b_cost_r1 m2_702b_cost_r2 m2_702b_cost_r3 m2_702b_cost_r4 m2_702b_cost_r5 m2_702b_cost_r6 m2_702b_cost_r7 m2_702b_cost_r8
+			*Transport:m2_702c_cost_r1 m2_702c_cost_r2 m2_702c_cost_r3 m2_702c_cost_r4 m2_702c_cost_r5 m2_702c_cost_r6 m2_702c_cost_r7 m2_702c_cost_r8
+			*Food/accomodation: m2_702d_cost_r1 m2_702d_cost_r2 m2_702d_cost_r3 m2_702d_cost_r4 m2_702d_cost_r5 m2_702d_cost_r6 m2_702d_cost_r7 m2_702d_cost_r8
+			*Other item/service: m2_702e_cost_r1 m2_702e_cost_r2 m2_702e_cost_r3 m2_702e_cost_r4 m2_702e_cost_r5 m2_702e_cost_r6 m2_702e_cost_r7 m2_702e_cost_r8
 			*Total spending: m2_703_r1, m2_703_r2, m2_703_r3, m2_703_r4, m2_703_r5, m2_703_r6, m2_703_r7, m2_703_r8
-			*Total spending confirmation: m2_704_other_r1, m2_704_other_r2, m2_704_other_r3, m2_704_other_r4, m2_704_other_r5, m2_704_other_r6, m2_704_other_r7, m2_704_other_r8
+			*Total spending confirmation: m2_704_confirm_r1, m2_704_confirm_r2, m2_704_confirm_r3, m2_704_confirm_r4, m2_704_confirm_r5, m2_704_confirm_r6, m2_704_confirm_r7, m2_704_confirm_r8
 		
 		** M3 vars (delivery): m3_1101 (any expense- y/n), m3_1102a_amt m3_1102b_amt m3_1102c_amt m3_1102d_amt m3_1102e_amt m3_1102f_amt, m3_1103, m3_1104
 		
@@ -83,44 +83,55 @@ lab val anyexp_pnc anyexp_pnc
 
 *--------Total expenditures:
 
-*ANC:
-gen totalspent_m2_r1 = m2_703_r1
-replace totalspent_m2_r1 = m2_704_other_r1 if m2_704_r1 == 0
-*check:br m2_703_r1 m2_704_other_r1 totalspent_m2_r1 
+*----ANC:
+
+*calculating M2 costs 
+* m2_704 asks: "Is the total cost correct" If no the respondent says how much they actually spent "m2_704_confirm". 
+gen totalspent_m2_r1 = m2_703_r1 //
+replace totalspent_m2_r1 = m2_704_confirm_r1 if m2_704_r1 == 0 & m2_704_confirm_r1 !=.a // Some people did not answer the subsequent question so I'm using their original answer here
+*check: br m2_703_r1 m2_704_r1 m2_704_confirm_r1 totalspent_m2_r1
 
 gen totalspent_m2_r2 = m2_703_r2
-replace totalspent_m2_r2 = m2_704_other_r2 if m2_704_r2 == 0
+replace totalspent_m2_r2 = m2_704_confirm_r2 if m2_704_r2 == 0 & m2_704_confirm_r2 !=.a
+*check: br m2_703_r2 m2_704_r2 m2_704_confirm_r2 totalspent_m2_r2
 
 gen totalspent_m2_r3 = m2_703_r3
-replace totalspent_m2_r3 = m2_704_other_r3 if m2_704_r3 == 0
+replace totalspent_m2_r3 = m2_704_confirm_r3 if m2_704_r3 == 0 & m2_704_confirm_r3 !=.a
+*check: br m2_703_r3 m2_704_r3 m2_704_confirm_r3 totalspent_m2_r3
 
 gen totalspent_m2_r4 = m2_703_r4
-replace totalspent_m2_r4 = m2_704_other_r4 if m2_704_r4 == 0
+replace totalspent_m2_r4 = m2_704_confirm_r4 if m2_704_r4 == 0 & m2_704_confirm_r4 !=.a
+*check: br m2_703_r4 m2_704_r4 m2_704_confirm_r4 totalspent_m2_r4
 
 gen totalspent_m2_r5 = m2_703_r5
-replace totalspent_m2_r5 = m2_704_other_r5 if m2_704_r5 == 0
+replace totalspent_m2_r5 = m2_704_confirm_r5 if m2_704_r5 == 0 & m2_704_confirm_r5 !=.a
+*check: br m2_703_r5 m2_704_r5 m2_704_confirm_r5 totalspent_m2_r5
 
 gen totalspent_m2_r6 = m2_703_r6
-replace totalspent_m2_r6 = m2_704_other_r6 if m2_704_r6 == 0
+replace totalspent_m2_r6 = m2_704_confirm_r6 if m2_704_r6 == 0 & m2_704_confirm_r6 !=.a
+*check: br m2_703_r6 m2_704_r6 m2_704_confirm_r6 totalspent_m2_r6
 
 gen totalspent_m2_r7 = m2_703_r7
-replace totalspent_m2_r7 = m2_704_other_r7 if m2_704_r7 == 0
+replace totalspent_m2_r7 = m2_704_confirm_r7 if m2_704_r7 == 0 & m2_704_confirm_r7 !=.a
+*check: br m2_703_r7 m2_704_r7 m2_704_confirm_r7 totalspent_m2_r7
 
 gen totalspent_m2_r8 = m2_703_r8
-replace totalspent_m2_r8 = m2_704_other_r8 if m2_704_r8 == 0
+replace totalspent_m2_r8 = m2_704_confirm_r8 if m2_704_r8 == 0 & m2_704_confirm_r8 !=.a 
+*check:  br m2_703_r8 m2_704_r8 m2_704_confirm_r8 totalspent_m2_r8 // N=0 respondents
 
 egen totalspent_m2 = rowtotal(totalspent_m2_r1 totalspent_m2_r2 totalspent_m2_r3 totalspent_m2_r4 totalspent_m2_r5 totalspent_m2_r6 totalspent_m2_r7 totalspent_m2_r8)
+br totalspent_m2 totalspent_m2_r1 totalspent_m2_r2 totalspent_m2_r3 totalspent_m2_r4 totalspent_m2_r5 totalspent_m2_r6 totalspent_m2_r7 totalspent_m2_r8
 
-drop totalspent_m2_r1 totalspent_m2_r2 totalspent_m2_r3 totalspent_m2_r4 totalspent_m2_r5 totalspent_m2_r6 totalspent_m2_r7 totalspent_m2_r8
-
+*adding back total spent in M1
 egen totalspent_anc = rowtotal(m1_1219 totalspent_m2)
 lab var totalspent_anc "Total spent during ANC period"
+br totalspent_anc m1_1219 totalspent_m2
 
-drop totalspent_m2
+*drop totalspent_m2_r1 totalspent_m2_r2 totalspent_m2_r3 totalspent_m2_r4 totalspent_m2_r5 totalspent_m2_r6 totalspent_m2_r7 totalspent_m2_r8 totalspent_m2
 
-*Delivery:
+*----Delivery:
 *egen totalspent_del = rowtotal(m3_1102a_amt m3_1102b_amt m3_1102c_amt m3_1102d_amt m3_1102e_amt m3_1102f_amt) 
-*br totalspent_del m3_1103 //did this to double-check and all data adds up
+*br totalspent_del m3_1103 //did this to double-check and all data adds up, don't need this code anymore
 
 gen totalspent_del = m3_1103 
 replace total_spent_del = m3_1104 if m3_1103_confirm == 0 // N=11 people said "No" to m3_1103_confirm and have other data for m3_1104 confirm, confirm with Aleks that its ok to replace the data in m3_1103 with m3_1104 (the value)
@@ -143,7 +154,7 @@ lab var totalspent_pnc "Total spent during PNC"
 
 *Total spent during ANC
 	*total spent on Registration:	
-egen totalspent_reg_anc = rowtotal(m1_1218a_1 m2_702a_other_r1, m2_702a_other_r2, m2_702a_other_r3, m2_702a_other_r4, m2_702a_other_r5, m2_702a_other_r6, 		m2_702a_other_r7, m2_702a_other_r8)
+egen totalspent_reg_anc = rowtotal(m1_1218a_1 m2_702a_cost_r1, m2_702a_cost_r2, m2_702a_cost_r3, m2_702a_cost_r4, m2_702a_cost_r5, m2_702a_cost_r6, 		m2_702a_cost_r7, m2_702a_cost_r8)
 	
 	*total spent on Test/investigations:
 	*total spent on Transport:

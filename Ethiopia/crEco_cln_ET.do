@@ -586,7 +586,7 @@ rename (ask_permission_viginal_exa_1006b were_vaginal_examination_1006c any_form
 		would_like_to_ask_you_1101 spend_money_on_reg_1102 how_much_spent_registra did_you_spend_money_on_med how_you_spent_on_medicin did_you_spend_money_on_test ///
 		how_much_spend_on_test did_you_spend_money_on_transp how_much_spend_on_transp did_you_spend_on_food_an how_much_spend_on_food did_you_spend_on_other ///
 		how_much_spend_on_other in_total_how_much_you_spen confirm_oop total_spent) (m3_1006b m3_1006c m3_1007a m3_1007b m3_1007c m3_1101 m3_1102a m3_1102a_amt ///
-		m3_1102b m3_1102b_amt m3_1102c m3_1102c_amt m3_1102d m3_1102d_amt m3_1102e m3_1102e_amt m3_1102f m3_1102f_amt m3_1103 m3_1103_confirm m3_1104)
+		m3_1102b m3_1102b_amt m3_1102c m3_1102c_amt m3_1102d m3_1102d_amt m3_1102e m3_1102e_amt m3_1102f m3_1102f_amt m3_1103 m3_1103_confirm m3_1102_total)
 
 rename (which_of_the_following_fin_1105 other_income_source_1105 to_conclude_this_survey_1106 time_of_interview_ended_103b ///
 		c_total_duration_of_interv ot1 ot1_oth date_of_rescheduled_m3_p2 time_of_rescheduled_m3_p2) (m3_1105 ///
@@ -4201,7 +4201,7 @@ recode m3_1102f_amt (. = .a) if m3_1102f !=1
 
 recode m3_1103_confirm (. = .a) if (m3_1103 == . |  m3_1103 == .a)
 
-recode m3_1104 (. = .a) if m3_1103_confirm !=0
+recode m3_1102_total (. = .a) if m3_1103_confirm !=0
 
 replace m3_1105_other = ".a" if m3_1105 !=96
 
@@ -5854,7 +5854,7 @@ label variable m3_1102f "1102f. Did you spend money on other items?"
 label variable m3_1102f_amt "1102f. How much money did you spend on other items?"
 label variable m3_1103 "1103. So in total you spent:_____ Is that correct?"
 label variable m3_1103_confirm "Is the total you spent correct? "
-label variable m3_1104 "1104. So how much in total would you say you spent?"
+label variable m3_1102_total "So how much in total would you say you spent?"
 label variable m3_1105 "1105. Which of the following financial sources did your household use to pay for this?"
 label variable m3_1105_other "1105_Oth. Other specify"
 label variable m3_1106 "1106. To conclude this survey, overall, please tell me how satisfied you are  with the health services you received during labor and delivery?"
