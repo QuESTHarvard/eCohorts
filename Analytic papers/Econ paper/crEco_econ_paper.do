@@ -134,7 +134,7 @@ br totalspent_anc m1_1219 totalspent_m2
 *br totalspent_del m3_1103 //did this to double-check and all data adds up, don't need this code anymore
 
 gen totalspent_del = m3_1103 
-replace total_spent_del = m3_1104 if m3_1103_confirm == 0 // N=11 people said "No" to m3_1103_confirm and have other data for m3_1104 confirm, confirm with Aleks that its ok to replace the data in m3_1103 with m3_1104 (the value)
+replace total_spent_del = m3_1102_total if m3_1103_confirm == 0 // N=11 people said "No" to m3_1103_confirm and have other data for m3_1104 confirm, confirm with Aleks that its ok to replace the data in m3_1103 with m3_1104 (the value)
 
 lab var totalspent_del "Total spent during delivery"
 
