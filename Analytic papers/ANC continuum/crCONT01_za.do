@@ -5,8 +5,48 @@ set more off
 
 * South Africa
 	u "$za_data_final/eco_m1-m3_za_der.dta", clear
-	keep if m3_date!=.
 	
+	* Restrict dataset to those who were not lost to follow up
+	keep if m3_date!=.
+
+*-------------------------------------------------------------------------------
+	* Number of follow up surveys
+	*Drop the m2 date where the woman has delivered or lost pregnancy since 
+	*they will move to Module 3 and the rest of the survey is blank 
+	
+	forval i = 1/6 { // drop the m2 date where the woman has delivered/lost pregnancy
+		replace m2_date_r`i' =. if m2_202_r`i'==2 | m2_202_r`i'==3 // 25% did not have a module 2!
+	}
+	egen totalfu=rownonmiss(m1_date m2_date_r* m3_date) 
+	
+	* Dropping women with no M2
+	drop if totalfu<3 // 25% dropped, N=663
+	
+*-------------------------------------------------------------------------------		
+	* Time between follow-up surveys
+	gen time_m2_r1_m1= (m2_date_r1-m1_date)/7
+	gen time_m2_r2_m2_r1 = (m2_date_r2-m2_date_r1)/7
+	gen time_m2_r3_m2_r2 = (m2_date_r3-m2_date_r2)/7
+	gen time_m2_r4_m2_r3 = (m2_date_r4-m2_date_r3)/7
+	gen time_m2_r5_m2_r4 = (m2_date_r5-m2_date_r4)/7
+	gen time_m2_r6_m2_r5 = (m2_date_r6-m2_date_r5)/7
+
+	egen countm2=rownonmiss(m2_date_r*)
+	gen m2_date_last= m2_date_r1 if countm2==1
+	replace m2_date_last= m2_date_r2 if countm2==2
+	replace m2_date_last= m2_date_r3 if countm2==3
+	replace m2_date_last= m2_date_r4 if countm2==4
+	replace m2_date_last= m2_date_r5 if countm2==5
+	replace m2_date_last= m2_date_r6 if countm2==6
+	replace m2_date_last=m1_date if countm2==0
+	format m2_date_last %td
+	gen time_m2_last_m3 = (m3_date - m2_date_last)/7
+
+	forval i = 1/6 {
+		gen tag`i'=1 if time_m2_r`i'>14 & time_m2_r`i' <.
+		}	
+	gen tag7 = 1 if time_m2_last_m3 >14 & time_m2_last_m3<.
+			
 *-------------------------------------------------------------------------------		
 	* Number of ANC visits
 		egen totvisits=rowtotal(m2_305_r* m2_308_r* m2_311_r* m2_314_r* m2_317_r* ///
@@ -15,7 +55,6 @@ set more off
 		recode totvisit 3=2 4/7=3 8/max=4 , gen(viscat)
 		lab def totvis 1"Only 1 visit" 2"2-3 visits" 3"4-7 visits" 4"8+ visits"
 		lab val viscat totvis 
-		*graph pie, over(totvis) plabel(_all percent, format(%4.2g) size(medlarge))
 
 *-------------------------------------------------------------------------------		
 	* TOTAL ANC CONTENT
@@ -77,15 +116,77 @@ set more off
 		replace months = 1 if months<1
 	
 		gen manctotal= anctotal/months // Nb ANC clinical actions per month
+*-------------------------------------------------------------------------------		
+	* MINIMUM SET OF ANC ITEMS	
+	* At least 3 BP checks
+	egen totalbp=rowtotal(anc1_bp m2_bp_r* m3_bp*)
+		recode totalbp 1/2=0 3/max=1, gen(bpthree)
+
+	* At least 3 wgts
+	egen totalweight=rowtotal(anc1_weight m2_wgt_r* m3_wgt*)
+		recode totalweight 1/2=0 3/max=1, gen(wgtthree)
+		
+	* At least 3 blood tests
+	egen totalblood=rowtotal(anc1_blood m2_blood_r* m3_blood*)
+		recode totalblood 1/2=0 3/max=1, gen(bloodthree)
+		
+	* At least 3 urine tests
+	egen totalurine=rowtotal(anc1_urine m2_urine_r* m3_urine*)
+		recode totalurine 1/2=0 3/max=1, gen(urinethree)
+		replace urinethree=. if totalfu <2
+	
+	* At least 1 ultrasound
+	egen totalus=rowtotal(anc1_ultrasound m2_us_r* m3_us*)
+		recode totalus 1/max=1
+		
+	* Takes IFA at each survey
+	egen contifa = rowmin(m2_603_r*) // always taking IFA
+	
+	egen all4= rowmin (bpthree wgtthree bloodthree urinethree )
+	
 *-------------------------------------------------------------------------------	
-	* RECALCULATING GA
-		gen bslga=ga 	
+	* RECALCULATING BASELINE GA and RUNNING GA
+		gen bslga=ga
+		gen ga_endpreg= ((m3_birth_or_ended-m1_date)/7)+bslga  // 12% have a GA>42 weeks, no adjustements
+		drop ga_endpreg
 	* Trimesters
 	drop trimester
 	recode bslga (1/12.99999 = 1) (13/27.99999= 2) (28/50=3), gen(trimester)
 			lab def trim 1"1st trimester 0-12wks" 2"2nd trimester 13-27 wks" ///
 			3 "3rd trimester 28-42 wks"
 					lab val trimester trim
+	* Recalculating baseline and running GA based on DOB for those with live births
+	* and no LBW babies.
+		gen bslga2 = 40-((m3_birth_or_ended-m1_date)/7)
+		egen alive=rowmin(m3_303b m3_303c m3_303d) // any baby died
+			replace bslga2=. if alive==0
+		recode m3_baby1_weight min/2.4999=1 2.5/max=0
+		recode m3_baby2_weight min/2.4999=1 2.5/max=0
+		recode m3_baby3_weight min/2.4999=1 2.5/max=0
+		egen lbw=rowmax(m3_baby1_weight m3_baby2_weight m3_baby3_weight)
+			replace bslga2=. if lbw==1 
+			replace bslga2=. if m3_baby1_size==5 | m3_baby2_size==5 | m3_baby3_size==5
+			replace bslga= bslga2 if bslga2!=. 
+			gen ga_endpreg= ((m3_birth_or_ended-m1_date)/7)+bslga 
+			recode ga_endpreg (1/12.99999 = 1) (13/27.99999= 2) (28/max=3), g(endtrimes)
+	* Recalculating running GA and running trimester 
+		drop m2_ga_r1  m2_ga_r2 m2_ga_r3 m2_ga_r4 m2_ga_r5 m2_ga_r6 
+		forval i=1/6 {
+			gen m2_ga_r`i' = ((m2_date_r`i'-m1_date)/7) +bslga
+			gen m2_trimes_r`i'=m2_ga_r`i'
+			recode m2_trimes_r`i' (1/12.99999 = 1) (13/27.99999= 2) (28/50=3)
+			lab var m2_trimes_r`i' "Trimester of pregnancy at follow up"
+			}
+	* Baseline trimester
+	recode bslga (1/12.99999 = 1) (13/27.99999= 2) (28/max=3), gen(bsltrimester)
+					lab val bsltrimester trim
+					lab val m2_trimes_r* trim
+					lab var bsltrimester "Trimester at ANC initiation/enrollment"
+
+save "$user/MNH E-Cohorts-internal/Analyses/Manuscripts/Paper 5 Continuum ANC/Data/ZAtmp.dta", replace	
+
+
+
 *-------------------------------------------------------------------------------		
 	/* ANC CONTENT	
 	* Minumum set
@@ -114,7 +215,7 @@ set more off
 		}
 	replace usone=0 if usone==. // Ultrasound before 24 weeks GA
 
-	egen contifa = rowmin(m2_603_r*) // always taking IFA */
+	egen contifa = rowmin(m2_603_r*) // always taking IFA 
 	
 	* ANC CONTENT BY VISIT
 	gen bp0 =anc1_bp
