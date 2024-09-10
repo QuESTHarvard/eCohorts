@@ -254,10 +254,10 @@ lab var totalspent_oth "Across entire pregnancy: total spent on other services"
 egen total_spent_all = rowtotal(totalspent_reg totalspent_tests totalspent_transport totalspent_food totalspent_oth)
 lab var total_spent_all "Total spent on all services across entire pregnancy"
 
-br total_spent_all totalspent_reg totalspent_tests totalspent_transport totalspent_food totalspent_oth
+*check: br total_spent_all totalspent_reg totalspent_tests totalspent_transport totalspent_food totalspent_oth
 
 *Bar graphs: (SS: edit)
-graph bar (mean) totalspent_reg (mean) totalspent_tests (mean) totalspent_transport (mean) totalspent_food (mean) totalspent_oth, blabel(name)
+*graph bar (mean) totalspent_reg (mean) totalspent_tests (mean) totalspent_transport (mean) totalspent_food (mean) totalspent_oth, blabel(name)
 *===============================================================================*
 *Compare how women paid for the expenses 
 	*o	Q705, define indicator for borrow/sell vs. income, savings, reimbursement from health insurance
@@ -332,44 +332,40 @@ graph bar (mean) totalspent_reg (mean) totalspent_tests (mean) totalspent_transp
 *SS: confirm m1_1220_5 (Family members or friends from outside the household) = borrow
 gen borrow_m1 = .
 replace borrow_m1 = 1 if m1_1220_6 == 1 | m1_1220_4 == 1 | m1_1220_5 == 1
-replace borrow_m1 = 0 if m1_1220_6 != 1 & m1_1220_4 != 1 & m1_1220_5 != 1
+replace borrow_m1 = 0 if m1_1220_6 != 1 & m1_1220_4 != 1 & m1_1220_5 != 1 // SS: confirm what the other group "0" will be (other financial sources or people who did not select borrow and sell? Right now it's the latter)
 
 *replace borrow_m1 = 2 if m1_1220_1 == 1 | m1_1220_2 == 1 | m1_1220_3 == 1 //this was for income, savings, reimbursement but I can make that a seperate var because of multicheck box field
 *br borrow_m1 m1_1220_1 m1_1220_2 m1_1220_3 m1_1220_4 m1_1220_5 m1_1220_6
 
-gen borrow_m2 = .
-replace borrow_m2 = 1 if m2_705_6_r1 == 1 | m2_705_6_r2 == 1 | m2_705_6_r3 == 1 | m2_705_6_r4 == 1 | m2_705_6_r5 == 1 ///
-						| m2_705_6_r6 == 1 | m2_705_6_r7 == 1 | m2_705_6_r8 == 1 | m2_705_4_r1 == 1 | m2_705_4_r2 == 1 ///
-						| m2_705_4_r3 == 1 | m2_705_4_r4 == 1 | m2_705_4_r5 == 1 | m2_705_4_r6 == 1 | m2_705_4_r7 == 1 ///
-						| m2_705_4_r8 == 1 | m2_705_5_r1 == 1 | m2_705_5_r2 == 1 | m2_705_5_r3 == 1 | m2_705_5_r4 == 1 ///
-						| m2_705_5_r5 == 1 | m2_705_5_r6 == 1 | m2_705_5_r7 == 1 | m2_705_5_r8 == 1
+*gen borrow_m2 = .
 
-						
-replace borrow_m2 = 0 if m2_705_6_r1 != 1 & m2_705_6_r2 != 1 & m2_705_6_r3 != 1 & m2_705_6_r4 != 1 & m2_705_6_r5 != 1 ///
-						& m2_705_6_r6 != 1 & m2_705_6_r7 != 1 & m2_705_6_r8 != 1 & m2_705_4_r1 != 1 & m2_705_4_r2 != 1 ///
-						& m2_705_4_r3 != 1 & m2_705_4_r4 != 1 & m2_705_4_r5 != 1 & m2_705_4_r6 != 1 & m2_705_4_r7 != 1 ///
-						& m2_705_4_r8 != 1 & m2_705_5_r1 != 1 & m2_705_5_r2 != 1 & m2_705_5_r3 != 1 & m2_705_5_r4 == 1 ///
-						& m2_705_5_r5 != 1 & m2_705_5_r6 != 1 & m2_705_5_r7 != 1 & m2_705_5_r8 != 1
+egen borrow_m2 = rowmax(m2_705_6_r1 m2_705_6_r2 m2_705_6_r3 m2_705_6_r4 m2_705_6_r5 m2_705_6_r6 m2_705_6_r7 m2_705_6_r8 ///
+						m2_705_4_r1 m2_705_4_r2 m2_705_4_r3 m2_705_4_r4 m2_705_4_r5 m2_705_4_r6 m2_705_4_r7 m2_705_4_r8 ///
+						m2_705_5_r1 m2_705_5_r2 m2_705_5_r3 m2_705_5_r4 m2_705_5_r5 m2_705_5_r6 m2_705_5_r7 m2_705_5_r8) 
+			
+replace borrow_m2 = 0 if borrow_m2 == . | borrow_m2 == .a
 
-br borrow_m2 m2_705_6_r1 m2_705_6_r2 m2_705_6_r3 m2_705_6_r4 m2_705_6_r5 m2_705_6_r6 m2_705_6_r7 m2_705_6_r8 m2_705_4_r1 m2_705_4_r2 m2_705_4_r3 m2_705_4_r4 m2_705_4_r5 m2_705_4_r6 m2_705_4_r7 m2_705_4_r8 m2_705_5_r1 m2_705_5_r2 m2_705_5_r3 m2_705_5_r4 m2_705_5_r5 m2_705_5_r6 m2_705_5_r7 m2_705_5_r8 
+*check: br borrow_m2 m2_705_6_r1 m2_705_6_r2 m2_705_6_r3 m2_705_6_r4 m2_705_6_r5 m2_705_6_r6 m2_705_6_r7 m2_705_6_r8 m2_705_4_r1 m2_705_4_r2 m2_705_4_r3 m2_705_4_r4 m2_705_4_r5 m2_705_4_r6 m2_705_4_r7 m2_705_4_r8 m2_705_5_r1 m2_705_5_r2 m2_705_5_r3 m2_705_5_r4 m2_705_5_r5 m2_705_5_r6 m2_705_5_r7 m2_705_5_r8 
 						
 gen borrow_m3 = .
 replace borrow_m3 = 1 if m3_1105 == 6 | m3_1105 == 4 | m3_1105 == 5
-replace borrow_m3 = 0 if m3_1105 != 6 | m3_1105 != 4 | m3_1105 != 5
+replace borrow_m3 = 0 if m3_1105 != 6 & m3_1105 != 4 & m3_1105 != 5
+*check: br borrow_m3 m3_1105 
 
 gen borrow_m4 = .
-replace borrow_m4 = 1  m4_905f ==1 | m4_905d == 1 | m4_905e == 1
-replace borrow_m4 = 0  m4_905f !=1 | m4_905d != 1 | m4_905e != 1
+replace borrow_m4 = 1 if m4_905f ==1 | m4_905d == 1 | m4_905e == 1
+replace borrow_m4 = 0 if m4_905f !=1 & m4_905d != 1 & m4_905e != 1
+*check: br borrow_m4 m4_905f m4_905d m4_905e
 
 gen borrow_m5 = .
-replace borrow_m5 = 1  m5_1005f ==1 | m5_1005d == 1 | m5_1005e == 1
-replace borrow_m5 = 0  m5_1005f !=1 | m5_1005d != 1 | m5_1005e != 1
-
-
+replace borrow_m5 = 1 if m5_1005f ==1 | m5_1005d == 1 | m5_1005e == 1
+replace borrow_m5 = 0 if m5_1005f !=1 & m5_1005d != 1 & m5_1005e != 1
+*check: br borrow_m5 m5_1005f m5_1005d m5_1005e
+ 
 gen borrow = .
 replace borrow = 1 if borrow_m1 == 1 | borrow_m2 == 1 | borrow_m3 == 1 | borrow_m4 == 1 | borrow_m5 ==1
-replace borrow = 0 if borrow_m1 != 1 | borrow_m2 != 1 | borrow_m3 != 1 | borrow_m4 != 1 | borrow_m5 !=1
-
+replace borrow = 0 if borrow_m1 != 1 & borrow_m2 != 1 & borrow_m3 != 1 & borrow_m4 != 1 & borrow_m5 !=1
+br borrow borrow_m1 borrow_m2 borrow_m3 borrow_m4 borrow_m5
 
 lab def borrow 1 "Borrow/Sold items" 2 "Did not borrow/sell items"
 lab val borrow_m1 borrow_m2 borrow_m3 borrow_m4 borrow_m5 borrow borrow

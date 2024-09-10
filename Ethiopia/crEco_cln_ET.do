@@ -1751,7 +1751,7 @@ label values m1_517 residence
 	label values m1_1212 m1_1213 m1_1214 m1_1215 YN
 
 	label define insurance_type 1 "Community based health insurance" 2 "Employer-provided health insurance (reimbursement)" 3 "Private health insurance" 96 "Other (specify)" 98 "DK" 99 "NR/RF"
-	label values m1_1221 insurance_type
+	label values m1_1222 insurance_type
 	
 	** MODULE 2:
 	
@@ -7469,4 +7469,4 @@ label variable m2_endstatus`i' "What is this womens current status at the end of
 * STEP SEVEN: SAVE DATA TO RECODED FOLDER
 	 save "$et_data_final/eco_m1-m5_et_wide.dta", replace
 	 
-	 run "$github/Ethiopia/crEco_der_ET.do"
+	 run "/Users/shs8688/Documents/GitHub/eCohorts/Ethiopia/crEco_der_ET.do"
