@@ -50,7 +50,7 @@ keep m1_1217 m1_1218a_1 m1_1218b_1 m1_1218c_1 m1_1218d_1 m1_1218e_1 m1_1218f_1 m
 		
 		** M4 vars (PNC): m4_901 (any expense- y/n), m4_902a_amt, m4_902b_amt, m4_902c_amt, m4_902d_amt, m4_902e_amt, m4_903, m4_904
 		
-		** M5 vars (PNC): m5_1001 (any expense- y/n), m5_1002a_yn m5_1002b_yn m5_1002c_yn m5_1002d_yn m5_1002e_yn, m5_1003, m5_1004
+		** M5 vars (PNC): m5_1001 (any expense- y/n), m5_1002a m5_1002b m5_1002c m5_1002d m5_1002e, m5_1003, m5_1004
 
 *--------Create var of people with any expenses (y/n):
 
@@ -87,8 +87,8 @@ lab val anyexp_pnc anyexp_pnc
 
 *calculating M2 costs 
 * m2_704 asks: "Is the total cost correct" If no the respondent says how much they actually spent "m2_704_confirm". 
-gen totalspent_m2_r1 = m2_703_r1 //
-replace totalspent_m2_r1 = m2_704_confirm_r1 if m2_704_r1 == 0 & m2_704_confirm_r1 !=.a // Some people did not answer the subsequent question so I'm using their original answer here
+gen totalspent_m2_r1 = m2_703_r1 
+replace totalspent_m2_r1 = m2_704_confirm_r1 if m2_704_r1 == 0 //& m2_704_confirm_r1 !=.a // Some people did not answer the subsequent question so I'm using their original answer here
 *check: br m2_703_r1 m2_704_r1 m2_704_confirm_r1 totalspent_m2_r1
 
 gen totalspent_m2_r2 = m2_703_r2
@@ -120,73 +120,144 @@ replace totalspent_m2_r8 = m2_704_confirm_r8 if m2_704_r8 == 0 & m2_704_confirm_
 *check:  br m2_703_r8 m2_704_r8 m2_704_confirm_r8 totalspent_m2_r8 // N=0 respondents
 
 egen totalspent_m2 = rowtotal(totalspent_m2_r1 totalspent_m2_r2 totalspent_m2_r3 totalspent_m2_r4 totalspent_m2_r5 totalspent_m2_r6 totalspent_m2_r7 totalspent_m2_r8)
-br totalspent_m2 totalspent_m2_r1 totalspent_m2_r2 totalspent_m2_r3 totalspent_m2_r4 totalspent_m2_r5 totalspent_m2_r6 totalspent_m2_r7 totalspent_m2_r8
+*check:  totalspent_m2 totalspent_m2_r1 totalspent_m2_r2 totalspent_m2_r3 totalspent_m2_r4 totalspent_m2_r5 totalspent_m2_r6 totalspent_m2_r7 totalspent_m2_r8
 
 *adding back total spent in M1
 egen totalspent_anc = rowtotal(m1_1219 totalspent_m2)
 lab var totalspent_anc "Total spent during ANC period"
-br totalspent_anc m1_1219 totalspent_m2
+*check:  totalspent_anc m1_1219 totalspent_m2
 
 *drop totalspent_m2_r1 totalspent_m2_r2 totalspent_m2_r3 totalspent_m2_r4 totalspent_m2_r5 totalspent_m2_r6 totalspent_m2_r7 totalspent_m2_r8 totalspent_m2
 
 *----Delivery:
 *egen totalspent_del = rowtotal(m3_1102a_amt m3_1102b_amt m3_1102c_amt m3_1102d_amt m3_1102e_amt m3_1102f_amt) 
-*br totalspent_del m3_1103 //did this to double-check and all data adds up, don't need this code anymore
+*check: totalspent_del m3_1103 //did this to double-check and all data adds up, don't need this code anymore
 
 gen totalspent_del = m3_1103 
-replace total_spent_del = m3_1102_total if m3_1103_confirm == 0 // N=11 people said "No" to m3_1103_confirm and have other data for m3_1104 confirm, confirm with Aleks that its ok to replace the data in m3_1103 with m3_1104 (the value)
-
+replace totalspent_del = m3_1102_total if m3_1103_confirm == 0 & m3_1102_total !=. & m3_1102_total !=.d // N=11 people said "No" to m3_1103_confirm and have other data for m3_1104 confirm, confirm with Aleks that its ok to replace the data in m3_1103 with m3_1104 (the value)
 lab var totalspent_del "Total spent during delivery"
+*check: br totalspent_del m3_1103 m3_1102_total m3_1103_confirm
+
 
 *PNC:
 gen totalspent_m4 = m4_903
 replace totalspent_m4 = m4_904 if m4_904 !=. // There was no y/n trigger question here. It looks like we had a calculated field in redcap (m4_903) then we asked them to confirm the amount in m4_904. Most numbers were the same though.
+*check: totalspent_m4 m4_903 m4_904
 
 gen totalspent_m5 = m5_1003
-replace totalspent_m5 = m5_1004 if m5_1003_confirm == 0
+replace totalspent_m5 = m5_1004 if m5_1003_confirm == 0 & m5_1004 !=.
+*check: totalspent_m5 m5_1003 m5_1004 m5_1003_confirm
 
 egen totalspent_pnc = rowtotal(totalspent_m4 totalspent_m5)
-drop totalspent_m4 totalspent_m5
-
 lab var totalspent_pnc "Total spent during PNC"
+
+*check: br totalspent_pnc totalspent_m4 totalspent_m5
+
+*drop totalspent_m4 totalspent_m5
 	
 *--------Across whole pregnancy: total spent on each item:
 
-*Total spent during ANC
+**Aleks: please note that ET has an extra question about services "Have you spent money for Medicine/vaccines(including outside purchase)?" not in other countries that i've excluded for now. (m1_1218b, m3_1102b)
+
+*-----Total spent during ANC
 	*total spent on Registration:	
-egen totalspent_reg_anc = rowtotal(m1_1218a_1 m2_702a_cost_r1, m2_702a_cost_r2, m2_702a_cost_r3, m2_702a_cost_r4, m2_702a_cost_r5, m2_702a_cost_r6, 		m2_702a_cost_r7, m2_702a_cost_r8)
+egen totalspent_reg_anc = rowtotal(m1_1218a_1 m2_702a_cost_r1 m2_702a_cost_r2 m2_702a_cost_r3 m2_702a_cost_r4 m2_702a_cost_r5 m2_702a_cost_r6 m2_702a_cost_r7 m2_702a_cost_r8)
+lab var totalspent_reg_anc "ANC: total spent on registration"
+*check: br totalspent_reg_anc m1_1218a_1 m2_702a_cost_r1 m2_702a_cost_r2 m2_702a_cost_r3 m2_702a_cost_r4 m2_702a_cost_r5 m2_702a_cost_r6 m2_702a_cost_r7 m2_702a_cost_r8
 	
 	*total spent on Test/investigations:
+egen totalspent_tests_anc = rowtotal(m1_1218c_1 m2_702b_cost_r1 m2_702b_cost_r2 m2_702b_cost_r3 m2_702b_cost_r4 m2_702b_cost_r5 m2_702b_cost_r6 m2_702b_cost_r7 m2_702b_cost_r8)
+lab var totalspent_tests_anc "ANC: total spent on tests or investigations"	
+*check: br totalspent_tests_anc m1_1218c_1 m2_702b_cost_r1 m2_702b_cost_r2 m2_702b_cost_r3 m2_702b_cost_r4 m2_702b_cost_r5 m2_702b_cost_r6 m2_702b_cost_r7 m2_702b_cost_r8	
+	
 	*total spent on Transport:
+egen totalspent_transport_anc = rowtotal(m1_1218d_1 m2_702c_cost_r1 m2_702c_cost_r2 m2_702c_cost_r3 m2_702c_cost_r4 m2_702c_cost_r5 m2_702c_cost_r6 m2_702c_cost_r7 m2_702c_cost_r8)
+lab var totalspent_transport_anc "ANC: total spent on transport"		
+*check: br totalspent_transport_anc m1_1218d_1 m2_702c_cost_r1 m2_702c_cost_r2 m2_702c_cost_r3 m2_702c_cost_r4 m2_702c_cost_r5 m2_702c_cost_r6 m2_702c_cost_r7 m2_702c_cost_r8
+	
 	*total spent on Food/accomodation:
-	*total spent on Other item/service:
+egen totalspent_food_anc = rowtotal(m1_1218e_1 m2_702d_cost_r1 m2_702d_cost_r2 m2_702d_cost_r3 m2_702d_cost_r4 m2_702d_cost_r5 m2_702d_cost_r6 m2_702d_cost_r7 m2_702d_cost_r8)
+lab var totalspent_food_anc "ANC: total spent on food"	
+*check: br totalspent_food_anc m1_1218e_1 m2_702d_cost_r1 m2_702d_cost_r2 m2_702d_cost_r3 m2_702d_cost_r4 m2_702d_cost_r5 m2_702d_cost_r6 m2_702d_cost_r7 m2_702d_cost_r8
 
-*Total spent during delivery
+	*total spent on Other item/service:
+egen totalspent_oth_anc = rowtotal(m1_1218f_1 m2_702e_cost_r1 m2_702e_cost_r2 m2_702e_cost_r3 m2_702e_cost_r4 m2_702e_cost_r5 m2_702e_cost_r6 m2_702e_cost_r7 m2_702e_cost_r8)
+lab var totalspent_oth_anc "ANC: total spent on other services"	
+	
+
+*-----Total spent during delivery
 	*total spent on Registration:
 gen totalspent_reg_del = m3_1102a_amt
-
+lab var totalspent_reg_del "Delivery: total spent on registration"
 
 	*total spent on Test/investigations:
+gen totalspent_tests_del = m3_1102c_amt
+lab var totalspent_tests_del "Delivery: total spent on tests"	
+	
 	*total spent on Transport:
+gen totalspent_transport_del = m3_1102d_amt
+lab var totalspent_transport_del "Delivery: total spent on transport"
+
 	*total spent on Food/accomodation:
+gen totalspent_food_del = m3_1102e_amt
+lab var totalspent_food_del "Delivery: total spent on food"
+
 	*total spent on Other item/service:
+gen totalspent_oth_del = m3_1102f_amt
+lab var totalspent_oth_del "Delivery: total spent on other services"
+
+*check: br totalspent_reg_del m3_1102a_amt totalspent_tests_del m3_1102c_amt totalspent_transport_del m3_1102d_amt ///
+    totalspent_food_del m3_1102e_amt totalspent_oth_del m3_1102f_amt
 
 *Total spent during PNC
 	*total spent on Registration:
-egen totalspent_reg_pnc = rowtotal(m4_902a_amt m5_1002a_yn)	
+egen totalspent_reg_pnc = rowtotal(m4_902a_amt m5_1002a)	
+lab var totalspent_reg_pnc "PNC: total spent on registration"
+*check: br totalspent_reg_pnc m4_902a_amt m5_1002a
 
 	*total spent on Test/investigations:
-	*total spent on Transport:
-	*total spent on Food/accomodation:
-	*total spent on Other item/service:
-
-
-*Total across continuum of care:	
-gen totalspent_reg = rowtotal(totalspent_reg_anc totalspent_reg_del totalspent_reg_pnc)
-*gen total_tests =
-
-*Bar graphs:
+egen totalspent_tests_pnc = rowtotal(m4_902b_amt m5_1002b)	
+lab var totalspent_tests_pnc "PNC: total spent on tests"	
 	
+	*total spent on Transport:
+egen totalspent_transport_pnc = rowtotal(m4_902c_amt m5_1002c)	
+lab var totalspent_transport_pnc "PNC: total spent on transport"	
+	
+	*total spent on Food/accomodation:
+egen totalspent_food_pnc = rowtotal(m4_902d_amt m5_1002d)	
+lab var totalspent_food_pnc "PNC: total spent on food"		
+	
+	*total spent on Other item/service:
+egen totalspent_oth_pnc = rowtotal(m4_902e_amt m5_1002e)	
+lab var totalspent_oth_pnc "PNC: total spent on other services"	
+
+*-----Total across continuum of care:	
+
+egen totalspent_reg = rowtotal(totalspent_reg_anc totalspent_reg_del totalspent_reg_pnc)
+lab var totalspent_reg "Across entire pregnancy: total spent on registration"
+*check: br totalspent_reg totalspent_reg_anc totalspent_reg_del totalspent_reg_pnc
+
+egen totalspent_tests = rowtotal(totalspent_tests_anc totalspent_tests_del totalspent_tests_pnc)
+lab var totalspent_tests "Across entire pregnancy: total spent on tests"
+
+egen totalspent_transport = rowtotal(totalspent_transport_anc totalspent_transport_del totalspent_transport_pnc)
+lab var totalspent_transport "Across entire pregnancy: total spent on transport"
+
+egen totalspent_food = rowtotal(totalspent_food_anc totalspent_food_del totalspent_food_pnc)
+lab var totalspent_food "Across entire pregnancy: total spent on food"
+
+egen totalspent_oth = rowtotal(totalspent_oth_anc totalspent_oth_del totalspent_oth_pnc)
+lab var totalspent_oth "Across entire pregnancy: total spent on other services"
+
+*====GRAND TOTAL SPENT:
+
+egen total_spent_all = rowtotal(totalspent_reg totalspent_tests totalspent_transport totalspent_food totalspent_oth)
+lab var total_spent_all "Total spent on all services across entire pregnancy"
+
+br total_spent_all totalspent_reg totalspent_tests totalspent_transport totalspent_food totalspent_oth
+
+*Bar graphs: (SS: edit)
+graph bar (mean) totalspent_reg (mean) totalspent_tests (mean) totalspent_transport (mean) totalspent_food (mean) totalspent_oth, blabel(name)
 *===============================================================================*
 *Compare how women paid for the expenses 
 	*o	Q705, define indicator for borrow/sell vs. income, savings, reimbursement from health insurance
