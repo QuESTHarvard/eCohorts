@@ -1931,8 +1931,8 @@ rename (q_1001 q_1002 q_1003 q_1005a q_1005b q_1005c q_1005d q_1005e q_1005f q_1
 		m3_1102f_oth m3_1103 m3_1105 m3_1105_other m3_1106)
 		
 rename (q_1104_1 q_1104_2 q_1104_3 q_1104_4 q_1104_5 q_1104_6 q_1104_7 q_1104__96) ///
-	   (m3_1105a_ke m3_1105b_ke m3_1105c_ke m3_1105d_ke m3_1105e_ke m3_1105f_ke ///
-	   m3_1105g_ke m3_1105_96_ke)		
+	   (m3_1105a m3_1105b m3_1105c m3_1105d m3_1105e m3_1105f ///
+	   m3_1105g m3_1105_96)		
 		
 rename q_1102_total_spent m3_1102_total 
 
@@ -2542,9 +2542,9 @@ recode m3_1102_total (. = .a) if (m3_1102a_amt ==0 | m3_1102a_amt == . | m3_1102
 								 (m3_1102f_amt ==0 | m3_1102f_amt == . | m3_1102f_amt == .a | m3_1102f_amt ==.d) | ///
 								 m3_501 !=1
 						 
-recode m3_1103 m3_1105_96_ke m3_1105a_ke m3_1105b_ke m3_1105c_ke m3_1105d_ke m3_1105e_ke m3_1105f_ke m3_1105g_ke (. = .a) if (m3_1102_total == . |  m3_1102_total == .a)
+recode m3_1103 m3_1105_96 m3_1105a m3_1105b m3_1105c m3_1105d m3_1105e m3_1105f m3_1105g (. = .a) if (m3_1102_total == . |  m3_1102_total == .a)
 
-replace m3_1105_other = ".a" if m3_1105_96_ke !=1
+replace m3_1105_other = ".a" if m3_1105_96 !=1
 
 recode m3_1106 (. = .a) if m2_202 !=2 | m2_202 !=3   
 

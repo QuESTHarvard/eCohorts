@@ -359,9 +359,22 @@ drop m2_attempt_avail m2_attempt_bestnumber m2_attempt_contact m2_attempt_date m
 	
 	rename (how_much_paid_602 in_total_how_much_did_you_602 are_you_currently_taking_603 how_often_do_you_take_604 i_would_now_like_to_ask_ab_701)(m2_602a m2_602b m2_603 m2_604 m2_701)
 	
-	rename (have_you_spent_money_702a how_much_money_did_you_702a have_you_spent_money_702b how_much_money_did_you_702b have_you_spent_money_702c how_much_money_did_you_702c have_you_spent_money_702d how_much_money_did_you_702d have_you_spent_money_702e how_much_money_did_you_702e so_in_total_you_spent_703 you_know_how_much_704 so_how_much_in_total_would_704)(m2_702a m2_702a_other m2_702b m2_702b_other m2_702c m2_702c_other m2_702d m2_702d_other m2_702e m2_702e_other m2_703 m2_704 m2_704_other)
+	rename have_you_spent_money_702a m2_702a
+	rename how_much_money_did_you_702a m2_702a_cost
+	rename have_you_spent_money_702b m2_702b
+	rename how_much_money_did_you_702b m2_702b_cost
+	rename have_you_spent_money_702c m2_702c
+	rename how_much_money_did_you_702c m2_702c_cost
+	rename have_you_spent_money_702d m2_702d
+	rename how_much_money_did_you_702d m2_702d_cost
+	rename have_you_spent_money_702e m2_702e
+	rename how_much_money_did_you_702e m2_702e_cost
+	rename so_in_total_you_spent_703 m2_703
+	rename you_know_how_much_704 m2_704
+	rename so_how_much_in_total_would_70 m2_704_confirm
 	
-	rename (m2_705___1 m2_705___2 m2_705___3 m2_705___4 m2_705___5 m2_705___6 m2_705___96 m2_705___998 m2_705___999 m2_705___888) (m2_705_1 m2_705_2 m2_705_3 m2_705_4 m2_705_5 m2_705_6 m2_705_96 m2_705_998_et m2_705_999_et m2_705_888_et)
+	rename (m2_705___1 m2_705___2 m2_705___3 m2_705___4 m2_705___5 m2_705___6 m2_705___96 m2_705___998 m2_705___999 m2_705___888) ///
+		   (m2_705_1 m2_705_2 m2_705_3 m2_705_4 m2_705_5 m2_705_6 m2_705_96 m2_705_998_et m2_705_999_et m2_705_888_et)
 	
 	rename (specify_other_income_sourc m2_time_it_is_interru at_what_time_it_is_restart time_of_interview_end_103b total_duration_of_interv_103c)(m2_705_other m2_interupt_time m2_restart_time m2_endtime m2_int_duration)
 	
@@ -572,8 +585,9 @@ rename (overall_taking_everything_901 how_likely_are_you_to_reco_902 did_staff_s
 rename (ask_permission_viginal_exa_1006b were_vaginal_examination_1006c any_form_of_pain_relief_1007a did_you_request_pain_rel_1007b did_you_receive_pain_rel_1007c ///
 		would_like_to_ask_you_1101 spend_money_on_reg_1102 how_much_spent_registra did_you_spend_money_on_med how_you_spent_on_medicin did_you_spend_money_on_test ///
 		how_much_spend_on_test did_you_spend_money_on_transp how_much_spend_on_transp did_you_spend_on_food_an how_much_spend_on_food did_you_spend_on_other ///
-		how_much_spend_on_other in_total_how_much_you_spen confirm_oop total_spent) (m3_1006b m3_1006c m3_1007a m3_1007b m3_1007c m3_1101 m3_1102a m3_1102a_amt ///
-		m3_1102b m3_1102b_amt m3_1102c m3_1102c_amt m3_1102d m3_1102d_amt m3_1102e m3_1102e_amt m3_1102f m3_1102f_amt m3_1103 m3_1103_confirm m3_1104)
+		how_much_spend_on_other in_total_how_much_you_spen confirm_oop total_spent) ///
+		(m3_1006b m3_1006c m3_1007a m3_1007b m3_1007c m3_1101 m3_1102a m3_1102a_amt ///
+		m3_1102b m3_1102b_amt m3_1102c m3_1102c_amt m3_1102d m3_1102d_amt m3_1102e m3_1102e_amt m3_1102f m3_1102f_amt m3_1103 m3_1103_confirm m3_1102_total)
 
 rename (which_of_the_following_fin_1105 other_income_source_1105 to_conclude_this_survey_1106 time_of_interview_ended_103b ///
 		c_total_duration_of_interv ot1 ot1_oth date_of_rescheduled_m3_p2 time_of_rescheduled_m3_p2) (m3_1105 ///
@@ -1737,7 +1751,7 @@ label values m1_517 residence
 	label values m1_1212 m1_1213 m1_1214 m1_1215 YN
 
 	label define insurance_type 1 "Community based health insurance" 2 "Employer-provided health insurance (reimbursement)" 3 "Private health insurance" 96 "Other (specify)" 98 "DK" 99 "NR/RF"
-	label values m1_1221 insurance_type
+	label values m1_1222 insurance_type
 	
 	** MODULE 2:
 	
@@ -2902,14 +2916,14 @@ lab val m5_complete m5_complete
 	** MODULE 2:
 	recode m2_301 m2_203a m2_203b m2_203c m2_203d m2_203e m2_203f m2_203g m2_203h m2_203i m2_204a_et m2_204b_et m2_204c_et m2_204d_et m2_204e_et m2_204f_et m2_204g_et m2_204h_et m2_204i m2_205c m2_205d m2_205e m2_205f m2_205g m2_205h m2_205i m2_206 m2_207 m2_208 m2_301 m2_303a m2_303b m2_303c m2_303d m2_303e m2_305 m2_306 m2_308 m2_309 m2_311 m2_312 m2_314 m2_315 m2_317 m2_318 m2_321 m2_401 m2_402 m2_403 m2_404 m2_405 m2_501a m2_501b m2_501c m2_501d m2_501e m2_501f m2_501g m2_502 m2_503a m2_503b m2_503c m2_503d m2_503e m2_503f m2_504 m2_505a m2_505b m2_505c m2_505d m2_505e m2_505f m2_506a m2_506b m2_506c m2_506d m2_507 m2_508a m2_508b_yn m2_508c_yn m2_509a m2_509b m2_509c m2_601a m2_601b m2_601c m2_601d m2_601e m2_601f m2_601g m2_601h m2_601i m2_601j m2_601k m2_601l m2_601m m2_601n m2_602a m2_603 m2_604 m2_701 m2_702a m2_702b m2_702c m2_702d m2_702e m2_704 (99 = .r)
 	
-	recode m2_201 m2_203a m2_203b m2_203c m2_203d m2_203e m2_203f m2_203g m2_203h m2_203i m2_204a_et m2_204b_et m2_204c_et m2_204d_et m2_204e_et m2_204f_et m2_204g_et m2_204h_et m2_204i m2_206 m2_207 m2_208 m2_301 m2_303a m2_303b m2_303c m2_303d m2_303e m2_305 m2_306 m2_308 m2_309 m2_311 m2_312 m2_314 m2_315 m2_317 m2_318 m2_321 m2_401 m2_402 m2_403 m2_404 m2_405 m2_501a m2_501b m2_501c m2_501d m2_501e m2_501f m2_501g m2_502 m2_503a m2_503b m2_503c m2_503d m2_503e m2_503f m2_504 m2_505a m2_505b m2_505c m2_505d m2_505e m2_505f m2_506a m2_506b m2_506c m2_506d m2_507 m2_508a m2_508b_yn m2_508c_yn m2_509a m2_509b m2_509c m2_601a m2_601b m2_601c m2_601d m2_601e m2_601f m2_601g m2_601h m2_601i m2_601j m2_601k m2_601l m2_601m m2_601n m2_602a m2_603 m2_604 m2_701 m2_702a m2_702b m2_702c m2_702d m2_702e m2_704 kebele_malaria kebele_intworm (98 = .d)
+	recode m2_201 m2_203a m2_203b m2_203c m2_203d m2_203e m2_203f m2_203g m2_203h m2_203i m2_204a_et m2_204b_et m2_204c_et m2_204d_et m2_204e_et m2_204f_et m2_204g_et m2_204h_et m2_204i m2_206 m2_207 m2_208 m2_301 m2_303a m2_303b m2_303c m2_303d m2_303e m2_305 m2_306 m2_308 m2_309 m2_311 m2_312 m2_314 m2_315 m2_317 m2_318 m2_321 m2_401 m2_402 m2_403 m2_404 m2_405 m2_501a m2_501b m2_501c m2_501d m2_501e m2_501f m2_501g m2_502 m2_503a m2_503b m2_503c m2_503d m2_503e m2_503f m2_504 m2_505a m2_505b m2_505c m2_505d m2_505e m2_505f m2_506a m2_506b m2_506c m2_506d m2_507 m2_508a m2_508b_yn m2_508c_yn m2_509a m2_509b m2_509c m2_601a m2_601b m2_601c m2_601d m2_601e m2_601f m2_601g m2_601h m2_601i m2_601j m2_601k m2_601l m2_601m m2_601n m2_602a m2_603 m2_604 m2_701 m2_702a m2_702b m2_702c m2_702d m2_702e m2_704 kebele_malaria kebele_intworm m3_1102_total (98 = .d)
 
 	** MODULE 3:
 	recode m3_303a m3_303b m3_303c m3_303d m3_baby1_gender m3_baby2_gender m3_baby3_gender m3_baby1_health m3_baby2_health m3_baby3_health m3_breastfeeding m3_505a m3_517 m3_1201 m3_1202 m3_1203 m3_1204 m3_401 m3_consultation_1 m3_consultation_referral_1 m3_consultation_2 m3_consultation_referral_2 m3_consultation_3 m3_consultation_referral_3 m3_consultation_4 m3_consultation_referral_4 m3_consultation_5 m3_consultation_referral_5 m3_412a m3_412b m3_412c m3_412d m3_412e m3_412f m3_412g m3_501 m3_510 m3_601a m3_601b m3_601c m3_602b m3_603a m3_603b m3_603c m3_603d m3_604b m3_605a m3_605b m3_606 m3_607 m3_607a_et m3_607b_et m3_607c_et m3_607d_et m3_607e_et m3_608 m3_609 m3_610a m3_610b m3_611 m3_613 m3_615a m3_615b m3_615c m3_617a m3_617b m3_617c m3_617d_et m3_617e_et m3_617f_et m3_617g_et m3_617h_et m3_617i_et m3_619a m3_619b m3_619c m3_619d m3_619e m3_619f m3_619g m3_619h m3_619i m3_619j m3_620 m3_621b m3_622a m3_622c m3_701 m3_703 m3_704a m3_704b m3_704c m3_704d m3_704e m3_704f m3_704g m3_705 m3_706 m3_710a m3_710b m3_710c m3_802a m3_803a m3_803b m3_803c m3_803d m3_803e m3_803f m3_803g m3_803h m3_803i m3_805 m3_901a m3_901b m3_901c m3_901d m3_901e m3_901f m3_901g m3_901h m3_901i m3_901j m3_901k m3_901l m3_901m m3_901n m3_901o m3_901p m3_901q m3_901r m3_902a_baby1 m3_902a_baby2 m3_902a_baby3 m3_902b_baby1 m3_902b_baby2 m3_902b_baby3 m3_902c_baby1 m3_902c_baby2 m3_902c_baby3 m3_902d_baby1 m3_902d_baby2 m3_902d_baby3 m3_902e_baby1 m3_902e_baby2 m3_902e_baby3 m3_902f_baby1 m3_902f_baby2 m3_902f_baby3 m3_902g_baby1 m3_902g_baby2 m3_902g_baby3 m3_902h_baby1 m3_902h_baby2 m3_902h_baby3 m3_902i_baby1 m3_902i_baby2 m3_902i_baby3 m3_902j_baby1 m3_902j_baby2 m3_902j_baby3 m3_1003 m3_1005a m3_1005b m3_1005c m3_1005d m3_1005e m3_1005f m3_1005g m3_1005h m3_1006a m3_1006b m3_1006c m3_1007a m3_1007b m3_1007c m3_1101 m3_1102a m3_1102b m3_1102c m3_1102d m3_1102e m3_1102f m3_baby1_gender m3_baby2_gender m3_baby3_gender m3_baby1_health m3_baby2_health m3_baby3_health m3_1001 m3_1004a m3_1004b m3_1004c m3_1004d m3_1004e m3_1004f m3_1004g m3_1004h m3_breastfeeding m3_1202 m3_1204 m3_1004i m3_1004j m3_1004k m3_502 m3_503 m3_509 m3_512 m3_513a m3_516 m3_518 m3_519 m3_602a m3_604a m3_621a m3_801a m3_801b m3_807 m3_808b m3_809 m3_1002 m3_1106 (99 = .r)
 	
 	recode m3_303a m3_baby1_weight m3_baby2_weight m3_baby3_weight m3_breastfeeding m3_1201 m3_1202 m3_1203 m3_1204 m3_401 m3_consultation_1 m3_consultation_referral_1 m3_consultation_2 m3_consultation_referral_2 m3_consultation_3 m3_consultation_referral_3 m3_consultation_4 m3_consultation_referral_4 m3_consultation_5 m3_consultation_referral_5 m3_412a m3_412b m3_412c m3_412d m3_412e m3_412f m3_412g m3_501 m3_510 m3_601a m3_601b m3_601c m3_602b m3_603a m3_603b m3_603c m3_603d m3_604b m3_605a m3_605b m3_606 m3_607 m3_607a_et m3_607b_et m3_607c_et m3_607d_et m3_607e_et m3_608 m3_609 m3_610a m3_610b m3_611 m3_613 m3_615a m3_615b m3_615c m3_617a m3_617b m3_617c m3_617d_et m3_617e_et m3_617f_et m3_617g_et m3_617h_et m3_617i_et m3_619a m3_619b m3_619c m3_619d m3_619e m3_619f m3_619g m3_619h m3_619i m3_619j m3_620 m3_621b m3_622a m3_622c m3_701 m3_703 m3_704a m3_704b m3_704c m3_704d m3_704e m3_704f m3_704g m3_705 m3_706 m3_710a m3_710b m3_710c m3_802a m3_803a m3_803b m3_803c m3_803d m3_803e m3_803f m3_803g m3_803h m3_803i m3_805 m3_901a m3_901b m3_901c m3_901d m3_901e m3_901f m3_901g m3_901h m3_901i m3_901j m3_901k m3_901l m3_901m m3_901n m3_901o m3_901p m3_901q m3_901r m3_902a_baby1 m3_902a_baby2 m3_902a_baby3 m3_902b_baby1 m3_902b_baby2 m3_902b_baby3 m3_902c_baby1 m3_902c_baby2 m3_902c_baby3 m3_902d_baby1 m3_902d_baby2 m3_902d_baby3 m3_902e_baby1 m3_902e_baby2 m3_902e_baby3 m3_902f_baby1 m3_902f_baby2 m3_902f_baby3 m3_902g_baby1 m3_902g_baby2 m3_902g_baby3 m3_902h_baby1 m3_902h_baby2 m3_902h_baby3 m3_902i_baby1 m3_902i_baby2 m3_902i_baby3 m3_902j_baby1 m3_902j_baby2 m3_902j_baby3 m3_1003 m3_1005a m3_1005b m3_1005c m3_1005d m3_1005e m3_1005f m3_1005g m3_1005h m3_1006a m3_1006b m3_1006c m3_1007a m3_1007b m3_1007c m3_1101 m3_1102a m3_1102b m3_1102c m3_1102d m3_1102e m3_1102f m3_1202 m3_1204 m3_1004i m3_1004j m3_1004k m3_502 m3_503 m3_512 m3_513a m3_518 m3_519 m3_602a m3_604a m3_801a m3_801b m3_809 m3_1002 m3_1106 recm3_506b recm3_507 m3_514_unknown recm3_520 m3_baby1_size (98 = .d)
 	
-	recode recm3_506b recm3_507 m3_514_unknown recm3_520 m3_521 m3_baby1_weight m3_baby2_weight (998 = .d) // SS: confirm if .d or unknown (.)
+	recode recm3_506b recm3_507 m3_514_unknown recm3_520 m3_521 m3_baby1_weight m3_baby2_weight m3_1102_total (998 = .d) // SS: confirm if .d or unknown (.)
 	
 	recode m3_baby1_weight m3_baby2_weight (999 = .) 
 	
@@ -3702,24 +3716,24 @@ recode m2_604 (. = .a) if m2_603 !=1
 recode m2_701 (. = .a) if m2_202 !=1 | m2_301 !=1
 
 recode m2_702a (. = .a) if m2_701 !=1
-recode m2_702a_other (. = .a) if m2_702a !=1
+recode m2_702a_cost (. = .a) if m2_702a !=1
 
 recode m2_702b (. = .a) if m2_701 !=1
-recode m2_702b_other (. = .a) if m2_702b !=1
+recode m2_702b_cost (. = .a) if m2_702b !=1
 
 recode m2_702c (. = .a) if m2_701 !=1
-recode m2_702c_other (. = .a) if m2_702c !=1
+recode m2_702c_cost (. = .a) if m2_702c !=1
 
 recode m2_702d (. = .a) if m2_701 !=1
-recode m2_702d_other (. = .a) if m2_702d !=1
+recode m2_702d_cost (. = .a) if m2_702d !=1
 
 recode m2_702e (. = .a) if m2_701 !=1
-recode m2_702e_other (. = .a) if m2_702e !=1
+recode m2_702e_cost (. = .a) if m2_702e !=1
 
 * SS: Ask Kate if we should add 98 into branching logic for 704_other
 recode m2_703 m2_704 (. = .a) if m2_701 !=1
 
-recode m2_704_other (. = .a) if m2_704 != 1 
+recode m2_704_confirm (. = .a) if m2_704 !=0 
 
 recode m2_705_1 (0 = .a) if m2_701 !=1
 recode m2_705_1 (0 = .) if m2_701 == 1
@@ -4188,7 +4202,7 @@ recode m3_1102f_amt (. = .a) if m3_1102f !=1
 
 recode m3_1103_confirm (. = .a) if (m3_1103 == . |  m3_1103 == .a)
 
-recode m3_1104 (. = .a) if m3_1103_confirm !=0
+recode m3_1102_total (. = .a) if m3_1103_confirm !=0
 
 replace m3_1105_other = ".a" if m3_1105 !=96
 
@@ -5299,18 +5313,18 @@ label variable m2_603 "603. Are you currently taking iron and folic acid pills, 
 label variable m2_604 "604. How often do you take iron and folic acid pills?"
 label variable m2_701 "701. I would now like to ask about the cost of these new health care visits.  Did you pay any money out of your pocket for these new visits, including for the consultation or other indirect costs like your transport to the facility?  Do not include the cost of medicines that you have already told me about."
 label variable m2_702a "702a. Did you spend money on Registration/Consultation?"
-label variable m2_702a_other "702a-oth. How much money did you spend on Registration/Consultation?"
+label variable m2_702a_cost "702a-oth. How much money did you spend on Registration/Consultation?"
 label variable m2_702b "702b. Did you spend money on Test or investigations (lab tests, ultrasound etc.?"
-label variable m2_702b_other "702b-oth. How much money did you spend on Test or investigations (lab tests, ultrasound etc.)"
+label variable m2_702b_cost "702b-oth. How much money did you spend on Test or investigations (lab tests, ultrasound etc.)"
 label variable m2_702c "702c. Did you spend money on Transport (round trip) including that of the person accompanying you?"
-label variable m2_702c_other "702c-oth. How much money did you spend on Transport (round trip) including that of the person accompanying you?"
+label variable m2_702c_cost "702c-oth. How much money did you spend on Transport (round trip) including that of the person accompanying you?"
 label variable m2_702d "702d. Did you spend money on Food and accommodation including that of person accompanying you?"
-label variable m2_702d_other "702d-oth. How much money did you spend on Food and accommodation including that of person accompanying you?"
+label variable m2_702d_cost "702d-oth. How much money did you spend on Food and accommodation including that of person accompanying you?"
 label variable m2_702e "702e. Did you spend money for other services?"
-label variable m2_702e_other "702e-oth. How much money did you spend on other item/service?"
+label variable m2_702e_cost "702e-oth. How much money did you spend on other item/service?"
 label variable m2_703 "703. So, in total you spent"
 label variable m2_704 "704. Is the total cost correct?"
-label variable m2_704_other "704-oth. So how much in total would you say you spent?"
+label variable m2_704_confirm "704-oth. So how much in total would you say you spent?"
 label variable m2_705_1 "705. Which of the following financial sources did your household use to pay for this? Current income of any household members"
 label variable m2_705_2 "705. Which of the following financial sources did your household use to pay for this? Savings (e.g., bank account)"
 label variable m2_705_3 "705. Which of the following financial sources did your household use to pay for this? Payment or reimbursement from a health insurance plan"
@@ -5841,7 +5855,7 @@ label variable m3_1102f "1102f. Did you spend money on other items?"
 label variable m3_1102f_amt "1102f. How much money did you spend on other items?"
 label variable m3_1103 "1103. So in total you spent:_____ Is that correct?"
 label variable m3_1103_confirm "Is the total you spent correct? "
-label variable m3_1104 "1104. So how much in total would you say you spent?"
+label variable m3_1102_total "So how much in total would you say you spent?"
 label variable m3_1105 "1105. Which of the following financial sources did your household use to pay for this?"
 label variable m3_1105_other "1105_Oth. Other specify"
 label variable m3_1106 "1106. To conclude this survey, overall, please tell me how satisfied you are  with the health services you received during labor and delivery?"
@@ -7412,18 +7426,18 @@ label variable m2_603`i' "603. Are you currently taking iron and folic acid pill
 label variable m2_604`i' "604. How often do you take iron and folic acid pills?"
 label variable m2_701`i' "701. I would now like to ask about the cost of these new health care visits.  Did you pay any money out of your pocket for these new visits, including for the consultation or other indirect costs like your transport to the facility?  Do not include the cost of medicines that you have already told me about."
 label variable m2_702a`i' "702a. Did you spend money on Registration/Consultation?"
-label variable m2_702a_other`i' "702a-oth. How much money did you spend on Registration/Consultation?"
+label variable m2_702a_cost`i' "702a-oth. How much money did you spend on Registration/Consultation?"
 label variable m2_702b`i' "702b. Did you spend money on Test or investigations (lab tests, ultrasound etc.?"
-label variable m2_702b_other`i' "702b-oth. How much money did you spend on Test or investigations (lab tests, ultrasound etc.)"
+label variable m2_702b_cost`i' "702b-oth. How much money did you spend on Test or investigations (lab tests, ultrasound etc.)"
 label variable m2_702c`i' "702c. Did you spend money on Transport (round trip) including that of the person accompanying you?"
-label variable m2_702c_other`i' "702c-oth. How much money did you spend on Transport (round trip) including that of the person accompanying you?"
+label variable m2_702c_cost`i' "702c-oth. How much money did you spend on Transport (round trip) including that of the person accompanying you?"
 label variable m2_702d`i' "702d. Did you spend money on Food and accommodation including that of person accompanying you?"
-label variable m2_702d_other`i' "702d-oth. How much money did you spend on Food and accommodation including that of person accompanying you?"
+label variable m2_702d_cost`i' "702d-oth. How much money did you spend on Food and accommodation including that of person accompanying you?"
 label variable m2_702e`i' "702e. Did you spend money for other services?"
-label variable m2_702e_other`i' "702e-oth. How much money did you spend on other item/service?"
+label variable m2_702e_cost`i' "702e-oth. How much money did you spend on other item/service?"
 label variable m2_703`i' "703. So, in total you spent"
 label variable m2_704`i' "704. Is the total cost correct?"
-label variable m2_704_other`i' "704-oth. So how much in total would you say you spent?"
+label variable m2_704_confirm`i' "704-oth. So how much in total would you say you spent?"
 label variable m2_705_1`i' "705. Which of the following financial sources did your household use to pay for this? Current income of any household members"
 label variable m2_705_2`i' "705. Which of the following financial sources did your household use to pay for this? Savings (e.g., bank account)"
 label variable m2_705_3`i' "705. Which of the following financial sources did your household use to pay for this? Payment or reimbursement from a health insurance plan"
@@ -7454,3 +7468,5 @@ label variable m2_endstatus`i' "What is this womens current status at the end of
 *===============================================================================
 * STEP SEVEN: SAVE DATA TO RECODED FOLDER
 	 save "$et_data_final/eco_m1-m5_et_wide.dta", replace
+	 
+	 run "/Users/shs8688/Documents/GitHub/eCohorts/Ethiopia/crEco_der_ET.do"
