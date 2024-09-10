@@ -326,7 +326,56 @@ graph bar (mean) totalspent_reg (mean) totalspent_tests (mean) totalspent_transp
 			*m5_1005_other: Other (y/n)
 			*m5_1005_oth_text: free text		          
 		
-*-------Indicator for borrow/sell vs income,savings,reimbursement from insurance
+*-------Indicator for borrow/sell vs income,savings,reimbursement from insurance:
+
+*SS: multi-checkbox field, people can select multiple
+*SS: confirm m1_1220_5 (Family members or friends from outside the household) = borrow
+gen borrow_m1 = .
+replace borrow_m1 = 1 if m1_1220_6 == 1 | m1_1220_4 == 1 | m1_1220_5 == 1
+replace borrow_m1 = 0 if m1_1220_6 != 1 & m1_1220_4 != 1 & m1_1220_5 != 1
+
+*replace borrow_m1 = 2 if m1_1220_1 == 1 | m1_1220_2 == 1 | m1_1220_3 == 1 //this was for income, savings, reimbursement but I can make that a seperate var because of multicheck box field
+*br borrow_m1 m1_1220_1 m1_1220_2 m1_1220_3 m1_1220_4 m1_1220_5 m1_1220_6
+
+gen borrow_m2 = .
+replace borrow_m2 = 1 if m2_705_6_r1 == 1 | m2_705_6_r2 == 1 | m2_705_6_r3 == 1 | m2_705_6_r4 == 1 | m2_705_6_r5 == 1 ///
+						| m2_705_6_r6 == 1 | m2_705_6_r7 == 1 | m2_705_6_r8 == 1 | m2_705_4_r1 == 1 | m2_705_4_r2 == 1 ///
+						| m2_705_4_r3 == 1 | m2_705_4_r4 == 1 | m2_705_4_r5 == 1 | m2_705_4_r6 == 1 | m2_705_4_r7 == 1 ///
+						| m2_705_4_r8 == 1 | m2_705_5_r1 == 1 | m2_705_5_r2 == 1 | m2_705_5_r3 == 1 | m2_705_5_r4 == 1 ///
+						| m2_705_5_r5 == 1 | m2_705_5_r6 == 1 | m2_705_5_r7 == 1 | m2_705_5_r8 == 1
+
+						
+replace borrow_m2 = 0 if m2_705_6_r1 != 1 & m2_705_6_r2 != 1 & m2_705_6_r3 != 1 & m2_705_6_r4 != 1 & m2_705_6_r5 != 1 ///
+						& m2_705_6_r6 != 1 & m2_705_6_r7 != 1 & m2_705_6_r8 != 1 & m2_705_4_r1 != 1 & m2_705_4_r2 != 1 ///
+						& m2_705_4_r3 != 1 & m2_705_4_r4 != 1 & m2_705_4_r5 != 1 & m2_705_4_r6 != 1 & m2_705_4_r7 != 1 ///
+						& m2_705_4_r8 != 1 & m2_705_5_r1 != 1 & m2_705_5_r2 != 1 & m2_705_5_r3 != 1 & m2_705_5_r4 == 1 ///
+						& m2_705_5_r5 != 1 & m2_705_5_r6 != 1 & m2_705_5_r7 != 1 & m2_705_5_r8 != 1
+
+br borrow_m2 m2_705_6_r1 m2_705_6_r2 m2_705_6_r3 m2_705_6_r4 m2_705_6_r5 m2_705_6_r6 m2_705_6_r7 m2_705_6_r8 m2_705_4_r1 m2_705_4_r2 m2_705_4_r3 m2_705_4_r4 m2_705_4_r5 m2_705_4_r6 m2_705_4_r7 m2_705_4_r8 m2_705_5_r1 m2_705_5_r2 m2_705_5_r3 m2_705_5_r4 m2_705_5_r5 m2_705_5_r6 m2_705_5_r7 m2_705_5_r8 
+						
+gen borrow_m3 = .
+replace borrow_m3 = 1 if m3_1105 == 6 | m3_1105 == 4 | m3_1105 == 5
+replace borrow_m3 = 0 if m3_1105 != 6 | m3_1105 != 4 | m3_1105 != 5
+
+gen borrow_m4 = .
+replace borrow_m4 = 1  m4_905f ==1 | m4_905d == 1 | m4_905e == 1
+replace borrow_m4 = 0  m4_905f !=1 | m4_905d != 1 | m4_905e != 1
+
+gen borrow_m5 = .
+replace borrow_m5 = 1  m5_1005f ==1 | m5_1005d == 1 | m5_1005e == 1
+replace borrow_m5 = 0  m5_1005f !=1 | m5_1005d != 1 | m5_1005e != 1
+
+
+gen borrow = .
+replace borrow = 1 if borrow_m1 == 1 | borrow_m2 == 1 | borrow_m3 == 1 | borrow_m4 == 1 | borrow_m5 ==1
+replace borrow = 0 if borrow_m1 != 1 | borrow_m2 != 1 | borrow_m3 != 1 | borrow_m4 != 1 | borrow_m5 !=1
+
+
+lab def borrow 1 "Borrow/Sold items" 2 "Did not borrow/sell items"
+lab val borrow_m1 borrow_m2 borrow_m3 borrow_m4 borrow_m5 borrow borrow
+lab var borrow "Indicator for borrow/sell"
+
+
 
 *===============================================================================*	
 *Compare women who are insured and uninsured
