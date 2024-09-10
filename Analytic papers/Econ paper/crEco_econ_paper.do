@@ -335,9 +335,6 @@ replace borrow_m1 = 1 if m1_1220_6 == 1 | m1_1220_4 == 1 | m1_1220_5 == 1
 replace borrow_m1 = 0 if m1_1220_6 != 1 & m1_1220_4 != 1 & m1_1220_5 != 1 // SS: confirm what the other group "0" will be (other financial sources or people who did not select borrow and sell? Right now it's the latter)
 
 *replace borrow_m1 = 2 if m1_1220_1 == 1 | m1_1220_2 == 1 | m1_1220_3 == 1 //this was for income, savings, reimbursement but I can make that a seperate var because of multicheck box field
-*br borrow_m1 m1_1220_1 m1_1220_2 m1_1220_3 m1_1220_4 m1_1220_5 m1_1220_6
-
-*gen borrow_m2 = .
 
 egen borrow_m2 = rowmax(m2_705_6_r1 m2_705_6_r2 m2_705_6_r3 m2_705_6_r4 m2_705_6_r5 m2_705_6_r6 m2_705_6_r7 m2_705_6_r8 ///
 						m2_705_4_r1 m2_705_4_r2 m2_705_4_r3 m2_705_4_r4 m2_705_4_r5 m2_705_4_r6 m2_705_4_r7 m2_705_4_r8 ///
@@ -365,13 +362,11 @@ replace borrow_m5 = 0 if m5_1005f !=1 & m5_1005d != 1 & m5_1005e != 1
 gen borrow = .
 replace borrow = 1 if borrow_m1 == 1 | borrow_m2 == 1 | borrow_m3 == 1 | borrow_m4 == 1 | borrow_m5 ==1
 replace borrow = 0 if borrow_m1 != 1 & borrow_m2 != 1 & borrow_m3 != 1 & borrow_m4 != 1 & borrow_m5 !=1
-br borrow borrow_m1 borrow_m2 borrow_m3 borrow_m4 borrow_m5
+*check: br borrow borrow_m1 borrow_m2 borrow_m3 borrow_m4 borrow_m5
 
 lab def borrow 1 "Borrow/Sold items" 2 "Did not borrow/sell items"
 lab val borrow_m1 borrow_m2 borrow_m3 borrow_m4 borrow_m5 borrow borrow
 lab var borrow "Indicator for borrow/sell"
-
-
 
 *===============================================================================*	
 *Compare women who are insured and uninsured
@@ -379,52 +374,41 @@ lab var borrow "Indicator for borrow/sell"
 	
 *-------
 *Variables:
-		** M1 vars (ANC): m1_1221 (y/n), m1_1222 (type), m1_1222_other (other type)
+		** M1 vars (ANC): m1_1221 (y/n), m1_1222 (type), m1_1222_other (other type) - nothing in m1_1222_other
+		
+gen insured = m1_1221
+gen insur_type = m1_1222
 
 *===============================================================================*
 *Depending on variation, could also assess incidence of women skipping ANC services because of high cost of care (q320)
 
 *-------
 *Variables:
+
+		** M1 vars: 
+			*m1_808_3_et
+		
 		** M2 vars (ANC): 	
 		  *0: No reason or you didn't need it, 1: You tried but were sent away (e.g.,no appointment available), 2: High cost (e.g., high out of pocket payment, not covered by insurance), 3: Far distance (e.g., too far to walk or drive, transport not readily available), 4: Long waiting time (e.g., long line to access facility, long wait for the provider), 5: Poor healthcare provider skills (e.g., spent too little time with patient, did not conduct a thorough exam), 6: Staff don't show respect (e.g., staff is rude, impolite, dismissive), 7:Medicines or equipment are not available (e.g., medicines regularly out of stock, equipment like X-ray machines broken or unavailable)
 			
-			*m2_320_0_r1 m2_320_1_r1 m2_320_2_r1 m2_320_3_r1 m2_320_4_r1 m2_320_5_r1 m2_320_6_r1 m2_320_7_r1 m2_320_8_r1 m2_320_9_r1 m2_320_10_r1 m2_320_11_r1 m2_320_96_r1 m2_320_99_r1 m2_320_888_et_r1 m2_320_998_et_r1 m2_320_999_et_r1 m2_320_other_r1 m2_320_0_r2 m2_320_1_r2 m2_320_2_r2 m2_320_3_r2 m2_320_4_r2 m2_320_5_r2 m2_320_6_r2 m2_320_7_r2 m2_320_8_r2 m2_320_9_r2 m2_320_10_r2 m2_320_11_r2 m2_320_96_r2 m2_320_99_r2 m2_320_888_et_r2 m2_320_998_et_r2 m2_320_999_et_r2 m2_320_other_r2 m2_320_0_r3 m2_320_1_r3 m2_320_2_r3 m2_320_3_r3 m2_320_4_r3 m2_320_5_r3 m2_320_6_r3 m2_320_7_r3 m2_320_8_r3 m2_320_9_r3 m2_320_10_r3 m2_320_11_r3 m2_320_96_r3 m2_320_99_r3 m2_320_888_et_r3 m2_320_998_et_r3 m2_320_999_et_r3 m2_320_other_r3 m2_320_0_r4 m2_320_1_r4 m2_320_2_r4 m2_320_3_r4 m2_320_4_r4 m2_320_5_r4 m2_320_6_r4 m2_320_7_r4 m2_320_8_r4 m2_320_9_r4 m2_320_10_r4 m2_320_11_r4 m2_320_96_r4 m2_320_99_r4 m2_320_888_et_r4 m2_320_998_et_r4 m2_320_999_et_r4 m2_320_other_r4 m2_320_0_r5 m2_320_1_r5 m2_320_2_r5 m2_320_3_r5 m2_320_4_r5 m2_320_5_r5 m2_320_6_r5 m2_320_7_r5 m2_320_8_r5 m2_320_9_r5 m2_320_10_r5 m2_320_11_r5 m2_320_96_r5 m2_320_99_r5 m2_320_888_et_r5 m2_320_998_et_r5 m2_320_999_et_r5 m2_320_other_r5 m2_320_0_r6 m2_320_1_r6 m2_320_2_r6 m2_320_3_r6 m2_320_4_r6 m2_320_5_r6 m2_320_6_r6 m2_320_7_r6 m2_320_8_r6 m2_320_9_r6 m2_320_10_r6 m2_320_11_r6 m2_320_96_r6 m2_320_99_r6 m2_320_888_et_r6 m2_320_998_et_r6 m2_320_999_et_r6 m2_320_other_r6 m2_320_0_r7 m2_320_1_r7 m2_320_2_r7 m2_320_3_r7 m2_320_4_r7 m2_320_5_r7 m2_320_6_r7 m2_320_7_r7 m2_320_8_r7 m2_320_9_r7 m2_320_10_r7 m2_320_11_r7 m2_320_96_r7 m2_320_99_r7 m2_320_888_et_r7 m2_320_998_et_r7 m2_320_999_et_r7 m2_320_other_r7 m2_320_0_r8 m2_320_1_r8 m2_320_2_r8 m2_320_3_r8 m2_320_4_r8 m2_320_5_r8 m2_320_6_r8 m2_320_7_r8 m2_320_8_r8 m2_320_9_r8 m2_320_10_r8 m2_320_11_r8 m2_320_96_r8 m2_320_99_r8 m2_320_888_et_r8 m2_320_998_et_r8 m2_320_999_et_r8 m2_320_other_r8
+			*m2_320_2_r1 m2_320_2_r2 m2_320_2_r3 m2_320_2_r4 m2_320_2_r5 m2_320_2_r6 m2_320_2_r7 m2_320_2_r8
+
 			
-		** M4 vars (PNC):
-			*m4_413a: No reason or the baby and I didn't need it
-			*m4_413b: You tried but were sent away (e.g., no appointment available)
-			*m4_413c: High cost (e.g., high out of pocket payment, not covered by insurance)
-			*m4_413d: Far distance (e.g., too far to walk or drive, transport not readily available)
-			*m4_413e: Long waiting time (e.g., long line to access facility, long wait for the provider)
-			*m4_413f: Poor healthcare provider skills (e.g., spent too little time with patient, did not conduct a thorough exam)
-			*m4_413g: Staff don't show respect (e.g., staff is rude, impolite, dismissive)
-			*m4_413h: Medicines or equipment are not available (e.g., medicines regularly out of stock, equipment like X-ray machines broken or unavailable)
-			*m4_413i: COVID-19 fear
-			*m4_413j: Don't know where to go/too complicated
-			*m4_413k: Fear of discovering serious problem
-			*m4_413_96: Other
-			*m4_413_other: free text of other field           
-			
-		** M5 vars (PNC):
-			*m5_no_visit_a: No reason or the baby and I didn't need it
-			*m5_no_visit_b: You tried but were sent away (e.g., no appointment available)
-			*m5_no_visit_c: High cost (e.g., high out of pocket payment, not covered by insurance)
-			*m5_no_visit_d: Far distance (e.g., too far to walk or drive, transport not readily available)
-			*m5_no_visit_e: Long waiting time (e.g., long line to access facility, long wait for the provider)
-			*m5_no_visit_f: Poor healthcare provider skills (e.g., spent too little time with patient, did not conduct a thorough exam)
-			*m5_no_visit_g: Staff don't show respect (e.g., staff is rude, impolite, dismissive)
-			*m5_no_visit_h: Medicines or equipment are not available (e.g., medicines regularly out of stock, equipment like X-ray machines broken or unavailable) 
-			*m5_no_visit_i: COVID-19 fear 
-			*m5_no_visit_j: Don't know where to go/too complicated
-			*m5_no_visit_k: Fear of discovering serious problem
-			*m5_no_visit_96: other 
-			*m5_no_visit_oth: free text of other field
-			*m5_no_visit_98: DK
-			*m5_no_visit_99: NR/RF
-			*m5_no_visit_888: no information
-			*m5_no_visit_998: unknown
-			*m5_no_visit_999: refuse to answer  
+*-------Indicator for incidence of women skipping ANC services because of high cost of care		
+gen high_cost_m1 = m1_808_3_et
+
+egen high_cost_m2 = rowmax(m2_320_2_r1 m2_320_2_r2 m2_320_2_r3 m2_320_2_r4 m2_320_2_r5 m2_320_2_r6 m2_320_2_r7 m2_320_2_r8) 
+replace high_cost_m2 = 0 if high_cost_m2 == . | high_cost_m2 == .a	
+br high_cost_m2 m2_320_2_r1 m2_320_2_r2 m2_320_2_r3 m2_320_2_r4 m2_320_2_r5 m2_320_2_r6 m2_320_2_r7 m2_320_2_r8
+
+gen high_cost_anc = .
+replace high_cost_anc = 1 if high_cost_m1 == 1 | high_cost_m2 == 1 // N=14 women here out of 1,000
+replace high_cost_anc = 0 if high_cost_m1 !=1 & high_cost_m2 != 1
+*check: br high_cost_anc high_cost_m1 high_cost_m2
+
+lab def high_cost_anc 1 "Skipped anc because of high cost of care" 2 "Did not anc because of high cost of care"
+lab val borrow_m1 borrow_m2 borrow_m3 borrow_m4 borrow_m5 borrow borrow
+lab var borrow "Reason for skipping ANC was because of high cost (e.g., high out of pocket payment, not covered by insurance)"
 
 *===============================================================================*
 *Compare costs by women in private vs. public vs. faith-based facilities. (Note from Catherine: Note that the facility type chosen for follow up visits and delivery may not be the same as the facility type for baseline. So it will be a bit of a coding nightmare to assess this and link costs to facility types)
@@ -457,10 +441,70 @@ lab var borrow "Indicator for borrow/sell"
 			*asks about any new health consulatations:
 			*m5_503_1, m5_503_2, m5_503_3
 			
+*-------Indicator for facility type (private vs. public vs. faith-based facilities)	
+
+*module 1:
+gen fac_type_m1 = facility_own // 1:Public, 2:Private
+
+*module 2:
+** adding category 3 for facith based facility
+gen fac_type_m2 = .
+replace fac_type_m2 = 1 if m2_303a_r1 == 3 | m2_303a_r1 == 4 | m2_303a_r1 == 5 | ///
+						   m2_303a_r2 == 3 | m2_303a_r2 == 4 | m2_303a_r2 == 5 | ///
+						   m2_303a_r3 == 3 | m2_303a_r3 == 4 | m2_303a_r3 == 5 | ///
+						   m2_303a_r4 == 3 | m2_303a_r4 == 4 | m2_303a_r4 == 5 | ///
+						   m2_303a_r5 == 3 | m2_303a_r5 == 4 | m2_303a_r5 == 5 | ///
+						   m2_303a_r6 == 3 | m2_303a_r6 == 4 | m2_303a_r6 == 5 | ///
+						   m2_303a_r7 == 3 | m2_303a_r7 == 4 | m2_303a_r7 == 5 | ///
+						   m2_303a_r8 == 3 | m2_303a_r8 == 4 | m2_303a_r8 == 5 | ///
+						   
+						   m2_303b_r1 == 3 | m2_303b_r1 == 4 | m2_303b_r1 == 5 | ///
+						   m2_303b_r2 == 3 | m2_303b_r2 == 4 | m2_303b_r2 == 5 | ///
+						   m2_303b_r3 == 3 | m2_303b_r3 == 4 | m2_303b_r3 == 5 | ///
+						   m2_303b_r4 == 3 | m2_303b_r4 == 4 | m2_303b_r4 == 5 | ///
+						   m2_303b_r5 == 3 | m2_303b_r5 == 4 | m2_303b_r5 == 5 | ///
+						   m2_303b_r6 == 3 | m2_303b_r6 == 4 | m2_303b_r6 == 5 | ///
+						   m2_303b_r7 == 3 | m2_303b_r7 == 4 | m2_303b_r7 == 5 | ///
+						   m2_303b_r8 == 3 | m2_303b_r8 == 4 | m2_303b_r8 == 5 | ///
+						   
+						   m2_303c_r1 == 3 | m2_303c_r1 == 4 | m2_303c_r1 == 5 | ///
+						   m2_303c_r2 == 3 | m2_303c_r2 == 4 | m2_303c_r2 == 5 | ///
+						   m2_303c_r3 == 3 | m2_303c_r3 == 4 | m2_303c_r3 == 5 | ///
+						   m2_303c_r4 == 3 | m2_303c_r4 == 4 | m2_303c_r4 == 5 | ///
+						   m2_303c_r5 == 3 | m2_303c_r5 == 4 | m2_303c_r5 == 5 | ///
+						   m2_303c_r6 == 3 | m2_303c_r6 == 4 | m2_303c_r6 == 5 | ///
+						   m2_303c_r7 == 3 | m2_303c_r7 == 4 | m2_303c_r7 == 5 | ///
+						   m2_303c_r8 == 3 | m2_303c_r8 == 4 | m2_303c_r8 == 5 | ///
+						   
+						   m2_303d_r1 == 3 | m2_303d_r1 == 4 | m2_303d_r1 == 5 | ///
+						   m2_303d_r2 == 3 | m2_303d_r2 == 4 | m2_303d_r2 == 5 | ///
+						   m2_303d_r3 == 3 | m2_303d_r3 == 4 | m2_303d_r3 == 5 | ///
+						   m2_303d_r4 == 3 | m2_303d_r4 == 4 | m2_303d_r4 == 5 | ///
+						   m2_303d_r5 == 3 | m2_303d_r5 == 4 | m2_303d_r5 == 5 | ///
+						   m2_303d_r6 == 3 | m2_303d_r6 == 4 | m2_303d_r6 == 5 | ///
+						   m2_303d_r7 == 3 | m2_303d_r7 == 4 | m2_303d_r7 == 5 | ///
+						   m2_303d_r8 == 3 | m2_303d_r8 == 4 | m2_303d_r8 == 5 | ///
+						   
+						   m2_303e_r1 == 3 | m2_303e_r1 == 4 | m2_303e_r1 == 5 | ///
+						   m2_303e_r2 == 3 | m2_303e_r2 == 4 | m2_303e_r2 == 5 | ///
+						   m2_303e_r3 == 3 | m2_303e_r3 == 4 | m2_303e_r3 == 5 | ///
+						   m2_303e_r4 == 3 | m2_303e_r4 == 4 | m2_303e_r4 == 5 | ///
+						   m2_303e_r5 == 3 | m2_303e_r5 == 4 | m2_303e_r5 == 5 | ///
+						   m2_303e_r6 == 3 | m2_303e_r6 == 4 | m2_303e_r6 == 5 | ///
+						   m2_303e_r7 == 3 | m2_303e_r7 == 4 | m2_303e_r7 == 5 | ///
+						   m2_303e_r8 == 3 | m2_303e_r8 == 4 | m2_303e_r8 == 5 
+
+
+replace fac_type_m2 = 2 if m2_303a_r1 == 7 | m2_303a_r1 == 8 | m2_303a_r1 == 9 | m2_303a_r1 == 10 | m2_303a_r1 == 11
+replace fac_type_m2 = 3 if m2_303a_r1 == 6
+
+lab def fac_type 1 "Public" 2 "Private" 3 "Faith-based facility"
+lab val fac_type_m2 fac_type
+			
 *-------Women who changed facility type (explore)
 
 
-*-------Indicator for facility type (private vs. public vs. faith-based facilities)		
+	
 
 *===============================================================================*
 *Define women whose OOP costs for maternal care equates to "catastrophic health expenditures" (>10% of annual income spent on maternal health)
@@ -477,8 +521,21 @@ lab var borrow "Indicator for borrow/sell"
 		** Total spent	
 		
 *------- Variable for 10% of annual income (multiply monthly income)
+gen annual_income = m5_1202 * 12
+*check: br annual_income m5_1202
+
+gen annual_income_tenpercent = annual_income * 0.10
+*check: br annual_income annual_income_tenpercent
 
 *-------Variable for women who spent more than 10% of annual income		
+gen catastrophic = .
+replace catastrophic = 1 if (annual_income_tenpercent < total_spent_all) | annual_income_tenpercent == . // N=415 women (41.5%)
+replace catastrophic = 0 if (annual_income_tenpercent >= total_spent_all) & annual_income_tenpercent < .
+*check:  br catastrophic annual_income_tenpercent total_spent_all
+
+lab def catastrophic 0 "Did not have catastrophic health expenditures" 1 "Experienced catastrophic health expenditures"
+lab val catastrophic catastrophic
+lab var "Women whose OOP costs for maternal care equates to 'catastrophic health expenditures' (>10% of annual income spent on maternal health)"
 
 *===============================================================================*
 *MULTIVARIABLE ANALYSIS:
@@ -487,16 +544,15 @@ lab var borrow "Indicator for borrow/sell"
 	*•	Note: even small expenditures may be catastrophic for low-income families. But they may have fewer expenditures if they are eligible for subsidized/free care. 
 	*•	Of interest: catastrophic expenditures and UX, healthcare utilization, health outcomes but all these analyses would be mired in endogeneity issues. 
 
-		*ANALYSIS:
-		***append ET, KE, and ZA datasets
-		***local currency amounts - currency conversion from (seperate dataset for currency converstion values and do a loop, median income for people in the county? )
+		*ANALYSIS/NEXT STEPS:
+		***append ET, KE, and ZA datasets 
+		***local currency amounts - currency conversion from (seperate dataset for currency converstion values and do a loop, median income for people in the county?)
 
 *-------
 *Variables:		
 		
 		
 *===============================================================================*	
-
 *other questions we could explore:
 	* Confidence affording care if became sick: m1_304
 	* 404. How confident are you that you would be able to afford the healthcare you needed if you became very sick? This means you would be able to afford care without suffering financial hardship.:m5_404
