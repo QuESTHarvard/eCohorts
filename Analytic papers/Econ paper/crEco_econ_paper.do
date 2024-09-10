@@ -33,7 +33,7 @@ keep m1_1217 m1_1218a_1 m1_1218b_1 m1_1218c_1 m1_1218d_1 m1_1218e_1 m1_1218f_1 m
 		***Create new var for total spent on registration, tests, transport... etc. (sum by different types of services - reg/tests/, wide format sum expenditures (meds, transport, etx.) at M1, M2, M3 (all ANC visits)
 		
 			
-*--------Variables:
+/*--------Variables:
 		** M1 vars (ANC): m1_1217 (any expense- y/n), m1_1218a_1, m1_1218b_1, m1_1218c_1, m1_1218d_1, m1_1218e_1, m1_1218f_1, m1_1219
 		
 		** M2 vars (ANC): 
@@ -51,8 +51,10 @@ keep m1_1217 m1_1218a_1 m1_1218b_1 m1_1218c_1 m1_1218d_1 m1_1218e_1 m1_1218f_1 m
 		** M4 vars (PNC): m4_901 (any expense- y/n), m4_902a_amt, m4_902b_amt, m4_902c_amt, m4_902d_amt, m4_902e_amt, m4_903, m4_904
 		
 		** M5 vars (PNC): m5_1001 (any expense- y/n), m5_1002a m5_1002b m5_1002c m5_1002d m5_1002e, m5_1003, m5_1004
-
+*/
 *--------Create var of people with any expenses (y/n):
+* .a = NA, . = true missing, .d = answered "don't know" to "did you spend money? y/n"
+
 
 *ANC:
 egen anyexp_anc = rowmax(m1_1217 m2_701_r1 m2_701_r2 m2_701_r3 m2_701_r4 m2_701_r5 m2_701_r6 m2_701_r7 m2_701_r8)
@@ -70,7 +72,7 @@ lab var anyexp_del "Any expenses during delivery"
 lab def anyexp_del 0 "No expenses during delivery" 1 "Had expenses during delivery"
 lab val anyexp_del anyexp_del
 
-*check: br m3_1101 anyexp_del //SS: confirm with Aleks if we should drop missings? (N=17 true missings)
+*check: br m3_1101 anyexp_del 
 
 *PNC:
 egen anyexp_pnc = rowmax(m4_901 m5_1001)
@@ -82,6 +84,8 @@ lab val anyexp_pnc anyexp_pnc
 *check: br m4_901 m5_1001 anyexp_pnc //SS: N=167 true missings
 
 *--------Total expenditures:
+*SS: add a var for extensive/intensive margins (if any expenditure) 
+	*extensive; excludes zero
 
 *----ANC:
 
@@ -134,7 +138,7 @@ lab var totalspent_anc "Total spent during ANC period"
 *check: totalspent_del m3_1103 //did this to double-check and all data adds up, don't need this code anymore
 
 gen totalspent_del = m3_1103 
-replace totalspent_del = m3_1102_total if m3_1103_confirm == 0 & m3_1102_total !=. & m3_1102_total !=.d // N=11 people said "No" to m3_1103_confirm and have other data for m3_1104 confirm, confirm with Aleks that its ok to replace the data in m3_1103 with m3_1104 (the value)
+replace totalspent_del = m3_1102_total if m3_1103_confirm == 0 & m3_1102_total !=. & m3_1102_total !=.d 
 lab var totalspent_del "Total spent during delivery"
 *check: br totalspent_del m3_1103 m3_1102_total m3_1103_confirm
 
@@ -154,6 +158,8 @@ lab var totalspent_pnc "Total spent during PNC"
 *check: br totalspent_pnc totalspent_m4 totalspent_m5
 
 *drop totalspent_m4 totalspent_m5
+
+drop totalspent_m2_r1 totalspent_m2_r2 totalspent_m2_r3 totalspent_m2_r4 totalspent_m2_r5 totalspent_m2_r6 totalspent_m2_r7 totalspent_m2_r8 totalspent_m4 totalspent_m5 totalspent_m2
 	
 *--------Across whole pregnancy: total spent on each item:
 
@@ -185,26 +191,36 @@ egen totalspent_oth_anc = rowtotal(m1_1218f_1 m2_702e_cost_r1 m2_702e_cost_r2 m2
 lab var totalspent_oth_anc "ANC: total spent on other services"	
 	
 
-*-----Total spent during delivery
+*-----Total spent during delivery // SS: if they didn't spend anything they need to be included in the analysis
 	*total spent on Registration:
 gen totalspent_reg_del = m3_1102a_amt
 lab var totalspent_reg_del "Delivery: total spent on registration"
 
+recode totalspent_reg_del (. .a = 0)
+
 	*total spent on Test/investigations:
 gen totalspent_tests_del = m3_1102c_amt
-lab var totalspent_tests_del "Delivery: total spent on tests"	
+lab var totalspent_tests_del "Delivery: total spent on tests"
+
+recode totalspent_tests_del (. .a = 0)	
 	
 	*total spent on Transport:
 gen totalspent_transport_del = m3_1102d_amt
 lab var totalspent_transport_del "Delivery: total spent on transport"
 
+recode totalspent_transport_del (. .a = 0)
+
 	*total spent on Food/accomodation:
 gen totalspent_food_del = m3_1102e_amt
 lab var totalspent_food_del "Delivery: total spent on food"
 
+recode totalspent_food_del (. .a = 0)
+
 	*total spent on Other item/service:
 gen totalspent_oth_del = m3_1102f_amt
 lab var totalspent_oth_del "Delivery: total spent on other services"
+
+recode totalspent_oth_del (. .a = 0)
 
 *check: br totalspent_reg_del m3_1102a_amt totalspent_tests_del m3_1102c_amt totalspent_transport_del m3_1102d_amt ///
     totalspent_food_del m3_1102e_amt totalspent_oth_del m3_1102f_amt
@@ -247,18 +263,19 @@ egen totalspent_food = rowtotal(totalspent_food_anc totalspent_food_del totalspe
 lab var totalspent_food "Across entire pregnancy: total spent on food"
 
 egen totalspent_oth = rowtotal(totalspent_oth_anc totalspent_oth_del totalspent_oth_pnc)
-lab var totalspent_oth "Across entire pregnancy: total spent on other services"
+lab var totalspent_oth "Across entire pregnancy: total spent on other services" // SS:check if we asked what the other services were
 
 *====GRAND TOTAL SPENT:
 
-egen total_spent_all = rowtotal(totalspent_reg totalspent_tests totalspent_transport totalspent_food totalspent_oth)
-lab var total_spent_all "Total spent on all services across entire pregnancy"
+egen totalspent_all = rowtotal(totalspent_reg totalspent_tests totalspent_transport totalspent_food totalspent_oth)
+lab var totalspent_all "Total spent on all services across entire pregnancy"
 
-*check: br total_spent_all totalspent_reg totalspent_tests totalspent_transport totalspent_food totalspent_oth
+*check: br totalspent_all totalspent_reg totalspent_tests totalspent_transport totalspent_food totalspent_oth
 
 *Bar graphs: (SS: edit)
 *graph bar (mean) totalspent_reg (mean) totalspent_tests (mean) totalspent_transport (mean) totalspent_food (mean) totalspent_oth, blabel(name)
 *===============================================================================*
+
 *Compare how women paid for the expenses 
 	*o	Q705, define indicator for borrow/sell vs. income, savings, reimbursement from health insurance
 	*o	If enough variation reimbursement could be its own indicator
@@ -329,12 +346,15 @@ lab var total_spent_all "Total spent on all services across entire pregnancy"
 *-------Indicator for borrow/sell vs income,savings,reimbursement from insurance:
 
 *SS: multi-checkbox field, people can select multiple
-*SS: confirm m1_1220_5 (Family members or friends from outside the household) = borrow
 gen borrow_m1 = .
 replace borrow_m1 = 1 if m1_1220_6 == 1 | m1_1220_4 == 1 | m1_1220_5 == 1
-replace borrow_m1 = 0 if m1_1220_6 != 1 & m1_1220_4 != 1 & m1_1220_5 != 1 // SS: confirm what the other group "0" will be (other financial sources or people who did not select borrow and sell? Right now it's the latter)
+replace borrow_m1 = 0 if m1_1220_6 != 1 & m1_1220_4 != 1 & m1_1220_5 != 1 // SS: change this to income, savings, reimbu
 
 *replace borrow_m1 = 2 if m1_1220_1 == 1 | m1_1220_2 == 1 | m1_1220_3 == 1 //this was for income, savings, reimbursement but I can make that a seperate var because of multicheck box field
+
+*SS: add N=1 person from m1_1220_other
+
+br borrow_m1 m1_1220_1 m1_1220_2 m1_1220_3 m1_1220_4 m1_1220_5 m1_1220_6 m1_1220_96 m1_1220_888_et m1_1220_998_et m1_1220_999_et m1_1220_other
 
 egen borrow_m2 = rowmax(m2_705_6_r1 m2_705_6_r2 m2_705_6_r3 m2_705_6_r4 m2_705_6_r5 m2_705_6_r6 m2_705_6_r7 m2_705_6_r8 ///
 						m2_705_4_r1 m2_705_4_r2 m2_705_4_r3 m2_705_4_r4 m2_705_4_r5 m2_705_4_r6 m2_705_4_r7 m2_705_4_r8 ///
@@ -364,7 +384,7 @@ replace borrow = 1 if borrow_m1 == 1 | borrow_m2 == 1 | borrow_m3 == 1 | borrow_
 replace borrow = 0 if borrow_m1 != 1 & borrow_m2 != 1 & borrow_m3 != 1 & borrow_m4 != 1 & borrow_m5 !=1
 *check: br borrow borrow_m1 borrow_m2 borrow_m3 borrow_m4 borrow_m5
 
-lab def borrow 1 "Borrow/Sold items" 2 "Did not borrow/sell items"
+lab def borrow 1 "Borrow/Sold items" 0 "Did not borrow/sell items"
 lab val borrow_m1 borrow_m2 borrow_m3 borrow_m4 borrow_m5 borrow borrow
 lab var borrow "Indicator for borrow/sell"
 
@@ -448,6 +468,7 @@ gen fac_type_m1 = facility_own // 1:Public, 2:Private
 
 *module 2:
 ** adding category 3 for facith based facility
+** change to catherine's recoding of facility lvl - but split up private primary and secondary levels
 gen fac_type_m2 = .
 replace fac_type_m2 = 1 if m2_303a_r1 == 3 | m2_303a_r1 == 4 | m2_303a_r1 == 5 | ///
 						   m2_303a_r2 == 3 | m2_303a_r2 == 4 | m2_303a_r2 == 5 | ///
@@ -547,7 +568,7 @@ replace fac_type_m2 = 3 if m2_303a_r1 == 6 | m2_303a_r2 == 6 | m2_303a_r3 == 6 |
 *module 3:						   
 gen fac_type_m3 = .
 replace fac_type_m3 = 1 if m3_502 == 1 | m3_502 == 2 | m3_502 == 3 
-replace fac_type_m3 = 3 if m3_502 == 5 | m3_502 == 6 | m3_502 == 7 | m3_502 == 8 | m3_502 == 9
+replace fac_type_m3 = 2 if m3_502 == 5 | m3_502 == 6 | m3_502 == 7 | m3_502 == 8 | m3_502 == 9
 replace fac_type_m3 = 3 if m3_502 == 4 
 
 *module 4:
@@ -584,7 +605,7 @@ egen change_fac = rownvals(fac_type_m1 fac_type_m2 fac_type_m3 fac_type_m4 fac_t
 
 br change_fac fac_type_m1 fac_type_m2 fac_type_m3 fac_type_m4 fac_type_m5
 	
-
+*SS: create varialbe: always, public, all private, mixed
 *===============================================================================*
 *Define women whose OOP costs for maternal care equates to "catastrophic health expenditures" (>10% of annual income spent on maternal health)
 	*o	Incidence of catastrophic health expenditures
@@ -601,22 +622,85 @@ br change_fac fac_type_m1 fac_type_m2 fac_type_m3 fac_type_m4 fac_type_m5
 		
 *------- Variable for 10% of annual income (multiply monthly income)
 gen annual_income = m5_1202 * 12
+drop if m5_1202 == 3000175
 *check: br annual_income m5_1202
 
 gen annual_income_tenpercent = annual_income * 0.10
 *check: br annual_income annual_income_tenpercent
 
+bysort quintile: egen annual_income_imputed = mean(annual_income)
+gen annual_income3 = annual_income
+replace annual_income3 = annual_income_imputed if annual_income == . | annual_income == 0 
+
+gen annual_income3_tenpercent = annual_income3 * 0.10
+
+
 *-------Variable for women who spent more than 10% of annual income		
 gen catastrophic = .
-replace catastrophic = 1 if (annual_income_tenpercent < total_spent_all) | annual_income_tenpercent == . // N=415 women (41.5%)
-replace catastrophic = 0 if (annual_income_tenpercent >= total_spent_all) & annual_income_tenpercent < .
-*check:  br catastrophic annual_income_tenpercent total_spent_all
+replace catastrophic = 1 if (annual_income_tenpercent < totalspent_all) // N=415 women (41.5%)
+replace catastrophic = 0 if (annual_income_tenpercent >= totalspent_all) & annual_income_tenpercent < .
+*check:  br catastrophic annual_income_tenpercent totalspent_all
+
+gen catastrophic2 = .
+replace catastrophic2 = 1 if (annual_income3_tenpercent < totalspent_all)
+replace catastrophic2 = 0 if (annual_income3_tenpercent >= totalspent_all)
+
+br quintile totalspent_all annual_income annual_income3 annual_income3_tenpercent catastrophic2
 
 lab def catastrophic 0 "Did not have catastrophic health expenditures" 1 "Experienced catastrophic health expenditures"
 lab val catastrophic catastrophic
-lab var "Women whose OOP costs for maternal care equates to 'catastrophic health expenditures' (>10% of annual income spent on maternal health)"
+lab var catastrophic "Women whose OOP costs for maternal care equates to 'catastrophic health expenditures' (>10% of annual income spent on maternal health)"
+
+
+gen stayed_48hm = .
+replace stayed_48hm =1 if m3_707 >= 48
+replace stayed_48hm =0 if m3_707 < 48
+
+*create var for experienced any complicated delivery 
+gen complicated = .
+replace complicated = 1 if m3_705 == 1 | m3_706 == 1 | stayed_48hm == 1
+replace complicated = 0 if m3_705 != 1 & m3_706 != 1 & stayed_48hm != 1
+
+*did they expereince any danger signs
+egen m3_dangersigns = rowmax(m3_704a m3_704b m3_704c m3_704d m3_704e m3_704f m3_704g)
+
+gr bar totalspent_reg_del totalspent_tests_del totalspent_transport_del totalspent_food_del totalspent_oth_del, over(complicated)
+
+
+*older age
+gen older_preg = .
+replace older_preg = 1 if m1_enrollage >=35
+replace older_preg = 0 if m1_enrollage <35
+
+*gr bar usd_totalspent_reg_del usd_totalspent_tests_del usd_totalspent_transport_del usd_totalspent_food_del usd_totalspent_oth_del, over(educ_cat)
 
 *===============================================================================*
+*for each var, gen(usd_)
+*conversion rate: 1 USD = 55 Birr
+
+	foreach v of varlist totalspent_*  annual_income3 annual_income3_tenpercent {
+		gen usd_`v' = `v'/55
+	}
+
+*===============================================================================*
+ *Save new dataset 	   
+	   
+save "/Users/shs8688/Dropbox (Harvard University)/SPH-Kruk Team/QuEST Network/Core Research/Ecohorts/MNH E-Cohorts-internal/Analyses/Manuscripts/OOP paper/Data/cr_oop_paper.dta", replace
+
+
+****GRAPHS TO CREATE:
+*3 costs types (anc, del, pnc) - gr bar totalspent_anc totalspent_del totalspent_pnc
+	*shows most comes from delivery
+*3 individual graphs for dist by anc,del,pnc -gr bar usd_totalspent_reg_del usd_totalspent_tests_del usd_totalspent_transport_del usd_totalspent_food_del usd_totalspent_oth_del
+*why "other" so high:
+	*we thought: catastrophic, complicated, dangersigns, csection, primaria, old age, wealth, education
+*Note: we can't tell what's inside of labs, what type of medicines
+*satisfication/ux over total amount spent - dissatisfied spent the most money. did they experience the worst outcomes?
+
+*Next steps: Does Kenya have a similar problem? Can we figure out what these "other" costs are there?
+
+
+/*===============================================================================*
 *MULTIVARIABLE ANALYSIS:
 *We could then assess what factors are associated with catastrophic health expenditures:
 	*•	Lower wealth at BL, poor self-reported health or pre-existing conditions at BL, insurance status, rural residence, primiparity, complications with previous pregnancies
@@ -638,6 +722,3 @@ lab var "Women whose OOP costs for maternal care equates to 'catastrophic health
 	
 	
 *===============================================================================*
-/* Save new dataset 	   
-	   
-save "/Users/shs8688/Dropbox (Harvard University)/SPH-Kruk Team/QuEST Network/Core Research/Ecohorts/MNH E-Cohorts-internal/Analyses/Manuscripts/OOP paper/Data/cr_oop_paper.dta", replace
