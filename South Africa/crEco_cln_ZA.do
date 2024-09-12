@@ -12,6 +12,8 @@
 *										Updated some M3 replace statements for string variables that had been cleaned up
 *										Removed dupliate drop in M3 as there are no longer any duplicate respondentids
 * 2024-09-08	1.02	MK Trimner		Corrected the M2 sorting before the reshape so that it correctly sorted by respondentid and m2_date
+* 2024-09-11	1.03	MK Trimner		Added code to recode dates to be .d and .r if contained certain values
+*										Added code to save as a "Complete" dataset
 *******************************************************************************
 */
 	local country in	
@@ -3343,10 +3345,12 @@ recode m3_303c m3_303d m3_baby2_gender m3_baby3_gender m3_baby2_size ///
 	   
 * Other
 * ZA only: 01-01-1998 = .d and 01-01-1999 = .r
-
-recode m3_birth_or_ended (13880 = .d) // double check this for all dates
-
-recode m3_506a (12784 = .a) // jan 01 1995 = .a?
+* Recode all date variables that have invalid values for DNK or refused
+foreach v in m3_birth_or_ended  m3_506a m3_date {
+	recode `v' (13880 = .d) // double check this for all dates
+	*recode m3_506a (12784 = .a) // jan 01 1995 = .a?
+	recode (14245 = .r) // jan 01 1999 = .r
+}
 
 *------------------------------------------------------------------------------*
 * recoding for skip pattern logic:	   
@@ -3513,6 +3517,7 @@ recode m3_505b (9999998 999998= .d) if m3_505a ==1
 * MKT removed the logic with m3_505a as itis not relelvant to m3_506a and b
 recode m3_506a m3_506b (. .n 9978082 9999998 998 = .a) if m3_501 !=1 //| (m3_501 ==1 & m3_505a !=1) // what is 01jan199 and 21feb1995 in m3_506a? confirm 00:00 (many) and 8.621e+14 in m3_506b. add m3_507 once it's cleaned
 recode m3_506a m3_506b (9999998 998 = .d) if m3_501 ==1 //| (m3_501 ==1 & m3_505a !=1) // what is 01jan199 and 21feb1995 in m3_506a? confirm 00:00 (many) and 8.621e+14 in m3_506b. add m3_507 once it's cleaned
+recode m3_506a (14245 = .r) if m3_501 == 1 
 
 //replace m3_506b = .a if m3_501 !=1 
 //replace m3_506b = .a if m3_506a ==.a
@@ -3555,6 +3560,7 @@ encode m3_514, gen(recm3_514) // N =4 missing data
 drop m3_514
 format recm3_514 %tcHH:MM
 rename recm3_514 m3_514
+char m3_514[Original_ZA_Varname] MOD3_Care_Pathways_514
 
 recode m3_515 (. .n  = .a) if m3_510 !=1 // MKT commented out.. only basing this on m3_510...| m3_511 ==.d | m3_511 ==.r | m3_511 ==.a
 
@@ -4441,4 +4447,8 @@ order m3_death_cause_baby1 m3_death_cause_baby1_other m3_death_cause_baby2 m3_de
 
 *==============================================================================*
 * MODULE 4:		
+ 
 
+ 
+ * Save as a completed dataset
+ save "$za_data_final/eco_ZA_Complete", replace
