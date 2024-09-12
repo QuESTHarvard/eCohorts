@@ -50,6 +50,13 @@ set more off
 		}	
 	gen tag9 = 1 if time_m2_last_m3 >14 & time_m2_last_m3<.
 
+	* Time between M3 survey and DOB/end of pregnancy
+	gen m3delay=(m3_date-m3_birth_or_ended) 
+	recode m3delay 0/31 = 1 32/63=2 64/94=3 95/126=4 127/157=5 158/max=6
+	
+	lab def m3delay 1 "within a month" 2"within 2mos" 3 "within 3mos" 4"withn 4 mos" ///
+	5"within 5 months" 6"within 6-12mos"
+	lab val m3delay m3delay
 *-------------------------------------------------------------------------------		
 	* Total number of ROUTINE ANC visits
 		egen totvisits=rowtotal(m2_305_r* m2_308_r* m2_311_r* m2_314_r* m2_317_r* ///
@@ -204,7 +211,7 @@ set more off
 			replace m1_203_et = 0 if   m1_203_other=="Chgara" ///
 			| m1_203_other=="Chronic Gastritis" ///
 			| m1_203_other=="Chronic Sinusitis and tonsil" ///
-			| m1_203_other=="gastritis" | m1_203_other=="Gastro intestinal track"  ///
+			| m1_203_other=="Gastritis" | m1_203_other=="Gastro intestinal track"  ///
 			| m1_203_other=="STI" | m1_203_other=="Hemorrhoids"  | m1_203_other=="Sinus" | ///
 			m1_203_other=="Sinuse" | m1_203_other=="Sinusitis" | ///
 			m1_203_other=="gastric" | m1_203_other=="gastric ulcer" 

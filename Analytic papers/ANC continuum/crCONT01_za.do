@@ -46,7 +46,14 @@ set more off
 		gen tag`i'=1 if time_m2_r`i'>14 & time_m2_r`i' <.
 		}	
 	gen tag7 = 1 if time_m2_last_m3 >14 & time_m2_last_m3<.
-			
+	* Time between M3 survey and DOB/end of pregnancy
+	gen m3delay=(m3_date-m3_birth_or_ended) 
+	recode m3delay 0/31 = 1 32/63=2 64/94=3 95/126=4 127/157=5 158/max=6
+	
+	lab def m3delay 1 "within a month" 2"within 2mos" 3 "within 3mos" 4"withn 4 mos" ///
+	5"within 5 months" 6"within 6-12mos"
+	lab val m3delay m3delay
+
 *-------------------------------------------------------------------------------		
 	* Number of ANC visits
 		egen totvisits=rowtotal(m2_305_r* m2_308_r* m2_311_r* m2_314_r* m2_317_r* ///
@@ -112,9 +119,12 @@ set more off
 					m2_ifa_r* m2_calcium_r*) // 8 x 8 
 
 	* Number of months in ANC 
+		
 		gen months=(m3_birth_or_ended-m1_date)/30.5
-		replace months = 1 if months<1
-	
+		replace months = . if m3_birth_or_ended > m3_date // birth is after survey
+		replace months = . if m3_birth_or_ended < m1_date // birth before M1
+		replace months = . if m3_birth_or_ended < m2_date_r1
+		
 		gen manctotal= anctotal/months // Nb ANC clinical actions per month
 *-------------------------------------------------------------------------------		
 	* MINIMUM SET OF ANC ITEMS	
@@ -183,8 +193,51 @@ set more off
 					lab val m2_trimes_r* trim
 					lab var bsltrimester "Trimester at ANC initiation/enrollment"
 
+					
+					
+*-------------------------------------------------------------------------------		
+	* DEMOGRAPHICS AND RISK FACTORS					
+		* Demographics
+				gen age20= enrollage<20
+				gen age35= enrollage>=35
+				recode educ_cat 2=1 3=2 4=3
+				lab def edu 1 "Primary only" 2 "Complete Secondary" 3"Higher education"
+				lab val educ_cat edu
+				// tertile  marriedp 
+				gen healthlit_corr=health_lit==4
+				recode m1_506 1/6=1 96=1 7=2 8/9=1 10=3,g(job)
+				lab def job 1"Employed or homemaker" 2"Student" 3"Unemployed"
+				lab val job job 
+			
+		*Risk factors
+			* Anemia
+				recode Hb 0/10.99999=1 11/30=0, gen(anemia)
+				lab val anemia anemia
+			* Chronic illnesses
+				egen chronic= rowmax(m1_202a m1_202b m1_202c m1_202d m1_202e )  
+				encode m1_203, gen(prob)
+				recode prob (1/4 10 16 18/21 24 28 29 30 33 34 28 =0 ) (5/9 11/15 17 22 23 25 26 27 31 32=1)
+				replace chronic = 1 if prob==1
+				replace chronic_nohiv=1 if prob==1
+				drop prob
+				replace chronic=1 if HBP==1 // measured BP
+				replace chronic_nohiv=1 if HBP==1
+			
+			* Underweight/overweight
+			rename low_BMI maln_underw
+			recode BMI 0/29.999=0 30/100=1, g(overweight)
+			
+			egen ipv=rowmax(m1_1101 m1_1103)
+			
+			* Obstetric risk factors
+			gen multiple= m1_805 >1 &  m1_805<.
+			gen cesa= m1_1007==1
+			
+			gen neodeath = m1_1010 ==1
+			gen preterm = m1_1005 ==1
+			gen PPH=m1_1006==1
+			egen complic = rowmax(stillbirth neodeath preterm PPH cesa)	
 save "$user/MNH E-Cohorts-internal/Analyses/Manuscripts/Paper 5 Continuum ANC/Data/ZAtmp.dta", replace	
-
 
 
 *-------------------------------------------------------------------------------		

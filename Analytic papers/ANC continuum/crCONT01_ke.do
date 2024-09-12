@@ -51,7 +51,13 @@ set more off
 		count if tag`i'==1
 		}	
 	gen tag9 = 1 if time_m2_last_m3 >14 & time_m2_last_m3<.
-
+		* Time between M3 survey and DOB/end of pregnancy
+	gen m3delay=(m3_date-m3_birth_or_ended) 
+	recode m3delay 0/31 = 1 32/63=2 64/94=3 95/126=4 127/157=5 158/max=6
+	
+	lab def m3delay 1 "within a month" 2"within 2mos" 3 "within 3mos" 4"withn 4 mos" ///
+	5"within 5 months" 6"within 6-12mos"
+	lab val m3delay m3delay
 *-------------------------------------------------------------------------------		
 	* Number of ANC visits
 		egen totvisits=rowtotal(m2_305_r* m2_308_r* m2_311_r* m2_314_r* m2_317_r* ///
@@ -190,6 +196,21 @@ set more off
 					lab val m2_trimes_r* trim
 					lab var bsltrimester "Trimester at ANC initiation/enrollment"		
 					
+*-------------------------------------------------------------------------------		
+	* DEMOGRAPHICS AND RISK FACTORS
+		* Risk factors
+			* Anemia
+		recode Hb 0/10.99999=1 11/30=0, gen(anemia)
+		lab val anemia anemia
+			* Chronic illnesses
+		g other_chronic= 1 if m1_203_other=="Fibroids" | m1_203_other=="Peptic ulcers disease" ///
+		| m1_203_other=="PUD" | m1_203_other=="Gestational Hypertension in previous pregnancy" ///
+		| m1_203_other=="Ovarian cyst" | m1_203_other=="Peptic ulcerative disease"
+		
+		egen chronic= rowtotal(m1_202a m1_202b m1_202c m1_202d m1_202e m1_203c_ke ///
+		m1_203d_ke  m1_203g_ke  m1_203i_ke ///
+		m1_203k_ke m1_203l_ke m1_203m_ke m1_203n_ke m1_203o_ke other_chronic HBP)
+
 					
 					
 save "$user/MNH E-Cohorts-internal/Analyses/Manuscripts/Paper 5 Continuum ANC/Data/KEtmp.dta", replace	
