@@ -37,6 +37,10 @@
 *-------------------------------------------------------------------------------
 	* DESCRIPTIVE ANALYSES
 	
+	* Table 1
+	
+	
+	
 	* Number of visits
 	graph box totvisits, over(country) ytitle("Total number of visits")
 	by country, sort: tabstat totvisit, stat(min max med mean)
@@ -51,8 +55,8 @@
 
 	
 	* Number of items per month in care
-	graph box anctotal, over(site) ylabel(, labsize(small)) ///
-		ytitle("Total number antenatal care components") asyvars ///
+	graph box manctotal, over(site) ylabel(, labsize(small)) ///
+		ytitle("Total number antenatal care components per month in care") asyvars ///
 		box(1, fcolor(navy) lcolor(navy) lwidth(thin)) marker(1, mcolor(navy)) ///
 		box(2, fcolor(navy) lcolor(navy) lwidth(thin)) marker(2, mcolor(navy)) ///
 		box(3, fcolor(gold) lcolor(gold) lwidth(thin)) marker(3, mcolor(gold)) ///

@@ -200,6 +200,14 @@ set more off
 	
 *-------------------------------------------------------------------------------		
 	* DEMOGRAPHICS AND RISK FACTORS
+		* Demographics
+			gen age20= m1_enrollage<20
+			gen age35= m1_enrollage>=35
+			// educ_cat  quintile  marriedp
+			gen healthlit_corr=m1_health_lit==4
+			
+			rename  facility_lvl factype
+			
 		* Risk factors
 			*Anemia
 			egen anemia= rowmax(m1_1307 m1_1309)
@@ -231,10 +239,7 @@ set more off
 			gen PPH=m1_1006==1
 			rename m1_1004 late_misc
 			egen complic = rowtotal(cesa stillbirth preterm neodeath PPH late_misc)
-			
-			gen age20= m1_enrollage<20
-			gen age35= m1_enrollage>=35
-			
+
 			egen riskcat=rowtotal(anemia chronic malnut complic age20 age35)
 			recode riskcat 3/max=2 
 			lab def riskcat 0"No risk factor" 1"One risk factor" 2"Two or more risk factors" 
