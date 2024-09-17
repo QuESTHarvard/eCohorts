@@ -23,7 +23,64 @@ program define m3_recode_variables
 
 	
 	* Recode based on skip logic
+	recode m3_110 m3_111 m3_201 m3_202 (. = .a) if m3_109 == 1
 	
+	foreach v of varlist m3_3* m3_4* m3_5* m3_6* m3_7* m3_8* m3_9* m3_100* m3_110* m3_120* {
+		if substr("`:type `v''",1,3) != "str" recode `v' (. = .a) if !inlist(m3_202,2,3)
+		if substr("`:type `v''",1,3) == "str" replace `v' = ".a" if !inlist(m3_202,2,3)
+	}
+	
+	* Replace all missing values for the baby specific vairables to be .a if `b' number of babies <= number of babies in 301
+	foreach b in 1 2 3 {
+		foreach v of varlist *_b`b' *_b`b'_* {
+			if substr("`:type `v''",1,3) != "str" recode `v' (. = .a) if m3_301 < `b' | missing(m3_301)
+			if substr("`:type `v''",1,3) == "str" replace `v' = ".a" if m3_301 < `b' | missing(m3_301)
+
+			
+		} 
+	}
+	
+	* Set all the variables that are contingent on the baby/babies being alive to .a if missing
+	foreach b in 1 2 3 {
+		foreach v in 304 305 306 307 308 309 311a 311b 311c 311d 311e 311f 311g {
+			if substr("`:type m3_`v'_b`b''",1,3) != "str" recode m3_`v'_b`b' (. = .a) if m3_303_b`b' != 1
+			if substr("`:type m3_`v'_b`b''",1,3) == "str" replace m3_`v'_b`b' = ".a" if m3_303_b`b' != 1
+
+		}
+		foreach v of varlist m3_310*_b`b'_* {
+			if substr("`:type `v''",1,3) != "str" recode `v' (. = .a) if m3_303_b`b' != 1
+			if substr("`:type `v''",1,3) == "str" recode `v' = ".a" if m3_303_b`b' != 1
+
+		}
+		recode m3_306_b`b' (. = .a) if !inlist(m3_302,98,.)
+		
+		recode m3_312_b`b' m3_312_a_b`b' m3_313a_b`b' m3_313b_days_b`b' m3_313b_hours_b`b' m3_314_b`b'  (. = .a) if m3_303_b`b' == 1 //m3_314_0_b`b' m3_314_1_b`b' m3_314_2_b`b' m3_314_3_b`b' m3_314_4_b`b'  m3_314_5_b`b' m3_314_6_b`b' m3_314_96_b`b'
+		
+		if substr("`:type m3_314_other_b`b''",1,3) != "str" recode m3_314_other_b`b' (. = .a) if m3_314_b`b' != 96 //m3_314_96_b`b' != 1
+		
+		recode m3_313b_days_b`b' m3_313b_hours_b`b' (. = .a) if !missing(m3_313a_b`b') | m3_312_b`b' != 1
+	}
+	
+	recode m3_310b (.=.a) if m3_303_b1 != 1  & m3_303_b2 != 1  & m3_303_b3 != 1	
+	
+	recode m3_402 m3_403 m3_404 m3_405_1 m3_405_2 m3_405_3  m3_405_4 m3_405_5 m3_405_96 m3_406 m3_407 m3_408_1 m3_408_2 m3_408_3  m3_408_4 m3_408_5 m3_408_96 m3_409 m3_410 m3_411_1 m3_411_2 m3_411_3  m3_411_4 m3_411_5 m3_411_96  m3_412_a m3_412_b m3_412_c m3_412_d m3_412_e m3_412_f m3_412_g   (. = .a) if m3_401 != 1
+	
+	replace m3_405_other = ".a" if m3_401 != 1 | m3_402 < 1 | missing(m3_402)
+	replace m3_408_other = ".a" if m3_401 != 1 | m3_402 < 2 | missing(m3_402)
+	replace m3_411_other = ".a" if m3_401 != 1 | m3_402 < 3 | missing(m3_402)
+	replace m3_412_other = ".a" if m3_401 != 1 | m3_412_g != 1
+
+	recode m3_403 m3_404 (. = .a) if m3_402 < 1 | missing(m3_402)
+	recode m3_404 m3_405_1 m3_405_2 m3_405_3  m3_405_4 m3_405_5 m3_405_96   (. = .a) if m3_403 == 1
+	recode m3_405_1 m3_405_2 m3_405_3  m3_405_4 m3_405_5 m3_405_96 (. = .a) if m3_404 == 1
+	
+	recode m3_406 m3_407 (. = .a) if m3_402 < 1 | missing(m3_402)
+	recode m3_407 m3_408_1 m3_408_2 m3_408_3  m3_408_4 m3_408_5 m3_408_96   (. = .a) if m3_406 == 1
+	recode m3_408_1 m3_408_2 m3_408_3  m3_408_4 m3_408_5 m3_408_96 (. = .a) if m3_407 == 1
+
+	recode m3_409 m3_410 (. = .a) if m3_402 < 1 | missing(m3_402)
+	recode m3_410 m3_411_1 m3_411_2 m3_411_3  m3_411_4 m3_411_5 m3_411_96   (. = .a) if m3_409 == 1
+	recode m3_411_1 m3_411_2 m3_411_3  m3_411_4 m3_411_5 m3_411_96 (. = .a) if m3_410 == 1
 
 
 end

@@ -11,7 +11,9 @@
 * Date 			number 	Name			What Changed
 2024-08-08		1.01	MK Trimner		Original M3 file
 * 2024-09-12	1.02	MK Trimner		Added call to m3_data_basic_quality_checks
-*									
+* 2024-09-17	1.03	MK Trimner		Added code to drop the 3 respondents that did not merge back with M1 dataset
+*										Saved with consistent naming convention
+*										Added code to run the derived variables code and save as COMPLETE									
 *******************************************************************************
 
 										*/
@@ -34,6 +36,7 @@ clear all
 u "${in_data}/`module3'.dta", clear
 
 
+
 * Add a character with the original country specific var name
 foreach v of varlist * {
 	local name `v'
@@ -43,6 +46,9 @@ foreach v of varlist * {
 * Clean up the id variable to remove any spaces that may cause merging issues
 replace Q104 = trim(Q104)
 replace Q104 = subinstr(Q104," ","",.)
+
+* Per the India's team instruction we will be dropping the below respondents as they are not part of the M1
+drop if inlist(Q104,"202307181044030109","202311171131039696","202311201424039696","202311212018039696")
 
 * 
 *------------------------------------------------------------------------------*
@@ -137,6 +143,7 @@ replace Q104 = subinstr(Q104," ","",.)
 		
 clonevar m3_permission = Consent
 clonevar m3_respondentid = Q104
+clonevar respondentid = m3_respondentid
 clonevar m3_102 = Q102
 clonevar m3_103 = Q103
 clonevar m3_104 = Q104
@@ -246,6 +253,8 @@ clonevar m3_405_4 = Q405_4
 clonevar m3_405_5 = Q405_5
 clonevar m3_405_96 = Q405_96
 clonevar m3_405_other = Q405_other
+* This has some values that have "." that need to be replaced as ""
+*replace m3_405_other = "" if m3_405_other == "."
 
 clonevar m3_406 = Q406
 clonevar m3_407 = Q407
@@ -558,8 +567,9 @@ m3_value_labels
 		save "${in_data_final}/eco_m3_in", replace // 969
 
 * Run the data quality check program
-m3_data_basic_quality_checks
+m3_data_basic_quality_checks_IN
 
+use  "${in_data_final}/eco_m3_in", clear
 	*===============================================================================
 
 	* STEP SIX: Recode 99, 98 and skipped appropriatley 
@@ -576,17 +586,16 @@ m3_recode_variables
 	* STEP SEVEN: Merge with m1_m2_dataset and SAVE DATA
 
 	* Only keep the M3 variables we are using 
-	keep m3_* 
+	keep respondentid m3_* 
 	
-* add this respondentid variable for merging purposes
-clonevar respondentid = m3_respondentid
-
 * confirm there is 1 row per respondent
 bysort respondentid: assert _N == 1
 
-merge 1:1 respondentid using "${in_data_final}/eco_m1_and_m2_in.dta"
+merge 1:1 respondentid using "${in_data_final}\Archive\eco_m1_and_m2_in.dta"
 
-* all those from M2 should be in M1
+*merge 1:1 respondentid using "${in_data_final}/eco_m1_and_m2_in.dta"
+
+* all those from M3 should be in M1
 assertlist _merge != 1, list(respondentid) 
 
 rename _merge merge_m3_to_m2_m1 
@@ -594,7 +603,29 @@ label var merge_m3_to_m2_m1 "Match between M3 dataset and M1 and M2 dataset"
 label define m3 1 "M3 Only" 2 "M1 only" 3 "Both M1 & M3"
 label value merge_m3_to_m2_m1 m3
 
-save "${in_data_final}/eco_m1_m2_m3_in.dta", replace
+* We want to drop those that do not merge back to main dataset
+* Per India team these 3 ids should not be included
+/*202307181044030109 
+202311171131039696 
+202311201424039696 
+202311212018039696
+*/
+drop if merge_m3_to_m2_m1 == 1 // this is 3 ids
+
+*save "${in_data_final}/eco_m1_m2_m3_in.dta", replace
+
+save "$in_data_final/eco_m1-m3_in.dta", replace
+
+*==============================================================================*
+* run derived variables
+ 
+
+ 	
+	* Run the derived variable code
+do "${github}\India\crEco_der_IN.do"
+
+ * Save as a completed dataset
+save "$in_data_final/eco_IN_Complete", replace
 		
 		
 

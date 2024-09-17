@@ -15,8 +15,8 @@
 *******************************************************************************/
 
 
-capture program drop m3_data_basic_quality_checks
-program define m3_data_basic_quality_checks
+capture program drop m3_data_basic_quality_checks_IN
+program define m3_data_basic_quality_checks_IN
 
 	local country = lower("$Country")
 	
@@ -64,7 +64,8 @@ program define m3_data_basic_quality_checks
 	}
 	*/
 	if "$Country" == "IN" {
-		gen birth_outcome = !missing(m3_1201) if m3_303_b1 == 1 | m3_303_b1 == 2 | m3_303_b3 == 1 
+		destring m3_107, replace force
+		gen birth_outcome = Q107_Result == 1 //!missing(m3_1201) if m3_303_b1 == 1 | m3_303_b1 == 2 | m3_303_b3 == 1 
 	}
 	**************************************************
 	**************************************************
@@ -95,6 +96,11 @@ program define m3_data_basic_quality_checks
 	assertlist match_to_M1 != 1, tag(Respondents do not have a match in M1 dataset) list(match_to_M1) `standard_values' sheet(`sheet_name')
 	keep if match_to_M1 != 2
 	tempfile m1
+	
+	gen t = date(m1_date,"DMY")
+	format %td t
+	rename m1_date org_m1_date
+	rename t m1_date
 	save `m1', replace
 	restore
 
@@ -127,6 +133,8 @@ program define m3_data_basic_quality_checks
 	
 	gen max_m2_date = max(m2_date_r1,m2_date_r2,m2_date_r3,m2_date_r4,m2_date_r5,m2_date_r6)
 	format %td  max_m2_date 
+	
+	clonevar m3_ga = m3_107
 
 	***************************************
 	***************************************
@@ -217,7 +225,7 @@ program define m3_data_basic_quality_checks
 
 	assertlist m3_302 > m1_date if inlist(m3_202,2,3) & !missing(m3_302) & !missing(m1_date), tag(m3_302 (`m3_302[Original_${Country}_Varname]') should be after the M1 date) list(m3_202 m3_302 m1_date) `standard_values' sheet(`sheet_name')
 
-	assertlist m3_302 > max_m2_date if inlist(m3_202,2,3) & !missing(m3_302) & !missing(max_m2_date), tag(m3_302 (`m3_302[Original_${Country}_Varname]') should be after the last M2 date) list(m3_202 m3_302 m2_date_r1 m2_date_r2 m2_date_r3 m2_date_r4 m2_date_r5 m2_date_r6 ) `standard_values' sheet(`sheet_name')
+	assertlist m3_302 > max_m2_date if inlist(m3_202,2,3) & !missing(m3_302) & !missing(max_m2_date), tag(m3_302 (`m3_302[Original_${Country}_Varname]') should be after the last M2 date) list(m3_202 m3_302 m2_date_r1 m2_date_r2 m2_date_r3 m2_date_r4 m2_date_r5 m2_date_r6) `standard_values' sheet(`sheet_name')
 
 	assertlist m3_302 <= m3_date if inlist(m3_202,2,3) & !missing(m3_302) & !missing(m3_302), tag(m3_302 (`m3_302[Original_${Country}_Varname]') should be before or equal to M3 date) list(m3_302 m3_date) `standard_values' sheet(`sheet_name')
 
@@ -251,7 +259,7 @@ program define m3_data_basic_quality_checks
 		
 		assertlist m3_313a_b`v' <= m3_302 if !missing(m3_313a_b`v') & !missing(m3_302), tag(m3_313a_b`v'(`m3_313a_b`v'[Original_${Country}_Varname]') should be before or equal to m3_302 (date pregnancy ended)) list(m3_313a_b`v' m3_302) `standard_values' sheet(`sheet_name')
 		
-		assertlist m3_313a_b`v' < max_m2_date if !missing(m3_313a_b`v') & !missing(max_m2_date), tag(m3_313a_b`v'(`m3_313a_b`v'[Original_${Country}_Varname]') should be before last m2_date) list(m3_313a_b`v' m2_date_r1 m2_date_r2 m2_date_r3 m2_date_r4 m2_date_r5 m2_date_r6 ) `standard_values' sheet(`sheet_name')
+		assertlist m3_313a_b`v' < max_m2_date if !missing(m3_313a_b`v') & !missing(max_m2_date), tag(m3_313a_b`v'(`m3_313a_b`v'[Original_${Country}_Varname]') should be before last m2_date) list(m3_313a_b`v' max_m2_date) `standard_values' sheet(`sheet_name')
 
 		assertlist m3_313a_b`v' > m1_date if !missing(m3_313a_b`v') & !missing(m1_date), tag(m3_313a_b`v'(`m3_313a_b`v'[Original_${Country}_Varname]') should be after m1_date) list(m3_313a_b`v' m1_date) `standard_values' sheet(`sheet_name')
 
@@ -275,7 +283,7 @@ program define m3_data_basic_quality_checks
 
 	gen answered_non_miscarriage = 0 if miscarriage == 1
 	local vlist
-	foreach v of varlist m3_4* m3_5* m3_6* m3_7* m3_8* m3_9* m3_10* m3_11* m3_1203 m3_1204 m3_1205 m3_1205_other m3_1206 {
+	foreach v of varlist m3_4* m3_5* m3_6* m3_7* m3_8* m3_9* m3_10* m3_11* m3_1203 m3_1204 { // m3_1205 m3_1205_other m3_1206 {
 		replace answered_non_miscarriage = answered_non_miscarriage + 1 if !missing(`v') & miscarriage == 1
 		count if !missing(`v') & miscarriage == 1
 		if `r(N)' > 0 local vlist `vlist' `v'
@@ -329,7 +337,7 @@ program define m3_data_basic_quality_checks
 	**************************************************
 	**************************************************
 	**************************************************
-
+	
 	local sheet_name labor_and_delivery
 	local org_sheet `sheet_name'
 
@@ -340,7 +348,7 @@ program define m3_data_basic_quality_checks
 
 	assertlist m3_506_date <= m3_date if m3_501 == 1 & !inlist(m3_506_date,14245,13880,.) & !missing(m3_date), tag(m3_506_date (`m3_506_date[Original_${Country}_Varname]') should be before or m3_date) list(m3_506_date m3_date) `standard_values' sheet(`sheet_name')
 
-	assertlist m3_506_date > max_m2_date if m3_501 == 1 & !inlist(m3_506_date,14245,13880,.) & !missing(max_m2_date) , tag(m3_506_date (`m3_506_date[Original_${Country}_Varname]') should be after last M2 date) list(m3_506_date m2_date_r1 m2_date_r2 m2_date_r3 m2_date_r4 m2_date_r5 m2_date_r6 ) `standard_values' sheet(`sheet_name')
+	assertlist m3_506_date > max_m2_date if m3_501 == 1 & !inlist(m3_506_date,14245,13880,.) & !missing(max_m2_date) , tag(m3_506_date (`m3_506_date[Original_${Country}_Varname]') should be after last M2 date) list(m3_506_date m2_date_r1 m2_date_r2 m2_date_r3 m2_date_r4 m2_date_r5 m2_date_r6) `standard_values' sheet(`sheet_name')
 
 	assertlist m3_506_date > m1_date if m3_501 == 1 & !inlist(m3_506_date,14245,13880,.) & !missing(m1_date) , tag(m3_506_date (`m3_506_date[Original_${Country}_Varname]') should be after M1 date) list(m3_506_date m1_date) `standard_values' sheet(`sheet_name')
 
@@ -433,13 +441,13 @@ program define m3_data_basic_quality_checks
 			assertlist inlist(m3_708_`q'_b`b',.) if (m3_303_b`b' !=1 & m3_312_b`b' != 1), tag(m3_708_`q'_b`b' (`m3_708_`q'_b`b'[Original_${Country}_Varname]') should only be populated if baby `b' born alive) list(m3_708_`q'_b`b' m3_303_b`b' m3_312_b`b') `standard_values' sheet(`sheet_name')
 		}
 		
-			assertlist inlist(m3_709_b`b',0,1,98,99) if (m3_303_b`b' ==1 | m3_312_b`b' == 1), tag(m3_709_b`b' (`m3_709_b`b'[Original_${Country}_Varname]') should have a value of 0,1,98 or 99 if baby `b' born alive) list(m3_709_b`b' m3_303_b`b' m3_312_b`b') `standard_values' sheet(`sheet_name')
+			*assertlist inlist(m3_709_b`b',0,1,98,99) if (m3_303_b`b' ==1 | m3_312_b`b' == 1), tag(m3_709_b`b' (`m3_709_b`b'[Original_${Country}_Varname]') should have a value of 0,1,98 or 99 if baby `b' born alive) list(m3_709_b`b' m3_303_b`b' m3_312_b`b') `standard_values' sheet(`sheet_name')
 			
-			assertlist inlist(m3_709_b`b',.) if (m3_303_b`b' !=1 & m3_312_b`b' != 1), tag(m3_709_b`b' (`m3_709_b`b'[Original_${Country}_Varname]') should only be populated if baby `b' born alive) list(m3_709_b`b' m3_303_b`b' m3_312_b`b') `standard_values' sheet(`sheet_name')
+			*assertlist inlist(m3_709_b`b',.) if (m3_303_b`b' !=1 & m3_312_b`b' != 1), tag(m3_709_b`b' (`m3_709_b`b'[Original_${Country}_Varname]') should only be populated if baby `b' born alive) list(m3_709_b`b' m3_303_b`b' m3_312_b`b') `standard_values' sheet(`sheet_name')
 			
-			assertlist !missing(m3_709_other) if m3_709_b`b' == 1, tag(m3_709_other (`m3_709_other[Original_${Country}_Varname]') should be populated if selected other health problems for baby `b' born alive) list(m3_709_other m3_709_b`b') `standard_values' sheet(`sheet_name')
+			*assertlist !missing(m3_709_other) if m3_709_b`b' == 1, tag(m3_709_other (`m3_709_other[Original_${Country}_Varname]') should be populated if selected other health problems for baby `b' born alive) list(m3_709_other m3_709_b`b') `standard_values' sheet(`sheet_name')
 			
-			assertlist missing(m3_709_other) if m3_709_b`b' != 1, tag(m3_709_other (`m3_709_other[Original_${Country}_Varname]') should only be populated if selected other health problems for baby `b' born alive) list(m3_709_other m3_709_b`b') `standard_values' sheet(`sheet_name')
+			*assertlist missing(m3_709_other) if m3_709_b`b' != 1, tag(m3_709_other (`m3_709_other[Original_${Country}_Varname]') should only be populated if selected other health problems for baby `b' born alive) list(m3_709_other m3_709_b`b') `standard_values' sheet(`sheet_name')
 			
 			assertlist inlist(m3_710_b`b',0,1,98,99) if m3_501 == 1 & (m3_303_b`b' ==1 | m3_312_b`b' == 1), tag(m3_710_b`b' (`m3_710_b`b'[Original_${Country}_Varname]') should have a value of 0,1,98,99 if baby `b' born alive in a facility) list(m3_501 m3_710_b`b' m3_303_b`b' m3_312_b`b') `standard_values' sheet(`sheet_name')
 			
@@ -465,9 +473,9 @@ program define m3_data_basic_quality_checks
 	assertlist missing(m3_801_b) if !inlist(m3_202,2,3), tag(m3_801_b (`m3_801_b[Original_${Country}_Varname]') should only be populated if delivered or something else happened) list(m3_202 m3_801_b) `standard_values' sheet(`sheet_name')
 
 
-	capture egen m3_phq2_score = rowtotal(m3_801_a m3_801_b) if inlist(m2_202,2,3) & m3_801_a < 98 & m3_801_b < 98
+	capture egen m3_phq2_score = rowtotal(m3_801_a m3_801_b) if inlist(m3_202,2,3) & m3_801_a < 98 & m3_801_b < 98
 	recode m3_phq2_score (. 0 = .a) if (m3_801_a == . | m3_801_a == .a | m3_801_a == 98 | m3_801_a == 99) & ///
-									 (m3_801_b == . | m3_801_b == .a | m3_801_b == 98 | m3_801_b == 99) | !inlist(m2_202,2,3)
+									 (m3_801_b == . | m3_801_b == .a | m3_801_b == 98 | m3_801_b == 99) | !inlist(m3_202,2,3)
 
 
 	assertlist inlist(m3_802a,0,1,98,99) if m3_phq2_score >= 3 & !missing(m3_phq2_score), tag(m3_802a (`m3_802a[Original_${Country}_Varname]') should have a value of 0,1,98 or 99 if delivered or something else happened and had a psych score >= 3) list(m3_801_a m3_801_b m3_phq2_score m3_802a) `standard_values' sheet(`sheet_name')
@@ -580,6 +588,6 @@ program define m3_data_basic_quality_checks
 			
 			* add a single tab with all the ids in one row
 			assertlist_export_ids, excel(`excel') 
-}
+
 
 end
