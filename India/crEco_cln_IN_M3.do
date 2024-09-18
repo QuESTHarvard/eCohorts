@@ -145,6 +145,7 @@ clonevar m3_permission = Consent
 clonevar m3_respondentid = Q104
 clonevar respondentid = m3_respondentid
 clonevar m3_102 = Q102
+clonevar m3_date = m3_102
 clonevar m3_103 = Q103
 clonevar m3_104 = Q104
 clonevar m3_107 = Q107
@@ -254,7 +255,7 @@ clonevar m3_405_5 = Q405_5
 clonevar m3_405_96 = Q405_96
 clonevar m3_405_other = Q405_other
 * This has some values that have "." that need to be replaced as ""
-*replace m3_405_other = "" if m3_405_other == "."
+capture replace m3_405_other = "" if m3_405_other == "."
 
 clonevar m3_406 = Q406
 clonevar m3_407 = Q407
