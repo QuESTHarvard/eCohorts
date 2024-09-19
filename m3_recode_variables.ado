@@ -73,14 +73,27 @@ program define m3_recode_variables
 	recode m3_403 m3_404 (. = .a) if m3_402 < 1 | missing(m3_402)
 	recode m3_404 m3_405_1 m3_405_2 m3_405_3  m3_405_4 m3_405_5 m3_405_96   (. = .a) if m3_403 == 1
 	recode m3_405_1 m3_405_2 m3_405_3  m3_405_4 m3_405_5 m3_405_96 (. = .a) if m3_404 == 1
+	replace m3_405_other = ".a" if m3_405_96 != 1
 	
 	recode m3_406 m3_407 (. = .a) if m3_402 < 1 | missing(m3_402)
 	recode m3_407 m3_408_1 m3_408_2 m3_408_3  m3_408_4 m3_408_5 m3_408_96   (. = .a) if m3_406 == 1
 	recode m3_408_1 m3_408_2 m3_408_3  m3_408_4 m3_408_5 m3_408_96 (. = .a) if m3_407 == 1
+	replace m3_408_other = ".a" if m3_408_96 != 1
 
 	recode m3_409 m3_410 (. = .a) if m3_402 < 1 | missing(m3_402)
 	recode m3_410 m3_411_1 m3_411_2 m3_411_3  m3_411_4 m3_411_5 m3_411_96   (. = .a) if m3_409 == 1
 	recode m3_411_1 m3_411_2 m3_411_3  m3_411_4 m3_411_5 m3_411_96 (. = .a) if m3_410 == 1
-
+	replace m3_411_other = ".a" if m3_411_96 != 1
+	
+	recode m3_501 (. = .a) m3_202 != 2
+	
+	recode m3_502_IN m3_503_IN m3_504 m3_505a m3_505b_weeks m3_505b_days m3_505b_hours m3_506_date m3_506_time m3_507_time (. = .a) if m3_501 != 1
+	recode m3_508 m3_509 (. = .a) if m3_501 != 0
+	replace m3_509_other = ".a" if m3_501 != 0 & missing(m3_509_other)
+	
+	recode m3_511 m3_512_1_IN m3_512_2_IN  m3_513a_IN m3_513b_IN  (. = .a) if m3_510 != 1
+	recode m3_512_1_IN m3_513a_IN (. = .a) if m3_511 < 1 
+	recode m3_512_2_IN m3_513b_IN (. = .a) if m3_511 < 2
+	recode 
 
 end
