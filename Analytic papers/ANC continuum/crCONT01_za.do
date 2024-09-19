@@ -17,7 +17,7 @@ set more off
 	forval i = 1/6 { // drop the m2 date where the woman has delivered/lost pregnancy
 		replace m2_date_r`i' =. if m2_202_r`i'==2 | m2_202_r`i'==3 // 25% did not have a module 2!
 	}
-	egen totalfu=rownonmiss(m1_date m2_date_r* m3_date) 
+	egen totalfu=rownonmiss(m2_date_r* m3_date) 
 	
 	* Dropping women with no M2
 	drop if totalfu<3 // 25% dropped, N=663

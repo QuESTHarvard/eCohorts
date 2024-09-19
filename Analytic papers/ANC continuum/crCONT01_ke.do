@@ -198,20 +198,42 @@ set more off
 					
 *-------------------------------------------------------------------------------		
 	* DEMOGRAPHICS AND RISK FACTORS
+		* Demographics
+			gen age20= enrollage<20
+			gen age35= enrollage>=35
+			
+			// educ_cat  quintile  marriedp
+			gen healthlit_corr=health_lit==4
+			
+			rename  facility_lvl factype
 		* Risk factors
 			* Anemia
-		recode Hb 0/10.99999=1 11/30=0, gen(anemia)
-		lab val anemia anemia
+			recode bsl_Hb 0/10.99999=1 11/30=0, gen(anemia)
+			lab val anemia anemia
 			* Chronic illnesses
-		g other_chronic= 1 if m1_203_other=="Fibroids" | m1_203_other=="Peptic ulcers disease" ///
-		| m1_203_other=="PUD" | m1_203_other=="Gestational Hypertension in previous pregnancy" ///
-		| m1_203_other=="Ovarian cyst" | m1_203_other=="Peptic ulcerative disease"
+			g other_chronic= 1 if m1_203_other=="Fibroids" | m1_203_other=="Peptic ulcers disease" ///
+			| m1_203_other=="PUD" | m1_203_other=="Gestational Hypertension in previous pregnancy" ///
+			| m1_203_other=="Ovarian cyst" | m1_203_other=="Peptic ulcerative disease"
 		
-		egen chronic= rowtotal(m1_202a m1_202b m1_202c m1_202d m1_202e m1_203c_ke ///
-		m1_203d_ke  m1_203g_ke  m1_203i_ke ///
-		m1_203k_ke m1_203l_ke m1_203m_ke m1_203n_ke m1_203o_ke other_chronic HBP)
-
-					
+			egen chronic= rowtotal(m1_202a m1_202b m1_202c m1_202d m1_202e m1_203c_ke ///
+			m1_203d_ke  m1_203g_ke  m1_203i_ke ///
+			m1_203k_ke m1_203l_ke m1_203m_ke m1_203n_ke m1_203o_ke other_chronic bsl_HBP)
+			* Underweight
+			rename bsl_low_BMI malnut
+			* Obstetric risk factors		
+			gen multiple= m1_805 >1 &  m1_805<.
+			gen cesa= m1_1007==1
+			
+			gen neodeath = m1_1010 ==1
+			gen preterm = m1_1005 ==1
+			gen PPH=m1_1006==1
+			egen complic = rowtotal(stillbirth neodeath preterm PPH cesa) 
+		
+			egen riskcat=rowtotal(anemia chronic malnut complic age20 age35)
+			recode riskcat 3/max=2 
+			lab def riskcat 0"No risk factor" 1"One risk factor" 2"Two or more risk factors" 
+			lab val riskcat riskcat
+				
 					
 save "$user/MNH E-Cohorts-internal/Analyses/Manuscripts/Paper 5 Continuum ANC/Data/KEtmp.dta", replace	
 

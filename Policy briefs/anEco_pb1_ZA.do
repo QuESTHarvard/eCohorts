@@ -3,8 +3,8 @@
 * Created: September 21, 2023
 
 
-u "$za_data_final/eco_m1_za_der.dta", clear
-
+* u "$za_data_final/eco_m1_za_der.dta", clear
+	u  "$za_data_final/eco_m1-m3_za_der.dta", clear
 * Demographics
 	rename study_site_sd site
 	recode enrollage 1/19=1 20/35=2 36/49=3, g(agecat)
