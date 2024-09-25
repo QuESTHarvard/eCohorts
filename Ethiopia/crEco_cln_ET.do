@@ -1508,7 +1508,7 @@ drop m2_drop
 		replace m3_birth_or_ended = date("2023-11-14", "YMD") if redcap_record_id=="1686-19"
 		replace m3_birth_or_ended = date("2023-11-11", "YMD") if redcap_record_id=="1701-32"
 		replace m3_birth_or_ended = date("2023-09-26", "YMD") if redcap_record_id=="1695-37"
-		replace m3_birth_or_ended = date("2023-11-13", "YMD") if redcap_record_id=="1701-19"
+		replace m3_birth_or_ended = date("2023-10-13", "YMD") if redcap_record_id=="1701-19"
 	
 		gen pregnancyend_ga = ((m3_birth_or_ended)-m1_date)/7 + m1_ga
 
