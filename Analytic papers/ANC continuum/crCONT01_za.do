@@ -207,6 +207,7 @@ set more off
 		cd "$user/MNH E-Cohorts-internal/Analyses/Manuscripts/Paper 5 Continuum ANC/Data/"
 		egen hivtest= rowmax (m1_708a m1_709a) // an hiv test or viral load test (if already HIV+)
 		forval i= 1/6 {
+			recode m2_503c_r`i' 9999998=.
 			egen m2hiv`i' = rowmax(m2_503b_r`i' m2_503c_r`i')
 			}
 		recode m1_704 2=. // listen to fetal heart rate 
@@ -257,7 +258,7 @@ set more off
 							m2_wgt_r* m2_blood_r* m2_urine_r* m2_503e_r* m2hiv* m2_503d_r* m2_us_r*)
 					
 					keep respondentid ancfufirst 
-					merge 1:1 redcap_record_id using timelyanc.dta
+					merge 1:1 respondentid using timelyancza.dta
 					drop _merge
 					save timelyancza.dta, replace
 			restore
@@ -286,7 +287,7 @@ set more off
 							m2_us_r* m2_601e_r*)
 					
 					keep respondentid ancfusecond
-					merge 1:1 redcap_record_id using timelyanc.dta
+					merge 1:1 respondentid using timelyancza.dta
 					drop _merge
 					save timelyancza.dta, replace
 			restore
@@ -315,7 +316,7 @@ set more off
 							m2_601e_r*)
 							
 					keep respondentid ancfuthird country
-					merge 1:1 redcap_record_id using timelyanc.dta
+					merge 1:1 respondentid using timelyancza.dta
 					drop _merge
 					save timelyancza.dta, replace
 			restore		

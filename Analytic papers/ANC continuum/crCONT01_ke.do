@@ -252,7 +252,7 @@ set more off
 							m2_wgt_r* m2_blood_r* m2_urine_r* m2_503e_r* m2hiv* m2_503d_r* m2_us_r*)
 					
 					keep respondentid ancfufirst 
-					merge 1:1 redcap_record_id using timelyancke.dta
+					merge 1:1 respondentid using timelyancke.dta
 					drop _merge
 					save timelyancke.dta, replace
 			restore
@@ -281,7 +281,7 @@ set more off
 							m2_us_r* m2_601e_r*)
 					
 					keep respondentid ancfusecond
-					merge 1:1 redcap_record_id using timelyancke.dta
+					merge 1:1 respondentid using timelyancke.dta
 					drop _merge
 					save timelyancke.dta, replace
 			restore
@@ -310,7 +310,7 @@ set more off
 							m2_601e_r*)
 							
 					keep respondentid ancfuthird country
-					merge 1:1 redcap_record_id using timelyancke.dta
+					merge 1:1 respondentid using timelyancke.dta
 					drop _merge
 					save timelyancke.dta, replace
 			restore		

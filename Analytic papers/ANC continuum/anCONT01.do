@@ -41,7 +41,6 @@
 	* Table 1
 	
 	
-	
 	* Number of visits
 	graph box totvisits, over(country) ytitle("Total number of visits")
 	by country, sort: tabstat totvisit, stat(min max med mean)
@@ -66,4 +65,15 @@
 		
 	by country, sort: tabstat anctotal  if totalfu>3, stat(mean med count) col(stat)
 
+	* Timely ANC
+	u timelyanc.dta
+		append using timelyancza 
+		append using timelyancke 
+	
+		drop if anygap==1
+		egen qual1=rowmean(anc1first ancfufirst)
+		egen qual2=rowmean(anc1second ancfusecond)
+		egen qual3=rowmean(anc1third ancfuthird)
+		
+		graph box qual1 qual2 qual3 , over(country)
 	
