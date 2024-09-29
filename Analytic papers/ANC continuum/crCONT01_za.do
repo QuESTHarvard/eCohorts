@@ -8,7 +8,16 @@ set more off
 	
 	* Restrict dataset to those who were not lost to follow up
 	keep if m3_date!=.
-
+	* Remove women who had a miscarriage (didn't reach 28 weeks gestation)
+	foreach x in RCH_050	QEE_171	QEE_103	PAP_031	NEL_011	NWE_031	EUB_005	///
+	TOK_086	NWE_011	BXE_034	NWE_050	RCH_087	NEL_077	NUN_020	NWE_017	QEE_197	///
+	NWE_004	MBA_001	QEE_126	MER_048	MND_013	NLO_011	RCH_042	TOK_003	NUN_025	///
+	RCH_081	MPH_038	TOK_077	QEE_186	EUB_019	KAN_043	BNE_050	MND_004	TOK_012 ///
+	NOK_019	NWE_041	EUB_015	IIB_032	NWE_075	MBA_010	IIB_026	RCH_043	TOK_042	///
+	MPH_006	NEL_062	UKH_022	BCH_003	NEL_025 {
+	drop if respondentid =="`x'"
+	}
+	
 *-------------------------------------------------------------------------------
 	* Number of follow up surveys
 	*Drop the m2 date where the woman has delivered or lost pregnancy since 
@@ -17,20 +26,17 @@ set more off
 	forval i = 1/6 { // drop the m2 date where the woman has delivered/lost pregnancy
 		replace m2_date_r`i' =. if m2_202_r`i'==2 | m2_202_r`i'==3 // 25% did not have a module 2!
 	}
-	egen totalfu=rownonmiss(m2_date_r* m3_date) 
-	
-	* Dropping women with no M2
-	drop if totalfu<3 // 25% dropped, N=663
+	egen totalfu=rownonmiss(m1_date m2_date_r* m3_date) 
 	
 *-------------------------------------------------------------------------------		
 	* Time between follow-up surveys
-	gen time_m2_r1_m1= (m2_date_r1-m1_date)/7
+	gen time_m2_r1_m1= (m2_date_r1-m1_date)/7 // time in weeks bw 1st m2 and m1
 	gen time_m2_r2_m2_r1 = (m2_date_r2-m2_date_r1)/7
 	gen time_m2_r3_m2_r2 = (m2_date_r3-m2_date_r2)/7
 	gen time_m2_r4_m2_r3 = (m2_date_r4-m2_date_r3)/7
 	gen time_m2_r5_m2_r4 = (m2_date_r5-m2_date_r4)/7
 	gen time_m2_r6_m2_r5 = (m2_date_r6-m2_date_r5)/7
-
+	* Number of M2 surveys conducted
 	egen countm2=rownonmiss(m2_date_r*)
 	gen m2_date_last= m2_date_r1 if countm2==1
 	replace m2_date_last= m2_date_r2 if countm2==2
@@ -40,20 +46,60 @@ set more off
 	replace m2_date_last= m2_date_r6 if countm2==6
 	replace m2_date_last=m1_date if countm2==0
 	format m2_date_last %td
-	gen time_m2_last_m3 = (m3_date - m2_date_last)/7
-
-	forval i = 1/6 {
-		gen tag`i'=1 if time_m2_r`i'>14 & time_m2_r`i' <.
-		}	
-	gen tag7 = 1 if time_m2_last_m3 >14 & time_m2_last_m3<.
-	* Time between M3 survey and DOB/end of pregnancy
-	gen m3delay=(m3_date-m3_birth_or_ended) 
-	recode m3delay 0/31 = 1 32/63=2 64/94=3 95/126=4 127/157=5 158/max=6
+	gen time_m2_last_m3 = (m3_date - m2_date_last)/7 // time bw last m2 and m3
 	
-	lab def m3delay 1 "within a month" 2"within 2mos" 3 "within 3mos" 4"withn 4 mos" ///
-	5"within 5 months" 6"within 6-12mos"
-	lab val m3delay m3delay
-
+	* Create tag for any time bw follow up surveys > 13.5 weeks (a whole trimester)
+	forval i = 1/6 {
+		gen tag`i'=1 if time_m2_r`i'>13.5 & time_m2_r`i' <.
+		}	
+	gen tag7 = 1 if time_m2_last_m3 >13.5 & time_m2_last_m3<.
+	egen anygap=rowmax(tag*)
+	*brow m1_date ga m2_date_r*  m3_date tag* m2_ga_r*
+*-------------------------------------------------------------------------------	
+	* RECALCULATING BASELINE GA and RUNNING GA
+		gen bslga=ga
+		gen ga_endpreg= ((m3_birth_or_ended-m1_date)/7)+bslga  // 8.9% have a GA>42 weeks
+		drop ga_endpreg
+	
+	* Trimesters
+	drop trimester
+	recode bslga (1/12.99999 = 1) (13/27.99999= 2) (28/50=3), gen(trimester)
+			lab def trim 1"1st trimester 0-12wks" 2"2nd trimester 13-27 wks" ///
+			3 "3rd trimester 28-42 wks"
+					lab val trimester trim
+					
+	* Recalculating baseline and running GA based on DOB for those with live births
+	* and no LBW babies.
+		gen bslga2 = 40-((m3_birth_or_ended-m1_date)/7)
+		egen alive=rowmin(m3_303b m3_303c m3_303d) // any baby died
+			replace bslga2=. if alive==0
+		recode m3_baby1_weight min/2.4999=1 2.5/max=0
+		recode m3_baby2_weight min/2.4999=1 2.5/max=0
+		recode m3_baby3_weight min/2.4999=1 2.5/max=0
+		egen lbw=rowmax(m3_baby1_weight m3_baby2_weight m3_baby3_weight)
+			replace bslga2=. if lbw==1 
+			replace bslga2=. if m3_baby1_size==5 | m3_baby2_size==5 | m3_baby3_size==5
+			replace bslga2=. if bslga2<0
+			replace bslga= bslga2 if bslga2!=. 
+			gen ga_endpreg= ((m3_birth_or_ended-m1_date)/7)+bslga 
+			recode ga_endpreg (1/12.99999 = 1) (13/27.99999= 2) (28/max=3), g(endtrimes)
+	
+	* Recalculating running GA and running trimester 
+		drop m2_ga_r1  m2_ga_r2 m2_ga_r3 m2_ga_r4 m2_ga_r5 m2_ga_r6 
+		forval i=1/6 {
+			gen m2_ga_r`i' = ((m2_date_r`i'-m1_date)/7) +bslga
+			gen m2_trimes_r`i'=m2_ga_r`i'
+			recode m2_trimes_r`i' (1/12.99999 = 1) (13/27.99999= 2) (28/50=3)
+			lab var m2_trimes_r`i' "Trimester of pregnancy at follow up"
+			}
+	
+	* Baseline trimester
+	recode bslga (1/12.99999 = 1) (13/27.99999= 2) (28/max=3), gen(bsltrimester)
+					lab val bsltrimester trim
+					lab val m2_trimes_r* trim
+					lab var bsltrimester "Trimester at ANC initiation/enrollment"	
+	
+	
 *-------------------------------------------------------------------------------		
 	* Number of ANC visits
 		egen totvisits=rowtotal(m2_305_r* m2_308_r* m2_311_r* m2_314_r* m2_317_r* ///
@@ -66,8 +112,10 @@ set more off
 *-------------------------------------------------------------------------------		
 	* TOTAL ANC CONTENT
 		* First visit
-			rename (m1_700 m1_701 m1_703  m1_705 m1_712 m1_716a m1_716b m1_716c m1_716e m1_801 m1_806 m1_809 m1_724a) ///
-					(anc1_bp anc1_weight anc1_muac anc1_urine anc1_ultrasound anc1_nutri anc1_exer anc1_anxi ///
+			rename (m1_700 m1_701 m1_703  m1_705 m1_712 m1_716a m1_716b ///
+					m1_716c m1_716e m1_801 m1_806 m1_809 m1_724a) ///
+					(anc1_bp anc1_weight anc1_muac anc1_urine anc1_ultrasound ///
+					anc1_nutri anc1_exer anc1_anxi ///
 					anc1_dangers anc1_edd anc1_lmp anc1_bplan anc1_return)
 			egen anc1_bmi= rowtotal(anc1_weight m1_702)
 			recode anc1_bmi 1=0 2=1
@@ -110,91 +158,168 @@ set more off
 			rename (m2_601b_r1 m2_601b_r2 m2_601b_r3 m2_601b_r4 m2_601b_r5 m2_601b_r6 ) ///
 					(m2_calcium_r1 m2_calcium_r2 m2_calcium_r3 m2_calcium_r4 m2_calcium_r5 m2_calcium_r6 )
 	
-		* Total ANC content
-			egen anctotal=rowtotal(anc1_bp anc1_weight anc1_bmi anc1_muac anc1_urine ///
-					anc1_blood anc1_ultrasound anc1_anxi anc1_lmp anc1_nutri anc1_exer ///
-					anc1_dangers  anc1_edd anc1_bplan anc1_ifa anc1_calcium /// 13 items
-					m2_bp_r* m3_bp m2_wgt_r*  m3_wgt m2_urine_r* m3_urine m2_blood_r* m3_blood ///
-					m2_us_r*  m3_us m2_danger_r* m2_bplan_r* ///
-					m2_ifa_r* m2_calcium_r*) // 8 x 8 
-
-	* Number of months in ANC 
-		
-		gen months=(m3_birth_or_ended-m1_date)/30.5
-		replace months = . if m3_birth_or_ended > m3_date // birth is after survey
-		replace months = . if m3_birth_or_ended < m1_date // birth before M1
-		replace months = . if m3_birth_or_ended < m2_date_r1
-		
-		gen manctotal= anctotal/months // Nb ANC clinical actions per month
 *-------------------------------------------------------------------------------		
 	* MINIMUM SET OF ANC ITEMS	
-	* At least 3 BP checks
-	egen totalbp=rowtotal(anc1_bp m2_bp_r* m3_bp*)
-		recode totalbp 1/2=0 3/max=1, gen(bpthree)
+		* At least 3 BP checks
+		egen totalbp=rowtotal(anc1_bp m2_bp_r* m3_bp*)
+			recode totalbp 1/2=0 3/max=1, gen(bpthree)
 
-	* At least 3 wgts
-	egen totalweight=rowtotal(anc1_weight m2_wgt_r* m3_wgt*)
-		recode totalweight 1/2=0 3/max=1, gen(wgtthree)
+		* At least 3 wgts
+		egen totalweight=rowtotal(anc1_weight m2_wgt_r* m3_wgt*)
+			recode totalweight 1/2=0 3/max=1, gen(wgtthree)
+			
+		* At least 3 blood tests
+		egen totalblood=rowtotal(anc1_blood m2_blood_r* m3_blood*)
+			recode totalblood 1/2=0 3/max=1, gen(bloodthree)
+			
+		* At least 3 urine tests
+		egen totalurine=rowtotal(anc1_urine m2_urine_r* m3_urine*)
+			recode totalurine 1/2=0 3/max=1, gen(urinethree)
+
+		egen all4= rowmin (bpthree wgtthree bloodthree urinethree )
 		
-	* At least 3 blood tests
-	egen totalblood=rowtotal(anc1_blood m2_blood_r* m3_blood*)
-		recode totalblood 1/2=0 3/max=1, gen(bloodthree)
+*-------------------------------------------------------------------------------		
+	* TOTAL ANC SCORE
+	
+		recode totalbp 4/max=4, g(maxbp4)
+		recode totalweight 4/max=4, g(maxwgt4)
+		recode totalurine 4/max=3, g(maxurine4)
+		recode totalblood 4/max=3, g(maxblood4)
+		egen totalus =rowtotal(anc1_ultrasound m2_us_r* m3_us*)
+			recode totalus 4/max=3, g(maxus4)
+		egen totaldanger=rowtotal(anc1_dangers m2_danger_r*) 
+			recode totaldanger 4/max=4, g(maxdanger4)
+		egen totalbplan= rowtotal(anc1_bplan m2_bplan_r*)
+			recode totalbplan 4/max=4, g(maxbplan4)
+		egen totalifa = rowtotal(anc1_ifa m2_ifa_r*)
+			recode totalifa 4/max=4, g(maxifa4)
+		egen totalcalcium = rowtotal(anc1_calcium m2_calcium_r*)
+			recode totalcalcium 4/max=4, g(maxcalc4)
+		recode m1_713d (2=1) (3=0), gen(anc1deworm)
+		egen deworm=rowmax(anc1deworm m2_601e_r*)
 		
-	* At least 3 urine tests
-	egen totalurine=rowtotal(anc1_urine m2_urine_r* m3_urine*)
-		recode totalurine 1/2=0 3/max=1, gen(urinethree)
-		replace urinethree=. if totalfu <2
-	
-	* At least 1 ultrasound
-	egen totalus=rowtotal(anc1_ultrasound m2_us_r* m3_us*)
-		recode totalus 1/max=1
-		
-	* Takes IFA at each survey
-	egen contifa = rowmin(m2_603_r*) // always taking IFA
-	
-	egen all4= rowmin (bpthree wgtthree bloodthree urinethree )
-	
-*-------------------------------------------------------------------------------	
-	* RECALCULATING BASELINE GA and RUNNING GA
-		gen bslga=ga
-		gen ga_endpreg= ((m3_birth_or_ended-m1_date)/7)+bslga  // 12% have a GA>42 weeks, no adjustements
-		drop ga_endpreg
-	* Trimesters
-	drop trimester
-	recode bslga (1/12.99999 = 1) (13/27.99999= 2) (28/50=3), gen(trimester)
-			lab def trim 1"1st trimester 0-12wks" 2"2nd trimester 13-27 wks" ///
-			3 "3rd trimester 28-42 wks"
-					lab val trimester trim
-	* Recalculating baseline and running GA based on DOB for those with live births
-	* and no LBW babies.
-		gen bslga2 = 40-((m3_birth_or_ended-m1_date)/7)
-		egen alive=rowmin(m3_303b m3_303c m3_303d) // any baby died
-			replace bslga2=. if alive==0
-		recode m3_baby1_weight min/2.4999=1 2.5/max=0
-		recode m3_baby2_weight min/2.4999=1 2.5/max=0
-		recode m3_baby3_weight min/2.4999=1 2.5/max=0
-		egen lbw=rowmax(m3_baby1_weight m3_baby2_weight m3_baby3_weight)
-			replace bslga2=. if lbw==1 
-			replace bslga2=. if m3_baby1_size==5 | m3_baby2_size==5 | m3_baby3_size==5
-			replace bslga= bslga2 if bslga2!=. 
-			gen ga_endpreg= ((m3_birth_or_ended-m1_date)/7)+bslga 
-			recode ga_endpreg (1/12.99999 = 1) (13/27.99999= 2) (28/max=3), g(endtrimes)
-	* Recalculating running GA and running trimester 
-		drop m2_ga_r1  m2_ga_r2 m2_ga_r3 m2_ga_r4 m2_ga_r5 m2_ga_r6 
-		forval i=1/6 {
-			gen m2_ga_r`i' = ((m2_date_r`i'-m1_date)/7) +bslga
-			gen m2_trimes_r`i'=m2_ga_r`i'
-			recode m2_trimes_r`i' (1/12.99999 = 1) (13/27.99999= 2) (28/50=3)
-			lab var m2_trimes_r`i' "Trimester of pregnancy at follow up"
+		egen anctotal=rowtotal(maxbp4 maxwgt4 anc1_bmi anc1_muac maxurine4 maxblood4 ///
+					maxus4 anc1_anxi anc1_lmp anc1_nutri anc1_exer maxdanger4 anc1_edd ///
+					maxbplan4 maxifa4 maxcalc4 deworm)	
+				
+*-------------------------------------------------------------------------------		
+		* TIMELY ANC
+		cd "$user/MNH E-Cohorts-internal/Analyses/Manuscripts/Paper 5 Continuum ANC/Data/"
+		egen hivtest= rowmax (m1_708a m1_709a) // an hiv test or viral load test (if already HIV+)
+		forval i= 1/6 {
+			recode m2_503c_r`i' 9999998=.
+			egen m2hiv`i' = rowmax(m2_503b_r`i' m2_503c_r`i')
 			}
-	* Baseline trimester
-	recode bslga (1/12.99999 = 1) (13/27.99999= 2) (28/max=3), gen(bsltrimester)
-					lab val bsltrimester trim
-					lab val m2_trimes_r* trim
-					lab var bsltrimester "Trimester at ANC initiation/enrollment"
-
+		recode m1_704 2=. // listen to fetal heart rate 
+		
+		* Recommended items for first visits in first trimester
+		egen anc1first=rowmean(anc1_lmp anc1_edd anc1_dangers anc1_bplan ///
+					anc1_nutri anc1_ifa anc1_bp anc1_weight m1_702 anc1_muac ///
+					anc1_blood  anc1_urine m1_711a  hivtest  m1_710a ///
+					anc1_ultrasound   anc1tt) ///
+					if bsltrimest==1 
 					
+		* Recommended items for first visits in 2nd trimester
+		egen anc1second=rowmean(anc1_lmp anc1_edd anc1_dangers anc1_bplan ///
+					anc1_nutri anc1_ifa anc1_calcium anc1_bp anc1_weight m1_702 anc1_muac ///
+					anc1_blood  anc1_urine m1_711a  hivtest  m1_710a m1_704 ///
+					anc1_ultrasound anc1tt) ///
+					if bsltrimest==2
 					
+		* Recommended items for first visits in 3rd trimester
+		egen anc1third=rowmean(anc1_lmp anc1_edd anc1_dangers anc1_bplan ///
+					anc1_nutri anc1_ifa anc1_calcium anc1_bp anc1_weight m1_702 anc1_muac ///
+					anc1_blood  anc1_urine m1_711a  hivtest  m1_710a m1_704 ///
+					anc1tt) ///
+					if bsltrimest==3
+		preserve
+			keep respondentid anc1first anc1second anc1third anygap
+			save timelyancza.dta, replace
+		restore 
+		
+		
+	*Recommended items for follow-up anc visits in first trimester
+			preserve
+					forval i=1/6 {
+						replace m2_danger_r`i' = . if m2_trimes_r`i'!=1 
+						replace m2_bplan_r`i' = . if m2_trimes_r`i'!=1 
+						replace m2_ifa_r`i' = . if m2_trimes_r`i'!=1 
+						replace m2_bp_r`i' = . if m2_trimes_r`i'!=1 
+						replace m2_wgt_r`i' = . if m2_trimes_r`i'!=1 
+						replace m2_blood_r`i' = . if m2_trimes_r`i'!=1  
+						replace m2_urine_r`i' = . if m2_trimes_r`i'!=1  
+						replace m2_503e_r`i' = . if m2_trimes_r`i'!=1  
+						replace m2hiv`i' = . if m2_trimes_r`i'!=1 
+						replace m2_503d_r`i' = . if m2_trimes_r`i'!=1  
+						replace m2_us_r`i' = . if m2_trimes_r`i'!=1 
+					}
+					
+					egen ancfufirst=rowmean(m2_danger_r* m2_bplan_r* m2_ifa_r* m2_bp_r* ///
+							m2_wgt_r* m2_blood_r* m2_urine_r* m2_503e_r* m2hiv* m2_503d_r* m2_us_r*)
+					
+					keep respondentid ancfufirst 
+					merge 1:1 respondentid using timelyancza.dta
+					drop _merge
+					save timelyancza.dta, replace
+			restore
+			
+	*Recommended items for follow-up anc visits in 2nd trimester
+			preserve
+					forval i=1/6 {
+						replace m2_danger_r`i' = . if m2_trimes_r`i'!=2
+						replace m2_bplan_r`i' = . if m2_trimes_r`i'!=2
+						replace m2_ifa_r`i' = . if m2_trimes_r`i'!=2
+						replace m2_calcium_r`i' = . if m2_trimes_r`i'!=2
+						replace m2_bp_r`i' = . if m2_trimes_r`i'!=2
+						replace m2_wgt_r`i' = . if m2_trimes_r`i'!=2 
+						replace m2_blood_r`i' = . if m2_trimes_r`i'!=2  
+						replace m2_urine_r`i' = . if m2_trimes_r`i'!=2  
+						replace m2_503e_r`i' = . if m2_trimes_r`i'!=2 
+						replace m2hiv`i' = . if m2_trimes_r`i'!=2
+						replace m2_503d_r`i' = . if m2_trimes_r`i'!=2  
+						replace m2_us_r`i' = . if m2_trimes_r`i'!=2
+						replace m2_601e_r`i' = . if m2_trimes_r`i'!=2
+					}
+					
+					egen ancfusecond=rowmean(m2_danger_r* m2_bplan_r* m2_ifa_r* ///
+							m2_calcium_r* m2_bp_r* m2_wgt_r* m2_blood_r* ///
+							m2_urine_r* m2_503e_r* m2hiv* m2_503d_r* ///
+							m2_us_r* m2_601e_r*)
+					
+					keep respondentid ancfusecond
+					merge 1:1 respondentid using timelyancza.dta
+					drop _merge
+					save timelyancza.dta, replace
+			restore
+			
+		*Recommended items for follow-up anc visits in 3rd trimester
+			preserve
+					forval i=1/6 {
+						replace m2_danger_r`i' = . if m2_trimes_r`i'!=3
+						replace m2_bplan_r`i' = . if m2_trimes_r`i'!=3
+						replace m2_ifa_r`i' = . if m2_trimes_r`i'!=3
+						replace m2_calcium_r`i' = . if m2_trimes_r`i'!=3
+						replace m2_bp_r`i' = . if m2_trimes_r`i'!=3
+						replace m2_wgt_r`i' = . if m2_trimes_r`i'!=3 
+						replace m2_blood_r`i' = . if m2_trimes_r`i'!=3  
+						replace m2_urine_r`i' = . if m2_trimes_r`i'!=3  
+						replace m2_503e_r`i' = . if m2_trimes_r`i'!=3
+						replace m2hiv`i' = . if m2_trimes_r`i'!=3
+						replace m2_503d_r`i' = . if m2_trimes_r`i'!=3  
+						replace m2_601e_r`i' = . if m2_trimes_r`i'!=3
+					}
+					
+					egen ancfuthird=rowmean(m2_danger_r* m2_bplan_r* m2_ifa_r* ///
+							m2_calcium_r* m2_bp_r* m3_bp m2_wgt_r* m3_wgt ///
+							m2_blood_r* m3_blood m2_urine_r* m3_urine ///
+							m2_503e_r* m2hiv* m2_503d_r* ///
+							m2_601e_r*)
+							
+					keep respondentid ancfuthird country
+					merge 1:1 respondentid using timelyancza.dta
+					drop _merge
+					save timelyancza.dta, replace
+			restore		
 *-------------------------------------------------------------------------------		
 	* DEMOGRAPHICS AND RISK FACTORS					
 		* Demographics
@@ -213,7 +338,7 @@ set more off
 			* Anemia
 				recode Hb 0/10.99999=1 11/30=0, gen(anemia)
 				lab val anemia anemia
-			* Chronic illnesses
+			/* Chronic illnesses
 				egen chronic= rowmax(m1_202a m1_202b m1_202c m1_202d m1_202e )  
 				encode m1_203, gen(prob)
 				recode prob (1/4 10 16 18/21 24 28 29 30 33 34 28 =0 ) (5/9 11/15 17 22 23 25 26 27 31 32=1)
@@ -236,12 +361,31 @@ set more off
 			gen neodeath = m1_1010 ==1
 			gen preterm = m1_1005 ==1
 			gen PPH=m1_1006==1
-			egen complic = rowmax(stillbirth neodeath preterm PPH cesa)	
+			egen complic = rowmax(stillbirth neodeath preterm PPH cesa)	*/
+			
 save "$user/MNH E-Cohorts-internal/Analyses/Manuscripts/Paper 5 Continuum ANC/Data/ZAtmp.dta", replace	
 
 
 *-------------------------------------------------------------------------------		
-	/* ANC CONTENT	
+	/* 
+	* Number of months in ANC 
+			
+			gen months=(m3_birth_or_ended-m1_date)/30.5
+			replace months = . if m3_birth_or_ended > m3_date // birth is after survey
+			replace months = . if m3_birth_or_ended < m1_date // birth before M1
+			replace months = . if m3_birth_or_ended < m2_date_r1
+			
+			gen manctotal= anctotal/months // Nb ANC clinical actions per month
+			
+	* Time between M3 survey and DOB/end of pregnancy
+	gen m3delay=(m3_date-m3_birth_or_ended) 
+	recode m3delay 0/31 = 1 32/63=2 64/94=3 95/126=4 127/157=5 158/max=6
+	
+	lab def m3delay 1 "within a month" 2"within 2mos" 3 "within 3mos" 4"withn 4 mos" ///
+	5"within 5 months" 6"within 6-12mos"
+	lab val m3delay m3delay 
+	
+	* ANC CONTENT	
 	* Minumum set
 	egen totalbp=rowtotal(anc1_bp m2_bp_r*)
 		recode totalbp 1/3=0 4/max=1, gen(bpfour)

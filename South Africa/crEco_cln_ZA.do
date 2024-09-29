@@ -3905,6 +3905,7 @@ replace m3_1206 = ".a" if m3_death_cause_baby1 !=7  & m3_death_cause_baby2 !=7 &
 
 drop m2_interviewer m2_ga m2_hiv_status m2_maternal_death_reported m2_date_of_maternal_death m2_maternal_death_learn m2_maternal_death_learn_other m2_201 m2_202 MOD3_MAN_Complications_708_B3
 
+		replace m3_birth_or_ended=td(26apr2024) if respondentid=="BXE_022". // added by Catherine. Sep29,2024
 *==============================================================================*
 	
 	* STEP FOUR: LABELING VARIABLES 
