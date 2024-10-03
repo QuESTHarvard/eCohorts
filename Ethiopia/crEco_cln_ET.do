@@ -11,7 +11,22 @@
 		* STEP FIVE: ORDER VARIABLES
 		* STEP SIX: SPLIT, RESHARE M2 AND MERGE TO OBTAIN A WIDE DATASET
 		* STEP SEVEN: SAVE DATA
+		* STEP EIGHT: RUN DERIVED VARIABLE DO FILE AND SAVE AS eco_ET_Complete
 *------------------------------------------------------------------------------*
+
+*------------------------------------------------------------------------------*
+/*******************************************************************************
+* Change log
+* 				Updated
+*				version
+* Date 			number 	Name			What Changed
+2024-10-02		1.01	MK Trimner		Reordered M3 variables to align with instrument
+*										Added call to derived variable program at the end of the program
+*										Saved as ec_ET_COMPLETE dataset
+*										confirmed that all date variables are in a date format and not string
+*										Added code to format all dates in proper format and to add special missing values per the questionnaire for values of 888,999 and 998
+* 										Added char to all variables to show the original variable in a note
+*******************************************************************************/
 * Import Data 
 clear all 
 
@@ -19,6 +34,13 @@ clear all
 *import delimited using "$et_data/05Jan2024.csv", clear
 import delimited using "$et_data/2024-03-15.csv", clear
 gen country = "Ethiopia"
+
+* Add a character with the original country specific var name
+foreach v of varlist * {
+	local name `v'
+	char `v'[Original_ET_Varname] `name'
+}
+
 *---------------------		
 ** Carryforward command: 
 
@@ -382,6 +404,7 @@ drop m2_attempt_avail m2_attempt_bestnumber m2_attempt_contact m2_attempt_date m
 	
 * MODULE 3:
 
+
 rename (iic_3 cr1_permission_granted_3 date_of_interview_m3 time_of_interview_started_3 m3_birth_or_ended m3_ga1 ga_birth_mat_estimated) ///
 	   (m3_start_p1 m3_permission m3_date m3_time m3_birth_or_ended m3_ga1 m3_ga2)
 	   
@@ -594,7 +617,7 @@ rename (which_of_the_following_fin_1105 other_income_source_1105 to_conclude_thi
 		m3_1105_other m3_1106 m3_endtime m3_duration m3_p2_outcome m3_p2_outcome_other ///
 		m3_p2_date_of_rescheduled m3_p2_time_of_rescheduled)		
 
-		
+	
 * MODULE 4:
 rename iic_m4 m4_start 
 rename cr1_permission_granted_m4 m4_permission
@@ -1455,18 +1478,21 @@ drop m2_drop
 		*format date vars:
 		*Date of M1
 		gen _m1_date_ = date(m1_date,"YMD")
+		char _m1_date_[Original_ET_Varname] `m1_date[Original_ET_Varname]'
 		drop m1_date
 		rename _m1_date_ m1_date
 		format m1_date %td	
 		
 		*Date of M2
 		gen _m2_date_ = date(m2_date,"YMD")
+		char _m2_date_[Original_ET_Varname] `m2_date[Original_ET_Varname]'
 		drop m2_date
 		rename _m2_date_ m2_date
 		format m2_date %td
 	
 		*Date of M3
 		gen _m3_date_ = date(m3_date,"YMD")
+		char _m3_date_[Original_ET_Varname] `m3_date[Original_ET_Varname]'
 		drop m3_date
 		rename _m3_date_ m3_date
 		format m3_date %td
@@ -1491,6 +1517,8 @@ drop m2_drop
 		*Extra cleaning from Emma's code:
 		* Recode birth dates with data entry errors
 		gen _m3_birth_or_ended_ = date(m3_birth_or_ended,"YMD")
+		char _m3_birth_or_ended_[Original_ET_Varname] `m3_birth_or_ended[Original_ET_Varname]'
+
 		drop m3_birth_or_ended
 		rename _m3_birth_or_ended_ m3_birth_or_ended
 		format m3_birth_or_ended %td
@@ -7097,6 +7125,52 @@ drop first_name family_name phone_number m1_513b ///
 	 
 order m1_* m2_* m3_* m4_* m5_* mcard_*, sequential
 
+
+*****************************************
+*****************************************
+*****************************************
+
+* Because M3 uses a lot of non numeric variable names we will need to manually order some of them
+order m3_start_p1 m3_permission m3_date m3_time m3_start_p2 m3_permission_p2 m3_date_p2 m3_time_p2  m3_201a m3_201b m3_201c m3_202 m3_birth_or_ended, before(m3_303a)
+order m3_baby1_name m3_baby2_name m3_baby3_name ///
+m3_baby1_gender m3_baby2_gender m3_baby3_gender ///
+m3_baby1_age m3_baby1_weight m3_baby2_weight m3_baby3_weight ///
+m3_baby1_size m3_baby2_size m3_baby3_size ///
+m3_baby1_health m3_baby2_health m3_baby3_health ///
+m3_baby1_feed_a m3_baby1_feed_b m3_baby1_feed_c m3_baby1_feed_d m3_baby1_feed_e m3_baby1_feed_f m3_baby1_feed_g m3_baby1_feed_96 m3_baby1_feed_other m3_baby1_feed_99 m3_baby1_feed_888 m3_baby1_feed_998 m3_baby1_feed_999 ///
+m3_baby2_feed_a m3_baby2_feed_b m3_baby2_feed_c m3_baby2_feed_d m3_baby2_feed_e m3_baby2_feed_g m3_baby2_feed_96 m3_baby2_feed_other m3_baby2_feed_99 m3_baby2_feed_888 m3_baby2_feed_998 m3_baby2_feed_999 /// // note: there is no "f" option for baby2 
+m3_baby3_feed_a m3_baby3_feed_b m3_baby3_feed_c m3_baby3_feed_d m3_baby3_feed_e m3_baby3_feed_g m3_baby3_feed_96 m3_baby3_feed_other m3_baby3_feed_99 m3_baby3_feed_888 m3_baby3_feed_998 m3_baby3_feed_999 /// // note: there is no "f" option for baby3 
+m3_breastfeeding m3_breastfeeding_fx_et ///
+m3_baby1_sleep m3_baby1_feed m3_baby1_breath m3_baby1_stool m3_baby1_mood m3_baby1_skin m3_baby1_interactivity ///
+m3_baby2_sleep m3_baby2_feed m3_baby2_breath m3_baby2_stool m3_baby2_mood m3_baby2_skin m3_baby2_interactivity ///
+m3_baby3_sleep m3_baby3_feed m3_baby3_breath m3_baby3_stool m3_baby3_mood m3_baby3_skin m3_baby3_interactivity ///
+m3_baby1_born_alive m3_baby2_born_alive m3_baby3_born_alive ///
+m3_313a_baby1 m3_313b_baby1 m3_313a_baby2 m3_313b_baby2 m3_313a_baby3 m3_313b_baby3 ///
+m3_death_cause_baby1_a m3_death_cause_baby1_b m3_death_cause_baby1_c m3_death_cause_baby1_d m3_death_cause_baby1_e m3_death_cause_baby1_f m3_death_cause_baby1_g m3_death_cause_baby1_96 m3_death_cause_baby1_other m3_death_cause_baby1_888 m3_death_cause_baby1_998 m3_death_cause_baby1_999 ///
+m3_death_cause_baby2_a m3_death_cause_baby2_b m3_death_cause_baby2_c m3_death_cause_baby2_d m3_death_cause_baby2_e m3_death_cause_baby2_f m3_death_cause_baby2_g m3_death_cause_baby2_96 m3_death_cause_baby2_other m3_death_cause_baby2_888 m3_death_cause_baby2_998 m3_death_cause_baby2_999 ///
+m3_death_cause_baby3_a m3_death_cause_baby3_b m3_death_cause_baby3_c m3_death_cause_baby3_d m3_death_cause_baby3_e m3_death_cause_baby3_f m3_death_cause_baby3_g m3_death_cause_baby3_96 m3_death_cause_baby3_other m3_death_cause_baby3_888 m3_death_cause_baby3_998 m3_death_cause_baby3_999 ///
+, after(m3_303d)
+
+
+order m3_consultation_1 m3_consultation_referral_1 m3_consultation1_reason_a m3_consultation1_reason_b m3_consultation1_reason_c m3_consultation1_reason_d m3_consultation1_reason_e m3_consultation1_reason_96 m3_consultation1_reason_other m3_consultation1_reason_888 m3_consultation1_reason_998 m3_consultation1_reason_999 ///
+m3_consultation_2 m3_consultation_referral_2 m3_consultation2_reason_a m3_consultation2_reason_b m3_consultation2_reason_c m3_consultation2_reason_d m3_consultation2_reason_e m3_consultation2_reason_96 m3_consultation2_reason_other m3_consultation2_reason_888 m3_consultation2_reason_998 m3_consultation2_reason_999 ///
+m3_consultation_3 m3_consultation_referral_3 m3_consultation3_reason_a m3_consultation3_reason_b m3_consultation3_reason_c m3_consultation3_reason_d m3_consultation3_reason_e m3_consultation3_reason_96 m3_consultation3_reason_other m3_consultation3_reason_888 m3_consultation3_reason_998 m3_consultation3_reason_999 ///
+m3_consultation_4 m3_consultation_referral_4 m3_consultation4_reason_a m3_consultation4_reason_b m3_consultation4_reason_c m3_consultation4_reason_d m3_consultation4_reason_e m3_consultation4_reason_96 m3_consultation4_reason_other m3_consultation4_reason_888 m3_consultation4_reason_998 m3_consultation4_reason_999 ///
+m3_consultation_5 m3_consultation_referral_5 m3_consultation5_reason_a m3_consultation5_reason_b m3_consultation5_reason_c m3_consultation5_reason_d m3_consultation5_reason_e m3_consultation5_reason_96 m3_consultation5_reason_other m3_consultation5_reason_888 m3_consultation5_reason_998 m3_consultation5_reason_999 ///
+, after(m3_402)
+
+order m3_518_other_complications, after(m3_518)
+
+order m3_baby1_issues_a m3_baby1_issues_b m3_baby1_issues_c m3_baby1_issues_d m3_baby1_issues_e m3_baby1_issues_f m3_baby1_issues_96 m3_baby1_issues_98 m3_baby1_issues_99 m3_baby1_issues_888 m3_baby1_issues_998 m3_baby1_issues_999 ///
+m3_baby2_issues_a m3_baby2_issues_b m3_baby2_issues_c m3_baby2_issues_d m3_baby2_issues_e m3_baby2_issues_f m3_baby2_issues_96 m3_baby2_issues_98 m3_baby2_issues_99 m3_baby2_issues_888 m3_baby2_issues_998 m3_baby2_issues_999 ///
+m3_baby3_issues_a m3_baby3_issues_b m3_baby3_issues_c m3_baby3_issues_d m3_baby3_issues_e m3_baby3_issues_f m3_baby3_issues_96 m3_baby3_issues_98 m3_baby3_issues_99 m3_baby3_issues_888 m3_baby3_issues_998 m3_baby3_issues_999 ///
+, before(m3_708a)
+
+*****************************************
+*****************************************
+*****************************************
+
+
 order m2_start m2_date m2_date m2_permission m2_103 m2_time_start m2_maternal_death_reported m2_ga m2_hiv_status ///
 	 m2_date_of_maternal_death m2_maternal_death_learn m2_maternal_death_learn_other m2_111 m2_111_other m2_201,after(m1_end_time)
 
@@ -7470,3 +7544,93 @@ label variable m2_endstatus`i' "What is this womens current status at the end of
 	 save "$et_data_final/eco_m1-m5_et_wide.dta", replace
 	 
 	 *run "/Users/shs8688/Documents/GitHub/eCohorts/Ethiopia/crEco_der_ET.do"
+
+*===============================================================================
+	 
+* STEP EIGHT: RUN DERIVED VARIABLES CODE AND SAVE AS COMPLETED DATASET	 
+* Convert string dates to numeric dates
+
+	
+	* convert the string dates to numeric dates
+	foreach v in m1_date m1_802a m1_802c_et mcard_date mcard_edd m2_date_r1 m2_103_r1 m2_date_of_maternal_death_r1 m2_date_of_maternal_death_2_r1 m2_date_of_rescheduled_r1 m2_lastdate_r1 m2_date_r2 m2_103_r2 m2_date_of_maternal_death_r2 m2_date_of_maternal_death_2_r2 m2_date_of_rescheduled_r2 m2_lastdate_r2 m2_date_r3 m2_103_r3 m2_date_of_maternal_death_r3 m2_date_of_maternal_death_2_r3 m2_date_of_rescheduled_r3 m2_lastdate_r3 m2_date_r4 m2_103_r4 m2_date_of_maternal_death_r4 m2_date_of_maternal_death_2_r4 m2_date_of_rescheduled_r4 m2_lastdate_r4 m2_date_r5 m2_103_r5 m2_date_of_maternal_death_r5 m2_date_of_maternal_death_2_r5 m2_date_of_rescheduled_r5 m2_lastdate_r5 m2_date_r6 m2_103_r6 m2_date_of_maternal_death_r6 m2_date_of_maternal_death_2_r6 m2_date_of_rescheduled_r6 m2_lastdate_r6 m2_date_r7 m2_103_r7 m2_date_of_maternal_death_r7 m2_date_of_maternal_death_2_r7 m2_date_of_rescheduled_r7 m2_lastdate_r7 m2_date_r8 m2_103_r8 m2_date_of_maternal_death_r8 m2_date_of_maternal_death_2_r8 m2_date_of_rescheduled_r8 m2_lastdate_r8 m3_date m3_date_p2 m3_birth_or_ended m3_313a_baby1 m3_313a_baby2 m3_p1_date_of_rescheduled m3_p2_date_of_rescheduled m4_102 m4_113 m4_attempt_date m4_baby1_death_date m4_baby2_death_date m4_baby3_death_date m4_date_of_rescheduled m5_baby1_death_date m5_baby2_death_date m5_baby3_death_date m5_date {
+		local format `:format `v''
+		di "`format'"
+		local type = substr("`format'",1,3)
+		
+		if "`type'" != "%td" {
+			
+			local name str_`v'
+			local len = strlen("`name'")
+			if `len' > 32 local name = subinstr("`name'","date_of_maternal_death","maternal_death_date",1)
+			di "`name'"
+			
+			rename `v' `name'
+			
+			gen `v' = .
+			char `v'[Original_ET_Varname] ``name'[Original_ET_Varname]'
+			label var `v' "`:var label `name''"
+			
+			local type2 =substr("`:type `name''",1,3)
+			
+			if "`type2'" == "str" {
+				replace `v' = date(`name',"YMD") 
+				replace `v' = date(`name',"MDY") if missing(`v')
+				replace `v' = date(`name',"DMY") if missing(`v')
+			}
+			if "`type2'" != "str" replace `v' = `name'
+			
+			if "`type2'" == "str" {
+				count if missing(`v') & !missing(`name')
+				if `r(N)' > 0  di as error "`v' - `r(N)' lines have an invalid date"
+				replace `v' = .n if `name' == "888" // No information
+				replace `v' = .d if `name' == "998" // Don't Know
+				replace `v' = .r if `name' == "999" // Refused to answer/No response
+				replace `v' = .i if missing(`v') & !missing(`name') & !inlist(`name',"888","998","999")				
+			}
+			if "`type2'" != "str" {
+				replace `v' = .n if `name' == 888 // No information
+				replace `v' = .d if `name' == 998 // Don't Know
+				replace `v' = .r if `name' == 999 // Refused to answer/No response
+				replace `v' = .i if missing(`v') & !missing(`name') & !inlist(`name',888,998,999)		
+			}
+			
+			format %td `v'
+			order `v', before(`name')
+			drop `name'
+
+		}
+	}
+	
+	
+	
+	* I noticed some other special missing values that need to be replaced based on the questionnaire
+	foreach v of varlist * {
+		
+		local type =substr("`:type `v''",1,3)
+		
+		if "`type'" == "str" {
+			qui count if inlist(`v',"888","998","999")
+			if `r(N)' > 0 {
+				di "`v' - `r(N)'"
+				qui replace `v' = ".n" if `v' == "888" // No information
+				qui replace `v' = ".d" if `v' == "998" // Don't Know
+				qui replace `v' = ".r" if `v' == "999" // Refused to answer/No response			
+			}
+		}
+		if "`type'" != "str" {
+			qui count if inlist(`v',888,998,999)
+			if `r(N)' > 0 {
+			di "`v' - `r(N)'"
+				qui replace `v' = .n if `v' == 888 // No information
+				qui replace `v' = .d if `v' == 998 // Don't Know
+				qui replace `v' = .r if `v' == 999 // Refused to answer/No response			
+			}
+		}
+			
+	}
+	
+	* Run the derived variables code
+	do "${github}/Ethiopia/crEco_der_ET.do"
+
+	* Save the completed dataset	
+	save "$et_data_final/eco_ET_Complete.dta", replace
