@@ -59,6 +59,7 @@ foreach v of varlist * {
 		replace order_redcap = 11 if redcap_event_name == "module_4_arm_1"
 		replace order_redcap = 12 if redcap_event_name == "module_5_arm_1"
 		sort record_id order_redcap
+		char order_redcap[Original_ET_Varname] `redcap_event_name[Original_ET_Varname]'
 	
 		
 		*2) Add any new vars here:
@@ -1458,11 +1459,13 @@ drop m2_drop
 /* Gestational age at ANC1:
 			Here we should recalculate the GA based on LMP (m1_802c and self-report m1_803 */
 			gen m1_ga = m1_802d_et // GA based on LNMP
+			char m1_ga[Original_ET_Varname] `m1_802d_et[Original_ET_Varname]'
 			recode m1_803 98=.
 			replace m1_ga = m1_803 if m1_ga == . // ga based on self report of weeks pregnant if LMP not known
 			lab var m1_ga "Gestional age based on LNMP (calc)"
 			
 			recode m1_ga (1/12.99999 = 1) (13/27.99999= 2) (28/50=3), gen(m1_trimester)
+			char m1_trimester[Original_ET_Varname] `m1_ga[Original_ET_Varname]'
 			lab def trimester2 1"1st trimester 0-12wks" 2"2nd trimester 13-27 wks" 3 "3rd trimester 27-42 wks"
 			lab val m1_trimester trimester2 	
 			
@@ -1500,14 +1503,21 @@ drop m2_drop
 		*calculate weeks since ANC1:
 		*M2 (need last date):
 		by redcap_record_id: egen m2_lastdate = max(m2_date)
+		char m2_lastdate[Original_ET_Varname] `m2_date[Original_ET_Varname]'
 		format m2_lastdate %td
 		
 		generate time_between_m1m2 = (m2_date - m1_date)/7
+		char time_between_m1m2[Original_ET_Varname] (`m2_date[Original_ET_Varname]' - `m1_date[Original_ET_Varname]')/7
+
 		generate time_between_m1m3 = (m3_date - m1_date)/7
+		char time_between_m1m2[Original_ET_Varname] (`m3_date[Original_ET_Varname]' - `m1_date[Original_ET_Varname]')/7
+
 		
 		*New gestational age vars:
 	
 		generate m2_ga = m1_ga + time_between_m1m2
+		char m2_ga[Original_ET_Varname] (`m1_ga[Original_ET_Varname]' - `time_between_m1m2[Original_ET_Varname]')/7
+
 		*generate m3_ga = m1_ga + time_between_m1m3
 	
 		drop time_between_m1m2 time_between_m1m3
@@ -1539,9 +1549,11 @@ drop m2_drop
 		replace m3_birth_or_ended = date("2023-10-13", "YMD") if redcap_record_id=="1701-19"
 	
 		gen pregnancyend_ga = ((m3_birth_or_ended)-m1_date)/7 + m1_ga
+		char pregnancyend_ga[Original_ET_Varname] (`m3_birth_or_ended[Original_ET_Varname]' - `m1_date[Original_ET_Varname]' )/7 + `m1_ga[Original_ET_Varname]'
 
 		* Date of LNMP
 		gen _m1_802c_et_ = date(m1_802c_et,"YMD")
+		char _m1_802c_et_[Original_ET_Varname] `m1_802c_et[Original_ET_Varname]'
 		drop m1_802c_et
 		rename _m1_802c_et_ m1_802c_et
 		format m1_802c_et %td
@@ -1566,6 +1578,9 @@ label values study_site woreda
 label define site 1 "Adama" 2 "East Shewa"
 
 generate site = study_site 
+char site[Original_ET_Varname] `study_site[Original_ET_Varname]'
+
+
 recode site (1 = 1) ///
             (2 3 4 5 6 7 96 = 2)
 label values site site 
@@ -1573,6 +1588,8 @@ label values site site
 * create new variable for sampling strata 
 ** we need to make sure we recode in the cleaning file the facility name and strata for st. fransisco
 generate sampstrata = facility
+char sampstrata[Original_ET_Varname] `facility[Original_ET_Varname]'
+
 recode sampstrata (2 3 4 5 6 8 9 10 11 14 16 17 19 = 1) (18 7 = 2) (22 13 15 1 12 23 96 = 3) (20 21 = 4) 
 label values sampstrata strata
 
@@ -2417,9 +2434,12 @@ label values m3_p2_outcome m3_p2_outcome
 
 *Formatting dates/times: 
 gen double recm3_time = clock(m3_time, "hm") 
+char recm3_time[Original_ET_Varname] `m3_time[Original_ET_Varname]' 
 format recm3_time %tc_HH:MM
 
 gen _date2_ = date(m3_313a_baby1,"YMD")
+char _date2_[Original_ET_Varname] `m3_313a_baby1[Original_ET_Varname]' 
+
 drop m3_313a_baby1
 rename _date2_ m3_313a_baby1
 format m3_313a_baby1 %td
@@ -2431,6 +2451,8 @@ format m3_313a_baby2 %td
 format m3_313a_baby3 %td
 
 gen double recm3_313b_baby1 = clock(m3_313b_baby1, "hm") 
+char recm3_313b_baby1[Original_ET_Varname] `m3_313b_baby1[Original_ET_Varname]' 
+
 format recm3_313b_baby1 %tc_HH:MM
 
 *gen double recm3_313b_baby2 = clock(m3_313b_baby2, "hm") // 4-8-24 SS: data already in numeric format, probably because of 0 observations
@@ -2440,6 +2462,7 @@ format m3_313b_baby2 %tc_HH:MM
 format m3_313b_baby3 %tc_HH:MM
 
 gen _date5_ = date(m3_506a,"YMD")
+char _date5_[Original_ET_Varname]  `m3_506a[Original_ET_Varname]'
 drop m3_506a
 rename _date5_ m3_506a
 format m3_506a %td
@@ -2447,37 +2470,48 @@ format m3_506a %td
 format m3_p1_date_of_rescheduled %td // 0 observations as of 4-8-24
 
 gen _date8_ = date(m3_date_p2,"YMD")
+char _date8_[Original_ET_Varname]  `m3_date_p2[Original_ET_Varname]'
 drop m3_date_p2
 rename _date8_ m3_date_p2
 format m3_date_p2 %td
 
 gen _date9_ = date(m3_p2_date_of_rescheduled,"YMD")
+char _date9_[Original_ET_Varname]  `m3_p2_date_of_rescheduled[Original_ET_Varname]'
+
 drop m3_p2_date_of_rescheduled
 rename _date9_ m3_p2_date_of_rescheduled
 format m3_p2_date_of_rescheduled %td
 
 gen double recm3_506b = clock(m3_506b, "hm") 
+char recm3_506b[Original_ET_Varname]  `m3_506b[Original_ET_Varname]'
 format recm3_506b %tc_HH:MM
 
-gen double recm3_507 = clock(m3_507, "hm") 
+gen double recm3_507 = clock(m3_507, "hm")
+char recm3_507[Original_ET_Varname]  `m3_507[Original_ET_Varname]' 
 format recm3_507 %tc_HH:MM
 
 gen double recm3_514 = clock(m3_514, "hm") 
+char recm3_514[Original_ET_Varname]  `m3_514[Original_ET_Varname]' 
 format recm3_514 %tc_HH:MM
 
-gen double recm3_520 = clock(m3_520, "hm") 
+gen double recm3_520 = clock(m3_520, "hm")
+char recm3_520[Original_ET_Varname]  `m3_520[Original_ET_Varname]'  
 format recm3_520 %tc_HH:MM
 
 gen double recm3_time_p2 = clock(m3_time_p2, "hm") 
+char recm3_time_p2[Original_ET_Varname] `m3_time_p2[Original_ET_Varname]'
 format recm3_time_p2 %tc_HH:MM 
 
 gen double recm3_endtime = clock(m3_endtime, "hm") 
+char recm3_endtime[Original_ET_Varname]  `m3_endtime[Original_ET_Varname]'  
 format recm3_endtime %tc_HH:MM 
 
 gen double recm3_p2_time_of_rescheduled = clock(m3_p2_time_of_rescheduled, "hm") 
+char recm3_p2_time_of_rescheduled[Original_ET_Varname]  `m3_p2_time_of_rescheduled[Original_ET_Varname]'  
 format recm3_p2_time_of_rescheduled %tc_HH:MM 
 
 gen double recm3_duration = clock(m3_duration, "hm") 
+char recm3_duration[Original_ET_Varname]  `m3_duration[Original_ET_Varname]'  
 format recm3_duration %tc_HH:MM 
 
 
@@ -2625,6 +2659,8 @@ replace m4_309 = "10" if m4_309=="K"
 replace m4_309 = "11" if m4_309=="L" 
 replace m4_309 = "12" if m4_309=="M" 
 gen m4_309_numeric = real(m4_309)
+char m4_309_numeric[Original_ET_Varname]  `m4_309[Original_ET_Varname]'
+
 drop m4_309 
 rename m4_309_numeric m4_309 
 label define m4_309 1 "Do not know it can be fixed" 2 "You tried but did not get treatment" 3 "High cost (e.g., high out of pocket payment, not covered by insurance)" 4 "Far distance (e.g., too far to walk or drive, transport not readily available)" 5 " Poor healthcare provider skills (e.g., spent too little time with patient, did not conduct a thorough exam)" 6 "Staff don't show respect (e.g., staff is rude,impolite, dismissive)" 7 "Medicines or equipment are not available (e.g., medicines regularly out of stock, equipment like X-ray machines broken or unavailable)" 8 "COVID-19 fear" 9 "Don't know where to go/too complicated" 10 "Could not get permission" 11 "Embarrassment" 12 "Problem disappeared" 96 " Other (specify)" 
@@ -2890,11 +2926,15 @@ lab val m5_complete m5_complete
 		
 		*Date of M5
 		gen _m5_date_ = date(m5_date,"YMD")
+		char _m5_date_[Original_ET_Varname]  `m5_date[Original_ET_Varname]'
+
 		drop m5_date
 		rename _m5_date_ m5_date
 		format m5_date %td
 		
 		encode q103_m5, gen(m5_starttime)
+		char m5_starttime[Original_ET_Varname]  `q103_m5[Original_ET_Varname]'
+
 		drop q103_m5
 		
 		*data cleaning (SS 7-29):
@@ -2903,12 +2943,16 @@ lab val m5_complete m5_complete
 		
 		* M5 Date of maternal death	
 		gen _m5_date_of_maternal_death_ = date(m5_date_of_maternal_death,"YMD")
+		char _m5_date_of_maternal_death_[Original_ET_Varname]  `m5_date_of_maternal_death[Original_ET_Varname]'
+
 		drop m5_date_of_maternal_death
 		rename _m5_date_of_maternal_death_ m5_date_of_maternal_death
 		format m5_date_of_maternal_death %td
 		
 		* M5 Baby death dates
 		gen _m5_baby1_death_date_ = date(m5_baby1_death_date,"YMD")
+		char _m5_baby1_death_date_[Original_ET_Varname]  `m5_baby1_death_date[Original_ET_Varname]'
+
 		drop m5_baby1_death_date
 		rename _m5_baby1_death_date_ m5_baby1_death_date
 		format m5_baby1_death_date %td
@@ -4284,6 +4328,7 @@ replace m4_baby1_death_date = ".d" if m4_baby1_death_date_unk==1
 drop m4_baby1_death_date_unk 
 
 gen m4_baby2_death_date_string = string(m4_baby2_death_date)
+char m4_baby2_death_date_string[Original_ET_Varname] `m4_baby2_death_date[Original_ET_Varname]' 
 drop m4_baby2_death_date 
 rename m4_baby2_death_date_string m4_baby2_death_date
 replace m4_baby2_death_date = ".a" if m4_baby2_status==1 | m3_303a==1
@@ -4291,6 +4336,7 @@ replace m4_baby2_death_date = ".d" if m4_baby2_death_date_unk==1
 drop m4_baby2_death_date_unk 
 
 gen m4_baby3_death_date_string = string(m4_baby3_death_date)
+char m4_baby3_death_date_string[Original_ET_Varname] `m4_baby3_death_date[Original_ET_Varname]' 
 drop m4_baby3_death_date
 rename m4_baby3_death_date_string m4_baby3_death_date
 replace m4_baby3_death_date = ".a" if m4_baby3_status==1 | m3_303a==1 | m3_303a==2
@@ -7535,6 +7581,7 @@ label variable m2_endstatus`i' "What is this womens current status at the end of
 	
 *set to missing if the baby is not born alive or baby is born at a weight <25mg
 		gen ga_according_to_dob = 40-((m3_birth_or_ended - m1_date)/7)
+		char ga_according_to_dob[Original_ET_Varname] (`m3_birth_or_ended[Original_ET_Varname]' - `m1_date[Original_ET_Varname]'/7)
 		
 		recode ga_according_to_dob (. = .a) if m3_baby1_born_alive !=1 & m3_baby2_born_alive !=1 & m3_baby3_born_alive !=1 // need to add if any baby's are under 25
 	
@@ -7565,9 +7612,10 @@ label variable m2_endstatus`i' "What is this womens current status at the end of
 			di "`name'"
 			
 			rename `v' `name'
-			
+
 			gen `v' = .
 			char `v'[Original_ET_Varname] ``name'[Original_ET_Varname]'
+			
 			label var `v' "`:var label `name''"
 			
 			local type2 =substr("`:type `name''",1,3)
@@ -7629,6 +7677,8 @@ label variable m2_endstatus`i' "What is this womens current status at the end of
 			
 	}
 	
+	save "$et_data_final/eco_m1-m5_et_wide.dta", replace
+	  
 	* Run the derived variables code
 	do "${github}/Ethiopia/crEco_der_ET.do"
 
