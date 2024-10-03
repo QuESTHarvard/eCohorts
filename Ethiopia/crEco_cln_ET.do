@@ -11,7 +11,22 @@
 		* STEP FIVE: ORDER VARIABLES
 		* STEP SIX: SPLIT, RESHARE M2 AND MERGE TO OBTAIN A WIDE DATASET
 		* STEP SEVEN: SAVE DATA
+		* STEP EIGHT: RUN DERIVED VARIABLE DO FILE AND SAVE AS eco_ET_Complete
 *------------------------------------------------------------------------------*
+
+*------------------------------------------------------------------------------*
+/*******************************************************************************
+* Change log
+* 				Updated
+*				version
+* Date 			number 	Name			What Changed
+2024-10-02		1.01	MK Trimner		Reordered M3 variables to align with instrument
+*										Added call to derived variable program at the end of the program
+*										Saved as ec_ET_COMPLETE dataset
+*										confirmed that all date variables are in a date format and not string
+*										Added code to format all dates in proper format and to add special missing values per the questionnaire for values of 888,999 and 998
+* 										Added char to all variables to show the original variable in a note
+*******************************************************************************/
 * Import Data 
 clear all 
 
@@ -19,6 +34,13 @@ clear all
 *import delimited using "$et_data/05Jan2024.csv", clear
 import delimited using "$et_data/2024-03-15.csv", clear
 gen country = "Ethiopia"
+
+* Add a character with the original country specific var name
+foreach v of varlist * {
+	local name `v'
+	char `v'[Original_ET_Varname] `name'
+}
+
 *---------------------		
 ** Carryforward command: 
 
@@ -37,6 +59,7 @@ gen country = "Ethiopia"
 		replace order_redcap = 11 if redcap_event_name == "module_4_arm_1"
 		replace order_redcap = 12 if redcap_event_name == "module_5_arm_1"
 		sort record_id order_redcap
+		char order_redcap[Original_ET_Varname] `redcap_event_name[Original_ET_Varname]'
 	
 		
 		*2) Add any new vars here:
@@ -382,6 +405,7 @@ drop m2_attempt_avail m2_attempt_bestnumber m2_attempt_contact m2_attempt_date m
 	
 * MODULE 3:
 
+
 rename (iic_3 cr1_permission_granted_3 date_of_interview_m3 time_of_interview_started_3 m3_birth_or_ended m3_ga1 ga_birth_mat_estimated) ///
 	   (m3_start_p1 m3_permission m3_date m3_time m3_birth_or_ended m3_ga1 m3_ga2)
 	   
@@ -594,7 +618,7 @@ rename (which_of_the_following_fin_1105 other_income_source_1105 to_conclude_thi
 		m3_1105_other m3_1106 m3_endtime m3_duration m3_p2_outcome m3_p2_outcome_other ///
 		m3_p2_date_of_rescheduled m3_p2_time_of_rescheduled)		
 
-		
+	
 * MODULE 4:
 rename iic_m4 m4_start 
 rename cr1_permission_granted_m4 m4_permission
@@ -1435,11 +1459,13 @@ drop m2_drop
 /* Gestational age at ANC1:
 			Here we should recalculate the GA based on LMP (m1_802c and self-report m1_803 */
 			gen m1_ga = m1_802d_et // GA based on LNMP
+			char m1_ga[Original_ET_Varname] `m1_802d_et[Original_ET_Varname]'
 			recode m1_803 98=.
 			replace m1_ga = m1_803 if m1_ga == . // ga based on self report of weeks pregnant if LMP not known
 			lab var m1_ga "Gestional age based on LNMP (calc)"
 			
 			recode m1_ga (1/12.99999 = 1) (13/27.99999= 2) (28/50=3), gen(m1_trimester)
+			char m1_trimester[Original_ET_Varname] `m1_ga[Original_ET_Varname]'
 			lab def trimester2 1"1st trimester 0-12wks" 2"2nd trimester 13-27 wks" 3 "3rd trimester 27-42 wks"
 			lab val m1_trimester trimester2 	
 			
@@ -1455,18 +1481,21 @@ drop m2_drop
 		*format date vars:
 		*Date of M1
 		gen _m1_date_ = date(m1_date,"YMD")
+		char _m1_date_[Original_ET_Varname] `m1_date[Original_ET_Varname]'
 		drop m1_date
 		rename _m1_date_ m1_date
 		format m1_date %td	
 		
 		*Date of M2
 		gen _m2_date_ = date(m2_date,"YMD")
+		char _m2_date_[Original_ET_Varname] `m2_date[Original_ET_Varname]'
 		drop m2_date
 		rename _m2_date_ m2_date
 		format m2_date %td
 	
 		*Date of M3
 		gen _m3_date_ = date(m3_date,"YMD")
+		char _m3_date_[Original_ET_Varname] `m3_date[Original_ET_Varname]'
 		drop m3_date
 		rename _m3_date_ m3_date
 		format m3_date %td
@@ -1474,14 +1503,21 @@ drop m2_drop
 		*calculate weeks since ANC1:
 		*M2 (need last date):
 		by redcap_record_id: egen m2_lastdate = max(m2_date)
+		char m2_lastdate[Original_ET_Varname] `m2_date[Original_ET_Varname]'
 		format m2_lastdate %td
 		
 		generate time_between_m1m2 = (m2_date - m1_date)/7
+		char time_between_m1m2[Original_ET_Varname] (`m2_date[Original_ET_Varname]' - `m1_date[Original_ET_Varname]')/7
+
 		generate time_between_m1m3 = (m3_date - m1_date)/7
+		char time_between_m1m2[Original_ET_Varname] (`m3_date[Original_ET_Varname]' - `m1_date[Original_ET_Varname]')/7
+
 		
 		*New gestational age vars:
 	
 		generate m2_ga = m1_ga + time_between_m1m2
+		char m2_ga[Original_ET_Varname] (`m1_ga[Original_ET_Varname]' - `time_between_m1m2[Original_ET_Varname]')/7
+
 		*generate m3_ga = m1_ga + time_between_m1m3
 	
 		drop time_between_m1m2 time_between_m1m3
@@ -1491,6 +1527,8 @@ drop m2_drop
 		*Extra cleaning from Emma's code:
 		* Recode birth dates with data entry errors
 		gen _m3_birth_or_ended_ = date(m3_birth_or_ended,"YMD")
+		char _m3_birth_or_ended_[Original_ET_Varname] `m3_birth_or_ended[Original_ET_Varname]'
+
 		drop m3_birth_or_ended
 		rename _m3_birth_or_ended_ m3_birth_or_ended
 		format m3_birth_or_ended %td
@@ -1511,9 +1549,11 @@ drop m2_drop
 		replace m3_birth_or_ended = date("2023-10-13", "YMD") if redcap_record_id=="1701-19"
 	
 		gen pregnancyend_ga = ((m3_birth_or_ended)-m1_date)/7 + m1_ga
+		char pregnancyend_ga[Original_ET_Varname] (`m3_birth_or_ended[Original_ET_Varname]' - `m1_date[Original_ET_Varname]' )/7 + `m1_ga[Original_ET_Varname]'
 
 		* Date of LNMP
 		gen _m1_802c_et_ = date(m1_802c_et,"YMD")
+		char _m1_802c_et_[Original_ET_Varname] `m1_802c_et[Original_ET_Varname]'
 		drop m1_802c_et
 		rename _m1_802c_et_ m1_802c_et
 		format m1_802c_et %td
@@ -1538,6 +1578,9 @@ label values study_site woreda
 label define site 1 "Adama" 2 "East Shewa"
 
 generate site = study_site 
+char site[Original_ET_Varname] `study_site[Original_ET_Varname]'
+
+
 recode site (1 = 1) ///
             (2 3 4 5 6 7 96 = 2)
 label values site site 
@@ -1545,6 +1588,8 @@ label values site site
 * create new variable for sampling strata 
 ** we need to make sure we recode in the cleaning file the facility name and strata for st. fransisco
 generate sampstrata = facility
+char sampstrata[Original_ET_Varname] `facility[Original_ET_Varname]'
+
 recode sampstrata (2 3 4 5 6 8 9 10 11 14 16 17 19 = 1) (18 7 = 2) (22 13 15 1 12 23 96 = 3) (20 21 = 4) 
 label values sampstrata strata
 
@@ -2389,9 +2434,12 @@ label values m3_p2_outcome m3_p2_outcome
 
 *Formatting dates/times: 
 gen double recm3_time = clock(m3_time, "hm") 
+char recm3_time[Original_ET_Varname] `m3_time[Original_ET_Varname]' 
 format recm3_time %tc_HH:MM
 
 gen _date2_ = date(m3_313a_baby1,"YMD")
+char _date2_[Original_ET_Varname] `m3_313a_baby1[Original_ET_Varname]' 
+
 drop m3_313a_baby1
 rename _date2_ m3_313a_baby1
 format m3_313a_baby1 %td
@@ -2403,6 +2451,8 @@ format m3_313a_baby2 %td
 format m3_313a_baby3 %td
 
 gen double recm3_313b_baby1 = clock(m3_313b_baby1, "hm") 
+char recm3_313b_baby1[Original_ET_Varname] `m3_313b_baby1[Original_ET_Varname]' 
+
 format recm3_313b_baby1 %tc_HH:MM
 
 *gen double recm3_313b_baby2 = clock(m3_313b_baby2, "hm") // 4-8-24 SS: data already in numeric format, probably because of 0 observations
@@ -2412,6 +2462,7 @@ format m3_313b_baby2 %tc_HH:MM
 format m3_313b_baby3 %tc_HH:MM
 
 gen _date5_ = date(m3_506a,"YMD")
+char _date5_[Original_ET_Varname]  `m3_506a[Original_ET_Varname]'
 drop m3_506a
 rename _date5_ m3_506a
 format m3_506a %td
@@ -2419,37 +2470,48 @@ format m3_506a %td
 format m3_p1_date_of_rescheduled %td // 0 observations as of 4-8-24
 
 gen _date8_ = date(m3_date_p2,"YMD")
+char _date8_[Original_ET_Varname]  `m3_date_p2[Original_ET_Varname]'
 drop m3_date_p2
 rename _date8_ m3_date_p2
 format m3_date_p2 %td
 
 gen _date9_ = date(m3_p2_date_of_rescheduled,"YMD")
+char _date9_[Original_ET_Varname]  `m3_p2_date_of_rescheduled[Original_ET_Varname]'
+
 drop m3_p2_date_of_rescheduled
 rename _date9_ m3_p2_date_of_rescheduled
 format m3_p2_date_of_rescheduled %td
 
 gen double recm3_506b = clock(m3_506b, "hm") 
+char recm3_506b[Original_ET_Varname]  `m3_506b[Original_ET_Varname]'
 format recm3_506b %tc_HH:MM
 
-gen double recm3_507 = clock(m3_507, "hm") 
+gen double recm3_507 = clock(m3_507, "hm")
+char recm3_507[Original_ET_Varname]  `m3_507[Original_ET_Varname]' 
 format recm3_507 %tc_HH:MM
 
 gen double recm3_514 = clock(m3_514, "hm") 
+char recm3_514[Original_ET_Varname]  `m3_514[Original_ET_Varname]' 
 format recm3_514 %tc_HH:MM
 
-gen double recm3_520 = clock(m3_520, "hm") 
+gen double recm3_520 = clock(m3_520, "hm")
+char recm3_520[Original_ET_Varname]  `m3_520[Original_ET_Varname]'  
 format recm3_520 %tc_HH:MM
 
 gen double recm3_time_p2 = clock(m3_time_p2, "hm") 
+char recm3_time_p2[Original_ET_Varname] `m3_time_p2[Original_ET_Varname]'
 format recm3_time_p2 %tc_HH:MM 
 
 gen double recm3_endtime = clock(m3_endtime, "hm") 
+char recm3_endtime[Original_ET_Varname]  `m3_endtime[Original_ET_Varname]'  
 format recm3_endtime %tc_HH:MM 
 
 gen double recm3_p2_time_of_rescheduled = clock(m3_p2_time_of_rescheduled, "hm") 
+char recm3_p2_time_of_rescheduled[Original_ET_Varname]  `m3_p2_time_of_rescheduled[Original_ET_Varname]'  
 format recm3_p2_time_of_rescheduled %tc_HH:MM 
 
 gen double recm3_duration = clock(m3_duration, "hm") 
+char recm3_duration[Original_ET_Varname]  `m3_duration[Original_ET_Varname]'  
 format recm3_duration %tc_HH:MM 
 
 
@@ -2597,6 +2659,8 @@ replace m4_309 = "10" if m4_309=="K"
 replace m4_309 = "11" if m4_309=="L" 
 replace m4_309 = "12" if m4_309=="M" 
 gen m4_309_numeric = real(m4_309)
+char m4_309_numeric[Original_ET_Varname]  `m4_309[Original_ET_Varname]'
+
 drop m4_309 
 rename m4_309_numeric m4_309 
 label define m4_309 1 "Do not know it can be fixed" 2 "You tried but did not get treatment" 3 "High cost (e.g., high out of pocket payment, not covered by insurance)" 4 "Far distance (e.g., too far to walk or drive, transport not readily available)" 5 " Poor healthcare provider skills (e.g., spent too little time with patient, did not conduct a thorough exam)" 6 "Staff don't show respect (e.g., staff is rude,impolite, dismissive)" 7 "Medicines or equipment are not available (e.g., medicines regularly out of stock, equipment like X-ray machines broken or unavailable)" 8 "COVID-19 fear" 9 "Don't know where to go/too complicated" 10 "Could not get permission" 11 "Embarrassment" 12 "Problem disappeared" 96 " Other (specify)" 
@@ -2862,11 +2926,15 @@ lab val m5_complete m5_complete
 		
 		*Date of M5
 		gen _m5_date_ = date(m5_date,"YMD")
+		char _m5_date_[Original_ET_Varname]  `m5_date[Original_ET_Varname]'
+
 		drop m5_date
 		rename _m5_date_ m5_date
 		format m5_date %td
 		
 		encode q103_m5, gen(m5_starttime)
+		char m5_starttime[Original_ET_Varname]  `q103_m5[Original_ET_Varname]'
+
 		drop q103_m5
 		
 		*data cleaning (SS 7-29):
@@ -2875,12 +2943,16 @@ lab val m5_complete m5_complete
 		
 		* M5 Date of maternal death	
 		gen _m5_date_of_maternal_death_ = date(m5_date_of_maternal_death,"YMD")
+		char _m5_date_of_maternal_death_[Original_ET_Varname]  `m5_date_of_maternal_death[Original_ET_Varname]'
+
 		drop m5_date_of_maternal_death
 		rename _m5_date_of_maternal_death_ m5_date_of_maternal_death
 		format m5_date_of_maternal_death %td
 		
 		* M5 Baby death dates
 		gen _m5_baby1_death_date_ = date(m5_baby1_death_date,"YMD")
+		char _m5_baby1_death_date_[Original_ET_Varname]  `m5_baby1_death_date[Original_ET_Varname]'
+
 		drop m5_baby1_death_date
 		rename _m5_baby1_death_date_ m5_baby1_death_date
 		format m5_baby1_death_date %td
@@ -4256,6 +4328,7 @@ replace m4_baby1_death_date = ".d" if m4_baby1_death_date_unk==1
 drop m4_baby1_death_date_unk 
 
 gen m4_baby2_death_date_string = string(m4_baby2_death_date)
+char m4_baby2_death_date_string[Original_ET_Varname] `m4_baby2_death_date[Original_ET_Varname]' 
 drop m4_baby2_death_date 
 rename m4_baby2_death_date_string m4_baby2_death_date
 replace m4_baby2_death_date = ".a" if m4_baby2_status==1 | m3_303a==1
@@ -4263,6 +4336,7 @@ replace m4_baby2_death_date = ".d" if m4_baby2_death_date_unk==1
 drop m4_baby2_death_date_unk 
 
 gen m4_baby3_death_date_string = string(m4_baby3_death_date)
+char m4_baby3_death_date_string[Original_ET_Varname] `m4_baby3_death_date[Original_ET_Varname]' 
 drop m4_baby3_death_date
 rename m4_baby3_death_date_string m4_baby3_death_date
 replace m4_baby3_death_date = ".a" if m4_baby3_status==1 | m3_303a==1 | m3_303a==2
@@ -7097,6 +7171,52 @@ drop first_name family_name phone_number m1_513b ///
 	 
 order m1_* m2_* m3_* m4_* m5_* mcard_*, sequential
 
+
+*****************************************
+*****************************************
+*****************************************
+
+* Because M3 uses a lot of non numeric variable names we will need to manually order some of them
+order m3_start_p1 m3_permission m3_date m3_time m3_start_p2 m3_permission_p2 m3_date_p2 m3_time_p2  m3_201a m3_201b m3_201c m3_202 m3_birth_or_ended, before(m3_303a)
+order m3_baby1_name m3_baby2_name m3_baby3_name ///
+m3_baby1_gender m3_baby2_gender m3_baby3_gender ///
+m3_baby1_age m3_baby1_weight m3_baby2_weight m3_baby3_weight ///
+m3_baby1_size m3_baby2_size m3_baby3_size ///
+m3_baby1_health m3_baby2_health m3_baby3_health ///
+m3_baby1_feed_a m3_baby1_feed_b m3_baby1_feed_c m3_baby1_feed_d m3_baby1_feed_e m3_baby1_feed_f m3_baby1_feed_g m3_baby1_feed_96 m3_baby1_feed_other m3_baby1_feed_99 m3_baby1_feed_888 m3_baby1_feed_998 m3_baby1_feed_999 ///
+m3_baby2_feed_a m3_baby2_feed_b m3_baby2_feed_c m3_baby2_feed_d m3_baby2_feed_e m3_baby2_feed_g m3_baby2_feed_96 m3_baby2_feed_other m3_baby2_feed_99 m3_baby2_feed_888 m3_baby2_feed_998 m3_baby2_feed_999 /// // note: there is no "f" option for baby2 
+m3_baby3_feed_a m3_baby3_feed_b m3_baby3_feed_c m3_baby3_feed_d m3_baby3_feed_e m3_baby3_feed_g m3_baby3_feed_96 m3_baby3_feed_other m3_baby3_feed_99 m3_baby3_feed_888 m3_baby3_feed_998 m3_baby3_feed_999 /// // note: there is no "f" option for baby3 
+m3_breastfeeding m3_breastfeeding_fx_et ///
+m3_baby1_sleep m3_baby1_feed m3_baby1_breath m3_baby1_stool m3_baby1_mood m3_baby1_skin m3_baby1_interactivity ///
+m3_baby2_sleep m3_baby2_feed m3_baby2_breath m3_baby2_stool m3_baby2_mood m3_baby2_skin m3_baby2_interactivity ///
+m3_baby3_sleep m3_baby3_feed m3_baby3_breath m3_baby3_stool m3_baby3_mood m3_baby3_skin m3_baby3_interactivity ///
+m3_baby1_born_alive m3_baby2_born_alive m3_baby3_born_alive ///
+m3_313a_baby1 m3_313b_baby1 m3_313a_baby2 m3_313b_baby2 m3_313a_baby3 m3_313b_baby3 ///
+m3_death_cause_baby1_a m3_death_cause_baby1_b m3_death_cause_baby1_c m3_death_cause_baby1_d m3_death_cause_baby1_e m3_death_cause_baby1_f m3_death_cause_baby1_g m3_death_cause_baby1_96 m3_death_cause_baby1_other m3_death_cause_baby1_888 m3_death_cause_baby1_998 m3_death_cause_baby1_999 ///
+m3_death_cause_baby2_a m3_death_cause_baby2_b m3_death_cause_baby2_c m3_death_cause_baby2_d m3_death_cause_baby2_e m3_death_cause_baby2_f m3_death_cause_baby2_g m3_death_cause_baby2_96 m3_death_cause_baby2_other m3_death_cause_baby2_888 m3_death_cause_baby2_998 m3_death_cause_baby2_999 ///
+m3_death_cause_baby3_a m3_death_cause_baby3_b m3_death_cause_baby3_c m3_death_cause_baby3_d m3_death_cause_baby3_e m3_death_cause_baby3_f m3_death_cause_baby3_g m3_death_cause_baby3_96 m3_death_cause_baby3_other m3_death_cause_baby3_888 m3_death_cause_baby3_998 m3_death_cause_baby3_999 ///
+, after(m3_303d)
+
+
+order m3_consultation_1 m3_consultation_referral_1 m3_consultation1_reason_a m3_consultation1_reason_b m3_consultation1_reason_c m3_consultation1_reason_d m3_consultation1_reason_e m3_consultation1_reason_96 m3_consultation1_reason_other m3_consultation1_reason_888 m3_consultation1_reason_998 m3_consultation1_reason_999 ///
+m3_consultation_2 m3_consultation_referral_2 m3_consultation2_reason_a m3_consultation2_reason_b m3_consultation2_reason_c m3_consultation2_reason_d m3_consultation2_reason_e m3_consultation2_reason_96 m3_consultation2_reason_other m3_consultation2_reason_888 m3_consultation2_reason_998 m3_consultation2_reason_999 ///
+m3_consultation_3 m3_consultation_referral_3 m3_consultation3_reason_a m3_consultation3_reason_b m3_consultation3_reason_c m3_consultation3_reason_d m3_consultation3_reason_e m3_consultation3_reason_96 m3_consultation3_reason_other m3_consultation3_reason_888 m3_consultation3_reason_998 m3_consultation3_reason_999 ///
+m3_consultation_4 m3_consultation_referral_4 m3_consultation4_reason_a m3_consultation4_reason_b m3_consultation4_reason_c m3_consultation4_reason_d m3_consultation4_reason_e m3_consultation4_reason_96 m3_consultation4_reason_other m3_consultation4_reason_888 m3_consultation4_reason_998 m3_consultation4_reason_999 ///
+m3_consultation_5 m3_consultation_referral_5 m3_consultation5_reason_a m3_consultation5_reason_b m3_consultation5_reason_c m3_consultation5_reason_d m3_consultation5_reason_e m3_consultation5_reason_96 m3_consultation5_reason_other m3_consultation5_reason_888 m3_consultation5_reason_998 m3_consultation5_reason_999 ///
+, after(m3_402)
+
+order m3_518_other_complications, after(m3_518)
+
+order m3_baby1_issues_a m3_baby1_issues_b m3_baby1_issues_c m3_baby1_issues_d m3_baby1_issues_e m3_baby1_issues_f m3_baby1_issues_96 m3_baby1_issues_98 m3_baby1_issues_99 m3_baby1_issues_888 m3_baby1_issues_998 m3_baby1_issues_999 ///
+m3_baby2_issues_a m3_baby2_issues_b m3_baby2_issues_c m3_baby2_issues_d m3_baby2_issues_e m3_baby2_issues_f m3_baby2_issues_96 m3_baby2_issues_98 m3_baby2_issues_99 m3_baby2_issues_888 m3_baby2_issues_998 m3_baby2_issues_999 ///
+m3_baby3_issues_a m3_baby3_issues_b m3_baby3_issues_c m3_baby3_issues_d m3_baby3_issues_e m3_baby3_issues_f m3_baby3_issues_96 m3_baby3_issues_98 m3_baby3_issues_99 m3_baby3_issues_888 m3_baby3_issues_998 m3_baby3_issues_999 ///
+, before(m3_708a)
+
+*****************************************
+*****************************************
+*****************************************
+
+
 order m2_start m2_date m2_date m2_permission m2_103 m2_time_start m2_maternal_death_reported m2_ga m2_hiv_status ///
 	 m2_date_of_maternal_death m2_maternal_death_learn m2_maternal_death_learn_other m2_111 m2_111_other m2_201,after(m1_end_time)
 
@@ -7461,6 +7581,7 @@ label variable m2_endstatus`i' "What is this womens current status at the end of
 	
 *set to missing if the baby is not born alive or baby is born at a weight <25mg
 		gen ga_according_to_dob = 40-((m3_birth_or_ended - m1_date)/7)
+		char ga_according_to_dob[Original_ET_Varname] (`m3_birth_or_ended[Original_ET_Varname]' - `m1_date[Original_ET_Varname]'/7)
 		
 		recode ga_according_to_dob (. = .a) if m3_baby1_born_alive !=1 & m3_baby2_born_alive !=1 & m3_baby3_born_alive !=1 // need to add if any baby's are under 25
 	
@@ -7470,3 +7591,96 @@ label variable m2_endstatus`i' "What is this womens current status at the end of
 	 save "$et_data_final/eco_m1-m5_et_wide.dta", replace
 	 
 	 *run "/Users/shs8688/Documents/GitHub/eCohorts/Ethiopia/crEco_der_ET.do"
+
+*===============================================================================
+	 
+* STEP EIGHT: RUN DERIVED VARIABLES CODE AND SAVE AS COMPLETED DATASET	 
+* Convert string dates to numeric dates
+
+	
+	* convert the string dates to numeric dates
+	foreach v in m1_date m1_802a m1_802c_et mcard_date mcard_edd m2_date_r1 m2_103_r1 m2_date_of_maternal_death_r1 m2_date_of_maternal_death_2_r1 m2_date_of_rescheduled_r1 m2_lastdate_r1 m2_date_r2 m2_103_r2 m2_date_of_maternal_death_r2 m2_date_of_maternal_death_2_r2 m2_date_of_rescheduled_r2 m2_lastdate_r2 m2_date_r3 m2_103_r3 m2_date_of_maternal_death_r3 m2_date_of_maternal_death_2_r3 m2_date_of_rescheduled_r3 m2_lastdate_r3 m2_date_r4 m2_103_r4 m2_date_of_maternal_death_r4 m2_date_of_maternal_death_2_r4 m2_date_of_rescheduled_r4 m2_lastdate_r4 m2_date_r5 m2_103_r5 m2_date_of_maternal_death_r5 m2_date_of_maternal_death_2_r5 m2_date_of_rescheduled_r5 m2_lastdate_r5 m2_date_r6 m2_103_r6 m2_date_of_maternal_death_r6 m2_date_of_maternal_death_2_r6 m2_date_of_rescheduled_r6 m2_lastdate_r6 m2_date_r7 m2_103_r7 m2_date_of_maternal_death_r7 m2_date_of_maternal_death_2_r7 m2_date_of_rescheduled_r7 m2_lastdate_r7 m2_date_r8 m2_103_r8 m2_date_of_maternal_death_r8 m2_date_of_maternal_death_2_r8 m2_date_of_rescheduled_r8 m2_lastdate_r8 m3_date m3_date_p2 m3_birth_or_ended m3_313a_baby1 m3_313a_baby2 m3_p1_date_of_rescheduled m3_p2_date_of_rescheduled m4_102 m4_113 m4_attempt_date m4_baby1_death_date m4_baby2_death_date m4_baby3_death_date m4_date_of_rescheduled m5_baby1_death_date m5_baby2_death_date m5_baby3_death_date m5_date {
+		local format `:format `v''
+		di "`format'"
+		local type = substr("`format'",1,3)
+		
+		if "`type'" != "%td" {
+			
+			local name str_`v'
+			local len = strlen("`name'")
+			if `len' > 32 local name = subinstr("`name'","date_of_maternal_death","maternal_death_date",1)
+			di "`name'"
+			
+			rename `v' `name'
+
+			gen `v' = .
+			char `v'[Original_ET_Varname] ``name'[Original_ET_Varname]'
+			
+			label var `v' "`:var label `name''"
+			
+			local type2 =substr("`:type `name''",1,3)
+			
+			if "`type2'" == "str" {
+				replace `v' = date(`name',"YMD") 
+				replace `v' = date(`name',"MDY") if missing(`v')
+				replace `v' = date(`name',"DMY") if missing(`v')
+			}
+			if "`type2'" != "str" replace `v' = `name'
+			
+			if "`type2'" == "str" {
+				count if missing(`v') & !missing(`name')
+				if `r(N)' > 0  di as error "`v' - `r(N)' lines have an invalid date"
+				replace `v' = .n if `name' == "888" // No information
+				replace `v' = .d if `name' == "998" // Don't Know
+				replace `v' = .r if `name' == "999" // Refused to answer/No response
+				replace `v' = .i if missing(`v') & !missing(`name') & !inlist(`name',"888","998","999")				
+			}
+			if "`type2'" != "str" {
+				replace `v' = .n if `name' == 888 // No information
+				replace `v' = .d if `name' == 998 // Don't Know
+				replace `v' = .r if `name' == 999 // Refused to answer/No response
+				replace `v' = .i if missing(`v') & !missing(`name') & !inlist(`name',888,998,999)		
+			}
+			
+			format %td `v'
+			order `v', before(`name')
+			drop `name'
+
+		}
+	}
+	
+	
+	
+	* I noticed some other special missing values that need to be replaced based on the questionnaire
+	foreach v of varlist * {
+		
+		local type =substr("`:type `v''",1,3)
+		
+		if "`type'" == "str" {
+			qui count if inlist(`v',"888","998","999")
+			if `r(N)' > 0 {
+				di "`v' - `r(N)'"
+				qui replace `v' = ".n" if `v' == "888" // No information
+				qui replace `v' = ".d" if `v' == "998" // Don't Know
+				qui replace `v' = ".r" if `v' == "999" // Refused to answer/No response			
+			}
+		}
+		if "`type'" != "str" {
+			qui count if inlist(`v',888,998,999)
+			if `r(N)' > 0 {
+			di "`v' - `r(N)'"
+				qui replace `v' = .n if `v' == 888 // No information
+				qui replace `v' = .d if `v' == 998 // Don't Know
+				qui replace `v' = .r if `v' == 999 // Refused to answer/No response			
+			}
+		}
+			
+	}
+	
+	save "$et_data_final/eco_m1-m5_et_wide.dta", replace
+	  
+	* Run the derived variables code
+	do "${github}/Ethiopia/crEco_der_ET.do"
+
+	* Save the completed dataset	
+	save "$et_data_final/eco_ET_Complete.dta", replace
