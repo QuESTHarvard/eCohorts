@@ -82,6 +82,8 @@ program define m3_value_labels
 
 	label define satisfied 1 "Very satisfied" 2 "Satisfied" 3 "Neither satisfied nor dissatisfied" 4 "Dissatisfied" 5 "Very dissatisfied" 98 "Don't Know" 99 "No Response/Refused to answer", replace
 
+	label define hiv_status 0 "Negative" 1	"Positive" 2 "Did not receive result" 98 "Don't Know" 99 "No Response/Refused to answer", replace
+
 
 	**********************************************************
 	**********************************************************
