@@ -26,6 +26,8 @@
 *										confirmed that all date variables are in a date format and not string
 *										Added code to format all dates in proper format and to add special missing values per the questionnaire for values of 888,999 and 998
 * 										Added char to all variables to show the original variable in a note
+* 2024-10-08	1.02	MK Trimner		Added char that contains the module for each original variable for codebook purposes		
+*										Corrected typo for value label m2_203h, m2_205c, m2_interview_restarted, breathing, m3_YNDKRF, m4_conclusion_dead_baby and m5_feeding
 *******************************************************************************/
 * Import Data 
 clear all 
@@ -1848,7 +1850,7 @@ label values m1_517 residence
 	label define m2_203g 1 "Yes" 0 "No" 98 "DK" 99 "NR/RF" 
 	label values m2_203g m2_203g
 
-	label define mx2_203h 1 "Yes" 0 "No" 98 "DK" 99 "NR/RF" 
+	label define m2_203h 1 "Yes" 0 "No" 98 "DK" 99 "NR/RF" 
 	label values m2_203h m2_203h
 
 	label define m2_203i 1 "Yes" 0 "No" 98 "DK" 99 "NR/RF" 
@@ -1887,7 +1889,7 @@ label values m1_517 residence
 	label define m2_205b 0 "None of the days" 1 "Several days" 2 "More than half the days (>7)" 3 "Nearly every day" 
 	label values m2_205b m2_205b
 
-	label define m2_205_ 0 "None of the days" 1 "Several days" 2 "More than half the days (>7)" 3 "Nearly every day" 99 "NR/RF"
+	label define m2_205c 0 "None of the days" 1 "Several days" 2 "More than half the days (>7)" 3 "Nearly every day" 99 "NR/RF"
 	label values m2_205c m2_205c
 
 	label define m2_205d 0 "None of the days" 1 "Several days" 2 "More than half the days (>7)" 3 "Nearly every day" 99 "NR/RF" 
@@ -2210,7 +2212,7 @@ label values m1_517 residence
 label define m2_interview_inturrupt 1 "Yes" 0 "No" 
 label values m2_interview_inturrupt m2_interview_inturrupt
 
-label define m2_interview_restarted_ 1 "Yes" 0 "No" 
+label define m2_interview_restarted 1 "Yes" 0 "No" 
 label values m2_interview_restarted m2_interview_restarted
 
 label define m2_endstatus 1 "Active follow-up" 2 "Lost to follow-up" 3 "Decline further participation" 4 "Maternal death" 5 "No longer pregnant"
@@ -2251,7 +2253,7 @@ label values m3_breastfeeding m3_confidence
 label define m3_202	3 "Delivered with still birth" 4 "Miscarriage" 5 "Abortion"
 label values m3_202 m3_202
 
-label define YNDKRF 1 "Yes" 0 "No" 98 "Don't Know" 99 "NR/RF"
+label define m3_YNDKRF 1 "Yes" 0 "No" 98 "Don't Know" 99 "NR/RF"
 label values m3_1201 m3_1203 m3_401 m3_consultation_1 m3_consultation_referral_1 ///
 			 m3_consultation_2 m3_consultation_referral_2 ///
 			 m3_consultation_3 m3_consultation_referral_3 ///
@@ -2368,7 +2370,7 @@ label define feeding 1 "Normal feeding" 2 "Slight feeding problems" 3 "Moderate 
 label values m3_baby1_feed m3_baby2_feed m3_baby3_feed feeding
 
 label define breathing 1 "Normal breathing" 2 "Slight breathing problems" 3 "Moderate breathing problems" 4 "Severe breathing problems" 
-label values m3_baby1_breath m3_baby2_breath m3_baby3_breath
+label values m3_baby1_breath m3_baby2_breath m3_baby3_breath breathing
 
 label define stooling 1 "Normal stooling/poo" 2 "Slight stooling/poo problems" 3 "Moderate stooling/poo problems" 4 "Severe stooling/poo problems" 
 label values m3_baby1_stool m3_baby2_stool m3_baby3_stool stooling
@@ -2791,7 +2793,7 @@ label define m4_conclusion_live_babies 1 "Yes" 2 "No, other time or place" 3 "No
 label values m4_conclusion_live_babies m4_conclusion_live_babies
 
 label define m4_conclusion_dead_baby 1 "Read" 2 "Not read"
-label values m4_conclusion_dead_baby conclusion_dead_baby_m4
+label values m4_conclusion_dead_baby m4_conclusion_dead_baby
 
 label define m4_ot1 1 "Completed respondent" 2 "Partially completed and schedule for next time" 3 "Refused" 4 "Incomplete and no more interest to continue" 5 "Not Available via the phones" 6 "Phone doesnt work" 96 "Other reason, specify" 
 label values m4_ot1 m4_ot1
@@ -2840,7 +2842,7 @@ label define m5_sleep 1 "Sleeps well" 2 "Slightly affected sleep" 3 "Moderately 
 lab val m5_baby1_sleep m5_baby2_sleep m5_baby3_sleep m5_sleep 
 
 label define m5_feeding 1 "Normal feeding" 2 "Slight feeding problems" 3 "Moderate feeding problems" 4 "Severe feeding problems" 
-lab val m5_baby1_feed m5_baby2_feed m5_baby3_feed
+lab val m5_baby1_feed m5_baby2_feed m5_baby3_feed m5_feeding
 
 label define m5_breath 1 "Normal breathing" 2 "Slight breathing problems" 3 "Moderate breathing problems" 4 "Severe breathing problems" 
 lab val m5_baby1_breath m5_baby2_breath m5_baby3_breath m5_breath
@@ -7248,36 +7250,54 @@ save "$et_data_final/eco_m1-m5_et_long.dta", replace
 	preserve 
 		keep if redcap_event_name =="maternal_integrate_arm_1"
 		keep redcap_record_id mcard*
+		foreach v of varlist * {
+			char `v'[Module] maternal_card
+		}
 		save "$et_data_final/tmpcard", replace 
 	restore 
 	
 	preserve
 		keep if redcap_event_name =="module_1_arm_1"
 		keep country-kebele_intworm m1* 
+		foreach v of varlist * {
+			char `v'[Module] 1
+		}
 		save "$et_data_final/tmpm1", replace 
 	restore 
 	
 	preserve
 		keep if redcap_event_name =="module_2_arm_1"
 		keep redcap_record_id redcap_repeat_instance m2_*
+		foreach v of varlist * {
+			char `v'[Module] 2
+		}
 		save "$et_data_final/tmpm2", replace 
 	restore 
 	
 	preserve
 		keep if redcap_event_name =="module_3_arm_1"
 		keep redcap_record_id m3_*
+		foreach v of varlist * {
+			char `v'[Module] 3
+		}
 		save "$et_data_final/tmpm3", replace 
 	restore 
 	
 	preserve
 		keep if redcap_event_name =="module_4_arm_1"
 		keep redcap_record_id m4_*
+		foreach v of varlist * {
+			char `v'[Module] 4
+		}
 		save "$et_data_final/tmpm4", replace 
 	restore 
 	
 	preserve
 		keep if redcap_event_name =="module_5_arm_1"
 		keep redcap_record_id m5_*
+		foreach v of varlist * {
+			char `v'[Module] 5
+		}
 		save "$et_data_final/tmpm5", replace 
 	restore 
 	
@@ -7581,8 +7601,7 @@ label variable m2_endstatus`i' "What is this womens current status at the end of
 	
 *set to missing if the baby is not born alive or baby is born at a weight <25mg
 		gen ga_according_to_dob = 40-((m3_birth_or_ended - m1_date)/7)
-		char ga_according_to_dob[Original_ET_Varname] (`m3_birth_or_ended[Original_ET_Varname]' - `m1_date[Original_ET_Varname]'/7)
-		
+		char ga_according_to_dob[Original_ET_Varname] (`m3_birth_or_ended[Original_ET_Varname]' - `m1_date[Original_ET_Varname]'/7)		
 		recode ga_according_to_dob (. = .a) if m3_baby1_born_alive !=1 & m3_baby2_born_alive !=1 & m3_baby3_born_alive !=1 // need to add if any baby's are under 25
 	
 	
@@ -7597,9 +7616,13 @@ label variable m2_endstatus`i' "What is this womens current status at the end of
 * STEP EIGHT: RUN DERIVED VARIABLES CODE AND SAVE AS COMPLETED DATASET	 
 * Convert string dates to numeric dates
 
-	
+
 	* convert the string dates to numeric dates
 	foreach v in m1_date m1_802a m1_802c_et mcard_date mcard_edd m2_date_r1 m2_103_r1 m2_date_of_maternal_death_r1 m2_date_of_maternal_death_2_r1 m2_date_of_rescheduled_r1 m2_lastdate_r1 m2_date_r2 m2_103_r2 m2_date_of_maternal_death_r2 m2_date_of_maternal_death_2_r2 m2_date_of_rescheduled_r2 m2_lastdate_r2 m2_date_r3 m2_103_r3 m2_date_of_maternal_death_r3 m2_date_of_maternal_death_2_r3 m2_date_of_rescheduled_r3 m2_lastdate_r3 m2_date_r4 m2_103_r4 m2_date_of_maternal_death_r4 m2_date_of_maternal_death_2_r4 m2_date_of_rescheduled_r4 m2_lastdate_r4 m2_date_r5 m2_103_r5 m2_date_of_maternal_death_r5 m2_date_of_maternal_death_2_r5 m2_date_of_rescheduled_r5 m2_lastdate_r5 m2_date_r6 m2_103_r6 m2_date_of_maternal_death_r6 m2_date_of_maternal_death_2_r6 m2_date_of_rescheduled_r6 m2_lastdate_r6 m2_date_r7 m2_103_r7 m2_date_of_maternal_death_r7 m2_date_of_maternal_death_2_r7 m2_date_of_rescheduled_r7 m2_lastdate_r7 m2_date_r8 m2_103_r8 m2_date_of_maternal_death_r8 m2_date_of_maternal_death_2_r8 m2_date_of_rescheduled_r8 m2_lastdate_r8 m3_date m3_date_p2 m3_birth_or_ended m3_313a_baby1 m3_313a_baby2 m3_p1_date_of_rescheduled m3_p2_date_of_rescheduled m4_102 m4_113 m4_attempt_date m4_baby1_death_date m4_baby2_death_date m4_baby3_death_date m4_date_of_rescheduled m5_baby1_death_date m5_baby2_death_date m5_baby3_death_date m5_date {
+		
+		tab `v',m
+		
+		
 		local format `:format `v''
 		di "`format'"
 		local type = substr("`format'",1,3)
@@ -7615,12 +7638,13 @@ label variable m2_endstatus`i' "What is this womens current status at the end of
 
 			gen `v' = .
 			char `v'[Original_ET_Varname] ``name'[Original_ET_Varname]'
-			
+			char `v'[Module] ``name'[Module]'
 			label var `v' "`:var label `name''"
 			
 			local type2 =substr("`:type `name''",1,3)
 			
 			if "`type2'" == "str" {
+				replace `name' = "" if `name' == "."
 				replace `v' = date(`name',"YMD") 
 				replace `v' = date(`name',"MDY") if missing(`v')
 				replace `v' = date(`name',"DMY") if missing(`v')
@@ -7630,25 +7654,30 @@ label variable m2_endstatus`i' "What is this womens current status at the end of
 			if "`type2'" == "str" {
 				count if missing(`v') & !missing(`name')
 				if `r(N)' > 0  di as error "`v' - `r(N)' lines have an invalid date"
+				replace `v' = .a if `name' ==".a"
 				replace `v' = .n if `name' == "888" // No information
-				replace `v' = .d if `name' == "998" // Don't Know
-				replace `v' = .r if `name' == "999" // Refused to answer/No response
-				replace `v' = .i if missing(`v') & !missing(`name') & !inlist(`name',"888","998","999")				
+				replace `v' = .d if inlist(`name', "998",".d") // Don't Know
+				replace `v' = .r if inlist(`name',"999",".r") // Refused to answer/No response
+				replace `v' = .i if `v'==. & `name'!="" & !inlist(`name',"888","998","999")	
+				
 			}
 			if "`type2'" != "str" {
+				replace `v' = `name' if inlist(`name',.a,.r,.d)
 				replace `v' = .n if `name' == 888 // No information
 				replace `v' = .d if `name' == 998 // Don't Know
 				replace `v' = .r if `name' == 999 // Refused to answer/No response
-				replace `v' = .i if missing(`v') & !missing(`name') & !inlist(`name',888,998,999)		
+				replace `v' = .i if `v'==. & !missing(`name') & !inlist(`name',888,998,999)		
 			}
 			
 			format %td `v'
 			order `v', before(`name')
 			drop `name'
+			
+			tab `v',m
 
 		}
 	}
-	
+
 	
 	
 	* I noticed some other special missing values that need to be replaced based on the questionnaire
@@ -7673,8 +7702,7 @@ label variable m2_endstatus`i' "What is this womens current status at the end of
 				qui replace `v' = .d if `v' == 998 // Don't Know
 				qui replace `v' = .r if `v' == 999 // Refused to answer/No response			
 			}
-		}
-			
+		}			
 	}
 	
 	save "$et_data_final/eco_m1-m5_et_wide.dta", replace
