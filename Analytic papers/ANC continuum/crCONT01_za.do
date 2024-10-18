@@ -30,30 +30,30 @@ set more off
 	
 *-------------------------------------------------------------------------------		
 	* Time between follow-up surveys
-	gen time_m2_r1_m1= (m2_date_r1-m1_date)/7 // time in weeks bw 1st m2 and m1
-	gen time_m2_r2_m2_r1 = (m2_date_r2-m2_date_r1)/7
-	gen time_m2_r3_m2_r2 = (m2_date_r3-m2_date_r2)/7
-	gen time_m2_r4_m2_r3 = (m2_date_r4-m2_date_r3)/7
-	gen time_m2_r5_m2_r4 = (m2_date_r5-m2_date_r4)/7
-	gen time_m2_r6_m2_r5 = (m2_date_r6-m2_date_r5)/7
+		gen time_m2_r1_m1= (m2_date_r1-m1_date)/7 // time in weeks bw 1st m2 and m1
+		gen time_m2_r2_m2_r1 = (m2_date_r2-m2_date_r1)/7
+		gen time_m2_r3_m2_r2 = (m2_date_r3-m2_date_r2)/7
+		gen time_m2_r4_m2_r3 = (m2_date_r4-m2_date_r3)/7
+		gen time_m2_r5_m2_r4 = (m2_date_r5-m2_date_r4)/7
+		gen time_m2_r6_m2_r5 = (m2_date_r6-m2_date_r5)/7
 	* Number of M2 surveys conducted
-	egen countm2=rownonmiss(m2_date_r*)
-	gen m2_date_last= m2_date_r1 if countm2==1
-	replace m2_date_last= m2_date_r2 if countm2==2
-	replace m2_date_last= m2_date_r3 if countm2==3
-	replace m2_date_last= m2_date_r4 if countm2==4
-	replace m2_date_last= m2_date_r5 if countm2==5
-	replace m2_date_last= m2_date_r6 if countm2==6
-	replace m2_date_last=m1_date if countm2==0
-	format m2_date_last %td
-	gen time_m2_last_m3 = (m3_date - m2_date_last)/7 // time bw last m2 and m3
+		egen countm2=rownonmiss(m2_date_r*)
+		gen m2_date_last= m2_date_r1 if countm2==1
+		replace m2_date_last= m2_date_r2 if countm2==2
+		replace m2_date_last= m2_date_r3 if countm2==3
+		replace m2_date_last= m2_date_r4 if countm2==4
+		replace m2_date_last= m2_date_r5 if countm2==5
+		replace m2_date_last= m2_date_r6 if countm2==6
+		replace m2_date_last=m1_date if countm2==0
+		format m2_date_last %td
+		gen time_m2_last_m3 = (m3_date - m2_date_last)/7 // time bw last m2 and m3
 	
 	* Create tag for any time bw follow up surveys > 13.5 weeks (a whole trimester)
-	forval i = 1/6 {
-		gen tag`i'=1 if time_m2_r`i'>13.5 & time_m2_r`i' <.
-		}	
-	gen tag7 = 1 if time_m2_last_m3 >13.5 & time_m2_last_m3<.
-	egen anygap=rowmax(tag*)
+		forval i = 1/6 {
+			gen tag`i'=1 if time_m2_r`i'>13.5 & time_m2_r`i' <.
+			}	
+		gen tag7 = 1 if time_m2_last_m3 >13.5 & time_m2_last_m3<.
+		egen anygap=rowmax(tag*)
 	*brow m1_date ga m2_date_r*  m3_date tag* m2_ga_r*
 *-------------------------------------------------------------------------------	
 	* RECALCULATING BASELINE GA and RUNNING GA
@@ -183,10 +183,10 @@ set more off
 	
 		recode totalbp 4/max=4, g(maxbp4)
 		recode totalweight 4/max=4, g(maxwgt4)
-		recode totalurine 4/max=3, g(maxurine4)
-		recode totalblood 4/max=3, g(maxblood4)
+		recode totalurine 4/max=4, g(maxurine4)
+		recode totalblood 4/max=4, g(maxblood4)
 		egen totalus =rowtotal(anc1_ultrasound m2_us_r* m3_us*)
-			recode totalus 4/max=3, g(maxus4)
+			recode totalus 4/max=4, g(maxus4)
 		egen totaldanger=rowtotal(anc1_dangers m2_danger_r*) 
 			recode totaldanger 4/max=4, g(maxdanger4)
 		egen totalbplan= rowtotal(anc1_bplan m2_bplan_r*)
@@ -315,7 +315,7 @@ set more off
 							m2_503e_r* m2hiv* m2_503d_r* ///
 							m2_601e_r*)
 							
-					keep respondentid ancfuthird country
+					keep respondentid ancfuthird country bsltrimester
 					merge 1:1 respondentid using timelyancza.dta
 					drop _merge
 					save timelyancza.dta, replace
@@ -323,36 +323,37 @@ set more off
 *-------------------------------------------------------------------------------		
 	* DEMOGRAPHICS AND RISK FACTORS					
 		* Demographics
-				gen age20= enrollage<20
-				gen age35= enrollage>=35
+				recode enrollage (min/19=1 "<20") (20/34=2 "20-34") (35/max=3 "35+"), g(agecat)
 				recode educ_cat 2=1 3=2 4=3
 				lab def edu 1 "Primary only" 2 "Complete Secondary" 3"Higher education"
 				lab val educ_cat edu
 				// tertile  marriedp 
 				gen healthlit_corr=health_lit==4
-				recode m1_506 1/6=1 96=1 7=2 8/9=1 10=3,g(job)
-				lab def job 1"Employed or homemaker" 2"Student" 3"Unemployed"
-				lab val job job 
-			
+				recode m1_506 1/5=1 6=2  7=3 8/9=1 10=4 96=1,g(job)
+				lab def job 1"Employed" 2"Homemaker" 3"Student" 4"Unemployed"
+					lab val job job 
+				g second= educ_cat>=2 & educ_cat<.
+			* Baseline danger signs
+			egen danger=rowmax(m1_814b m1_814c m1_814f m1_814g) 
+				// vaginal bleeding, fever, convulsions, seizures, fainting or LOC
 		*Risk factors
 			* Anemia
 				recode Hb 0/10.99999=1 11/30=0, gen(anemia)
 				lab val anemia anemia
-			/* Chronic illnesses
-				egen chronic= rowmax(m1_202a m1_202b m1_202c m1_202d m1_202e )  
-				encode m1_203, gen(prob)
-				recode prob (1/4 10 16 18/21 24 28 29 30 33 34 28 =0 ) (5/9 11/15 17 22 23 25 26 27 31 32=1)
-				replace chronic = 1 if prob==1
-				replace chronic_nohiv=1 if prob==1
-				drop prob
-				replace chronic=1 if HBP==1 // measured BP
-				replace chronic_nohiv=1 if HBP==1
-			
+			* Chronic illnesses
+				egen diab=rowmax(m1_202a m1_202a_2_za)
+				egen hbp=rowmax(m1_202b m1_202b_2_za)
+				egen cardiac=rowmax(m1_202c m1_202c_2_za)
+				egen mh=rowmax(m1_202d m1_202d_2_za)
+				egen hiv=rowmax(m1_202e m1_202e_2_za)
+				encode m1_203, g(prob1) 
+					recode prob1 ( 1/4 14/17 20 24 27=0 "No") (5/13 18/19 21/23 25/26 =1 "Yes"), g(p1)
+				encode m1_203_2_za, g(prob2) 
+					recode prob2 (1 5/7 =0 "No") (2/4 =1 "Yes") , g(p2)
+				egen chronic= rowtotal(diab hbp cardiac mh hiv p1 p2 HBP)  
+				egen chronic_nohiv = rowtotal(diab hbp cardiac mh p1 p2 HBP)  
 			* Underweight/overweight
-			rename low_BMI maln_underw
-			recode BMI 0/29.999=0 30/100=1, g(overweight)
-			
-			egen ipv=rowmax(m1_1101 m1_1103)
+			rename low_BMI malnut
 			
 			* Obstetric risk factors
 			gen multiple= m1_805 >1 &  m1_805<.
@@ -361,11 +362,23 @@ set more off
 			gen neodeath = m1_1010 ==1
 			gen preterm = m1_1005 ==1
 			gen PPH=m1_1006==1
-			egen complic = rowmax(stillbirth neodeath preterm PPH cesa)	*/
+			egen complic = rowmax(stillbirth neodeath preterm PPH cesa)	
 			
+			egen riskcat=rowtotal(anemia chronic malnut complic )
+			recode riskcat 3/max=2 
+			lab def riskcat 0"No risk factor" 1"One risk factor" 2"Two or more risk factors" 
+			lab val riskcat riskcat
+			
+			egen riskcat2=rowtotal(anemia chronic malnut complic )
+			recode riskcat2 3/max=3
+
 save "$user/MNH E-Cohorts-internal/Analyses/Manuscripts/Paper 5 Continuum ANC/Data/ZAtmp.dta", replace	
 
-
+			reg totvis i.riskcat2 ib(2).agecat i.educ_cat i.healthlit_corr married ///
+				i.tertile i.job preg_intent prim danger  i.study_site ///
+				if  totalfu>3  , vce(robust)
+				
+			
 *-------------------------------------------------------------------------------		
 	/* 
 	* Number of months in ANC 

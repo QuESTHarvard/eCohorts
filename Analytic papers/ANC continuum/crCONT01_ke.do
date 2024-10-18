@@ -180,10 +180,10 @@ set more off
 	
 		recode totalbp 4/max=4, g(maxbp4)
 		recode totalweight 4/max=4, g(maxwgt4)
-		recode totalurine 4/max=3, g(maxurine4)
-		recode totalblood 4/max=3, g(maxblood4)
+		recode totalurine 4/max=4, g(maxurine4)
+		recode totalblood 4/max=4, g(maxblood4)
 		egen totalus =rowtotal(anc1_ultrasound m2_us_r* m3_us*)
-			recode totalus 4/max=3, g(maxus4)
+			recode totalus 4/max=4, g(maxus4)
 		egen totaldanger=rowtotal(anc1_dangers m2_danger_r*) 
 			recode totaldanger 4/max=4, g(maxdanger4)
 		egen totalbplan= rowtotal(anc1_bplan m2_bplan_r*)
@@ -309,7 +309,7 @@ set more off
 							m2_503e_r* m2hiv* m2_503d_r* ///
 							m2_601e_r*)
 							
-					keep respondentid ancfuthird country
+					keep respondentid ancfuthird country bsltrimester
 					merge 1:1 respondentid using timelyancke.dta
 					drop _merge
 					save timelyancke.dta, replace
@@ -317,13 +317,18 @@ set more off
 *-------------------------------------------------------------------------------		
 	* DEMOGRAPHICS AND RISK FACTORS
 		* Demographics
-			gen age20= enrollage<20
-			gen age35= enrollage>=35
+			recode enrollage (min/19=1 "<20") (20/34=2 "20-34") (35/max=3 "35+"), g(agecat)
 			
 			// educ_cat  quintile  marriedp
 			gen healthlit_corr=health_lit==4
-			
-			rename  facility_lvl factype
+			* Baseline danger signs
+			egen danger=rowmax(m1_814b m1_814c m1_814f m1_814g) 
+				// vaginal bleeding, fever, convulsions, seizures, fainting or LOC
+			rename  (facility_lvl bsl_preg_intent) (factype preg_intent)
+			g second= educ_cat>=3 & educ_cat<.
+			recode m1_506 1/5=1 6=2 -96=1 7=3 8/9=1 10=4,g(job)
+			lab def job 1"Employed" 2"Homemaker" 3"Student" 4"Unemployed"
+			lab val job job 
 		* Risk factors
 			* Anemia
 			recode bsl_Hb 0/10.99999=1 11/30=0, gen(anemia)
@@ -347,14 +352,27 @@ set more off
 			gen PPH=m1_1006==1
 			egen complic = rowtotal(stillbirth neodeath preterm PPH cesa) 
 		
-			egen riskcat=rowtotal(anemia chronic malnut complic age20 age35)
+			egen riskcat=rowtotal(anemia chronic malnut complic )
 			recode riskcat 3/max=2 
 			lab def riskcat 0"No risk factor" 1"One risk factor" 2"Two or more risk factors" 
 			lab val riskcat riskcat
 				
 					
 save "$user/MNH E-Cohorts-internal/Analyses/Manuscripts/Paper 5 Continuum ANC/Data/KEtmp.dta", replace	
-
+			
+			reg anctotal i.riskcat ib(2).agecat i.educ_cat i.healthlit_corr married ///
+			i.quintile i.job preg_intent prim danger ib(2).bsltrimest i.factype i.study_site ///
+			if  totalfu>2  , vce(robust)
+			
+			reg anctotal i.riskcat ib(2).agecat i.educ_cat i.healthlit_corr married ///
+			i.quintile i.job preg_intent prim danger i.bsltrim i.factype i.study_site ///
+			if  totalfu>2  , vce(robust)
+			
+			margins riskcat
+			marginsplot 
+			
+			margins quintile
+			marginsplot
 /*-------------------------------------------------------------------------------
 * Number of months in ANC 
 		gen months=(m3_birth_or_ended-m1_date)/30.5

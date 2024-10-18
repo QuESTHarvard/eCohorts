@@ -15,7 +15,6 @@ set more off
 	1703-17 1713-25 {
 		drop if redcap_record =="`x'"
 	}
-
 *-------------------------------------------------------------------------------
 	* Number of follow up surveys
 	
@@ -25,8 +24,7 @@ set more off
 		replace m2_date_r`i' =. if m2_202_r`i'==2 | m2_202_r`i'==3 
 		}
 	
-	egen totalfu=rownonmiss(m1_date m2_date_r* m3_date) // total surveys until M3
-	
+	egen totalfu=rownonmiss(m1_date m2_date_r* m3_date) // total surveys until M3	
 *-------------------------------------------------------------------------------		
 	* Time between follow-up surveys
 		gen time_m2_r1_m1= (m2_date_r1-m1_date)/7 // time in weeks bw 1st m2 and m1
@@ -113,6 +111,14 @@ set more off
 		lab val viscat totvis 
 		lab var totvisits "Total routine ANC visits"
 		lab var totvis "Total number of routine ANC visits (categories)"
+
+	* Number of routine ANC or ANC referral visits  at each follow-up call
+		forval i= 1/7 {
+			egen ranc`i'=rowtotal(m2_305_r`i' m2_306_r`i' m2_308_r`i' m2_309_r`i' ///
+					m2_311_r`i' m2_312_r`i' m2_314_r`i' m2_315_r`i'  ///
+					m2_317_r`i' m2_318_r`i' ), m
+		}
+			egen ranclast=rowtotal(m3_consultation_* m3_consultation_referral_*)
 *-------------------------------------------------------------------------------		
 	* ANC QUALITY MEASURES
 	
@@ -188,17 +194,48 @@ set more off
 			egen totalurine=rowtotal(anc1_urine m2_urine_r* m3_urine*)
 				recode totalurine 1/2=0 3/max=1, gen(urinethree)
 
-					
 			egen all4= rowmin (bpthree wgtthree bloodthree urinethree )
+			
+*-------------------------------------------------------------------------------		
+		* SENSITIVITY ANALYSIS: MINIMUM SET OF ANC ITEMS ADJUSTED FOR THE NB OF VISITS REPORTED
+			
+			forval i=1/7 {
+				gen am2_bp_r`i' = m2_bp_r`i'*ranc`i'
+				gen am2_wgt_r`i'=m2_wgt_r`i'*ranc`i'
+				gen am2_blood_r`i'=m2_blood_r`i'*ranc`i'
+				gen am2_urine_r`i'=m2_urine_r`i'*ranc`i'	
+			}
+				g am3_bp = m3_bp*ranclast
+				g am3_wgt = m3_wgt*ranclast
+				g am3_blood = m3_blood*ranclast
+				g am3_urine = m3_urine*ranclast
+			
+			* At least 3 BP checks
+			egen atotalbp=rowtotal(anc1_bp am2_bp_r* am3_bp*)
+				recode atotalbp 1/2=0 3/max=1, gen(abpthree)
+
+			* At least 3 wgts
+			egen atotalweight=rowtotal(anc1_weight am2_wgt_r* am3_wgt*)
+				recode atotalweight 1/2=0 3/max=1, gen(awgtthree)
+				
+			* At least 3 blood tests
+			egen atotalblood=rowtotal(anc1_blood am2_blood_r* am3_blood*)
+				recode atotalblood 1/2=0 3/max=1, gen(abloodthree)
+				
+			* At least 3 urine tests
+			egen atotalurine=rowtotal(anc1_urine am2_urine_r* am3_urine*)
+				recode atotalurine 1/2=0 3/max=1, gen(aurinethree)
+
+			egen aall4= rowmin (abpthree awgtthree abloodthree aurinethree )
 	
 *-------------------------------------------------------------------------------		
 		* TOTAL ANC SCORE
 			recode totalbp 4/max=4, g(maxbp4)
 			recode totalweight 4/max=4, g(maxwgt4)
-			recode totalurine 4/max=3, g(maxurine4)
-			recode totalblood 4/max=3, g(maxblood4)
+			recode totalurine 4/max=4, g(maxurine4)
+			recode totalblood 4/max=4, g(maxblood4)
 			egen totalus =rowtotal(anc1_ultrasound m2_us_r* m3_us)
-				recode totalus 4/max=3, g(maxus4)
+				recode totalus 4/max=4, g(maxus4)
 			egen totaldanger=rowtotal(anc1_dangers m2_danger_r*) 
 				recode totaldanger 4/max=4, g(maxdanger4)
 			egen totalbplan= rowtotal(anc1_bplan m2_bplan_r*)
@@ -220,24 +257,23 @@ set more off
 			egen m2hiv`i' = rowmax(m2_503b_r`i' m2_503c_r`i')
 			}
 		recode m1_704 2=. 
-		
-		
+			
 		* Recommended items for first visits in first trimester
-		egen anc1first=rowmean(anc1_lmp anc1_edd anc1_dangers anc1_bplan ///
+			egen anc1first=rowmean(anc1_lmp anc1_edd anc1_dangers anc1_bplan ///
 					anc1_nutri anc1_ifa anc1_bp anc1_weight m1_702 anc1_muac ///
 					anc1_blood  anc1_urine m1_711a  hivtest  m1_710a ///
 					anc1_ultrasound   anc1tt) ///
 					if bsltrimest==1 
 					
 		* Recommended items for first visits in 2nd trimester
-		egen anc1second=rowmean(anc1_lmp anc1_edd anc1_dangers anc1_bplan ///
+			egen anc1second=rowmean(anc1_lmp anc1_edd anc1_dangers anc1_bplan ///
 					anc1_nutri anc1_ifa anc1_calcium anc1_bp anc1_weight m1_702 anc1_muac ///
 					anc1_blood  anc1_urine m1_711a  hivtest  m1_710a m1_704 ///
 					anc1_ultrasound anc1tt) ///
 					if bsltrimest==2
 					
 		* Recommended items for first visits in 3rd trimester
-		egen anc1third=rowmean(anc1_lmp anc1_edd anc1_dangers anc1_bplan ///
+			egen anc1third=rowmean(anc1_lmp anc1_edd anc1_dangers anc1_bplan ///
 					anc1_nutri anc1_ifa anc1_calcium anc1_bp anc1_weight m1_702 anc1_muac ///
 					anc1_blood  anc1_urine m1_711a  hivtest  m1_710a m1_704 ///
 					anc1tt) ///
@@ -248,7 +284,7 @@ set more off
 		restore 
 		
 		
-	*Recommended items for follow-up anc visits in first trimester
+		*Recommended items for follow-up anc visits in first trimester
 			preserve
 					forval i=1/8 {
 						replace m2_danger_r`i' = . if m2_trimes_r`i'!=1 
@@ -273,7 +309,7 @@ set more off
 					save timelyanc.dta, replace
 			restore
 			
-	*Recommended items for follow-up anc visits in 2nd trimester
+		*Recommended items for follow-up anc visits in 2nd trimester
 			preserve
 					forval i=1/8 {
 						replace m2_danger_r`i' = . if m2_trimes_r`i'!=2
@@ -325,7 +361,7 @@ set more off
 							m2_503e_r* m2hiv* m2_503d_r* ///
 							m2_601e_r*)
 							
-					keep redcap_record ancfuthird country
+					keep redcap_record ancfuthird country bsltrimester
 					merge 1:1 redcap_record_id using timelyanc.dta
 					drop _merge
 					save timelyanc.dta, replace
@@ -334,13 +370,17 @@ set more off
 *-------------------------------------------------------------------------------		
 	* DEMOGRAPHICS AND RISK FACTORS
 		* Demographics
-			gen age20= m1_enrollage<20
-			gen age35= m1_enrollage>=35
+			recode m1_enrollage (min/19=1 "<20") (20/34=2 "20-34") (35/max=3 "35+"), g(agecat)
 			// educ_cat  quintile  marriedp
 			gen healthlit_corr=m1_health_lit==4
-			
+			g second= educ_cat>=3 & educ_cat<.
 			rename  facility_lvl factype
-			
+		* Baseline danger signs
+			egen danger=rowmax(m1_814b m1_814c m1_814f m1_814g) 
+				// vaginal bleeding, fever, convulsions, seizures, fainting or LOC
+			recode m1_506 1/5=1 6=2 96=1 7=3 8=1 9=4,g(job)
+				lab def job 1"Employed" 2"Homemaker" 3"Student" 4"Unemployed"
+				lab val job job 
 		* Risk factors
 			*Anemia
 			egen anemia= rowmax(m1_1307 m1_1309)
@@ -373,13 +413,27 @@ set more off
 			rename m1_1004 late_misc
 			egen complic = rowtotal(cesa stillbirth preterm neodeath PPH late_misc)
 
-			egen riskcat=rowtotal(anemia chronic malnut complic age20 age35)
+			egen riskcat=rowtotal(anemia chronic malnut complic )
 			recode riskcat 3/max=2 
 			lab def riskcat 0"No risk factor" 1"One risk factor" 2"Two or more risk factors" 
 			lab val riskcat riskcat
 			
 			
 save "$user/MNH E-Cohorts-internal/Analyses/Manuscripts/Paper 5 Continuum ANC/Data/ETtmp.dta", replace
+
+			reg anctotal i.riskcat ib(2).agecat i.educ_cat i.healthlit_corr married ///
+			i.quintile i.job preg_intent prim danger  i.factype i.site ///
+			if  totalfu>3  , vce(cluster facility)
+			
+			reg totvis i.riskcat ib(2).agecat i.educ_cat i.healthlit_corr married ///
+				i.quintile i.job preg_intent prim danger ib(2).bsltrim  i.site ///
+				if  totalfu>3  , vce(cluster facility)
+			
+			margins riskcat
+			marginsplot 
+			
+			margins quintile
+			marginsplot
 			
 			/* ANC items per month in care
 			mixed manctotal i.riskcat i.trimester i.quintile i.educ_cat 
