@@ -15,6 +15,7 @@
 * 2024-10-09	1.03	MK Trimner		Changed M3 to be updated excel file
 *										Added Chars with original variable names and module numbers to be used for codebook and DQ checks
 *										Automatically call derived program and save as FINAL dataset
+* 2024-10-11	1.04	MK Trimner		Corrected incorrect labels ßm2_YN
 *******************************************************************************
 */
 	local country in	
@@ -1838,7 +1839,7 @@ drop if respondentid == "UUT_014"
 	drop m2_320_98
 	drop m2_320
 	
-	label values m2_320_0 m2_320_1 m2_320_2 m2_320_3 m2_320_4 m2_320_5 m2_320_96 m2_320_99 ßm2_YN
+	label values m2_320_0 m2_320_1 m2_320_2 m2_320_3 m2_320_4 m2_320_5 m2_320_96 m2_320_99 m2_YN
 	
 	label define m2_321 0 "No" 1 "Yes, by phone" 2 "Yes, by SMS" 3 "Yes, by web" 98 "DK" 99 "NR/RF" 
 	label values m2_321 m2_321
