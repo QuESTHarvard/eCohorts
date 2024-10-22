@@ -4,11 +4,13 @@
 
 clear all  
 * Import Data 
-u "$in_data_final/eco_m1_in_der.dta", clear
-
-* SETTING AND DEMOGRAPHICS OF WOMEN ENROLLED
-	tab residence
+* u "$in_data_final/eco_m1_in_der.dta", clear
+ u "$in_data_final/eco_IN_Complete.dta", clear
 	
+* SETTING AND DEMOGRAPHICS OF WOMEN ENROLLED
+	
+	tab residence
+	egen tagfac= tag(facility)
 	* By residence
 	mean enrollage, over(residence)
     recode enrollage 1/19=1 20/35=2 36/49=3, g(agecat)
@@ -90,14 +92,14 @@ u "$in_data_final/eco_m1_in_der.dta", clear
 			tab1 general_risk obst_risk anyrisk	
 			
 * COMPETENT SYSTEMS: RISK FACTORS 
-			* create risk score 
+			/* create risk score 
 			egen riskscore = rowtotal(aged18 aged35 DM HTN cardiac MH oth_major_hp HBP anemic multi stillbirth neodeath preterm PPH csect)
 			mean riskscore
 			tab riskscore // 42% of women had risk_score = 0 
 		    tab anyrisk // 58% of women had any_risk = 1  		
 			tabstat anc1tq, by(riskscore) stat(mean sd count)
 			tabstat anc1ultrasound, by(riskscore) stat(mean sd count)
-			tabstat anc1counsel, by(riskscore) stat(mean sd count)
+			tabstat anc1counsel, by(riskscore) stat(mean sd count) */
 			
 			tabstat anc1tq, by(anyrisk) stat(mean sd count)
 			tabstat anc1counsel, by(anyrisk) stat(mean sd count)
@@ -159,18 +161,14 @@ u "$in_data_final/eco_m1_in_der.dta", clear
 * CASCADES
 	* Anemia
 			*absolute number 
-			tab anemic // 486 women are anemic
+			tab anemic // 492 women are anemic
 			tab anc1blood if anemic==1
-			tab anc1ifa if anemic==1
-			*percentage	
-			tabstat anemic if anemic==1
-			tabstat anc1blood if anemic==1
-			tabstat anc1ifa if anemic==1			
+			tab anc1ifa if anemic==1		
 			
 	* Malnutrition
 	egen screen_mal = rowmax(anc1muac anc1bmi)
 			*absolute number 
-	        tab low_BMI // 158 women had low BMI
+	        tab low_BMI // 172 women had low BMI
 			tab screen_mal if low_BMI==1
 			tab counsel_nutri if low_BMI==1
 			tab anc1food if low_BMI==1
@@ -186,7 +184,7 @@ u "$in_data_final/eco_m1_in_der.dta", clear
 	        // m1_724d: Provider told that you should see a mental health provider likw a psychologist
 			
 			*absolute number 			
-			tab depression // 89 women had depression
+			tab depression // 92 women had depression
 			tab m1_716c if depression==1        // m1_716c: discussed anxiety or depression		
 			tab depression_tx if depression==1
 			*percentage	
@@ -198,20 +196,20 @@ u "$in_data_final/eco_m1_in_der.dta", clear
 	egen diabetes_tx = rowmax(anc1diabetes specialist_hosp)
 	egen hypertension_tx = rowmax(anc1hypertension specialist_hosp)
 			tab1 DM HTN cardiac MH hiv
-			egen complic=rowmax(DM HTN cardiac MH hiv)
+			egen chronic=rowmax(DM HTN cardiac MH )
 			ta m1_718 if DM==1
 			ta m1_719 if HTN==1
 			ta m1_720 if cardiac==1
 			ta m1_721 if MH==1
-			ta m1_722 if hiv==1
+			*ta m1_722 if hiv==1
 			ta diabetes_tx if DM==1
 			ta hypertension_tx if HTN==1
 			ta specialist_hosp if cardiac==1
 			ta depression_tx if MH==1
-			ta m1_708c if hiv==1 // m1_708c: did the provider give you medicine for HIV? 
+			*ta m1_708c if hiv==1 // m1_708c: did the provider give you medicine for HIV? 
     *note: I used line 188-202 for the cascade figure in excel and word doc.
     
-	* alternate way for prior chronic conditions
+	/* alternate way for prior chronic conditions
 	egen ch_complic = rowmax(DM HTN cardiac MH hiv)                       // var indicating at least one prior chronic conditions
 	egen discuss_ch_complic = rowmax(m1_718 m1_719 m1_720 m1_721 m1_722)  // var indicating discussing least one prior chronic conditions
 	egen tx_ch_complic = rowmax(diabetes_tx hypertension_tx specialist_hosp depression_tx m1_708c)  // var indicating tx for chronic conditions 
@@ -222,12 +220,12 @@ u "$in_data_final/eco_m1_in_der.dta", clear
 			*percentage
 	        tabstat ch_complic if ch_complic==1 
 			tabstat discuss_ch_complic if ch_complic==1
-			tabstat tx_ch_complic if ch_complic==1		
+			tabstat tx_ch_complic if ch_complic==1		 */
 
 	* Prior obstetric complications
 	egen ob_complic=rowmax(m1_1004 stillbirth preterm neodeat csect)             // ob_complic indicating at least one prior obstetric complications 
 	egen discuss_ob_complic=rowmax(m1_1011b m1_1011c m1_1011d m1_1011e m1_1011f) // discuss_ob_complic indicating discussing at least one prior obstetric complications
-			tab m1_1004                    // m1_1004: nb late miscarriages
+			tab m1_1004                    // m1_1004: late miscarriages
 			tab m1_1011b if m1_1004==1     // m1_1011b: Did the provider discuss that you lost a baby after 5 months of pregnancy?
 			tab specialist_hosp if m1_1004==1
 			

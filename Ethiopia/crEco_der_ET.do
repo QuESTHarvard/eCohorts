@@ -6,8 +6,18 @@
 
 * DERIVED VARIABLES: ETHIOPIA
 
-u "$et_data_final/eco_m1-m5_et_wide.dta", clear
+/*******************************************************************************
+* Change log
+* 				Updated
+*				version
+* Date 			number 	Name			What Changed
+2024-10-02		1.01	MK Trimner		Commented out u "$et_data_final/eco_m1-m5_et_wide.dta", clear
+*										As this program was added to the end of crEco_cln_ET to run 
+*									
+*******************************************************************************/
 
+*u "$et_data_final/eco_m1-m5_et_wide.dta", clear
+				 
 *------------------------------------------------------------------------------*
 * MODULE 1
 *------------------------------------------------------------------------------*

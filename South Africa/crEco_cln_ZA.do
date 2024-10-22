@@ -12,8 +12,14 @@
 *										Updated some M3 replace statements for string variables that had been cleaned up
 *										Removed dupliate drop in M3 as there are no longer any duplicate respondentids
 * 2024-09-08	1.02	MK Trimner		Corrected the M2 sorting before the reshape so that it correctly sorted by respondentid and m2_date
+
 * 2024-09-11	1.03	MK Trimner		Added code to recode dates to be .d and .r if contained certain values
 *										Added code to save as a "Complete" dataset
+* 2024-10-09	1.04	MK Trimner		Changed M3 to be updated excel file
+*										Added Chars with original variable names and module numbers to be used for codebook and DQ checks
+*										Automatically call derived program and save as FINAL dataset
+* 2024-10-11	1.05	MK Trimner		Corrected incorrect labels ßm2_YN
+
 *******************************************************************************
 */
 	local country in	
@@ -34,6 +40,12 @@
 * Import data
 clear all 
 import excel "$za_data/Module 1/SA MOD-1 - 15 Jan 2024.xlsx", sheet("MNH_Module_1_Baseline") firstrow
+
+foreach v of varlist * {
+	local name `v'
+	char `v'[Original_ZA_Varname] `name'
+	char `v'[Module] 1
+}
 
 * Notes from original excel:
 	*9999998 = NA
@@ -194,15 +206,44 @@ rename (MOD1Physical_Assessment_1306 MOD1_Physical_Assessment_1307 MOD1_Physical
 		
 rename (N202a N202b N202c N202d N202e Specify ) (m1_202a_2_za m1_202b_2_za m1_202c_2_za m1_202d_2_za m1_202e_2_za m1_203_2_za ) // recollected HIV Qs
 		encode N204a , g(m1_204_2_za)  
+		char m1_204_2_za[Original_ZA_Varname] N204a
+		char m1_204_2_za[Module] 1
+		
 		encode N204b , g(m1_204b_za)
+		char m1_204b_za[Original_ZA_Varname] N204b
+		char m1_204b_za[Module] 1
+
 		encode N708a , g(m1_708a_2_za)
+		char m1_708a_2_za[Original_ZA_Varname] N708a
+		char m1_708a_2_za[Module] 1
+
 		encode N708b , g(m1_708b_2_za)
+		char m1_708b_2_za[Original_ZA_Varname] N708b
+		char m1_708b_2_za[Module] 1
+
 		encode N708c , g(m1_708c_2_za)
+		char m1_708c_2_za[Original_ZA_Varname] N708c
+		char m1_708c_2_za[Module] 1
+
 		encode N708d , g(m1_708d_2_za)
+		char m1_708d_2_za[Original_ZA_Varname] N708d
+		char m1_708d_2_za[Module] 1
+
 		encode N708e , g(m1_708e_2_za)
+		char m1_708e_2_za[Original_ZA_Varname] N708e
+		char m1_708e_2_za[Module] 1
+
 		encode N708f , g(m1_708f_2_za)
+		char m1_708f_2_za[Original_ZA_Varname] N708f
+		char m1_708f_2_za[Module] 1
+
 		encode N709a , g(m1_709a_2_za)
+		char m1_709a_2_za[Original_ZA_Varname] N709a
+		char m1_709a_2_za[Module] 1
+
 		encode N709b , g(m1_709b_2_za)
+		char m1_709b_2_za[Original_ZA_Varname] N709b
+		char m1_709b_2_za[Module] 1
 		
 		recode m1_204_2_za 1=0 2=1 3=.
 		recode m1_204b_za 1=0 2=1 3/5=.
@@ -251,6 +292,9 @@ replace m1_909_za = "." if m1_909_za == ""
 
 
 gen recm1_802a = date(m1_802a, "MDY")
+char recm1_802a[Original_ZA_Varname] `m1_802a[Original_ZA_Varname]'
+char recm1_802a[Module] 1
+
 format recm1_802a %td
 format m1_date %td
 
@@ -291,12 +335,16 @@ drop if respondentid == "NEL_045"
 encode study_site, generate(recstudy_site)
 label define study_site 1 "D1: King Cetshwayo District" 2 "D2: Zululand District"  
 label values recstudy_site study_site
+char recstudy_site[Original_ZA_Varname] `study_site[Original_ZA_Varname]'
+char recstudy_site[Module] 1
 
 
 * Label sub-district values - confirm because SD1 is second choice on pdf
 encode study_site_sd, generate(recstudy_site_sd)
 label define study_site_sd 1 "SD1: uMhlathuze Local Municipality" 2 "SD2: Nongoma Local Municipality"  
 label values recstudy_site_sd study_site_sd
+char recstudy_site_sd[Original_ZA_Varname] `study_site_sd[Original_ZA_Varname]'
+char recstudy_site_sd[Module] 1
 
 
 * Label Facility Name values -confirm with the next install of data
@@ -312,6 +360,8 @@ label define facility 1 "Buchanana Clinic (BCH)" 2 "Benedictine Gateway Clinic (
 					  18 "Queen Nolonolo Clinic (QEE)" 19 "Richards Bay Clinic (RCH)" ///
 					  20 "Thokozani Clinic (TOK)" 21 "Umkhontokayise Clinic (UKH)" 22 "Usuthu Clinic (UUT)"
 label values recfacility facility
+char recfacility[Original_ZA_Varname] `facility[Original_ZA_Varname]'
+char recfacility[Module] 1
 
 
 * eligiblity vars:
@@ -771,6 +821,10 @@ recode m1_816 (. 9999998 = .a) if (m1_814a == . | m1_814a == .a | m1_814a == .d 
 egen symp_total = rowtotal(m1_814a m1_814b m1_814c m1_814d m1_814e m1_814f m1_814g m1_814h) 	
 recode m1_816 (. 9999998 = .a) if symp_total >= 1
 drop symp_total
+
+*char symp_total[Original_ZA_Varname] `m1_814a[Original_ZA_Varname]' + `m1_814b[Original_ZA_Varname]' + `m1_814c[Original_ZA_Varname]' + `m1_814d[Original_ZA_Varname]' + `m1_814e[Original_ZA_Varname]' + `m1_814f[Original_ZA_Varname]' + `m1_814g[Original_ZA_Varname]' + `m1_814h[Original_ZA_Varname]'
+*char symp_total[Module] 1
+
 									
 recode m1_902 (. 9999998 = .a) if m1_901 == 3 | m1_901 == .d | m1_901 == .r | m1_901 == .
 
@@ -1411,7 +1465,12 @@ order height_cm weight_kg bp_time_1_systolic bp_time_1_diastolic time_1_pulse_ra
 drop JO-N709b
 
 save "$za_data_final/eco_m1_za.dta", replace
-	
+
+foreach v of varlist * {
+	if "``v'[Original_ZA_Varname]'" == "" di "`v' = Missing original Var name"
+	if "``v'[Module]'" == "" di "`v' = Missing Module"
+}
+
 
 *===============================================================================
 * MODULE 2:
@@ -1419,6 +1478,12 @@ clear all
 
 * import data:
 import excel "$za_data/Module 2/MNH-Module-2 - 17Jul2024SS.xlsx", firstrow clear
+
+foreach v of varlist * {
+	char `v'[Original_ZA_Varname] `v'
+	char `v'[Module] 2
+}
+
 
 replace CRHID = trim(CRHID)
 replace CRHID = subinstr(CRHID," ","",.)
@@ -1683,7 +1748,9 @@ drop if respondentid == "UUT_014"
 	
 	*m2_307
 	forval j = 1/96 {
-    gen m2_307_`j' = strpos("," + m2_307 + ",", ",`j',") > 0
+		gen m2_307_`j' = strpos("," + m2_307 + ",", ",`j',") > 0
+		char m2_307_`j'[Original_ZA_Varname] `m2_307[Original_ZA_Varname]'
+		char m2_307_`j'[Module] 2
 	}
 	drop m2_307_6-m2_307_95
 	drop m2_307
@@ -1699,7 +1766,10 @@ drop if respondentid == "UUT_014"
 	
 	*m2_310
 	forval j = 1/96 {
-    gen m2_310_`j' = strpos("," + m2_310 + ",", ",`j',") > 0
+		gen m2_310_`j' = strpos("," + m2_310 + ",", ",`j',") > 0
+		char m2_310_`j'[Original_ZA_Varname] `m2_310[Original_ZA_Varname]'
+		char m2_310_`j'[Module] 2
+
 	}
 	drop m2_310_6-m2_310_95
 	drop m2_310
@@ -1714,7 +1784,10 @@ drop if respondentid == "UUT_014"
 	
 	*m2_313
 	forval j = 1/96 {
-    gen m2_313_`j' = strpos("," + m2_313 + ",", ",`j',") > 0
+		gen m2_313_`j' = strpos("," + m2_313 + ",", ",`j',") > 0
+		char m2_313_`j'[Original_ZA_Varname] `m2_313[Original_ZA_Varname]'
+		char m2_313_`j'[Module] 2
+
 	}
 	drop m2_313_6-m2_313_95
 	drop m2_313
@@ -1729,7 +1802,10 @@ drop if respondentid == "UUT_014"
 
 	*m2_316
 	forval j = 1/96 {
-    gen m2_316_`j' = strpos("," + m2_316 + ",", ",`j',") > 0
+		gen m2_316_`j' = strpos("," + m2_316 + ",", ",`j',") > 0
+		char m2_316_`j'[Original_ZA_Varname] `m2_316[Original_ZA_Varname]'
+		char m2_316_`j'[Module] 2
+
 	}
 	drop m2_316_6-m2_316_95
 	drop m2_316
@@ -1744,7 +1820,10 @@ drop if respondentid == "UUT_014"
 	
 	*m2_319
 	forval j = 1/96 {
-    gen m2_319_`j' = strpos("," + m2_319 + ",", ",`j',") > 0
+		gen m2_319_`j' = strpos("," + m2_319 + ",", ",`j',") > 0
+		char m2_319_`j'[Original_ZA_Varname] `m2_319[Original_ZA_Varname]'
+		char m2_319_`j'[Module] 2
+
 	}
 	drop m2_319_6-m2_319_95
 	
@@ -1754,14 +1833,17 @@ drop if respondentid == "UUT_014"
 	
 	*m2_320
 	forval j = 0/99 {
-    gen m2_320_`j' = strpos("," + m2_320 + ",", ",`j',") > 0
+		gen m2_320_`j' = strpos("," + m2_320 + ",", ",`j',") > 0
+		char m2_320_`j'[Original_ZA_Varname] `m2_320[Original_ZA_Varname]'
+		char m2_320_`j'[Module] 2
+
 	}
 	drop m2_320_12-m2_320_95
 	drop m2_320_97
 	drop m2_320_98
 	drop m2_320
 	
-	label values m2_320_0 m2_320_1 m2_320_2 m2_320_3 m2_320_4 m2_320_5 m2_320_96 m2_320_99 ßm2_YN
+	label values m2_320_0 m2_320_1 m2_320_2 m2_320_3 m2_320_4 m2_320_5 m2_320_96 m2_320_99 m2_YN
 	
 	label define m2_321 0 "No" 1 "Yes, by phone" 2 "Yes, by SMS" 3 "Yes, by web" 98 "DK" 99 "NR/RF" 
 	label values m2_321 m2_321
@@ -1948,7 +2030,10 @@ drop if respondentid == "UUT_014"
 
 	*m2_705
 	forval j = 1/96 {
-    gen m2_705_`j' = strpos("," + m2_705 + ",", ",`j',") > 0
+		gen m2_705_`j' = strpos("," + m2_705 + ",", ",`j',") > 0
+		char m2_705_`j'[Original_ZA_Varname] `m2_705[Original_ZA_Varname]'
+		char m2_705_`j'[Module] 2
+
 	}
 	drop m2_705_7-m2_705_95
 	drop m2_705
@@ -2258,6 +2343,12 @@ reshape wide m2_permission m2_interviewer m2_date m2_time_start m2_ga m2_hiv_sta
 *------------------------------------------------------------------------------*
 *save M2 only dataset
 
+foreach v of varlist * {
+	if "``v'[Original_ZA_Varname]'" == "" di "`v' = Missing original Var name"
+	if "``v'[Module]'" == "" di "`v' = Missing Module"
+}
+
+
 save "$za_data_final/eco_m2_za.dta", replace
 
 *------------------------------------------------------------------------------*
@@ -2474,6 +2565,10 @@ order m2_permission* m2_date* m2_time_start* m2_interviewer* m2_maternal_death_r
 save "$za_data_final/eco_m1m2_za.dta", replace
 
 
+foreach v of varlist * {
+	if "``v'[Original_ZA_Varname]'" == "" di "`v' = Missing original Var name"
+	if "``v'[Module]'" == "" di "`v' = Missing Module"
+}
 
 *===============================================================================
 * MODULE 3:
@@ -2484,7 +2579,17 @@ clear all
 
 * Note that the updated excel file does not have the data in row 1... there is additional information in rows 1 & 2 that we do not want to read in
 * Confirmed that all the variable names are the same between both excel files so we should be good to use the same code
-import excel "$za_data/Module 3/Module 3 - 28Aug2024 - v1.xlsx", sheet("MNH-Module-3-v0-2024321-945") cellrange(A4:LN896) firstrow clear
+*import excel "$za_data/Module 3/Module 3 - 28Aug2024 - v1.xlsx", sheet("MNH-Module-3-v0-2024321-945") cellrange(A4:LN896) firstrow clear
+
+* Received updated version on 2024-10-08
+import excel "$za_data/Module 3/SA Module 3 - 08Oct2024.xlsx", sheet("MNH-Module-3-v0-2024321-945") cellrange(A4:LN896) firstrow clear
+
+* Add character with original variable name
+* Add character with Module number
+foreach v of varlist * {
+	char `v'[Original_ZA_Varname] `v'
+	char `v'[Module] 3
+}
 
 replace CRHID = trim(CRHID)
 replace CRHID = subinstr(CRHID," ","",.)
@@ -2521,13 +2626,6 @@ drop MOD3_Newborn_304_BabyName1 MOD3_Newborn_304a_BabyName2 MOD3_Newborn_304c_Ba
 	
 * Add character with original variable name
 * Add a character with the original var name
-foreach v of varlist * {
-	local name `v'
-	*local s1 = strpos("`v'","Q")
-	*if `s1' == 1 local name = substr("`v'",2,.)
-	char `v'[Original_ZA_Varname] `name'
-}
-
 	
 * Variables from M2 in this dataset (keeping for skip pattern recoding in M3)
 rename MOD3_Identification_101 m2_interviewer
@@ -2791,6 +2889,7 @@ rename (MOD3_Econ_OutC_1104_Other MOD3_Econ_OutC_1105) (m3_1105_other m3_1106)
 * MKT 2024-08-29 : Check to see if there are still duplicate respondentids in the cleaned up dataset
 bysort respondentid: assert _N == 1
 
+
 /*replace respondentid = "MBA_007" if respondentid == "MBA_002" & m2_interviewer == "MSB"
 drop if respondentid == "NEL_022" & m2_interviewer == "MTN"
 drop if respondentid == "NEL_043" & m2_interviewer == "KHS"
@@ -2893,6 +2992,8 @@ lab val m3_baby1_health m3_baby2_health m3_baby3_health health
 	forval j = 1/99 {
 		gen m3_baby1_feed_`j' = strpos("," + MOD3_Newborn_310a_1_IYCF_B1 + ",", ",`j',") > 0 if !missing(MOD3_Newborn_310a_1_IYCF_B1) 
 		char m3_baby1_feed_`j'[Original_ZA_Varname] MOD3_Newborn_310a_1_IYCF_B1
+		char m3_baby1_feed_`j'[Module] 3
+
 	}
 	drop m3_baby1_feed_8-m3_baby1_feed_94
 	drop m3_baby1_feed_96-m3_baby1_feed_97
@@ -2914,6 +3015,7 @@ lab val m3_baby1_health m3_baby2_health m3_baby3_health health
 	forval j = 1/99 {
 		gen m3_baby2_feed_`j' = strpos("," + MOD3_Newborn_310a_2_IYCF_B2 + ",", ",`j',") > 0 if !missing(MOD3_Newborn_310a_2_IYCF_B2) 
 		char m3_baby2_feed_`j'[Original_ZA_Varname] MOD3_Newborn_310a_2_IYCF_B2
+		char m3_baby2_feed_`j'[Module] 3
 
 	}
 	drop m3_baby2_feed_8-m3_baby2_feed_94
@@ -2940,7 +3042,7 @@ lab val m3_baby1_health m3_baby2_health m3_baby3_health health
 	forval j = 1/99 {
 		gen m3_baby3_feed_`j' = strpos("," + MOD3_Newborn_310a_3_IYCF_B3 + ",", ",`j',") > 0 if !missing(MOD3_Newborn_310a_3_IYCF_B3) 
 		char m3_baby3_feed_`j'[Original_ZA_Varname] MOD3_Newborn_310a_3_IYCF_B3
-
+		char m3_baby3_feed_`j'[Module] 3
 	}
 	drop m3_baby3_feed_8-m3_baby3_feed_94
 	drop m3_baby3_feed_96-m3_baby3_feed_97
@@ -3117,6 +3219,8 @@ lab val m3_706 YN
 	forval j = 1/99 {
 		gen m3_baby1_issues_`j' = strpos("," + m3_708a + ",", ",`j',") > 0 if !missing(m3_708a)
 		char m3_baby1_issues_`j'[Original_ZA_Varname] m3_708a
+		char m3_baby1_issues_`j'[Module] 3
+
 	}
 	drop m3_baby1_issues_7-m3_baby1_issues_94
 	drop m3_baby1_issues_96-m3_baby1_issues_97 
@@ -3135,8 +3239,9 @@ lab val m3_706 YN
 	forval j = 1/99 {
 		gen m3_baby2_issues_`j' = strpos("," + m3_708b + ",", ",`j',") > 0 if !missing(m3_708b)
 		char m3_baby2_issues_`j'[Original_ZA_Varname] m3_708b
-
+		char m3_baby2_issues_`j'[Module] 3
 	}
+	
 	drop m3_baby2_issues_7-m3_baby2_issues_94
 	drop m3_baby2_issues_96-m3_baby2_issues_97
 	//drop m3_708b
@@ -3156,6 +3261,8 @@ lab val m3_706 YN
 	forval j = 1/99 {
 		gen m3_baby3_issues_`j' = strpos("," + m3_708c + ",", ",`j',") > 0 if !missing(m3_708c)
 		char m3_baby3_issues_`j'[Original_ZA_Varname] m3_708c
+		char m3_baby3_issues_`j'[Module] 3
+
 	}
 	drop m3_baby3_issues_7-m3_baby3_issues_94
 	drop m3_baby3_issues_96-m3_baby3_issues_97
@@ -3220,6 +3327,8 @@ lab val m3_1005a m3_1005b m3_1005c m3_1005d m3_1005e m3_1005f m3_1005g m3_1005h 
 	forval j = 1/96 {
 		gen m3_1105`j' = strpos("," + m3_1105 + ",", ",`j',") > 0 if !missing(m3_1105)
 		char m3_1105`j'[Original_ZA_Varname] m3_1105
+		char m3_1105`j'[Module] 3
+	
 
 	}
 	drop m3_11057-m3_110595
@@ -3252,6 +3361,7 @@ foreach v of varlist m2_* {
 	local name =substr("`v'",4,.)
 	
 	clonevar m3_`name' = `v'
+	
 }
 
 save eco_m3_before_recode, replace
@@ -3264,9 +3374,14 @@ save eco_m3_before_recode, replace
 
 *SS: missing vars because 0 obs or not in dataset: m3_baby3_feeding
 
+
+* MKT 2024-10-09 - Destring these two variables 
+destring m3_614 m3_616a m3_521, replace
+
+
 recode m3_303a m3_baby1_size m3_baby2_size m3_baby3_size m3_baby1_born_alive ///
 	   m3_baby2_born_alive m3_baby3_born_alive m3_401 m3_consultation_1  ///
-	   m3_consultation_referral_1 m3_consultation_3 m3_consultation_referral_3 ///
+	   m3_consultation_referral_1 m3_consultation_3 m3_consultation_referral_3  ///
 	   m3_412a m3_412b m3_412c m3_412d m3_412e m3_412f m3_412g m3_501 m3_502 ///
 	   m3_505a m3_510 m3_512 m3_518 m3_519 m3_601a m3_601b m3_601c m3_602a m3_602b ///
 	   m3_603a m3_603b m3_603c m3_604a m3_604b m3_605a m3_605b m3_606 m3_607 m3_608 ///
@@ -3278,11 +3393,11 @@ recode m3_303a m3_baby1_size m3_baby2_size m3_baby3_size m3_baby1_born_alive ///
 	   m3_baby3_710 m3_802a m3_803a m3_803b m3_803c m3_803d m3_803e m3_803f m3_803g ///
 	   m3_803h m3_803j m3_805 m3_808b m3_809 m3_901a m3_901b m3_901c m3_901d m3_901e ///
 	   m3_901f m3_901g m3_901h m3_901i m3_901j m3_901k m3_901l m3_901m m3_901n m3_901o ///
-	   m3_901p m3_901q m3_901r m3_902a_baby1 m3_902b_baby1 m3_902c_baby1 m3_902d_baby1 ///
+	   m3_901p m3_901q m3_901r m3_902a_baby1 m3_902b_baby1 m3_902c_baby1 m3_902d_baby1  ///
 	   m3_902e_baby1 m3_902f_baby1 m3_902g_baby1 m3_902h_baby1 m3_902i_baby1 m3_902j_baby1 ///
 	   m3_1001 m3_1002 m3_1003 m3_1005a m3_1005b m3_1005c m3_1005d m3_1005e m3_1005f m3_1005g ///
 	   m3_1005h m3_1006a m3_1006b m3_1006c m3_1007a m3_1007b m3_1007c m3_1106 m3_1205 ///
-	   m3_baby1_weight m3_baby2_weigh m3_612_za m3_614 m3_616a m3_802b m3_802c m3_507 (98 = .d) // MKT Added m3_507 with August cleaned dataset
+	   m3_baby1_weight m3_baby2_weight m3_baby3_weight m3_612_za m3_614 m3_616a m3_802b m3_802c m3_507 (98 = .d) // MKT Added m3_507 with August cleaned dataset
 		
 recode m3_303a m3_303b m3_303c m3_303d m3_baby1_gender m3_baby2_gender ///
 	   m3_baby3_gender m3_baby1_health m3_baby2_health m3_baby3_health ///
@@ -3557,6 +3672,9 @@ replace m3_514 = "08:00" if m3_514 == "08:00 a.m"
 replace m3_514 = "00:00" if m3_514 == "00:00:00"
 replace m3_514 = ".a" if m3_510 != 1 & m3_514 == "" // MKT changed this to only use m3_510 .... m3_511 ==.d | m3_511 ==.r | m3_511 ==.a | m3_510 == 0 
 encode m3_514, gen(recm3_514) // N =4 missing data 
+char recm3_514[Original_ZA_Varname] `m3_514[Original_ZA_Varname]'
+char recm3_514[Module] 3
+
 drop m3_514
 format recm3_514 %tcHH:MM
 rename recm3_514 m3_514
@@ -3653,6 +3771,7 @@ replace m3_612_days = m3_612_hours if missing(m3_612_days)
 label value m3_612_days m3_612
 label var m3_612_days "Days after baby/babies born first breastfed"
 char m3_612_days[Original_ZA_Varname] `m3_612_hours[Original_ZA_Varname]'
+char m3_612_days[Module] 3
 
 recode m3_614 (. .n  9999998 = .a) if m3_613 != 1 //m3_613 == 0 | m3_613 == .a // confirm that 98 = .d
 recode m3_614 (998 9998 99998 = .d) if m3_501 == 1 & m3_613 == 1
@@ -3820,6 +3939,8 @@ recode m3_801a m3_801b (. .n  = .a) if !inlist(m2_202,2,3) //m2_202 !=2 | m2_202
 
 
 egen m3_phq2_score = rowtotal(m3_801a m3_801b) if inlist(m2_202,2,3)
+char m3_phq2_score[Original_ZA_Varname] `m3_801a[Original_ZA_Varname]' + `m3_801b[Original_ZA_Varname]' when (`m2_202[Original_ZA_Varname]' equals 2 or 3
+char m3_phq2_score[Module] 3
 
 recode m3_phq2_score (. 0 = .a) if (m3_801a == . | m3_801a == .a | m3_801a == .d | m3_801a == .r) & ///
 								 (m3_801b == . | m3_801b == .a | m3_801b == .d | m3_801b == .r) | !inlist(m2_202,2,3)
@@ -3877,8 +3998,12 @@ replace m3_1102f_oth = ".a" if m3_1101 != 1 & missing(m3_1102f_oth) //m3_1102a_a
 							   //m3_1102e_amt ==.a & m3_1102f_amt ==.a // SS: confirm, also should this var have text?
 
 gen m3_1102_total_calc = 0 if m3_1101 == 1
+char m3_1102_total_calc[Module] 3
+
 foreach v of varlist m3_1102*_amt {
 	replace m3_1102_total_calc = m3_1102_total_calc + `v' if !inlist(`v',.,.a,.d,.r) & m3_1101 == 1
+	char m3_1102_total_calc[Original_ZA_Varname] `m3_1102_total_calc[Original_ZA_Varname]' + ``v'[Original_ZA_Varname]'
+
 }
 
 recode m3_1102_total m3_1102_total_calc (. .n  = .a) if m3_1101 !=1 //| ((m3_1102a_amt ==.a | m3_1102a_amt ==0) & ///
@@ -3911,6 +4036,7 @@ replace m3_1206 = ".a" if m3_death_cause_baby1 !=7  & m3_death_cause_baby2 !=7 &
 
 drop m2_interviewer m2_ga m2_hiv_status m2_maternal_death_reported m2_date_of_maternal_death m2_maternal_death_learn m2_maternal_death_learn_other m2_201 m2_202 MOD3_MAN_Complications_708_B3
 
+		replace m3_birth_or_ended=td(26apr2024) if respondentid=="BXE_022". // added by Catherine. Sep29,2024
 *==============================================================================*
 	
 	* STEP FOUR: LABELING VARIABLES 
@@ -3966,7 +4092,7 @@ lab var m3_baby2_feed_98 "310a. Please indicate how you have fed the second baby
 lab var m3_baby2_feed_99 "310a. Please indicate how you have fed the second baby in the last 7 days? NR/RF"
 
 lab var m3_baby3_feed_a "310a. Please indicate how you have fed the third baby in the last 7 days? Breast milk"
-lab var m3_baby3_feed_b "310a. Please indicate how you have fed the third baby in the last 7 days? Formulak"
+lab var m3_baby3_feed_b "310a. Please indicate how you have fed the third baby in the last 7 days? Formula"
 lab var m3_baby3_feed_c "310a. Please indicate how you have fed the third aby in the last 7 days? Water"
 lab var m3_baby3_feed_d "310a. Please indicate how you have fed the third baby in the last 7 days? Juice"
 lab var m3_baby3_feed_e "310a. Please indicate how you have fed the third baby in the last 7 days? Broth"
@@ -4358,6 +4484,12 @@ lab var m3_1206 "1206. What is the name of the facility?"
 
 save "$za_data_final/eco_m3_za.dta", replace
 
+
+foreach v of varlist * {
+	if "``v'[Original_ZA_Varname]'" == "" di "`v' - Missing Original Varname"
+	if "``v'[Module]'" == "" di "`v' - Missing Module #"
+}
+
 *------------------------------------------------------------------------------*
 
 * merge dataset with M1-M2
@@ -4374,6 +4506,7 @@ bysort respondentid : assert _N == 1
 		respondentid == "TOK_021" | respondentid == "TOK_082"
 
 merge 1:1 respondentid using "$za_data_final/eco_m1m2_za.dta" //, force
+
 
 list respondentid if _merge == 1
 drop if _merge == 1
@@ -4441,14 +4574,19 @@ order m3_death_cause_baby1 m3_death_cause_baby1_other m3_death_cause_baby2 m3_de
 	* STEP SIX: SAVE DATA TO RECODED FOLDER
 	
 	save "$za_data_final/eco_m1-m3_za.dta", replace
-	* Run the derived variable code
-	do "${github}\South Africa\crEco_der_ZA.do"
-	save "$za_data_final/eco_m1-m3_za_der.dta", replace
 
 *==============================================================================*
 * MODULE 4:		
  
 
- 
- * Save as a completed dataset
- save "$za_data_final/eco_ZA_Complete", replace
+
+
+*==============================================================================*
+
+	* Run the derived variables code
+	do "${github}\South Africa\crEco_der_ZA.do"
+	save "$za_data_final/eco_m1-m3_za_der.dta", replace
+
+	* Save the completed dataset	
+	save "$za_data_final/eco_ZA_Complete.dta", replace
+
