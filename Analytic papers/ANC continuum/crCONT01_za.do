@@ -324,6 +324,8 @@ set more off
 	* DEMOGRAPHICS AND RISK FACTORS					
 		* Demographics
 				recode enrollage (min/19=1 "<20") (20/34=2 "20-34") (35/max=3 "35+"), g(agecat)
+				recode enrollage (min/19=1) (20/max=0), g(age19)
+				recode enrollage (min/34=0) (35/max=1), g(age35)
 				recode educ_cat 2=1 3=2 4=3
 				lab def edu 1 "Primary only" 2 "Complete Secondary" 3"Higher education"
 				lab val educ_cat edu
@@ -364,16 +366,16 @@ set more off
 			gen PPH=m1_1006==1
 			egen complic = rowmax(stillbirth neodeath preterm PPH cesa)	
 			
-			egen riskcat=rowtotal(anemia chronic malnut complic )
+			egen riskcat=rowtotal(anemia chronic malnut complic age19 age35)
 			recode riskcat 3/max=2 
 			lab def riskcat 0"No risk factor" 1"One risk factor" 2"Two or more risk factors" 
 			lab val riskcat riskcat
 			
-			egen riskcat2=rowtotal(anemia chronic malnut complic )
+			egen riskcat2=rowtotal(anemia chronic malnut complic age19 age35)
 			recode riskcat2 3/max=3
 
 save "$user/MNH E-Cohorts-internal/Analyses/Manuscripts/Paper 5 Continuum ANC/Data/ZAtmp.dta", replace	
-
+/*
 			reg totvis i.riskcat2 ib(2).agecat i.educ_cat i.healthlit_corr married ///
 				i.tertile i.job preg_intent prim danger  i.study_site ///
 				if  totalfu>3  , vce(robust)

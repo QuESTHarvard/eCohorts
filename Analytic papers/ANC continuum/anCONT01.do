@@ -7,26 +7,26 @@
 			anc1_dangers  anc1_edd anc1_bplan anc1_ifa anc1_calcium /// 13 items
 			m2_bp_r* m3_bp* m2_wgt_r*  m3_wgt* m2_urine_r* m3_urine* m2_blood_r* m3_blood ///
 			m2_us_r*  m3_us* m2_danger_r* m2_bplan_r* m2_ifa_r* m2_calcium_r* ///
-			agecat healthlit_corr tertile married preg_intent educ_cat ///
+			agecat enrollage healthlit_corr tertile married preg_intent educ_cat ///
 			danger riskcat primipara second job
 			
 	* Appending datasets
 	u ETtmp.dta, clear
-	keep $keepvars quintile factype
+	keep $keepvars quintile factype 
 		gen country=1
 		recode site 2=0 // 0 ES 1 Adama
 		save allcountries.dta, replace
 	
 	u KEtmp.dta, clear
 	rename study_site site
-	keep $keepvars quintile factype
+	keep $keepvars quintile factype 
 		gen country=3 
 		recode site 1=3 // 2 Kitui 3 Kiambu
 		append using allcountries.dta
 		save allcountries.dta, replace
 	
 	u ZAtmp.dta, clear
-	rename study_site_sd site
+	rename study_site_sd site 
 	keep $keepvars 
 		gen country=4 
 		recode site 1=7 2=6
@@ -47,11 +47,21 @@
 	replace anctotal=. if totalfu<3
 	
 	* Table 1
-	summtab , contvars(anctotal) catvars(viscat agecat second healthlit_corr tertile  job married ///
+	summtab if riskcat==0, contvars(anctotal totvisits enrollage) ///
+			catvars(viscat agecat second healthlit_corr tertile  job married ///
 			factype preg_intent primipara bsltrimester danger riskcat) mean by(country) excel ///
-			excelname(Table1) replace 
+			excelname(Table1) sheetname(norisk) replace 
+			
+	summtab if riskcat==1, contvars(anctotal totvisits enrollage ) ///
+			catvars(viscat agecat second healthlit_corr tertile  job married ///
+			factype preg_intent primipara bsltrimester danger riskcat) mean by(country) excel ///
+			excelname(Table1) sheetname(onerisk) replace 
 	
-	
+	summtab if riskcat==2, contvars(anctotal totvisits enrollage ) ///
+			catvars(viscat agecat second healthlit_corr tertile  job married ///
+			factype preg_intent primipara bsltrimester danger riskcat) mean by(country) excel ///
+			excelname(Table1) sheetname(two+risks) replace 
+			
 	* Number of visits
 	graph box totvisits, over(country) ytitle("Total number of visits")
 	
