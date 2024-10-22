@@ -21,7 +21,8 @@
 										Changed other input & output globals to remove "Core Research/Echohorts"
 										
 * 2024-08-14	1.02	MK Trimner		Got a new computer, added new path	
-* 2024-08-28	1.03	MK Trimner		Added adopath addition to so we can call the standardized programs									
+* 2024-08-28	1.03	MK Trimner		Added adopath addition to so we can call the standardized programs	
+* 2024-09-12	1.04	MK Trimner		Added path for birth_outcome spreadsheet to be used in DQ checks for M3								
 */
 
 * Setting up files and macros
@@ -78,6 +79,9 @@ global user "C:\Users\MaryKayTrimner\Biostat Global Dropbox\Mary Kay Trimner"
 * Path to GitHub folder 
 global github "$user/Documents/GitHub/eCohorts"
 global github "$user/MKT GitHub/eCohorts"
+
+* Path to the birth outcomes
+global birth_outcomes "$user/MNH Ecohorts QuEST-shared/Data/Data documents/Cohort flow charts/list of miscarriage_0912.xlsx"
 
 adopath + "$github"
 
