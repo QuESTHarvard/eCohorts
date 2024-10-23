@@ -49,7 +49,7 @@ set more off
 		format m2_date_last %td
 		gen time_m2_last_m3 = (m3_date - m2_date_last)/7 // time bw last m2 and m3
 	
-	* Create tag for any time bw follow up surveys > 13.5 weeks (a whole trimester)
+	* Create tag for any time bw follow up surveys > 13.5 weeks (a whole trimester missed)
 		forval i = 1/8 {
 			gen tag`i'=1 if time_m2_r`i'>13.5 & time_m2_r`i' <.
 			count if tag`i'==1
@@ -110,7 +110,7 @@ set more off
 		lab def totvis 1"Only 1 visit" 2"2-3 visits" 3"4-7 visits" 4"8+ visits"
 		lab val viscat totvis 
 		lab var totvisits "Total routine ANC visits"
-		lab var totvis "Total number of routine ANC visits (categories)"
+		lab var viscat "Total number of routine ANC visits (categories)"
 
 	* Number of routine ANC or ANC referral visits  at each follow-up call
 		forval i= 1/7 {
@@ -370,7 +370,10 @@ set more off
 *-------------------------------------------------------------------------------		
 	* DEMOGRAPHICS AND RISK FACTORS
 		* Demographics
-			recode m1_enrollage (min/19=1 "<20") (20/34=2 "20-34") (35/max=3 "35+"), g(agecat)
+			rename m1_enrollage enrollage
+			recode enrollage (min/19=1 "<20") (20/34=2 "20-34") (35/max=3 "35+"), g(agecat)
+			recode enrollage (min/19=1) (20/max=0), g(age19)
+			recode enrollage (min/34=0) (35/max=1), g(age35)
 			// educ_cat  quintile  marriedp
 			gen healthlit_corr=m1_health_lit==4
 			g second= educ_cat>=3 & educ_cat<.
@@ -413,14 +416,14 @@ set more off
 			rename m1_1004 late_misc
 			egen complic = rowtotal(cesa stillbirth preterm neodeath PPH late_misc)
 
-			egen riskcat=rowtotal(anemia chronic malnut complic )
+			egen riskcat=rowtotal(anemia chronic malnut complic age19 age35 )
 			recode riskcat 3/max=2 
 			lab def riskcat 0"No risk factor" 1"One risk factor" 2"Two or more risk factors" 
 			lab val riskcat riskcat
 			
 			
 save "$user/MNH E-Cohorts-internal/Analyses/Manuscripts/Paper 5 Continuum ANC/Data/ETtmp.dta", replace
-
+/*
 			reg anctotal i.riskcat ib(2).agecat i.educ_cat i.healthlit_corr married ///
 			i.quintile i.job preg_intent prim danger  i.factype i.site ///
 			if  totalfu>3  , vce(cluster facility)
