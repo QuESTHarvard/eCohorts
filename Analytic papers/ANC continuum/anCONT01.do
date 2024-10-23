@@ -20,8 +20,17 @@
 	u KEtmp.dta, clear
 	rename study_site site
 	keep $keepvars quintile factype 
-		gen country=3 
+		gen country=2
 		recode site 1=3 // 2 Kitui 3 Kiambu
+		append using allcountries.dta
+		save allcountries.dta, replace
+		
+	u INtmp.dta, clear 
+	rename study_site site
+	keep $keepvars quintile factype urban
+		gen country=3
+		rename site study_site 
+		recode urban 0=4 1=5, g(site) // 4 Rural India 5 Urban India
 		append using allcountries.dta
 		save allcountries.dta, replace
 	
@@ -38,7 +47,7 @@
 	4"Rural-IND" 5"Urban-IND" 6 "Rural-ZAF" 7 "Urban-ZAF", modify
 	lab val site site
 	
-	lab def country 1 "Ethiopia" 2 "India" 3 "Kenya" 4 "South Africa"
+	lab def country 1 "Ethiopia" 2 "Kenya" 3 "India" 4 "South Africa"
 	lab val country country
 *-------------------------------------------------------------------------------
 	* DESCRIPTIVE ANALYSES
@@ -47,33 +56,33 @@
 	replace anctotal=. if totalfu<3
 	
 	* Table 1
-	summtab if riskcat==0, contvars(anctotal totvisits enrollage) ///
-			catvars(viscat agecat second healthlit_corr tertile  job married ///
-			factype preg_intent primipara bsltrimester danger riskcat) mean by(country) excel ///
-			excelname(Table1) sheetname(norisk) replace 
-			
-	summtab if riskcat==1, contvars(anctotal totvisits enrollage ) ///
-			catvars(viscat agecat second healthlit_corr tertile  job married ///
-			factype preg_intent primipara bsltrimester danger riskcat) mean by(country) excel ///
-			excelname(Table1) sheetname(onerisk) replace 
-	
-	summtab if riskcat==2, contvars(anctotal totvisits enrollage ) ///
-			catvars(viscat agecat second healthlit_corr tertile  job married ///
-			factype preg_intent primipara bsltrimester danger riskcat) mean by(country) excel ///
-			excelname(Table1) sheetname(two+risks) replace 
+		summtab if riskcat==0, contvars(anctotal totvisits enrollage) ///
+				catvars(second healthlit_corr tertile  job married ///
+				factype preg_intent primipara bsltrimester danger riskcat) mean by(country) excel ///
+				excelname(Table1) sheetname(norisk) replace 
+				
+		summtab if riskcat==1, contvars(anctotal totvisits enrollage ) ///
+				catvars(second healthlit_corr tertile  job married ///
+				factype preg_intent primipara bsltrimester danger riskcat) mean by(country) excel ///
+				excelname(Table1) sheetname(onerisk) replace 
+		
+		summtab if riskcat==2, contvars(anctotal totvisits enrollage ) ///
+				catvars( second healthlit_corr tertile  job married ///
+				factype preg_intent primipara bsltrimester danger riskcat) mean by(country) excel ///
+				excelname(Table1) sheetname(two+risks) replace 
 			
 	* Number of visits
-	graph box totvisits, over(country) ytitle("Total number of visits")
-	
-	by country, sort: tabstat totvisit, stat(min max med mean)
-	ta viscat country if totalfu>2, col nofreq
+		graph box totvisits, over(country) ytitle("Total number of visits")
+		
+		by country, sort: tabstat totvisit, stat(min max med mean)
+		ta viscat country if totalfu>2, col nofreq
 
 	* Minimum set of ANC items (among women with at least 3 surveys)
-	by country, sort: tabstat bpthree wgtthree bloodthre urinethre  ///
+		by country, sort: tabstat bpthree wgtthree bloodthre urinethre  ///
 						all4 if totalfu>2, stat(mean count) col(stat)
 	
 	* Minmum set of ANC items (among women with at least 3 surveys) and adjusted for multiple visits
-	by country, sort: tabstat abpthree awgtthree abloodthre aurinethre  ///
+		by country, sort: tabstat abpthree awgtthree abloodthre aurinethre  ///
 						aall4 if totalfu>2, stat(mean count) col(stat)
 						
 	* Total number of items (among women surveyed at least 4 times)
@@ -91,16 +100,27 @@
 	by country, sort: tabstat anctotal  if totalfu>3, stat(mean med count) col(stat)
 
 	* Timely ANC
-	u timelyanc.dta
+	u timelyanc.dta, clear
 		append using timelyancza 
 		append using timelyancke 
-	
+		append using timelyancin
+		
+		encode country, gen(co)
+		recode co 3=2 2=3
+		
+		lab def country 1 "Ethiopia" 2 "Kenya" 3 "India" 4 "South Africa"
+		lab val co country
+*-
 		drop if anygap==1
 		egen qual1=rowmean(anc1first ancfufirst)
 		egen qual2=rowmean(anc1second ancfusecond)
 		egen qual3=rowmean(anc1third ancfuthird)
 		
-		graph box qual1 qual2 qual3 , over(country)
+		lab var qual1 "ANC completeness 1st trimester" 
+		lab var qual2 "ANC completeness 2nd trimester" 
+		lab var qual3 "ANC completeness 3rd trimester" 
+		
+		graph box qual1 qual2 qual3 , over(co) legend(off)
 		
 		* Among women enrolled in 1st
 		graph box qual1 qual2 qual3 if bsltrimester==1, over(country)
