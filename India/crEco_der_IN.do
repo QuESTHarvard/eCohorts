@@ -6,7 +6,16 @@
 	This file creates derived variables for analysis from the MNH ECohorts India dataset. 
 */
 
-u "$in_data_final/eco_m1_in.dta", clear
+
+/*******************************************************************************
+* Change log
+* 				Updated
+*				version
+* Date 			number 	Name			What Changed
+* 2024-09-17	1.01	MK Trimner		Commented out the file to use and saving command so that it can be called by the latest module
+********************************************************************************/
+
+*u "$in_data_final/eco_m1_in.dta", clear
 
 *------------------------------------------------------------------------------*
 * MODULE 1
@@ -314,4 +323,4 @@ u "$in_data_final/eco_m1_in.dta", clear
 * HEM: this might be hemoglobin, not sure if it's the Hb taken during 1st ANC (another var Hb refering to Hb level from maternal card) (not labeled yet)
 * study_id CALC_END_TIME REVIEW_CORRECTIONS REVIEW_COMMENTS REVIEW_QUALITY: not sure about these variables (not labeled yet)
 						
-			save "$in_data_final/eco_m1_in_der.dta", replace
+		*	save "$in_data_final/eco_m1_in_der.dta", replace

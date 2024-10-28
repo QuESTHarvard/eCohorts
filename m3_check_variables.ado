@@ -29,6 +29,7 @@ program define m3_check_variables
 			if _rc == 0 {
 				di as error "Variable `v' should be a string variable, it is a numeric in ${Country} Dataset. Switching it to string ..."
 				tostring `v', replace
+				replace `v' = "" if `v' == "."
 			}
 		}
 	}
