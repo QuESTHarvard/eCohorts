@@ -4040,6 +4040,7 @@ replace m3_509_other = ".a" if m3_509 !=96
 recode m3_510 (. = .a) if m3_501 !=1
 
 recode m3_511 m3_512 (. = .a) if m3_510 !=1
+	replace m3_511 =2 if redcap_record_id=="1686-1" // data entry error
 
 *replace m3_512_outside_zone_other = ".a" if m3_512 !=97 // numeric because of 0 obs
 
