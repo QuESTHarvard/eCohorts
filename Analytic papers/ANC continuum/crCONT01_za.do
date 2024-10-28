@@ -17,6 +17,7 @@ set more off
 	MPH_006	NEL_062	UKH_022	BCH_003	NEL_025 {
 	drop if respondentid =="`x'"
 	}
+	drop if m1_date==. // 3 women cannot be linked with M1 data.
 	
 *-------------------------------------------------------------------------------
 	* Number of follow up surveys
@@ -105,10 +106,22 @@ set more off
 		egen totvisits=rowtotal(m2_305_r* m2_308_r* m2_311_r* m2_314_r* m2_317_r* ///
 							m3_consultation_1 m3_consultation_2 m3_consultation_3)
 		replace totvisits = totvisits+ 1 
-		recode totvisit 3=2 4/7=3 8/max=4 , gen(viscat)
-		lab def totvis 1"Only 1 visit" 2"2-3 visits" 3"4-7 visits" 4"8+ visits"
-		lab val viscat totvis 
-
+			recode totvisit 3=2 4/7=3 8/max=4 , gen(viscat)
+			lab def totvis 1"Only 1 visit" 2"2-3 visits" 3"4-7 visits" 4"8+ visits"
+			lab val viscat totvis 
+			lab var totvisits "Total routine ANC visits"
+			lab var viscat "Total number of routine ANC visits (categories)"
+		
+		* Number of routine ANC or ANC referral visits  at each follow-up call
+		forval i= 1/6 {
+			egen ranc`i'=rowtotal(m2_305_r`i' m2_306_r`i' m2_308_r`i' m2_309_r`i' ///
+					m2_311_r`i' m2_312_r`i' m2_314_r`i' m2_315_r`i'  ///
+					m2_317_r`i' m2_318_r`i' ), m
+		}
+			egen ranclast=rowtotal(m3_consultation_* m3_consultation_referral_*)
+		
+		egen totvisref=rowtotal(ranc*)
+		replace totvisref=totvisref+1
 *-------------------------------------------------------------------------------		
 	* TOTAL ANC CONTENT
 		* First visit
@@ -319,7 +332,18 @@ set more off
 					merge 1:1 respondentid using timelyancza.dta
 					drop _merge
 					save timelyancza.dta, replace
-			restore		
+			restore	
+			
+*-------------------------------------------------------------------------------		
+		* TIMELY ULTRASOUND
+			g tanc1_ultrasound=anc1_ultrasound
+			replace tanc1_ultrasound=. if bslga>24 & bslga<.
+			forval i=1/6 {
+				g tm2_us_r`i' = m2_us_r`i'
+				replace tm2_us_r`i'=. if m2_ga_r`i'>24 & m2_ga_r`i'<.
+			}
+			egen timelyus=rowmax(tanc1_ultrasound tm2_us_r*)
+	
 *-------------------------------------------------------------------------------		
 	* DEMOGRAPHICS AND RISK FACTORS					
 		* Demographics
@@ -335,8 +359,9 @@ set more off
 				lab def job 1"Employed" 2"Homemaker" 3"Student" 4"Unemployed"
 					lab val job job 
 				g second= educ_cat>=2 & educ_cat<.
-			* Baseline danger signs
-			egen danger=rowmax(m1_814b m1_814c m1_814f m1_814g) 
+			* Experienced danger signs in pregnancy
+			egen danger=rowmax(m1_814b m1_814c m1_814f m1_814g m2_203b_r* ///
+				m2_203c_r* m2_203f_r* m2_203g_r*) 
 				// vaginal bleeding, fever, convulsions, seizures, fainting or LOC
 		*Risk factors
 			* Anemia

@@ -440,36 +440,10 @@ set more off
 				| m3_503_outside_zone_other == "Dubo catholic Hospital"
 			label define hospital_del_fac 1 "hospital" 0 "primary"
 			label values hospital_del_fac hospital_del_fac
+			
 save "$user/MNH E-Cohorts-internal/Analyses/Manuscripts/Paper 5 Continuum ANC/Data/ETtmp.dta", replace
-
-
-		reg totvisits i.riskcat i.educ_cat healthlit_corr i.tertile ib(2).job ///
-				married preg_intent i.factype i.site if  totalfu>3, vce(robust)
-/*
-			reg anctotal i.riskcat ib(2).agecat i.educ_cat i.healthlit_corr married ///
-			i.quintile i.job preg_intent prim danger  i.factype i.site ///
-			if  totalfu>3  , vce(cluster facility)
 			
-			reg totvis i.riskcat ib(2).agecat i.educ_cat i.healthlit_corr married ///
-				i.quintile i.job preg_intent prim danger ib(2).bsltrim  i.site ///
-				if  totalfu>3  , vce(cluster facility)
-			
-			margins riskcat
-			marginsplot 
-			
-			margins quintile
-			marginsplot
-			
-			/* ANC items per month in care
-			mixed manctotal i.riskcat i.trimester i.quintile i.educ_cat 
-				  i.m1_health_literacy preg_intent ib(2).facility_lvl ib(2).site
-				  || facility:  , vce(robust) ;
-				  
-			* Total ANC items, restricting to women enrolled in 1st trimester
-			mixed anctot i.riskcat  i.quintile i.educ_cat 
-				  i.m1_health_literacy preg_intent ib(2).facility_lvl ib(2).site 
-				  if trimester==1 || facility:  , vce(robust) ;	
-				  
+							  
 /*-------------------------------------------------------------------------------
 	* Number of months in ANC 
 				gen months=(m3_birth_or_ended-m1_date)/30.5
