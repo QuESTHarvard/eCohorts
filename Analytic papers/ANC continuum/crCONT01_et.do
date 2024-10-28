@@ -119,6 +119,9 @@ set more off
 					m2_317_r`i' m2_318_r`i' ), m
 		}
 			egen ranclast=rowtotal(m3_consultation_* m3_consultation_referral_*)
+		
+		egen totvisref=rowtotal(ranc*)
+		replace totvisref=totvisref+1
 *-------------------------------------------------------------------------------		
 	* ANC QUALITY MEASURES
 	
@@ -366,7 +369,16 @@ set more off
 					drop _merge
 					save timelyanc.dta, replace
 			restore
-			
+*-------------------------------------------------------------------------------		
+		* TIMELY ULTRASOUND
+			g tanc1_ultrasound=anc1_ultrasound
+			replace tanc1_ultrasound=. if bslga>24 & bslga<.
+			forval i=1/8 {
+				g tm2_us_r`i' = m2_us_r`i'
+				replace tm2_us_r`i'=. if m2_ga_r`i'>24 & m2_ga_r`i'<.
+			}
+			egen timelyus=rowmax(tanc1_ultrasound tm2_us_r*)
+		
 *-------------------------------------------------------------------------------		
 	* DEMOGRAPHICS AND RISK FACTORS
 		* Demographics
@@ -378,8 +390,9 @@ set more off
 			gen healthlit_corr=m1_health_lit==4
 			g second= educ_cat>=3 & educ_cat<.
 			rename  facility_lvl factype
-		* Baseline danger signs
-			egen danger=rowmax(m1_814b m1_814c m1_814f m1_814g) 
+		* Experienced danger signs in pregnancy
+			egen danger=rowmax(m1_814b m1_814c m1_814f m1_814g m2_203b_r* ///
+				m2_203c_r* m2_203f_r* m2_203g_r*) 
 				// vaginal bleeding, fever, convulsions, seizures, fainting or LOC
 			recode m1_506 1/5=1 6=2 96=1 7=3 8=1 9=4,g(job)
 				lab def job 1"Employed" 2"Homemaker" 3"Student" 4"Unemployed"
@@ -421,8 +434,17 @@ set more off
 			lab def riskcat 0"No risk factor" 1"One risk factor" 2"Two or more risk factors" 
 			lab val riskcat riskcat
 			
-			
+			* delivery hospital tyeps 
+			gen hospital_del_fac = (m3_502 == 1 |  m3_502 == 5 | m3_502 == 6) if m3_502 <. & m3_502 !=.a 
+			replace hospital_del_fac = 1 if m3_503_inside_zone_other == "Share hospital" ///
+				| m3_503_outside_zone_other == "Dubo catholic Hospital"
+			label define hospital_del_fac 1 "hospital" 0 "primary"
+			label values hospital_del_fac hospital_del_fac
 save "$user/MNH E-Cohorts-internal/Analyses/Manuscripts/Paper 5 Continuum ANC/Data/ETtmp.dta", replace
+
+
+		reg totvisits i.riskcat i.educ_cat healthlit_corr i.tertile ib(2).job ///
+				married preg_intent i.factype i.site if  totalfu>3, vce(robust)
 /*
 			reg anctotal i.riskcat ib(2).agecat i.educ_cat i.healthlit_corr married ///
 			i.quintile i.job preg_intent prim danger  i.factype i.site ///

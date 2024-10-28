@@ -37,8 +37,6 @@ set more off
 		replace m2_date_r`i' =. if m2_202_r`i'==2 | m2_202_r`i'==3 
 		}
 	
-	gen m1_date=date(date_m1, "DMY")
-	format m1_date %tdDD/NN/CCYY   
 	egen totalfu=rownonmiss(m1_date m2_date_r* m3_date) // total surveys until M3
 
 *-------------------------------------------------------------------------------		
@@ -123,10 +121,21 @@ set more off
 							m3_403 m3_406 m3_409)
 		replace totvisits = totvisits + 1 
 		recode totvisit 3=2 4/7=3 8/max=4 , gen(viscat)
-		lab def totvis 1"Only 1 visit" 2"2-3 visits" 3"4-7 visits" 4"8+ visits"
-		lab val viscat totvis 
-		lab var totvisits "Total routine ANC visits"
-		lab var viscat "Total number of routine ANC visits (categories)"
+			lab def totvis 1"Only 1 visit" 2"2-3 visits" 3"4-7 visits" 4"8+ visits"
+			lab val viscat totvis 
+			lab var totvisits "Total routine ANC visits"
+			lab var viscat "Total number of routine ANC visits (categories)"
+		
+		* Number of routine ANC or ANC referral visits  at each follow-up call
+		forval i= 1/10 {
+			egen ranc`i'=rowtotal(m2_305_r`i' m2_306_r`i' m2_308_r`i' m2_309_r`i' ///
+					m2_311_r`i' m2_312_r`i' m2_314_r`i' m2_315_r`i'  ///
+					m2_317_r`i' m2_318_r`i' ), m
+		}
+			egen ranclast=rowtotal(m3_403 m3_404 m3_406 m3_407 m3_409 m3_410)
+		
+		egen totvisref=rowtotal(ranc*)
+		replace totvisref=totvisref+1
 *-------------------------------------------------------------------------------		
 	* ANC QUALITY MEASURES
 	
@@ -350,6 +359,16 @@ set more off
 					save timelyancin.dta, replace
 			restore
 *-------------------------------------------------------------------------------		
+		* TIMELY ULTRASOUND
+			g tanc1_ultrasound=anc1_ultrasound
+			replace tanc1_ultrasound=. if bslga>24 & bslga<.
+			forval i=1/10 {
+				g tm2_us_r`i' = m2_us_r`i'
+				replace tm2_us_r`i'=. if m2_ga_r`i'>24 & m2_ga_r`i'<.
+			}
+			egen timelyus=rowmax(tanc1_ultrasound tm2_us_r*)
+	
+*-------------------------------------------------------------------------------		
 	* DEMOGRAPHICS AND RISK FACTORS
 		* Demographics
 			recode enrollage (min/19=1 "<20") (20/34=2 "20-34") (35/max=3 "35+"), g(agecat)
@@ -359,8 +378,9 @@ set more off
 			gen healthlit_corr=m1_health_lit==4
 			g second= educ_cat>=3 & educ_cat<.
 			rename  facility_lvl factype
-		* Baseline danger signs
-			egen danger=rowmax(m1_814b m1_814c m1_814f m1_814g) 
+		* Experienced danger signs in pregnancy
+			egen danger=rowmax(m1_814b m1_814c m1_814f m1_814g m2_203b_r* ///
+				m2_203c_r* m2_203f_r* m2_203g_r*) 
 				// vaginal bleeding, fever, convulsions, seizures, fainting or LOC
 			recode m1_506 1/3=1 6=2 96=1 7=3 8/9=1 10=4, g(job)
 				lab def job 1"Employed" 2"Homemaker" 3"Student" 4"Unemployed"
