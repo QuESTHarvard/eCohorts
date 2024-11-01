@@ -28,6 +28,7 @@
 * 										Added char to all variables to show the original variable in a note
 * 2024-10-08	1.02	MK Trimner		Added char that contains the module for each original variable for codebook purposes		
 *										Corrected typo for value label m2_203h, m2_205c, m2_interview_restarted, breathing, m3_YNDKRF, m4_conclusion_dead_baby and m5_feeding
+* 2024-10-30	1.03	MK Trimner		Renaming variable to alsign with all other countries m1_203_et - removed the _et as it applies to other countries as well
 *******************************************************************************/
 * Import Data 
 clear all 
@@ -7704,6 +7705,9 @@ label variable m2_endstatus`i' "What is this womens current status at the end of
 			}
 		}			
 	}
+	
+	* MKT 2024-10-30 Renaming this variable to align with all other datasets
+	rename m1_203_et m1_203
 	
 	save "$et_data_final/eco_m1-m5_et_wide.dta", replace
 	  
