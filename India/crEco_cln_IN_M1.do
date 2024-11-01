@@ -8,7 +8,7 @@
 *				version
 * Date 			number 	Name			What Changed
 2024-08-08		1.01	MK Trimner		Corrected respondent id "202310031133022010 to remove the " i the first char so it will merge with M2
-*									
+* 2024-10-30	1.02	MK Trimner		Added chars with module									
 *******************************************************************************/
 
 * Import Data 
@@ -18,6 +18,7 @@ u "$in_data/Module1_07_06_2024.dta", clear
 * Dataset was originally sent in upper cap
 foreach var of varlist _all  {
   rename `var' `=strupper("`var'")'
+  
 }
 
 /* Dropping duplicate IDs (data collection problems identified in March 2024)
@@ -870,6 +871,11 @@ order phq9a phq9b phq9c phq9d phq9e phq9f phq9g phq9h phq9i, after(m1_205e)
 	* We need to trim the respondentid variables and strip any "
 	replace respondentid = subinstr(respondentid,`"""',"",.)
 	replace respondentid = trim(respondentid)
+	
+	* Add a character with the module number for codebook purposes
+	foreach v of varlist * {
+		char `v'[Module] 1
+	}
 	
 	save "$in_data_final/eco_m1_in.dta", replace
 

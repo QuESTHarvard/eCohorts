@@ -13,7 +13,8 @@
 * 2024-09-12	1.02	MK Trimner		Added call to m3_data_basic_quality_checks
 * 2024-09-17	1.03	MK Trimner		Added code to drop the 3 respondents that did not merge back with M1 dataset
 *										Saved with consistent naming convention
-*										Added code to run the derived variables code and save as COMPLETE									
+*										Added code to run the derived variables code and save as COMPLETE		
+* 2024-10-22	1.04	MK Trimner		Added updated M3 dataset							
 *******************************************************************************
 
 										*/
@@ -28,14 +29,12 @@
 * Check that variables that overlap between modules are the same values
 * For excample Q108 Q109 etc										
 * Set a local wtih module2 file name
-local module3 M3_05082024
+local module3 M3_17102024
 global Country IN
 
 * Import Data 
 clear all 
 u "${in_data}/`module3'.dta", clear
-
-
 
 * Add a character with the original country specific var name
 foreach v of varlist * {
@@ -44,8 +43,13 @@ foreach v of varlist * {
 }
 
 * Clean up the id variable to remove any spaces that may cause merging issues
+
+* MKT in updated M3 dataset the identifier is not a string. We need to make it a string
+rename Q104 org_Q104
+clonevar Q104 = id // In the updated dataset we will use the ID variable instead
 replace Q104 = trim(Q104)
 replace Q104 = subinstr(Q104," ","",.)
+
 
 * Per the India's team instruction we will be dropping the below respondents as they are not part of the M1
 drop if inlist(Q104,"202307181044030109","202311171131039696","202311201424039696","202311212018039696")
@@ -561,6 +565,17 @@ m3_variable_labels
 * Call program to define value labels and add them to the variables
 m3_value_labels
 
+	* Add a character with the module number for codebook purposes
+	foreach v of varlist * {
+		char `v'[Module] 3
+	}
+	
+	* Order the variables
+	order m3_* , sequential
+	order respondentid m3_respondentid m3_date m3_permission 
+
+
+
 	*===============================================================================
 
 		* STEP FIVE: Data quality checks
@@ -569,6 +584,8 @@ m3_value_labels
 
 * Run the data quality check program
 *m3_data_basic_quality_checks_IN
+
+
 
 use  "${in_data_final}/eco_m3_in", clear
 	*===============================================================================
@@ -588,20 +605,23 @@ m3_recode_variables
 
 	* Only keep the M3 variables we are using 
 	keep respondentid m3_* 
-	
-* confirm there is 1 row per respondent
+	* confirm there is 1 row per respondent
 bysort respondentid: assert _N == 1
+replace respondentid = trim(respondentid)
 
-merge 1:1 respondentid using "${in_data_final}\Archive\eco_m1_and_m2_in.dta"
+tempfile mkt
+save `mkt'
 
-*merge 1:1 respondentid using "${in_data_final}/eco_m1_and_m2_in.dta"
+use "${in_data_final}\eco_m1_and_m2_in.dta"
+*merge 1:1 respondentid using "${in_data_final}\eco_m1_and_m2_in.dta"
+merge 1:1 respondentid using  `mkt'
 
 * all those from M3 should be in M1
-assertlist _merge != 1, list(respondentid) 
+assertlist _merge != 2, list(respondentid) 
 
 rename _merge merge_m3_to_m2_m1 
 label var merge_m3_to_m2_m1 "Match between M3 dataset and M1 and M2 dataset"
-label define m3 1 "M3 Only" 2 "M1 only" 3 "Both M1 & M3"
+label define m3 1 "M1 Only" 2 "M3 only" 3 "Both M1 & M3"
 label value merge_m3_to_m2_m1 m3
 
 * We want to drop those that do not merge back to main dataset
@@ -611,23 +631,25 @@ label value merge_m3_to_m2_m1 m3
 202311201424039696 
 202311212018039696
 */
-drop if merge_m3_to_m2_m1 == 1 // this is 3 ids
+
+
+drop if merge_m3_to_m2_m1 == 2 // this is 3 ids
 
 *save "${in_data_final}/eco_m1_m2_m3_in.dta", replace
 
+order respondentid country
 save "$in_data_final/eco_m1-m3_in.dta", replace
 
 *==============================================================================*
 * run derived variables
- 
-
- 	
+  	
 	* Run the derived variable code
 do "${github}\India\crEco_der_IN.do"
 
+* Change date_m1 to m1_date
+gen m1_date = date(date_m1,"DMY")
+label var m1_date "`:var label date_m1'"
+order m1_date, after(date_m1)
+drop date_m1
  * Save as a completed dataset
 save "$in_data_final/eco_IN_Complete", replace
-		
-		
-
-

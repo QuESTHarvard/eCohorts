@@ -9,6 +9,7 @@
 * Date 			number 	Name			What Changed
 2024-08-07		1.01	MK Trimner		Removed the suffix _ke from m2_507_# variables
 *										Removed the suffix _ke from m2_702_other
+* 2024-10-24	1.02	MK Trimner		Added char with original variable and module numbers
 *******************************************************************************/
 
 
@@ -29,6 +30,10 @@
 * Import data
 clear all 
 use "$ke_data/Module 1/KEMRI_Module_1_ANC_2023z-9-6.dta"
+foreach v of varlist * {
+	local name `v'
+	char `v'[Original_KE_Varname] `name'
+}
 
 *------------------------------------------------------------------------------*
 * Create sample: (M1 = 1,010)
@@ -188,7 +193,9 @@ drop if respondentid == "21319071529"
 destring (m1_clinic_cost_ke),replace
 
 egen m1_1218_other_total_ke = rowtotal(m1_1218d_1 m1_1218e_1 m1_1218f_1) 
+char m1_1218_other_total_ke[Original_KE_Varname] `m1_1218d_1[Original_KE_Varname]', `m1_1218e_1[Original_KE_Varname]', and `m1_1218f_1[Original_KE_Varname]'
 egen m1_1218_total_ke = rowtotal(m1_clinic_cost_ke m1_1218_other_total_ke) 	
+char m1_1218_total_ke[Original_KE_Varname] `m1_clinic_cost_ke[Original_KE_Varname]', `m1_1218_other_total_ke[Original_KE_Varname]'
 	
 drop m1_1218g m1_other_costs_ke m1_clinic_cost_ke
 
@@ -252,6 +259,8 @@ replace m1_815_0=".r" if m1_815_0== "999"
 recode care_self (. = .a) if permission == 0
 
 destring(enrollage), gen(recenrollage)
+char recenrollage[Original_KE_Varname] `enrollage[Original_KE_Varname]'
+
 recode recenrollage (. = .a) if permission == 0
 drop enrollage
 
@@ -262,6 +271,7 @@ recode flash (.  = .a) if mobile_phone == 0 | mobile_phone == .
 egen chronic_total = rowtotal(m1_203a_ke m1_203b_ke m1_203c_ke m1_203d_ke m1_203e_ke ///
 							  m1_203f_ke m1_203g_ke m1_203h_ke m1_203i_ke m1_203j_ke ///
 							  m1_203k_ke m1_203l_ke m1_203m_ke m1_203n_ke m1_203o_ke m1_203_96_ke) 	
+							  
 recode m1_204 (.  = .a) if chronic_total <=1
 drop chronic_total
 
@@ -939,7 +949,10 @@ order m1_1218_total_ke, after(m1_1218_other_total_ke)
 	
 	
 	* STEP SIX: ORDER/SAVE DATA TO RECODED FOLDER
-
+foreach v of varlist * {
+	local name `v'
+	char `v'[Module] 1
+}
 	save "$ke_data_final/eco_m1_ke.dta", replace
 
 *===============================================================================
@@ -948,6 +961,10 @@ order m1_1218_total_ke, after(m1_1218_other_total_ke)
 * Import data
 clear all 
 use "$ke_data/Module 2/240513_KEMRI_Module_2_ANC_period_no_pii_5-15.dta"
+foreach v of varlist * {
+	local name `v'
+	char `v'[Original_KE_Varname] `name'
+}
 
 drop if call_response !=1 // N=20 obs deleted
 
@@ -1128,6 +1145,8 @@ drop if m2_602b == -999
 
 	*Date and time of M2 (SS: double check this is saving time as wells)
 	gen _m2_date_time_ = date(m2_date_time,"YMDhms")
+	char _m2_date_time_[Original_KE_Varname] `m2_date_time[Original_KE_Varname]'
+
 	drop m2_date_time
 	rename _m2_date_time_ m2_date_time
 	format m2_date_time %td  
@@ -1441,6 +1460,12 @@ reshape wide m2_start_time m2_endtime m2_date m2_time_start duration m2_intervie
 *------------------------------------------------------------------------------*
 * merge dataset with M1
 
+foreach v of varlist * {
+	local name `v'
+	char `v'[Module] 2
+}
+
+
 merge 1:1 respondentid using "$ke_data_final/eco_m1_ke.dta"
 
 drop _merge  // SS 3-15: 7 in master (M2) not in using (M1), N=979 matched
@@ -1715,6 +1740,12 @@ order language_r* language_oth_r*, after(m2_attempt_relationship_r9)
 clear all 
 use "$ke_data/Module 3/240606_KEMRI_Module_3_no_pii_6-6.dta"
 
+foreach v of varlist * {
+	local name `v'
+	char `v'[Original_KE_Varname] `name'
+}
+
+
 *drop ineligible pids:
 drop if consent !=1
 
@@ -1808,6 +1839,7 @@ rename (q_403_2 q_404_2 q_405_oth_2) (m3_consultation_2 m3_consultation_referral
 rename q_403_3 m3_consultation_3  // SS 4-2: q_405_oth_1 and q_405_oth_3 dropped? are they dropping vars with no obs?
 
 encode q_405_1,gen(m3_consultation1_reason)
+char m3_consultation1_reason[Original_KE_Varname] `m3_consultation1_reason[Original_KE_Varname]'
 drop q_405_1
 encode q_405_2,gen(m3_consultation2_reason)
 drop q_405_2
@@ -2904,6 +2936,11 @@ lab var m3_1202 "1202. Overall, how would you rate the quality of care that you 
 *lab var m3_1204 "1204. Overall, how would you rate the quality of care that you received for your abortion?" // SS: why was this question dropped?
 lab var m3_endtime "Time of interview ended"
 
+foreach v of varlist * {
+	local name `v'
+	char `v'[Module] 3
+}
+
 *------------------------------------------------------------------------------*
 * merge dataset with M1-M2
 
@@ -3004,7 +3041,12 @@ order m3_num_alive_babies m3_num_dead_babies, after(m3_miscarriage)
 clear all
 
 * import data
-use "$ke_data/Module 4/240619_KEMRI_Module_4_Final_no_pii_6-24.dta"
+use "$ke_data/Module 4/240619_KEMRI_Module_4_Final_no_pii_6-24.dta", clear
+foreach v of varlist * {
+	local name `v'
+	char `v'[Original_KE_Varname] `name'
+}
+
 
 drop facility_name county enum_name_mod1 enum_name alive_babies dead_babies endtime name_confirm starttime today_date resp_worker availability resp_available enum_name_mod1
 	 
@@ -4507,6 +4549,12 @@ label variable m4_language "In which language was most of the survey conducted?"
 *drop failed attempts:
 drop if m4_attempt_outcome !=1  // 4-23 SS: 1 observation deleted (m4_unavailable_reschedule no longer in dataset), 6-24 SS: m4_call_status !=1 removed bc call_status no longer in the dataset
 
+
+foreach v of varlist * {
+	local name `v'
+	char `v'[Module] 4
+}
+
 merge 1:1 respondentid using "$ke_data_final/eco_m1-m3_ke.dta", force
 drop _merge
 
@@ -4606,6 +4654,10 @@ order m4_date m4_time m4_duration m4_consent_recording m4_hiv_status m4_c_sectio
 * import data
 clear all
 use "$ke_data/Module 5/KEMRI_Module_5.dta"
+foreach v of varlist * {
+	local name `v'
+	char `v'[Original_KE_Varname] `name'
+}
 
 *------------------------------------------------------------------------------*
 
@@ -6653,6 +6705,11 @@ lab var m5_baby2_hc "1403. Second baby's head circumference in centimeters"
 *------------------------------------------------------------------------------*
 *merge dataset with M1-M4
 
+foreach v of varlist * {
+	local name `v'
+	char `v'[Module] 5
+}
+
 *drop failed attempts:
 *drop if m4_attempt_outcome !=1 | m4_call_status !=1 | m4_unavailable_reschedule ==1 // 193 observations deleted
 
@@ -6671,3 +6728,6 @@ order m1_* m2_* m3_* m4_* m5_* mcard_*, sequential
 	save "$ke_data_final/eco_m1-m5_ke.dta", replace
 
 *===============================================================================
+* Do the derived variables code
+do "${github}\South Africa\crEco_der_KE.do"
+save "$ke_data_final/eco_KE_Complete", replace

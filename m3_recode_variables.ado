@@ -85,15 +85,74 @@ program define m3_recode_variables
 	recode m3_411_1 m3_411_2 m3_411_3  m3_411_4 m3_411_5 m3_411_96 (. = .a) if m3_410 == 1
 	replace m3_411_other = ".a" if m3_411_96 != 1
 	
-	recode m3_501 (. = .a) m3_202 != 2
+	recode m3_501 (. = .a) if m3_202 != 2
 	
-	recode m3_502_IN m3_503_IN m3_504 m3_505a m3_505b_weeks m3_505b_days m3_505b_hours m3_506_date m3_506_time m3_507_time (. = .a) if m3_501 != 1
+	recode m3_502_IN m3_503_IN m3_505a m3_505b_weeks m3_505b_days m3_505b_hours m3_506_date m3_506_time m3_507_time (. = .a) if m3_501 != 1
 	recode m3_508 m3_509 (. = .a) if m3_501 != 0
 	replace m3_509_other = ".a" if m3_501 != 0 & missing(m3_509_other)
 	
-	recode m3_511 m3_512_1_IN m3_512_2_IN  m3_513a_IN m3_513b_IN  (. = .a) if m3_510 != 1
+	recode m3_511 m3_512_1_IN m3_512_2_IN  m3_513a_IN (. = .a) if m3_510 != 1
 	recode m3_512_1_IN m3_513a_IN (. = .a) if m3_511 < 1 
-	recode m3_512_2_IN m3_513b_IN (. = .a) if m3_511 < 2
-	recode 
+	recode m3_512_2_IN (. = .a) if m3_511 < 2
+	recode m3_514_time m3_514_date m3_515 (. = .a) if m3_510 != 1
+	recode m3_516 (. = .a) if !inlist(m3_515,4,5)
+	recode m3_517 (. = .a) if !inlist(m3_515,2,3)
+	recode m3_518_0 m3_518_1 m3_518_2 m3_518_3 m3_518_4 m3_518_5 m3_518_6 m3_518_7 m3_518_8 m3_518_9 m3_518_10 m3_518_96 m3_518_97 m3_518_98 m3_518_99 (. = .a) if m3_517 != 1
+	recode m3_519_1 m3_519_2 m3_519_3 m3_519_4 m3_519_5 m3_519_6 m3_519_7 m3_519_8 m3_519_9 m3_519_10 m3_519_11 m3_519_12 m3_519_13 m3_519_14 m3_519_15 m3_519_16 m3_519_17 m3_519_96 m3_519_98 m3_519_99 (. = .a) if m3_510 != 0
+	recode m3_520_time m3_521_hours m3_521_minutes (. =.a) 	if m3_501 != 1 // 
+	
+	recode m3_601a m3_601b m3_601c m3_602a m3_603a m3_603b m3_603c m3_604a m3_604b m3_605a m3_607 m3_608 m3_609 m3_610a m3_613  (. = .a) if m3_501 != 1
+	recode m3_602b ( . = .a) if m3_602a != 0
+	recode m3_605b m3_605c_0 m3_605c_1 m3_605c_2 m3_605c_3 m3_605c_96 m3_605c_98 m3_605c_99 ( . = .a) if m3_605a != 1
+	recode m3_606 m3_607 ( . = .a ) if m3_605a != 0
+	recode m3_610b (. = .a) if m3_610a != 1
+	recode m3_610a m3_611 m3_612_hours m3_612_days  (. = .a) if m3_501 != 1 & m3_303_b1 != 1 & m3_303_b2 != 1 & m3_303_b3 != 1 & m3_312_b1 != 1 & m3_312_b2 != 1 & m3_312_b3 != 1 
+	
+	recode m3_614_hours m3_614_days m3_614_weeks (. = .a) if m3_613 != 1
+	
+	foreach i in 1 2 3 {
+		recode m3_615_b`i' m3_617_b`i' m3_617_vitaK_b`i'_ET m3_618a_b`i' m3_618b_b`i'  m3_618c_b`i' m3_620_b`i'  (. = .a) if m3_501 != 1 & m3_303_b`i' != 1 & m3_312_b`i' != 1 
+		
+		recode m3_618a_b`i' m3_618b_b`i' m3_618c_b`i' (. = .a) if m3_108 != 1
+	
+		recode m3_616_hours_b`i' m3_616_days_b`i' m3_616_weeks_b`i' (. = .a) if m3_615_b`i' != 1
+	}
+	
+	recode m3_619a m3_619b m3_619c m3_619d m3_619e m3_619f m3_619g m3_619h m3_619i m3_619j (. = .a) if m3_501 != 1 & m3_303_b1 != 1 & m3_312_b1 != 1 & m3_303_b2 != 1 & m3_312_b2 != 1 & m3_303_b3 != 1 & m3_312_b3 != 1
+	
+	recode m3_621a_1 m3_621a_2 m3_621a_3 m3_621a_4 m3_621a_5 m3_621a_6 m3_621a_98 m3_621a_99 m3_621b m3_621c_days m3_621c_hours m3_621c_weeks (. = .a) if m3_501 != 0
+	
+	recode m3_621c_days m3_621c_hours m3_621c_weeks (. = .a) if m3_621b != 1
+	
+	recode m3_622b (. = .a) if m3_622a !=1
+	
+	recode m3_703 (. = .a) if m3_701 != 1
+	
+	recode m3_705 m3_706 m3_707_days m3_707_hours m3_707_weeks (. = .a) if m3_501 != 1
+	
+	foreach i in 1 2 3 {
+		foreach v of varlist m3_708_*_b`i' {
+			recode `v' (. = .a) if m3_303_b`i' != 1 & m3_312_b`i' != 1
+		}
+		recode m3_710_b`i' m3_711_days_b`i' m3_711_hours_b`i' m3_711_weeks_b`i' (. = .a) if m3_501 != 1 & m3_303_b`i' != 1 & m3_312_b`i' != 1 
+	}
+	
+	gen m3_801 = m3_801_a + m3_801_b
+	recode m3_802a (. = .a) if m3_801 < 3
+	drop m3_801
+	recode m3_802b m3_802c (. = .a) if m3_802a != 1
+	recode m3_806 m3_807 m3_808a m3_808b m3_809 (. = .a) if m3_805 != 1
+	recode m3_808b m3_809 (. = .a) if  m3_808a != 0
+	
+	foreach i in 1 2 3 {
+		recode m3_903a_b`i' m3_903b_b`i' m3_903c_b`i' m3_903d_b`i' m3_903e_b`i' m3_903f_b`i' m3_903g_b`i' m3_903h_b`i' m3_903i_b`i' m3_903j_b`i' (. = .a) if m3_303_b`i' != 1 
+	}
+	
+	
+	recode m3_1001 m3_1002 m3_1003 m3_1004a m3_1004b m3_1004c m3_1004d m3_1004e m3_1004f m3_1004g m3_1004h m3_1005a m3_1005b m3_1005c m3_1005d m3_1005e m3_1005f m3_1005g m3_1005h m3_1006a m3_1006b m3_1006c m3_1007a m3_1007b m3_1007c (. = .a) if m3_501 != 1
+	
+	recode m3_1006b m3_1006c (. = .a) if m3_1006a != 1
 
+	recode m3_1101 m3_1102a m3_1102b m3_1102c m3_1102d m3_1102e m3_1102f (. = .a) if m3_501 != 1
+	recode m3_1102a m3_1102b m3_1102c m3_1102d m3_1102e m3_1102f (. = .a) if m3_1101 != 1
 end

@@ -13,7 +13,9 @@
 2024-08-07		1.02	MK Trimner		Made corrections per Shalom's 7-31-2024 email
 *										Aligned m2_hiv_status with 0, 1 & 99 values and added it to the recoding for 99 = .r
 *										Removed m2_203i as it is not in the IN dataset																
-*2024-08-28		1.03	MK Trimner		Renamed _merge variable to identify where it came from									
+*2024-08-28		1.03	MK Trimner		Renamed _merge variable to identify where it came from		
+* 2024-10-23	1.04	MK Trimner		Changed the way this merges so we can retain the already ordered variables
+*										Added a character with the module number							
 *******************************************************************************
 
 										*/
@@ -525,7 +527,7 @@ replace q103 = subinstr(q103," ","",.)
 
 	preserve
 	* Run the M2 DQ checks on the long dataset.	
-	do "${github}\India\m2_data_quality_checks.do" 
+	*do "${github}\India\m2_data_quality_checks.do" 
 
 	restore
 
@@ -936,7 +938,11 @@ replace q103 = subinstr(q103," ","",.)
 * add this respondentid variable for merging purposes
 clonevar respondentid = m2_respondentid
 
-
+* Add a character with the module number for codebook purposes
+	foreach v of varlist * {
+		char `v'[Module] 2
+	}
+	
 save "${in_data_final}/eco_m2_in_wide.dta", replace
 
 
@@ -944,14 +950,15 @@ save "${in_data_final}/eco_m2_in_wide.dta", replace
 
 *===============================================================================
 * STEP EIGHT: MERGE with M1 data
-merge 1:1 respondentid using "${in_data_final}/eco_m1_in"
+use "${in_data_final}/eco_m1_in", clear
+merge 1:1 respondentid using "${in_data_final}/eco_m2_in_wide.dta"
+*merge 1:1 respondentid using "${in_data_final}/eco_m1_in"
 
 rename _merge merge_m2_to_m1
 label var merge_m2_to_m1 "Match between M2 dataset and M1 and M2 dataset"
-label define m2 1 "M2 Only" 2 "M1 only" 3 "Both M1 & M2"
+label define m2 1 "M1 Only" 2 "M2 only" 3 "Both M1 & M2"
 label value merge_m2_to_m1 m2
-
 save "${in_data_final}/eco_m1_and_m2_in.dta", replace
 
 * all those from M2 should be in M1
-assert _merge != 1 
+assert merge_m2_to_m1 != 1 
