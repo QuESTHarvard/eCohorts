@@ -248,6 +248,128 @@
 			gen m1_low_BMI= 1 if m1_BMI<18.5 
 			replace m1_low_BMI = 0 if m1_BMI>=18.5 & m1_BMI<.
 
+*------------------------------------------------------------------------------*
+   * SECTION 14 : M3 M4 M5 birth outcome development
+
+		* 1. Create new variables 
+			* create pregnancyend_ga to indicate GA at the end of pregnancy
+			gen time_between_m1_birth = (m3_birth_or_ended - m1_date)/7
+			gen pregnancyend_ga = m1_ga + time_between_m1_birth          
+			
+			* Create preterm birth to indicate birth before GA 37 
+			gen preterm_birth = 1 if pregnancyend_ga <37 
+			replace preterm_birth = 0 if pregnancyend_ga >=37 & pregnancyend_ga <.
+
+			* Create m3_deathage_dys_baby1, m3_deathage_dys_baby2, m3_deathage_dys_baby3 to indicate newborn death age (days). m3_313a_baby1, m3_313a_baby2, m3_313a_baby3: death dates for baby1 baby2 baby3
+			gen m3_deathage_dys_baby1 = m3_313a_baby1 - m3_birth_or_ended if m3_baby1_born_alive==1 
+			gen m3_deathage_dys_baby2 = m3_313a_baby2 - m3_birth_or_ended if m3_baby2_born_alive==1 
+			gen m3_deathage_dys_baby3 = m3_313a_baby3 - m3_birth_or_ended if m3_baby3_born_alive==1
+
+		* 2. Create birth outcome variable
+			gen birth_outcome = .
+			replace birth_outcome = 1 if m2_date_r1 ==. & (m3_date ==.a | m3_date ==.)                             			  // LTFU after M1 
+			replace birth_outcome = 2 if m2_date_r1 !=. & (m3_date ==.a | m3_date ==.)                      		          // LTFU after M2, these m3_date for these two id (1690-45, 1707-30) should be .1 not . 
+			replace birth_outcome = 3 if (m3_303b==1 & m3_303c==.a & m3_303d ==.a)                             				  // live birth singletone  
+			replace birth_outcome = 4 if (m3_303b==1 & m3_303c==1  & m3_303d ==.a)                             				  // live birth twin  
+			replace birth_outcome = 5 if (m3_303b==1 & m3_303c==1  & m3_303d ==1)                                			  // live birth triplet
+			replace birth_outcome = 6 if m3_baby1_born_alive==0 & pregnancyend_ga <13                             			  // early miscarraige       
+			replace birth_outcome = 7 if m3_baby1_born_alive==0 & (pregnancyend_ga <28 & pregnancyend_ga >=13)                // late miscarraige 
+			replace birth_outcome = 8 if m3_baby1_born_alive==0 & (pregnancyend_ga >= 28 & pregnancyend_ga <.)                // stillbirth 
+			replace birth_outcome = 9 if m3_deathage_dys_baby1 <28                                                            // neonatal death  
+			replace birth_outcome = 10 if m3_deathage_dys_baby1 >=28 & m3_deathage_dys_baby1 !=.                              // infant death
+			replace birth_outcome = 11 if (m3_303b==1 & m3_303c==0) & (m3_baby2_born_alive == 1 & m3_deathage_dys_baby2 < 28) // twin set (1 alive 1 neonatal death)
+			replace birth_outcome = 11 if (m3_303b==0 & m3_303c==1) & (m3_baby1_born_alive == 1 & m3_deathage_dys_baby1 < 28) // twin set (1 alive 1 neonatal death) 
+			
+			* Mannually edited outcomes 
+			replace birth_outcome = 2 if redcap_record_id == "1707-4"   // 1707-4: LTFU after M2 (based on email from Tefera on July 25) 	
+			replace birth_outcome = 6 if redcap_record_id == "1702-12"  // 1702-12: m2_202_r1 = something happened but not move to m3. m1_ga = 7. no m3_birth_or_ended, no pregnancyend_ga. m1_date m2_date_r1:6 wks apart, fetal loss must happen < GA13 (7+6)  
+			replace birth_outcome = 7 if redcap_record_id == "1701-48"  // 1701-48, missing m3_birth_or_ended, m1_ga = 19.1, m1_date 04may2023 m3_date 09jun2023 (around 5 weeks) 19.1 + 5 = 24.1. Outcome should be late miscarriage 
+			replace birth_outcome = 7 if redcap_record_id == "1700-14"  // 1701-14, missing m1_ga, mcard_ga_lmp = 12, time_between_m1_birth = 11 weeks, 12 + 11 = 23 weeks. Outcome should be late miscarrigae 
+			replace birth_outcome = 9 if redcap_record_id == "1708-36"  // 1708-36: m3_birth_or_ended: 11/23/2023. Baby was born alive but is not alive. Based on Tefera (July 25), this case died on 11/26/2023. Outcome is early neonatal death.  
+			replace birth_outcome = 7 if redcap_record_id == "1701-40"  // 1701-40: could not decide early or late miscarraige, for now assign this id to late miscarraige 
+			replace birth_outcome = 11 if redcap_record_id == "1709-57" // 1709-57, one of the twin died in M3 part 2 but alive in M3 part 1. (m3_birth_or_ended: 9/17/2023, m3_date: 9/25/2023, m3_date_p2: 10/10/2023, died between 1 to 3 weeks)
+
+			* Label birth_outcome 
+			label define birth_outcome 1 "LTFU after M1" 2 "LTFU after M2" 3 "LB singleton" 4 "LB twin" 5 "LB triplet" 6 "early miscarriage" ///
+									   7 "late miscarraige" 8 "stillbirth" 9 "neonatal death" 10 "infant death" 11 "twin 1 neonatal death 1 alive"
+			label values birth_outcome birth_outcome
+			tab birth_outcome, missing  
+
+		* 4. Create M3_maternal_outcome 
+			gen M3_maternal_outcome = .  
+			replace M3_maternal_outcome = 1 if birth_outcome == 1 
+			replace M3_maternal_outcome = 2 if birth_outcome == 2 
+			replace M3_maternal_outcome = 4 if birth_outcome == 3 | birth_outcome == 4 | birth_outcome == 5 | birth_outcome == 6 | birth_outcome == 7 | birth_outcome == 8 | birth_outcome == 9 | birth_outcome == 10 | birth_outcome == 11   
+			replace M3_maternal_outcome = 3 if redcap_record_id == "1711-24" // based on email from Tefera on Oct 1, maternal death happened in M2 
+			replace M3_maternal_outcome = 3 if redcap_record_id == "1692-18" // based on email from Tefera on Oct 1, maternal death identified in second part of M3 
+
+			* Label M3_maternal_outcome 
+			label define m3_maternal_outcome  1 "LTFU after M1" 2 "LTFU after M2" 3 "Maternal death" 4 "Maternal alive"
+			label values M3_maternal_outcome m3_maternal_outcome  
+			tab M3_maternal_outcome , missing  
+			
+		* 5. Create M4 outcome
+			gen M4_outcome =.
+			replace M4_outcome = 1 if birth_outcome == 1                                                   // LTFU after M1
+			replace M4_outcome = 2 if birth_outcome == 2                                                   // LTFU after M2
+			replace M4_outcome = 3 if m4_baby1_status == 1 & m4_baby2_status == .a & m4_baby3_status == .a // live birth singleton
+			replace M4_outcome = 4 if m4_baby1_status == 1 & m4_baby2_status ==  1 & m4_baby3_status == .a // live birth twin
+			replace M4_outcome = 5 if m4_baby1_status == 1 & m4_baby2_status ==  1 & m4_baby3_status == 1  // live birth triplet 
+			replace M4_outcome = 6 if birth_outcome ==11 & (m4_baby1_status==0 & m4_baby2_status ==1)      // twin set with 1 neonatal death and 1 alive (same as M3 outcome)
+			replace M4_outcome = 6 if birth_outcome ==11 & (m4_baby1_status==1 & m4_baby2_status ==0)      // twin set with 1 neonatal death and 1 alive (same as M3 outcome) 
+			replace M4_outcome = 7 if (birth_outcome == 3 | birth_outcome == 4 | birth_outcome == 5 | birth_outcome == 11) & m4_baby1_status ==.                     // LTFU after M3 
+			replace M4_outcome = 8 if birth_outcome == 6 | birth_outcome == 7 | birth_outcome == 8 | birth_outcome == 9 | birth_outcome == 10 | birth_outcome == 12  // survey ended 
+			replace M4_outcome = 9 if redcap_record_id == "1686-16"                                        // infant death (M3 birth_outcome = live birth singleton) but died at 50 days old 
+			replace M4_outcome = 7 if redcap_record_id == "1710-3" 										   // LTFU after M3, based on email from Tefera on July 25
+
+			* Label M4_outcome 
+			label define m4_outcome 1"LTFU after M1" 2 "LTFU after M2" 3 "LB singleton" 4 "LB twin" 5 "LB triplet" ///
+									6 "twin 1 neonatal death 1 alive" 7 "LTFU after M3" 8 "survey ended" 9 "infant death"
+			label values M4_outcome m4_outcome
+			tab M4_outcome, missing  
+			
+		* 6. Create M5 outcome
+			* Create m5_deathage_dys_baby1, m5_deathage_dys_baby2, m5_deathage_dys_baby3 to indicate newborn death age (days) for baby1 baby2 baby3    
+			gen m5_deathage_dys_baby1 = m5_baby1_death_date - m3_birth_or_ended 
+			gen m5_deathage_dys_baby2 = m5_baby2_death_date - m3_birth_or_ended 
+			gen m5_deathage_dys_baby3 = m5_baby3_death_date - m3_birth_or_ended 
+
+			* Create M5_outcome
+			gen M5_outcome =.
+			replace M5_outcome = 1 if M4_outcome == 1                                                                      // LTFU after M1
+			replace M5_outcome = 2 if M4_outcome == 2                                                                      // LTFU after M2
+			replace M5_outcome = 3 if M4_outcome == 7 & (m5_date ==. | m5_date ==.a)                                       // LTFU after M3
+			replace M5_outcome = 3 if M4_outcome == 7 & (redcap_record_id == "1710-3")                                     // LTFU after M3, based on email from Tefera on July 25
+			replace M5_outcome = 4 if (M4_outcome == 3 | M4_outcome == 4 | M4_outcome == 5) & (m5_date ==. | m5_date ==.a) // LTFU after M4 
+			replace M5_outcome = 5 if M4_outcome == 8 |  M4_outcome == 9                                                   // survey ended 
+			replace M5_outcome = 6 if m5_baby1_alive==1 & m5_baby2_alive==.a & m5_baby3_alive ==.a                         // live baby singleton
+			replace M5_outcome = 7 if m5_baby1_alive==1 & m5_baby2_alive== 1 & m5_baby3_alive ==.a                         // live babies twin 
+			replace M5_outcome = 8 if m5_baby1_alive==1 & m5_baby2_alive== 1 & m5_baby3_alive == 1                         // live babies triplet
+			replace M5_outcome = 9 if M4_outcome == 6 & (m5_baby1_alive==1 & m5_baby2_alive== 0 & m5_baby3_alive ==.a)     // twin set with 1 death and 1 alive 
+			replace M5_outcome = 9 if M4_outcome == 6 & (m5_baby1_alive==0 & m5_baby2_alive== 1 & m5_baby3_alive ==.a)     // twin set with 1 death and 1 alive 
+			replace M5_outcome = 10 if m5_baby1_alive==0 & (m5_deathage_dys_baby1 >=28 & m5_deathage_dys_baby1 !=.)        // infant death 
+			
+			* Label M5_outcome 
+			label define m5_outcome 1"LTFU after M1" 2 "LTFU after M2" 3 "LTFU after M3" 4 "LTFU after M4" 5 "survey ended" 6 "live baby singleton" ///
+									7 "live baby twin" 8 "live baby triplet" 9 "twin 1 neonatal death 1 alive" 10 "infant death"
+			label values M5_outcome m5_outcome
+			tab M5_outcome, missing 
+
+		* 7. Create M5_maternal_outcome 
+			gen M5_maternal_outcome = .  
+			replace M5_maternal_outcome = 1 if M5_outcome == 1 
+			replace M5_maternal_outcome = 2 if M5_outcome == 2 
+			replace M5_maternal_outcome = 3 if M5_outcome == 3 
+			replace M5_maternal_outcome = 4 if M5_outcome == 4 
+			replace M5_maternal_outcome = 5 if M5_outcome == 5 
+			replace M5_maternal_outcome = 7 if M5_outcome == 6 | M5_outcome == 7 | M5_outcome == 8 | M5_outcome == 9 | M5_outcome == 10    
+			replace M5_maternal_outcome = 6 if redcap_record_id == "1707-16" // based on email from Tefera on Oct 1, maternal death identified in M5  
+			replace M5_maternal_outcome = 6 if M3_maternal_outcome == 3 
+			
+			* Label M5_maternal_outcome 
+			label define m5_maternal_outcome 1"LTFU after M1" 2 "LTFU after M2" 3 "LTFU after M3" 4 "LTFU after M4" 5 "survey ended" 6 "Maternal death" 7 "Maternal alive"
+			label values M5_maternal_outcome m5_maternal_outcome  
+			tab M5_maternal_outcome, missing  	
 
 *------------------------------------------------------------------------------*	
 * Labelling new variables 
