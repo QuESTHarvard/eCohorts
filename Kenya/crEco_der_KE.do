@@ -257,7 +257,111 @@ u "$ke_data_final/eco_m1-m5_ke.dta", clear
 			gen bsl_low_BMI= 1 if bsl_BMI<18.5 
 			replace bsl_low_BMI = 0 if bsl_BMI>=18.5 & bsl_BMI<.
 
-					
+*------------------------------------------------------------------------------*	
+   * SECTION 14 : M3 M4 M5 birth outcome development
+ 
+		 * 1. Create new variables 
+			* create pregnancyend_ga to indicate GA at the end of pregnancy
+			gen time_between_m1_birth = (m3_birth_or_ended - m1_date)/7
+			gen pregnancyend_ga = gest_age_baseline_ke + time_between_m1_birth 
+			
+			* Create preterm birth to indicate birth before GA 37 
+			gen preterm_birth = 1 if pregnancyend_ga <37   
+			replace preterm_birth = 0 if pregnancyend_ga >=37 & pregnancyend_ga < .
+
+			* Create m3_deathage_dys_baby1, m3_deathage_dys_baby2 to indicate newborn death age (days) (m3_313a_baby1: death date for baby1, m3_313a_baby2: death date for baby2)
+			gen m3_deathage_dys_baby1 = m3_313a_baby1 - m3_birth_or_ended
+			gen m3_deathage_dys_baby2 = m3_313a_baby2 - m3_birth_or_ended 
+
+		* 3. Create birth outcome variable
+			gen birth_outcome = .
+			replace birth_outcome = 1 if m2_date_r1 ==. & m3_date ==.                                         // LTFU after M1 
+			replace birth_outcome = 2 if m2_date_r1 !=. & m3_date ==.                      					  // LTFU after M2 
+			replace birth_outcome = 3 if m3_303b==1 & m3_303c ==.a                         					  // live birth singletone  
+			replace birth_outcome = 4 if m3_303b==1 & m3_303c == 1                         					  // live birth twin 
+			replace birth_outcome = 6 if m3_miscarriage == 1 & pregnancyend_ga <13                            // early miscarraige (baby not born alive and GA < 13) 
+			replace birth_outcome = 7 if m3_miscarriage == 1 & (pregnancyend_ga <28 & pregnancyend_ga >=13)   // late miscarraige (baby not born alive and GA >= 13, and GA < 28) 
+			replace birth_outcome = 8 if m3_miscarriage == 1 & pregnancyend_ga >=28 & pregnancyend_ga <.      // stillbirth (baby not born alive and GA>=28)   
+			replace birth_outcome = 9 if m3_deathage_dys_baby1 <28                                			  // neonatal death  
+			replace birth_outcome = 10 if m3_deathage_dys_baby1 >=28 & m3_deathage_dys_baby1 !=.   			  // infant death
+			replace birth_outcome = 11 if (m3_303b==1 & m3_303c==0 ) & (m3_baby2_born_alive1 == 1 & m3_deathage_dys_baby2 < 28) // twin set (1 alive 1 neonatal death)
+			replace birth_outcome = 11 if (m3_303b==0 & m3_303c==1 ) & (m3_baby1_born_alive1 == 1 & m3_deathage_dys_baby1 < 28) // twin set (1 alive 1 neonatal death)
+			
+			* Mannually edited outcomes 
+			replace birth_outcome = 7 if respondentid == "1916081145"
+			replace birth_outcome = 8 if respondentid == "1527071556"
+			replace birth_outcome = 12 if respondentid == "21005071607"                                       // twin set (1 alive 1 stillbirth) baby1 in twin set not born alive and pregnancyend_ga = 34.3
+			replace birth_outcome = 13 if respondentid == "21624071541"                                       // twin both neonatal death   
+			
+			* Label birth outcome 		   
+			label define birth_outcome 1 "LTFU after M1" 2 "LTFU after M2" 3 "LB singleton" 4 "LB twin" 5 "LB triplet" 6 "early miscarriage" 7 "late miscarraige" 8 "stillbirth" /// 
+									   9 "neonatal death" 10 "infant death" 11 "twin 1 alive 1 neonatal death" 12 "twin 1 alive 1 stillbirth" 13 "twin both neonatal death"  
+			lab var birth_outcome "Birth outcome at M3"    
+			label values birth_outcome birth_outcome
+			tab birth_outcome, missing 
+
+		* 4. Create M3_maternal_outcome 
+			gen M3_maternal_outcome = .  
+			replace M3_maternal_outcome = 1 if birth_outcome == 1 
+			replace M3_maternal_outcome = 2 if birth_outcome == 2 
+			replace M3_maternal_outcome = 4 if birth_outcome == 3 | birth_outcome == 4 | birth_outcome == 5 | birth_outcome == 6 | birth_outcome == 7 | birth_outcome == 8 | ///
+											   birth_outcome == 9 | birth_outcome == 10 | birth_outcome == 11 | birth_outcome == 12 | birth_outcome == 13 
+			replace M3_maternal_outcome = 3 if respondentid == "1903071319" // based on email from Irene on Oct 1, maternal death happened in pregnancy follow up (M2)
+
+			* Label M3_maternal_outcome 
+			label define m3_maternal_outcome  1 "LTFU after M1" 2 "LTFU after M2" 3 "Maternal death" 4 "Maternal alive"
+			label values M3_maternal_outcome m3_maternal_outcome  
+			lab var M3_maternal_outcome "Maternal outcome at M3"
+			tab M3_maternal_outcome , missing  
+
+		* 5. Create M4 outcome variable 
+			* Create m4_deathage_dys_baby1 to indicate baby1's death age in days 
+			gen m4_deathage_dys_baby1 = m4_baby1_death_date - m3_birth_or_ended
+			
+			* Create M4 outcome 
+			gen M4_outcome =.
+			replace M4_outcome = 1 if birth_outcome == 1                                                                                                            // LTFU after M1
+			replace M4_outcome = 2 if birth_outcome == 2                         																			        // LTFU after M2
+			replace M4_outcome = 3 if (birth_outcome == 3 |birth_outcome == 4 | birth_outcome == 11) & (m4_date ==.& m4_baby1_status ==.)                           // LTFU after M3 
+			replace M4_outcome = 4 if birth_outcome == 6 | birth_outcome == 7 | birth_outcome == 8 | birth_outcome == 9 | birth_outcome == 10 | birth_outcome == 13 // survey ended 
+			replace M4_outcome = 5 if m4_baby1_status == 1 & m4_baby2_status == .                                                                                   // live birth singleton
+			replace M4_outcome = 6 if m4_baby1_status == 1 & m4_baby2_status == 1                                                                                   // live birth twin
+			replace M4_outcome = 8 if birth_outcome == 11 & (m4_baby1_status == 1 & (m4_baby2_status == .|m4_baby2_status == 0))                                    // twin set (1 alive 1 neonatal death)
+			replace M4_outcome = 9 if birth_outcome == 12 & (m4_baby1_status == 1 & (m4_baby2_status == .|m4_baby2_status == 0))                                    // twin set (1 alive 1 stillbirth)
+			replace M4_outcome = 11 if m4_baby1_status == 0 & (m4_deathage_dys_baby1 <28)                                                                           // neonatal death 
+			replace M4_outcome = 12 if m4_baby1_status == 0 & (m4_deathage_dys_baby1 >=28)                                                                          // infant death 
+
+			* Label M4_outcome 							
+			label define m4_outcome  1 "LTFU after M1" 2 "LTFU after M2" 3 "LTFU after M3" 4 "survey ended" 5 "LB singleton" 6 "LB twin" 7 "LB triplet" ///
+									 8 "twin 1 alive 1 neonatal death" 9 "twin 1 alive 1 stillbirth" 10 "twin both neonatal death"  11 "neonatal death" 12 "infant death" 
+			label values M4_outcome m4_outcome
+			lab var M4_outcome "Birth outcome at M4"
+			tab M4_outcome, missing
+				
+		* 6. Create M5 outcome
+			* Create m5_deathage_dys_baby1, m5_deathage_dys_baby2 to indicate newborn death age (days) for baby1 baby2    
+			gen m5_deathage_dys_baby1 = m5_baby1_death_date - m3_birth_or_ended 
+			gen m5_deathage_dys_baby2 = m5_baby2_death_date - m3_birth_or_ended 
+
+		   * Create M5_outcome
+			gen M5_outcome =.
+			replace M5_outcome = 1 if M4_outcome == 1                                                                     	   // LTFU after M1
+			replace M5_outcome = 2 if M4_outcome == 2                                                                          // LTFU after M2
+			replace M5_outcome = 3 if M4_outcome == 3                                                                          // LTFU after M3   	
+			replace M5_outcome = 4 if (M4_outcome == 5|M4_outcome == 6|M4_outcome == 8|M4_outcome ==9)&(m5_submissiondate ==.) // LTFU after M4	
+			replace M5_outcome = 5 if M4_outcome == 4 | M4_outcome == 11 | M4_outcome == 12                                    // survey ended     
+			replace M5_outcome = 6 if m5_baby1_alive==1 & m5_baby2_alive==.                                               	   // live baby singleton
+			replace M5_outcome = 7 if m5_baby1_alive==1 & m5_baby2_alive== 1                                              	   // live babies twin 
+			replace M5_outcome = 9 if M4_outcome == 8 & ((m5_baby1_alive== 1 & m5_baby2_alive==.)|(m5_baby1_alive== . & m5_baby2_alive== 1))  // twin set (1 alive 1 neonatal death) 
+			replace M5_outcome = 10 if M4_outcome == 9 & ((m5_baby1_alive== 1 & m5_baby2_alive==.)|(m5_baby1_alive== . & m5_baby2_alive== 1)) // twin set (1 alive 1 stillbirth)
+			replace M5_outcome = 12 if m5_baby1_alive==0 & (m5_deathage_dys_baby1 >=28 & m5_deathage_dys_baby1 !=.)            // infant death, id 21730061200 died at the age of 94 days   
+			
+			* Label M5_outcome 							
+			label define m5_outcome 1 "LTFU after M1" 2 "LTFU after M2" 3 "LTFU after M3" 4 "LTFU after M4" 5 "survey ended" 6 "LB singleton"  ///
+									7 "LB twin" 8 "LB triplet" 9 "twin 1 alive 1 neonatal death" 10  "twin 1 alive 1 stillbirth" 11 "twin both neonatal death" 12 "infant death" 							
+			label values M5_outcome m5_outcome
+			lab var M5_outcome "Birth outcome at M5"
+			tab M5_outcome, missing       
 			
 *------------------------------------------------------------------------------*	
 * Labelling new variables 
