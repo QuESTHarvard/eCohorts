@@ -257,6 +257,75 @@
 			replace low_BMI = 0 if BMI>=18.5 & BMI<.
 
 *------------------------------------------------------------------------------*	
+	* SECTION 14: M3 outcome development 		
+
+		* 1. Create new variables 
+			* Create pregnancyend_ga to indicate GA at the end of pregnancy
+			gen time_between_m1_birth = (m3_302 - m1_date)/7     // m3_302: the date of delivery or pregnancy end
+			gen pregnancyend_ga = m1_ga + time_between_m1_birth          
+			
+			* Create preterm birth to indicate birth before GA 37
+			gen preterm_birth = 1 if pregnancyend_ga <37 
+			replace preterm_birth = 0 if pregnancyend_ga >=37 & pregnancyend_ga <.
+
+			* Create m3_deathage_dys_baby1, m3_deathage_dys_baby2, m3_deathage_dys_baby3 to indicate newborn death age (days). m3_313a_b1, m3_313a_b2, m3_313a_b3: death dates for baby1 baby2 baby3
+			gen m3_deathage_dys_baby1 = m3_313a_b1 - m3_302 if m3_312_b1 ==1 
+			gen m3_deathage_dys_baby2 = m3_313a_b2 - m3_302 if m3_312_b2 ==1 
+
+		* 2. Create birth outcome variable
+			* m3_303_b1 m3_303_b2 still alive; m3_312_b1 m3_312_b2 born alive 
+			gen birth_outcome = .
+			replace birth_outcome = 1 if m2_date_r1 ==. & (m3_date ==.a | m3_date ==.)                             		// LTFU after M1 
+			replace birth_outcome = 2 if m2_date_r1 !=. & (m3_date ==.a | m3_date ==.)                      			// LTFU after M2, these m3_date for these two id (1690-45, 1707-30) should be .1 not . 
+			replace birth_outcome = 3 if (m3_303_b1==1 & m3_303_b2==.a )                                            	// live birth singletone  
+			replace birth_outcome = 4 if (m3_303_b1==1 & m3_303_b2==1  )                                            	// live birth twin  
+			replace birth_outcome = 6 if m3_312_b1==0 & pregnancyend_ga <13                             				// early miscarraige       
+			replace birth_outcome = 7 if m3_312_b1==0 & (pregnancyend_ga <28 & pregnancyend_ga >=13)                	// late miscarraige 
+			replace birth_outcome = 8 if m3_312_b1==0 & (pregnancyend_ga >= 28 & pregnancyend_ga <.)                	// stillbirth
+			replace birth_outcome = 6 if m3_202==3 & pregnancyend_ga <13                             			    	// early miscarraige (m3_202==3, something happened)      
+			replace birth_outcome = 7 if m3_202==3 & (pregnancyend_ga <28 & pregnancyend_ga >=13)                   	// late miscarraige (m3_202==3, something happened)  
+			replace birth_outcome = 8 if m3_202==3 & (pregnancyend_ga >= 28 & pregnancyend_ga <.)                   	// stillbirth (m3_202==3, something happened)  
+			replace birth_outcome = 9 if m3_deathage_dys_baby1 <28                                                  	// neonatal death  
+			replace birth_outcome = 10 if m3_deathage_dys_baby1 >=28 & m3_deathage_dys_baby1 !=.                     	// infant death
+			replace birth_outcome = 11 if (m3_303_b1==1 & m3_303_b2==0) & (m3_312_b2 == 1 & m3_deathage_dys_baby2 < 28) // twin set (1 alive 1 neonatal death)
+			replace birth_outcome = 11 if (m3_303_b1==0 & m3_303_b2==1) & (m3_312_b1 == 1 & m3_deathage_dys_baby1 < 28) // twin set (1 alive 1 neonatal death) 
+			replace birth_outcome = 12 if m3_303_b1==1 & m3_303_b2==0 & m3_312_b2 ==0                                   // twin set (1 alive 1 stillbirth)   
+			
+			* manually edited outcome (N=22: pregnancy end date unavaiable, so pregnancy end ga unavailable, N=15: can only use m2 ga to detemrmined. N=7 cannot determine)
+			replace birth_outcome = 6 if (respondentid == "202311201039030209" | respondentid == "202312091319030616" | respondentid == "202312131146030109" | respondentid == "202311181134030509" | respondentid == "202311091213031296" | ///
+										  respondentid == "202311211319030396" | respondentid == "202312131233031106" | respondentid == "202311091209031106" | respondentid == "202311151402030504" | respondentid == "202312221123030504" | ///
+										  respondentid == "202312081222030515")  & (m2_202_r1 == 3) & ((((m2_date_r1 - m1_date)/7) + m1_ga) <13)                                          // something happened in M2 round 1, and round 1 ga < 13  
+			replace birth_outcome = 7 if (respondentid == "202311201039030209" | respondentid == "202312091319030616" | respondentid == "202312131146030109" | respondentid == "202311181134030509" | respondentid == "202311091213031296" | ///
+										  respondentid == "202311211319030396" | respondentid == "202312131233031106" | respondentid == "202311091209031106" | respondentid == "202311151402030504" | respondentid == "202312221123030504" | ///
+										  respondentid == "202312081222030515")  & (m2_202_r1 == 3) & ((((m2_date_r1 - m1_date)/7) + m1_ga)>=13 &(((m2_date_r1 - m1_date)/7) + m1_ga)<28) // something happened in M2 round 1, and round 1 ga>= 13 & <28 
+			replace birth_outcome = 7 if respondentid == "202311061043030506" & (m2_202_r2 == 3) & ((((m2_date_r2 - m1_date)/7) + m1_ga)>=13 &(((m2_date_r2 - m1_date)/7) + m1_ga) <28)   // something happened in M2 round 2, and round 2 ga>= 13 & <28 
+			replace birth_outcome = 7 if respondentid == "202312151053013512" & (m2_202_r4 == 3) & ((((m2_date_r4 - m1_date)/7) + m1_ga)>=13 &(((m2_date_r4 - m1_date)/7) + m1_ga) <28)   // something happened in M2 round 4, and round 4 ga>= 13 & <28 
+			replace birth_outcome = 8 if (respondentid == "202311231230022012" | respondentid == "202312061131030596") & (m2_202_r5 == 3) & ((((m2_date_r5 - m1_date)/7) + m1_ga) >=28)   // something happened in M2 round 5, and round 5 ga>=28 
+			
+			* Label birth_outcome 		   
+			label define birth_outcome  1 "LTFU after M1" 2 "LTFU after M2" 3 "LB singleton" 4 "LB twin" 5 "LB triplet" 6 "early miscarriage" 7 "late miscarraige" 8 "stillbirth" /// 
+										9 "neonatal death" 10 "infant death" 11 "twin 1 alive 1 neonatal death" 12 "twin 1 alive 1 stillbirth" 13 "twin both neonatal death"  			   							   
+			label values birth_outcome birth_outcome
+			lab var birth_outcome "Birth outcome at M3"
+			tab birth_outcome, missing // 7 missingness now 
+
+		* 3. Create M3_maternal_outcome 
+			gen M3_maternal_outcome = .  
+			replace M3_maternal_outcome = 1 if birth_outcome == 1 
+			replace M3_maternal_outcome = 2 if birth_outcome == 2 
+			replace M3_maternal_outcome = 4 if birth_outcome == 3 | birth_outcome == 4 | birth_outcome == 5 | birth_outcome == 6 | birth_outcome == 7 | birth_outcome == 8 | ///
+											   birth_outcome == 9 | birth_outcome == 10 | birth_outcome == 11 |  birth_outcome == 12 | birth_outcome == 13     
+			replace M3_maternal_outcome = 3 if (m2_maternal_death_reported_r1==1 | m2_maternal_death_reported_r2==1 | m2_maternal_death_reported_r3==1 | m2_maternal_death_reported_r4==1 | m2_maternal_death_reported_r5==1 | ///
+												m2_maternal_death_reported_r6==1 | m2_maternal_death_reported_r7==1 | m2_maternal_death_reported_r8==1 | m2_maternal_death_reported_r9==1 | m2_maternal_death_reported_r10==1 ) 
+
+			*Label M3_maternal_outcome 
+			label define m3_maternal_outcome  1 "LTFU after M1" 2 "LTFU after M2" 3 "Maternal death" 4 "Maternal alive"
+			label values M3_maternal_outcome m3_maternal_outcome  
+			lab var M3_maternal_outcome "Maternal outcome at M3"
+			tab M3_maternal_outcome, missing   
+
+
+*------------------------------------------------------------------------------*	
 	* Labeling variables (by Wen-Chien on April 19)
 			lab var anc1bp "BP measured at 1st ANC visit"
 			lab var anc1weight "Weight measured at 1st ANC visit"
