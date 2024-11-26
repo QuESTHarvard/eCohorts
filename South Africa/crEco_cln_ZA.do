@@ -3464,7 +3464,7 @@ recode m3_303c m3_303d m3_baby2_gender m3_baby3_gender m3_baby2_size ///
 foreach v in m3_birth_or_ended  m3_506a m3_date {
 	recode `v' (13880 = .d) // double check this for all dates
 	*recode m3_506a (12784 = .a) // jan 01 1995 = .a?
-	recode (14245 = .r) // jan 01 1999 = .r
+	recode `v' (14245 = .r) // jan 01 1999 = .r
 }
 
 *------------------------------------------------------------------------------*
@@ -4582,10 +4582,239 @@ order m3_death_cause_baby1 m3_death_cause_baby1_other m3_death_cause_baby2 m3_de
 
 
 *==============================================================================*
+* MODULE 5:		
+ 
+
+
+
+*==============================================================================*
+
+* MODULE Road to Health card:		
+ import excel "$za_data/Module 5/RTHC_20Nov2024.xlsx", sheet("-Endline---RTHC-v0-2024111-868") firstrow clear
+															
+foreach v of varlist * {
+	char `v'[Original_ZA_Varname] `v'
+	char `v'[Module] mcard
+}
+
+
+foreach v of varlist RESPONSE_* {
+	local name =subinstr("`v'","RESPONSE_","",.)
+	label var `v' `=subinstr("`name'","_"," ",.)'
+}
+
+rename RESPONSE_QuestionnaireID mcard_questionnaire_id
+rename RESPONSE_QuestionnaireName mcard_questionnaire
+rename RESPONSE_QuestionnaireVersion mcard_version
+rename RESPONSE_FieldWorkerID mcard_fieldworker_id
+rename RESPONSE_FieldWorker mcard_fieldworker_name
+rename RESPONSE_StartTime mcard_starttime
+rename RESPONSE_Location mcard_location
+rename RESPONSE_Lattitude mcard_latitude
+rename RESPONSE_Longitude mcard_longitude
+rename RESPONSE_StudyNoPrefix mcard_study_number_prefix
+rename RESPONSE_StudyNo mcard_study_number
+rename ResponseID mcard_response_id
+rename RESPONSE_Checked mcard_checked
+
+gen date_y = substr(mcard_starttime,1,4)
+gen date_m = substr(mcard_starttime,6,2)
+gen date_d = substr(mcard_starttime,9,2) 
+destring date_*, replace
+gen mcard_date = mdy(date_m, date_d,date_y)
+format %tdCCYYmonDD mcard_date
+
+drop date_*
+char mcard_date[Module] mcard
+char mcard_date[Original_ZA_Varname]  RESPONSE_StartTime
+label var mcard_date "RTCH date"
+
+rename CRHID mcard_respondentid 
+label var mcard_respondentid "Respondent ID"
+replace mcard_respondentid = trim(mcard_respondentid)
+replace mcard_respondentid = subinstr(mcard_respondentid," ","",.)
+replace mcard_respondentid = upper(mcard_respondentid)	
+
+
+rename RTHC_1_Interviewer_id  mcard_interviewer_id
+label var mcard_interviewer_id "Interviewer ID"
+
+rename RTHC_1_Subdistrict mcard_subdistrict
+label var mcard_subdistrict "Sub District Name"
+
+rename RTHC_1_Clinic mcard_clinic
+label var mcard_clinic "Clinic Name"
+
+rename RTHC_1_Twins mcard_num_babies
+label var mcard_num_babies "Number of babies delivered"
+
+rename RTHC_6_Name_B1 mcard_name 
+
+rename RTHC_7_Name_B_age mcard_age 
+
+rename RTHC_8_Name_B_Sex mcard_sex
+replace mcard_sex = "" if !inlist(mcard_sex,"1","2","3","99")
+destring mcard_sex, replace
+label define mcard_sex 1 "Male" 2 "Female" 3 "Indeterminate" 99 "No response/Refused to answer", replace
+label value mcard_sex mcard_sex
+
+rename RTHC_2_Weight_1 mcard_weight 
+rename RTHC_2_Length_2 mcard_length
+rename RTHC_2_H_Circ_3 mcard_head_circumference
+rename RTHC_2_Apgar1_4 mcard_Apgar_score_1
+rename RTHC_2_Apgar2_5 mcard_Apgar_score_2
+
+rename RTHC_3_PMTCT_1 mcard_pmtct_1
+label define mcard_yesno 1 "Yes" 0 "No", replace
+label value mcard_pmtct_1 mcard_yesno
+
+rename RTHC_3_PMTCT_2 mcard_pmtct_2
+label define pmtc2 1 "Neviralpine syrup" 2 "AZT syrup" 3 "Both to PMCT", replace
+label value  mcard_pmtct_2 pmtc2
+recode mcard_pmtct_2 (. = .a) if mcard_pmtct_1 != 1
+recode mcard_pmtct_2 (9999998 = .a) if mcard_pmtct_1 != 1
+
+rename RTHC_3_PMTCT_3 mcard_pmtct_3
+label value mcard_pmtct_3 mcard_yesno
+
+rename RTHC_3_PMTCT_4 mcard_pmtct_4
+label define pcr 0 "Non-reactive" 1 "Reactive", replace
+label value mcard_pmtct_4 pcr 
+
+rename RTHC_3_PMTCT_5 mcard_pmtct_5
+label value mcard_pmtct_5  mcard_yesno
+
+rename RTHC_3_PMTCT_6 mcard_pmtct_6
+label value mcard_pmtct_6 pcr
+
+rename RTHC_3_PMTCT_7 mcard_pmtct_7
+label value mcard_pmtct_7 mcard_yesno
+
+rename RTHC_3_PMTCT_8 mcard_pmtct_8
+
+recode mcard_pmtct_4 mcard_pmtct_5 mcard_pmtct_6 mcard_pmtct_7 mcard_pmtct_8 (. = .a) if !inlist(mcard_pmtct_3,1,98)
+recode mcard_pmtct_4 mcard_pmtct_5 mcard_pmtct_6 mcard_pmtct_7 mcard_pmtct_8 (9999998 = .a) if !inlist(mcard_pmtct_3,1,98)
+
+recode mcard_pmtct_8 (9978082 = .a) if !inlist(mcard_pmtct_3,1,98)
+
+recode  mcard_pmtct_6 mcard_pmtct_7 mcard_pmtct_8 (. = .a) if inlist(mcard_pmtct_5,0,98)
+recode  mcard_pmtct_6 mcard_pmtct_7 mcard_pmtct_8 (9999998 = .a) if inlist(mcard_pmtct_5,0,98)
+recode mcard_pmtct_8 (9978082 = .a) if inlist(mcard_pmtct_5,0,98)
+
+recode  mcard_pmtct_7 mcard_pmtct_8 (. = .a) if inlist(mcard_pmtct_6,0,98)
+recode  mcard_pmtct_7 mcard_pmtct_8 (9999998 = .a) if inlist(mcard_pmtct_6,0,98)
+recode mcard_pmtct_8 (9978082 = .a) if inlist(mcard_pmtct_6,0,98)
+
+recode  mcard_pmtct_8 (. = .a) if inlist(mcard_pmtct_7,0,98)
+recode  mcard_pmtct_8 (9978082 = .a) if inlist(mcard_pmtct_7,0,98)
+
+
+* Replace all 98's to be .d (Don't know)
+recode mcard_weight mcard_length mcard_head_circumference mcard_Apgar_score_1 mcard_Apgar_score_2 mcard_pmtct_1 mcard_pmtct_2 mcard_pmtct_3 mcard_pmtct_4 mcard_pmtct_5 mcard_pmtct_6 mcard_pmtct_7 mcard_pmtct_8 (98 = .d) 
+
+
+drop if mcard_respondentid == "RCH_017"
+assert !missing(mcard_sex)
+
+assert mcard_Apgar_score_1 >=1 & mcard_Apgar_score_1 <= 10 if !missing(mcard_Apgar_score_1)
+assert mcard_Apgar_score_2 >=1 & mcard_Apgar_score_2 <= 10 if !missing(mcard_Apgar_score_2)
+
+
+* StudyNumber is the same as RESPONSE_StudyNo, so we can drop it
+assert mcard_study_number == StudyNumber
+drop StudyNumber 
+
+* These variables are not necessary 
+drop mcard_questionnaire_id mcard_questionnaire mcard_version mcard_study_number_prefix mcard_study_number mcard_starttime mcard_latitude mcard_longitude mcard_location mcard_response_id mcard_clinic mcard_inter
+
+
+* We only want to keep those that have a respondentid
+
+clonevar respondentid = mcard_respondentid
+drop if missing(mcard_respondentid)
+
+* Per other clean up 
+replace respondentid = "MND-012" if respondentid == "MND_012"
+
+
+* Lets resphape so there is 1 row per respondent
+bysort respondentid: gen n = _n
+tostring n, replace
+replace n = "_b" + n 
+
+bysort respondentid: gen num_times_in_mcard = _N
+
+drop if n == "_b2" & respondentid == "QEE_029"
+
+reshape wide mcard_name mcard_age mcard_sex mcard_weight mcard_length mcard_head_circumference mcard_Apgar_score_1 mcard_Apgar_score_2 mcard_pmtct_1 mcard_pmtct_2 mcard_pmtct_3 mcard_pmtct_4 mcard_pmtct_5 mcard_pmtct_6 mcard_pmtct_7 mcard_pmtct_8, i(respondentid) j(n) string
+
+
+forvalues i = 1/2 {
+	label var mcard_name_b`i' "Baby `i': Name"
+	label var mcard_age_b`i' "Baby `i': Age (in weeks)"
+	label var mcard_sex_b`i' "Baby `i': Sex"
+	label var mcard_weight_b`i' "Baby `i': Weight (kilograms)"
+	label var mcard_length_b`i' "Baby `i': Length (cm)"
+	label var mcard_head_circumference_b`i' "Baby `i': Head circumference (cm)"
+	label var mcard_Apgar_score_1_b`i' "Baby `i': 1st Apgar score (Out of 10)"
+	label var mcard_Apgar_score_2_b`i' "Baby `i': 2nd Apgar score (Out of 10)"
+	label var mcard_pmtct_1_b`i' "Baby `i': Is the baby RVD-exposed"
+	label var mcard_pmtct_2_b`i' "Baby `i': If RVD exposed, did the baby received:"
+	label var mcard_pmtct_3_b`i' "Baby `i': Was a birth PCR done?"
+	label var mcard_pmtct_4_b`i' "Baby `i': What was the result of the PCR?"
+	label var mcard_pmtct_5_b`i' "Baby `i': If birth PCR non-reactive, was a repeat PCR test done at 10 weeks?"
+	label var mcard_pmtct_6_b`i' "Baby `i': What was the result of the PCR at 10 weeks?"
+	label var mcard_pmtct_7_b`i' "Baby `i': If reactive, has the child been commenced on Triple ARV therapy?"
+	label var mcard_pmtct_8_b`i' "Baby `i': Date when child commenced on Triple ARV therapy?"
+
+}
+
+
+save  "$za_data_final\RTHC", replace
+
+use "$za_data_final/eco_m1-m3_za.dta", clear
+merge 1:1 respondentid using "$za_data_final\RTHC"
+
+/*respondentids without a match
+QEE_109 //Not eligible
+UUT_014 // not eligible
+*/
+
+drop if _merge == 2
+rename _merge merge_rthc_main_data
+label define rthc 3 "RTHC and M1" 1 "M1-M3 only", replace
+label value merge_rthc_main_data rtch
+label var merge_rthc_main_data "Merge status from RTHC to Main dataset"
+
+
+* Confirm that the number of times in the mcard dataset aligns with the number of babies in other modules
+assertlist num_times_in_mcard == m3_303a if !missing(num_times_in_mcard), list(respondentid num_times_in_mcard m3_303a m3_303b m3_303c)
+
+* Confirm that mcard date is after m1 date if both populated
+assertlist mcard_date > m1_date if !missing(mcard_date) & !missing(m1_date), list(respondentid m1_date mcard_date)
+
+* Confirm that mcard date is after each m2 date if both populated
+forvalues i = 1/6 {
+	assertlist mcard_date > m2_date_r`i' if !missing(mcard_date) & !missing(m2_date_r`i'), list(respondentid m2_date_r`i' mcard_date)
+	
+	assertlist missing(mcard_date) if m2_maternal_death_reported_r`i' == 1, list(respondentid mcard_date m2_maternal_death_reported_r`i')
+}
+
+* Check the dates in M3
+assertlist mcard_date > m3_date if !missing(mcard_date) & !missing(m3_date), list(respondentid mcard_date m3_date)
+
+assertlist mcard_date > m3_birth_or_ended if !missing(mcard_date) & !missing(m3_birth_or_ended), list(respondentid mcard_date m3_birth_or_ended)
+
+* Confirm that the mcard_date is after mcard_pmtct_8_b1
+assertlist mcard_date > mcard_pmtct_8_b1 if !missing(mcard_pmtct_8_b1), list(respondentid mcard_date mcard_pmtct_8_b1)
+
+drop num_times_in_mcard merge_rthc_main_data
+
+*==============================================================================*
+
 
 	* Run the derived variables code
 	do "${github}\South Africa\crEco_der_ZA.do"
-	save "$za_data_final/eco_m1-m3_za_der.dta", replace
 
 	* Save the completed dataset	
 	save "$za_data_final/eco_ZA_Complete.dta", replace

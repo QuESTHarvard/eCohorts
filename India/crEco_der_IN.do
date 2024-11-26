@@ -13,6 +13,7 @@
 *				version
 * Date 			number 	Name			What Changed
 * 2024-09-17	1.01	MK Trimner		Commented out the file to use and saving command so that it can be called by the latest module
+* 2024-11-13	1.02	MK Trimner		Added code to add the appropriate modules for codebook purposes
 ********************************************************************************/
 
 *u "$in_data_final/eco_m1_in.dta", clear
@@ -24,8 +25,15 @@
 	recode facility (8 9 10 = 1 "JRP")(1 2 3 4 5 6 24=2 "JUP")(11 12=3 "JUS")(14 15 23=4 "JRS") ///
 	(20 38 39 =5 "SUS")(26=6 "SRS")(25 27 28 29 30 31 32 33 18 34=7 "SRP")(35 36 37 = 8 "SUP"), g (facility_type)
  
+	char facility_type[Module] `facility[Module]'
+	char facility_type[Original_IN_Varname] `facility[Original_IN_Varname]'
+
 	recode facility_type (1 4=1 "Rural_Jodhpur") (2 3=2 "Urban_Jodhpur") (6 7=3 "Sonipath_Rural") ///
 	(8 5=4 "Sonipath_Urban"), gen (residence)
+	
+	char residence[Module] `facility_type[Module]'
+	char residence[Original_IN_Varname] `facility_type[Original_IN_Varname]'
+
 		
 	order facility_type, after(facility)
 	
@@ -33,11 +41,20 @@
 	lab def urban 1"urban" 0"rural" 
 	lab val urban urban
 	
+	char urban[Module] `facility_type[Module]'
+	char urban[Original_IN_Varname] `facility_type[Original_IN_Varname]'
+
+	
 	recode facility_type (1/2 7/8=1) (3/6=2), g(facility_lvl)
 	lab def facility_lvl 1"Primary" 2"Secondary"
 	lab val facility_lvl facility_lvl 
 	
+	char facility_lvl[Module] `facility_type[Module]'
+	char facility_lvl[Original_IN_Varname] `facility_type[Original_IN_Varname]'
+
 	recode study_site (2=1 "Sonipat") (3=2 "Jodhpur"), g(state)
+	char state[Module] `study_site[Module]'
+	char state[Original_IN_Varname] `study_site[Original_IN_Varname]'
 
 *------------------------------------------------------------------------------*	
 	* SECTION 2: HEALTH PROFILE
@@ -46,9 +63,17 @@
 			label define phq9_cat 1 "none-minimal 0-4" 2 "mild 5-9" 3 "moderate 10-14" ///
 			                        4 "moderately severe 15-19" 5 "severe 20+" 
 			label values phq9_cat phq9_cat
+			
+			char phq9_cat[Module] 1
+			foreach v of varlist phq9* {
+				char phq9_cat[Original_IN_Varname] `phq9_cat[Original_IN_Varname]' & ``v'[Original_IN_Varname]'
+			}
 
 			egen phq2_cat= rowtotal(phq9a phq9b)
 			recode phq2_cat (0/2=0) (3/6=1)	
+			char phq2_cat[Module] 1
+			char phq2_cat[Original_IN_Varname] `phq9a[Original_IN_Varname]' & `phq9b[Original_IN_Varname]'
+
 			
 *------------------------------------------------------------------------------*	
 	* SECTION 3: CONFIDENCE AND TRUST HEALTH SYSTEM
@@ -62,75 +87,179 @@
 							 4 "Higher education"	 
 			lab val educ_cat educ_cat
 			
+			char educ_cat[Module] `m1_503[Module]'
+			char educ_cat[Original_IN_Varname]  `m1_503[Original_IN_Varname]' (Set to 1 if `m1_502[Original_IN_Varname]' is 0 )
+
+			
 			recode m1_505 (1/4=0) (5/6=1), gen(marriedp) 
+			char marriedp[Module] `m1_505[Module]'
+			char marriedp[Original_IN_Varname]  `m1_505[Original_IN_Varname]'
 			
 			recode m1_509b 0=1 1=0, g(mosquito)
+			char mosquito[Original_IN_Varname] `m1_509b[Original_IN_Varname]'
+
 			recode m1_510b 0=1 1=0, g(tbherb)
+			char tbherb[Original_IN_Varname] `m1_510b[Original_IN_Varname]'
+
 			recode m1_511 1=0 2=1 3/4=0, g(drink)
+			char drink[Original_IN_Varname] `m1_511[Original_IN_Varname]'
+
 			recode m1_512 1=0 2=1 3=0, g(smoke)
+			char smoke[Original_IN_Varname] `m1_512[Original_IN_Varname]'
+
 			
 			egen m1_health_literacy=rowtotal(m1_509a mosquito m1_510a tbherb drink smoke), m
 			recode m1_health_literacy 0/3=1 4=2 5=3 6=4
 			lab def health_lit 1"Poor" 2"Fair" 3"Good" 4"Very good"
 			lab val m1_health_lit health_lit
+			
+			char m1_health_literacy[Module] 1
+			char m1_health_literacy[Original_IN_Varname] Total of `m1_509a[Original_IN_Varname]' + `mosquito[Original_IN_Varname]' + `m1_510a[Original_IN_Varname]' + `tbherb[Original_IN_Varname]' + `drink[Original_IN_Varname]' + `smoke[Original_IN_Varname]'
+
+			foreach v in marriedp mosquito tbherb drink smoke {
+				char `v'[Module] 1
+			}
 
 *------------------------------------------------------------------------------*	
 	* SECTION 6: USER EXPERIENCE
+			local vlist
 			foreach v in m1_601 m1_605a m1_605b m1_605c m1_605d m1_605e m1_605f ///
 			             m1_605g m1_605h {
 				recode `v' (2=1) (3/5=0), gen(vg`v')
+				char vg`v'[Module] 1
+				
+				char vg`v'[Original_IN_Varname] ``v'[Original_IN_Varname]'
+				local vlist `vlist' & ``v'[Original_IN_Varname]'
 			}
-			egen anc1ux=rowmean(vgm1_605a-vgm1_605h) // this is different than ETH!
 			
+			egen anc1ux=rowmean(vgm1_605a-vgm1_605h) // this is different than ETH!
+			char anc1ux[Module] 1
+			char anc1ux[Original_IN_Varname] Mean of `vlist'
+
 *------------------------------------------------------------------------------*	
 	* SECTION 7: VISIT TODAY: CONTENT OF CARE
 	
 			* Technical quality of first ANC visit
 			gen anc1bp = m1_700 
+			char anc1bp[Original_IN_Varname] `m1_700[Original_IN_Varname]'
+
 			gen anc1weight = m1_701 
+			char anc1weight[Original_IN_Varname] `m1_701[Original_IN_Varname]'
+
 			gen anc1height = m1_702
+			char anc1height[Original_IN_Varname] `m1_702[Original_IN_Varname]'
+		
 			egen anc1bmi = rowtotal(m1_701 m1_702)
+			char anc1bmi[Original_IN_Varname] `m1_701[Original_IN_Varname]' + `m1_702[Original_IN_Varname]' (Set to 0 if total = 1, Set to 1 if total = 2)
 			recode anc1bmi (1=0) (2=1)
+			
 			gen anc1muac = m1_703
+			char anc1muac[Original_IN_Varname] `m1_703[Original_IN_Varname]'
+		
 			gen anc1fetal_hr = m1_704
+			char anc1fetal_hr[Original_IN_Varname] `m1_704[Original_IN_Varname]' (Set to missing if `m1_804[Original_IN_Varname]' is 1 or missing because it only applies in the 2nd or 3rd trimester)			
 			recode anc1fetal_hr  (2=.) 
 			replace anc1fetal_hr=. if m1_804==1 | m1_804==. // only applies to those in 2nd or 3rd trimester
+			
 			gen anc1urine = m1_705
+			char anc1urine[Original_IN_Varname] `m1_705[Original_IN_Varname]'
+
 			egen anc1blood = rowmax(m1_706 m1_707) // finger prick or blood draw
+			char anc1blood[Original_IN_Varname] Max of `m1_706[Original_IN_Varname]' & `m1_707[Original_IN_Varname]'
+
 			gen anc1hiv_test =  m1_708a
+			char anc1hiv_test[Original_IN_Varname] `m1_708a[Original_IN_Varname]'
+
 			gen anc1syphilis_test = m1_710a
+			char anc1syphilis_test[Original_IN_Varname] `m1_710a[Original_IN_Varname]'
+
 			gen anc1blood_sugar_test = m1_711a
+			char anc1blood_sugar_test[Original_IN_Varname] `m1_711a[Original_IN_Varname]'
+
 			gen anc1ultrasound = m1_712
+			char anc1ultrasound[Original_IN_Varname] `m1_712[Original_IN_Varname]'
+
 
 			gen anc1ifa =  m1_713a
+			char anc1ifa[Original_IN_Varname] `m1_713a[Original_IN_Varname]'
 			recode anc1ifa (2=1) (3=0)
+			
 			gen anc1tt = m1_714a
+			char anc1tt[Original_IN_Varname] `m1_714a[Original_IN_Varname]'
+	
 			gen anc1calcium = m1_713b
+			char anc1calcium[Original_IN_Varname] `m1_713b[Original_IN_Varname]'
 			recode anc1calcium (2=1) (3=0)
+
 			gen anc1deworm= m1_713d
+			char anc1deworm[Original_IN_Varname] `m1_713d[Original_IN_Varname]' (Set to missing if `m1_804[Original_IN_Varname]' is 1)
 			recode anc1deworm (2=1) (3=0) 
 			replace anc1deworm =. if m1_804 ==1
+			
 			recode m1_715 (2=1), gen(anc1itn)
+			char anc1itn[Original_IN_Varname] `m1_715[Original_IN_Varname]'
+
 			gen anc1depression = m1_716c
+			char anc1depression[Original_IN_Varname] `m1_716c[Original_IN_Varname]'
+
 			gen anc1malaria_proph =  m1_713e
+			char anc1malaria_proph[Original_IN_Varname] `m1_713e[Original_IN_Varname]'
 			recode anc1malaria_proph (2=1) (3=0)
+			
 			gen anc1edd =  m1_801
+			char anc1edd[Original_IN_Varname] `m1_801[Original_IN_Varname]'
+
 			egen anc1tq = rowmean(anc1bp anc1weight anc1urine anc1blood anc1ultrasound anc1ifa anc1tt anc1calcium anc1deworm ) // 9 items 
+			char anc1tq[Original_IN_Varname] Mean of `anc1bp[Original_IN_Varname]' ///
+									& `anc1weight[Original_IN_Varname]' ///
+									& `anc1urine[Original_IN_Varname]' ///
+									& `anc1blood[Original_IN_Varname]'  ///
+									& `anc1ultrasound[Original_IN_Varname]'  ///
+									& `anc1ifa[Original_IN_Varname]'  ///
+									& `anc1tt[Original_IN_Varname]'  ///
+									& `anc1calcium[Original_IN_Varname]'  ///
+									& `anc1deworm[Original_IN_Varname]'  
+
 			
 			* Counselling at first ANC visit
 			gen counsel_nutri =  m1_716a  
+			char counsel_nutri[Original_IN_Varname] `m1_716a[Original_IN_Varname]'
+
 			gen counsel_exer=  m1_716b
+			char counsel_exer[Original_IN_Varname] `m1_716b[Original_IN_Varname]'
+
 			gen counsel_complic =  m1_716e
+			char counsel_complic[Original_IN_Varname] `m1_716e[Original_IN_Varname]'
+
 			gen counsel_comeback = m1_724a
+			char counsel_comeback[Original_IN_Varname] `m1_724a[Original_IN_Varname]'
+
 			gen counsel_birthplan =  m1_809
+			char counsel_birthplan[Original_IN_Varname] `m1_809[Original_IN_Varname]'
+
 			egen anc1counsel = rowmean(counsel_nutri counsel_complic ///
 								counsel_comeback counsel_birthplan)
+			
+			char anc1counsel[Original_IN_Varname] Mean of `counsel_nutri[Original_IN_Varname]' ///
+													/// //& `counsel_exer[Original_IN_Varname]' ///
+													& `counsel_complic[Original_IN_Varname]' ///
+													& `counsel_comeback[Original_IN_Varname]' ///
+													& `counsel_birthplan[Original_IN_Varname]'
+
 										
 			* Q713 Other treatments/medicine at first ANC visit 
 			gen anc1food_supp = m1_713c
+			char anc1food_supp[Original_IN_Varname] `m1_713c[Original_IN_Varname]'
+
 			gen anc1mental_health_drug = m1_713f
+			char anc1mental_health_drug[Original_IN_Varname] `m1_713f[Original_IN_Varname]'
+
 			gen anc1hypertension = m1_713h
+			char anc1hypertension[Original_IN_Varname] `m1_713h[Original_IN_Varname]'
+
 			gen anc1diabetes = m1_713i
+			char anc1diabetes[Original_IN_Varname] `m1_713i[Original_IN_Varname]'
+
 			foreach v in anc1food_supp anc1mental_health_drug anc1hypertension ///
 						 anc1diabetes {
 			recode `v' (3=0) (2=1)
@@ -138,20 +267,43 @@
 			
 			* Instructions and advanced care
 			egen specialist_hosp= rowmax(m1_724e m1_724c) 
+			char specialist_hosp[Original_IN_Varname] Max of `m1_724e[Original_IN_Varname]' & `m1_724c[Original_IN_Varname]'
+			
+			foreach v in anc1bp anc1weight anc1height anc1bmi anc1muac anc1fetal_hr anc1urine anc1blood anc1hiv_test anc1hiv_test anc1syphilis_test anc1blood_sugar_test anc1ultrasound anc1ifa anc1tt anc1tt anc1calcium anc1deworm anc1itn anc1depression anc1malaria_proph anc1edd anc1edd anc1tq counsel_nutri counsel_exer counsel_complic counsel_comeback counsel_birthplan anc1counsel anc1food_supp anc1mental_health_drug anc1hypertension anc1diabetes specialist_hosp {
+				char `v'[Module] 1
+			}
+
 			
 *------------------------------------------------------------------------------*	
 	* SECTION 8: CURRENT PREGNANCY
 			egen m1_dangersigns = rowmax(m1_814a m1_814b m1_814c m1_814d m1_814f m1_814g)
+			char m1_dangersigns[Original_IN_Varname] Max of `m1_814a[Original_IN_Varname]' ///
+													& `m1_814b[Original_IN_Varname]' ///
+													& `m1_814c[Original_IN_Varname]' ///
+													& `m1_814d[Original_IN_Varname]' ///
+													& `m1_814f[Original_IN_Varname]' ///
+													& `m1_814g[Original_IN_Varname]' 
+
+
 			gen preg_intent = m1_807
+			char preg_intent[Original_IN_Varname] `m1_807[Original_IN_Varname]' 
 			
 	* THE BELOW IS NOT CORRECT!SHALOM TO ADJUST
 			gen m1_ga = gest_age
+			char m1_ga[Original_IN_Varname] `gest_age[Original_IN_Varname]' 
 			
 			*recode m1_ga (0/12=1) (12.1/27=2) (27.1/40=3), g(trimester)
 			g trimester=m1_804
+			char trimester[Original_IN_Varname] `m1_804[Original_IN_Varname]' 
 			
 			* Asked about LMP
 			gen anc1lmp= m1_806
+			char anc1lmp[Original_IN_Varname] `m1_806[Original_IN_Varname]' 
+		
+			foreach v in preg_intent m1_dangersigns m1_ga trimester anc1lmp  {
+				char `v'[Module] 1
+			}
+
 			
 			/* Screened for danger signs 
 			egen anc1danger_screen = rowmax(m1_815a_1_in m1_815a_2_in m1_815a_3_in ///
@@ -178,32 +330,76 @@
 *------------------------------------------------------------------------------*	
 	* SECTION 10: OBSTETRIC HISTORY
 			gen gravidity = m1_1001
+			char gravidity[Original_IN_Varname] `m1_1001[Original_IN_Varname]' 
+
 			gen primipara=  m1_1001==1 // first pregnancy
 			replace primipara = 1 if  m1_1002==0  // never gave birth
+			char primipara[Original_IN_Varname] `m1_1001[Original_IN_Varname]' == 1 or `m1_1002[Original_IN_Varname]' == 0
+			
 			gen nbpreviouspreg = m1_1001-1 // nb of pregnancies including current minus current pregnancy
+			char nbpreviouspreg[Original_IN_Varname] `m1_1001[Original_IN_Varname]' - 1
+
 			gen pregloss = nbpreviouspreg-m1_1002 // nb previous pregnancies not including current minus previous births
+			char pregloss[Original_IN_Varname] `nbpreviouspreg[Original_IN_Varname]' - `m1_1002[Original_IN_Varname]'
+
 			
 			gen stillbirths = m1_1002 - m1_1003 // nb of deliveries/births minus live births
 			replace stillbirths = 1 if stillbirths>1 & stillbirths<.
+			char stillbirths[Original_IN_Varname] `m1_1002[Original_IN_Varname]' - `m1_1003[Original_IN_Varname]' (Set to 1 if > 1 but not missing)
+
+			foreach v in gravidity primipara nbpreviouspreg pregloss stillbirths {
+				char `v'[Module] 1
+			}
+
 *------------------------------------------------------------------------------*	
 	* SECTION 12: ECONOMIC STATUS AND OUTCOMES
 			
 			*Asset variables
 			recode  m1_1201 (2 4 6 96=0) (3=1), gen(safewater) // 96 is  tanker 
+			char safewater[Original_IN_Varname] `m1_1201[Original_IN_Varname]'
+			
 			recode  m1_1202 (2=1) (3=0), gen(toilet) // flush/ pour flush toilet and pit laterine =improved 
+			char toilet[Original_IN_Varname] `m1_1202[Original_IN_Varname]'
+
 			gen electr = m1_1203
+			char electr[Original_IN_Varname] `m1_1203[Original_IN_Varname]'
+
 			gen radio = m1_1204
+			char radio[Original_IN_Varname] `m1_1204[Original_IN_Varname]'
+
 			gen tv = m1_1205
+			char tv[Original_IN_Varname] `m1_1205[Original_IN_Varname]'
+
 			gen phone = m1_1206
+			char phone[Original_IN_Varname] `m1_1206[Original_IN_Varname]'
+
 			gen refrig = m1_1207
+			char refrig[Original_IN_Varname] `m1_1207[Original_IN_Varname]'
+
 			recode m1_1208 (2=1) (4/7=0), gen(fuel) // electricity, gas (improved) charcoal, wood, dung, crop residuals (unimproved)
+			char fuel[Original_IN_Varname] `m1_1208[Original_IN_Varname]'
+
 			gen bicycle =  m1_1212 
+			char bicycle[Original_IN_Varname] `m1_1212[Original_IN_Varname]'
+
 			gen motorbik = m1_1213
+			char motorbik[Original_IN_Varname] `m1_1213[Original_IN_Varname]'
+
 			gen car = m1_1214 
+			char car[Original_IN_Varname] `m1_1214[Original_IN_Varname]'
+
 			gen bankacc = m1_1215
+			char bankacc[Original_IN_Varname] `m1_1215[Original_IN_Varname]'
+
 			recode m1_1209 (96 1=0) (2/3=1), gen(floor) //Earth, dung (unimproved) wood planks, palm, polished wood, tiles (improved)
+			char floor[Original_IN_Varname] `m1_1209[Original_IN_Varname]'
+
 			recode m1_1210 (1 2 5=0) (3/4 6/8=1) (96=0), gen(wall) // Grass, timber, poles, mud  (unimproved) bricks, cement, stones (improved)
+			char wall[Original_IN_Varname] `m1_1210[Original_IN_Varname]'
+
 			recode m1_1211 (1/2=0) (3/5=1) (96=0), gen(roof)  // Iron sheets, Tiles, Concrete (improved) grass, leaves, mud, no roof (unimproved)
+			char roof[Original_IN_Varname] `m1_1211[Original_IN_Varname]'
+
 			lab def imp 1"Improved" 0"Unimproved"
 			lab val safewater toilet fuel floor wall roof imp
 			
@@ -216,14 +412,47 @@
 			xtile quintile = wealthindex, nq(5)
 			xtile tertile = wealthindex, nq(3)
 			
+			foreach v in wealthindex quintile tertile {
+				char `v'[Original_IN_Varname] `m1_1201[Original_IN_Varname]' /// 
+											& `m1_1202[Original_IN_Varname]' /// 
+											& `m1_1203[Original_IN_Varname]' /// 
+											& `m1_1204[Original_IN_Varname]' /// 
+											& `m1_1205[Original_IN_Varname]' /// 
+											& `m1_1206[Original_IN_Varname]' /// 
+											& `m1_1207[Original_IN_Varname]' /// 
+											& `m1_1208[Original_IN_Varname]' /// 
+											& `m1_1212[Original_IN_Varname]' /// 
+											& `m1_1213[Original_IN_Varname]' /// 
+											& `m1_1214[Original_IN_Varname]' /// 
+											& `m1_1215[Original_IN_Varname]' /// 
+											& `m1_1209[Original_IN_Varname]' /// 
+											& `m1_1210[Original_IN_Varname]' /// 
+											& `m1_1211[Original_IN_Varname]'
+			}
+
+			
 			gen registration_cost= m1_1218a_1 // registration
 				replace registration = . if registr==0
+				char registration_cost[Original_IN_Varname] `m1_1218a_1[Original_IN_Varname]' (Set to missing if `m1_1218a_1[Original_IN_Varname]' is 0)
+
 			gen med_vax_cost =  m1_1218b_1 // med or vax
 				replace med_vax_cost = . if med_vax_cost==0
+				char med_vax_cost[Original_IN_Varname] `m1_1218b_1[Original_IN_Varname]' (Set to missing if `m1_1218b_1[Original_IN_Varname]' is 0)
+
 			gen labtest_cost =  m1_1218c_1 // lab tests
 				replace labtest_cost= . if labtest_cost==0
-			egen indirect_cost = rowtotal (m1_1218d_1 m1_1218e_1  )
+				char labtest_cost[Original_IN_Varname] `m1_1218c_1[Original_IN_Varname]' (Set to missing if `m1_1218c_1[Original_IN_Varname]' is 0)
+
+			egen indirect_cost = rowtotal (m1_1218d_1 m1_1218e_1)
 				replace indirect = . if indirect==0
+				char indirect_cost[Original_IN_Varname] `m1_1218d_1[Original_IN_Varname]' ///
+															+ `m1_1218e_1[Original_IN_Varname]' ///
+															/// //+ `m1_1218f_1[Original_IN_Varname]' ///
+															(Set to missing if total is 0)
+			foreach v in registration_cost med_vax_cost labtest_cost indirect_cost tertile quintile wealthindex safewater toilet electr radio tv phone refrig fuel bicycle motorbik car bankacc floor wall roof {
+				char `v'[Module] 1
+			}
+
 				
 *------------------------------------------------------------------------------*	
 	* SECTION 13: HEALTH ASSESSMENTS AT BASELINE
@@ -237,6 +466,8 @@
 			recode diastolic_bp 50/89.999=0 90/160=1, gen(diastolic_high)
 			
 			egen HBP= rowmax (systolic_high diastolic_high)
+			char HBP[Original_IN_Varname] Max of the mean of (`bp_time_1_systolic[Original_IN_Varname]', `bp_time_2_systolic[Original_IN_Varname]', `bp_time_3_systolic[Original_IN_Varname]') and mean of (`bp_time_1_diastolic[Original_IN_Varname]', `bp_time_2_diastolic[Original_IN_Varname]', `bp_time_3_diastolic[Original_IN_Varname]') 
+
 			drop systolic* diastolic*
 			
 			* Anemia 
@@ -244,17 +475,30 @@
 			gen Hb2= m1_1309 // test done by E-Cohort data collector
 			replace Hb = Hb2 if Hb==.a // use the card value if the test wasn't done
 			drop Hb2
+			char Hb[Original_IN_Varname] `m1_1307[Original_IN_Varname]'  (If missing uses `m1_1309[Original_IN_Varname]') 
+			
 
 			// Reference value of 11 from Ethiopian 2022 guidelines. Should check if relevant in KE
 			recode Hb 0/10.9999=1 11/20=0, g(anemic)
-			
+			char anemic[Original_IN_Varname] `Hb[Original_IN_Varname]' 
+	
 			* BMI 
 			recode height_cm 41.5=141 112=155 93=144  4.5=137.2 4.6=140.21 5.2=158.5 ///
-			5.3=161.5 5.5=167.64 5.6=170.69 6.1=185.93 6.2=188.98
+			5.3=161.5 5.5=167.64 5.6=170.69 6.1=185.93 6.2=188.98 5.4=164.592 
 			gen height_m = height_cm/100 
+			char height_m[Original_IN_Varname] `height_cm[Original_IN_Varname]'/100 
+
 			gen BMI = weight_kg / (height_m^2)
+			char BMI[Original_IN_Varname] `weight_kg[Original_IN_Varname]' / (`height_m[Original_IN_Varname]' ^2)
+
 			gen low_BMI= 1 if BMI<18.5 
 			replace low_BMI = 0 if BMI>=18.5 & BMI<.
+			char low_BMI[Original_IN_Varname] Set to 1 if `BMI[Original_IN_Varname]' < 18.5 (Set to 0 if BMI >=18.5 and not missing)
+
+			foreach v in HBP Hb height_m BMI low_BMI anemic {
+				char `v'[Module] 1
+			}
+
 
 *------------------------------------------------------------------------------*	
 	* Labeling variables (by Wen-Chien on April 19)
