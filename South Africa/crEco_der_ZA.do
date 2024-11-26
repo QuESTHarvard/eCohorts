@@ -462,10 +462,74 @@
 			}
 
 
+*------------------------------------------------------------------------------*	
+	* SECTION 14: M3 outcome development 
+
+		* 1. Create new variables 
+			* Create pregnancyend_ga to indicate gestational age at the end of pregnancy
+			gen time_between_m1_birth = (m3_birth_or_ended - m1_date)/7
+			gen pregnancyend_ga = ga + time_between_m1_birth  
 			
+			* Create preterm birth to indicate birth before GA 37 
+			gen preterm_birth = 1 if pregnancyend_ga <37 
+			replace preterm_birth = 0 if pregnancyend_ga >=37 & pregnancyend_ga <.
+			
+			* Create m3_deathage_dys_baby1, m3_deathage_dys_baby2 to indicate newborn death age in days. m3_313a_baby1, m3_313a_baby2: death dates for baby1 baby2   
+			gen m3_deathage_dys_baby1 = m3_313a_baby1 - m3_birth_or_ended if m3_baby1_born_alive==1 
+			gen m3_deathage_dys_baby2 = m3_313a_baby2 - m3_birth_or_ended if m3_baby2_born_alive==1 
+
+		* 2. Create birth outcome variable 
+			gen birth_outcome = .
+			replace birth_outcome = 1 if m2_date_r1 ==. & m3_date ==.                    								// LTFU after M1 
+			replace birth_outcome = 2 if m2_date_r1 !=. & m3_date ==.                      								// LTFU after M2 
+			replace birth_outcome = 2 if respondentid == "RCH_074"                                                      // LTFU after M2. This case is actually maternal death (email with Londiwe on Oct 1),labeled as maternal death in maternal outcome
+			replace birth_outcome = 3 if (m3_303b==1 & m3_303c==.a & m3_303d ==.a)        								// live birth singleton  
+			replace birth_outcome = 4 if (m3_303b==1 & m3_303c==1  & m3_303d ==.a)        								// live birth twin 
+			replace birth_outcome = 6 if m3_baby1_born_alive==0 & pregnancyend_ga <13                                   // early miscarraige       
+			replace birth_outcome = 7 if m3_baby1_born_alive==0 & (pregnancyend_ga <28 & pregnancyend_ga >=13)          // late miscarraige 
+			replace birth_outcome = 8 if m3_baby1_born_alive==0 & (pregnancyend_ga >= 28 & pregnancyend_ga <.)          // stillbirth 
+			replace birth_outcome = 6 if m3_303b== 0 & m3_baby1_born_alive ==.a & m3_baby1_deathga !=.a & pregnancyend_ga <13                           // early miscarraige
+			replace birth_outcome = 7 if m3_303b== 0 & m3_baby1_born_alive ==.a & m3_baby1_deathga !=.a & (pregnancyend_ga >=13 & pregnancyend_ga <28)  // late miscarraige
+			replace birth_outcome = 8 if m3_303b== 0 & m3_baby1_born_alive ==.a & m3_baby1_deathga !=.a & (pregnancyend_ga >=28 & pregnancyend_ga <.)   // stillbirth 
+			replace birth_outcome = 9 if m3_baby1_born_alive==1 & m3_deathage_dys_baby1 <28                                  	 // neonatal death  
+			replace birth_outcome = 10 if m3_baby1_born_alive==1 & m3_deathage_dys_baby1 >=28 & m3_deathage_dys_baby1 <.    	     // infant death
+			replace birth_outcome = 11 if (m3_303b==1 & m3_303c==0 ) & (m3_baby2_born_alive == 1 & m3_deathage_dys_baby2 <= 28)  // twin set (1 alive 1 neonatal death)
+			replace birth_outcome = 11 if (m3_303b==0 & m3_303c==1 ) & (m3_baby1_born_alive == 1 & m3_deathage_dys_baby1 <= 28)  // twin set (1 alive 1 neonatal death) 
+
+			* Mannually edited outcomes 
+			replace birth_outcome = 6 if respondentid == "MBA_001"   // pregnancyend_ga = 9.9 , m3_baby1_deathga = before 20 weeks. This case should be early miscarriage  
+			replace birth_outcome = 7 if respondentid == "EUB_019"   // m1_ga=12, m1_date 17-Jul-2023, m2_date_r1 21-Aug-2023, m2_date_r2 (last round) 5-Oct-2023, m2_202_r2 = something happened, m3_baby1_deathga = before 20 weeks. Fetal loss should have happened between GA 17 (12+5) to 23 (12+11) weeks. This case should be late miscarriage     
+			replace birth_outcome = 7 if respondentid == "TOK_077"   // pregnancyend_ga = 27, m3_baby1_deathga = after 20 weeks. This case should be late miscarraige 
+			replace birth_outcome = 7 if respondentid == "KAN_043"   // pregnancyend_ga = 19, m3_baby1_deathga = before 20 weeks. This case should be late miscarraige 
+			replace birth_outcome = 2 if respondentid == "NWE_059"   // has m3 date but not m3 data, viewed as LTFU after M2
+			
+				/* Still 2 missing birth_outcome (respondentid NEL_042, MPH_024)
+				browse respondentid ga m1_date m3_baby1_born_alive birth_outcome m3_303b m3_313a_baby1 m3_baby1_deathga m3_birth_or_ended pregnancyend_ga m2_date_r1 m2_date_r2 ///
+					   m3_date m2_202_r1 m2_202_r2 m3_ga m3_baby1_health m3_baby1_feed_a m3_baby1_sleep m3_313a_baby1 m3_313a_baby2 if birth_outcome == .*/
+					
+			* label birth_outcome    
+			label define birth_outcome 1 "LTFU after M1" 2 "LTFU after M2" 3 "LB singleton" 4 "LB twin" 5 "LB triplet" 6 "early miscarriage" 7 "late miscarraige" 8 "stillbirth" /// 
+									   9 "neonatal death" 10 "infant death" 11 "twin 1 alive 1 neonatal death" 12  "twin 1 alive 1 stillbirth" 13 "twin both neonatal death"  
+			label values birth_outcome birth_outcome
+			lab var birth_outcome "Birth outcome at M3"
+			tab birth_outcome, missing 		
+			
+		* 3. Create M3_maternal_outcome 
+			gen M3_maternal_outcome = .  
+			replace M3_maternal_outcome = 1 if birth_outcome == 1 
+			replace M3_maternal_outcome = 2 if birth_outcome == 2 
+			replace M3_maternal_outcome = 4 if birth_outcome == 3 | birth_outcome == 4 | birth_outcome == 5 | birth_outcome == 6 | birth_outcome == 7 | birth_outcome == 8 | ///
+											   birth_outcome == 9 | birth_outcome == 10 | birth_outcome == 11 | birth_outcome == 12 | birth_outcome == 13  
+			replace M3_maternal_outcome = 3 if respondentid == "RCH_074"    // based on email with Londiwe on Oct 1   
+
+			* Label M3_maternal_outcome 
+			label define m3_maternal_outcome  1 "LTFU after M1" 2 "LTFU after M2" 3 "Maternal death" 4 "Maternal alive"
+			label values M3_maternal_outcome m3_maternal_outcome  
+			lab var M3_maternal_outcome "Maternal outcome at M3"
+			tab M3_maternal_outcome, missing 
 			
 *------------------------------------------------------------------------------*	
-* Labelling new variables 
+* Labeling new variables 
 	lab var phq9_cat "PHQ9 Depression level Based on sum of all 9 items"
 	lab var other_major_hp "Has other major health problems"
 	lab var anc1bp "Blood pressure taken at ANC1"
