@@ -29,9 +29,16 @@
 * 2024-10-08	1.02	MK Trimner		Added char that contains the module for each original variable for codebook purposes		
 *										Corrected typo for value label m2_203h, m2_205c, m2_interview_restarted, breathing, m3_YNDKRF, m4_conclusion_dead_baby and m5_feeding
 * 2024-10-30	1.03	MK Trimner		Renaming variable to alsign with all other countries m1_203_et - removed the _et as it applies to other countries as well
+* 2024-11-01	1.04	MK TRimner		Combined m1_815_1 and m1_815_5 as they have the same labels. Dropped m1_815_1 to align with all other datasets. 
+* 										Added global with Country abbreviation for other programs
+* 2024-11-05	1.05	MK Trimner		Added call to shorten M1 variable labels and set a global to country name
 *******************************************************************************/
 * Import Data 
 clear all 
+
+
+* Set a global with the country name
+global Country ET
 
 *--------------------DATA FILE:
 *import delimited using "$et_data/05Jan2024.csv", clear
@@ -7603,6 +7610,7 @@ label variable m2_endstatus`i' "What is this womens current status at the end of
 	
 *set to missing if the baby is not born alive or baby is born at a weight <25mg
 		gen ga_according_to_dob = 40-((m3_birth_or_ended - m1_date)/7)
+		char ga_according_to_dob[Module] 1
 		char ga_according_to_dob[Original_ET_Varname] (`m3_birth_or_ended[Original_ET_Varname]' - `m1_date[Original_ET_Varname]'/7)		
 		recode ga_according_to_dob (. = .a) if m3_baby1_born_alive !=1 & m3_baby2_born_alive !=1 & m3_baby3_born_alive !=1 // need to add if any baby's are under 25
 	
@@ -7710,10 +7718,68 @@ label variable m2_endstatus`i' "What is this womens current status at the end of
 	* MKT 2024-10-30 Renaming this variable to align with all other datasets
 	rename m1_203_et m1_203
 	
+	* for ET variables m1_815_1 and m1_815_5 are the same. So we can drop m1_815_1 and merge it with m1_815_5
+	replace m1_815_5 = 1 if m1_815_1 == 1
+	char m1_815_5[Original_ET_Varname] `m1_815_1[Original_ET_Varname]'  & `m1_815_5[Original_ET_Varname]' 
+	drop m1_815_1
+	
 	save "$et_data_final/eco_m1-m5_et_wide.dta", replace
 	  
 	* Run the derived variables code
 	do "${github}/Ethiopia/crEco_der_ET.do"
+	
+	* Next we will do some cleanup based on the label cleanup
+	* The variable name for m1_813b should be m1_813b_et and m1_813e_et should be m1_813b
+	rename m1_813b m1_813b_et
+	rename m1_813e m1_813b
+	
+	* These variables should have the suffix _et at the end as they are only in ET dataset
+	rename m1_813a m1_813a_et 
+	rename m1_813c m1_813c_et 
+	rename m1_813d m1_813d_et
+	rename m1_403a m1_403a_et
+	rename m1_810_other m1_810b_other
+	
+	* Rename these variables to align with other datasets
+	rename m1_1216 m1_1216a
+	rename m1_1216_1 m1_1216b
+	
+	order m1_810b_other, after(m1_810b)
+	
+
+	* Remove the _et suffix at the end of these variables
+	foreach v in m1_808_0_et m1_808_1_et m1_808_2_et m1_808_3_et m1_808_4_et m1_808_5_et m1_808_6_et m1_808_7_et m1_808_8_et m1_808_9_et m1_808_10_et m1_808_11_et m1_808_96_et m1_808_99_et m1_808_888_et m1_808_998_et m1_808_999_et {
+		rename `v' `=subinstr("`v'","_et","",.)'
+	}
+	
+	* Rename these m1 variables to align with var master list and all other datasets
+	local i 1
+	foreach v in m1_1102_a m1_1102_b m1_1102_c m1_1102_d m1_1102_e m1_1102_f m1_1102_g m1_1102_h m1_1102_i m1_1102_j {
+		rename `v' m1_1102_`i'
+		local ++i
+	}
+	
+	foreach v in m1_1104_a m1_1104_b m1_1104_c m1_1104_d m1_1104_e m1_1104_f m1_1104_g m1_1104_h m1_1104_i m1_1104_j {
+		rename `v' m1_1104_`i'
+		local ++i
+	}
+	
+	* Correct the order of some variables 
+	order m1_8a_et m1_8b_et m1_8c_et m1_8d_et m1_8e_et m1_8f_et m1_8g_et m1_8gother_et m1_2_8_et, after(m1_813b)
+	order m1_1_10_et, after(m1_1006)
+	order m1_1102_1 m1_1102_2 m1_1102_3 m1_1102_4 m1_1102_5 m1_1102_6 m1_1102_7 m1_1102_8 m1_1102_9 m1_1102_10, after(m1_1101)
+	order m1_1102_other, after(m1_1102_96)
+
+	* Recommend that we drop these variables as they do not hold any information
+	drop m1_513a_888 m1_513a_998 m1_513a_999 m1_513a_888 m1_513a_998 m1_513a_999 m1_812b_888_et m1_812b_998_et m1_812b_999_et m1_815_888_et m1_815_998_et m1_815_999_et m1_1102_88_et m1_1102_98_et m1_1102_99_et m1_1104_888_et m1_1104_998_et m1_1104_999_et m1_1220_888_et m1_1220_998_et m1_1220_999_et m1_1402_888_et m1_1402_998_et m1_1402_999_et
+
+	* Run the program that cleans up the labels
+	m1_add_shortened_labels
 
 	* Save the completed dataset	
 	save "$et_data_final/eco_ET_Complete.dta", replace
+
+	* Create the codebook for M1
+	* Note these are saved as an HTML file that is then saved to an excel file in the ${et_data_final} folder
+	local date_variables m1_date m1_c6_in m1_802a m1_802c_et mcard_date mcard_edd
+	create_module_codebook, country(Ethiopia) outputfolder($et_data_final) codebook_folder($et_data_final\archive\Codebook) module_number(1) module_dataset(eco_ET_Complete) id(respondentid) date_variables(`date_variables')

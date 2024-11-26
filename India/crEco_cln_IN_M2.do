@@ -15,7 +15,9 @@
 *										Removed m2_203i as it is not in the IN dataset																
 *2024-08-28		1.03	MK Trimner		Renamed _merge variable to identify where it came from		
 * 2024-10-23	1.04	MK Trimner		Changed the way this merges so we can retain the already ordered variables
-*										Added a character with the module number							
+*										Added a character with the module number	
+* 2024-11-13	1.05	MK Trimner		Corrected Char Original_Varname to be 
+* 										Original_IN_Varname						
 *******************************************************************************
 
 										*/
@@ -42,7 +44,7 @@ foreach v of varlist * {
 	local name `v'
 	*local s1 = strpos("`v'","Q")
 	*if `s1' == 1 local name = substr("`v'",2,.)
-	char `v'[Original_Varname] `name'
+	char `v'[Original_IN_Varname] `name'
 }
 
 * Clean up the id variable to remove any spaces that may cause merging issues
@@ -68,13 +70,14 @@ replace q103 = subinstr(q103," ","",.)
 
 	* MODULE 2: STEP ONE - RENAME VARIABLES
 	clonevar m2_date = Q102
-	char m2_date[Original_Varname] Q102
+	*char m2_date[Original_Varname] Q102
 	
 	clonevar m2_respondentid = q103
-	char m2_respondentid[Original_Varname] q103
+	*char m2_respondentid[Original_Varname] q103
 	
 	clonevar m2_time_start = Q103
-	
+	*char m2_respondentid[Original_Varname] q103
+
 	clonevar m2_ga = Q107
 	
 	* This contains some strings so we can convert this to a numeric value
@@ -130,7 +133,7 @@ replace q103 = subinstr(q103," ","",.)
 	
 	foreach v in a b c d e f g h  {
 		gen m2_204`v' = strpos(other_health,"``v''") > 0 if !missing(other_health)
-		char m2_204`v'[Original_Varname] 204_a
+		char m2_204`v'[Original_IN_Varname] 204_a
 		
 		list m2_204`v' other_health if m2_204`v' == 1
 		label var m2_204`v' "Other problems: `=proper("``v''")'"
@@ -237,7 +240,7 @@ replace q103 = subinstr(q103," ","",.)
 
 	clonevar m2_321_org = Q321
 	gen m2_321 = 0 if Q321 == "0"
-	char m2_321[Original_Varname] 321
+	char m2_321[Original_IN_Varname] 321
 	
 	replace m2_321 = 1 if Q321 == "1" & !missing(Q321)
 	replace m2_321 = 2 if Q321 == "2" & !missing(Q321)
@@ -260,7 +263,7 @@ replace q103 = subinstr(q103," ","",.)
 	}
 	
 	gen m2_501g = !missing(Q501_g) if m2_301 == 1
-	char m2_501g[Original_Varname] 501_g
+	char m2_501g[Original_IN_Varname] 501_g
 	
 	clonevar m2_501g_other = Q501_g
 	
@@ -300,7 +303,7 @@ replace q103 = subinstr(q103," ","",.)
 	replace Q601_o = trim(upper(Q601_o)) 
 	
 	gen m2_601o = !inlist(Q601_o,"NO","NO COMMENTS","NO.","NOO","N0","NA") if m2_202 == 1 
-	char m2_601o[Original_Varname] 601_o
+	char m2_601o[Original_IN_Varname] 601_o
 	
 	clonevar m2_601o_other = Q601_o
 	
@@ -865,7 +868,7 @@ replace q103 = subinstr(q103," ","",.)
 		
 		* Add the original question number to the variable name
 		foreach v of varlist * {
-			local name1 ``v'[Original_Varname]'
+			local name1 ``v'[Original_IN_Varname]'
 			local name2 `:var label `v''
 		
 			local name `name1': `name2'
@@ -961,4 +964,4 @@ label value merge_m2_to_m1 m2
 save "${in_data_final}/eco_m1_and_m2_in.dta", replace
 
 * all those from M2 should be in M1
-assert merge_m2_to_m1 != 1 
+assert merge_m2_to_m1 != 2 

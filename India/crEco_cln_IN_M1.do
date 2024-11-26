@@ -8,7 +8,9 @@
 *				version
 * Date 			number 	Name			What Changed
 2024-08-08		1.01	MK Trimner		Corrected respondent id "202310031133022010 to remove the " i the first char so it will merge with M2
-* 2024-10-30	1.02	MK Trimner		Added chars with module									
+* 2024-10-30	1.02	MK Trimner		Added chars with module
+* 2024-11-13	1.03	MK Trimner		Corrected Char Original_Varname to be 
+* 										Original_IN_Varname											
 *******************************************************************************/
 
 * Import Data 
@@ -20,6 +22,15 @@ foreach var of varlist _all  {
   rename `var' `=strupper("`var'")'
   
 }
+
+foreach v of varlist * {
+	local name `v'
+	*local s1 = strpos("`v'","Q")
+	*if `s1' == 1 local name = substr("`v'",2,.)
+	char `v'[Original_IN_Varname] `name'
+}
+
+
 
 /* Dropping duplicate IDs (data collection problems identified in March 2024)
 drop if Q103=="202311171131039696" | Q103=="202312151215032417" | Q103=="202312201759032417" | Q103=="202312201818032417" | Q103=="202401171049032417" | Q103=="202401311139032417" | Q103=="202402051039032417" | Q103=="202402051053032417" | Q103=="202402051720032417" | Q103=="202402061130032417" | Q103=="202402061524032417" | Q103=="202402071437032417"
@@ -197,21 +208,31 @@ rename END m1_end_time
 //change date format
 gen Date_of_interview = date(date_m1,"DMY")
 format Date_of_interview %td
+char Date_of_interview[Original_IN_Varname] `date_m1[Original_IN_Varname]'
 
 gen estimated_delivery_date = date(m1_802_date_in,"DMY")
 format estimated_delivery_date %td
+char estimated_delivery_date[Original_IN_Varname] `m1_802_date_in[Original_IN_Varname]'
 
 //Trimester calculation
 *drop already existing vars:
 drop GESTATIONAL_AGE GESTATIONAL_AGE_1 GEST_AGE GESTATIONAL_AGE_NEW
 
 gen gestational_age = 40-((estimated_delivery_date - Date_of_interview)/7)
+char gestational_age[Original_IN_Varname] 40-((`m1_802_date_in[Original_IN_Varname]' -`date_m1[Original_IN_Varname]')/7)
+
 gen gestational_age_1 =((m1_803a_in*4)+ m1_803b_in)
+char gestational_age_1[Original_IN_Varname] ((`m1_803a_in[Original_IN_Varname]'*4)+ `m1_803b_in[Original_IN_Varname]')
+
 gen gest_age = gestational_age
+char gest_age[Original_IN_Varname] gestational_age (Set to gestational_age_1 if missing gestational_age)
+
+
 replace gest_age = gestational_age_1 if gestational_age==.
 ta gest_age
 
 recode gest_age (0/12.9999=1 "Trimester 1") (12/27.9999=2 "Trimester 2") (28/40=3 "Trimester 3"), gen (Gestational_age_new)
+char Gestational_age_new[Original_IN_Varname] `gest_age[Original_IN_Varname]'
 
 rename Gestational_age_new m1_804 //Q804 not in the dataset 
 

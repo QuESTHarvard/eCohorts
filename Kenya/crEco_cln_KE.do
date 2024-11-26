@@ -10,6 +10,9 @@
 2024-08-07		1.01	MK Trimner		Removed the suffix _ke from m2_507_# variables
 *										Removed the suffix _ke from m2_702_other
 * 2024-10-24	1.02	MK Trimner		Added char with original variable and module numbers
+* 2024-11-01	1.03	MK Trimner		Renamed m1_802_ke to remove suffix as this is also in IN
+* 2024-11-07	1.04	MK Trimner		Renamed rename m4_baby1_802k_ke and m4_baby2_802k_ke  to be m4_baby1_802e and m4_baby2_802e to align with ZA and ET
+*										Renamed m5_baby1_death_tx to be m5_baby1_advice to align with all other countries
 *******************************************************************************/
 
 
@@ -1839,9 +1842,10 @@ rename (q_403_2 q_404_2 q_405_oth_2) (m3_consultation_2 m3_consultation_referral
 rename q_403_3 m3_consultation_3  // SS 4-2: q_405_oth_1 and q_405_oth_3 dropped? are they dropping vars with no obs?
 
 encode q_405_1,gen(m3_consultation1_reason)
-char m3_consultation1_reason[Original_KE_Varname] `m3_consultation1_reason[Original_KE_Varname]'
+char m3_consultation1_reason[Original_KE_Varname] `q_405_1[Original_KE_Varname]'
 drop q_405_1
 encode q_405_2,gen(m3_consultation2_reason)
+char m3_consultation2_reason[Original_KE_Varname] `q_405_2[Original_KE_Varname]'
 drop q_405_2
 *encode q_405_3,gen(m3_consultation3_reason) // SS 4-2: not in the dataset
 *drop q_405_3
@@ -2122,6 +2126,7 @@ label define m3_phq2_score 1 "1" 2 "2" 3 "3" 4 "4" 5 "5", modify
 	* Formatting Dates
 	
 	gen _m3_birth_or_ended_date_ = date(m3_birth_or_ended_date,"YMD")
+	char _m3_birth_or_ended_date_[Original_KE_Varname] `m3_birth_or_ended_date[Original_KE_Varname]' 
 	drop m3_birth_or_ended_date
 	rename _m3_birth_or_ended_date_ m3_birth_or_ended_date
 	format m3_birth_or_ended_date %td  	 
@@ -4653,7 +4658,7 @@ order m4_date m4_time m4_duration m4_consent_recording m4_hiv_status m4_c_sectio
 
 * import data
 clear all
-use "$ke_data/Module 5/KEMRI_Module_5.dta"
+use "$ke_data/Module 5/KEMRI_Module_5.dta", clear
 foreach v of varlist * {
 	local name `v'
 	char `v'[Original_KE_Varname] `name'
@@ -4740,13 +4745,28 @@ rename (q203_1_1 q203_2_1 q203_3_1 q203_4_1 q203_5_1 q203_6_1 q203_7_1 q203_99_1
 	   m5_baby1_feed_g m5_baby1_feed_99 m5_baby1_breastfeeding)
 	   
 encode q203_1_2,gen(m5_baby2_feed_a)	
+char m5_baby2_feed_a[Original_KE_Varname] `q203_1_2[Original_KE_Varname]'
+
 encode q203_2_2,gen(m5_baby2_feed_b)	
+char m5_baby2_feed_b[Original_KE_Varname] `q203_2_2[Original_KE_Varname]'
+
 encode q203_3_2,gen(m5_baby2_feed_c)	
+char m5_baby2_feed_c[Original_KE_Varname] `q203_3_2[Original_KE_Varname]'
+
 encode q203_4_2,gen(m5_baby2_feed_d)	
+char m5_baby2_feed_d[Original_KE_Varname] `q203_4_2[Original_KE_Varname]'
+
 encode q203_5_2,gen(m5_baby2_feed_e)	
+char m5_baby2_feed_e[Original_KE_Varname] `q203_5_2[Original_KE_Varname]'
+
 encode q203_6_2,gen(m5_baby2_feed_f)	
+char m5_baby2_feed_f[Original_KE_Varname] `q203_6_2[Original_KE_Varname]'
+
 encode q203_7_2,gen(m5_baby2_feed_g)	
+char m5_baby2_feed_g[Original_KE_Varname] `q203_7_2[Original_KE_Varname]'
+
 encode q203_99_2,gen(m5_baby2_feed_99)	
+char m5_baby2_feed_99[Original_KE_Varname] `q203_99_2[Original_KE_Varname]'
 
 drop q203_1_2 q203_2_2 q203_3_2 q203_4_2 q203_5_2 q203_6_2 q203_7_2 q203_99_2
 
@@ -4766,15 +4786,34 @@ rename (q207a_1 q207b_1 q208_1 q209_1 q209_unit_1) (m5_baby1_issue_oth m5_baby1_
 	   m5_baby1_death_time m5_baby1_death_time_unit)
 	      
 encode q206_1_2,gen(m5_baby2_issue_a)	
+char m5_baby2_issue_a[Original_KE_Varname] `q206_1_2[Original_KE_Varname]'
+
 encode q206_2_2,gen(m5_baby2_issue_b)	
+char m5_baby2_issue_b[Original_KE_Varname] `q206_2_2[Original_KE_Varname]'
+
 encode q206_3_2,gen(m5_baby2_issue_c)	
+char m5_baby2_issue_c[Original_KE_Varname] `q206_3_2[Original_KE_Varname]'
+
 encode q206_4_2,gen(m5_baby2_issue_d)	
+char m5_baby2_issue_d[Original_KE_Varname] `q206_4_2[Original_KE_Varname]'
+
 encode q206_5_2,gen(m5_baby2_issue_e)	
+char m5_baby2_issue_e[Original_KE_Varname] `q206_5_2[Original_KE_Varname]'
+
 encode q206_6_2,gen(m5_baby2_issue_f)	
+char m5_baby2_issue_f[Original_KE_Varname] `q206_6_2[Original_KE_Varname]'
+
 encode q206_7_2,gen(m5_baby2_issue_g)	
+char m5_baby2_issue_g[Original_KE_Varname] `q206_7_2[Original_KE_Varname]'
+
 encode q206_8_2,gen(m5_baby2_issue_h)	
+char m5_baby2_issue_h[Original_KE_Varname] `q206_8_2[Original_KE_Varname]'
+
 encode q206_9_2,gen(m5_baby2_issue_i)	   	   
+char m5_baby2_issue_i[Original_KE_Varname] `q206_9_2[Original_KE_Varname]'
+
 encode q206_0_2,gen(m5_baby2_issues_none)	 
+char m5_baby2_issues_none[Original_KE_Varname] `q206_0_2[Original_KE_Varname]'
 
 drop q206_1_2 q206_2_2 q206_3_2 q206_4_2 q206_5_2 q206_6_2 q206_7_2 q206_8_2 q206_9_2 q206_0_2
 
@@ -4788,18 +4827,44 @@ rename (q210_0_1 q210_1_1 q210_2_1 q210_3_1 q210_4_1 q210_5_1 q210_6_1 q210_7_1 
 		m5_baby1_death_tx m5_baby1_death_loc m5_baby1_death_loc_oth) 
 				
 encode q210_0_2,gen(m5_baby2_death_cause_a)	
+char m5_baby2_death_cause_a[Original_KE_Varname] `q210_0_2[Original_KE_Varname]'
+
 encode q210_1_2,gen(m5_baby2_death_cause_b)	
+char m5_baby2_death_cause_b[Original_KE_Varname] `q210_1_2[Original_KE_Varname]'
+
 encode q210_2_2,gen(m5_baby2_death_cause_c)	
+char m5_baby2_death_cause_c[Original_KE_Varname] `q210_2_2[Original_KE_Varname]'
+
 encode q210_3_2,gen(m5_baby2_death_cause_d)	
+char m5_baby2_death_cause_d[Original_KE_Varname] `q210_3_2[Original_KE_Varname]'
+
 encode q210_4_2,gen(m5_baby2_death_cause_e)	
+char m5_baby2_death_cause_e[Original_KE_Varname] `q210_4_2[Original_KE_Varname]'
+
 encode q210_5_2,gen(m5_baby2_death_cause_f)	
+char m5_baby2_death_cause_f[Original_KE_Varname] `q210_5_2[Original_KE_Varname]'
+
 encode q210_6_2,gen(m5_baby2_death_cause_g)	
+char m5_baby2_death_cause_g[Original_KE_Varname] `q210_6_2[Original_KE_Varname]'
+
 encode q210_7_2,gen(m5_baby2_death_cause_h)	
+char m5_baby2_death_cause_h[Original_KE_Varname] `q210_7_2[Original_KE_Varname]'
+
 encode q210_8_2,gen(m5_baby2_death_cause_i)	
+char m5_baby2_death_cause_i[Original_KE_Varname] `q210_8_2[Original_KE_Varname]'
+
 encode q210_9_2,gen(m5_baby2_death_cause_j)
+char m5_baby2_death_cause_j[Original_KE_Varname] `q210_9_2[Original_KE_Varname]'
+
 encode q210__96_2,gen(m5_baby2_death_cause_oth)
+char m5_baby2_death_cause_oth[Original_KE_Varname] `q210__96_2[Original_KE_Varname]'
+
 encode q210_98_2,gen(m5_baby2_death_cause_98)
+char m5_baby2_death_cause_98[Original_KE_Varname] `q210_98_2[Original_KE_Varname]'
+
 encode q210_99_2,gen(m5_baby2_death_cause_99)	
+char m5_baby2_death_cause_99[Original_KE_Varname] `q210_99_2[Original_KE_Varname]'
+
 rename q210_oth_2 m5_baby2_death_cause_oth_text
 
 drop q210_0_2 q210_1_2 q210_2_2 q210_3_2 q210_4_2 q210_5_2 q210_6_2 q210_7_2 q210_8_2 q210_9_2 q210__96_2 q210_98_2 q210_99_2
@@ -4829,6 +4894,9 @@ encode new_visits_index_5, gen(m5_new_visits_index_5)
 encode new_visits_index_6, gen(m5_new_visits_index_6)
 encode new_visits_index_7, gen(m5_new_visits_index_7)
 encode new_visits_index_8, gen(m5_new_visits_index_8)
+forvalues i = 4/8 {
+	char m5_new_visits_index_`i'[Original_KE_Varname] `new_visits_index_`i'[Original_KE_Varname]'
+}
 
 rename (q506_1 q506_1_1 q506_2_1 q506_3_1 q506_4_1 q506_5_1 q506_6_1 q506_7_1 q506_8_1 q506_9_1 q506_10_1 q506__96_1 q506_oth_1) (m5_consultation1 ///
         m5_consultation1_a m5_consultation1_b m5_consultation1_c m5_consultation1_d m5_consultation1_e m5_consultation1_f m5_consultation1_g ///
@@ -4853,8 +4921,17 @@ encode q506_7_4, gen(m5_consultation4_g)
 encode q506_8_4, gen(m5_consultation4_h)
 encode q506_9_4, gen(m5_consultation4_i)
 encode q506_10_4, gen(m5_consultation4_j)
+local b 1
+foreach i in a b c d e f g h i j {
+	char m5_consultation4_`i'[Original_KE_Varname] `q506_`b'_4[Original_KE_Varname]'
+	local ++b
+}
+
 encode q506__96_4, gen(m5_consultation4_oth)
+char m5_consultation4_oth[Original_KE_Varname] `q506__96_4[Original_KE_Varname]'
+
 rename q506_oth_4 m5_consultation4_oth_text
+char m5_consultation4_oth_text[Original_KE_Varname] `q506_oth_4[Original_KE_Varname]'
 
 encode q506_5, gen(m5_consultation5)
 encode q506_1_5, gen(m5_consultation5_a)
@@ -4867,8 +4944,19 @@ encode q506_7_5, gen(m5_consultation5_g)
 encode q506_8_5, gen(m5_consultation5_h)
 encode q506_9_5, gen(m5_consultation5_i)
 encode q506_10_5, gen(m5_consultation5_j)
+
+local b 1
+foreach i in a b c d e f g h i j {
+	char m5_consultation5_`i'[Original_KE_Varname] `q506_`b'_5[Original_KE_Varname]'
+	local ++b
+}
+
 encode q506__96_5, gen(m5_consultation5_oth)
+char m5_consultation5_oth[Original_KE_Varname] `q506__96_5[Original_KE_Varname]'
+
 rename q506_oth_5 m5_consultation5_oth_text
+char m5_consultation5_oth_text[Original_KE_Varname] `q506_oth_5[Original_KE_Varname]'
+
 
 encode q506_6, gen(m5_consultation6)
 encode q506_1_6, gen(m5_consultation6_a)
@@ -4881,8 +4969,19 @@ encode q506_7_6, gen(m5_consultation6_g)
 encode q506_8_6, gen(m5_consultation6_h)
 encode q506_9_6, gen(m5_consultation6_i)
 encode q506_10_6, gen(m5_consultation6_j)
+
+local b 1
+foreach i in a b c d e f g h i j {
+	char m5_consultation6_`i'[Original_KE_Varname] `q506_`b'_6[Original_KE_Varname]'
+	local ++b
+}
+
 encode q506__96_6, gen(m5_consultation6_oth)
+char m5_consultation6_oth[Original_KE_Varname] `q506__96_6[Original_KE_Varname]'
+
 rename q506_oth_6 m5_consultation6_oth_text
+char m5_consultation6_oth_text[Original_KE_Varname] `q506_oth_6[Original_KE_Varname]'
+
 
 encode q506_7, gen(m5_consultation7)
 encode q506_1_7, gen(m5_consultation7_a)
@@ -4895,8 +4994,19 @@ encode q506_7_7, gen(m5_consultation7_g)
 encode q506_8_7, gen(m5_consultation7_h)
 encode q506_9_7, gen(m5_consultation7_i)
 encode q506_10_7, gen(m5_consultation7_j)
+
+local b 1
+foreach i in a b c d e f g h i j {
+	char m5_consultation7_`i'[Original_KE_Varname] `q506_`b'_7[Original_KE_Varname]'
+	local ++b
+}
+
 encode q506__96_7, gen(m5_consultation7_oth)
+char m5_consultation7_oth[Original_KE_Varname] `q506__96_7[Original_KE_Varname]'
+
 rename q506_oth_7 m5_consultation7_oth_text
+char m5_consultation7_oth_text[Original_KE_Varname] `q506_oth_7[Original_KE_Varname]'
+
 
 encode q506_8, gen(m5_consultation8)
 encode q506_1_8, gen(m5_consultation8_a)
@@ -4909,8 +5019,17 @@ encode q506_7_8, gen(m5_consultation8_g)
 encode q506_8_8, gen(m5_consultation8_h)
 encode q506_9_8, gen(m5_consultation8_i)
 encode q506_10_8, gen(m5_consultation8_j)
+
+local b 1
+foreach i in a b c d e f g h i j {
+	char m5_consultation8_`i'[Original_KE_Varname] `q506_`b'_8[Original_KE_Varname]'
+	local ++b
+}
 encode q506__96_8, gen(m5_consultation8_oth)
+char m5_consultation8_oth[Original_KE_Varname] `q506__96_8[Original_KE_Varname]'
+
 rename q506_oth_8 m5_consultation8_oth_text
+char m5_consultation8_oth_text[Original_KE_Varname] `q506_oth_8[Original_KE_Varname]'
 
 drop q506_4 q506_1_4 q506_2_4 q506_3_4 q506_4_4 q506_5_4 q506_6_4 q506_7_4 q506_8_4 q506_9_4 q506_10_4 q506__96_4 q506_5 q506_1_5 q506_2_5 q506_3_5 q506_4_5 q506_5_5 q506_6_5 q506_7_5 q506_8_5 q506_9_5 q506_10_5 q506__96_5 q506_6 q506_1_6 q506_2_6 q506_3_6 q506_4_6 q506_5_6 q506_6_6 q506_7_6 q506_8_6 q506_9_6 q506_10_6 q506__96_6 q506_7 q506_1_7 q506_2_7 q506_3_7 q506_4_7 q506_5_7 q506_6_7 q506_7_7 q506_8_7 q506_9_7 q506_10_7 q506__96_7 q506_8 q506_1_8 q506_2_8 q506_3_8 q506_4_8 q506_5_8 q506_6_8 q506_7_8 q506_8_8 q506_9_8 q506_10_8 q506__96_8
 	   
@@ -4941,17 +5060,50 @@ encode q703_4_2,gen(m5_baby2_703e)
 encode q703_5_2,gen(m5_baby2_703f)
 encode q703_6_2,gen(m5_baby2_703g)
 encode q703__96_2,gen(m5_baby2_703h)
+char m5_baby2_703h[Original_KE_Varname] `q703__96_2[Original_KE_Varname]'
+
 encode q703_98_2,gen(m5_baby2_703_98)
+char m5_baby2_703_98[Original_KE_Varname] `q703__98_2[Original_KE_Varname]'
+
 encode q703_99_2,gen(m5_baby2_703_99)
+char m5_baby2_703_99[Original_KE_Varname] `q703__99_2[Original_KE_Varname]'
+
 rename q703_oth_2 m5_baby2_703_other	
+
+local b 0
+foreach i in a b c d e f g  {
+	char m5_baby2_703`i'[Original_KE_Varname] `q703_`b'_2[Original_KE_Varname]'
+	local ++b
+}
+
 
 drop q703_0_2 q703_1_2 q703_2_2 q703_3_2 q703_4_2 q703_5_2 q703_6_2 q703__96_2 q703_98_2 q703_99_2
 
 rename (q801a q801b q801c q801d q801e q801f q801g q801h q801oth q802 q803a q803b q803c q803d q803e q803f q803g q804a q804b q804c baby_repeat_med_count) ///
        (m5_801a m5_801b m5_801c m5_801d m5_801e m5_801f m5_801g m5_801h m5_801_other m5_802 m5_803a m5_803b m5_803c m5_803d m5_803e m5_803f ///
 	    m5_803g m5_804a m5_804b m5_804c m5_n_baby_med)
+		
+foreach v in a b c d e f g h i j k l m n o p {
+	egen m5_901_`v' = rowtotal(q901`v'_1 q901`v'_2 q901`v'_3 q901`v'_4 q901`v'_5 q901`v'_6 q901`v'_7 q901`v'_8 q901`v'_9 q901`v'_10 q901`v'_11 q901`v'_12 q901`v'_13 q901`v'_14 q901`v'_15 q901`v'_16)
+	char m5_901_`v'[Module] 5
+	char m5_901_`v'[Original_KE_Varname] q901`v' (Whichever variable had a populated value from q901`v'_1-q901`v'_16)
+	
+*	gen num_responses_`v' = 0 
+*	forvalues i = 1/16 {
+*		replace num_responses_`v' = num_responses_`v' + 1 if !missing(q901`v'_`i')
+*	}
+}
 
-*Create q901_1 to collpase q901a_1 q901b_1 q901c_1 q901d_1 q901e_1 q901f_1 q901g_1 q901h_1 q901i_1 q901j_1 q901k_1 q901l_1 q901m_1 q901n_1 q901o_1 q901p_1 
+/*forvalues i = 1/16 {
+	egen total_901_`i' = rowtotal(q901a_`i' q901b_`i' q901c_`i' q901d_`i' q901e_`i' q901f_`i' q901g_`i' q901h_`i' q901i_`i' q901j_`i' q901k_`i' q901l_`i' q901m_`i' q901n_`i' q901o_`i' q901p_`i')	
+	gen num_responses_`i' = 0
+	foreach var in a b c d e f g h i j k l m n o p {
+		replace num_responses_`i' = num_responses_`i' + 1 if !missing(q901`var'_`i')
+	}
+}
+
+
+Create q901_1 to collpase q901a_1 q901b_1 q901c_1 q901d_1 q901e_1 q901f_1 q901g_1 q901h_1 q901i_1 q901j_1 q901k_1 q901l_1 q901m_1 q901n_1 q901o_1 q901p_1 
 gen q901_1 = q901a_1 if q901b_1==. & q901c_1==. & q901d_1==. & q901e_1==. & q901f_1==. & q901g_1==. & q901h_1==. & q901i_1==. & q901j_1==. ///
                       & q901k_1==. & q901l_1==. & q901m_1==. & q901n_1==. & q901o_1==. & q901p_1==.
 replace q901_1 = q901b_1 if q901a_1==. & q901c_1==. & q901d_1==. & q901e_1==. & q901f_1==. & q901g_1==. & q901h_1==. & q901i_1==. & q901j_1==. ///
@@ -4984,6 +5136,8 @@ replace q901_1 = q901o_1 if q901a_1==. & q901b_1==. & q901c_1==. & q901d_1==. & 
                           & q901j_1==. & q901k_1==. & q901l_1==. & q901m_1==. & q901n_1==. & q901p_1==.
 replace q901_1 = q901p_1 if q901a_1==. & q901b_1==. & q901c_1==. & q901d_1==. & q901e_1==. & q901f_1==. & q901g_1==. & q901h_1==. & q901i_1==. ///
                           & q901j_1==. & q901k_1==. & q901l_1==. & q901m_1==. & q901n_1==. & q901o_1==.	
+						  
+						  exit 99
 drop q901a_1 q901b_1 q901c_1 q901d_1 q901e_1 q901f_1 q901g_1 q901h_1 q901i_1 q901j_1 q901k_1 q901l_1 q901m_1 q901n_1 q901o_1 q901p_1
 				  				  
 *Create q901_2 to collpase q901a_2 q901b_2 q901c_2 q901d_2 q901e_2 q901f_2 q901g_2 q901h_2 q901i_2 q901j_2 q901k_2 q901l_2 q901m_2 q901n_2 q901o_2 q901p_2 
@@ -5516,6 +5670,7 @@ drop q901a_16 q901b_16 q901c_16 q901d_16 q901e_16 q901f_16 q901g_16 q901h_16 q90
 
 rename (q901_1 q901_2 q901_3 q901_4 q901_5 q901_6 q901_7 q901_8 q901_9 q901_10 q901_11 q901_12 q901_13 q901_14 q901_15 q901_16) (m5_901a ///
         m5_901b m5_901c m5_901d m5_901e m5_901f m5_901g m5_901h m5_901i m5_901j m5_901k m5_901l m5_901m m5_901n m5_901o m5_901p)
+		*/
 
 rename (q902a_1 q902b_1 q902c_1 q902d_1 q902e_1 q902f_1 q902g_1 q902h_1 q902i_1 q902j_1 q902_oth_1) (m5_baby1_902a ///
         m5_baby1_902b m5_baby1_902c m5_baby1_902d m5_baby1_902e m5_baby1_902f m5_baby1_902g m5_baby1_902h ///
@@ -6729,5 +6884,15 @@ order m1_* m2_* m3_* m4_* m5_* mcard_*, sequential
 
 *===============================================================================
 * Do the derived variables code
-do "${github}\South Africa\crEco_der_KE.do"
+do "${github}\Kenya\crEco_der_KE.do"
+
+* Rename m1_802_ke to remove suffix _ke as this is also in IN
+rename m1_802_ke m1_802
+
+* Rename these variables as they are also in ZA dataset
+rename m4_baby1_802k_ke m4_baby1_802e
+rename m4_baby2_802k_ke m4_baby2_802e
+
+* Rename m5_baby1_death_tx to be m5_baby1_advice to align with all other countries
+rename m5_baby1_death_tx m5_baby1_advice
 save "$ke_data_final/eco_KE_Complete", replace
