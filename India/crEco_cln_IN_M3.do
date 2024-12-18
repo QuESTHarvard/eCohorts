@@ -16,7 +16,8 @@
 *										Added code to run the derived variables code and save as COMPLETE		
 * 2024-10-22	1.04	MK Trimner		Added updated M3 dataset			
 * 2024-11-01	1.05	MK Trimner		Renamed m1_802_date_in and m1_802a variables to align with all other datasets	
-* 2024-11-13	1.06	MK Trimner		Updated with new M3 dataset			
+* 2024-11-13	1.06	MK Trimner		Updated with new M3 dataset		
+* 2024-12-06	1.07	MK Trimner		Added updated M3 dataset	
 *******************************************************************************
 
 										*/
@@ -31,6 +32,20 @@
 * Check that variables that overlap between modules are the same values
 * For excample Q108 Q109 etc										
 * Set a local wtih module2 file name
+clear all 
+u "${in_data}/Module_3.1.dta", clear
+
+*replace Q104 = trim(Q104)
+*replace Q104 = subinstr(Q104," ","",.)
+
+foreach v of varlist Q* {
+	if "`v'" != "Q104" rename `v' `v'_updated
+}
+
+
+tempfile mkt
+save `mkt', replace
+
 local module3 M3_07112024
 global Country IN
 
@@ -43,6 +58,17 @@ foreach v of varlist * {
 	local name `v'
 	char `v'[Original_IN_Varname] `name'
 }
+
+
+merge 1:1 Q104 using `mkt'
+
+tostring Q709_3_updated, replace
+foreach v in Q618a_1 Q618a_2 Q618a_3 Q708_1 Q708_2 Q708_3 Q709_1 Q709_2 Q709_3 Q710_1 Q710_2 Q710_3 Q711_1 Q711_1_a Q711_1_b Q711_1_c Q711_2 Q711_2_a Q711_2_b Q711_2_c Q711_3 Q711_3_a Q711_3_b Q711_3_c {
+	di "`v'"
+	replace `v' = `v'_updated if _merge == 3 & !missing(`v')
+	char `v'[Original_IN_Varname]  ``v'[Original_IN_Varname]' (From M3 and M3.1 if populated)
+}
+
 
 * Clean up the id variable to remove any spaces that may cause merging issues
 
@@ -644,12 +670,8 @@ drop if merge_m3_to_m2_m1 == 2 // this is 3 ids
 order respondentid country
 save "$in_data_final/eco_m1-m3_in.dta", replace
 
-*==============================================================================*
+/*==============================================================================*
 * run derived variables
-  	
-	* Run the derived variable code
-do "${github}\India\crEco_der_IN.do"
-
 * Change date_m1 to m1_date
 gen m1_date = date(date_m1,"DMY")
 char m1_date[Module] 1
@@ -659,13 +681,22 @@ label var m1_date "`:var label date_m1'"
 order m1_date, after(date_m1)
 drop date_m1
 
+  	
+	* Run the derived variable code
+do "${github}\India\crEco_der_IN.do"
+
 * Rename m1_802a to be m1_802 to align with KE
 rename m1_802a m1_802
 * Rename m1_802_date_in to be m1_802a to align with all other countries
 rename m1_802_date_in m1_802a
 
+* Add all the short labels for codebook purposes
+*m1_add_shortened_labels
+
  * Save as a completed dataset
 save "$in_data_final/eco_IN_Complete", replace
+exit 99
+
 
 
 * Take a quick look at all the varibles that were not used

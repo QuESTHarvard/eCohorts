@@ -32,6 +32,8 @@
 * 2024-11-01	1.04	MK TRimner		Combined m1_815_1 and m1_815_5 as they have the same labels. Dropped m1_815_1 to align with all other datasets. 
 * 										Added global with Country abbreviation for other programs
 * 2024-11-05	1.05	MK Trimner		Added call to shorten M1 variable labels and set a global to country name
+* 2024-12-03	1.06	MK Trimner		Added value labels when missing
+*										Added call to M4 and M5 short labels and code to create codebook
 *******************************************************************************/
 * Import Data 
 clear all 
@@ -250,9 +252,7 @@ drop m2_attempt_avail m2_attempt_bestnumber m2_attempt_contact m2_attempt_date m
 	
 	rename (experience_headaches_814a experience_a_fever_814c experience_abdominal_pain_814d  experience_convulsions_814f experience_repeated_faint_814g exprience_biby_stop_moving_814h could_you_please_tell_814i) (m1_814a m1_814c m1_814d m1_814f m1_814g m1_814h m1_814i)
 	
-	rename (m1_815___0 m1_815___1 m1_815___2 m1_815___3 m1_815___4 m1_815___5 m1_815___6 ///
-			m1_815___7 m1_815___96 m1_815___98 m1_815___99) (m1_815_0 m1_815_1 m1_815_2 ///
-			m1_815_3 m1_815_4 m1_815_5 m1_815_6 m1_815_7 m1_815_96 m1_815_98 m1_815_99)
+	rename (m1_815___0 m1_815___1 m1_815___2 m1_815___3 m1_815___4 m1_815___5 m1_815___6 m1_815___7 m1_815___96 m1_815___98 m1_815___99) (m1_815_0 m1_815_1 m1_815_2 m1_815_3 m1_815_4 m1_815_5 m1_815_6 m1_815_7 m1_815_96 m1_815_98 m1_815_99)
 	
 	rename (m1_815___998 m1_815___999 m1_815___888) (m1_815_998_et m1_815_999_et m1_815_888_et)
 	
@@ -1469,7 +1469,7 @@ drop m2_drop
 /* Gestational age at ANC1:
 			Here we should recalculate the GA based on LMP (m1_802c and self-report m1_803 */
 			gen m1_ga = m1_802d_et // GA based on LNMP
-			char m1_ga[Original_ET_Varname] `m1_802d_et[Original_ET_Varname]'
+			char m1_ga[Original_ET_Varname] `m1_802d_et[Original_ET_Varname]' & `m1_803[Original_ET_Varname]'
 			recode m1_803 98=.
 			replace m1_ga = m1_803 if m1_ga == . // ga based on self report of weeks pregnant if LMP not known
 			lab var m1_ga "Gestional age based on LNMP (calc)"
@@ -1594,6 +1594,9 @@ char site[Original_ET_Varname] `study_site[Original_ET_Varname]'
 recode site (1 = 1) ///
             (2 3 4 5 6 7 96 = 2)
 label values site site 
+
+label define care_self 1 "For myself" 0 "For someone else", replace
+label value care_self care_self
 
 * create new variable for sampling strata 
 ** we need to make sure we recode in the cleaning file the facility name and strata for st. fransisco
@@ -2942,10 +2945,13 @@ lab val m5_complete m5_complete
 		rename _m5_date_ m5_date
 		format m5_date %td
 		
-		encode q103_m5, gen(m5_starttime)
-		char m5_starttime[Original_ET_Varname]  `q103_m5[Original_ET_Varname]'
+		* MKT changed from being encoded to just renaming. We dont need values for each time
+		*encode q103_m5, gen(m5_starttime)
+		gen double m5_starttime = clock(q103_m5, "hm") 
+		char m5_starttime[Original_ET_Varname] `q103_m5[Original_ET_Varname]' 
+		format m5_starttime %tc_HH:MM
 
-		drop q103_m5
+		*drop q103_m5
 		
 		*data cleaning (SS 7-29):
 		replace m5_date = date("2023-12-28", "YMD") if respondentid=="30103" // corrected interview date
@@ -7163,7 +7169,7 @@ lab var mcard_syphilis_test "Present pregnancy: syphilis test from maternal card
 lab var mcard_hemoglobin "Present pregnancy: hemoglobin level from maternal card"
 lab var mcard_bloodgrp "Present pregnancy: blood group from maternal card" 
 lab var mcard_tt_doses "Present pregnancy:　the number of TT doses"
-lab var mcard_mbendazole "Present pregnancy:　took Mebendazole from maternal card"
+lab var mcard_mbendazole "Present pregnancy:　Took Mebendazole from maternal card"
 lab var mcard_use_of_itn "Present pregnancy: use ITN from maternal card"
 lab var mcard_iron "Present pregnancy: take iron from maternal card"
 lab var mcard_arv_px_type "Present pregnancy: ARV type"
@@ -7260,7 +7266,7 @@ save "$et_data_final/eco_m1-m5_et_long.dta", replace
 		keep if redcap_event_name =="maternal_integrate_arm_1"
 		keep redcap_record_id mcard*
 		foreach v of varlist * {
-			char `v'[Module] maternal_card
+			char `v'[Module] 6
 		}
 		save "$et_data_final/tmpcard", replace 
 	restore 
@@ -7611,7 +7617,7 @@ label variable m2_endstatus`i' "What is this womens current status at the end of
 *set to missing if the baby is not born alive or baby is born at a weight <25mg
 		gen ga_according_to_dob = 40-((m3_birth_or_ended - m1_date)/7)
 		char ga_according_to_dob[Module] 1
-		char ga_according_to_dob[Original_ET_Varname] (`m3_birth_or_ended[Original_ET_Varname]' - `m1_date[Original_ET_Varname]'/7)		
+		char ga_according_to_dob[Original_ET_Varname] 40 - ((`m3_birth_or_ended[Original_ET_Varname]' - `m1_date[Original_ET_Varname]') /7)		
 		recode ga_according_to_dob (. = .a) if m3_baby1_born_alive !=1 & m3_baby2_born_alive !=1 & m3_baby3_born_alive !=1 // need to add if any baby's are under 25
 	
 	
@@ -7631,8 +7637,7 @@ label variable m2_endstatus`i' "What is this womens current status at the end of
 	foreach v in m1_date m1_802a m1_802c_et mcard_date mcard_edd m2_date_r1 m2_103_r1 m2_date_of_maternal_death_r1 m2_date_of_maternal_death_2_r1 m2_date_of_rescheduled_r1 m2_lastdate_r1 m2_date_r2 m2_103_r2 m2_date_of_maternal_death_r2 m2_date_of_maternal_death_2_r2 m2_date_of_rescheduled_r2 m2_lastdate_r2 m2_date_r3 m2_103_r3 m2_date_of_maternal_death_r3 m2_date_of_maternal_death_2_r3 m2_date_of_rescheduled_r3 m2_lastdate_r3 m2_date_r4 m2_103_r4 m2_date_of_maternal_death_r4 m2_date_of_maternal_death_2_r4 m2_date_of_rescheduled_r4 m2_lastdate_r4 m2_date_r5 m2_103_r5 m2_date_of_maternal_death_r5 m2_date_of_maternal_death_2_r5 m2_date_of_rescheduled_r5 m2_lastdate_r5 m2_date_r6 m2_103_r6 m2_date_of_maternal_death_r6 m2_date_of_maternal_death_2_r6 m2_date_of_rescheduled_r6 m2_lastdate_r6 m2_date_r7 m2_103_r7 m2_date_of_maternal_death_r7 m2_date_of_maternal_death_2_r7 m2_date_of_rescheduled_r7 m2_lastdate_r7 m2_date_r8 m2_103_r8 m2_date_of_maternal_death_r8 m2_date_of_maternal_death_2_r8 m2_date_of_rescheduled_r8 m2_lastdate_r8 m3_date m3_date_p2 m3_birth_or_ended m3_313a_baby1 m3_313a_baby2 m3_p1_date_of_rescheduled m3_p2_date_of_rescheduled m4_102 m4_113 m4_attempt_date m4_baby1_death_date m4_baby2_death_date m4_baby3_death_date m4_date_of_rescheduled m5_baby1_death_date m5_baby2_death_date m5_baby3_death_date m5_date {
 		
 		tab `v',m
-		
-		
+			
 		local format `:format `v''
 		di "`format'"
 		local type = substr("`format'",1,3)
@@ -7656,8 +7661,8 @@ label variable m2_endstatus`i' "What is this womens current status at the end of
 			if "`type2'" == "str" {
 				replace `name' = "" if `name' == "."
 				replace `v' = date(`name',"YMD") 
-				replace `v' = date(`name',"MDY") if missing(`v')
-				replace `v' = date(`name',"DMY") if missing(`v')
+				*replace `v' = date(`name',"MDY") if missing(`v')
+				*replace `v' = date(`name',"DMY") if missing(`v')
 			}
 			if "`type2'" != "str" replace `v' = `name'
 			
@@ -7723,8 +7728,13 @@ label variable m2_endstatus`i' "What is this womens current status at the end of
 	char m1_815_5[Original_ET_Varname] `m1_815_1[Original_ET_Varname]'  & `m1_815_5[Original_ET_Varname]' 
 	drop m1_815_1
 	
+	* Now we want to shift m1_8152 - M1_815_7 up one
+	foreach v in 2 3 4 5 6 7 {
+		rename m1_815_`v'  m1_815_`=`v'-1'
+	}
+	
 	save "$et_data_final/eco_m1-m5_et_wide.dta", replace
-	  
+	
 	* Run the derived variables code
 	do "${github}/Ethiopia/crEco_der_ET.do"
 	
@@ -7759,6 +7769,8 @@ label variable m2_endstatus`i' "What is this womens current status at the end of
 		local ++i
 	}
 	
+	
+	local i 1
 	foreach v in m1_1104_a m1_1104_b m1_1104_c m1_1104_d m1_1104_e m1_1104_f m1_1104_g m1_1104_h m1_1104_i m1_1104_j {
 		rename `v' m1_1104_`i'
 		local ++i
@@ -7772,14 +7784,398 @@ label variable m2_endstatus`i' "What is this womens current status at the end of
 
 	* Recommend that we drop these variables as they do not hold any information
 	drop m1_513a_888 m1_513a_998 m1_513a_999 m1_513a_888 m1_513a_998 m1_513a_999 m1_812b_888_et m1_812b_998_et m1_812b_999_et m1_815_888_et m1_815_998_et m1_815_999_et m1_1102_88_et m1_1102_98_et m1_1102_99_et m1_1104_888_et m1_1104_998_et m1_1104_999_et m1_1220_888_et m1_1220_998_et m1_1220_999_et m1_1402_888_et m1_1402_998_et m1_1402_999_et
+	
+		 * Add some value labels that were missing
+	 label define selected 1 "Selected" 0 "Not selected", replace
+label value m1_513a_1 m1_513a_2 m1_513a_3 m1_513a_4 m1_513a_5 m1_513a_6 m1_513a_7 m1_513a_8 ///
+m1_808_0 m1_808_1 m1_808_2 m1_808_3 m1_808_4 m1_808_5 m1_808_6 m1_808_7 m1_808_8 m1_808_9 m1_808_10 m1_808_11 m1_808_12_et m1_808_96 m1_808_99 ///
+m1_812b_1 m1_812b_2 m1_812b_3 m1_812b_4 m1_812b_5 m1_812b_96 m1_812b_99 ///
+m1_815_0 m1_815_1 m1_815_2 m1_815_3 m1_815_4 m1_815_5 m1_815_6 m1_815_96 ///
+m1_1102_1 m1_1102_2 m1_1102_3 m1_1102_4 m1_1102_5 m1_1102_6 m1_1102_7 m1_1102_8 m1_1102_9 m1_1102_10 m1_1102_96 m1_1102_98  ///
+m1_1220_1 m1_1220_2 m1_1220_3 m1_1220_4 m1_1220_5 m1_1220_6 m1_1220_96 ///
+m1_1402_1_et m1_1402_2_et m1_1402_3_et m1_1402_4_et m1_1402_5_et m1_1402_6_et m1_1402_7_et m1_1402_8_et m1_1402_9_et /// 
+m1_1104_1-m1_1104_10 m1_1104_96 m1_1104_98 m1_1104_99 ///
+m2_307_1_r* m2_307_2_r* m2_307_3_r* m2_307_4_r* m2_307_5_r* m2_307_96_r* ///
+m2_310_1_r* m2_310_2_r* m2_310_3_r* m2_310_4_r* m2_310_5_r* m2_310_96_r* ///
+m2_313_1_r* m2_313_2_r* m2_313_3_r* m2_313_4_r* m2_313_5_r* m2_313_96_r* ///
+m2_316_1_r* m2_316_2_r* m2_316_3_r* m2_316_4_r* m2_316_5_r* m2_316_96_r* ///
+m2_319_1_r* m2_319_2_r* m2_319_3_r* m2_319_4_r* m2_319_5_r* m2_319_96_r* ///
+m2_320_0_r* m2_320_1_r* m2_320_2_r* m2_320_3_r* m2_320_4_r* m2_320_5_r* m2_320_6_r* m2_320_7_r* m2_320_8_r* m2_320_9_r* m2_320_10_r* m2_320_11_r* m2_320_96_r* m2_320_99_r* ///
+m2_705_1_r* m2_705_2_r* m2_705_3_r* m2_705_4_r* m2_705_5_r* m2_705_6_r* m2_705_96_r* ///
+m2_204a_et_r* m2_204b_et_r* m2_204c_et_r* m2_204d_et_r* m2_204e_et_r* m2_204f_et_r* m2_204g_et_r* m2_204h_et_r* m2_204i_r* ///
+m3_baby*_feed_a m3_baby*_feed_b m3_baby*_feed_c m3_baby*_feed_d m3_baby*_feed_e m3_baby*_feed_f m3_baby*_feed_g m3_baby*_feed_96 m3_baby*_feed_99 ///
+m3_death_cause_baby*_a m3_death_cause_baby*_b m3_death_cause_baby*_c m3_death_cause_baby*_d m3_death_cause_baby*_e m3_death_cause_baby*_f m3_death_cause_baby*_g m3_death_cause_baby*_96 ///
+m3_605c_a m3_605c_b m3_605c_c m3_605c_d m3_605c_96 m3_605c_99 ///
+m3_baby*_issues_a m3_baby*_issues_b m3_baby*_issues_c m3_baby*_issues_d m3_baby*_issues_e m3_baby*_issues_f m3_baby*_issues_96 m3_baby*_issues_98 m3_baby*_issues_99 ///
+m5_baby*_feed_a m5_baby*_feed_b m5_baby*_feed_c m5_baby*_feed_d m5_baby*_feed_e m5_baby*_feed_f m5_baby*_feed_h m5_baby*_feed_99 ///
+m3_consultation*_reason_a m3_consultation*_reason_b m3_consultation*_reason_c m3_consultation*_reason_d m3_consultation*_reason_e m3_consultation*_reason_96 ///
+m5_1005a m5_1005b m5_1005c m5_1005d m5_1005e m5_1005f m5_1005_other ///
+m5_baby*_703a m5_baby*_703b m5_baby*_703c m5_baby*_703d m5_baby*_703e m5_baby*_703f m5_baby*_703g m5_baby*_703_96 m5_baby*_703_98 m5_baby*_703_99 ///
+m5_consultation*_a m5_consultation*_b m5_consultation*_c m5_consultation*_d m5_consultation*_e m5_consultation*_f m5_consultation*_g m5_consultation*_h m5_consultation*_i m5_consultation*_j m5_consultation*_oth m5_consultation*_98 m5_consultation*_99 m5_consultation*_oth ///
+m5_leakage_notx_reason_0 m5_leakage_notx_reason_1 m5_leakage_notx_reason_2 m5_leakage_notx_reason_3 m5_leakage_notx_reason_4 m5_leakage_notx_reason_5 m5_leakage_notx_reason_6 m5_leakage_notx_reason_7 m5_leakage_notx_reason_8 m5_leakage_notx_reason_9 m5_leakage_notx_reason_10 m5_leakage_notx_reason_11 m5_leakage_notx_reason_96 m5_leakage_notx_reason_99 ///
+m5_no_visit_a m5_no_visit_b m5_no_visit_c m5_no_visit_d m5_no_visit_e m5_no_visit_f m5_no_visit_g m5_no_visit_h m5_no_visit_i m5_no_visit_j m5_no_visit_k m5_no_visit_96 m5_no_visit_98 m5_no_visit_99 ///
+selected
+ 
+ 
+label define told 1 "Yes" 0 "I was not told", replace
+label value m1_812b_0_et told
+ 
+label define m1_816 1 "Yes, they asked me" 0 "No they did not ask me" 98 "Don't know" 99 "NR/RF", replace
+label value m1_816 m1_816 
 
-	* Run the program that cleans up the labels
-	m1_add_shortened_labels
+
+
 
 	* Save the completed dataset	
-	save "$et_data_final/eco_ET_Complete.dta", replace
+		* Lets drop all those variables that have *_888 as they are all set to no and provide no information
+	foreach v of varlist *_888* *_998* *_999* {
+		tab `v',m
+		assert inlist(`v',0,.) | missing(`v')
+		drop `v'
+	}
+	
+	* Add value labels that were missed
+	label define prescription 0 "Neither" 1 "Provider gave it directly/Provider gave a prescription or told you to get it somewhere else", replace
+	label value anc1ifa anc1calcium anc1deworm anc1food_supp anc1mental_health_drug anc1hypertension anc1diabetes prescription
+			
+	label define yesnodnknr 1 "Yes" 0 "No" 98 "Don't know" 99 "NR/RF", replace
+	label value anc1bp anc1weight anc1height anc1muac anc1urine anc1blood anc1hiv_test anc1syphilis_test anc1blood_sugar_test anc1tt anc1depression anc1edd m1_counsel_nutri m1_counsel_exer 			m1_counsel_complic m1_counsel_comeback m1_counsel_birthplan m1_specialist_hosp preg_intent m1_dangersigns anc1danger_screen m1_stop_risk m1_anemic_11 m1_anemic_7 m1_malnutrition 			m1_low_BMI anc1bmi anc1ultrasound anc1lmp m1_HBP primipara ///
+			m2_permission_r* ///
+			m2_204c_et_r* ///
+			m1_8a_et m1_8b_et m1_8c_et m1_8d_et m1_8e_et m1_8f_et m1_8g_et ///
+ m1_2_8_et  ///
+ m1_902 /// 
+ m1_1105 ///
+ m1_1216a ///
+ m1_1308 ///
+ preterm_birth ///
+ m3_consultation*_reason_a m3_consultation*_reason_b m3_consultation*_reason_c m3_consultation*_reason_d m3_consultation*_reason_e m3_consultation*_reason_96  ///
+ m4_permission m4_start ///
+ yesnodnknr
 
-	* Create the codebook for M1
+	* To align with all other countries lets rename some varibles
+	rename m3_619f m3_619_should_be_h // sun exposure
+	rename m3_619g m3_619f // danger signs in baby
+	rename m3_619h m3_619g // danger signs in self
+	rename m3_619_should_be_h m3_619h // sun exposure
+	
+	forvalues i = 1/10 {
+		capture rename m2_601n_other_r`i' m2_601_other_r`i'
+	}
+	
+	* Clean up the consulation dates
+	foreach v in m4_411a m4_411b m4_411c {
+		replace `v' = ".d" if `v' == "98"
+		replace `v' = subinstr(`v',"-"," ",.)
+		gen `v'_y  = word(`v',1)
+		gen `v'_m  = word(`v',2)
+		gen `v'_d  = word(`v',3)
+		destring `v'_y `v'_m `v'_d, replace
+		rename `v' `v'_string
+		gen `v' = mdy(`v'_m,`v'_d,`v'_y)
+		char `v'[Module] ``v_string'[Module]'
+		char `v'[Original_ET_Varname] ``v'_string[Original_ET_Varname]'
+		format `v' %td 
+		replace `v' = .d if `v'_string == ".d"
+		replace `v' = .a if `v'_string == ".a"
+		replace `v' = .r if `v'_string == ".r"
+		label var `v' "`:var label `v'_string'"
+		drop `v'_y `v'_d `v'_m 
+		order `v', after(`v'_string)
+	}
+
+	* Confirm that all the variables have a module and original variable associated
+	foreach v of varlist * {
+		if "``v'[Module]'" == "" di "`v'"
+	}
+	
+	foreach v of varlist * {
+		if "``v'[Original_ET_Varname]'" == "" di "`v'"
+	}
+		
+	save "$et_data_final/eco_ET_Complete.dta", replace
+	
+	* Add the standard short labels
+	m1_add_shortened_labels
+	m2_add_shortened_labels
+	m3_add_shortened_labels
+	m4_add_shortened_labels
+	m5_add_shortened_labels
+	
+	* Add the short labels from mcard
+	capture label var mcard_action_advice_counseling "Action, advice and counseling" // action_advice_counseling 
+	capture label var mcard_age "Age" // age 
+	capture label var mcard_age16 "Current pregnancy: Age < 16, based on age" // age_less_than_16_years 
+	capture label var mcard_age40 "Current pregnancy: Age > 40, based on age" // age_more_than_40_years 
+	capture label var mcard_arv_px_type "Present pregnancy: ARV type" // arv_px_type 
+	capture label var mcard_babywgt2500 "Obstetric history: baby birth weight <2500g" // birthweight2500 
+	capture label var mcard_babywgt4000 "Obstetric history: baby birth weight >4000g" // birthweight4000 
+	capture label var mcard_birth_prep "Birth preparedness advised" // birth_preparedness_advised 
+	capture label var mcard_bloodgrp "Present pregnancy: Blood group" // blood_group_and_rh 
+	capture label var mcard_bp_diastolic "Current pregnancy: Diastolic blood pressure" // bp_diastolic 
+	capture label var mcard_bp_systolic "Current pregnancy: Systolic blood pressure" // bp_systolic 
+	capture label var mcard_cervical_lesion "GYN examination: Cervial lesion" // cervical_lesion 
+	capture label var mcard_chest_abn_no "General examination: Do not have chest abnormality" // chest_abn___0 
+	capture label var mcard_chest_abn_no_info "General examination: No information if has chest abnormality" // chest_abn___888 
+	capture label var mcard_chest_abn_ref "General examination: Refused if has chest abnormality" // chest_abn___999 
+	capture label var mcard_chest_abn_unk "General examination: Unknown if has chest abnormality" // chest_abn___998 
+	capture label var mcard_chest_abn_yes "General examination: Has chest abnormality" // chest_abn___1 
+	capture label var mcard_complete "Maternal card complete" // maternal_integrated_cards_comple 
+	capture label var mcard_consent "Consent to review maternal health card" // q1501 
+	capture label var mcard_danger_signs "Danger signs in pregnancy" // danger_signs_in_pregnancy 
+	capture label var mcard_danger_signs2 "Current pregnancy: Danger signs" // danger_signs 
+	capture label var mcard_date "Date" // date 
+	capture label var mcard_delivery_advised "Delivery advised" // delivery_advised 
+	capture label var mcard_diastolic "Current pregnancy: Diastolic pressure 90mmHg or more at booking" // diastolic 
+	capture label var mcard_dm "General medical: diabetes mellitus from maternal card" // diabetes_mellitus 
+	capture label var mcard_dx "Current pregnancy: Diagnosed or suspected multiple pregnancy" // diagnosed 
+	capture label var mcard_edd "Estimated due date" // edd
+	capture label var mcard_feed_counsel "Counseling on infant feeding" // counseled_infant_feeding 
+	capture label var mcard_fetal_heartbeat "Present pregnancy: Fetal heart beat (follow-up 1st visit)" // fetal_heartbeat 
+	capture label var mcard_fu_visit "Present pregnancy: Date of visit" // date_of_visit 
+	capture label var mcard_ga_lmp "Present pregnancy: Gestational age based on LMP (weeks)" // gestation_age_lmp 
+	capture label var mcard_gravid "Gravidity" // gravid 
+	capture label var mcard_heart_abnormality "General examination: heart abnormality" // heart_abnormality 
+	capture label var mcard_hemoglobin "Present pregnancy: hemoglobin level" // hemoglobin 
+	capture label var mcard_hiv_counsel "HIV test result received with post test counseling" // hiv_test_result_receive 
+	capture label var mcard_hiv_test_result "HIV test result" // hiv_test_result 
+	capture label var mcard_hsitory "History of 3 or more consecutive spontaneous abortions" // history_of_3 
+	capture label var mcard_htn "General medical: Hypertension" // chronic_hypertension 
+	capture label var mcard_iron "Present pregnancy: Take iron" // iron_folic_acid 
+	capture label var mcard_iso "Current pregnancy:  Isoimmunization Rh(-) in current/previous pregnancies" // isoimmunization 
+	capture label var mcard_jaundice "General examination: Have jaundice" // jaundice 
+	capture label var mcard_last_preg "Last pregnancy: Hospital admission for hypertension/preeclampsia-eclampsia" // last_pregnancy 
+	capture label var mcard_lmp "LMP from maternal card" // lmp 
+	capture label var mcard_mbendazole "Present pregnancy: Took Mebendazole" // mbendazole 
+	capture label var mcard_mother_hiv_test "Mother HIV test accepted" // mother_hiv_test_accepted 
+	capture label var mcard_next_appt "Appointment for next follow up" // appointment_next 
+	capture label var mcard_number_of_children_alive "Number of children alive" // number_of_children_alive 
+	capture label var mcard_other_dx "Present pregnancy: Any other medical disease/condition" // other_medical_disease 
+	capture label var mcard_pallor "General examination: pallor or not" // pallor 
+	capture label var mcard_pallor2 "Present pregnancy: Pallor" // pallor_v1 
+	capture label var mcard_para "Partiy" // para 
+	
+	capture label var mcard_partner_hiv_test "Partner's HIV test result" // partner_hiv_test_result 
+	label define mcard_partner_hiv_test 1 "R" 2 "NR" 3 "Not done", replace
+	label value mcard_partner_hiv_test mcard_partner_hiv_test
+	
+	capture label var mcard_pelvic_mass "Present pregnancy: Pelvic mass" // pelvic_mass 
+	capture label var mcard_pelvic_mass1_ "General medical: Pelvic mass" // pelvic_mass1 
+	capture label var mcard_presentation "Present pregnancy: Fetal presentation" // presentation 
+	capture label var mcard_prev_survey "Previous survey on reproductive tract" // previous_survey 
+	capture label var mcard_previous_stillbirth "Obstetric history: Previous stillbirth or neonatal loss" // previous_stillbirth 
+	capture label var mcard_referred "Referred for care and treatment support" // referred_for_care 
+	capture label var mcard_remarks "Present pregnancy: Remarks" // remarks 
+	capture label var mcard_renal "General medical: Renal disease" // renal_disease 
+	capture label var mcard_sub_abuse `"General medical:Known "substance" abuse -includes heavy alcohol drinking/smoking"' // substance_abuse 
+	capture label var mcard_syphilis_test "Present pregnancy: Syphilis test" // rapid_syphilis_test 
+	capture label var mcard_tt_doses "Present pregnancy:　Number of TT doses" // tt_does 
+	capture label var mcard_urine_infection "Present pregnancy: Urine infection" // urine_test_for_infection 
+	capture label var mcard_urine_protein "Present pregnancy: Urine protein (+)" // urine_test_for_protein 
+	capture label var mcard_use_of_itn "Present pregnancy: Use ITN" // use_of_itn 
+	capture label var mcard_uterine_size "GYN examination: Uterine size" // uterine_size 
+	capture label var mcard_vag_bleed "Current pregnancy: Vaginal bleeding" // vaginal_bleeding 
+	capture label var mcard_vaginal_dis "GYN examination: Vaginal discharge" // vaginal_discharge 
+	capture label var mcard_valvar_ulcer "GYN examination: Hasvalvar ulcer" // valvar_ulcer 
+	capture label var mcard_weight "Present pregnancy: Maternal body weight" // weight_kg_v1 
+	
+	
+	* Add value labels to mcard variables
+	label value mcard_birth_prep mcard_cervical_lesion mcard_chest_abn_no mcard_chest_abn_no_info mcard_chest_abn_ref mcard_chest_abn_unk mcard_chest_abn_yes mcard_complete mcard_consent mcard_danger_signs mcard_date mcard_delivery_advised mcard_diastolic mcard_dm mcard_dx mcard_edd mcard_feed_counsel mcard_heart_abnormality mcard_hiv_counsel mcard_hiv_test_result mcard_hsitory mcard_htn mcard_iso mcard_jaundice mcard_last_preg mcard_mother_hiv_test mcard_other_dx mcard_pallor mcard_pelvic_mass mcard_pelvic_mass1_ mcard_prev_survey mcard_previous_stillbirth mcard_referred  mcard_renal mcard_sub_abuse   mcard_uterine_size mcard_vag_bleed mcard_vaginal_dis mcard_valvar_ulcer mcard_age16 mcard_age40 mcard_babywgt4000 mcard_babywgt2500 ///
+	yesnodnknr
+
+	* Rename because there is a typo in the varname
+	rename mcard_hsitory mcard_history
+	
+	//mcard_weight mcard_use_of_itn mcard_urine_protein mcard_urine_infection mcard_tt_doses 	mcard_syphilis_test mcard_remarks mcard_presentation mcard_pallor2 mcard_next_appt mcard_mbendazole mcard_iron mcard_ga_lmp mcard_fetal_heartbeat mcard_danger_signs2 mcard_bloodgrp mcard_arv_px_type
+
+	* We need to make these string variables as dates 
+	foreach v in  mcard_fu_visit mcard_lmp {
+		replace `v' = subinstr(`v',"-"," ",.)
+		gen	`v'_y = word(`v',1)
+		gen	`v'_m = word(`v',2)
+		gen	`v'_d = word(`v',3)
+		rename	`v' `v'_string
+		destring `v'_y `v'_m `v'_d, replace
+		gen `v'=mdy(`v'_m,`v'_d,`v'_y)
+		format %td `v'
+		replace `v' = .a if `v'_string == ".a"
+		replace `v' = .d if `v'_string == ".d"
+		replace `v' = .r if `v'_string == ".r"
+		replace `v' = .n if `v'_string == ".n"
+	
+	
+		label var `v' "`:var label `v'_string'"
+		order `v', after(`v'_string)
+		char `v'[Module] ``v'_string[Module]'
+		char `v'[Original_ET_Varname] ``v'_string[Original_ET_Varname]' 
+		drop `v'_string `v'_y `v'_d `v'_m
+	}
+	
+	
 	* Note these are saved as an HTML file that is then saved to an excel file in the ${et_data_final} folder
-	local date_variables m1_date m1_c6_in m1_802a m1_802c_et mcard_date mcard_edd
-	create_module_codebook, country(Ethiopia) outputfolder($et_data_final) codebook_folder($et_data_final\archive\Codebook) module_number(1) module_dataset(eco_ET_Complete) id(respondentid) date_variables(`date_variables')
+	
+	foreach v of varlist * {
+local l = strlen("`:var label `v''")
+if `l' >=80 di "`v' | `:var label `v''"
+	}
+	
+	
+	save "$et_data_final/eco_ET_Complete.dta", replace
+	
+	****************************************************************************
+	****************************************************************************
+	****************************************************************************
+	* Create the codebooks
+
+	capture erase "${et_data_final}/${Country}_Codebooks.xlsx"
+
+	foreach v in 1 2 3 4 5 6 {
+		create_module_codebook, country(Ethiopia) outputfolder($et_data_final) codebook_folder($et_data_final\archive\Codebook) module_number(`v') module_dataset(eco_ET_Complete) id(respondentid) special
+	}
+	
+	
+	****************************************************************************
+	****************************************************************************
+
+	* Now we want to clean up the output folder
+	local today = today() 
+	local today : di %td `today'
+	di "`today'"
+	
+	* Put the files in a folder with today's date
+	
+	capture mkdir "$et_data_final/archive/`today'"
+	
+	* Archive all unnecessary other files
+	foreach v in eco_m1-m5_et_wide_der eco_m1-m5_et_wide eco_m1-m5_et_long eco_m3_before_recode {
+		capture confirm file "$et_data_final/`v'.dta"
+		if _rc == 0 {
+			copy "$et_data_final/`v'.dta" "$et_data_final/archive/`today'/`v'.dta", replace
+			erase "$et_data_final/`v'.dta" 
+		}
+	}
+
+	
+	****************************************************************************
+	****************************************************************************
+	****************************************************************************
+	* Do some basic assertions
+	use "$et_data_final/eco_ET_Complete", clear
+	/* Confirm that all dates are sensical
+foreach i in 5 4 3  {
+	local start = `i' - 1
+	local loop 
+	forvalues n= 1/`start' {
+		if `n' != 2 local loop `n' `loop'
+	}
+	foreach n in `loop' {
+		di "Date `i' compared to Date`n'..."
+		assertlist m`i'_date > m`n'_date if !missing(m`i'_date) & !missing(m`n'_date), list(respondentid m1_date m3_date m4_date m5_date m3_202) tag(m`i' date should be after m`n'_date)
+		
+		assertlist !missing(m`n'_date) if !missing(m`i'_date), list(respondentid m1_date m3_date m4_date m5_date m3_202) tag(m`n'_date should be populated if m`i'_date populated)
+		
+		*assertlist missing(m`i'_date) if missing(m`n'_date), list(respondentid m`i'_date m`n'_date) tag(m`i'_date should be missing if missing m`n'_date populated)		
+	}
+	
+}
+
+*assertlist mcard_date == m1_date if !missing(m1_date) & !missing(mcard_date), list(respondentid m1_date m3_date m4_date m5_date mcard_date m3_202) tag(mcard date should be after m1_date)
+
+
+* Confirm the estimated delivery date is after the first interview date
+assertlist mcard_edd > m1_date, list(respondentid edd m1_date)
+
+local i 1
+foreach v in m2_date_r1 m2_date_r2 m2_date_r3 m2_date_r4 m2_date_r5 m2_date_r6 m2_date_r7 m2_date_r8 m2_date_r9 m2_date_r10 {
+	
+	di "Date R`i' - `v'"
+	assertlist `v' > m1_date if !missing(`v'), list(respondentid m1_date m2_date_r1 m2_date_r2 m2_date_r3 m2_date_r4 m2_date_r5 m2_date_r6 m2_date_r7 m2_date_r8 m2_date_r9 m2_date_r10)
+	
+	di "... Compared to M3 date"
+	assertlist `v' <= m3_date if !missing(`v') & !missing(m3_date), list(respondentid m2_date_r1 m2_date_r2 m2_date_r3 m2_date_r4 m2_date_r5 m2_date_r6 m2_date_r7 m2_date_r8 m2_date_r9 m2_date_r10 m3_date)
+	
+	di "... Compared to M4 date"
+	assertlist `v' <= m4_date if !missing(`v') & !missing(m4_date), list(respondentid m2_date_r1 m2_date_r2 m2_date_r3 m2_date_r4 m2_date_r5 m2_date_r6 m2_date_r7 m2_date_r8 m2_date_r9 m2_date_r10 m4_date)
+	
+	di "... Compared to M5 date"
+	assertlist `v' <= m4_date if !missing(`v') & !missing(m5_date), list(respondentid m2_date_r1 m2_date_r2 m2_date_r3 m2_date_r4 m2_date_r5 m2_date_r6 m2_date_r7 m2_date_r8 m2_date_r9 m2_date_r10 m5_date)
+	local ++i
+}
+
+forvalues i = 1/10 {
+	di "R`i' : Confirm delivery date is before the interview date"
+	assertlist m2_202_delivery_date_r`i'  <= m2_date_r`i' if !missing(m2_202_delivery_date_r`i'), list(respondentid m2_202_delivery_date_r`i'   m2_date_r`i')
+}
+forvalues i = 1/10 {	
+	di "R`i': Confirm delivery date is before M3 date"
+	assertlist m2_202_delivery_date_r`i' < m3_date if !missing(m2_202_delivery_date_r`i'), list(respondentid m2_202_delivery_date_r`i' m3_date)
+}
+
+forvalues i= 1/10 {
+	di "R`i': Confirm delivery date is before M4 date"
+	assertlist m2_202_delivery_date_r`i' < m4_date if !missing(m2_202_delivery_date_r`i'), list(respondentid m2_202_delivery_date_r`i' m4_date)
+}
+
+forvalues i= 1/10 {
+	di "R`i': Confirm delivery date is before M5 date"
+	assertlist m2_202_delivery_date_r`i' < m5_date if !missing(m2_202_delivery_date_r`i'), list(respondentid m2_202_delivery_date_r`i' m5_date)
+}
+forvalues i= 1/10 {
+	di "R`i': Confirm delivery date is the same as m3_birth_or_ended"
+	assertlist m2_202_delivery_date_r`i' == m3_birth_or_ended if !missing(m2_202_delivery_date_r`i'), list(respondentid m2_202_delivery_date_r`i' m3_birth_or_ended)
+}
+
+
+* Confirm date labor started is before or equal to delivery date
+assertlist m3_506_date >= m3_birth_or_ended if !missing(m3_506_date), list(respondentid m3_506_date m3_birth_or_ended)
+
+
+* Confirm the baby death dates are after delivery dates
+assertlist m3_313a_baby1 >= m3_birth_or_ended if !missing(m3_313a_baby1), list(respondentid m3_313a_baby1 m3_birth_or_ended)
+
+* Confirm the baby death dates are after delivery dates
+assertlist m3_313a_baby2 >= m3_birth_or_ended if !missing(m3_313a_baby2), list(respondentid m3_313a_baby2 m3_birth_or_ended)
+
+* Confirm the delivery date provided in M4 is the same as the one in M3
+assertlist m4_date_delivery == m3_birth_or_ended if !missing(m4_date_delivery), list(respondentid m3_birth_or_ended m4_date_delivery)
+
+
+* Check all adult weights
+assertlist m5_weight >= 35 & m5_weight <= 136 if !missing(m5_weight), list(respondentid m5_weight)
+
+assertlist m1_weight_kg <= 136 & m1_weight_kg >= 35 if !missing(m1_weight_kg), list(respondentid m1_weight_kg)
+
+* Now confirm that the two weights are relative to eachother 
+*assertlist m1_weight_kg <= m5_weight if !missing(m5_weight), list(respondentid m1_weight m5_weight m1_804 m1_date m3_birth_or_ended m4_date_delivery m5_dateconfirm)
+
+assertlist abs(m5_weight-m1_weight_kg) <=30 if !missing(m5_weight) & !missing(m1_weight_kg), list(respondentid m1_weight_kg m5_weight m1_804 m1_date m5_date)
+
+* Confirm that the apgar scores are less than 10 and child's weight
+foreach v of varlist mcard*_apgar*  mcard_b1_babywgt mcard_b2_babywgt {
+	assertlist `v' <=10 if !missing(`v'), list(respondentid `v')
+}
+
+foreach v in m3_baby1_weight m3_baby2_weight {
+	assertlist `v' <= 10 if !missing(`v'), list(respondentid `v')
+}
+
+foreach v in m5_baby1_weight m5_baby2_weight {
+		assertlist `v' <= 10 if !missing(`v'), list(respondentid `v')
+}
+
+* Confirm that the weight in m5 is larger than m3
+assertlist m3_baby1_weight < m5_baby1_weight if !missing(m3_baby1_weight), list(respondentid m3_baby1_weight m5_baby1_weight m3_date m5_date)
+assertlist m3_baby2_weight < m5_baby2_weight if !missing(m3_baby2_weight), list(respondentid m3_baby2_weight m5_baby2_weight m3_date m5_date)
+
+* The birth weight shoud be equal in both the M3 and MCARD Datsets
+*assertlist  abs(m3_baby1_weight - mcard_b1_babywgt)< 5 if !missing(mcard_b1_babywgt) & !missing(m3_baby1_weight) , list(respondentid m3_baby1_weight mcard_b1_babywgt)
+
+*assertlist  abs(m3_baby2_weight - mcard_b2_babywgt)< 5 if !missing(mcard_b2_babywgt) & !missing(m3_baby2_weight) , list(respondentid m3_baby2_weight mcard_b2_babywgt)
+
+
+* Check the height variables
+assertlist m1_height_cm >= 120 & m1_height_cm < 199 if !missing(m1_height_cm), list(respondentid m1_height_cm m1_enrollage)
+assertlist m5_height >= 120 & m5_height < 199 if !missing(m5_height), list(respondentid m5_height m1_enrollage)
+assertlist abs(m1_height_cm - m5_height) <= 5 if !missing(m5_height) & !missing(m1_height_cm), list(respondentid m1_height_cm m5_height)
+

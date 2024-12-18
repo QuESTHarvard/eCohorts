@@ -10,15 +10,15 @@ capture program drop m3_value_labels
 program define m3_value_labels
 
 	* Define all the value labels for M3 dataset
-	label define yes_no_dnk_nr 0 "No" 1 "Yes" 98 "Don't Know" 99 "No Response/Refused to answer", replace
+	label define yes_no_dnk_nr 0 "No" 1 "Yes", replace //98 "Don't Know" 99 "No Response/Refused to answer", replace
 
 	label define yesno 0 "No" 1 "Yes", replace
 
-	label define gender 1 "Male" 2 "Female" 3 "Inderterminate" 99 "No Response/Refused to answer", replace
+	label define gender 1 "Male" 2 "Female" 3 "Inderterminate", replace // 99 "No Response/Refused to answer", replace
 
-	label define hcw_had_card 0 "No" 1 "Yes" 3 "I don't have a maternal health card" 98 "Don't Know" 99 "No Response/Refused to answer", replace
+	label define hcw_had_card 0 "No" 1 "Yes" 3 "I don't have a maternal health card", replace // 98 "Don't Know" 99 "No Response/Refused to answer", replace
 
-	label define how_gave_birth 1 "My own bed" 2 "A shared bed" 3 "A mattress on the floor" 4 "The floor" 5 "A chair" 6 "I was standing" 98 "Don't Know" 99 "No Response/Refused to answer", replace
+	label define how_gave_birth 1 "My own bed" 2 "A shared bed" 3 "A mattress on the floor" 4 "The floor" 5 "A chair" 6 "I was standing", replace // 98 "Don't Know" 99 "No Response/Refused to answer", replace
 
 	label define skin 1 "Normal skin" 2 "Dry or red skin" 3 "Irritated or itchy skin" 4 "Bleeding or cracked skin", replace
 
@@ -28,7 +28,7 @@ program define m3_value_labels
 
 	label define activity 1 "Highly playful/interactive" 2 "Playful/interactive" 3 "Less playful/less interactive" 4 "Low energy/inactive/dull", replace
 
-	label define baby_size 1 "Very large" 2 "Larger than average" 3 "Average" 4 "Smaller than average" 5 "Very small" 98 "Don't Know", replace
+	label define baby_size 1 "Very large" 2 "Larger than average" 3 "Average" 4 "Smaller than average" 5 "Very small", replace // 98 "Don't Know", replace
 
 	label define breathing 1 "Normal breathing" 2 "Slight breathing problems" 3 "Moderate breathing problems" 4 "Severe breathing problems", replace
 
@@ -36,53 +36,53 @@ program define m3_value_labels
 
 	label define before_after 1 "Before" 2 "After" 98 "Don't Know" 99 "No Response/Refused to answer", replace
 
-	label define confidence 1 "Not at all confident" 2 "Not very confident" 3 "Somewhat confident" 4 "Confident" 5 "Very confident" 96 "I do not breastfeed" 99 "No Response/Refused to answer", replace
+	label define confidence 1 "Not at all confident" 2 "Not very confident" 3 "Somewhat confident" 4 "Confident" 5 "Very confident" 96 "I do not breastfeed", replace // 99 "No Response/Refused to answer", replace
 
 	label define date 98 "Don't Know", replace
 
-	label define days 0 "None of the days" 1 "Several days" 2 "More than half the days (>7)" 3 "Nearly every day" 99 "No Response/Refused to answer", replace
+	label define days 0 "None of the days" 1 "Several days" 2 "More than half the days (>7)" 3 "Nearly every day", replace // 99 "No Response/Refused to answer", replace
 
-	label define effective 1 "Yes, no more leakage at all" 2 "Yes, but still some leakage" 3 "No, still have problem" 98 "Don't know" 99 "No response/refused to answer", replace
+	label define effective 1 "Yes, no more leakage at all" 2 "Yes, but still some leakage" 3 "No, still have problem", replace // 98 "Don't know" 99 "No response/refused to answer", replace
 
-	label define facility_type_ET 3 "Government hospital" 4 "Government health center" 5 "Government health post" 6 "NGO or faith-based health facility" 7 "Private hospital" 8 "Private specialty maternity center" 9 "Private specialty maternity clinic" 10 "Private clinic" 11 "Another private medical facility (including pharmacy, shop, traditional healer)" 98 "Don't Know" 99 "No Response/Refused to answer", replace
+	label define facility_type_ET 3 "Government hospital" 4 "Government health center" 5 "Government health post" 6 "NGO or faith-based health facility" 7 "Private hospital" 8 "Private specialty maternity center" 9 "Private specialty maternity clinic" 10 "Private clinic" 11 "Another private medical facility (including pharmacy, shop, traditional healer)", replace // 98 "Don't Know" 99 "No Response/Refused to answer", replace
 
-	label define facility_type_IN 1 "Sub center" 2 "Primary health center" 3 "Community health center" 4 "District hospital" 5 "Public tertiary care hospital (medical college)" 6 "Private clinic" 7 "Private hospital" 8 "Charity hospital" 9 "RMP (informal provider)" 98 "Don't Know" 99 "No Response/Refused to answer", replace
+	label define facility_type_IN 1 "Sub center" 2 "Primary health center" 3 "Community health center" 4 "District hospital" 5 "Public tertiary care hospital (medical college)" 6 "Private clinic" 7 "Private hospital" 8 "Charity hospital" 9 "RMP (informal provider)", replace // 98 "Don't Know" 99 "No Response/Refused to answer", replace
 
-	label define facility_type_KE 3 "Government hospital" 4 "Government health center" 5 "Government dispensary" 6 "Other public facility" 7 "NGO or faith-based health facility" 8 "Private hospital" 9 "Private clinic" 10 "Another private medical facility (including pharmacy, shop, traditional healer)" 98 "Don't Know" 99 "No Response/Refused to answer", replace
+	label define facility_type_KE 3 "Government hospital" 4 "Government health center" 5 "Government dispensary" 6 "Other public facility" 7 "NGO or faith-based health facility" 8 "Private hospital" 9 "Private clinic" 10 "Another private medical facility (including pharmacy, shop, traditional healer)", replace // 98 "Don't Know" 99 "No Response/Refused to answer", replace
 
-	label define facility_type_ZA 1 "Public clinic" 2 "Public hospital" 3 "Private clinic" 4 "Private hospital" 5 "Public Community health center" 6 "Other" 98 "Don't Know" 99 "No Response/Refused to answer", replace
+	label define facility_type_ZA 1 "Public clinic" 2 "Public hospital" 3 "Private clinic" 4 "Private hospital" 5 "Public Community health center" 6 "Other", replace // 98 "Don't Know" 99 "No Response/Refused to answer", replace
 
-	label define interfere 0 "0 (Not at all)" 1 "1" 2 "2" 3 "3" 4 "4" 5 "5" 6 "6" 7 "7" 8 "8" 9 "9" 10 "10 (A great deal)" 99 "No Response/Refused to answer", replace
+	label define interfere 0 "0 (Not at all)" 1 "1" 2 "2" 3 "3" 4 "4" 5 "5" 6 "6" 7 "7" 8 "8" 9 "9" 10 "10 (A great deal)" , replace //99 "No Response/Refused to answer", replace
 
-	label define likelihood 1 "Very likely" 2 "Somewhat likely" 3 "Not too likely" 4 "Not at all likely" 98 "Don't Know" 99 "No Response/Refused to answer", replace
+	label define likelihood 1 "Very likely" 2 "Somewhat likely" 3 "Not too likely" 4 "Not at all likely", replace // 98 "Don't Know" 99 "No Response/Refused to answer", replace
 
 	label define maternal_death 1 "Called respondent phone, someone else responded" 2 "Called spouse/partner phone, was informed " 3 "Called close friend or family member phone number, was informed" 4 "Called CHW phone number, was informed " 96 "Other (specify)", replace
 
 	label define mood 1 "Happy/content" 2 "Fussy/irritable" 3 "Crying" 4 "Inconsolable crying", replace
 
-	label define number 98 "Don't Know" 99 "No Response/Refused to answer", replace
+	//label define number 98 "Don't Know" 99 "No Response/Refused to answer", replace
 
-	label define number_babies 1 "1" 2 "2" 3 "3 or more" 98 "Don't Know" 99 "No Response/Refused to answer", replace
+	label define number_babies 1 "1" 2 "2" 3 "3 or more", replace // 98 "Don't Know" 99 "No Response/Refused to answer", replace
 
 	label define pregnant 1 "Yes, still pregnant" 2 "No, delivered" 3 "No, something else happened ", replace
 
 	label define quality_care 1 "Poor" 2 "Fair" 3 "Good" 4 "Very good" 5 "Excellent" 6 "Not applicable (e.g. no antenatal tests)" 99 "No Response/Refused to answer", replace
 
-	label define rate 1 "Excellent" 2 "Very Good" 3 "Good" 4 "Fair" 5 "Poor" 99 "No Response/Refused to answer", replace
+	label define rate 1 "Excellent" 2 "Very Good" 3 "Good" 4 "Fair" 5 "Poor" , replace //99 "No Response/Refused to answer", replace
 
 	label define rsn_for_death 0 "Not told anything" 1 "The baby was premature (born too early)" 2 "An infection" 3 "A congenital abnormality (genetic or acquired issues with growth/development)" 4 "A birth injury or asphyxia (occurring because of delivery complications)" 5 "Difficulties breathing" 6 "Unexplained causes" 7 "You decided to have an abortion" 96 "Other", replace
 
-	label define rsn_home_birth 1 "High cost (e.g., high out of pocket payment, not covered by insurance)" 2 "Far distance (e.g., too far to walk or drive, transport not readily available)" 3 "Long waiting time (e.g., long line to access facility, long wait for the provider)" 4 "Poor healthcare provider skills (e.g., spent too little time with patient, did not conduct a thorough exam)" 5 "Staff don't show respect (e.g., staff is rude, impolite, dismissive)" 6 "Medicines and equipment are not available (e.g., medicines regularly out of stock, equipment like X-ray machines broken or unavailable)" 7 "Facility not clean and/or comfortable (e.g., dirty, risk of infection)" 8 "Not necessary (e.g., able to receive enough care at home, traditional care)" 9 "COVID-19 restrictions (e.g., lockdowns, travel restrictions, curfews)" 10 "COVID-19 fear" 11 "No female provider" 12 "Husband/family did not allow it" 13 "Facility was closed" 14 "Delivered on the way (tried to go)" 96 "Other" 99 "No Response/Refused to answer", replace
+	label define rsn_home_birth 1 "High cost (e.g., high out of pocket payment, not covered by insurance)" 2 "Far distance (e.g., too far to walk or drive, transport not readily available)" 3 "Long waiting time (e.g., long line to access facility, long wait for the provider)" 4 "Poor healthcare provider skills (e.g., spent too little time with patient, did not conduct a thorough exam)" 5 "Staff don't show respect (e.g., staff is rude, impolite, dismissive)" 6 "Medicines and equipment are not available (e.g., medicines regularly out of stock, equipment like X-ray machines broken or unavailable)" 7 "Facility not clean and/or comfortable (e.g., dirty, risk of infection)" 8 "Not necessary (e.g., able to receive enough care at home, traditional care)" 9 "COVID-19 restrictions (e.g., lockdowns, travel restrictions, curfews)" 10 "COVID-19 fear" 11 "No female provider" 12 "Husband/family did not allow it" 13 "Facility was closed" 14 "Delivered on the way (tried to go)" 96 "Other" , replace //99 "No Response/Refused to answer", replace
 
-	label define rsn_left_facility 1 "High cost (e.g., high out of pocket payment, not covered by insurance)" 2 "Long waiting time (e.g., long line to access facility, long wait for the provider)" 3 "Poor healthcare provider skills (e.g., spent too little time with patient, did not conduct a thorough exam)" 4 "Staff don't show respect (e.g., staff is rude, impolite, dismissive)" 5 "Medicines and equipment are not available (e.g., medicines regularly out of stock, equipment like X-ray machines broken or unavailable)" 6 "Facility not clean and/or comfortable (e.g., dirty, risk of infection)" 7 "COVID-19 restrictions (e.g., lockdowns, travel restrictions, curfews)" 8 "COVID-19 fear" 9 "No female provider" 96 "Other" 99 "No Response/Refused to answer", replace
+	label define rsn_left_facility 1 "High cost (e.g., high out of pocket payment, not covered by insurance)" 2 "Long waiting time (e.g., long line to access facility, long wait for the provider)" 3 "Poor healthcare provider skills (e.g., spent too little time with patient, did not conduct a thorough exam)" 4 "Staff don't show respect (e.g., staff is rude, impolite, dismissive)" 5 "Medicines and equipment are not available (e.g., medicines regularly out of stock, equipment like X-ray machines broken or unavailable)" 6 "Facility not clean and/or comfortable (e.g., dirty, risk of infection)" 7 "COVID-19 restrictions (e.g., lockdowns, travel restrictions, curfews)" 8 "COVID-19 fear" 9 "No female provider" 96 "Other", replace // 99 "No Response/Refused to answer", replace
 
-	label define rsn_no_treatment 1 "Do not know can be fixed" 2 "Do not know where to go" 3 "Too expensive" 4 "Too far" 5 "Poor quality of care" 6 "Could not get permission" 7 "Embarrassment" 8 "Problem disappeared" 96 "Other" 98 "Don't Know" 99 "No Response/Refused to answer", replace
+	label define rsn_no_treatment 1 "Do not know can be fixed" 2 "Do not know where to go" 3 "Too expensive" 4 "Too far" 5 "Poor quality of care" 6 "Could not get permission" 7 "Embarrassment" 8 "Problem disappeared" 96 "Other" , replace //98 "Don't Know" 99 "No Response/Refused to answer", replace
 
 	label define rsn_went_other_facility 1 "The first facility was closed" 2 "Provider referred you to this other facility without checking you" 3 "Provider checked you but referred you to this other facility" 4 "You decided to leave" 5 "A family member decided you should leave", replace
 
-	label define satisfied 1 "Very satisfied" 2 "Satisfied" 3 "Neither satisfied nor dissatisfied" 4 "Dissatisfied" 5 "Very dissatisfied" 98 "Don't Know" 99 "No Response/Refused to answer", replace
+	label define satisfied 1 "Very satisfied" 2 "Satisfied" 3 "Neither satisfied nor dissatisfied" 4 "Dissatisfied" 5 "Very dissatisfied" , replace //98 "Don't Know" 99 "No Response/Refused to answer", replace
 
-	label define hiv_status 0 "Negative" 1	"Positive" 2 "Did not receive result" 98 "Don't Know" 99 "No Response/Refused to answer", replace
+	label define hiv_status 0 "Negative" 1	"Positive" 2 "Did not receive result", replace // 98 "Don't Know" 99 "No Response/Refused to answer", replace
 
 
 	**********************************************************
@@ -176,9 +176,9 @@ program define m3_value_labels
 		label value `v' mood
 	}
 
-	foreach v in m3_1102a m3_308_b1 m3_802c m3_1102b m3_1102f m3_802b m3_1102e m3_308_b3 m3_1102c m3_308_b2 m3_1102d {
-		label value `v' number
-	}
+	*foreach v in m3_1102a m3_308_b1 m3_802c m3_1102b m3_1102f m3_802b m3_1102e m3_308_b3 m3_1102c m3_308_b2 m3_1102d {
+	*	label value `v' number
+	*}
 
 	foreach v in m3_309_b2 m3_1004h m3_309_b1 m3_201 m3_1202 m3_1004e m3_1004g m3_309_b3 m3_1004d m3_1004a m3_1004b m3_1004f m3_1004c m3_1204 {
 		label value `v' rate

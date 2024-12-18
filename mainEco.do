@@ -45,6 +45,9 @@ global user "/Users/shs8688/Dropbox (Harvard University)/SPH-Kruk Team/QuEST Net
 global user "/Users/catherine.arsenault/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts"
 global user "/Users/HP/Dropbox (Biostat Global)"
 global user "C:\Users\MaryKayTrimner\Biostat Global Dropbox\Mary Kay Trimner"
+
+* Create a global with the folder for data documents
+global data_doc "$user/MNH Ecohorts QuEST-shared/Data/Data documents"
 ********************************************************************************
 * Setting file path globals for raw data
 	*ETHIOPIA:

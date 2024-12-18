@@ -19,10 +19,12 @@
 *										Added Chars with original variable names and module numbers to be used for codebook and DQ checks
 *										Automatically call derived program and save as FINAL dataset
 * 2024-10-11	1.05	MK Trimner		Corrected incorrect labels ßm2_YN
+* 2024-11-26	1.06	MK Trimner		Added M4 dataset
+*										Added code to standardize variable labels in M1
 
 *******************************************************************************
 */
-	local country in	
+global Country ZA	
 *------------------------------------------------------------------------------*
 * Instructions: All steps are done by Module, search "MODULE _" to find sections
 	
@@ -533,17 +535,23 @@ lab values m1_704 YN
 
 label define m1_710c 1 "Provider gave it directly" ///
 					 2 "Provider gave a prescription or told you to get it somewhere else" ///
-					 3 "Neither" 98 "Don't Know" 88 "NR/RF"
+					 3 "Neither" //98 "Don't Know" 88 "NR/RF"
 label values m1_710c m1_710c
 
-label define bdsugartest 1 "Blood sugar was high/elevated" 2 "Blood sugar was normal" 98 "DK" 99 "NR/RF"
+label define bdsugartest 1 "Blood sugar was high/elevated" 2 "Blood sugar was normal" //98 "DK" 99 "NR/RF"
 label values m1_711b bdsugartest
 
 label define meds 1 "Provider gave it directly" ///
 				  2 "Provider gave a prescription or told you to get it somewhere else" ///
-				  3 "Neither" 98 "DK" 99 "NR/RF" 
-label values m1_713a m1_713b m1_713c m1_713d m1_713e m1_713f m1_713g m1_713h m1_713i m1_713k m1_713l meds
+				  3 "Neither" 98 "DK" 99 "NR/RF", replace 
+label values m1_713a m1_713c m1_713d m1_713e m1_713f m1_713g m1_713h m1_713i m1_713k m1_713l meds
 
+label define m1_713b 1 "Provider gave it directly" ///
+				  2 "Provider gave a prescription or told you to get it somewhere else" ///
+				  3 "Neither" 98 "DK" 99 "NR/RF", replace 
+
+label value m1_713b m1_713b
+ 
 lab def m1_713_za_in 0 "Provider gave it directly" 1 "Provider gave a prescription or told you to get it somewhere else" 2 "Neither" 3 "Don't know" 4 "NR/RF"
 lab val m1_713_za_in m1_713_za_in
 
@@ -554,7 +562,7 @@ label define trimester 1 "First trimester" 2 "Second trimester" 3 "Third trimest
 label values m1_804 trimester
 
 label define numbabies 1 "One baby" 2 "Two babies (twins)" ///
-					   3 "Three or more babies (triplets or higher)" 98 "DK" 99 "NR/RF"
+					   3 "Three or more babies (triplets or higher)" //98 "DK" 99 "NR/RF"
 label values m1_805 numbabies 
 
 recode m1_807 (2 = 0)
@@ -578,14 +586,14 @@ label values m1_808 m1_808
 label define m1_810a 1 "In your home" 2 "Someone elses home" 3 "Public clinic" ///
 					 4 "Public hospital" 5 "Private clinic" ///
 					 6 "Private hospital" 7 "Public Community health center" ///
-					 8 "Other" 98 "DK" 99 "NR/RF" 
+					 8 "Other" //98 "DK" 99 "NR/RF" 
 	
 label values m1_810a m1_810a
 
 label define m1_812b 1 "I was not told why" 2 "Because I had a c-section before" ///
 			 3 "Because I am pregnant with more than one baby" ///
 			 4 "Because of the baby's position" 5 "Because of the position of the placenta" ///
-			 6 "Because I have health problems" 96 "Other, specify" 98 "Don't know" 99 "NR/RF"
+			 6 "Because I have health problems" 96 "Other, specify" //98 "Don't know" 99 "NR/RF"
 label values m1_812b m1_812b
 
 * confirm
@@ -593,10 +601,10 @@ label define m1_815 1 "Nothing, we did not discuss this" ///
 					2 "They told you to get a lab test or imaging (e.g., ultrasound, blood tests, x-ray, heart echo)" ///
 					3 "They provided a treatment in the visit" 4 "They prescribed a medication" ///
 					5 "They told you to come back to this health facility" 6 "They told you to go somewhere else for higher level care" ///
-					7 "They told you to wait and see" 96 "Other, specify" 98 "Don't Know" 99 "NR/RF"
+					7 "They told you to wait and see" 96 "Other, specify" //98 "Don't Know" 99 "NR/RF"
 label values m1_815 m1_815
 					
-label define smokeamt 1 "Every day" 2 "Some days" 3 "Not at all" 98 "DK" 99 "NR/RF" 
+label define smokeamt 1 "Every day" 2 "Some days" 3 "Not at all" //98 "DK" 99 "NR/RF" 
 label values m1_901 smokeamt	
 
 recode m1_902 (2 = 0)
@@ -624,34 +632,34 @@ label values m1_1104 m1_1104
 					
 label define water_source 1 "Piped water" 2 "Water from open well" ///
 						  3 "Water from covered well or borehole" 4 "Surface water" ///
-						  5 "Rain water" 6 "Bottled water" 96 "Other (specify)" 98 "DK" 99 "NR/RF" 	
+						  5 "Rain water" 6 "Bottled water" 96 "Other (specify)" //98 "DK" 99 "NR/RF" 	
 label values m1_1201 water_source
 
 label define toilet 1 "Flush or pour flush toilet" 2 "Pit toilet/latrine" ///
-					3 "No facility" 96 "Other (specify)" 98 "DK" 99 "NR/RF" 
+					3 "No facility" 96 "Other (specify)" //98 "DK" 99 "NR/RF" 
 label values m1_1202 toilet	
 
 label define cook_fuel 1 "Main electricity" 2 "Bottled gas" 3 "Paraffin/kerosene" ///
 					   4 "Coal/Charcoal" 5 "Firewood" 6 "Dung" 7 "Crop residuals" ///
-					   8 "Solar" 96 "Other (specify)" 98 "DK" 99 "NR/RF" 
+					   8 "Solar" 96 "Other (specify)" //98 "DK" 99 "NR/RF" 
 label values m1_1208 cook_fuel
 
 label define floor 1 "Natural floor (earth, dung)" 2 "Rudimentary floor (wood planks, palm)" ///
 				   3 "Finished floor (polished wood, tiles, cement, vinyl)" ///
-				   96 "Other (specify)" 98 "DK" 99 "NR/RF"	
+				   96 "Other (specify)" //98 "DK" 99 "NR/RF"	
 label values m1_1209 floor
 
 label define walls 1 "Grass" 2 "Poles and mud" 3 "Sun-dried bricks" 4 "Baked bricks" ///
 				   5 "Timber" 6 "Cement bricks" 7 "Stones" 8 "Corrugated iron" ///
-				   96 "Other (specify)" 98 "DK" 99 "NR/RF"
+				   96 "Other (specify)" //98 "DK" 99 "NR/RF"
 label values m1_1210 walls
 
 label define roof 1 "No roof" 2 "Grass/leaves/mud" 3 "Iron sheets" 4 "Tiles" 5 "Concrete" ///
-				  96 "Other (specify)" 98 "DK" 99 "NR/RF" 
+				  96 "Other (specify)" //98 "DK" 99 "NR/RF" 
 label values m1_1211 roof
 
-label define DK_NR_RF 98 "Don't Know" 99 "NR/RF"
-label values m1_1216 DK_NR_RF
+*label define DK_NR_RF 98 "Don't Know" 99 "NR/RF"
+*label values m1_1216 DK_NR_RF
 
 label define m1_1220 1 "Current income of any household members" 2 "Savings (e.g. bank account)" ///
 					 3 "Payment or reimbursement from a health insurance plan" ///
@@ -1464,6 +1472,10 @@ order height_cm weight_kg bp_time_1_systolic bp_time_1_diastolic time_1_pulse_ra
 
 drop JO-N709b
 
+* Run the program that cleans up the labels
+m1_add_shortened_labels
+
+
 save "$za_data_final/eco_m1_za.dta", replace
 
 foreach v of varlist * {
@@ -1479,7 +1491,7 @@ clear all
 * import data:
 import excel "$za_data/Module 2/MNH-Module-2 - 17Jul2024SS.xlsx", firstrow clear
 
-foreach v of varlist * {
+foreach v of varlist *{
 	char `v'[Original_ZA_Varname] `v'
 	char `v'[Module] 2
 }
@@ -1682,7 +1694,7 @@ drop if respondentid == "UUT_014"
 	label define maternal_death_reported 1 "Yes" 0 "No" 
 	label values m2_maternal_death_reported maternal_death_reported
 	
-	label define m2_hiv_status 1 "Positive" 2 "Negative" 3 "Unknown" 98 "DK" 99 "NR/RF"
+	label define m2_hiv_status 1 "Positive" 2 "Negative" 3 "Unknown" //98 "DK" 99 "NR/RF"
 	label values m2_hiv_status m2_hiv_status
 	
 	label define m2_maternal_death_learn 1 "Called respondent phone, someone else responded" ///
@@ -1691,43 +1703,43 @@ drop if respondentid == "UUT_014"
 									  4 "Called CHW phone number, was informed" 5 "Other"
 	label values m2_maternal_death_learn m2_maternal_death_learn
 	
-	label define m2_201 1 "Excellent" 2 "Very good" 3 "Good" 4 "Fair" 5 "Poor" 98 "DK" 99 "RF/NR" 
+	label define m2_201 1 "Excellent" 2 "Very good" 3 "Good" 4 "Fair" 5 "Poor" //98 "DK" 99 "RF/NR" 
 	label values m2_201 m2_201
 
 	label define m2_202 1 "Yes, still pregnant" 2 "No, delivered" 3 "No, something else happened" 
 	label values m2_202 m2_202
 
-	label define m2_203a 1 "Yes" 0 "No" 98 "DK" 99 "NR/RF" 
+	label define m2_203a 1 "Yes" 0 "No" //98 "DK" 99 "NR/RF" 
 	label values m2_203a m2_203a
 	
-	label define m2_203b 1 "Yes" 0 "No" 98 "DK" 99 "NR/RF" 
+	label define m2_203b 1 "Yes" 0 "No" //98 "DK" 99 "NR/RF" 
 	label values m2_203b m2_203b
 
-	label define m2_203c 1 "Yes" 0 "No" 98 "DK" 99 "NR/RF" 
+	label define m2_203c 1 "Yes" 0 "No" //98 "DK" 99 "NR/RF" 
 	label values m2_203c m2_203c
 
-	label define m2_203d 1 "Yes" 0 "No" 98 "DK" 99 "NR/RF" 
+	label define m2_203d 1 "Yes" 0 "No" //98 "DK" 99 "NR/RF" 
 	label values m2_203d m2_203d
 
-	label define m2_203e 1 "Yes" 0 "No" 98 "DK" 99 "NR/RF" 
+	label define m2_203e 1 "Yes" 0 "No" //98 "DK" 99 "NR/RF" 
 	label values m2_203e m2_203e
 
-	label define m2_203f 1 "Yes" 0 "No" 98 "DK" 99 "NR/RF" 
+	label define m2_203f 1 "Yes" 0 "No" //98 "DK" 99 "NR/RF" 
 	label values m2_203f m2_203f
 	
-	label define m2_203g 1 "Yes" 0 "No" 98 "DK" 99 "NR/RF" 
+	label define m2_203g 1 "Yes" 0 "No" //98 "DK" 99 "NR/RF" 
 	label values m2_203g m2_203g
 
-	label define m2_203h 1 "Yes" 0 "No" 98 "DK" 99 "NR/RF" 
+	label define m2_203h 1 "Yes" 0 "No" //98 "DK" 99 "NR/RF" 
 	label values m2_203h m2_203h
 
 	label define m2_205a 0 "None of the days" 1 "Several days" 2 "More than half the days (>7)" 3 "Nearly every day" 
 	label values m2_205a m2_205a
 
-	label define m2_206 1 "Every day" 2 "Some days" 3 "Not at all" 98 "DK" 99 "NR/RF" 
+	label define m2_206 1 "Every day" 2 "Some days" 3 "Not at all" //98 "DK" 99 "NR/RF" 
 	label values m2_206 m2_206
 
-	label define m2_301 1 "Yes" 0 "No" 98 "DK" 99 "NR/RF" 
+	label define m2_301 1 "Yes" 0 "No" //98 "DK" 99 "NR/RF" 
 	label values m2_301 m2_301
 
 	* keep this var numeric
@@ -1737,13 +1749,13 @@ drop if respondentid == "UUT_014"
 	label define visit_location 1 "In your home" 2 "Someone else's home" 3 "Public clinic" ///
 					 4 "Public hospital" 5 "Private clinic" ///
 					 6 "Private hospital" 7 "Public Community health center" ///
-					 8 "Other"  98 "DK" 99 "RF" 0 "None"
+					 8 "Other"  //98 "DK" 99 "RF" 0 "None"
 	label values m2_303a m2_303b m2_303c m2_303d m2_303e visit_location
 
-	label define m2_305 1 "Yes, for a routine antenatal care" 0 "No" 98 "DK" 99 "RF" 
+	label define m2_305 1 "Yes, for a routine antenatal care" 0 "No" //98 "DK" 99 "RF" 
 	label values m2_305 m2_305
 	
-	label define m2_306 1 "Yes, for a referral from your antenatal care provider" 0 "No" 98 "DK" 99 "RF" 
+	label define m2_306 1 "Yes, for a referral from your antenatal care provider" 0 "No" //98 "DK" 99 "RF" 
 	label values m2_306 m2_306
 	
 	*m2_307
@@ -1758,10 +1770,10 @@ drop if respondentid == "UUT_014"
 	label define m2_YN 1 "Yes" 0 "No"
 	label values m2_307_1 m2_307_2 m2_307_3 m2_307_4 m2_307_5 m2_307_96 m2_YN
 	
-	label define m2_308 1 "Yes, for a routine antenatal care" 0 "No" 98 "DK" 99 "RF" 
+	label define m2_308 1 "Yes, for a routine antenatal care" 0 "No" //98 "DK" 99 "RF" 
 	label values m2_308 m2_308
 
-	label define m2_309 1 "Yes, for a referral from your antenatal care provider" 0 "No" 98 "DK" 99 "RF" 
+	label define m2_309 1 "Yes, for a referral from your antenatal care provider" 0 "No" //98 "DK" 99 "RF" 
 	label values m2_309 m2_309
 	
 	*m2_310
@@ -1776,10 +1788,10 @@ drop if respondentid == "UUT_014"
 	
 	label values m2_310_1 m2_310_2 m2_310_3 m2_310_4 m2_310_5 m2_310_96 m2_YN
 	
-	label define m2_311 1 "Yes, for a routine antenatal care" 0 "No" 98 "DK" 99 "RF" 
+	label define m2_311 1 "Yes, for a routine antenatal care" 0 "No" //98 "DK" 99 "RF" 
 	label values m2_311 m2_311
  
-	label define m2_312 1 "Yes, for a referral from your antenatal care provider" 0 "No" 98 "DK" 99 "RF" 
+	label define m2_312 1 "Yes, for a referral from your antenatal care provider" 0 "No" //98 "DK" 99 "RF" 
 	label values m2_312 m2_312
 	
 	*m2_313
@@ -1794,10 +1806,10 @@ drop if respondentid == "UUT_014"
 	
 	label values m2_313_1 m2_313_2 m2_313_3 m2_313_4 m2_313_5 m2_313_96 m2_YN
 	
-	label define m2_314 1 "Yes, for a routine antenatal care" 0 "No" 98 "DK" 99 "RF"  
+	label define m2_314 1 "Yes, for a routine antenatal care" 0 "No" //98 "DK" 99 "RF"  
 	label values m2_314 m2_314
 	
-	label define m2_315 1 "Yes, for a referral from your antenatal care provider" 0 "No" 98 "DK" 99 "RF" 
+	label define m2_315 1 "Yes, for a referral from your antenatal care provider" 0 "No" //98 "DK" 99 "RF" 
 	label values m2_315 m2_315
 
 	*m2_316
@@ -1812,10 +1824,10 @@ drop if respondentid == "UUT_014"
 	
 	label values m2_316_1 m2_316_2 m2_316_3 m2_316_4 m2_316_5 m2_316_96 m2_YN
 	
-	label define m2_317 1 "Yes, for a routine antenatal care" 0 "No" 98 "DK" 99 "RF"
+	label define m2_317 1 "Yes, for a routine antenatal care" 0 "No" //98 "DK" 99 "RF"
 	label values m2_317 m2_317
 
-	label define m2_318 1 "Yes, for a referral from your antenatal care provider" 0 "No" 98 "DK" 99 "RF" 
+	label define m2_318 1 "Yes, for a referral from your antenatal care provider" 0 "No" //98 "DK" 99 "RF" 
 	label values m2_318 m2_318 
 	
 	*m2_319
@@ -1845,106 +1857,106 @@ drop if respondentid == "UUT_014"
 	
 	label values m2_320_0 m2_320_1 m2_320_2 m2_320_3 m2_320_4 m2_320_5 m2_320_96 m2_320_99 m2_YN
 	
-	label define m2_321 0 "No" 1 "Yes, by phone" 2 "Yes, by SMS" 3 "Yes, by web" 98 "DK" 99 "NR/RF" 
+	label define m2_321 0 "No" 1 "Yes, by phone" 2 "Yes, by SMS" 3 "Yes, by web" //98 "DK" 99 "NR/RF" 
 	label values m2_321 m2_321
 
-	label define m2_401 1 "Excellent" 2 "Very good" 3 "Good" 4 "Fair" 5 "Poor" 98 "DK" 99 "RF" 
+	label define m2_401 1 "Excellent" 2 "Very good" 3 "Good" 4 "Fair" 5 "Poor" //98 "DK" 99 "RF" 
 	label values m2_401 m2_401
 
-	label define m2_402 1 "Excellent" 2 "Very good" 3 "Good" 4 "Fair" 5 "Poor" 98 "DK" 99 "RF" 
+	label define m2_402 1 "Excellent" 2 "Very good" 3 "Good" 4 "Fair" 5 "Poor" //98 "DK" 99 "RF" 
 	label values m2_402 m2_402
 		
-	label define m2_403 1 "Excellent" 2 "Very good" 3 "Good" 4 "Fair" 5 "Poor" 98 "DK" 99 "RF" 
+	label define m2_403 1 "Excellent" 2 "Very good" 3 "Good" 4 "Fair" 5 "Poor" //98 "DK" 99 "RF" 
 	label values m2_403 m2_403
 	
-	label define m2_404 1 "Excellent" 2 "Very good" 3 "Good" 4 "Fair" 5 "Poor" 98 "DK" 99 "RF"  
+	label define m2_404 1 "Excellent" 2 "Very good" 3 "Good" 4 "Fair" 5 "Poor" //98 "DK" 99 "RF"  
 	label values m2_404 m2_404
 	
-	label define m2_405 1 "Excellent" 2 "Very good" 3 "Good" 4 "Fair" 5 "Poor" 98 "DK" 99 "RF" 
+	label define m2_405 1 "Excellent" 2 "Very good" 3 "Good" 4 "Fair" 5 "Poor" //98 "DK" 99 "RF" 
 	label values m2_405 m2_405
 	
-	label define m2_501a 1 "Yes" 0 "No" 98 "DK" 99 "RF" 
+	label define m2_501a 1 "Yes" 0 "No" //98 "DK" 99 "RF" 
 	label values m2_501a m2_501a
 
-	label define m2_501b 1 "Yes" 0 "No" 98 "DK" 99 "RF"  
+	label define m2_501b 1 "Yes" 0 "No" //98 "DK" 99 "RF"  
 	label values m2_501b m2_501b
 	
-	label define m2_501c 1 "Yes" 0 "No" 98 "DK" 99 "RF" 
+	label define m2_501c 1 "Yes" 0 "No" //98 "DK" 99 "RF" 
 	label values m2_501c m2_501c
 	
-	label define m2_501d 1 "Yes" 0 "No" 98 "DK" 99 "RF" 
+	label define m2_501d 1 "Yes" 0 "No" //98 "DK" 99 "RF" 
 	label values m2_501d m2_501d
 	
-	label define m2_501e 1 "Yes" 0 "No" 98 "DK" 99 "RF"  
+	label define m2_501e 1 "Yes" 0 "No" //98 "DK" 99 "RF"  
 	label values m2_501e m2_501e
 	
-	label define m2_501f 1 "Yes" 0 "No" 98 "DK" 99 "RF" 
+	label define m2_501f 1 "Yes" 0 "No" //98 "DK" 99 "RF" 
 	label values m2_501f m2_501f
 	
-	label define m2_501g 1 "Yes" 0 "No" 98 "DK" 99 "RF"  
+	label define m2_501g 1 "Yes" 0 "No" //98 "DK" 99 "RF"  
 	label values m2_501g m2_501g
 	
-	label define m2_502 1 "Yes" 0 "No" 98 "DK" 99 "RF" 
+	label define m2_502 1 "Yes" 0 "No" //98 "DK" 99 "RF" 
 	label values m2_502 m2_502
 	
-	label define m2_503a 1 "Yes" 0 "No" 98 "DK" 99 "RF" 
+	label define m2_503a 1 "Yes" 0 "No" //98 "DK" 99 "RF" 
 	label values m2_503a m2_503a
 	
-	label define m2_503b 1 "Yes" 0 "No" 98 "DK" 99 "RF" 
+	label define m2_503b 1 "Yes" 0 "No" //98 "DK" 99 "RF" 
 	label values m2_503b m2_503b
 	
-	label define m2_503c 1 "Yes" 0 "No" 98 "DK" 99 "RF"
+	label define m2_503c 1 "Yes" 0 "No" //98 "DK" 99 "RF"
 	label values m2_503c m2_503c
 		
-	label define m2_503d 1 "Yes" 0 "No" 98 "DK" 99 "RF" 
+	label define m2_503d 1 "Yes" 0 "No" //98 "DK" 99 "RF" 
 	label values m2_503d m2_503d
 	
-	label define m2_503e 1 "Yes" 0 "No" 98 "DK" 99 "RF"
+	label define m2_503e 1 "Yes" 0 "No" //98 "DK" 99 "RF"
 	label values m2_503e m2_503e
 
-	label define m2_503f 1 "Yes" 0 "No" 98 "DK" 99 "RF"
+	label define m2_503f 1 "Yes" 0 "No" //98 "DK" 99 "RF"
 	label values m2_503f m2_503f
 	
-	label define m2_503g_za 1 "Yes" 0 "No" 98 "DK" 99 "RF"
+	label define m2_503g_za 1 "Yes" 0 "No" //98 "DK" 99 "RF"
 	label values m2_503g_za m2_503g_za
 	
-	label define m2_504 1 "Yes" 0 "No" 98 "DK" 99 "RF" 
+	label define m2_504 1 "Yes" 0 "No" //98 "DK" 99 "RF" 
 	label values m2_504 m2_504
 	
-	label define m2_505a 1 "Anemic" 0 "Not anemic" 98 "DK" 99 "NR/RF" 
+	label define m2_505a 1 "Anemic" 0 "Not anemic" //98 "DK" 99 "NR/RF" 
 	label values m2_505a m2_505a
 	
-	label define m2_505b 1 "Positive" 0 "Negative" 98 "DK" 99 "NR/RF"
+	label define m2_505b 1 "Positive" 0 "Negative" //98 "DK" 99 "NR/RF"
 	label values m2_505b m2_505b
 	
-	label define m2_505c 1 "Viral load not suppressed" 0 "Viral load is suppressed" 98 "DK" 99 "NR/RF"
+	label define m2_505c 1 "Viral load not suppressed" 0 "Viral load is suppressed" //98 "DK" 99 "NR/RF"
 	label values m2_505c m2_505c
 	
-	label define m2_505d 1 "Positive" 0 "Negative" 98 "DK" 99 "NR/RF" 
+	label define m2_505d 1 "Positive" 0 "Negative" //98 "DK" 99 "NR/RF" 
 	label values m2_505d m2_505d
 
-	label define m2_505e 1 "Diabetic" 0 "Not diabetic" 98 "DK" 99 "NR/RF" 
+	label define m2_505e 1 "Diabetic" 0 "Not diabetic" //98 "DK" 99 "NR/RF" 
 	label values m2_505e m2_505e
 
-	label define m2_505f 1 "Hypertensive" 0 "Not hypertensive" 98 "DK" 99 "NR/RF" 
+	label define m2_505f 1 "Hypertensive" 0 "Not hypertensive" //98 "DK" 99 "NR/RF" 
 	label values m2_505f m2_505f
 	
-	label define m2_505g 1 "Positive" 0 "Negative" 98 "DK" 99 "NR/RF" 
+	label define m2_505g 1 "Positive" 0 "Negative" //98 "DK" 99 "NR/RF" 
 	label values m2_505g m2_505g
 	
-	label define m2_505h_za 1 "Positive" 0 "Negative" 98 "DK" 99 "NR/RF" 
+	label define m2_505h_za 1 "Positive" 0 "Negative" //98 "DK" 99 "NR/RF" 
 	label values m2_505h_za m2_505h_za
 
-	label define m2_506a 1 "Yes" 0 "No" 98 "DK" 99 "RF" 
+	label define m2_506a 1 "Yes" 0 "No" //98 "DK" 99 "RF" 
 	label values m2_506a m2_506a
 	
-	label define m2_506b 1 "Yes" 0 "No" 98 "DK" 99 "RF" 
+	label define m2_506b 1 "Yes" 0 "No" //98 "DK" 99 "RF" 
 	label values m2_506b m2_506b
 	
-	label define m2_506c 1 "Yes" 0 "No" 98 "DK" 99 "RF"
+	label define m2_506c 1 "Yes" 0 "No" //98 "DK" 99 "RF"
 	label values m2_506c m2_506c
 	
-	label define m2_506d 1 "Yes" 0 "No" 98 "DK" 99 "RF"
+	label define m2_506d 1 "Yes" 0 "No" //98 "DK" 99 "RF"
 	label values m2_506d m2_506d
 	
 	*SS: Note this is different than in other countries
@@ -1959,73 +1971,73 @@ drop if respondentid == "UUT_014"
 						98 "DK" 99 "RF" 
 	label values m2_507 m2_507
 	
-	label define m2_508a 1 "Yes" 0 "No" 98 "DK" 99 "RF" 
+	label define m2_508a 1 "Yes" 0 "No" //98 "DK" 99 "RF" 
 	label values m2_508a m2_508a
 	
-	label define m2_508b_num 1 "Yes" 0 "No" 98 "DK" 99 "RF" 
+	label define m2_508b_num 1 "Yes" 0 "No" //98 "DK" 99 "RF" 
 	label values m2_508b_num m2_508b_num
 
-	label define m2_509a 1 "Yes" 0 "No" 98 "DK" 99 "RF" 
+	label define m2_509a 1 "Yes" 0 "No" //98 "DK" 99 "RF" 
 	label values m2_509a m2_509a
 	
-	label define m2_509b 1 "Yes" 0 "No" 98 "DK" 99 "RF" 
+	label define m2_509b 1 "Yes" 0 "No" //98 "DK" 99 "RF" 
 	label values m2_509b m2_509b
 	
-	label define m2_509c 1 "Yes" 0 "No" 98 "DK" 99 "RF" 
+	label define m2_509c 1 "Yes" 0 "No" //98 "DK" 99 "RF" 
 	label values m2_509c m2_509c
 	
-	label define m2_601a 1 "Yes" 0 "No" 98 "DK" 99 "RF" 
+	label define m2_601a 1 "Yes" 0 "No" //98 "DK" 99 "RF" 
 	label values m2_601a m2_601a
 	
-	label define m2_601b 1 "Yes" 0 "No" 98 "DK" 99 "RF" 
+	label define m2_601b 1 "Yes" 0 "No" //98 "DK" 99 "RF" 
 	label values m2_601b m2_601b
 	
-	label define m2_601c 1 "Yes" 0 "No" 98 "DK" 99 "RF" 
+	label define m2_601c 1 "Yes" 0 "No" //98 "DK" 99 "RF" 
 	label values m2_601c m2_601c
 	
-	label define m2_601d 1 "Yes" 0 "No" 98 "DK" 99 "RF" 
+	label define m2_601d 1 "Yes" 0 "No" //98 "DK" 99 "RF" 
 	label values m2_601d m2_601d
 	
-	label define m2_601e 1 "Yes" 0 "No" 98 "DK" 99 "RF"
+	label define m2_601e 1 "Yes" 0 "No" //98 "DK" 99 "RF"
 	label values m2_601e m2_601e
 	
-	label define m2_601f 1 "Yes" 0 "No" 98 "DK" 99 "RF" 
+	label define m2_601f 1 "Yes" 0 "No" //98 "DK" 99 "RF" 
 	label values m2_601f m2_601f
 	
-	label define m2_601g 1 "Yes" 0 "No" 98 "DK" 99 "RF" 
+	label define m2_601g 1 "Yes" 0 "No" //98 "DK" 99 "RF" 
 	label values m2_601g m2_601g
 	
-	label define m2_601h 1 "Yes" 0 "No" 98 "DK" 99 "RF" 
+	label define m2_601h 1 "Yes" 0 "No" //98 "DK" 99 "RF" 
 	label values m2_601h m2_601h
 	
-	label define m2_601i 1 "Yes" 0 "No" 98 "DK" 99 "RF" 
+	label define m2_601i 1 "Yes" 0 "No" //98 "DK" 99 "RF" 
 	label values m2_601i m2_601i
 	
-	label define m2_601j 1 "Yes" 0 "No" 98 "DK" 99 "RF" 
+	label define m2_601j 1 "Yes" 0 "No" //98 "DK" 99 "RF" 
 	label values m2_601j m2_601j
 	
-	label define m2_601k 1 "Yes" 0 "No" 98 "DK" 99 "RF" 
+	label define m2_601k 1 "Yes" 0 "No" //98 "DK" 99 "RF" 
 	label values m2_601k m2_601k
 	
-	label define m2_601l 1 "Yes" 0 "No" 98 "DK" 99 "RF" 
+	label define m2_601l 1 "Yes" 0 "No" //98 "DK" 99 "RF" 
 	label values m2_601l m2_601l
 	
-	label define m2_601m 1 "Yes" 0 "No" 98 "DK" 99 "RF" 
+	label define m2_601m 1 "Yes" 0 "No" //98 "DK" 99 "RF" 
 	label values m2_601m m2_601m
 
-	label define m2_601o 1 "Yes" 0 "No" 98 "DK" 99 "RF" 
+	label define m2_601o 1 "Yes" 0 "No" //98 "DK" 99 "RF" 
 	label values m2_601o m2_601o
 
-	label define m2_602b 1 "Yes" 0 "No" 98 "DK" 99 "RF" 
+	label define m2_602b 1 "Yes" 0 "No" //98 "DK" 99 "RF" 
 	label values m2_602b m2_602b
 
-	label define m2_603 1 "Yes" 0 "No" 98 "DK" 99 "RF" 
+	label define m2_603 1 "Yes" 0 "No" //98 "DK" 99 "RF" 
 	label values m2_603 m2_603
 
-	label define m2_701 1 "Yes" 0 "No" 98 "DK" 99 "RF"
+	label define m2_701 1 "Yes" 0 "No" //98 "DK" 99 "RF"
 	label values m2_701 m2_701
 
-	label define m2_704 1 "Yes" 0 "No" 98 "DK" 99 "RF" 
+	label define m2_704 1 "Yes" 0 "No" //98 "DK" 99 "RF" 
 	label values m2_704 m2_704
 
 	*m2_705
@@ -2337,8 +2349,12 @@ replace m2_round = "_r8" if round2==8
 			
 * Use the string variable to reshape wide
 drop round2
+
+* We want to rename a few variables 
+rename m2_601n_other m2_601_other
+
 				
-reshape wide m2_permission m2_interviewer m2_date m2_time_start m2_ga m2_hiv_status m2_maternal_death_reported m2_date_of_maternal_death m2_maternal_death_learn m2_maternal_death_learn_other m2_201 m2_202 m2_203a m2_203b m2_203c m2_203d m2_203e m2_203f m2_203g m2_203h m2_204_other m2_205a m2_205b m2_206 m2_301 m2_302 m2_303 m2_303a m2_304a m2_303b m2_304b m2_303c m2_304c m2_303d m2_304d m2_303e m2_304e m2_305 m2_306 m2_307_other m2_308 m2_309 m2_310_other m2_311 m2_312 m2_313_other m2_314 m2_316_other m2_317 m2_318 m2_319 m2_319_other m2_319_1 m2_319_2 m2_319_3 m2_319_4 m2_319_5 m2_319_96 m2_320_other m2_321 m2_401 m2_402 m2_403 m2_404 m2_405 m2_501a m2_501b m2_501c m2_501d m2_501e m2_501f m2_501g m2_501g_other m2_502 m2_503a m2_505a m2_503b m2_505b m2_503c m2_505c m2_503d m2_505d m2_503e m2_505e m2_503f m2_505f m2_503g_za m2_505h_za m2_504 m2_504_other m2_505g m2_506a m2_506b m2_506c m2_506d m2_507 m2_507_other m2_508a m2_508b_num m2_508c_time m2_509a m2_509b m2_509c m2_601a m2_601o m2_601b m2_601c m2_601d m2_601e m2_601f m2_601g m2_601h m2_601i m2_601j m2_601k m2_601l m2_601m m2_601n_other m2_602b m2_603 m2_701 m2_702a_cost m2_702b_cost m2_702c_cost m2_702d_cost m2_702_other m2_702b_other m2_703 m2_704 m2_704_confirm m2_705_other m2_307_1 m2_307_2 m2_307_3 m2_307_4 m2_307_5 m2_307_96 m2_310_1 m2_310_2 m2_310_3 m2_310_4 m2_310_5 m2_310_96 m2_313_1 m2_313_2 m2_313_3 m2_313_4 m2_313_5 m2_313_96 m2_316_1 m2_316_2 m2_316_3 m2_316_4 m2_316_5 m2_316_96 m2_320_0 m2_320_1 m2_320_2 m2_320_3 m2_320_4 m2_320_5 m2_320_6 m2_320_7 m2_320_8 m2_320_9 m2_320_10 m2_320_11 m2_320_96 m2_320_99 m2_705_1 m2_705_2 m2_705_3 m2_705_4 m2_705_5 m2_705_6 m2_705_96 m2_315, i(respondentid) j(m2_round, string) 
+reshape wide m2_permission m2_interviewer m2_date m2_time_start m2_ga m2_hiv_status m2_maternal_death_reported m2_date_of_maternal_death m2_maternal_death_learn m2_maternal_death_learn_other m2_201 m2_202 m2_203a m2_203b m2_203c m2_203d m2_203e m2_203f m2_203g m2_203h m2_204_other m2_205a m2_205b m2_206 m2_301 m2_302 m2_303 m2_303a m2_304a m2_303b m2_304b m2_303c m2_304c m2_303d m2_304d m2_303e m2_304e m2_305 m2_306 m2_307_other m2_308 m2_309 m2_310_other m2_311 m2_312 m2_313_other m2_314 m2_316_other m2_317 m2_318 m2_319 m2_319_other m2_319_1 m2_319_2 m2_319_3 m2_319_4 m2_319_5 m2_319_96 m2_320_other m2_321 m2_401 m2_402 m2_403 m2_404 m2_405 m2_501a m2_501b m2_501c m2_501d m2_501e m2_501f m2_501g m2_501g_other m2_502 m2_503a m2_505a m2_503b m2_505b m2_503c m2_505c m2_503d m2_505d m2_503e m2_505e m2_503f m2_505f m2_503g_za m2_505h_za m2_504 m2_504_other m2_505g m2_506a m2_506b m2_506c m2_506d m2_507 m2_507_other m2_508a m2_508b_num m2_508c_time m2_509a m2_509b m2_509c m2_601a m2_601o m2_601b m2_601c m2_601d m2_601e m2_601f m2_601g m2_601h m2_601i m2_601j m2_601k m2_601l m2_601m m2_601_other m2_602b m2_603 m2_701 m2_702a_cost m2_702b_cost m2_702c_cost m2_702d_cost m2_702_other m2_702b_other m2_703 m2_704 m2_704_confirm m2_705_other m2_307_1 m2_307_2 m2_307_3 m2_307_4 m2_307_5 m2_307_96 m2_310_1 m2_310_2 m2_310_3 m2_310_4 m2_310_5 m2_310_96 m2_313_1 m2_313_2 m2_313_3 m2_313_4 m2_313_5 m2_313_96 m2_316_1 m2_316_2 m2_316_3 m2_316_4 m2_316_5 m2_316_96 m2_320_0 m2_320_1 m2_320_2 m2_320_3 m2_320_4 m2_320_5 m2_320_6 m2_320_7 m2_320_8 m2_320_9 m2_320_10 m2_320_11 m2_320_96 m2_320_99 m2_705_1 m2_705_2 m2_705_3 m2_705_4 m2_705_5 m2_705_6 m2_705_96 m2_315, i(respondentid) j(m2_round, string) 
 
 *------------------------------------------------------------------------------*
 *save M2 only dataset
@@ -2518,7 +2534,7 @@ label variable m2_601k`i' "601k. Did you get antibiotics for an infection?"
 label variable m2_601l`i' "601l. Did you get aspirin?"
 label variable m2_601m`i' "601m. Did you get paracetamol, or other pain relief drugs?"
 label variable m2_601o`i' "601o. Iron injection"
-label variable m2_601n_other`i' "601n-oth. Specify other medicine or supplement you took"
+label variable m2_601_other`i' "601n-oth. Specify other medicine or supplement you took"
 label variable m2_602b`i' "602b. In total, how much did you pay for these new medications or supplements (in Ksh.)?"
 label variable m2_603`i' "603. Are you currently taking iron and folic acid pills like IFAS and Pregnacare?"
 label variable m2_701`i' "701. Did you pay any money out of your pocket for these new visits, including for the consultation or other indirect costs like your transport to the facility?"
@@ -2779,7 +2795,7 @@ rename (MOD3_INTRAP_Care_618a_B1 MOD3_INTRAP_Care_618b_B1 MOD3_INTRAP_Care_618c_
 		m3_618a_2 m3_618b_2 m3_618c_2 m3_618a_3 m3_618b_3 m3_618c_3 m3_619a ///
 		m3_619b m3_619c m3_619d m3_619e)
 
-rename (MOD3_INTRAP_Care_619F MOD3_INTRAP_Care_619G) (m3_619g m3_619h)
+rename (MOD3_INTRAP_Care_619F MOD3_INTRAP_Care_619G) (m3_619f m3_619g)
 
 rename (MOD3_INTRAP_Care_620_B1 MOD3_INTRAP_Care_620_B2 MOD3_INTRAP_Care_620_B3 ///
 		MOD3_INTRAP_Care_621A) (m3_620_1 m3_620_2 m3_620_3 m3_621a)
@@ -2963,17 +2979,17 @@ replace m3_birth_or_ended = 23324 if respondentid == "MER_047" // change to 10-N
 	* STEP TWO: ADD VALUE LABELS
 	* Will need to add data for baby 3 once that data is available 
 
-lab def YN 1 "Yes" 0 "No" 99 "NR/RF" 98 "Don't Know" 95 "NA"
+lab def YN 1 "Yes" 0 "No" 99 "NR/RF" //98 "Don't Know" 95 "NA"
 lab val m3_permission m3_303b m3_303c m3_303d YN 
 
-lab def m3_303a 1 "1" 2 "2" 3 "3 or more" 98 "Don't Know" 99 "NR/RF"
+lab def m3_303a 1 "1" 2 "2" 3 "3 or more" //98 "Don't Know" 99 "NR/RF"
 lab val m3_303a m3_303a
 
 lab def gender 1 "Male" 2 "Female" 3 "Indeterminate" 99 "NR/RF" 95 "NA"
 lab val m3_baby1_gender m3_baby2_gender m3_baby2_gender gender 
 
 lab def size 1 "Very large" 2 "Larger than average" 3 "Average" ///
-			 4 "Smaller than average" 5 "Very small" 98 "Don't Know" 95 "NA"
+			 4 "Smaller than average" 5 "Very small" //98 "Don't Know" 95 "NA"
 lab val m3_baby1_size m3_baby2_size m3_baby3_size size
 
 lab def health 1 "Excellent" 2 "Very Good" 3 "Good" 4 "Fair" 5 "Poor" 99 "NR/RF" ///
@@ -3062,7 +3078,7 @@ lab val m3_breastfeeding confidence
 				 
 lab def sleeping 1 "Sleeps well" 2 "Slightly affected sleep" 3 "Moderately affected sleep" ///
 			  4 "Severely disturbed sleep"
-lab val m3_baby1_sleep m3_baby2_sleep m3_baby3_sleep			  
+lab val m3_baby1_sleep m3_baby2_sleep m3_baby3_sleep sleeping			  
 
 lab def feeding 1 "Normal feeding" 2 "Slight feeding problems" 3 "Moderate feeeding problems" ///
 				4 "Severe feeding problems" 95 "NA"
@@ -3071,7 +3087,7 @@ lab val m3_baby1_feeding m3_baby2_feeding m3_baby3_feeding feeding
 lab def breathing 1 "Normal breathing" 2 "Slight breathing problems" ///
 				  3 "Moderate breathing problems" 4 "Severe breathing problems" ///
 				  95 "NA"
-lab val m3_baby1_breath m3_baby2_breath m3_baby3_breath
+lab val m3_baby1_breath m3_baby2_breath m3_baby3_breath breathing
 
 lab def stooling 1 "Normal stooling/poo" 2 "Slight stooling/poo problems" ///
 				 3 "Moderate stooling/poo problems" 4 "Severe stooling/poo problems" 
@@ -3115,8 +3131,7 @@ lab val m3_412a m3_412b m3_412c m3_412d m3_412e m3_412f m3_412g m3_501 YN
 
 lab def m3_502 1 "In your home" 2 "Someone else's home" 3 "Public clinic" ///
 			   4 "Public hospital" 5 "Private clinic" 6 "Private hospital" ///
-			   7 "Public Community health center" 8 "Other" 98 "Don't Know" ///
-			   99 "NR/RF"
+			   7 "Public Community health center" 8 "Other" //98 "Don't Know" 99 "NR/RF"
 lab val m3_502 m3_502
 
 lab val m3_505a m3_508 YN 
@@ -3137,7 +3152,7 @@ lab val m3_510 YN
 
 lab def m3_512 1 "Public clinic" 2 "Public hospital" 3 "Private clinic" ///
 			   4 "Private hospital" 5 "Public Community health center" ///
-			   6 "Other" 98 "Don't Know" 99 "NR/RF"
+			   6 "Other" //98 "Don't Know" 99 "NR/RF"
 lab val m3_512 m3_512
 
 lab def m3_515 1 "The first facility was closed" 2 "Provider referred you to this other facility without checking you" 3 "Provider checked you but referred you to this other facility" 4 "You decided to leave" 5 "A family member decided you should leave"
@@ -3151,7 +3166,7 @@ lab def m3_518 0 "The provider did not give a reason" 1 "No space or no bed avai
 			   4 "Obstructed labor" 5 "Eclampsia/pre-eclampsia" 6 "Previous cesarean section scar"  /// 
 			   7 "Fetal distress" 8 "Fetal presentation" 9 "No fetal movement/heartbeat" 10 "Bleeding" ///
 			   96 "Other delivery complications (specify" 97 "Other reasons (specify)" ///
-			   98 "Don't Know" 99 "NR/RF"
+			   //98 "Don't Know" 99 "NR/RF"
 lab val m3_518 m3_518
 
 lab def m3_519 1 "Low cost of delivery" 2 "Close to home" 3 "Short waiting time or enough HCWs" ///
@@ -3162,19 +3177,18 @@ lab def m3_519 1 "Low cost of delivery" 2 "Close to home" 3 "Short waiting time 
 			   12 "I was told by family member" 13 "I was told by a health worker" ///
 			   14 "Familiarity with health worker" 15 "Familiarity with facility" ///
 			   16 "Emergency care is available if need" 17 "Birth companion can come with me" ///
-			   96 "Other" 98 "Don't Know" 99 "No response"
+			   96 "Other" //98 "Don't Know" 99 "No response"
 lab val m3_519 m3_519 
 
 lab val m3_601a m3_601b m3_601c m3_602a m3_602b m3_603a m3_603b m3_603c YN 
 
 lab def m3_604a 1 "My own bed" 2 "A shared bed" 3 "A mattress on the floor" ///
-				4 "The floor" 5 "A chair" 6 "I was standing" 98 "Don't Know" ///
-				99 "NR/RF"
+				4 "The floor" 5 "A chair" 6 "I was standing" //98 "Don't Know" 99 "NR/RF"
 lab val m3_604a m3_604a
 				
 lab val m3_604b m3_605a YN
  
-lab def m3_605b 1 "Before" 2 "After" 98 "Don't Know" 99 "NR/RF"
+lab def m3_605b 1 "Before" 2 "After" //98 "Don't Know" 99 "NR/RF"
 lab val m3_605b m3_605b
 
 lab def m3_605c 0 "I was not told" 1 "It was previously planned for medical reasons" 2 "I asked for a c-section" 3 "Problems arose during labor" 96 "Other, specify"
@@ -3182,7 +3196,7 @@ lab val m3_605c m3_605c
 
 lab val m3_606 m3_607 m3_608 YN
 
-lab def m3_609 1 "Yes" 0 "No" 98 "Don't Know" 99 "NR/RF" 95 "NA - stillbirth"
+lab def m3_609 1 "Yes" 0 "No" //98 "Don't Know" 99 "NR/RF" 95 "NA - stillbirth"
 lab val m3_609 m3_615a m3_609
 
 lab val m3_610a m3_610b m3_611 m3_613 m3_615b m3_615c m3_617a m3_617b ///
@@ -3197,7 +3211,7 @@ lab val m3_618c_1 m3_618c_2 m3_618c_3 m3_619a m3_619b m3_619c m3_619d ///
  
 lab def m3_621a 1 "A relative or a friend" 2 "A traditional birth attendant" ///
 				3 "A community health worker" 4 "A nurse" 5 "A midwife" ///
-				6 "A doctor" 98 "Don't Know" 99 "NR/RF"
+				6 "A doctor" //98 "Don't Know" 99 "NR/RF"
 lab val m3_621a m3_621a
 
 lab val m3_621b m3_622a YN
@@ -3208,7 +3222,7 @@ lab val m3_622b m3_622b
 
 lab val m3_622c m3_701 m3_703 m3_704a m3_704b m3_704c m3_704d m3_704e m3_704f m3_704g YN 
 
-lab def m3_705 1 "Yes" 0 "No" 98 "Don't Know" 99 "NR/RF" 95 "NA - home delivery"
+lab def m3_705 1 "Yes" 0 "No" //98 "Don't Know" 99 "NR/RF" 95 "NA - home delivery"
 lab val m3_705 m3_705
 
 lab val m3_706 YN 
@@ -3218,7 +3232,7 @@ lab val m3_706 YN
 	* MKT 2024-09-03 : Added if statement to make missing if missing original variable
 	forval j = 1/99 {
 		gen m3_baby1_issues_`j' = strpos("," + m3_708a + ",", ",`j',") > 0 if !missing(m3_708a)
-		char m3_baby1_issues_`j'[Original_ZA_Varname] m3_708a
+		char m3_baby1_issues_`j'[Original_ZA_Varname] `m3_708a[Original_ZA_Varname]'
 		char m3_baby1_issues_`j'[Module] 3
 
 	}
@@ -3238,7 +3252,7 @@ lab val m3_706 YN
 	* MKT 2024-09-03 : Added if statement to make missing if missing original variable
 	forval j = 1/99 {
 		gen m3_baby2_issues_`j' = strpos("," + m3_708b + ",", ",`j',") > 0 if !missing(m3_708b)
-		char m3_baby2_issues_`j'[Original_ZA_Varname] m3_708b
+		char m3_baby2_issues_`j'[Original_ZA_Varname] `m3_708b[Original_ZA_Varname]'
 		char m3_baby2_issues_`j'[Module] 3
 	}
 	
@@ -3260,7 +3274,7 @@ lab val m3_706 YN
 	* MKT 2024-09-03 : Added if statement to make missing if missing original variable
 	forval j = 1/99 {
 		gen m3_baby3_issues_`j' = strpos("," + m3_708c + ",", ",`j',") > 0 if !missing(m3_708c)
-		char m3_baby3_issues_`j'[Original_ZA_Varname] m3_708c
+		char m3_baby3_issues_`j'[Original_ZA_Varname] `m3_708c[Original_ZA_Varname]'
 		char m3_baby3_issues_`j'[Module] 3
 
 	}
@@ -3294,11 +3308,11 @@ lab val m3_808a YN
 lab def m3_808b 1 "Do not know can be fixed" 2 "Do not know where to go" ///
 				3 "Too expensive" 4 "Too far" 5 "Poor quality of care" ///
 				6 "Could not get permission" 7 "Embarrassment" 8 "Problem dissappeared" ///
-				96 "Other (specify)" 98 "Don't Know" 99 "NR/RF"
+				96 "Other (specify)" //98 "Don't Know" 99 "NR/RF"
 lab val m3_808b m3_808b
 
 lab def m3_809 1 "Yes, no more leakage at all" 2 "Yes, but still some leakage" ///
-			   3 "No, still have problem" 98 "Don't Know" 99 "NR/RF"
+			   3 "No, still have problem" //98 "Don't Know" 99 "NR/RF"
 lab val m3_809 m3_809 
 
 lab val m3_901a m3_901b m3_901c m3_901d m3_901e m3_901f m3_901g m3_901h m3_901i ///
@@ -3307,12 +3321,12 @@ lab val m3_901a m3_901b m3_901c m3_901d m3_901e m3_901f m3_901g m3_901h m3_901i 
 		m3_902f_baby1 m3_902g_baby1 m3_902h_baby1 m3_902i_baby1 m3_902j_baby1 YN		   
 			   
 lab def m3_1001 1 "Poor" 2 "Fair" 3 "Good" 4 "Very good" 5 "Excellent" ///
-				6 "NA (e.g. no antenatal tests)" 98 "NR/RF" ///
+				6 "NA (e.g. no antenatal tests)" /// //98 "NR/RF" ///
 				95 "Delivered at home"
 lab val m3_1001  m3_1001			
  
 lab def endorse 1 "Very likely" 2 "Somewhat likely" 3 "Not too likely" ///
-				4 "Not at all likely" 98 "Don't know" 99 "NR/RF"
+				4 "Not at all likely" //98 "Don't know" 99 "NR/RF"
 lab val m3_1002 endorse
 
 lab val m3_1003 YN
@@ -3326,7 +3340,7 @@ lab val m3_1005a m3_1005b m3_1005c m3_1005d m3_1005e m3_1005f m3_1005g m3_1005h 
 	* MKT 2024-09-03 : Added if statement to make missing if missing original variable
 	forval j = 1/96 {
 		gen m3_1105`j' = strpos("," + m3_1105 + ",", ",`j',") > 0 if !missing(m3_1105)
-		char m3_1105`j'[Original_ZA_Varname] m3_1105
+		char m3_1105`j'[Original_ZA_Varname] `m3_1105[Original_ZA_Varname]'
 		char m3_1105`j'[Module] 3
 	
 
@@ -3341,7 +3355,7 @@ lab val m3_1005a m3_1005b m3_1005c m3_1005d m3_1005e m3_1005f m3_1005g m3_1005h 
 
 
 lab def satisfaction 1 "Very satisfied" 2 "Satisfied" 3 "Neither satisfied nor dissatisfied" ///
-					 4 "Dissatisfied" 5 "Very dissatisfied" 98 "Don't Know" 99 "NR/RF"
+					 4 "Dissatisfied" 5 "Very dissatisfied" //98 "Don't Know" 99 "NR/RF"
 lab val m3_1106 satisfaction					 
 				
 lab val m3_1201 m3_1203 YN 
@@ -3350,7 +3364,7 @@ lab val m3_1202 m3_1204 health
 				
 lab def m3_1205 1 "Public clinic" 2 "Public hospital" 3 "Private clinic" ///
 				4 "Private hospital" 5 "Public community health center" ///
-				6 "Other" 98 "Don't Know" 99 "NR/RF"
+				6 "Other" //98 "Don't Know" 99 "NR/RF"
 lab val m3_1205 m3_1205 				
 				
 * Formatting Dates
@@ -3830,7 +3844,7 @@ recode m3_618c_2 (. .n  = .a) if m3_618b_2 !=1 // this says it should be asked o
 recode m3_618c_3 (. .n  = .a) if m3_618b_3 !=1 // this says it should be asked of all HIV women, regardless of how the child tested
 */
 
-recode m3_619a m3_619b m3_619c m3_619d m3_619e m3_619g m3_619h  (. .n = .a) if m3_501 !=1 | (m3_303b != 1 & m3_303c != 1 & m3_303d != 1 & m3_baby1_born_alive != 1 & m3_baby2_born_alive != 1 & m3_baby3_born_alive != 1)
+recode m3_619a m3_619b m3_619c m3_619d m3_619e m3_619f m3_619f  (. .n = .a) if m3_501 !=1 | (m3_303b != 1 & m3_303c != 1 & m3_303d != 1 & m3_baby1_born_alive != 1 & m3_baby2_born_alive != 1 & m3_baby3_born_alive != 1)
 
 local b 1
 
@@ -4277,8 +4291,8 @@ lab var m3_619b "619b. Before you left the facility, did you receive advice on c
 lab var m3_619c "619c. Before you left the facility, did you receive advice on the need to avoid chilling of baby?"
 lab var m3_619d "619d. Before you left the facility, did you receive advice on when to return for vaccinations for the baby?"
 lab var m3_619e "619e. Before you left the facility, did you receive advice on hand washing with soap/water before touching the baby?"
-lab var m3_619g "619g. Before you left the facility, did you receive advice on danger signs or symptoms you should watch out for in the baby that would mean you should go to a health facility?"
-lab var m3_619h "619h. Before you left the facility, did you receive advice on danger signs or symptoms you should watch out for in yourself that would mean you should go to a health facility?"
+lab var m3_619f "619f. Before you left the facility, did you receive advice on danger signs or symptoms you should watch out for in the baby that would mean you should go to a health facility?"
+lab var m3_619g "619g. Before you left the facility, did you receive advice on danger signs or symptoms you should watch out for in yourself that would mean you should go to a health facility?"
 
 lab var m3_620_1 "620. During any point of your pregnancy or after birth, were you given a Road to Health card for the first baby to take home with you?"
 lab var m3_620_2 "620. During any point of your pregnancy or after birth, were you given a Road to Health card for the second baby to take home with you?"
@@ -4575,26 +4589,1054 @@ order m3_death_cause_baby1 m3_death_cause_baby1_other m3_death_cause_baby2 m3_de
 	
 	save "$za_data_final/eco_m1-m3_za.dta", replace
 
-*==============================================================================*
+*==============================================================================
 * MODULE 4:		
- 
+
+import excel "${za_data}\Module 4\Module 4 - 24Nov2024-1.xlsx", sheet("MNH-Module-4-v0-20241011-375") firstrow clear
+
+* We need to rename the variables as the first row now contains the variable name
+* Make them all uppercase as well
+foreach v of varlist * {
+	local name `=`v'[1]'
+	
+	rename `v' `=upper("`name'")'
+}
+
+drop in 1
+
+foreach v of varlist * {
+	char `v'[Original_ZA_Varname] `v'
+	char `v'[Module] 4
+	capture destring `v', replace
+	capture replace `v' = trim(`v')
+	
+	* Clean up the values we know are defaults
+	capture recode `v' 9999998 = . // These were skipped appropriately
+	capture replace `v' = "" if `v' == "9999998"
+	capture replace `v' = ".d" if inlist(`v'," 1-Jan-98","1-Jan-98", "1/1/1998"," 1/1/1998")
+	capture replace `v' = ".r" if inlist(`v'," 1-Jan-99","1-Jan-99", "1/1/1999"," 1/1/1999")
+	capture replace `v' = ".a" if inlist(`v'," 1-Jan-95","1-Jan-95", "1/1/1995"," 1/1/1995")
+}
+
+* There are no _B3 responses, so we will drop all these variables
+foreach v of varlist *_B3 *BABY3 *_B3_* {
+	assert missing(`v') | inlist(`v',95) 
+	drop `v'
+}
+
+capture assert missing(MOD4_HEALTHBABY_210_BABY3_OTHER)
+if _rc == 0 drop MOD4_HEALTHBABY_210_BABY3_OTHER
 
 
+********************************************************************************
+********************************************************************************
+* Section 1:
+
+* Rename the variables when possible
+rename MOD4_PERMISSION_GRANTED m4_permission
+
+rename MOD4_IDENTIFICATION_101 m4_interviewer_initials
+rename CRHID m4_respondentid
+
+
+************************************************
+************************************************
+* We need to put the date as a numeric value
+gen date = subinstr(MOD4_IDENTIFICATION_102,"-","",.) 
+local m 1
+foreach v in Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec {
+	local b `m'
+	if `m' < 10 local b 0`b'
+	replace date = subinstr(date,"`v'","`b'",.) 
+	local ++m
+} 
+replace date = trim(date)
+
+gen l = strlen(date)
+replace date = "0" + date  if l < 6 
+gen date_d = substr(date,1,2)
+gen date_m = substr(date,3,2)
+gen date_y = substr(date,5,2)
+destring date_d date_m date_y, replace
+replace date_y = 2000 + date_y
+gen m4_date = mdy(date_m,date_d,date_y)
+format %td m4_date
+char m4_date[Original_ZA_Varname] MOD4_IDENTIFICATION_102
+char m4_date[Module] 4
+
+order m4_date, after(MOD4_IDENTIFICATION_102)
+drop MOD4_IDENTIFICATION_102 date date_* l
+************************************************
+************************************************
+
+rename MOD4_IDENTIFICATION_103 m4_time
+rename MOD4_IDENTIFICATION_108 m4_hiv_status
+rename MOD4_IDENTIFICATION_109 m4_c_section
+rename MOD4_IDENTIFICATION_110 m4_live_babies
+
+rename MOD4_IDENTIFICATION_111_B1 m4_baby1_name
+rename MOD4_IDENTIFICATION_111_B2 m4_baby2_name
+
+rename MOD4_IDENTIFICATION_112 m4_maternal_death_reported
+rename MOD4_IDENTIFICATION_113 m4_date_of_maternal_death
+rename MOD4_IDENTIFICATION_114 m4_maternal_death_learn
+rename MOD3_IDENTIFICATION_114_OTHER m4_maternal_death_learn_other
+
+
+********************************************************************************
+********************************************************************************
+* Section 2:
+rename MOD4_HEALTHBABY_201_BABY1 m4_baby1_status
+rename MOD4_HEALTHBABY_201_BABY2 m4_baby2_status
+
+rename MOD4_HEALTHBABY_202_BABY1 m4_baby1_health
+rename MOD4_HEALTHBABY_202_BABY2 m4_baby2_health
+
+************************************************
+************************************************
+
+* For these variables we need to create multiple variables
+forvalues b = 1/2 {
+	local i 1
+	foreach val in a b c d e f g rf {
+		gen m4_baby`b'_feed_`val' = strpos(MOD4_HEALTHBABY_203_BABY`b',"`i'") > 0 if !missing(MOD4_HEALTHBABY_203_BABY`b')
+		char m4_baby`b'_feed_`val'[Module] 4
+		char m4_baby`b'_feed_`val'[Original_ZA_Varname]  `MOD4_HEALTHBABY_203_BABY`b'[Original_ZA_Varname]'
+		local ++i
+	}
+	order m4_baby`b'_feed_*, before(MOD4_HEALTHBABY_203_BABY`b')
+
+}
+
+
+* Drop variables
+drop MOD4_HEALTHBABY_203_BABY1 MOD4_HEALTHBABY_203_BABY2
+************************************************
+************************************************
+
+
+rename MOD4_HEALTHBABY_204 m4_breastfeeding
+
+rename MOD4_HEALTHBABY_205A_B1 m4_baby1_sleep
+rename MOD4_HEALTHBABY_205A_B2 m4_baby2_sleep
+
+rename MOD4_HEALTHBABY_205B_B1 m4_baby1_feed
+rename MOD4_HEALTHBABY_205B_B2 m4_baby2_feed
+
+rename MOD4_HEALTHBABY_205C_B1 m4_baby1_breath
+rename MOD4_HEALTHBABY_205C_B2 m4_baby2_breath
+
+rename MOD4_HEALTHBABY_205D_B1 m4_baby1_stool
+rename MOD4_HEALTHBABY_205D_B2 m4_baby2_stool
+
+rename MOD4_HEALTHBABY_205E_B1 m4_baby1_mood
+rename MOD4_HEALTHBABY_205E_B2 m4_baby2_mood
+
+rename MOD4_HEALTHBABY_205F_B1 m4_baby1_skin
+rename MOD4_HEALTHBABY_205F_B2 m4_baby2_skin
+
+rename MOD4_HEALTHBABY_205G_B1 m4_baby1_interactivity
+rename MOD4_HEALTHBABY_205G_B2 m4_baby2_interactivity
+
+rename MOD4_HEALTHBABY_206A_B1 m4_baby1_diarrhea
+rename MOD4_HEALTHBABY_206A_B2 m4_baby2_diarrhea
+
+rename MOD4_HEALTHBABY_206B_B1 m4_baby1_fever
+rename MOD4_HEALTHBABY_206B_B2 m4_baby2_fever
+
+rename MOD4_HEALTHBABY_206C_B1 m4_baby1_lowtemp
+rename MOD4_HEALTHBABY_206C_B2 m4_baby2_lowtemp
+
+rename MOD4_HEALTHBABY_206D_B1 m4_baby1_illness
+rename MOD4_HEALTHBABY_206D_B2 m4_baby2_illness
+
+rename MOD4_HEALTHBABY_206E_B1 m4_baby1_troublebreath
+rename MOD4_HEALTHBABY_206E_B2 m4_baby2_troublebreath
+
+rename MOD4_HEALTHBABY_206F_B1 m4_baby1_chestprob
+rename MOD4_HEALTHBABY_206F_B2 m4_baby2_chestprob
+
+rename MOD4_HEALTHBABY_206G_B1 m4_baby1_troublefeed
+rename MOD4_HEALTHBABY_206G_B2 m4_baby2_troublefeed
+
+rename MOD4_HEALTHBABY_206H m4_baby1_convulsions
+rename MOD4_HEALTHBABY_206H_B2 m4_baby2_convulsions
+
+rename MOD4_HEALTHBABY_206I_B1 m4_baby1_jaundice
+rename MOD4_HEALTHBABY_206I_B2 m4_baby2_jaundice
+
+rename MOD4_HEALTHBABY_206J_B1 m4_baby1_yellowpalms
+rename MOD4_HEALTHBABY_206J_B2 m4_baby2_yellowpalms
+
+rename MOD4_HEALTHBABY_207_B1 m4_baby1_otherprob
+rename MOD4_HEALTHBABY_207_B1_OTHER m4_baby1_other
+
+rename MOD4_HEALTHBABY_207_B2 m4_baby2_otherprob
+rename MOD4_HEALTHBABY_207_B2_OTHER m4_baby2_other
+
+rename MOD4_HEALTHBABY_208_BABY1 m4_baby1_death_date
+rename MOD4_HEALTHBABY_208_BABY2 m4_baby2_death_date
+
+rename MOD4_HEALTHBABY_209_BABY1 m4_baby1_deathage
+rename MOD4_HEALTHBABY_209_BABY2 m4_baby2_deathage
+
+rename MOD4_HEALTHBABY_210_BABY1 m4_baby1_210
+rename MOD4_HEALTHBABY_210_BABY1_OTHER m4_baby1_210_other
+
+rename MOD4_HEALTHBABY_210_BABY2 m4_baby2_210
+rename MOD4_HEALTHBABY_210_BABY2_OTHER m4_baby2_210_other
+
+
+rename MOD4_HEALTHBABY_211_BABY1 m4_baby1_advice
+rename MOD4_HEALTHBABY_211_BABY2 m4_baby2_advice
+
+rename MOD4_HEALTHBABY_212_BABY1 m4_baby1_death_loc
+rename MOD4_HEALTHBABY_212_BABY2 m4_baby2_death_loc
+
+
+* These two variables are missing for all so we will drop them
+foreach v in MOD4_HEALTHBABY_212_B1_OTHER MOD4_HEALTHBABY_212_B2_OTHER {
+	capture assert missing(`v')
+	if _rc == 0  drop `v'
+}
+
+
+********************************************************************************
+********************************************************************************
+* Section 3:
+
+rename MOD4_HEALTH_301 m4_301
+
+rename MOD4_HEALTH_302A m4_302a
+rename MOD4_HEALTH_302B m4_302b
+rename MOD4_HEALTH_303A m4_303a
+rename MOD4_HEALTH_303B m4_303b
+rename MOD4_HEALTH_303C m4_303c
+rename MOD4_HEALTH_303D m4_303d
+rename MOD4_HEALTH_303E m4_303e
+rename MOD4_HEALTH_303F m4_303f
+rename MOD4_HEALTH_303G m4_303g
+rename MOD4_HEALTH_303H m4_303h
+rename MOD4_HEALTH_304 m4_304
+rename MOD4_HEALTH_305 m4_305
+rename MOD4_HEALTH_306 m4_306
+rename MOD4_HEALTH_307 m4_307
+rename MOD4_HEALTH_308 m4_308
+rename MOD4_HEALTH_309 m4_309
+rename MOD4_HEALTH_309_OTHER m4_309_other
+rename MOD4_HEALTH_310 m4_310
+
+********************************************************************************
+********************************************************************************
+* Section 4:
+
+
+* Create a single variable for this by combining baby1 -3
+rename MOD4_CARE_PATHWAYS_401_B1 m4_401a // Setting this to be healthcare visits for self or child.
+assert m4_401a == 1 if MOD4_CARE_PATHWAYS_401_B2 == 1
+
+rename MOD4_CARE_PATHWAYS_402_B1 m4_402
+assert m4_402== MOD4_CARE_PATHWAYS_402_B2 if !missing(MOD4_CARE_PATHWAYS_402_B2)
+
+* Drop the variables we dont need from this section
+drop MOD4_CARE_PATHWAYS_401_B2 MOD4_CARE_PATHWAYS_402_B2
+
+************************************************
+************************************************
+* Lets rename the MOD4_CARE_PATHWAYS_404_B1 MOD4_CARE_PATHWAYS_404_B2 variables to include the A
+rename MOD4_CARE_PATHWAYS_404_B1 MOD4_CARE_PATHWAYS_404A_B1 
+rename MOD4_CARE_PATHWAYS_404_B2 MOD4_CARE_PATHWAYS_404A_B2
+
+* Rename these variables as well
+rename MOD4_CARE_PATHWAYS_412A__B1 MOD4_CARE_PATHWAYS_412A_B1 
+rename MOD4_CARE_PATHWAYS_412A__B2 MOD4_CARE_PATHWAYS_412A_B2
+
+* For each different consultation we need to create these variables
+local num 1
+foreach con in a b c {
+	local ucon = upper("`con'")
+	
+	************************************************
+
+	* Rename the variable
+	rename MOD4_CARE_PATHWAYS_403`ucon'_B1 m4_403`con'
+	
+	* Check to see if the Baby1 & Baby 2 had the same values
+	assertlist m4_403`con' == MOD4_CARE_PATHWAYS_403`ucon'_B2 if !missing(MOD4_CARE_PATHWAYS_403`ucon'_B2) & !inlist(MOD4_CARE_PATHWAYS_403`ucon'_B2,95) , list(m4_respondentid  m4_403`con' MOD4_CARE_PATHWAYS_403`ucon'_B2)
+	capture assert m4_403`con' == MOD4_CARE_PATHWAYS_403`ucon'_B2 if !missing(MOD4_CARE_PATHWAYS_403`ucon'_B2) & !inlist(MOD4_CARE_PATHWAYS_403`ucon'_B2,95)
+	* If they do not, create a new varible just for baby 2. Wipe out if they are the same
+	if _rc !=  0 {
+		rename MOD4_CARE_PATHWAYS_403`ucon'_B2 m4_baby2_403`con'
+		replace m4_baby2_403`con' = . if m4_403`con' == m4_baby2_403`con'
+		order m4_baby2_403`con', after(m4_403`con')
+	}
+	if _rc ==  0  drop MOD4_CARE_PATHWAYS_403`ucon'
+
+	************************************************
+
+	rename MOD4_CARE_PATHWAYS_404`ucon'_B1 m4_404`con'
+	
+	replace MOD4_CARE_PATHWAYS_404`ucon'_B2 = "" if MOD4_CARE_PATHWAYS_404`ucon'_B2 == "."
+	assertlist upper(m4_404`con') == upper(MOD4_CARE_PATHWAYS_404`ucon'_B2) if !missing(MOD4_CARE_PATHWAYS_404`ucon'_B2), list(m4_respondentid m4_404`con' MOD4_CARE_PATHWAYS_404`ucon'_B2)
+	capture assert upper(m4_404`con') == upper(MOD4_CARE_PATHWAYS_404`ucon'_B2) 
+	if _rc != 0 {
+		rename MOD4_CARE_PATHWAYS_404`ucon'_B2 m4_baby2_404`con'
+		replace m4_baby2_404`con' = "" if upper(m4_404`con') == upper(m4_baby2_404`con') 
+		order m4_baby2_404`con', after(m4_404`con')
+
+	}
+	if _rc ==  0 drop MOD4_CARE_PATHWAYS_404`ucon'_B2
+	
+	************************************************
+
+	
+	rename MOD4_CARE_PATHWAYS_412`ucon'_B1 m4_consult`num'_len
+	destring MOD4_CARE_PATHWAYS_412`ucon'_B2, gen(test`ucon') force
+	capture confirm var test`ucon'
+	if _rc != 0 gen test`ucon' = MOD4_CARE_PATHWAYS_412`ucon'_B2
+	capture assert m4_consult`num'_len == test if !missing(test`ucon') 
+	if _rc != 0 {
+		rename MOD4_CARE_PATHWAYS_412`ucon'_B2 m4_baby2_consult`num'_len 
+		replace m4_baby2_consult`num'_len  = . if test`ucon' == m4_baby2_consult`num'_len 
+		order m4_baby2_consult`num'_len, after(m4_consult`num'_len)
+
+	}
+	* We know this is not populated for the 1 respondent that provided a date instead of numeric values
+	* This was sent to the team for confirmation
+	if _rc == 0 {
+		char m4_consult`num'_len[Original_ZA_Varname] `m4_consult`num'_len[Original_ZA_Varname]' & `MOD4_CARE_PATHWAYS_412`ucon'_B2[Original_ZA_Varname]'
+		drop MOD4_CARE_PATHWAYS_412`ucon'_B2 test`ucon'
+	}
+	if _rc != 0 drop test`ucon'
+	local ++num
+	
+	************************************************
+}
+
+************************************************
+************************************************
+
+
+local 405 a
+local 407 b
+local 409 c
+
+local 406 a
+local 408 b
+local 410 c
+
+local num 1
+foreach var in 405 407 409 {
+	
+	rename MOD4_CARE_PATHWAYS_`var'_B1 m4_405``var''
+	assertlist m4_405``var'' == MOD4_CARE_PATHWAYS_`var'_B2 if !missing(MOD4_CARE_PATHWAYS_`var'_B2) & (MOD4_CARE_PATHWAYS_`var'_B2 != 95 &  m4_402 < `num'), list(m4_respondentid m4_402 m4_405``var'' MOD4_CARE_PATHWAYS_`var'_B2)
+
+	drop MOD4_CARE_PATHWAYS_`var'_B2
+	local ++var
+	local ++num
+
+* Create multi select variables
+	forvalues i = 1/2 {
+		capture replace MOD4_CARE_PATHWAYS_`var'_B`i' = subinstr(MOD4_CARE_PATHWAYS_`var'_B`i',","," ",.)
+		capture replace MOD4_CARE_PATHWAYS_`var'_B`i' = trim(MOD4_CARE_PATHWAYS_`var'_B`i')
+	}
+
+	local type `:type MOD4_CARE_PATHWAYS_`var'_B2'
+	local type = substr("`type'",1,3)
+	local type = upper("`type'")
+	
+	
+	if "`type'"=="STR" {
+		
+		 forvalues i = 1/2 {
+			gen wc`i' = wordcount(MOD4_CARE_PATHWAYS_`var'_B`i')
+			sum wc`i'
+			local max`i' = r(max)
+		}
+		local max = max(`max1',`max2')
+		drop wc* 
+	}
+	if "`type'" != "STR" local max 1
+
+* We need to check that these were skipped approriatley
+
+	foreach v in 1 2 3 4 5 6 7 8 9 10 96 {
+		di "`v'"
+		gen m4_405``var''_`v' = 0 if !missing(MOD4_CARE_PATHWAYS_`var'_B1) | !missing(MOD4_CARE_PATHWAYS_`var'_B2) 
+		order m4_405``var''_`v' , before(MOD4_CARE_PATHWAYS_`var'_B1)
+		char m4_405``var''_`v'[Module] 4
+		char m4_405``var''_`v'[Original_ZA_Varname] `MOD4_CARE_PATHWAYS_`var'_B1[Original_ZA_Varname]' & `MOD4_CARE_PATHWAYS_`var'_B2[Original_ZA_Varname]'
+		
+		forvalues i = 1/`max' {
+			local check MOD4_CARE_PATHWAYS_`var'_B1 == `v' | MOD4_CARE_PATHWAYS_`var'_B2 == `v'
+			if "`type'"=="STR" local check word(MOD4_CARE_PATHWAYS_`var'_B1,`i') == "`v'" | word(MOD4_CARE_PATHWAYS_`var'_B2,`i') == "`v'"
+			replace m4_405``var''_`v' = 1 if `check'
+		}
+		
+		char m4_405``var''_`v'[Module] 4 
+		char m4_405``var''_`v'[Original_ZA_Varname] `MOD4_CARE_PATHWAYS_`var'_B1[Original_ZA_Varname]' and `MOD4_CARE_PATHWAYS_`var'_B2[Original_ZA_Varname]'
+			
+		if "`type'" == "STR" {
+			assertlist m4_405``var''_`v' == 1 if word(MOD4_CARE_PATHWAYS_`var'_B2,1) =="`v'" | word(MOD4_CARE_PATHWAYS_`var'_B2,2) =="`v'" , list( m4_405``var''_`v' MOD4_CARE_PATHWAYS_`var'_B1 MOD4_CARE_PATHWAYS_`var'_B2 )
+		
+			assertlist m4_405``var''_`v' == 0 if word(MOD4_CARE_PATHWAYS_`var'_B2,1) !="`v'" & word(MOD4_CARE_PATHWAYS_`var'_B2,2) !="`v'" & word(MOD4_CARE_PATHWAYS_`var'_B1,1) !="`v'" & word(MOD4_CARE_PATHWAYS_`var'_B1,2) !="`v'" & !missing(MOD4_CARE_PATHWAYS_`var'_B1) & !missing(MOD4_CARE_PATHWAYS_`var'_B2) , list(m4_respondentid m4_405``var''_`v' MOD4_CARE_PATHWAYS_`var'_B2 ) 
+		}
+		if "`type'" != "STR" {
+			assertlist m4_405``var''_`v' == 1 if MOD4_CARE_PATHWAYS_`var'_B2 ==`v', list( m4_405``var''_`v' MOD4_CARE_PATHWAYS_`var'_B1 MOD4_CARE_PATHWAYS_`var'_B2 )
+		
+			assertlist m4_405``var''_`v' == 0 if MOD4_CARE_PATHWAYS_`var'_B2 !=`v' & MOD4_CARE_PATHWAYS_`var'_B1 !=`v' & !missing(MOD4_CARE_PATHWAYS_`var'_B1) & !missing(MOD4_CARE_PATHWAYS_`var'_B2) , list(m4_respondentid m4_405``var''_`v' MOD4_CARE_PATHWAYS_`var'_B2 ) 
+		}
+		assertlist missing(m4_405``var''_`v') if missing(MOD4_CARE_PATHWAYS_`var'_B1)  & missing(MOD4_CARE_PATHWAYS_`var'_B2) //, list( m4_405``var''_`v' MOD4_CARE_PATHWAYS_`var'_B1 MOD4_CARE_PATHWAYS_`var'_B2 MOD4_CARE_PATHWAYS_`var'_B3 )
+
+	}
+	
+	rename MOD4_CARE_PATHWAYS_`var'_B1_OTHER m4_405``var''_other 
+	* For these variables we can just move the B2 into B1 if it is missing for B1
+	assert missing(m4_405``var''_other) if !missing(MOD4_CARE_PATHWAYS_`var'_B2_OTHER)
+	replace m4_405``var''_other = MOD4_CARE_PATHWAYS_`var'_B2_OTHER if missing(m4_405``var''_other)
+	assert !missing(m4_405``var''_other) if !missing(MOD4_CARE_PATHWAYS_`var'_B2_OTHER)
+	char m4_405``var''_other[Original_ZA_Varname] `m4_405``var''_other[Original_ZA_Varname]' & `MOD4_CARE_PATHWAYS_`var'_B2_OTHER[Original_ZA_Varname]' 
+
+	drop MOD4_CARE_PATHWAYS_`var'_B1 MOD4_CARE_PATHWAYS_`var'_B2 MOD4_CARE_PATHWAYS_`var'_B2_OTHER
+	
+}
+
+************************************************
+************************************************
+* For the consultation dates we need to convert them to numeric values
+
+* Loop through the different number of visits
+foreach d in A B C {
+	local ld = lower("`d'")
+	
+	* Convert the visit dates to date values
+	local count 1 2
+	if "`d'" == "A" local count 1
+	foreach c in `count' {
+		gen date = subinstr(MOD4_CARE_PATHWAYS_411`d'_B`c',"-","",.) 
+		local m 1
+		foreach v in Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec {
+			local b `m'
+			if `m' < 10 local b 0`b'
+			replace date = subinstr(date,"`v'","`b'",.) 
+			local ++m
+		} 
+		replace date = trim(date)
+
+		gen l = strlen(date)
+		replace date = "0" + date  if l < 6 & l > 2 
+		gen date_d = substr(date,1,2)
+		gen date_m = substr(date,3,2)
+		gen date_y = substr(date,5,2)
+		destring date_d date_m date_y, replace
+		replace date_y = 2000 + date_y
+		gen m4_411`ld'_`c' = mdy(date_m,date_d,date_y)
+		format %td m4_411`ld'_`c'
+		replace m4_411`ld'_`c' = .d if MOD4_CARE_PATHWAYS_411`d'_B`c' == ".d"
+		replace m4_411`ld'_`c' = .a if MOD4_CARE_PATHWAYS_411`d'_B`c' == ".a"
+		replace m4_411`ld'_`c' = .r if MOD4_CARE_PATHWAYS_411`d'_B`c' == ".r"
+
+		char m4_411`ld'_`c'[Original_ZA_Varname] MOD4_CARE_PATHWAYS_411`d'_B`c'
+		char m4_411`ld'_`c'[Module] 4
+
+		order m4_411`ld'_`c', after(MOD4_CARE_PATHWAYS_411`d'_B`c')
+		drop date date_* l
+	}
+	
+	if "`d'" == "A" {
+		gen date = MOD4_CARE_PATHWAYS_411`d'_B2
+		replace date = trim(date)
+
+		gen l = strpos(date,"/")
+		gen date_m = substr(date,1,l-1) if l > 0
+		gen date2 = substr(date,l+1,.)
+		replace l = strpos(date2,"/")
+		gen date_d = substr(date2,1,l-1) if l > 0
+		gen date_y = substr(date2,l+1,.) if l > 0
+		
+		destring date_d date_m date_y, replace
+		gen m4_411`ld'_2= mdy(date_m,date_d,date_y)
+		format %td m4_411`ld'_2
+		replace m4_411`ld'_2 = .d if MOD4_CARE_PATHWAYS_411`d'_B2 == ".d"
+		replace m4_411`ld'_2 = .a if MOD4_CARE_PATHWAYS_411`d'_B2 == ".a"
+		replace m4_411`ld'_2 = .r if MOD4_CARE_PATHWAYS_411`d'_B2 == ".r"
+		char m4_411`ld'_2[Original_ZA_Varname] MOD4_CARE_PATHWAYS_411`d'_B2
+		char m4_411`ld'_2[Module] 4
+
+		order m4_411`ld'_2, after(MOD4_CARE_PATHWAYS_411`d'_B2)
+		drop date date2 date_* l
+	}
+	
+	assertlist m4_411`ld'_1 == m4_411`ld'_2 if !missing(m4_411`ld'_2), list(m4_respondentid m4_411`ld'_1 m4_411`ld'_2 MOD4_CARE_PATHWAYS_411`d'_B1 MOD4_CARE_PATHWAYS_411`d'_B2)
+	capture assert m4_411`ld'_1 == m4_411`ld'_2 if !missing(m4_411`ld'_2)
+	if _rc != 0 {
+		rename m4_411`ld'_2 m4_baby2_411`ld'
+		replace m4_baby2_411`ld' = . if m4_411`ld'_1 == m4_baby2_411`ld'
+		order m4_baby2_411`ld', after(m4_411`ld'_1)
+		drop  MOD4_CARE_PATHWAYS_411`d'_B2 MOD4_CARE_PATHWAYS_411`d'_B1
+	}
+	* These two dates match so we can use just the date from b1
+	if _rc == 0 drop m4_411`ld'_2 MOD4_CARE_PATHWAYS_411`d'_B2 MOD4_CARE_PATHWAYS_411`d'_B1
+	rename m4_411`ld'_1 m4_411`ld'
+}
+
+
+************************************************
+************************************************
+rename MOD4_CARE_PATHWAYS_413 m4_413
+rename MOD4_CARE_PATHWAYS_413_OTHER m4_413_other
+
+
+********************************************************************************
+********************************************************************************
+* Section 5:
+
+rename MOD4_USER_EXP_501 m4_501
+rename MOD4_USER_EXP_502 m4_502
+rename MOD4_USER_EXP_503 m4_503
+
+********************************************************************************
+********************************************************************************
+* Section 6:
+
+foreach b in 1 2 {
+	rename MOD4_CONT_OF_CARE_601A_B`b' m4_baby`b'_601a
+
+	rename MOD4_CONT_OF_CARE_601B_B`b' m4_baby`b'_601b
+
+	rename MOD4_CONT_OF_CARE_601C_B`b' m4_baby`b'_601c
+
+	rename MOD4_CONT_OF_CARE_601D_B`b' m4_baby`b'_601d
+
+	rename MOD4_CONT_OF_CARE_601E_B`b' m4_baby`b'_601e
+
+	rename MOD4_CONT_OF_CARE_601F m4_baby`b'_601f
+
+	rename MOD4_CONT_OF_CARE_601G_B`b' m4_baby`b'_601g
+
+	rename MOD4_CONT_OF_CARE_601H_B`b' m4_baby`b'_601h
+
+	rename MOD4_CONT_OF_CARE_601I_B`b' m4_baby`b'_601i
+	rename MOD4_CONT_OF_CARE_601I_B`b'_OTHER m4_baby`b'_601i_other
+}
+
+
+rename MOD4_CONT_OF_CARE_602A m4_602a	
+rename MOD4_CONT_OF_CARE_602B m4_602b
+rename MOD4_CONT_OF_CARE_602C m4_602c
+rename MOD4_CONT_OF_CARE_602D m4_602d
+rename MOD4_CONT_OF_CARE_602E m4_602e
+rename MOD4_CONT_OF_CARE_6012F m4_602f
+rename MOD4_CONT_OF_CARE_602G m4_602g
+
+* For MOD4_CONT_OF_CARE_603 we will create multiple variables
+replace MOD4_CONT_OF_CARE_603 =subinstr(MOD4_CONT_OF_CARE_603,","," ",.)
+replace MOD4_CONT_OF_CARE_603= trim(MOD4_CONT_OF_CARE_603)
+
+local n 0
+gen wc = wordcount(MOD4_CONT_OF_CARE_603)
+sum wc
+local wc =r(max)
+drop wc
+
+foreach v in a b c d e f g _96 _98 _99 {
+	gen m4_603`v' = 0 if !missing(MOD4_CONT_OF_CARE_603)
+	char m4_603`v'[Module] 4
+	char m4_603`v'[Original_ZA_Varname] `MOD4_CONT_OF_CARE_603[Original_ZA_Varname]'
+	
+	forvalues w = 1/`wc' {
+		replace m4_603`v' = 1 if word(MOD4_CONT_OF_CARE_603,`w') == "`n'"
+	}
+	
+	di "`v' = `n'"
+	
+	local ++n
+	if `n' == 7 local n 96
+	if `n' == 97 local n 98
+	
+} 
+
+order m4_603*, after(MOD4_CONT_OF_CARE_603)
+drop MOD4_CONT_OF_CARE_603
+
+
+rename MOD4_CONT_OF_CARE_603_OTHER m4_603_other
+
+********************************************************************************
+********************************************************************************
+* Section 7:
+
+rename MOD4_CONT_OF_CARE_701A m4_701a
+rename MOD4_CONT_OF_CARE_701B m4_701b
+rename MOD4_CONT_OF_CARE_701C m4_701c
+rename MOD4_CONT_OF_CARE_701D m4_701d
+rename MOD4_CONT_OF_CARE_701E m4_701e
+rename MOD4_CONT_OF_CARE_701F m4_701f
+rename MOD4_CONT_OF_CARE_701G m4_701g
+rename MOD4_CONT_OF_CARE_701H m4_701h
+rename MOD4_CONT_OF_CARE_701H_OTHER m4_701h_other
+rename MOD4_CONT_OF_CARE_702 m4_702
+rename MOD4_CONT_OF_CARE_703A m4_703a
+rename MOD4_CONT_OF_CARE_703B m4_703b
+rename MOD4_CONT_OF_CARE_703C m4_703c
+rename MOD4_CONT_OF_CARE_703D m4_703d
+rename MOD4_CONT_OF_CARE_703E m4_703e
+rename MOD4_CONT_OF_CARE_703F m4_703f
+rename MOD4_CONT_OF_CARE_703G m4_703g
+rename MOD4_CONT_OF_CARE_704A m4_704a
+rename MOD4_CONT_OF_CARE_704B m4_704b
+rename MOD4_CONT_OF_CARE_704C m4_704c
+
+********************************************************************************
+********************************************************************************
+* Section 8:
+
+rename MOD4_MEDS_801A m4_801a
+rename MOD4_MEDS_801B m4_801b
+rename MOD4_MEDS_801C m4_801c
+rename MOD4_MEDS_801D m4_801d
+rename MOD4_MEDS_801E m4_801e
+rename MOD4_MEDS_801F m4_801f
+rename MOD4_MEDS_801G m4_801g
+rename MOD4_MEDS_801H m4_801h
+rename MOD4_MEDS_801I m4_801i
+rename MOD4_MEDS_801J m4_801j
+rename MOD4_MEDS_801K m4_801k
+rename MOD4_MEDS_801L m4_801l
+rename MOD4_MEDS_801M m4_801m
+rename MOD4_MEDS_801N m4_801n
+rename MOD4_MEDS_801O m4_801o
+rename MOD4_MEDS_801P m4_801p
+rename MOD4_MEDS_801Q m4_801q
+rename MOD4_MEDS_801R m4_801r
+rename MOD4_MEDS_801R_OTHER m4_801r_other
+
+rename MOD4_MEDS_802A m4_802a
+rename MOD4_MEDS_802B m4_802b
+rename MOD4_MEDS_802C m4_802c
+rename MOD4_MEDS_802D m4_802d
+rename MOD4_MEDS_802E m4_802e
+rename MOD4_MEDS_802F m4_802f
+rename MOD4_MEDS_802G m4_802g
+rename MOD4_MEDS_802H m4_802h
+rename MOD4_MEDS_802I m4_802i
+rename MOD4_MEDS_802J m4_802j
+rename MOD4_MEDS_802J_OTHER m4_802j_other
+
+rename MOD4_MEDS_803A m4_803a
+rename MOD4_MEDS_803B m4_803b
+rename MOD4_MEDS_803C m4_803c
+rename MOD4_MEDS_803D m4_803d
+rename MOD4_MEDS_803E m4_803e
+rename MOD4_MEDS_803F m4_803f
+rename MOD4_MEDS_803F_OTHER m4_803g
+
+rename MOD4_MEDS_804 m4_804
+rename MOD4_MEDS_805 m4_805
+
+********************************************************************************
+********************************************************************************
+* Section 9:
+
+rename MOD4_COSTS_901 m4_901
+rename MOD4_COSTS_902A m4_902a_amt
+rename MOD4_COSTS_902B m4_902b_amt
+rename MOD4_COSTS_902C m4_902c_amt
+rename MOD4_COSTS_902D m4_902d_amt
+rename MOD4_COSTS_902E_OTHER_AMOUNT m4_902e_amt
+rename MOD4_COSTS_902E m4_902e_oth
+rename MOD4_COSTS_902_TOTAL m4_902_total_spent
+
+rename MOD4_COSTS_903 m4_903
+rename MOD4_COSTS_904 m4_904
+
+* We need to break up 905 as they selected multiple options
+replace MOD4_COSTS_905 = subinstr(MOD4_COSTS_905,","," ",.)
+replace MOD4_COSTS_905  = trim(MOD4_COSTS_905)
+
+gen wc = wordcount(MOD4_COSTS_905)
+sum wc
+local wc = r(max)
+drop wc
+
+
+local n 1
+foreach v in a b c d e f g {
+	gen m4_905`v' = 0 if !missing(MOD4_COSTS_905)
+	char m4_905`v'[Module] 4
+	char m4_905`v'[Original_ZA_Varname] `MOD4_COSTS_905[Original_ZA_Varname]'
+	forvalues i = 1/`wc' {
+		replace m4_905`v' = 1 if word(MOD4_COSTS_905,`i') == "`n'"
+	}
+	local ++n
+	if "`v'" == "f" local n 96
+}
+
+order m4_905*, before(MOD4_COSTS_905)
+
+drop MOD4_COSTS_905
+
+rename MOD4_COSTS_905_OTHER m4_905_other
+
+* This variable is missing for all so we will drop it
+drop MOD4_CARE_PATHWAYS_411B
+
+
+rename MOD4_END_B1 m4_meet_for_m5	
+replace MOD4_END_B1_DATE = subinstr(MOD4_END_B1_DATE,"-23","2023",.)
+replace MOD4_END_B1_DATE = subinstr(MOD4_END_B1_DATE,"-24","2024",.)
+replace MOD4_END_B1_DATE = subinstr(MOD4_END_B1_DATE,"-","",.)
+gen m4_meet_for_m5_date	 = date(MOD4_END_B1_DATE,"DMY")
+char m4_meet_for_m5_date[Module] 4
+char m4_meet_for_m5_date[Original_ZA_Varname] `MOD4_END_B1_DATE[Original_ZA_Varname]'
+
+format %td  m4_meet_for_m5_date
+
+replace m4_meet_for_m5_date = .d if MOD4_END_B1_DATE == ".d"
+replace m4_meet_for_m5_date = .a if MOD4_END_B1_DATE == ".a"
+
+rename MOD4_END_B2_TIME m4_meet_for_m5_time_of_day	
+rename MOD4_END_B2_LOCATION m4_meet_for_m5_location	
+
+rename RESPONSE_FIELDWORKERID m4_interviewer_id
+rename RESPONSE_FIELDWORKER m4_interviewer
+
+* We can drop all of the questionnaire data
+drop RESPONSE_QUESTIONNAIREID RESPONSE_QUESTIONNAIRENAME RESPONSE_QUESTIONNAIREVERSION  RESPONSE_STARTTIME RESPONSE_LOCATION RESPONSE_LATTITUDE RESPONSE_LONGITUDE RESPONSE_STUDYNOPREFIX RESPONSE_STUDYNO STUDYNUMBER RESPONSEID MOD4_END_B1_DATE
+
+**********************************
+**********************************/
+
+* clean up the respondent id
+
+replace m4_respondentid = trim(m4_respondentid)
+replace m4_respondentid = subinstr(m4_respondentid," ","",.)
+
+foreach v of varlist * {
+	label var `v' ""
+}
+
+
+
+*****************************
+*****************************
+
+* Create value labels for M4 
+
+	label define m4_yes_no_dnk_nr 0 "No" 1 "Yes", replace // 98 "Don't Know" 99 "No Response/Refused to answer", replace
+	label value  m4_baby1_feed_a m4_baby1_feed_b m4_baby1_feed_c m4_baby1_feed_d m4_baby1_feed_e m4_baby1_feed_f m4_baby1_feed_g m4_baby1_feed_rf m4_baby2_feed_a m4_baby2_feed_b m4_baby2_feed_c m4_baby2_feed_d m4_baby2_feed_e m4_baby2_feed_f m4_baby2_feed_g m4_baby2_feed_rf  ///
+	m4_baby1_diarrhea m4_baby2_diarrhea m4_baby1_fever m4_baby2_fever m4_baby1_lowtemp m4_baby2_lowtemp m4_baby1_illness m4_baby2_illness m4_baby1_troublebreath m4_baby2_troublebreath m4_baby1_chestprob m4_baby2_chestprob m4_baby1_troublefeed m4_baby2_troublefeed m4_baby1_convulsions m4_baby2_convulsions m4_baby1_jaundice m4_baby2_jaundice m4_baby1_yellowpalms m4_baby2_yellowpalms m4_baby1_otherprob m4_baby2_otherprob ///
+	m4_baby1_advice m4_baby2_advice ///
+	m4_401a ///
+	m4_405a m4_405a_1 m4_405a_2 m4_405a_3 m4_405a_4 m4_405a_5 m4_405a_6 m4_405a_7 m4_405a_8 m4_405a_9 m4_405a_10 m4_405a_96  ///
+	m4_405b m4_405b_1 m4_405b_2 m4_405b_3 m4_405b_4 m4_405b_5 m4_405b_6 m4_405b_7 m4_405b_8 m4_405b_9 m4_405b_10 m4_405b_96 ///
+	m4_405c m4_405c_1 m4_405c_2 m4_405c_3 m4_405c_4 m4_405c_5 m4_405c_6 m4_405c_7 m4_405c_8 m4_405c_9 m4_405c_10 m4_405c_96 ///
+	m4_baby1_601a m4_baby2_601a m4_baby1_601b m4_baby2_601b m4_baby1_601c m4_baby2_601c m4_baby1_601d m4_baby2_601d m4_baby1_601e m4_baby2_601e m4_baby1_601f m4_baby2_601f m4_baby1_601g m4_baby2_601g m4_baby1_601h m4_baby2_601h m4_baby1_601i m4_baby2_601i ///
+	m4_602a m4_602b m4_602c m4_602d m4_602e m4_602f m4_602g ///
+	m4_603a m4_603b m4_603c m4_603d m4_603e m4_603f m4_603g m4_603_96 m4_603_98 m4_603_99 ///
+	m4_701a m4_701b m4_701c m4_701d m4_701e m4_701f m4_701g m4_701h ///
+	m4_702 m4_703a m4_703b m4_703c m4_703d m4_703e m4_703f m4_703g m4_704a ///
+	m4_801a m4_801b m4_801c m4_801d m4_801e m4_801f m4_801g m4_801h m4_801i m4_801j m4_801k m4_801l m4_801m m4_801n m4_801o m4_801p m4_801q m4_801r ///
+	m4_802a m4_802b m4_802c m4_802d m4_802e m4_802f m4_802g m4_802h m4_802i m4_802j ///
+	m4_803a m4_803b m4_803c m4_803d m4_803e m4_803f ///
+	m4_901 ///
+	m4_905a m4_905b m4_905c m4_905d m4_905e m4_905f m4_905g ///
+	m4_yes_no_dnk_nr
+	
+	
+	label define m4_hiv 1 "Positive" 2 "Negative", replace // 98 "Don't Know" 99 "No Response/Refused to answer", replace
+	label value m4_hiv_status m4_hiv
+
+	label define m4_yesno 0 "No" 1 "Yes", replace
+	label value m4_permission m4_c_section m4_maternal_death_reported ///
+	m4_305 m4_308 ///
+	m4_903 ///
+	m4_meet_for_m5 ///
+	m4_yesno
+	
+	label define m4_alive 1 "Alive" 0 "Died" 95 "Not applicable", replace
+	label value m4_baby1_status m4_baby2_status m4_alive 
+	
+	label define m4_rate 1 "Excellent" 2 "Very Good" 3 "Good" 4 "Fair" 5 "Poor", replace // 98 "Don't know" 99 "No Response/Refused to answer", replace
+	label value m4_baby1_health m4_baby2_health m4_301 ///
+	m4_501 m4_502 m4_503 ///
+	m4_rate
+	
+	label define m4_confidence 1 "Not at all confident" 2 "Not very confident" 3 "Somewhat confident" 4 "Confident" 5 "Very confident" 96 "I do not breastfeed" 99 "No Response/Refused to answer", replace
+	label value m4_breastfeeding m4_confidence
+	
+	label define m4_sleep 1 "Sleeps well" 2 "Slightly affected sleep" 3 "Moderately affected sleep" 4 "Severely disturbed sleep", replace
+	label value m4_baby1_sleep m4_baby2_sleep m4_sleep
+	
+	label define m4_feeding 1 "Normal feeding" 2 "Slight feeding problems" 3 "Moderate feeding problems" 4 "Severe feeding problems", replace
+	label value m4_baby1_feed m4_baby2_feed m4_feeding
+	
+	label define m4_breathing 1 "Normal breathing" 2 "Slight breathing problems" 3 "Moderate breathing problems" 4 "Severe breathing problems", replace
+	label value m4_baby1_breath m4_baby2_breath m4_breathing
+	
+	label define m4_stool 1 "Normal stooling/poo" 2 "Slight stooling/poo problems" 3 "Moderate stooling/poo problems" 4 "Severe stooling/poo problems", replace
+	label value m4_baby1_stool m4_baby2_stool m4_stool 
+	
+	label define m4_mood 1 "Happy/content" 2 "Fussy/irritable" 3 "Crying" 4 "Inconsolable crying", replace
+	label value m4_baby1_mood m4_baby2_mood m4_mood
+	
+	label define m4_skin 1 "Normal skin" 2 "Dry or red skin" 3 "Irritated or itchy skin" 4 "Bleeding or cracked skin" , replace
+	label value m4_baby1_skin m4_baby2_skin m4_skin
+	
+	label define m4_activity 1 "Highly playful/interactive" 2 "Playful/interactive" 3 "Less playful/less interactive" 4 "Low energy/inactive/dull", replace
+	label value m4_baby1_interactivity m4_baby2_interactivity m4_activity
+	
+	label define m4_death_location 1 "In a health facility" 2 "On the way to the health facility" 3 "Your house or someone else's house" 4 "Other, please specify", replace // 98 "Don't know" 99 "No response/Refused to answer", replace
+	label value m4_baby1_death_loc m4_baby2_death_loc m4_death_location
+	
+	label define m4_days 0 "None of the days" 1 "Several days" 2 "More than half the days (>7)" 3 "Nearly every day" 99 "No Response/Refused to answer", replace
+	label value m4_302a m4_302b m4_days
+	
+	label define m4_feelings 1 "Very much" 2 "A lot" 3 "A little" 4 "Not at all", replace // 98 "Don't Know" 99 "No Response/Refused to answer", replace
+	label value m4_303a m4_303b m4_303c m4_303d m4_303e m4_303f m4_303g m4_303h m4_feelings
+	
+	label define m4_sex_sat 0 "Have not had sex" 1 "Not at all" 2 "A little bit" 3 "Somewhat" 4 "Quite a bit" 5 "Very much", replace // 98 "Don't know" 99 "No Response/Refused to answer", replace
+	label value m4_304 m4_sex_sat
+	
+	label define m4_frequency 0 "Never" 1 "Less than once/month" 2 "Less than once/week" 3 "Less than once/day" 4 "Once a day or more thanonce a day", replace
+	label value m4_307 m4_frequency
+	
+	label define m4_no_trt_rsn 1 "Do not know it can be fixed"  2 "You tried but were sent away (e.g., no appointment available)" 3 "High cost (e.g., high out of pocket payment, not covered by insurance)" 4 "Far distance (e.g., too far to walk or drive, transport not readily available)" 5 "Poor healthcare provider skills (e.g., spent too little time with patient, did not conduct a thorough exam)" 6 "Staff don't show respect (e.g., staff is rude, impolite, dismissive)" 7 "Medicines or equipment are not available (e.g., medicines regularly out of stock, equipment like X-ray machines broken or unavailable)" 8 "COVID-19 restrictions (e.g., lockdowns, travel restrictions, curfews)" 9 "COVID-19 fear" 10 "Don't know where to go/too complicated" 11 "Could not get permission" 12 "Embarrassment" 13 "Problem disappeared" 96 "Other (specify)" 99 "No Response/Refused to answer", replace
+	label value m4_309 m4_no_trt_rsn
+	
+	label define m4_trt_worked 1 "Yes, no more leakage at all" 2 "Yes,but still some leakage" 3 " No, still have problem" 99 "No Response/Refused to answer", replace
+	label value  m4_310 m4_trt_worked
+	
+	label define m4_location 1 "In your home" 2 "Someone else's home" 3 "Public clinic" 4 "Public hospital" 5 "Private clinic" 6 "Private hospital" 7 "Public Community health center" 8 "Other", replace // 98 "Don't know" 99 "No Response/Refused to answer", replace
+	label value m4_403a m4_403b m4_403c m4_baby2_403b m4_baby2_403c m4_location
+		
+	label define m4_rsn_not_pnc 0 "No reason or the baby and I didn't need it" 1 "You tried but were sent away (e.g., no appointment available)" 2 "High cost (e.g., high out of pocket payment, not covered by insurance" 3 "Far distance (e.g., too far to walk or drive, transport not readily available)" 4 "Long waiting time (e.g., long line to access facility, long wait for the provider)" 5 "Poor healthcare provider skills (e.g., spent too little time with patient, did not conduct a thorough exam)" 6 "Staff don't show respect (e.g., staff is rude, impolite, dismissive)" 7 "Medicines or equipment are not available (e.g., medicines regularly out of stock, equipment like X-ray machines  broken or unavailable)" 8 "COVID-19 restrictions (e.g., lockdowns, travel restrictions, curfews)" 9 "COVID-19 fear" 10 "Don't know where to go/too complicated" 11 "Fear of discovering serious problem" 96 "Other (specify)" 99 "No Response/Refused to answer", replace
+	label value m4_413 m4_rsn_not_pnc 
+	
+	label define m4_loc_vx 1 "At home" 2 "At a facility" 3 "At another location", replace
+	label value m4_804 m4_loc_vx
+	
+	label define m4_meet_time 1 "Morning" 2 "Midday" 3 "Afternoon", replace
+	label value m4_meet_for_m5_time_of_day m4_meet_time
+		
+	
+********************************************************************************
+********************************************************************************
+* RECODE 
+foreach v of varlist * {
+	capture recode `v' (. = .a) if m4_permission != 1
+	capture replace `v' =".a" if m4_permission != 1 & missing(`v')
+}
+
+recode m4_date_of_maternal_death m4_maternal_death_learn m4_maternal_death_learn_other (. = .a) if m4_maternal_death_reported != 1
+*replace  = ".a" if m4_maternal_death_reported != 1
+
+forvalues i = 1/2 {
+	replace m4_baby`i'_other = ".a" if missing(m4_baby`i'_other) & m4_baby`i'_otherprob != 1  
+	*replace m4_baby`i'_210_other = ".a" if missing(m4_baby`i'_210_other) & (m4_baby`i'_210 != 96 | m4_baby`i'_status == 1)	 
+	recode  m4_baby`i'_210_other (. = .a) if m4_baby`i'_210 != 96 | m4_baby`i'_status == 1
+	*replace m4_baby1_601i_other = ".a" if missing(m4_baby1_601i_other) & m4_baby1_601i != 1 
+	recode  m4_baby1_601i_other (. = .a) if m4_baby1_601i != 1 
+	
+	recode m4_baby`i'_death_date m4_baby`i'_deathage m4_baby`i'_advice m4_baby`i'_death_loc (. = .a) if m4_baby`i'_status == 1
+	
+	recode m4_baby`i'_601a m4_baby`i'_601b m4_baby`i'_601c m4_baby`i'_601d m4_baby`i'_601e m4_baby`i'_601f m4_baby`i'_601g m4_baby`i'_601h m4_baby`i'_601i (. 95 = .a) if m4_live_babies < `i'
+}
+
+replace m4_603_other = ".a" if missing(m4_603_other) & m4_603_96 != 1
+replace m4_701h_other = ".a" if missing(m4_701h_other) & m4_701h != 1
+replace m4_801r_other = ".a" if missing(m4_801r_other) & m4_801r != 1
+replace m4_802j_other = ".a" if missing(m4_802j_other) & m4_802j != 1  
+replace m4_803g = ".a" if missing(m4_803g) & m4_803f != 1
+replace m4_905_other = ".a" if missing(m4_905_other) & m4_905g != 1
+  
+	recode m4_306 m4_307 m4_308 m4_309 m4_310 (. = .a) if m4_305 != 1
+	recode m4_309 m4_310 (. = .a) if m4_308 != 1
+	replace m4_309_other = ".a" if missing(m4_309_other) & (m4_308 != 1 | m4_309 != 96)
+	
+	recode m4_402 (. = -1) if m4_401 != 1
+	local n 1
+	foreach v in a b c {
+		recode m4_403`v' m4_411`v'  (95 . = .a) if m4_402 < `n'
+		recode m4_consult`n'_len (. = .a) if m4_402 < `n'
+		
+		replace m4_404`v'  = ".a" if missing(m4_404`v') & (inlist(m4_403`v',1,2)  | m4_402 < `n')
+		
+		if "`v'" != "a" replace m4_baby2_404`v' = ".a" if missing(m4_baby2_404`v') & inlist(m4_403`v',1,2) & missing(m4_baby2_403`v') 
+		if "`v'" != "a" replace m4_baby2_404`v' = ".a" if missing(m4_baby2_404`v') & inlist(m4_baby2_403`v',1,2)
+		if "`v'" == "a" replace m4_baby2_404`v' = ".a" if missing(m4_baby2_404`v') & inlist(m4_403`v',1,2)
+		replace m4_baby2_404`v' = ".a" if m4_402 < `n'
+		
+		
+		replace m4_405`v'_other = ".a" if missing(m4_405`v'_other) & m4_405`v'_96 != 1 
+		
+		recode m4_405`v'_1 m4_405`v'_2 m4_405`v'_3 m4_405`v'_4 m4_405`v'_5 m4_405`v'_6 m4_405`v'_7 m4_405`v'_8 m4_405`v'_9 m4_405`v'_10 m4_405`v'_96 (. = .a) if m4_405`v' == 1 | m4_402 < `n'
+		
+		
+		recode m4_50`n' (95 . = .a) if m4_402 < `n'
+		local ++n
+	}
+	
+	recode m4_413 (. = .a) if m4_402 >= 1
+	replace m4_413_other = ".a" if missing(m4_413_other) & m4_413 != 96
+	
+	local n 1
+	foreach v in a b c {
+		foreach var in m4_403`v' m4_405`v' m4_405`v'_1 m4_405`v'_10 m4_405`v'_2 m4_405`v'_3 m4_405`v'_4 m4_405`v'_5 m4_405`v'_6 m4_405`v'_7 m4_405`v'_8 m4_405`v'_9 m4_405`v'_96  m4_411`v'   m4_consult`n'_len {
+			recode `var' (. 95 = .a) if m4_402 < `n'
+		}
+		foreach var in m4_baby2_404`v' m4_405`v'_other m4_404`v' {
+			replace `var' = ".a" if missing(`var') & m4_402 < `n'
+		}
+		recode m4_50`n' (. 95 = .a) if m4_402 < `n'
+		local ++n
+	}
+	
+	
+	foreach v in m4_baby2_name m4_baby2_status m4_baby2_health m4_baby2_feed_a m4_baby2_feed_b m4_baby2_feed_c m4_baby2_feed_d m4_baby2_feed_e m4_baby2_feed_f m4_baby2_feed_g m4_baby2_feed_rf m4_baby2_sleep m4_baby2_feed m4_baby2_breath m4_baby2_stool m4_baby2_mood m4_baby2_skin m4_baby2_interactivity m4_baby2_diarrhea m4_baby2_fever m4_baby2_lowtemp m4_baby2_illness m4_baby2_troublebreath m4_baby2_chestprob m4_baby2_troublefeed m4_baby2_convulsions m4_baby2_jaundice m4_baby2_yellowpalms m4_baby2_otherprob m4_baby2_other m4_baby2_death_date m4_baby2_deathage m4_baby2_210 m4_baby2_210_other m4_baby2_advice m4_baby2_death_loc m4_baby2_404a m4_baby2_403b m4_baby2_404b m4_baby2_consult2_len m4_baby2_403c m4_baby2_404c m4_baby2_411c m4_baby2_consult3_len m4_baby2_601a m4_baby2_601b m4_baby2_601c m4_baby2_601d m4_baby2_601e m4_baby2_601f m4_baby2_601g m4_baby2_601h m4_baby2_601i m4_baby2_601i_other {
+
+	
+	capture recode `v' (95 . = .a) if m4_live_babies < 2 | missing(m4_live_babies)
+	capture replace `v' = ".a" if missing(`v') & (m4_live_babies < 2 | missing(m4_live_babies))
+}
+	
+	recode m4_402 (-1 = .a) if m4_401 != 1
+	
+	recode m4_704b m4_704c (. = .a) if m4_704a != 1
+	recode m4_902a_amt m4_902b_amt m4_902c_amt m4_902d_amt  m4_902e_amt m4_902_total_spent m4_903 m4_904 m4_905a m4_905b m4_905c m4_905d m4_905e m4_905f m4_905g (. = .a) if m4_901 ==0
+	replace m4_902e_oth = ".a" if missing(m4_902e_oth) & m4_901 ==0
+	recode m4_904 (. = .a) if m4_903 == 1
+	
+	
+	* Replace all the dnk and nr
+	foreach v of varlist * {
+		capture confirm numeric var `v'
+		if _rc == 0 {
+			recode `v' (98 = .d)
+			recode `v' (99 = .r)
+		}
+	}
+	
+*******************************************************************************
+*******************************************************************************
+*******************************************************************************
+* Do a little more cleanup and checks before merging
+	* Confirm that the response id is unique
+	bysort m4_respondentid : gen n = _N 
+	keep if n == 1
+	drop n
+	
+	* Per previous cleanups make the below changes to respondent ids
+	replace m4_respondentid = "MND-011" if m4_respondentid == "MND_011"
+	replace m4_respondentid = "MND-012" if m4_respondentid == "MND_012"
+	replace m4_respondentid = "NEL_021" if m4_respondentid == "NEL-021"
+	
+	* Now merge with the M1- M3
+	rename m4_respondentid respondentid
+	
+	*dropping these per previous modules
+	drop if inlist(respondentid, "MPH_015","QEE_109","UUT_014")
+	save "$za_data_final/eco_m4_za.dta", replace	
+	
+	assertlist !missing(m4_baby1_status) if m4_permission == 1, list(respondentid m4_baby1_status)
+	assertlist !missing(m4_301) if m4_permission == 1, list(respondentid m4_301)
+	assertlist missing(m4_306) if m4_305 != 1, list(respondentid m4_306 m4_305)
+	assertlist !missing(m4_306) if m4_305 == 1, list(respondentid m4_306 m4_305)
+	assertlist !missing(m4_401a) if m4_permission == 1, list(respondentid m4_401a)
+
+local n 1
+foreach v in a b c {
+	foreach var in m4_403`v' m4_405`v' m4_405`v'_1 m4_405`v'_10 m4_405`v'_2 m4_405`v'_3 m4_405`v'_4 m4_405`v'_5 m4_405`v'_6 m4_405`v'_7 m4_405`v'_8 m4_405`v'_9 m4_405`v'_96  m4_411`v'   m4_consult`n'_len {
+		assertlist `var'== .a if m4_402 < `n', list(respondentid m4_402 `var')
+	}
+	foreach var in m4_baby2_404`v' m4_405`v'_other m4_404`v' {
+		assertlist `var' == ".a" if missing(`var') & m4_402 < `n', list(respondentid m4_402 `var')
+	}
+	assertlist m4_50`n' == .a if m4_402 < `n',list(respondentid m4_402 m4_50`n')
+	local ++n
+
+}
+	
+
+foreach v in m4_baby2_name m4_baby2_210_other m4_baby2_other m4_baby2_601i_other m4_baby2_404a m4_baby2_404b m4_baby2_404c {
+	tab `v' if m4_live_babies < 2,m
+	capture assertlist `v' ==".a" if m4_live_babies < 2 //| missing(m4_live_babies), list(respondentid m4_live_babies `v' )
+	capture assertlist `v' ==.a if m4_live_babies < 2 //| missing(m4_live_babies), list(respondentid m4_live_babies `v' )
+
+}
+
+foreach v in m4_baby2_status m4_baby2_health m4_baby2_feed_a m4_baby2_feed_b m4_baby2_feed_c m4_baby2_feed_d m4_baby2_feed_e m4_baby2_feed_f m4_baby2_feed_g m4_baby2_feed_rf m4_baby2_sleep m4_baby2_feed m4_baby2_breath m4_baby2_stool m4_baby2_mood m4_baby2_skin m4_baby2_interactivity m4_baby2_diarrhea m4_baby2_fever m4_baby2_lowtemp m4_baby2_illness m4_baby2_troublebreath m4_baby2_chestprob m4_baby2_troublefeed m4_baby2_convulsions m4_baby2_jaundice m4_baby2_yellowpalms m4_baby2_otherprob  m4_baby2_death_date m4_baby2_deathage m4_baby2_210  m4_baby2_advice m4_baby2_death_loc  m4_baby2_403b m4_baby2_consult2_len m4_baby2_403c m4_baby2_411c m4_baby2_consult3_len m4_baby2_601a m4_baby2_601b m4_baby2_601c m4_baby2_601d m4_baby2_601e m4_baby2_601f m4_baby2_601g m4_baby2_601h m4_baby2_601i  {
+	di "`v'"
+	di "Should be missing..."
+	assertlist `v' == .a if m4_live_babies < 2 | missing(m4_live_babies), list(respondentid m4_live_babies `v' )
+	
+
+	*di "Should be populated..."
+	*assertlist !missing(`v') if m4_live_babies == 2 , list(respondentid m4_live_babies `v' )
+
+}
+	
+	
+	* confirm that if they said they paid money the amount if greater than 0
+	gen tot = 0
+	foreach v in m4_902a_amt m4_902b_amt m4_902c_amt m4_902d_amt m4_902e_amt m4_902_total_spent {
+		assertlist !inlist(`v',.,0,.a) if m4_901  == 1, list(respondentid m4_901 `v')
+		assertlist inlist(`v',.,0,.a) if m4_901  != 1, list(respondentid m4_901 `v')
+
+		if "`v'" != "m4_902_total_spent"	replace tot = tot + `v'
+	}
+	
+	assertlist tot == m4_902_total_spent if !inlist(m4_902_total_spent,.,.a), list(respondentid m4_901  m4_902a_amt m4_902b_amt m4_902c_amt m4_902d_amt m4_902e_amt m4_902_total_spent tot )
+	assertlist m4_902_total_spent > 0 if m4_901 == 1 , list(respondentid m4_901 m4_902a_amt m4_902b_amt m4_902c_amt m4_902d_amt m4_902e_amt m4_902_total_spent tot )
+
+	* Merge back with M1-M3
+	use "$za_data_final/eco_m1-m3_za.dta", clear
+	
+	merge 1:1 respondentid using "$za_data_final/eco_m4_za.dta"
+
+	rename _merge merge_m4_main_data
+	label define m4 3 "M4 and M1" 1 "M1-M3 only", replace
+label value merge_m4_main_data m4
+label var merge_m4_main_data "Merge status from M4 to Main dataset"
+	save "$za_data_final/eco_m1-m4_za.dta", replace
+
+* Quick M4 DQ checks after merging
+
+foreach v in 1 2 3 {
+	foreach date of varlist m`v'_date* {
+		assertlist m4_date > `date' if !inlist(m4_date,.,.a) & !inlist(`date',.,.a), list(respondentid m4_date `date') tag(M4 interview date should be after `date')
+	}
+}
+
+	* Confirm that the consultation dates are before interview date
+	foreach d in a b c {
+		assertlist m4_411`d' < m4_date if !missing(m4_411`d') & m4_411`d' != mdy(1,1,2095), list(respondentid m4_date m4_411`d')
+	}
+
+
+
+* confirm the number of babies is the same for M3 and M4
+
+* Confirm the HIV status is the same for M1, M2, M3 and M4
 
 *==============================================================================*
 * MODULE 5:		
  
-
+ foreach v of varlist * {
+	char `v'[Original_ZA_Varname] `v'
+	char `v'[Module] 5
+}
 
 
 *==============================================================================*
 
 * MODULE Road to Health card:		
  import excel "$za_data/Module 5/RTHC_20Nov2024.xlsx", sheet("-Endline---RTHC-v0-2024111-868") firstrow clear
-															
+					
+
 foreach v of varlist * {
 	char `v'[Original_ZA_Varname] `v'
-	char `v'[Module] mcard
+	char `v'[Module] 6
 }
 
 
@@ -4615,7 +5657,7 @@ rename RESPONSE_Longitude mcard_longitude
 rename RESPONSE_StudyNoPrefix mcard_study_number_prefix
 rename RESPONSE_StudyNo mcard_study_number
 rename ResponseID mcard_response_id
-rename RESPONSE_Checked mcard_checked
+*rename RESPONSE_Checked mcard_checked
 
 gen date_y = substr(mcard_starttime,1,4)
 gen date_m = substr(mcard_starttime,6,2)
@@ -4625,7 +5667,7 @@ gen mcard_date = mdy(date_m, date_d,date_y)
 format %tdCCYYmonDD mcard_date
 
 drop date_*
-char mcard_date[Module] mcard
+char mcard_date[Module] 6
 char mcard_date[Original_ZA_Varname]  RESPONSE_StartTime
 label var mcard_date "RTCH date"
 
@@ -4653,7 +5695,7 @@ rename RTHC_6_Name_B1 mcard_name
 rename RTHC_7_Name_B_age mcard_age 
 
 rename RTHC_8_Name_B_Sex mcard_sex
-replace mcard_sex = "" if !inlist(mcard_sex,"1","2","3","99")
+*replace mcard_sex = "" if !inlist(mcard_sex,"1","2","3","99")
 destring mcard_sex, replace
 label define mcard_sex 1 "Male" 2 "Female" 3 "Indeterminate" 99 "No response/Refused to answer", replace
 label value mcard_sex mcard_sex
@@ -4772,7 +5814,7 @@ forvalues i = 1/2 {
 
 save  "$za_data_final\RTHC", replace
 
-use "$za_data_final/eco_m1-m3_za.dta", clear
+use "$za_data_final/eco_m1-m4_za.dta", clear
 merge 1:1 respondentid using "$za_data_final\RTHC"
 
 /*respondentids without a match
@@ -4815,7 +5857,95 @@ drop num_times_in_mcard merge_rthc_main_data
 
 	* Run the derived variables code
 	do "${github}\South Africa\crEco_der_ZA.do"
+	
+	foreach v in phq9a phq9b phq9c phq9d phq9e phq9f phq9g phq9h phq9i height_cm weight_kg  ///
+		time_1_pulse_rate bp_time_1_systolic bp_time_1_diastolic ///
+		time_2_pulse_rate bp_time_2_systolic  bp_time_2_diastolic ///
+		time_3_pulse_rate bp_time_3_systolic bp_time_3_diastolic enrollage   {
+		if "``v'[Module]'"=="1" capture rename `v' m1_`v'
+	}
+	
+
+
+	
+	
+	* Add the variable labels
+	m1_add_shortened_labels
+	m2_add_shortened_labels
+	m3_add_shortened_labels
+	m4_add_shortened_labels
+	m5_add_shortened_labels
+	
+	
+	* Remove any wonky value labels
+	 local 98 "Don't know","Don´t know","Don't know"
+	 local 99 "No response/ refused","No response/refusal","No response/refusal"
+ 
+ 
+foreach v of varlist * {
+
+	local lab `:value label `v''
+	if "`lab'" != "" {
+		di "`v'....."
+		label list `lab' 
+		foreach i in 98 99 {
+			local i2 `i'
+			if substr("`i'",1,1) == "n" local i2 -`=substr("`i'",2,.)'
+			
+			qui count if `v' == `i2' 
+			local value = trim("`:label `lab' `i2''")
+			if `r(N)' == 0  & "`value'" != "`i2'" & inlist("`value'","``i''")  label define `lab' `i2' "", modify
+			local value = trim("`:label `lab' `i2''")
+			if `r(N)' == 0 & "`value'" != "`i2'" {
+				di "`lab' `i2' "
+				label define `lab' `i2' "", modify
+			} 			
+		}
+	}
+}
 
 	* Save the completed dataset	
 	save "$za_data_final/eco_ZA_Complete.dta", replace
+
+
+********************************************************************************
+********************************************************************************
+* Create codebooks
+********************************************************************************
+********************************************************************************
+
+
+
+foreach v in 1 2 3 4 6 {
+		create_module_codebook, country(ZA) outputfolder($za_data_final) codebook_folder($za_data_final\archive\Codebook) module_number(`v') module_dataset(eco_ZA_Complete) id(respondentid) special
+		
+	}
+
+
+********************************************************************************
+********************************************************************************
+* Clean up folder
+********************************************************************************
+********************************************************************************
+
+	
+	
+	
+		* Now we want to clean up the output folder
+	local today = today() 
+	local today : di %td `today'
+	di "`today'"
+	
+	* Put the files in a folder with today's date
+	
+	capture mkdir "$za_data_final/Archive/`today'"
+
+	* Archive all unnecessary other files
+	foreach v in  eco_m1_za eco_m1_za_der eco_m1m2_za eco_m1-m3_za eco_m1-m3_za_der eco_m1-m4_za eco_m2_za eco_m3_za eco_m4_za {
+		capture confirm file "$za_data_final/`v'.dta"
+		if _rc == 0 {
+			copy "$za_data_final/`v'.dta" "$za_data_final/archive/`today'/`v'.dta", replace
+			erase "$za_data_final/`v'.dta" 
+		}
+	}
 

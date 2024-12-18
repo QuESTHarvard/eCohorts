@@ -55,7 +55,7 @@
 
 			recode other_major_hp (1 3/4 10 15 16 18/21 24 33 34=0)
 			replace other_major_hp = 1 if other_major_hp!=0
-			lab drop other_major_hp
+			*lab drop other_major_hp
 		
 *------------------------------------------------------------------------------*	
 	* SECTION 3: CONFIDENCE AND TRUST HEALTH SYSTEM
@@ -469,17 +469,33 @@
 			* Create pregnancyend_ga to indicate gestational age at the end of pregnancy
 			gen time_between_m1_birth = (m3_birth_or_ended - m1_date)/7
 			gen pregnancyend_ga = ga + time_between_m1_birth  
+			char time_between_m1_birth[Module]  3
+			char pregnancyend_ga[Module] 3
+			char time_between_m1_birth[Original_ET_Varname] (`m3_birth_or_ended[Original_ET_Varname]' - `m1_date[Original_ET_Varname]') / 7  
+			char pregnancyend_ga[Original_ET_Varname] (`ga[Original_ET_Varname]' + `time_between_m1_birth[Original_ET_Varname]')  
+
 			
 			* Create preterm birth to indicate birth before GA 37 
 			gen preterm_birth = 1 if pregnancyend_ga <37 
 			replace preterm_birth = 0 if pregnancyend_ga >=37 & pregnancyend_ga <.
+			char preterm_birth[Module] 3 
+			char preterm_birth[Original_ET_Varname] `pregnancyend_ga[Original_ET_Varname]'  < 37 
+
 			
 			* Create m3_deathage_dys_baby1, m3_deathage_dys_baby2 to indicate newborn death age in days. m3_313a_baby1, m3_313a_baby2: death dates for baby1 baby2   
 			gen m3_deathage_dys_baby1 = m3_313a_baby1 - m3_birth_or_ended if m3_baby1_born_alive==1 
+			char m3_deathage_dys_baby1[Original_ET_Varname] `m3_313a_baby1[Original_ET_Varname]' - `m3_birth_or_ended[Original_ET_Varname]' (if `m3_baby1_born_alive[Original_ET_Varname]' is 1)
+			char m3_deathage_dys_baby1[Module] 3
+
 			gen m3_deathage_dys_baby2 = m3_313a_baby2 - m3_birth_or_ended if m3_baby2_born_alive==1 
+			char m3_deathage_dys_baby2[Original_ET_Varname] `m3_313a_baby2[Original_ET_Varname]' - `m3_birth_or_ended[Original_ET_Varname]' (if `m3_baby2_born_alive[Original_ET_Varname]' is 1)
+			char m3_deathage_dys_baby2[Module] 3
 
 		* 2. Create birth outcome variable 
 			gen birth_outcome = .
+			char birth_outcome[Original_ET_Varname] Based if completed entire survey and when pregnancy ends
+			char birth_outcome[Module] 3
+
 			replace birth_outcome = 1 if m2_date_r1 ==. & m3_date ==.                    								// LTFU after M1 
 			replace birth_outcome = 2 if m2_date_r1 !=. & m3_date ==.                      								// LTFU after M2 
 			replace birth_outcome = 2 if respondentid == "RCH_074"                                                      // LTFU after M2. This case is actually maternal death (email with Londiwe on Oct 1),labeled as maternal death in maternal outcome
@@ -515,7 +531,10 @@
 			tab birth_outcome, missing 		
 			
 		* 3. Create M3_maternal_outcome 
-			gen M3_maternal_outcome = .  
+			gen M3_maternal_outcome = . 
+			char M3_maternal_outcome[Original_ET_Varname] Based on birth outcome
+			char M3_maternal_outcome[Module] 3
+
 			replace M3_maternal_outcome = 1 if birth_outcome == 1 
 			replace M3_maternal_outcome = 2 if birth_outcome == 2 
 			replace M3_maternal_outcome = 4 if birth_outcome == 3 | birth_outcome == 4 | birth_outcome == 5 | birth_outcome == 6 | birth_outcome == 7 | birth_outcome == 8 | ///

@@ -9,6 +9,11 @@ clear all
 
 *--------------------DATA FILE:
 u "$in_data/Module0_02_04_2024.dta", clear 
+
+foreach v of varlist * {
+	char `v'[Original_IN_Varname] `v'
+	char `v'[Module] 0
+}
 *u "$in_data/MODULE_0.dta", clear
 *use "$in_data/FacilitySurvey_2024_01_20.dta", clear
 

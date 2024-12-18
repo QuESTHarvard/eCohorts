@@ -10,7 +10,9 @@
 2024-08-08		1.01	MK Trimner		Corrected respondent id "202310031133022010 to remove the " i the first char so it will merge with M2
 * 2024-10-30	1.02	MK Trimner		Added chars with module
 * 2024-11-13	1.03	MK Trimner		Corrected Char Original_Varname to be 
-* 										Original_IN_Varname											
+* 										Original_IN_Varname				
+* 2024-11-27	1.04	MK Trimner		corrected weight for respondentid 202312191252022020 and moved height recoding here and took out of derived program.	
+* 2024-12-03	1.05	MK TRimner		Added code to add the standardized labels for codebook purposes						
 *******************************************************************************/
 
 * Import Data 
@@ -199,6 +201,7 @@ rename Q_C m1_interview_split
 rename TOTAL_COST m1_totalcost_in
 
 rename ID study_id
+label var study_id "ID"
 
 rename END m1_end_time
 
@@ -219,6 +222,7 @@ char estimated_delivery_date[Original_IN_Varname] `m1_802_date_in[Original_IN_Va
 drop GESTATIONAL_AGE GESTATIONAL_AGE_1 GEST_AGE GESTATIONAL_AGE_NEW
 
 gen gestational_age = 40-((estimated_delivery_date - Date_of_interview)/7)
+label var gestational_age "40-((estimated_delivery_date - Date_of_interview)/7)"
 char gestational_age[Original_IN_Varname] 40-((`m1_802_date_in[Original_IN_Varname]' -`date_m1[Original_IN_Varname]')/7)
 
 gen gestational_age_1 =((m1_803a_in*4)+ m1_803b_in)
@@ -226,7 +230,7 @@ char gestational_age_1[Original_IN_Varname] ((`m1_803a_in[Original_IN_Varname]'*
 
 gen gest_age = gestational_age
 char gest_age[Original_IN_Varname] gestational_age (Set to gestational_age_1 if missing gestational_age)
-
+label var gest_age "40-((estimated_delivery_date - Date_of_interview)/7)"
 
 replace gest_age = gestational_age_1 if gestational_age==.
 ta gest_age
@@ -482,6 +486,15 @@ recode m1_1307 (. = .a) if m1_1306 !=1
 recode m1_1308 (.  = .a) if m1_1306 == 1 | m1_1306 == .a | m1_1306 == .d | m1_1306 == .r
 
 recode m1_1309 (.  = .a) if m1_1308 !=1		
+
+* DQ issues
+* Clean up the heights
+recode height_cm 41.5=141 112=155 93=144  4.5=137.2 4.6=140.21 5.2=158.5 ///
+			5.3=161.5 5.5=167.64 5.6=170.69 6.1=185.93 6.2=188.98 5.4=164.592 
+
+* Per Subhojt the weight for respondent 202312191252022020 should be 55
+replace weight_kg = 55 if respondentid == "202312191252022020"
+
 
 *===============================================================================					   
 	
@@ -897,6 +910,10 @@ order phq9a phq9b phq9c phq9d phq9e phq9f phq9g phq9h phq9i, after(m1_205e)
 	foreach v of varlist * {
 		char `v'[Module] 1
 	}
+	
+	* Run the program that cleans up the labels
+	m1_add_shortened_labels
+
 	
 	save "$in_data_final/eco_m1_in.dta", replace
 
