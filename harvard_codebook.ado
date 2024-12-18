@@ -10,6 +10,8 @@
 *										Added sheet name option
 *										Added code to export to excel after appends
 *										Added excel export option
+* 2024-12-03	1.05	MK TRimner		Removed certian columns and cleanedup formatting
+* 										Changed label for percent of population to be percent of sample
 *******************************************************************************
 
 capture program drop harvard_codebook
@@ -54,7 +56,7 @@ if substr("`datafolder'", -1, .) != "\" local datafolder `datafolder'\
 * If user doesn't specify, then put the finished codebook in the datafolder
 if "`outputfolder'" == "" local outputfolder `datafolder'
 
-if substr("`outputfolder'", -1, .) != "\" local outputfolder `outputfolder'\
+if substr("`outputfolder'", -1, .) != "\" local outputfolder `outputfolder'
 di "`outputfolder'"
 
 confirmdir "`datafolder'"
@@ -219,25 +221,49 @@ foreach dataset in `datasetlist' {
 	cd "$project_dir"
 	
 	if "`excel'" == "excel" {
+		
+		* Grab a list of variables where the the summary type if freq but they are missing a value label
+		preserve
+		keep if summary_block_type == "freq"
+		keep if trim(level1) == trim(level2) 
+		drop if level1 == "Non-Missing"
+		save "Variables_with_missing_value_labels", replace
+		restore
+		
 		preserve
 		
+		* Destring 
+		
+		noi di "Label variables ...."
 		label var varnum "Order of Variable"
 		label var newvar "Variable Name" 
 		label var orgvar "Original Dataset Variable name" 
 		label var label "Variable Label"
 		label var key "Key"
 		label var vartype "Variable Type"
-		label var length "Variable Length" 
+	*	label var length "Variable Length" 
 		label var level1 "Response Category" 
 		label var level2 "Response Category Description"
 		label var value1 "Number of Observations / Distribution Summary"
-		label var value2 "Percent of Population" 
-		 
-		drop order summary_block_type
-		di "`outputfolder'\${Country}_Codebooks.xlsx"
+		label var value2 "Percent of Sample" 
 	
-		export excel "`outputfolder'\${Country}_Codebooks.xlsx", sheet("`sheet'", replace) first(varl) 
+	* wipe out any duplicate values for merging purposes
+		foreach v in varnum newvar orgvar label key vartype length {
+			capture replace `v' = "" if order > 1
+			capture replace `v' = . if order > 1
+
+		}
+	
+	* Drop the variables we do not want to export
+		drop order summary_block_type length
 		
+	* We dont want to if level1 if set to Non-Missing so we can wipe this out
+		replace level1 = "" if level1 == "Non-Missing"
+	
+		noi di "Export to excel ...."
+
+		export excel "`outputfolder'/${Country}_Codebooks.xlsx", sheet("`sheet'", replace) first(varl) 
+
 		restore 
 		
 		preserve
@@ -249,63 +275,49 @@ foreach dataset in `datasetlist' {
 		rename summary_block_type type
 		tempfile mkt
 		save `mkt', replace
-		
-		levelsof varnum, local(vlist)
+
+		noi di "Grab locals to be used in formatting ...."
+
+		levelsof varnum if !missing(varnum), local(vlist)
 		foreach v in `vlist' {
 			use `mkt', clear
 			keep if varnum == `v'
-			foreach var in start end type varnum newvar orgvar label key vartype length level2 {
+			local `v'_rows = _N
+			foreach var in start end type varnum newvar orgvar label key vartype {
 				local `var'_`v' = `var'[1]
 			}
-		}
-		
-		local lastcol K
-		local col_end 11
-		local rows `=_N + 1'
-		restore
-		
-		
+			forvalues i = 1/`=_N' {
+				foreach var in level1 level2 {
 
-		preserve
-		putexcel set "`outputfolder'\${Country}_Codebooks.xlsx", modify sheet("`sheet'")
-
-		* Merge the cells together
-		foreach v in `vlist' {
-			
-			putexcel A`start_`v'':A`end_`v'' = "`varnum_`v''", merge
-			putexcel B`start_`v'':B`end_`v'' = "`newvar_`v''", merge
-			putexcel C`start_`v'':C`end_`v'' = "`orgvar_`v''", merge
-			putexcel D`start_`v'':D`end_`v'' = "`label_`v''", merge
-			putexcel E`start_`v'':E`end_`v'' = "`key_`v''", merge
-			putexcel F`start_`v'':F`end_`v'' = "`vartype_`v''", merge
-			putexcel G`start_`v'':G`end_`v'' = "`length_`v''", merge
-		
-			if "`type_`v''" == "univ" {
-				forvalues i = 1/`start_`v''/`end_`v'' {
-					putexcel H`i':I`i' = "`level2_`v''", merge
+					local `var'_`v'_`i' = trim(`var'[`i'])
 				}
 			}
-		}
-		exit 99
-			
-	
-		
-			/*putexcel A`start_`v'':A`end_`v'', hcenter top font("Arial","11","black") merge
-			putexcel B`start_`v'':B`end_`v'', left top font("Arial","11","black") merge
-			putexcel C`start_`v'':C`end_`v'', left top font("Arial","11","black") merge
-			putexcel D`start_`v'':D`end_`v'', left top font("Arial","11","black") merge
-			putexcel E`start_`v'':E`end_`v'', hcenter top font("Arial","11","black") merge
-			putexcel F`start_`v'':F`end_`v'', hcenter top font("Arial","11","black") merge
-			putexcel G`start_`v'':G`end_`v'', hcenter top font("Arial","11","black") merge
-*/
+			local alignment_`v' right
+			if "`level1_`v'_1'" != "`level2_`v'_1'" & (!inlist("`level1_`v'_1'","","."," ") & ``v'_rows' > 2)  local alignment_`v' left
 
+		}
+		
+
+		local lastcol J
+		local col_end 10
+		local rows `=_N + 1'
+		restore
+
+		noi di "Format to excel file ...."
+
+		di "`outputfolder'/${Country}_Codebooks.xlsx"
+		putexcel set "`outputfolder'/${Country}_Codebooks.xlsx", modify sheet("`sheet'")		
 	
 		mata: b = xl()
-		mata: b.load_book("`outputfolder'\${Country}_Codebooks.xlsx")
+		mata: b.load_book("`outputfolder'/${Country}_Codebooks.xlsx")
 		mata: b.set_mode("open")
 		mata: b.set_sheet("`sheet'")
+		di "`outputfolder'/${Country}_Codebooks.xlsx"
+		di "`sheet'"
+		
 		
 		* Create format ids
+		noi di "Creating Codebook Format ids...."
 		
 		* Create a bold font
 		mata: bold_font = b.add_fontid()
@@ -328,7 +340,7 @@ foreach dataset in `datasetlist' {
 		mata: b.fmtid_set_fontid(header, bold_font) 
 
 
-		mata: b.set_fmtid(1,(1,15),header)
+		mata: b.set_fmtid(1,(1,10),header)
 		
 		foreach v in white gray {
 			local color white
@@ -352,10 +364,17 @@ foreach dataset in `datasetlist' {
 			mata: b.fmtid_set_fontid(center_number_`v', regular_font) 
 			mata: b.fmtid_set_horizontal_align(center_number_`v', "center")
 			mata: b.fmtid_set_vertical_align(center_number_`v', "top")
-			mata: b.fmtid_set_text_wrap(center_number_`v', "on")
+			*mata: b.fmtid_set_text_wrap(center_number_`v', "on")
 			mata: b.fmtid_set_number_format(center_number_`v',"number")
 			mata: b.fmtid_set_fill_pattern(center_number_`v', "solid","`color'")
-
+			
+			mata: right_number_`v' = b.add_fmtid()
+			mata: b.fmtid_set_fontid(right_number_`v', regular_font) 
+			mata: b.fmtid_set_horizontal_align(right_number_`v', "right")
+			mata: b.fmtid_set_vertical_align(right_number_`v', "top")
+			*mata: b.fmtid_set_text_wrap(right_number_`v', "on")
+			mata: b.fmtid_set_number_format(right_number_`v',"number_sep")
+			mata: b.fmtid_set_fill_pattern(right_number_`v', "solid","`color'")
 
 			mata: right_`v' = b.add_fmtid()
 			mata: b.fmtid_set_fontid(right_`v', regular_font) 
@@ -373,7 +392,10 @@ foreach dataset in `datasetlist' {
 			mata: b.fmtid_set_fill_pattern(percent_`v', "solid","`color'")
 			
 		}
+		
 		* Now we want to alternate the colors for each row
+		noi di "Apply Format ids to each row...."
+
 		foreach v in `vlist' {
 			local color white
 			if `=mod(`v',2)' == 0 local color gray
@@ -383,37 +405,35 @@ foreach dataset in `datasetlist' {
 			mata: b.set_fmtid((`start_`v'',`end_`v''),1, center_number_`color')
 			
 			mata: b.set_fmtid((`start_`v'',`end_`v''),(2,4), left_`color')
-			mata: b.set_fmtid((`start_`v'',`end_`v''),(5,7), center_`color')
+			mata: b.set_fmtid((`start_`v'',`end_`v''),(5,6), center_`color')
 			
-			if "`type_`v''" != "univ" {
-				mata: b.set_fmtid((`start_`v'',`end_`v''),8, center_`color')
-				mata: b.set_fmtid((`start_`v'',`end_`v''),9, left_`color')
-			}
+			mata: b.set_fmtid((`start_`v'',`end_`v''),7, center_`color')
 			
-			if "`type_`v''" == "univ" 	mata: b.set_fmtid((`start_`v'',`end_`v''),(8,9), right_`color')
+			if "`alignment_`v''" == "left" 	mata: b.set_fmtid((`start_`v'',`end_`v''),8, left_`color')
+			
+			if "`alignment_`v''" == "right" mata: b.set_fmtid((`start_`v'',`end_`v''),8, right_`color')
 
-			mata: b.set_fmtid((`start_`v'',`end_`v''),10, right_`color')
-			mata: b.set_fmtid((`start_`v'',`end_`v''),11, percent_`color')
+			mata: b.set_fmtid((`start_`v'',`end_`v''),9, right_number_`color')
+			mata: b.set_fmtid((`start_`v'',`end_`v''),10, percent_`color')
 
 		}
 		
+		noi di "Adjust column widths and row heights...."
+
 		
 		mata b.set_column_width(1,1,10)
-		mata b.set_column_width(2,3,26)
-		mata b.set_column_width(4,5,35)
-		mata b.set_column_width(6,6,6)
-		mata b.set_column_width(7,8,10)
+		mata b.set_column_width(2,3,30)
+		mata b.set_column_width(4,4,35)
+		mata b.set_column_width(5,5,8)
+		mata b.set_column_width(6,6,10)
+		mata b.set_column_width(7,7,18)
+		mata b.set_column_width(8,8,45)
 		mata b.set_column_width(9,10,18)
-		mata b.set_column_width(11,13,13)
 
 		mata b.set_row_height(1,1,60)
 		mata b.close_book()	
-		putexcel close
-
-		restore
 	}
 	
-	exit 99
 	
 	
 
@@ -426,7 +446,7 @@ foreach dataset in `datasetlist' {
 	if "`questiontext'" != "" local blank_rows_above 1
 	else local blank_rows_above 0
 
-	if "`excel'" =="" write_html_summary "`outputfolder'CODEBOOK_`dataset'.html" `blank_rows_above'
+	if "`excel'" =="" write_html_summary "`outputfolder'/CODEBOOK_`dataset'.html" `blank_rows_above'
 
 }
 
@@ -589,7 +609,9 @@ program make_descsave_dataset
 		local `v' "``v'[Question_text]'"
 		if "``v'[Question_text]'" == "" local `v' `:var label `v''
 		
-		local `v'_org "``v'[Original_${Country}_Varname]'"
+		
+		local simp = subinstr("`v'","_","",.)
+		local `simp'_org "``v'[Original_${Country}_Varname]'"
 	}
 	
 	
@@ -605,7 +627,9 @@ program make_descsave_dataset
 	levelsof newvar, local(var_list)
 	foreach v in `var_list' {
 		replace label = "``v''" if newvar == "`v'" & "``v''" != ""
-		replace orgvar = "``v'_org'" if newvar == "`v'" & "``v''" != ""
+		
+		local simp = subinstr("`v'","_","",.)
+		replace orgvar = "``simp'_org'" if newvar == "`v'" & "``v''" != ""
 	}
 	
 	/* Generate a SAS-like vartype variable */
@@ -1065,7 +1089,7 @@ program univblock
 	*   and put them in a dataset with a variable called order
 	
 	capture postclose handle
-	postfile handle str244(newvar orgvar) order str30 level1 str50 level2 value1 value2 using "${storage_dir}u_`svar'", replace
+	postfile handle str244(newvar orgvar) order str300 level1 str500 level2 value1 value2 using "${storage_dir}u_`svar'", replace
 
 	* First take care of special values...count them up and post them to the handle file
 	* and then set their values to missing so they don't enter into the 'summarize' command.
@@ -1261,7 +1285,7 @@ program minmaxblock
 	   and put them in a dataset with a variable called order
 	*/
 	capture postclose handle
-	postfile handle str244(newvar orgvar) order str30 level1 str30 level2 str15 value1 value2 using "${storage_dir}m_`svar'", replace
+	postfile handle str244(newvar orgvar) order str300 level1 str300 level2 str150 value1 value2 using "${storage_dir}m_`svar'", replace
 
 	* First take care of special values...count them up and post them to the handle file
 	* and then set their values to missing so they don't enter into the 'summarize' command.
@@ -1445,14 +1469,18 @@ program write_special_values_code
 			if v2[`i'] == "_all" {
 				file write out "count if " _char(96) "svar" _char(39) " == " (v3[`i']) _n
 				if upper(v5[`i']) != "ALWAYS" file write out "        if r(N) > 0 | upper(" _char(34) (v4[`i']) _char(34) ") == " _char(34) "MISSING" _char(34) " "
-				file write out "post handle (" _char(34) _char(96) "svar" _char(39) _char(34) ") (" _char(34) _char(96) "orgvar" _char(39) _char(34) ") (`ii') (" _char(34) _char(34) ") (" _char(34) (v4[`i']) _char(34) ") (r(N)) (r(N)/" _char(96) "bign" _char(39) ")" _n
+				*file write out "post handle (" _char(34) _char(96) "svar" _char(39) _char(34) ") (" _char(34) _char(96) "orgvar" _char(39) _char(34) ") (`ii') (" _char(34) _char(34) ") (" _char(34) (v4[`i']) _char(34) ") (r(N)) (r(N)/" _char(96) "bign" _char(39) ")" _n
+				file write out "post handle (" _char(34) _char(96) "svar" _char(39) _char(34) ") (" _char(34) _char(96) "orgvar" _char(39) _char(34) ") (`ii')  (" _char(34) (v3[`i']) _char(34) ") (" _char(34) (v4[`i']) _char(34) ") (r(N)) (r(N)/" _char(96) "bign" _char(39) ")" _n
+				
 				file write out "drop if " _char(96) "svar" _char(39) " == " (v3[`i']) _n
 			}
 			else {
 				file write out "if strpos(" _char(34) " " _char(36) "scvarlist_`i'" " " _char(34) " , " _char(34) " " _char(96) "svar" _char(39) " " _char(34) ") `teststring'  0 {" _n
 				file write out "    count if " _char(96) "svar" _char(39) " == " (v3[`i']) _n
 				if upper(v5[`i']) != "ALWAYS" file write out "        if r(N) > 0 | upper(" _char(34) (v4[`i']) _char(34) ") == " _char(34) "MISSING" _char(34) " "
-				file write out "    post handle (" _char(34) _char(96) "svar" _char(39) _char(34) ")  (" _char(34) _char(96) "orgvar" _char(39) _char(34) ") (`ii') (" _char(34) _char(34) ") (" _char(34) (v4[`i']) _char(34) ") (r(N)) (r(N)/" _char(96) "bign" _char(39) ")" _n
+				file write out "    post handle (" _char(34) _char(96) "svar" _char(39) _char(34) ")  (" _char(34) _char(96) "orgvar" _char(39) _char(34) ") (`ii') (" _char(34) (v3[`i']) _char(34) ") (" _char(34) (v4[`i']) _char(34) ") (r(N)) (r(N)/" _char(96) "bign" _char(39) ")" _n
+*								file write out "    post handle (" _char(34) _char(96) "svar" _char(39) _char(34) ")  (" _char(34) _char(96) "orgvar" _char(39) _char(34) ") (`ii') (" _char(34) _char(34) ") (" _char(34) (v4[`i']) _char(34) ") (r(N)) (r(N)/" _char(96) "bign" _char(39) ")" _n
+
 				file write out "    drop if " _char(96) "svar" _char(39) " == " (v3[`i']) _n
 				file write out "}" _n
 			}
@@ -1483,7 +1511,9 @@ program write_special_values_code
 				file write out "count if " _char(96) "svar" _char(39) " == " (v3[`i']) _n
 				file write out "local rN : display %15.0fc r(N)" _n
 				if upper(v5[`i']) != "ALWAYS" file write out "        if r(N) > 0 | upper(" _char(34) (v4[`i']) _char(34) ") == " _char(34) "MISSING" _char(34) " "
-				file write out "post handle (" _char(34) _char(96) "svar" _char(39) _char(34) ") (" _char(34) _char(96) "orgvar" _char(39) _char(34) ") (`ii') (" _char(34) _char(34) ") (" _char(34) (v4[`i']) _char(34) ") (" _char(34) _char(96) "rN" _char(39) _char(34) ") (r(N)/" _char(96) "bign" _char(39) ")" _n
+				*file write out "post handle (" _char(34) _char(96) "svar" _char(39) _char(34) ") (" _char(34) _char(96) "orgvar" _char(39) _char(34) ") (`ii') (" _char(34) _char(34) ") (" _char(34) (v4[`i']) _char(34) ") (" _char(34) _char(96) "rN" _char(39) _char(34) ") (r(N)/" _char(96) "bign" _char(39) ")" _n
+				file write out "post handle (" _char(34) _char(96) "svar" _char(39) _char(34) ") (" _char(34) _char(96) "orgvar" _char(39) _char(34) ") (`ii') (" _char(34) (v3[`i']) _char(34) ") (" _char(34) (v4[`i']) _char(34) ") (" _char(34) _char(96) "rN" _char(39) _char(34) ") (r(N)/" _char(96) "bign" _char(39) ")" _n
+
 				file write out "drop if " _char(96) "svar" _char(39) " == " (v3[`i']) _n
 			}
 			else {
@@ -1491,7 +1521,10 @@ program write_special_values_code
 				file write out "    count if " _char(96) "svar" _char(39) " == " (v3[`i']) _n
 				file write out "    local rN : display %15.0fc r(N)" _n
 				if upper(v5[`i']) != "ALWAYS" file write out "        if r(N) > 0 | upper(" _char(34) (v4[`i']) _char(34) ") == " _char(34) "MISSING" _char(34) " "
-				file write out "    post handle (" _char(34) _char(96) "svar" _char(39) _char(34) ") (" _char(34) _char(96) "orgvar" _char(39) _char(34) ") (`ii') (" _char(34) _char(34) ") (" _char(34) (v4[`i']) _char(34) ") (" _char(34) _char(96) "rN" _char(39) _char(34) ") (r(N)/" _char(96) "bign" _char(39) ")" _n
+				file write out "    post handle (" _char(34) _char(96) "svar" _char(39) _char(34) ") (" _char(34) _char(96) "orgvar" _char(39) _char(34) ") (`ii') (" _char(34) (v3[`i']) _char(34) ") (" _char(34) (v4[`i']) _char(34) ") (" _char(34) _char(96) "rN" _char(39) _char(34) ") (r(N)/" _char(96) "bign" _char(39) ")" _n
+				*file write out "    post handle (" _char(34) _char(96) "svar" _char(39) _char(34) ") (" _char(34) _char(96) "orgvar" _char(39) _char(34) ") (`ii') (" _char(34) _char(34) ") (" _char(34) (v4[`i']) _char(34) ") (" _char(34) _char(96) "rN" _char(39) _char(34) ") (r(N)/" _char(96) "bign" _char(39) ")" _n
+
+				
 				file write out "    drop if " _char(96) "svar" _char(39) " == " (v3[`i']) _n
 				file write out "}" _n
 			}

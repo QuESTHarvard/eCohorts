@@ -14,6 +14,7 @@
 * Date 			number 	Name			What Changed
 * 2024-09-17	1.01	MK Trimner		Commented out the file to use and saving command so that it can be called by the latest module
 * 2024-11-13	1.02	MK Trimner		Added code to add the appropriate modules for codebook purposes
+* 2024-11-26	1.03	MK Trimner		Added chars to new derived birth_outcomes
 ********************************************************************************/
 
 *u "$in_data_final/eco_m1_in.dta", clear
@@ -59,6 +60,7 @@
 *------------------------------------------------------------------------------*	
 	* SECTION 2: HEALTH PROFILE
 			egen phq9_cat = rowtotal(phq9*)
+			lab var phq9_cat "PHQ9 Depression level Based on sum of all 9 items at baseline"
 			recode phq9_cat (0/4=1) (5/9=2) (10/14=3) (15/19=4) (20/27=5)
 			label define phq9_cat 1 "none-minimal 0-4" 2 "mild 5-9" 3 "moderate 10-14" ///
 			                        4 "moderately severe 15-19" 5 "severe 20+" 
@@ -268,6 +270,7 @@
 			* Instructions and advanced care
 			egen specialist_hosp= rowmax(m1_724e m1_724c) 
 			char specialist_hosp[Original_IN_Varname] Max of `m1_724e[Original_IN_Varname]' & `m1_724c[Original_IN_Varname]'
+			label var specialist_hosp  "Told to go see a specialist or to go to hospital for ANC at ANC1"
 			
 			foreach v in anc1bp anc1weight anc1height anc1bmi anc1muac anc1fetal_hr anc1urine anc1blood anc1hiv_test anc1hiv_test anc1syphilis_test anc1blood_sugar_test anc1ultrasound anc1ifa anc1tt anc1tt anc1calcium anc1deworm anc1itn anc1depression anc1malaria_proph anc1edd anc1edd anc1tq counsel_nutri counsel_exer counsel_complic counsel_comeback counsel_birthplan anc1counsel anc1food_supp anc1mental_health_drug anc1hypertension anc1diabetes specialist_hosp {
 				char `v'[Module] 1
@@ -291,10 +294,12 @@
 	* THE BELOW IS NOT CORRECT!SHALOM TO ADJUST
 			gen m1_ga = gest_age
 			char m1_ga[Original_IN_Varname] `gest_age[Original_IN_Varname]' 
+			label var m1_ga "`:var label gest_age'"
 			
 			*recode m1_ga (0/12=1) (12.1/27=2) (27.1/40=3), g(trimester)
 			g trimester=m1_804
 			char trimester[Original_IN_Varname] `m1_804[Original_IN_Varname]' 
+				lab var trimester "Trimester at 1st ANC visit"
 			
 			* Asked about LMP
 			gen anc1lmp= m1_806
@@ -340,6 +345,8 @@
 			char nbpreviouspreg[Original_IN_Varname] `m1_1001[Original_IN_Varname]' - 1
 
 			gen pregloss = nbpreviouspreg-m1_1002 // nb previous pregnancies not including current minus previous births
+			lab var pregloss "Number of pregnancy losses (Nb pregnancies > Nb births)"
+
 			char pregloss[Original_IN_Varname] `nbpreviouspreg[Original_IN_Varname]' - `m1_1002[Original_IN_Varname]'
 
 			
@@ -466,6 +473,7 @@
 			recode diastolic_bp 50/89.999=0 90/160=1, gen(diastolic_high)
 			
 			egen HBP= rowmax (systolic_high diastolic_high)
+			lab var HBP "High blood pressure at baseline"
 			char HBP[Original_IN_Varname] Max of the mean of (`bp_time_1_systolic[Original_IN_Varname]', `bp_time_2_systolic[Original_IN_Varname]', `bp_time_3_systolic[Original_IN_Varname]') and mean of (`bp_time_1_diastolic[Original_IN_Varname]', `bp_time_2_diastolic[Original_IN_Varname]', `bp_time_3_diastolic[Original_IN_Varname]') 
 
 			drop systolic* diastolic*
@@ -483,15 +491,16 @@
 			char anemic[Original_IN_Varname] `Hb[Original_IN_Varname]' 
 	
 			* BMI 
-			recode height_cm 41.5=141 112=155 93=144  4.5=137.2 4.6=140.21 5.2=158.5 ///
-			5.3=161.5 5.5=167.64 5.6=170.69 6.1=185.93 6.2=188.98 5.4=164.592 
 			gen height_m = height_cm/100 
 			char height_m[Original_IN_Varname] `height_cm[Original_IN_Varname]'/100 
+			label var height_m "Height (meters)"
 
 			gen BMI = weight_kg / (height_m^2)
 			char BMI[Original_IN_Varname] `weight_kg[Original_IN_Varname]' / (`height_m[Original_IN_Varname]' ^2)
-
+			lab var BMI "Body mass index at baseline"
+	
 			gen low_BMI= 1 if BMI<18.5 
+			lab var low_BMI "BMI below 18.5 (low) at baseline"
 			replace low_BMI = 0 if BMI>=18.5 & BMI<.
 			char low_BMI[Original_IN_Varname] Set to 1 if `BMI[Original_IN_Varname]' < 18.5 (Set to 0 if BMI >=18.5 and not missing)
 
@@ -506,19 +515,36 @@
 		* 1. Create new variables 
 			* Create pregnancyend_ga to indicate GA at the end of pregnancy
 			gen time_between_m1_birth = (m3_302 - m1_date)/7     // m3_302: the date of delivery or pregnancy end
-			gen pregnancyend_ga = m1_ga + time_between_m1_birth          
+			char time_between_m1_birth[Original_IN_Varname] (`m3_302[Original_IN_Varname]' - `m1_date[Original_IN_Varname]') / 7 
 			
+			
+			gen pregnancyend_ga = m1_ga + time_between_m1_birth          
+			char pregnancyend_ga[Original_IN_Varname] `m1_ga [Original_IN_Varname]' + (`m3_302[Original_IN_Varname]' - `m1_date[Original_IN_Varname]') / 7 
+
 			* Create preterm birth to indicate birth before GA 37
 			gen preterm_birth = 1 if pregnancyend_ga <37 
 			replace preterm_birth = 0 if pregnancyend_ga >=37 & pregnancyend_ga <.
+			char preterm_birth[Original_IN_Varname] pregnancyend_ga < 37 (Set to 0 if pregnancyend_ga >= 37)
 
 			* Create m3_deathage_dys_baby1, m3_deathage_dys_baby2, m3_deathage_dys_baby3 to indicate newborn death age (days). m3_313a_b1, m3_313a_b2, m3_313a_b3: death dates for baby1 baby2 baby3
 			gen m3_deathage_dys_baby1 = m3_313a_b1 - m3_302 if m3_312_b1 ==1 
+			char m3_deathage_dys_baby1[Original_IN_Varname] `m3_313a_b1[Original_IN_Varname]' - `m3_302[Original_IN_Varname]' (if `m3_312_b1[Original_IN_Varname]' is 1)
+			
+			label var m3_deathage_dys_baby1  "Baby 1: Age at death in days (m3_313a_b1 - m3_302)"
+
+
 			gen m3_deathage_dys_baby2 = m3_313a_b2 - m3_302 if m3_312_b2 ==1 
+			char m3_deathage_dys_baby2[Original_IN_Varname] `m3_313a_b2[Original_IN_Varname]' - `m3_302[Original_IN_Varname]' (if `m3_312_b2[Original_IN_Varname]' is 1)
+			
+			label var m3_deathage_dys_baby2  "Baby 2: Age at death in days (m3_313a_b2 - m3_302)"
+
 
 		* 2. Create birth outcome variable
 			* m3_303_b1 m3_303_b2 still alive; m3_312_b1 m3_312_b2 born alive 
 			gen birth_outcome = .
+			char birth_outcome[Original_IN_Varname] Based if completed entire survey and when pregnancy ends
+			char birth_outcome[Module] 3
+
 			replace birth_outcome = 1 if m2_date_r1 ==. & (m3_date ==.a | m3_date ==.)                             		// LTFU after M1 
 			replace birth_outcome = 2 if m2_date_r1 !=. & (m3_date ==.a | m3_date ==.)                      			// LTFU after M2, these m3_date for these two id (1690-45, 1707-30) should be .1 not . 
 			replace birth_outcome = 3 if (m3_303_b1==1 & m3_303_b2==.a )                                            	// live birth singletone  
@@ -555,6 +581,9 @@
 
 		* 3. Create M3_maternal_outcome 
 			gen M3_maternal_outcome = .  
+			char M3_maternal_outcome[Original_IN_Varname] Based on birth outcome
+			char M3_maternal_outcome[Module] 3
+			
 			replace M3_maternal_outcome = 1 if birth_outcome == 1 
 			replace M3_maternal_outcome = 2 if birth_outcome == 2 
 			replace M3_maternal_outcome = 4 if birth_outcome == 3 | birth_outcome == 4 | birth_outcome == 5 | birth_outcome == 6 | birth_outcome == 7 | birth_outcome == 8 | ///
@@ -568,6 +597,10 @@
 			lab var M3_maternal_outcome "Maternal outcome at M3"
 			tab M3_maternal_outcome, missing   
 
+			
+			foreach v in time_between_m1_birth pregnancyend_ga preterm_birth m3_deathage_dys_baby1 m3_deathage_dys_baby2 birth_outcome M3_maternal_outcome {
+				char `v'[Module] 3
+			}
 
 *------------------------------------------------------------------------------*	
 	* Labeling variables (by Wen-Chien on April 19)

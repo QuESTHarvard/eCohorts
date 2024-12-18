@@ -28,6 +28,11 @@ append using "$et_data_final/eco_m0_et.dta", force
 
 *------------------------------------------------------------------------------*
 
+foreach v of varlist * {
+	char `v'[Original_ET_Varname] `v'
+	char `v'[Module] 0
+}
+
 drop a10_name_of_the_person_m0 a11_landline_phone_number_m0 a12_personal_phone_of_the_m0 nameoffacility specify_facility_ownership_m0 
 
 	* STEP ONE: RENAME VARAIBLES
@@ -311,7 +316,9 @@ rename (january_instrumental_deliveries february_instrumental_deliveries march_i
 
 * STEP TWO: ADD VALUE LABELS		                  
 	gen facility = m0_a5_fac
-
+	char facility[Original_ET_Varname] `m0_a5_fac[Original_ET_Varname]'
+	char facility[Module] 0
+	
 	lab def facility 1"Meki Catholic Primary Clinic (01)" 2"Bote Health Center (02)" ///
 	3"Meki Health Center (03)" 4"Adami Tulu Health Center (04)" 5"Bulbula Health Center (05)" ///
 	6"Dubisa Health Center (06)" 7"Olenchiti Primary Hospital (07)" 8"Awash Malkasa Health Center (08)" ///

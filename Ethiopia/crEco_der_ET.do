@@ -14,7 +14,8 @@
 2024-10-02		1.01	MK Trimner		Commented out u "$et_data_final/eco_m1-m5_et_wide.dta", clear
 *										As this program was added to the end of crEco_cln_ET to run 
 *2024-11-1		1.02	MK Trimner		Removed m1_815_1 from egen anc1danger_screen variable as this was combined with m1_815_5	
-* 2024-11-05	1.03	MK Trimner		Added Module and original Var name chars							
+* 2024-11-05	1.03	MK Trimner		Added Module and original Var name chars	
+* 2024-12-03	1.04	MK Trimner		Added value labels to derived variables						
 *******************************************************************************/
 
 *u "$et_data_final/eco_m1-m5_et_wide.dta", clear
@@ -78,6 +79,8 @@
 			char educ_cat[Original_ET_Varname] `m1_503[Original_ET_Varname]' (Set to 1 if `m1_502[Original_ET_Varname]' is 0)
 
 			recode m1_505 (1/4=0) (5/6=1), gen(marriedp) 
+			label define recoded_marriage 0 "Not married" 1 "Currently married/Living with partner", replace
+			label value marriedp recoded_marriage
 			char marriedp[Original_ET_Varname] `m1_505[Original_ET_Varname]'
 			char marriedp[Module] 1
 
@@ -103,10 +106,14 @@
 			drop mosquito tbherb drink smoke
 *------------------------------------------------------------------------------*	
 	* SECTION 6: USER EXPERIENCE
+			label define good_poor 0 "Poor" 1 "Good",replace
+			
 			local vlist
 			foreach v in m1_601 m1_605a m1_605b m1_605c m1_605d m1_605e m1_605f ///
 			             m1_605g m1_605h m1_605i m1_605j m1_605k {
 				recode `v' (2=1) (3/5=0), gen(vg`v')
+				label value vg`v' good_poor
+				
 				char vg`v'[Module] 1
 				
 				local v2 `v'
@@ -139,11 +146,15 @@
 			
 			gen anc1muac = m1_703
 			char anc1muac[Original_ET_Varname] `m1_703[Original_ET_Varname]'
+			
 
 			gen anc1fetal_hr = m1_704
 			char anc1fetal_hr[Original_ET_Varname] `m1_704[Original_ET_Varname]' (Set to missing if `m1_804[Original_ET_Varname]' set to 1 because it only applies in the 2nd or 3rd trimester)
 			recode anc1fetal_hr  (2=.) 
 			replace anc1fetal_hr=. if m1_804==1 // only applies to those in 2nd or 3rd trimester
+			
+			label define anc1fetal_hr 1 "Yes" 0 "No" 2 "Not applicable" 98 "Don't know" 99 "NR/RF", replace
+			label value anc1fetal_hr  anc1fetal_hr 
 			
 			gen anc1urine = m1_705
 			char anc1urine[Original_ET_Varname] `m1_705[Original_ET_Varname]'
@@ -172,18 +183,23 @@
 
 			recode m1_713b (2=1) (3=0), gen(anc1calcium)
 			char anc1calcium[Original_ET_Varname] `m1_713b[Original_ET_Varname]'
+			label define anc1calcium 0 ""
 
 			recode m1_713d (2=1) (3=0), gen(anc1deworm)
 			char anc1deworm[Original_ET_Varname] `m1_713d[Original_ET_Varname]'
 
 			recode m1_715 (2=.), gen(anc1itn) // ITN provision, among women who dont already have one, in kebele with malaria
 			char anc1itn[Original_ET_Varname] `m1_715[Original_ET_Varname]'
-
+			label define anc1itn 1 "Yes" 0 "No", replace
+			label value anc1itn anc1itn 
+			label var anc1itn "Recoded `:var label m1_715'"
+			
 			gen anc1depression = m1_716c // screened for depression
 			char anc1depression[Original_ET_Varname] `m1_716c[Original_ET_Varname]'
 			
 			gen anc1edd =  m1_801
 			char anc1edd[Original_ET_Varname] `m1_801[Original_ET_Varname]'
+			
 
 			egen anc1tq = rowmean(anc1bp anc1weight anc1height anc1muac anc1fetal_hr anc1urine ///
 								 anc1blood anc1ultrasound anc1ifa anc1tt ) // 10 items
@@ -249,6 +265,8 @@
 			foreach v in anc1bp anc1weight anc1height anc1bmi anc1muac anc1fetal_hr anc1urine anc1blood anc1hiv_test anc1hiv_test anc1syphilis_test anc1blood_sugar_test anc1ultrasound anc1ifa anc1tt anc1tt anc1calcium anc1deworm anc1itn anc1depression anc1edd anc1edd anc1tq m1_counsel_nutri m1_counsel_exer m1_counsel_complic m1_counsel_comeback m1_counsel_birthplan anc1counsel anc1food_supp anc1mental_health_drug anc1hypertension anc1diabetes m1_specialist_hosp {
 				char `v'[Module] 1
 			}
+			
+
 *------------------------------------------------------------------------------*	
 	* SECTION 8: CURRENT PREGNANCY
 			
@@ -278,6 +296,7 @@
 			foreach v in preg_intent m1_dangersigns anc1lmp anc1danger_screen {
 				char `v'[Module] 1
 			}
+			
 *------------------------------------------------------------------------------*	
 	* SECTION 9: RISKY HEALTH BEHAVIOR
 			recode m1_901 (1/2=1) (3=0)
@@ -285,6 +304,9 @@
 			egen m1_risk_health = rowmax( m1_901  m1_903  m1_905)
 			char m1_risk_health[Module] 1 
 			char m1_risk_health[Original_ET_Varname] Max of `m1_901[Original_ET_Varname]' & `m1_903[Original_ET_Varname]' & `m1_905[Original_ET_Varname]'
+			label define m1_risk_health 1 "Every day" 2 "Some days" 3 "Not at all" 98 "Don't know" 99 "NR/RF", replace
+			label value m1_risk_health m1_risk_health
+			
 			egen m1_stop_risk = rowmax( m1_902  m1_904  m1_907)
 			char m1_stop_risk[Module] 1
 			char m1_stop_risk[Original_ET_Varname] Max of `m1_902[Original_ET_Varname]' & `m1_904[Original_ET_Varname]' & `m1_907[Original_ET_Varname]'
@@ -411,7 +433,8 @@
 			
 			* Anemia 
 			gen m1_Hb= m1_1309 // test done by E-Cohort data collector
-
+			char m1_Hb[Original_ET_Varname] `m1_1309[Original_ET_Varname]'
+			
 			gen Hb_card= m1_1307 // hemoglobin value taken from the card
 			replace Hb_card=11.3 if Hb_card==113
 			replace m1_Hb = Hb_card if m1_Hb==.a // use the card value if the test wasn't done
@@ -448,7 +471,7 @@
 			foreach v in m1_HBP m1_Hb m1_malnutrition m1_height_m m1_BMI m1_low_BMI m1_anemic_11 m1_anemic_7 {
 				char `v'[Module] 1
 			}
-
+			
 *------------------------------------------------------------------------------*
    * SECTION 14 : M3 M4 M5 birth outcome development
 
@@ -456,18 +479,42 @@
 			* Create pregnancyend_ga to indicate GA at the end of pregnancy
 			gen time_between_m1_birth = (m3_birth_or_ended - m1_date)/7
 			gen pregnancyend_ga = m1_ga + time_between_m1_birth          
-			
+			char time_between_m1_birth[Module]  3
+			char pregnancyend_ga[Module] 3
+			char time_between_m1_birth[Original_ET_Varname] (`m3_birth_or_ended[Original_ET_Varname]' - `m1_date[Original_ET_Varname]') / 7  
+			char pregnancyend_ga[Original_ET_Varname] (`m1_ga[Original_ET_Varname]' + `time_between_m1_birth[Original_ET_Varname]')  
+
 			* Create preterm birth to indicate birth before GA 37 
 			gen preterm_birth = 1 if pregnancyend_ga <37 
 			replace preterm_birth = 0 if pregnancyend_ga >=37 & pregnancyend_ga <.
-
+			char preterm_birth[Module] 3 
+			char preterm_birth[Original_ET_Varname] `pregnancyend_ga[Original_ET_Varname]'  < 37 
 			* Create m3_deathage_dys_baby1, m3_deathage_dys_baby2, m3_deathage_dys_baby3 to indicate newborn death age (days). m3_313a_baby1, m3_313a_baby2, m3_313a_baby3: death dates for baby1 baby2 baby3
+			
 			gen m3_deathage_dys_baby1 = m3_313a_baby1 - m3_birth_or_ended if m3_baby1_born_alive==1 
-			gen m3_deathage_dys_baby2 = m3_313a_baby2 - m3_birth_or_ended if m3_baby2_born_alive==1 
-			gen m3_deathage_dys_baby3 = m3_313a_baby3 - m3_birth_or_ended if m3_baby3_born_alive==1
+			char m3_deathage_dys_baby1[Original_ET_Varname] `m3_313a_baby1[Original_ET_Varname]' - `m3_birth_or_ended[Original_ET_Varname]' (if `m3_baby1_born_alive[Original_ET_Varname]' is 1)
+			char m3_deathage_dys_baby1[Module] 3
+			label var m3_deathage_dys_baby1  "Baby 1: Age at death in days (m3_313a_baby1 - m3_birth_or_ended if m3_baby1_born_alive == 1)"
 
+			
+			gen m3_deathage_dys_baby2 = m3_313a_baby2 - m3_birth_or_ended if m3_baby2_born_alive==1 
+			label var m3_deathage_dys_baby2 "Baby 2: Age at death in days (m3_313a_baby2 - m3_birth_or_ended if m3_baby2_born_alive == 1)"
+
+			char m3_deathage_dys_baby2[Original_ET_Varname] `m3_313a_baby2[Original_ET_Varname]' - `m3_birth_or_ended[Original_ET_Varname]' (if `m3_baby2_born_alive[Original_ET_Varname]' is 1)
+			char m3_deathage_dys_baby2[Module] 3
+
+			gen m3_deathage_dys_baby3 = m3_313a_baby3 - m3_birth_or_ended if m3_baby3_born_alive==1
+			char m3_deathage_dys_baby3[Original_ET_Varname] `m3_313a_baby3[Original_ET_Varname]' - `m3_birth_or_ended[Original_ET_Varname]' (if `m3_baby3_born_alive[Original_ET_Varname]' is 1)
+			char m3_deathage_dys_baby3[Module] 3
+			
+			label var m3_deathage_dys_baby3 "Baby 3: Age at death in days (m3_313a_baby3 - m3_birth_or_ended if m3_baby3_born_alive == 1)"
+		
+		
 		* 2. Create birth outcome variable
 			gen birth_outcome = .
+			char birth_outcome[Original_ET_Varname] Based if completed entire survey and when pregnancy ends
+			char birth_outcome[Module] 3
+
 			replace birth_outcome = 1 if m2_date_r1 ==. & (m3_date ==.a | m3_date ==.)                             			  // LTFU after M1 
 			replace birth_outcome = 2 if m2_date_r1 !=. & (m3_date ==.a | m3_date ==.)                      		          // LTFU after M2, these m3_date for these two id (1690-45, 1707-30) should be .1 not . 
 			replace birth_outcome = 3 if (m3_303b==1 & m3_303c==.a & m3_303d ==.a)                             				  // live birth singletone  
@@ -498,7 +545,10 @@
 			tab birth_outcome, missing  
 
 		* 3. Create M3_maternal_outcome 
-			gen M3_maternal_outcome = .  
+			gen M3_maternal_outcome = . 
+			char M3_maternal_outcome[Original_ET_Varname] Based on birth outcome
+			char M3_maternal_outcome[Module] 3
+			
 			replace M3_maternal_outcome = 1 if birth_outcome == 1 
 			replace M3_maternal_outcome = 2 if birth_outcome == 2 
 			replace M3_maternal_outcome = 4 if birth_outcome == 3 | birth_outcome == 4 | birth_outcome == 5 | birth_outcome == 6 | birth_outcome == 7 | birth_outcome == 8 | ///
@@ -514,6 +564,8 @@
 			
 		* 4. Create M4 outcome
 			gen M4_outcome =.
+			char M4_outcome[Module] 4
+			char M4_outcome[Original_ET_Varname] Based on birth outcome and baby status
 			replace M4_outcome = 1 if birth_outcome == 1                                                   // LTFU after M1
 			replace M4_outcome = 2 if birth_outcome == 2                                                   // LTFU after M2
 			replace M4_outcome = 5 if m4_baby1_status == 1 & m4_baby2_status == .a & m4_baby3_status == .a // live birth singleton
@@ -539,9 +591,23 @@
 			gen m5_deathage_dys_baby1 = m5_baby1_death_date - m3_birth_or_ended 
 			gen m5_deathage_dys_baby2 = m5_baby2_death_date - m3_birth_or_ended 
 			gen m5_deathage_dys_baby3 = m5_baby3_death_date - m3_birth_or_ended 
+			
+			label var m5_deathage_dys_baby1  "Baby 1: Age at death in days (m5_baby1_death_date - m3_birth_or_ended)"
+			char m5_deathage_dys_baby1[Original_ET_Varname] `m5_baby1_death_date[Original_ET_Varname]' - `m3_birth_or_ended[Original_ET_Varname]'
+			char m5_deathage_dys_baby1[Module] 5
+
+			label var m5_deathage_dys_baby2  "Baby 2: Age at death in days (m5_baby2_death_date - m3_birth_or_ended)"
+			char m5_deathage_dys_baby2[Original_ET_Varname] `m5_baby2_death_date[Original_ET_Varname]' - `m3_birth_or_ended[Original_ET_Varname]'
+			char m5_deathage_dys_baby2[Module] 5
+
+			label var m5_deathage_dys_baby3  "Baby 3: Age at death days (m5_baby3_death_date - m3_birth_or_ended)"
+			char m5_deathage_dys_baby3[Original_ET_Varname] `m5_baby3_death_date[Original_ET_Varname]' - `m3_birth_or_ended[Original_ET_Varname]'
+			char m5_deathage_dys_baby3[Module] 5
 
 			* Create M5_outcome
 			gen M5_outcome =.
+			char M5_outcome[Module] 5
+			char M5_outcome[Original_ET_Varname] Based on M4 outcome, baby alive, death age in days and M5 date.
 			replace M5_outcome = 1 if M4_outcome == 1                                                                      // LTFU after M1
 			replace M5_outcome = 2 if M4_outcome == 2                                                                      // LTFU after M2
 			replace M5_outcome = 3 if M4_outcome == 3 & (m5_date ==. | m5_date ==.a)                                       // LTFU after M3
@@ -565,6 +631,8 @@
 
 		* 6. Create M5_maternal_outcome 
 			gen M5_maternal_outcome = .  
+			char M5_maternal_outcome[Module] 5
+			char M5_maternal_outcome[Original_ET_Varname] Based on M5_outcome and M3_maternal_outcome
 			replace M5_maternal_outcome = 1 if M5_outcome == 1 
 			replace M5_maternal_outcome = 2 if M5_outcome == 2 
 			replace M5_maternal_outcome = 3 if M5_outcome == 3 

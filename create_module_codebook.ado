@@ -1,18 +1,19 @@
 capture program drop create_module_codebook
 program define create_module_codebook
 
-	syntax, country(string asis) codebook_folder(string asis) outputfolder(string asis) module_number(int) module_dataset(string asis) id(string asis) [date_variables(string asis) SPECIAL]
-	
+	syntax, country(string asis) codebook_folder(string asis) outputfolder(string asis) module_number(string asis) module_dataset(string asis) id(string asis) [date_variables(string asis) SPECIAL]
+	capture mkdir "`codebook_folder'/M`module_number'"
+	local codebook_folder "`codebook_folder'/M`module_number'"	
 	cd "`codebook_folder'"
 
 	* Set this local to pass through for special values
 	local when notalways
 	
 	local country = lower("`country'")
-	if inlist("`country'","et","ethiopia") local n 1
-	if inlist("`country'","ke","kenya") local n 2
-	if inlist("`country'","za","south africa") local n 3
-	if inlist("`country'","in","india") local n 4
+	if inlist("`country'","et","ethiopia") local c_n 1
+	if inlist("`country'","ke","kenya") local c_n 2
+	if inlist("`country'","za","south africa") local c_n 3
+	if inlist("`country'","in","india") local c_n 4
 	
 	if strlen("`country'") > 2 local country =substr("`country'",1,2)
 	if "`country'" == "so" local country za
@@ -25,26 +26,28 @@ program define create_module_codebook
 	use "${`country'_data_final}/`module_dataset'", clear
 
 	* Only keep those form the module # dataset
-	capture rename respondentid m`module_number'_respondentid 
+	//capture rename respondentid m`module_number'_respondentid 
+	 
 
 	foreach v of varlist * {
-		if "``v'[Module]'" != "`module_number'" & "`v'"!= "m`module_number'_respondentid"  drop `v'  
+		if !inlist("`v'","country") & "``v'[Module]'" != "`module_number'" & !inlist("`v'","respondentid")  drop `v'  
 	}
 	
 	if "`module_number'" == "2" {
-		foreach v of varlist m2_maternal_death_learn_other_r*	{
-			rename `v' `=subinstr("`v'","m2_maternal_death_learn_other_r","m2_maternal_dealth_learn_oth_r",1)'
+		foreach v of varlist m2_maternal_death_learn_oth*_r*	{
+			capture rename `v' `=subinstr("`v'","m2_maternal_death_learn_other_r","m2_maternal_dealth_learn_oth_r",1)'
 		}	
 	}
-
+	
 	* Create a dataset that has all the original variables names
 	capture postclose mkt
-	postfile mkt str32(new_varname original_varname label) using `country'_M`module_number'_original_vars, replace
+	postfile mkt str85(new_varname original_varname label) using `country'_M`module_number'_original_vars, replace
 	foreach v of varlist * {
 		post mkt ("`v'") ("``v'[Original_`ucountry'_Varname]'") ("`:var label `v''")
 	}
 	postclose mkt
 	preserve
+	
 	use `country'_M`module_number'_original_vars, clear
 	label var new_varname "New Variable Name"
 	label var original_varname "Original Variable Name"
@@ -76,17 +79,19 @@ program define create_module_codebook
 	
 	if `exit' == 0 {
 	
-		gen country_value = `n'
+		/*gen country_value = `n'
 		label var country_value "Country"
 		label define country_value 1 "Ethiopia" 2 "Kenya" 3 "South Africa" 4 "India", replace
 		label value country_value country_value
-			
-		order country m`module_number'_respondentid
+		*/	
+		 
+		order country respondentid
+		
 		
 		* We want to wipe out any value labels that have the values of 98 or 99 because we are not using these any more
-		foreach v of varlist * {
+		/*foreach v of varlist * {
 			
-			if inlist("`:var label `v''", "Respondent ID","study_id") & "`v'" != "m`module_number'_respondentid" drop `v'
+			if inlist("`:var label `v''", "Respondent ID","study_id") & "`v'" != "respondentid" drop `v'
 			
 			* We want to destring all variables if possible
 			capture destring `v', replace
@@ -98,6 +103,7 @@ program define create_module_codebook
 				
 				local 98 `:label `label' 98'
 				local 99 `:label `label' 99'
+				*if "${Country}" == "KE" & "`99'"=="" local 99 `:label `label' 999'
 				
 				local nr 
 				local dnk 
@@ -120,9 +126,9 @@ program define create_module_codebook
 					if `"`label_values'"' == "" label value `v' 
 				}
 			}
-		}
+		}*/
 		
-		
+		//if `module_number' == 6 rename m6_respondentid mcard_respondentid
 		save M`module_number'_`country'_data, replace
 		char list
 		
@@ -144,7 +150,8 @@ program define create_module_codebook
 				if `=strpos("`:type `v''","str")' != 1 & "`:value label `v''" == "" local type univ
 				if `=strpos("`:type `v''","str")' == 1 local type open
 
-				if "`v'"=="m`module_number'_respondentid" local type open
+				if "`v'"=="respondentid" local type open
+				*if "`v'"=="mcard_respondentid" local type open
 
 				if "`=substr("`format'",1,3)'" == "%td" local type date
 				di "`type'"
@@ -198,19 +205,33 @@ program define create_module_codebook
 					preserve
 					keep `v'
 					if `=strpos("`:type `v''","str")' != 1 keep if missing(`v')
-					if `=strpos("`:type `v''","str")' == 1 keep if inlist(`v',"",".",".a",".r",".d",".n",".i")
+					if `=strpos("`:type `v''","str")' == 1 keep if inlist(`v',"",".a",".r",".d",".n",".i")
 					
 					duplicates drop		
+					
+														
+						local a Skipped appropriately due to survey logic
+						local d Don't' Know
+						local r No Response/Refused to answer
+						local n No information // This is specifically for ET
+						local i Invalid Date
+
 					
 					forvalues b = 1/`=_N' {
 						
 						local f `=`v'[`b']'
-						if "`f'"!= "" local value_label ``=substr("`f'",2,.)''
+						di "`f'"
+					
+						local raw =substr("`f'",2,.)
+						di "`raw'"
+						if "`f'"!= "" local value_label ``raw''
+						
 						if inlist("`f'",".","") local value_label Missing
 						if "`label'" != "" {
 							if !inlist("`:label `label' `=`v'[`b']''",".","") local value_label `:label `label' `=`v'[`b']''
 						}
 						post mktspecial ("`var_type'") ("`v'") ("`=`v'[`b']'") ("`value_label'") ("`when'") ("isinlist")
+						
 						
 					}			
 					restore
@@ -237,13 +258,18 @@ program define create_module_codebook
 			export delimited using M`module_number'_`country'_special_values, novarnames replace
 		}
 		
-		harvard_codebook, keys(m`module_number'_respondentid, country) ///
+		
+		local sheetname M`module_number'
+
+		if `module_number' == 6 	local sheetname MCARD
+				
+		harvard_codebook, keys(respondentid, country) ///
 		datafolder("`codebook_folder'") /// //codebook_folder("`codebook_folder'") ///
 		datasetlist(M`module_number'_`country'_data) ///
 		templatefolder("`codebook_folder'") ///
 		summarytrt("`codebook_folder'\M`module_number'_`country'_codebook_trt.csv") ///
 		specialvalues("`codebook_folder'\M`module_number'_`country'_special_values.csv") ///
-		outputfolder ("`outputfolder'") sheet("M`module_number'") excel
+		outputfolder ("`outputfolder'") sheet("`sheetname'") excel
 	} // if contains valid dates 
 end
 

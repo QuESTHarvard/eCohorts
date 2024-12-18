@@ -296,16 +296,36 @@ replace q103 = subinstr(q103," ","",.)
 		clonevar m2_509`v' = Q509_`v'
 	}
 
-	foreach v in a b c d e f g h i j k l m n  {
-		clonevar m2_601`v' = Q601_`v'
-	}
+	* Cleaning these up to align with other datasets
+	clonevar m2_601a = Q601_a
+	clonevar m2_601b = Q601_c
+	clonevar m2_601c = Q601_d
+	clonevar m2_601d = Q601_e
+	clonevar m2_601e = Q601_f
+	clonevar m2_601f = Q601_g
+	clonevar m2_601g = Q601_h
+	clonevar m2_601h = Q601_i
+	clonevar m2_601i = Q601_j
+	clonevar m2_601j = Q601_k
+	clonevar m2_601k = Q601_l
+	clonevar m2_601l = Q601_m
+	clonevar m2_601m = Q601_n
+	clonevar m2_601n_other = Q601_o
+	clonevar m2_601o = Q601_b
 	
 	replace Q601_o = trim(upper(Q601_o)) 
+	gen m2_601n = !inlist(Q601_o,"NO","NO COMMENTS","NO.","NOO","N0","NA") if m2_202 == 1 
+	char m2_601n[Original_IN_Varname] 601_o
+	
+	/*foreach v in a b c d e f g h i j k l m n  {
+		clonevar m2_601`v' = Q601_`v'
+	}
 	
 	gen m2_601o = !inlist(Q601_o,"NO","NO COMMENTS","NO.","NOO","N0","NA") if m2_202 == 1 
 	char m2_601o[Original_IN_Varname] 601_o
 	
 	clonevar m2_601o_other = Q601_o
+*/
 	
 	clonevar m2_602b = Q602
 	clonevar m2_603 = Q603
@@ -822,7 +842,7 @@ replace q103 = subinstr(q103," ","",.)
 		label var m2_509b "Instructed to go the hospital for follow-up ANC"
 		label var m2_509c "Instructed will need a c-section"
 
-		label var m2_601o "Other medicines or supplements"
+		*label var m2_601o "Other medicines or supplements"
 		label var m2_601i "Medicine for emotions/nerves/depression/mental health"
 		
 		foreach v in a b c d e f g h i j k l m n o {
@@ -832,7 +852,7 @@ replace q103 = subinstr(q103," ","",.)
 			label var m2_601`v' "Received or bought: `name'"
 		}
 		
-		label var m2_601o_other "Other specified medicines or supplements"
+		*label var m2_601o_other "Other specified medicines or supplements"
 		
 		label var m2_602b "Total amount spent on medicines or supplements"
 		label var m2_603 "Currently taking iron and folic acid pills"

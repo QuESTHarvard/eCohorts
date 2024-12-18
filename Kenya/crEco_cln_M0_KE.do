@@ -10,6 +10,11 @@ clear all
 *--------------------DATA FILE:
 import excel using "$ke_data/Module 0/MNHECOHORTSModule0Fa_DATA_2023-12-07_1419 updated.xlsx", firstrow clear //new data sent DEC 7 2023
 
+foreach v of varlist * {
+	char `v'[Original_KE_Varname] `v'
+	char `v'[Module] 0
+}
+
 *import delimited "C:\Users\wench\Desktop\ECohort study\cleaning dataset\KenyaM0\MNHECOHORTSModule0Fa_DATA_2023-10-11_1541", clear
 
 *------------------------------------------------------------------------------*
@@ -31,6 +36,9 @@ rename (facility_kiambu facility_kitui) (m0_facility_kiambu_ke m0_facility_kitui
 rename (catchment_area catchment_pop) (m0_a13 m0_a14)
 
 egen facility=rowmax(m0_facility_kiambu_ke m0_facility_kitui_ke)
+char facility[Module] 0 
+char facility[Original_KE_Varname] `m0_facility_kiambu_ke[Original_KE_Varname]' & `m0_facility_kitui_ke[Original_KE_Varname]' &  `m0_a4_site[Original_KE_Varname]'
+
 replace facility=21 if facility==9 & m0_a4_site==1 // Kiambu facility 9 is St. Teresas Nursing Home
 recode facility 1=7 2=2 3=1 4=21 5=10 6=4 7=11 8=18 9=6 10=9 11=8 12=15 13=16 ///
                 14=20 15=5 16=13 17=17 18=14 19=12 20=3 21=19
@@ -572,11 +580,17 @@ lab def facility 1"Githunguri health centre" 2"Igegania sub district hospital" 3
 lab val facility facility
 
 gen m0_facility_own = facility 
+char m0_facility_own[Module] 0
+char m0_facility_own[Original_KE_Varname] `facility[Original_KE_Varname]'
+ 
 recode m0_facility_own (18 19 12 14 4 11 17 13 = 2) (1	21	10	16	20	5	15	3	8	2	7	9	6 = 1)
 lab def m0_facility_own  1"Public" 2"Private"
 lab val m0_facility_own  m0_facility_own 
 
 gen m0_facility_type = facility 
+char m0_facility_type[Module] 0
+char m0_facility_type[Original_KE_Varname] `facility[Original_KE_Varname]'
+
 recode m0_facility_type (18	19	12	14	1	21	10	16	20	5	15	3	8=1) (4	11	17	13	2	7	9	6=2)
 lab def m0_facility_type 1"Primary" 2"Secondary"
 lab val m0_facility_type m0_facility_type 

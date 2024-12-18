@@ -8,7 +8,7 @@
 clear all  
 
 *--------------------DATA FILE:
-import delimited  "$za_data/SA MOD-0 - 07Dec2023", clear
+import delimited  "$za_data/Module 0/SA MOD-0 - 07Dec2023", clear
 *import delimited "C:\Users\wench\Desktop\ECohort study\cleaning dataset\ZAFM0\SA MOD-0 - 07Dec2023", clear
 
 *------------------------------------------------------------------------------*
@@ -36,6 +36,12 @@ import delimited  "$za_data/SA MOD-0 - 07Dec2023", clear
 *         RESPONSE_StudyNoPrefix
 *         RESPONSE_StudyNo
 *         StudyNumber
+
+foreach v of varlist * {
+	char `v'[Original_ZA_Varname] `v'
+	char `v'[Module] 0
+}
+
 drop in 23/28
 rename (response_lattitude response_longitude) (m0_latitude m0_longitude)
 rename (responseid mod0_meta_data_a1 mod0_meta_data_time_a1 mod0_meta_data_a4 mod0_meta_data_a5) (m0_id_za m0_a1_date m0_a1_time m0_a4_site ///
@@ -45,6 +51,8 @@ rename (mod0_meta_data_a7 mod0_meta_data_a8 mod0_meta_data_a9 mod0_meta_data_a13
         m0_urban m0_a13 m0_a14)
 		
 encode m0_facility, gen(facility) // this will match Module 1 facility codes
+char facility[Module] 0
+char facility[Original_ZA_Varname] `m0_facility[Original_ZA_Varname]'
 drop m0_facility
 
 lab var m0_latitude "Latitude"

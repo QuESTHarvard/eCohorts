@@ -16,7 +16,7 @@
 ********************************************************************************/
 
 
-u "$ke_data_final/eco_m1-m5_ke.dta", clear
+*u "$ke_data_final/eco_m1-m5_ke.dta", clear
 
 *------------------------------------------------------------------------------*
 * MODULE 1
@@ -42,6 +42,8 @@ u "$ke_data_final/eco_m1-m5_ke.dta", clear
 	
 	lab def facility_lvl 1"Public primary" 2"Public secondary" 3"Private"
 	lab val facility_lvl facility_lvl
+	
+	label var facility_lvl "Facility level"
 	
 	char facility_lvl[Module] `facility_name2[Module]'
 	char facility_lvl[Original_KE_Varname] `facility_name2[Original_KE_Varname]'
@@ -491,17 +493,38 @@ u "$ke_data_final/eco_m1-m5_ke.dta", clear
 			* create pregnancyend_ga to indicate GA at the end of pregnancy
 			gen time_between_m1_birth = (m3_birth_or_ended - m1_date)/7
 			gen pregnancyend_ga = gest_age_baseline_ke + time_between_m1_birth 
-			
+			char time_between_m1_birth[Module]  3
+			char pregnancyend_ga[Module] 3
+			char time_between_m1_birth[Original_ET_Varname] (`m3_birth_or_ended[Original_ET_Varname]' - `m1_date[Original_ET_Varname]') / 7  
+			char pregnancyend_ga[Original_ET_Varname] (`gest_age_baseline_ke[Original_ET_Varname]' + `time_between_m1_birth[Original_ET_Varname]')  
+
 			* Create preterm birth to indicate birth before GA 37 
 			gen preterm_birth = 1 if pregnancyend_ga <37   
+			char preterm_birth[Module] 3 
+			char preterm_birth[Original_ET_Varname] `pregnancyend_ga[Original_ET_Varname]'  < 37 
+
 			replace preterm_birth = 0 if pregnancyend_ga >=37 & pregnancyend_ga < .
 
 			* Create m3_deathage_dys_baby1, m3_deathage_dys_baby2 to indicate newborn death age (days) (m3_313a_baby1: death date for baby1, m3_313a_baby2: death date for baby2)
 			gen m3_deathage_dys_baby1 = m3_313a_baby1 - m3_birth_or_ended
-			gen m3_deathage_dys_baby2 = m3_313a_baby2 - m3_birth_or_ended 
+			char m3_deathage_dys_baby1[Original_ET_Varname] `m3_313a_baby1[Original_ET_Varname]' - `m3_birth_or_ended[Original_ET_Varname]' (if `m3_baby1_born_alive[Original_ET_Varname]' is 1)
+			char m3_deathage_dys_baby1[Module] 3
+			
+			label var m3_deathage_dys_baby1  "Baby 1: Age at death in days (m3_313a_baby1 - m3_birth_or_ended)"
+
+			gen m3_deathage_dys_baby2 = m3_313a_baby2 - m3_birth_or_ended
+			char m3_deathage_dys_baby2[Original_ET_Varname] `m3_313a_baby2[Original_ET_Varname]' - `m3_birth_or_ended[Original_ET_Varname]' (if `m3_baby2_born_alive[Original_ET_Varname]' is 1)
+			char m3_deathage_dys_baby2[Module] 3
+			
+			label var m3_deathage_dys_baby2  "Baby 2: Age at death in days (m3_313a_baby2 - m3_birth_or_ended)"
+
+
 
 		* 3. Create birth outcome variable
 			gen birth_outcome = .
+			char birth_outcome[Original_ET_Varname] Based if completed entire survey and when pregnancy ends
+			char birth_outcome[Module] 3
+
 			replace birth_outcome = 1 if m2_date_r1 ==. & m3_date ==.                                         // LTFU after M1 
 			replace birth_outcome = 2 if m2_date_r1 !=. & m3_date ==.                      					  // LTFU after M2 
 			replace birth_outcome = 3 if m3_303b==1 & m3_303c ==.a                         					  // live birth singletone  
@@ -529,6 +552,9 @@ u "$ke_data_final/eco_m1-m5_ke.dta", clear
 
 		* 4. Create M3_maternal_outcome 
 			gen M3_maternal_outcome = .  
+			char M3_maternal_outcome[Original_ET_Varname] Based on birth outcome
+			char M3_maternal_outcome[Module] 3
+
 			replace M3_maternal_outcome = 1 if birth_outcome == 1 
 			replace M3_maternal_outcome = 2 if birth_outcome == 2 
 			replace M3_maternal_outcome = 4 if birth_outcome == 3 | birth_outcome == 4 | birth_outcome == 5 | birth_outcome == 6 | birth_outcome == 7 | birth_outcome == 8 | ///
@@ -544,9 +570,16 @@ u "$ke_data_final/eco_m1-m5_ke.dta", clear
 		* 5. Create M4 outcome variable 
 			* Create m4_deathage_dys_baby1 to indicate baby1's death age in days 
 			gen m4_deathage_dys_baby1 = m4_baby1_death_date - m3_birth_or_ended
+			char m4_deathage_dys_baby1[Module] 4
+			char m4_deathage_dys_baby1[Original_KE_Varname] `m4_baby1_death_date[Original_KE_Varname]' - `m3_birth_or_ended[Original_KE_Varname]' 
 			
+			label var m4_deathage_dys_baby1 "Baby 1: Age at death in days (m4_baby1_death_date - m3_birth_or_ended)"
+
 			* Create M4 outcome 
 			gen M4_outcome =.
+			char M4_outcome[Module] 4
+			char M4_outcome[Original_ET_Varname] Based on birth outcome and baby status
+
 			replace M4_outcome = 1 if birth_outcome == 1                                                                                                            // LTFU after M1
 			replace M4_outcome = 2 if birth_outcome == 2                         																			        // LTFU after M2
 			replace M4_outcome = 3 if (birth_outcome == 3 |birth_outcome == 4 | birth_outcome == 11) & (m4_date ==.& m4_baby1_status ==.)                           // LTFU after M3 
@@ -568,10 +601,25 @@ u "$ke_data_final/eco_m1-m5_ke.dta", clear
 		* 6. Create M5 outcome
 			* Create m5_deathage_dys_baby1, m5_deathage_dys_baby2 to indicate newborn death age (days) for baby1 baby2    
 			gen m5_deathage_dys_baby1 = m5_baby1_death_date - m3_birth_or_ended 
-			gen m5_deathage_dys_baby2 = m5_baby2_death_date - m3_birth_or_ended 
+			label var m5_deathage_dys_baby1  "Baby 1: Age at death in days (m5_baby1_death_date - m3_birth_or_ended)"
+			char m5_deathage_dys_baby1[Original_ET_Varname] `m5_baby1_death_date[Original_ET_Varname]' - `m3_birth_or_ended[Original_ET_Varname]'
+			char m5_deathage_dys_baby1[Module] 5
+
+			gen m5_deathage_dys_baby2 = m5_baby2_death_date - m3_birth_or_ended
+			label var m5_deathage_dys_baby2  "Baby 2: Age at death in days (m5_baby2_death_date - m3_birth_or_ended)"
+
+			char m5_deathage_dys_baby2[Original_ET_Varname] `m5_baby2_death_date[Original_ET_Varname]' - `m3_birth_or_ended[Original_ET_Varname]'
+			char m5_deathage_dys_baby2[Module] 5
+			
+			
+			
+
 
 		   * Create M5_outcome
 			gen M5_outcome =.
+			char M5_outcome[Module] 5
+			char M5_outcome[Original_ET_Varname] Based on M4 outcome, baby alive, death age in days and M5 date.
+
 			replace M5_outcome = 1 if M4_outcome == 1                                                                     	   // LTFU after M1
 			replace M5_outcome = 2 if M4_outcome == 2                                                                          // LTFU after M2
 			replace M5_outcome = 3 if M4_outcome == 3                                                                          // LTFU after M3   	
