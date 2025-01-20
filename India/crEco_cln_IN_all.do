@@ -16,13 +16,13 @@
 global Country IN
 
 * Clean Module 1
-do "${github}\India\crEco_cln_IN_M1.do"
+do "${github}/India/crEco_cln_IN_M1.do"
 
 * Clean Module 2
-do "${github}\India\crEco_cln_IN_M2.do" 
+do "${github}/India/crEco_cln_IN_M2.do" 
 
 * Clean Module 3
-do "${github}\India\crEco_cln_IN_M3.do"
+do "${github}/India/crEco_cln_IN_M3.do"
 
 
 * Clean Module 4
@@ -55,7 +55,7 @@ drop date_m1
 
   	
 	* Run the derived variable code
-do "${github}\India\crEco_der_IN.do"
+do "${github}/India/crEco_der_IN.do"
 
 	foreach v of varlist * {
 		if "``v'[Module]'" == "" di "`v'"
@@ -155,7 +155,7 @@ capture erase "${in_data_final}/${Country}_Codebooks.xlsx"
 
 * Create the codebooks
 foreach v in 1 2 3 { //4 5 6 { 
-		create_module_codebook, country(IN) outputfolder($in_data_final) codebook_folder($in_data_final\Archive\Codebook) module_number(`v') module_dataset(eco_IN_Complete) id(respondentid) special
+		create_module_codebook, country(IN) outputfolder($in_data_final) codebook_folder($in_data_final/Archive/Codebook) module_number(`v') module_dataset(eco_IN_Complete) id(respondentid) special
 		
 }
 
