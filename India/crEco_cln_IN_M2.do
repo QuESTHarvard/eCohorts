@@ -31,7 +31,7 @@
 										
 										
 * Set a local wtih module2 file name
-local module2 Module_2_24062024										
+local module2 Module2_17jan2025										
 
 
 * Import Data 
@@ -48,6 +48,7 @@ foreach v of varlist * {
 }
 
 * Clean up the id variable to remove any spaces that may cause merging issues
+rename Q104 q103
 replace q103 = trim(q103)
 replace q103 = subinstr(q103," ","",.)
 

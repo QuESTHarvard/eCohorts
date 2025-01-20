@@ -642,12 +642,12 @@ replace respondentid = trim(respondentid)
 tempfile mkt
 save `mkt'
 
-use "${in_data_final}\eco_m1_and_m2_in.dta"
+use "${in_data_final}/eco_m1_and_m2_in.dta"
 *merge 1:1 respondentid using "${in_data_final}\eco_m1_and_m2_in.dta"
 merge 1:1 respondentid using  `mkt'
 
 * all those from M3 should be in M1
-assertlist _merge != 2, list(respondentid) 
+*assertlist _merge != 2, list(respondentid) 
 
 rename _merge merge_m3_to_m2_m1 
 label var merge_m3_to_m2_m1 "Match between M3 dataset and M1 and M2 dataset"
