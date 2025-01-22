@@ -7,7 +7,7 @@ set more off
 	u "$in_data_final/eco_IN_Complete.dta", clear
 	
 	* Restrict dataset to those who were not lost to follow up
-	keep if m3_date<.
+	keep if m3_date<. // 35 deleted
 	
 	* Remove women who had a miscarriage (didn't reach 28 weeks gestation)
 	foreach x in 202310051121022012 202310090932029613 202310161057019610 ///
@@ -31,8 +31,9 @@ set more off
 *-------------------------------------------------------------------------------
 	* Number of follow up surveys
 	
-	   *Drop the m2 date where the woman has delivered or lost pregnancy since 
-	   * they will move to Module 3 and the rest of the M2 survey is blank 
+	   /* Put the m2 date to missing for any survey round where
+	     the woman has delivered or lost pregnancy since 
+	     they will move to Module 3 and the rest of the M2 survey is blank */
 	forval i = 1/10 { 
 		replace m2_date_r`i' =. if m2_202_r`i'==2 | m2_202_r`i'==3 
 		}
@@ -136,6 +137,21 @@ set more off
 		
 		egen totvisref=rowtotal(ranc*)
 		replace totvisref=totvisref+1
+		
+		* Ever visited hospital during pregnancy (for any reason)
+		recode  facility_lvl 2=1 1=0, g(anc1hosp) // had 1st ANC at hospital
+		
+		forval i= 1/10 {
+			recode m2_303a_r`i' (3 4 5 7 8 34 35= 1) (2 6 31/33= 0) , g(vis1hosp_r`i')
+			recode m2_303b_r`i' (3 4 5 7 8 34 35= 1) (2 6 31/33= 0), g(vis2hosp_r`i')
+			recode m2_303c_r`i' (3 4 5 7 8 34 35= 1) (2 6 31/33= 0), g(vis3hosp_r`i')
+			recode m2_303d_r`i' (3 4 5 7 8 34 35= 1) (2 6 31/33= 0), g(vis4hosp_r`i')
+			recode m2_303e_r`i' (3 4 5 7 8 34 35= 1) (2 6 31/33= 0) , g(vis5hosp_r`i')
+			} 
+		
+		egen anyhosp=rowmax(anc1hosp vis*hosp_r* )
+		lab var anyhosp "Ever visited hospital during pregnancy (for any reason)"
+
 *-------------------------------------------------------------------------------		
 	* ANC QUALITY MEASURES
 	
@@ -150,6 +166,8 @@ set more off
 			egen anc1_blood=rowmax(m1_706 m1_707)
 			recode m1_713a 2=1 3=0, g(anc1_ifa)
 			recode  m1_713b 2=1 3=0, g(anc1_calcium)
+			egen anc1_refer=rowmax(m1_724c m1_724e) // told to see ob or gyn or hospital for anc
+			
 		* Follow up visits
 			rename (m2_501a_r1 m2_501a_r2 m2_501a_r3 m2_501a_r4 m2_501a_r5 ///
 					m2_501a_r6 m2_501a_r7 m2_501a_r8 m2_501a_r9 m2_501a_r10 ///
@@ -164,6 +182,7 @@ set more off
 			
 			foreach r in r1 r2 r3 r4 r5 r6 r7 r8 r9 r10 {
 				egen m2_blood_`r'=rowmax(m2_501c_`r' m2_501d_`r')
+				egen m2_refer_`r'=rowmax(m2_509a_`r' m2_509b_`r')
 				}	
 				egen m3_blood=rowmax(m3_412_c m3_412_d)
 				
@@ -220,7 +239,10 @@ set more off
 				recode totalurine 1/2=0 3/max=1, gen(urinethree)
 
 			egen all4= rowmin (bpthree wgtthree bloodthree urinethree )
-			
+*-------------------------------------------------------------------------------		
+	* REFERRED AT LEAST ONCE
+		egen ever_refer=rowmax(anc1_refer m2_refer_r*)
+					
 *-------------------------------------------------------------------------------		
 		* TOTAL ANC SCORE
 			recode totalbp 4/max=4, g(maxbp4)
@@ -229,6 +251,7 @@ set more off
 			recode totalblood 4/max=4, g(maxblood4)
 			egen totalus =rowtotal(anc1_ultrasound m2_us_r* m3_us)
 				recode totalus 4/max=4, g(maxus4)
+				recode totalus 1/max=1, g(anyus)
 			egen totaldanger=rowtotal(anc1_dangers m2_danger_r*) 
 				recode totaldanger 4/max=4, g(maxdanger4)
 			egen totalbplan= rowtotal(anc1_bplan m2_bplan_r*)
@@ -371,6 +394,7 @@ set more off
 *-------------------------------------------------------------------------------		
 	* DEMOGRAPHICS AND RISK FACTORS
 		* Demographics
+			rename m1_enrollage enrollage
 			recode enrollage (min/19=1 "<20") (20/34=2 "20-34") (35/max=3 "35+"), g(agecat)
 			recode enrollage (min/19=1) (20/max=0), g(age19)
 			recode enrollage (min/34=0) (35/max=1), g(age35)
