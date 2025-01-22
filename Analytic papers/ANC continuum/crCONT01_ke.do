@@ -4,17 +4,18 @@ set more off
 	global ke_data_final "$user/MNH Ecohorts QuEST-shared/Data/Kenya/02 recoded data"
 
 * KENYA
-	u "$ke_data_final/eco_m1-m5_ke_der.dta", clear
+	u "$ke_data_final/eco_KE_Complete.dta", clear
 	
 	* Restrict dataset to those who were not lost to follow up
-	keep if m3_date!=.
+	keep if m3_date!=. // 107 deleted
+	
 	* Remove women who had a miscarriage (didn't reach 28 weeks gestation)
 	foreach x in 1830061513	1720071304	1211081324	21010071336	1114071325	///
 	21825071208	21703071308	21811071513	1916081145	21225071153	1801081517	///
 	1801081443	21411071610	1911071249	21704081615	21327071043	1707081248	///
 	21204081236	1829061406	1805071256	21511071321	1209081131	21112071158	///
 	21204081524	21620071230	1926061139	1208081034 {
-	drop if respondentid=="`x'"
+	drop if respondentid==`x'
 	}
 *-------------------------------------------------------------------------------
 	* Number of follow up surveys
@@ -116,6 +117,22 @@ set more off
 		
 		egen totvisref=rowtotal(ranc*)
 		replace totvisref=totvisref+1
+		
+	* Ever visited hospital during pregnancy (for any reason)
+		recode  facility_name2 (1 2 3 6 10 12 13 14 18/21 = 0) ///
+		(4 5 8 9 11 15 16 17 =1), g(anc1hosp) // had 1st ANC at hospital
+	
+		forval i= 1/8 {
+			recode m2_303a_r`i' (3 8 = 1) (1/2 4/7 9/10 = 0) , g(vis1hosp_r`i')
+			recode m2_303b_r`i' (3 8 = 1) (1/2 4/7 9/10 = 0) , g(vis2hosp_r`i')
+			recode m2_303c_r`i' (3 8 = 1) (1/2 4/7 9/10 = 0)  , g(vis3hosp_r`i')
+			recode m2_303d_r`i' (3 8 = 1) (1/2 4/7 9/10 = 0) , g(vis4hosp_r`i')
+			recode m2_303e_r`i' (3 8 = 1) (1/2 4/7 9/10 = 0) , g(vis5hosp_r`i')
+			} 
+		
+		egen anyhosp=rowmax(anc1hosp vis*hosp_r* )
+		lab var anyhosp "Ever visited hospital during pregnancy (for any reason)"
+
 *-------------------------------------------------------------------------------		
 	* TOTAL ANC CONTENT
 		* First visit
@@ -128,6 +145,7 @@ set more off
 			egen anc1_blood=rowmax(m1_706 m1_707)
 			recode m1_713a 2=1 3=0, g(anc1_ifa)
 			recode  m1_713b 2=1 3=0, g(anc1_calcium)
+			egen anc1_refer=rowmax(m1_724c m1_724e) // told to see ob or gyn or hospital for anc
 		
 		* Follow up visits
 			rename (m2_501a_r1 m2_501a_r2 m2_501a_r3 m2_501a_r4 m2_501a_r5 ///
@@ -140,7 +158,8 @@ set more off
 			
 			foreach r in r1 r2 r3 r4 r5 r6 r7 r8 {
 				egen m2_blood_`r'=rowmax(m2_501c_`r' m2_501d_`r')
-				}	
+				egen m2_refer_`r'=rowmax(m2_509a_`r' m2_509b_`r')
+					}	
 				egen m3_blood=rowmax(m3_412c_* m3_412d_*)
 				
 			rename (m2_501e_r1 m2_501e_r2 m2_501e_r3 m2_501e_r4 m2_501e_r5 ///
@@ -186,7 +205,10 @@ set more off
 			recode totalurine 1/2=0 3/max=1, gen(urinethree)
 		
 		egen all4= rowmin (bpthree wgtthree bloodthree urinethree  )
-	
+*-------------------------------------------------------------------------------		
+	* REFERRED AT LEAST ONCE
+		egen ever_refer=rowmax(anc1_refer m2_refer_r*)
+			
 *-------------------------------------------------------------------------------		
 	* TOTAL ANC SCORE
 	
@@ -196,6 +218,7 @@ set more off
 		recode totalblood 4/max=4, g(maxblood4)
 		egen totalus =rowtotal(anc1_ultrasound m2_us_r* m3_us*)
 			recode totalus 4/max=4, g(maxus4)
+			recode totalus 1/max=1, g(anyus)
 		egen totaldanger=rowtotal(anc1_dangers m2_danger_r*) 
 			recode totaldanger 4/max=4, g(maxdanger4)
 		egen totalbplan= rowtotal(anc1_bplan m2_bplan_r*)
