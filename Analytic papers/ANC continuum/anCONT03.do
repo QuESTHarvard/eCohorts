@@ -1,43 +1,48 @@
 	cd "$user/MNH E-Cohorts-internal/Analyses/Manuscripts/Paper 5 Continuum ANC/Data/"
 	
-	use "allcountries.dta", clear
 	
 	* REGRESSIONS: CONTENT OF CARE
 	* Ethiopia
 		u ETtmp.dta, clear
 				recode job 3/4=2, g(jobet) // employed vs. homemaker, student, unemployed
 			
-				reg anctotal second healthlit_corr i.tertile i.jobet ///
+				reg anctotal i.educ_cat healthlit_corr i.tertile i.jobet ///
 					married  i.factype preg_intent i.danger i.riskcat  i.site ///
 					if totalfu>3, vce(robust)		
 				
 	* Kenya
 		u KEtmp.dta, clear
 				recode job 3/4=3, g(jobke) // 1. employed, 2. homemaker 3. student or unemployed 
+				recode educ_cat 2=1 3=2 4=3 // 1. No educ, primary 2. complete secondary 3. higher educ
 				
-				reg anctotal second healthlit_corr i.tertile i.jobke ///
+				reg anctotal i.educ_cat healthlit_corr i.tertile i.jobke ///
 					married  i.factype preg_intent i.danger i.riskcat  i.study_site ///
 					if totalfu>3, vce(robust)	
 					
 	* India
 		u INtmp.dta, clear
-				recode job 3/4=3, g(jobin) // 1. employed, 2. homemaker 3. student or unemployed 
-				recode urban 0=2, g(site)
+				*recode job 3/4=3, g(jobin) // 1. employed, 2. homemaker 3. student or unemployed 
+				recode urban 0=2, g(site) // 1. urban 2. rural
+				*recode study_site 1=2 3=1, g(state) // 1. Jodhpur 2. Sonipat
+				recode educ_cat 2=1 3=2 4=3 // 1. No educ, primary 2. complete secondary 3. higher educ
 				
-				reg anctotal second healthlit_corr i.tertile i.jobin ///
-					  i.factype preg_intent i.danger i.riskcat  i.site ///
+				reg anctotal i.educ_cat healthlit_corr i.tertile  ///
+					  i.factype preg_intent i.danger i.riskcat  i.urban ///
 					if totalfu>3, vce(robust)
 					
 	* South Africa
 		u ZAtmp.dta, clear
 				recode job 2=1 3=2 4=3, g(jobza) // 1. employed or homemaker 2. student, 3.unemployed 
 				
-				reg anctotal second healthlit_corr i.tertile i.jobza ///
+				reg anctotal i.educ_cat healthlit_corr i.tertile i.jobza ///
 					marriedp  preg_intent i.danger i.riskcat  i.study_site ///
 					if totalfu>3, vce(robust)
 		
 /*-------------------------------------------------------------------------------
-	* REGRESSIONS: CONTENT OF CARE	
+	* REGRESSIONS: CONTENT OF CARE
+	
+	use "allcountries.dta", clear
+	
 	putexcel set "forestplots.xlsx", sheet("content") modify
 	putexcel A1="country" B1= "indic" C1="coeff" D1="LCL" E1="UCL"
 	* ET
