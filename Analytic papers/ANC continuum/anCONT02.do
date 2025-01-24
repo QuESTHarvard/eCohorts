@@ -1,30 +1,17 @@
 
+	cd "$user/MNH E-Cohorts-internal/Analyses/Manuscripts/Paper 5 Continuum ANC/Data/"
 	u allcountries.dta, clear
-*-------------------------------------------------------------------------------
+
 	* DESCRIPTIVE ANALYSES
+	
 *-------------------------------------------------------------------------------	
 	* Table 1
 *-------------------------------------------------------------------------------	
-		summtab if country==1, contvars( enrollage anctotal totvisi ) ///
+		summtab , contvars(enrollage ) ///
 				catvars(second healthlit_corr tertile  job married ///
-				factype preg_intent primipara bsltrimester danger ) ///
-				mean by(riskcat) excel pval ///
-				excelname(Table1) sheetname(ETH) replace 
+				factype preg_intent primipara bsltrimester danger riskcat ) ///
+				mean by(country) excel  excelname(Table1) replace 
 				
-		summtab if country==2, contvars( enrollage anctotal totvisi) ///
-				catvars(second healthlit_corr tertile  job married ///
-				factype preg_intent primipara bsltrimester danger ) pval ///
-				mean by(riskcat) excel pval excelname(Table1) sheetname(KE) replace 
-		
-		summtab if country==3, contvars( enrollage  anctotal totvisi) ///
-				catvars( second healthlit_corr tertile  job married ///
-				factype preg_intent primipara bsltrimester danger ) pval ///
-				mean by(riskcat) excel excelname(Table1) sheetname(IN) replace 
-				
-		summtab if country==4, contvars(enrollage anctotal totvisi ) ///
-				catvars( second healthlit_corr tertile  job married ///
-				 preg_intent primipara bsltrimester danger ) pval ///
-				mean by(riskcat) excel excelname(Table1) sheetname(ZA) replace 
 			
 	* Number of visits
 		graph box totvisits, over(country) ytitle("Total number of visits")
@@ -81,7 +68,7 @@
 
 	u allcountries.dta, clear
 	
-* Total number of visits (among women surveyed at least 4 times)
+/* Total number of visits (among women surveyed at least 4 times)
 	graph box totvisi if totalfu>3, over(site) ylabel(, labsize(small)) ///
 		ytitle("Total number of antenatal care visits") asyvars ///
 		box(1, fcolor(navy) lcolor(navy) lwidth(thin)) marker(1, mcolor(navy)) ///
@@ -91,7 +78,7 @@
 		box(5, fcolor(midgreen) lcolor(midgreen) lwidth(thin)) marker(3, mcolor(midgreen)) ///
 		box(6, fcolor(midgreen) lcolor(midgreen) lwidth(thin)) marker(3, mcolor(midgreen)) ///
 		box(7, fcolor(ebblue) lcolor(ebblue) lwidth(thin)) marker(3, mcolor(ebblue)) ///
-		box(8, fcolor(ebblue) lcolor(ebblue)lwidth(thin)) marker(3, mcolor(ebblue)) 
+		box(8, fcolor(ebblue) lcolor(ebblue)lwidth(thin)) marker(3, mcolor(ebblue)) */
 
 					
 * Total number of items (among women surveyed at least 4 times)
@@ -125,11 +112,24 @@
 			
 			replace all4=. if totalfu<3 // surveyed at least 3 times
 			replace anctotal=. if totalfu<4 // surveyed at least 4 times
-			replace totvisi =. if totalfu<4 // surveyed at least 4 times
+			replace totvisref =. if totalfu<4 // surveyed at least 4 times
 			
-			summtab if country==1, contvars(totvisi anctotal) ///
-				catvars(all4 anyus timelyus ever_refer) ///
+			summtab if country==1, contvars(totvisref anctotal) ///
+				catvars(all4 anyus timelyus ever_refer anyhosp) ///
 				mean by(riskcat) excel pval ///
 				excelname(Table2) sheetname(ETH) replace 
 				
+			summtab if country==2, contvars(totvisref anctotal) ///
+				catvars(all4 anyus timelyus ever_refer anyhosp) ///
+				mean by(riskcat) excel pval ///
+				excelname(Table2) sheetname(KEN) replace 	
 				
+			summtab if country==3, contvars(totvisref anctotal) ///
+				catvars(all4 anyus timelyus ever_refer anyhosp) ///
+				mean by(riskcat) excel pval ///
+				excelname(Table2) sheetname(IND) replace 	
+				
+			summtab if country==4, contvars(totvisref anctotal) ///
+				catvars(all4 anyus timelyus ever_refer anyhosp) ///
+				mean by(riskcat) excel pval ///
+				excelname(Table2) sheetname(ZAF) replace 	
