@@ -367,6 +367,7 @@ set more off
 *-------------------------------------------------------------------------------		
 	* DEMOGRAPHICS AND RISK FACTORS					
 		* Demographics
+				rename m1_enrollage enrollage
 				recode enrollage (min/19=1 "<20") (20/34=2 "20-34") (35/max=3 "35+"), g(agecat)
 				recode enrollage (min/19=1) (20/max=0), g(age19)
 				recode enrollage (min/34=0) (35/max=1), g(age35)
