@@ -4,10 +4,11 @@ set more off
 	global et_data_final "$user/MNH Ecohorts QuEST-shared/Data/Ethiopia/02 recoded data"
 	
 * ETHIOPIA
-	u "$et_data_final/eco_m1-m5_et_wide_der.dta", clear
+	u "$et_data_final/eco_ET_Complete.dta", clear
 	
 	* Restrict dataset to those who were not lost to follow up
-	keep if m3_date<.
+	keep if m3_date<. // 112 lost 
+	
 	* Remove women who had a miscarriage (didn't reach 28 weeks gestation)
 	foreach x in 1689-14 1700-38 1709-45 1703-20 1694-3 1685-36 1701-28 ///
 	1700-40 1683-3 1696-13 1686-20 1701-40 1700-27 1696-35 1702-39 1709-0 ///
@@ -120,8 +121,24 @@ set more off
 		}
 			egen ranclast=rowtotal(m3_consultation_* m3_consultation_referral_*)
 		
-		egen totvisref=rowtotal(ranc*)
+		egen totvisref=rowtotal(ranc*) 
+		lab var totvisref "Total number of routine ANC visits or visit for a referal from ANC provider"
+		
 		replace totvisref=totvisref+1
+		
+	* Ever visited hospital during pregnancy (for any reason)
+		recode  facility_type 1/2=1 3/4=0, g(anc1hosp) // had 1st ANC at hospital
+		
+		forval i= 1/8 {
+			recode m2_303a_r`i' (3 7 = 1) (4 5 6 8/11 = 0) , g(vis1hosp_r`i')
+			recode m2_303b_r`i' (3 7 = 1) (4 5 6 8/11 = 0)  , g(vis2hosp_r`i')
+			recode m2_303c_r`i' (3 7 = 1) (4 5 6 8/11 = 0)  , g(vis3hosp_r`i')
+			recode m2_303d_r`i' (3 7 = 1) (4 5 6 8/11 = 0)  , g(vis4hosp_r`i')
+			recode m2_303e_r`i' (3 7 = 1) (4 5 6 8/11 = 0)  , g(vis5hosp_r`i')
+			} 
+		
+		egen anyhosp=rowmax(anc1hosp vis*hosp_r* )
+		lab var anyhosp "Ever visited hospital during pregnancy (for any reason)"
 *-------------------------------------------------------------------------------		
 	* ANC QUALITY MEASURES
 	
@@ -136,6 +153,8 @@ set more off
 			egen anc1_blood=rowmax(m1_706 m1_707)
 			recode m1_713a 2=1 3=0, g(anc1_ifa)
 			recode  m1_713b 2=1 3=0, g(anc1_calcium)
+			egen anc1_refer=rowmax(m1_724c m1_724e) // told to see ob or gyn or hospital for anc
+			
 		
 		* Follow up visits
 			rename (m2_501a_r1 m2_501a_r2 m2_501a_r3 m2_501a_r4 m2_501a_r5 ///
@@ -148,7 +167,8 @@ set more off
 			
 			foreach r in r1 r2 r3 r4 r5 r6 r7 r8 {
 				egen m2_blood_`r'=rowmax(m2_501c_`r' m2_501d_`r')
-				}	
+				egen m2_refer_`r'=rowmax(m2_509a_`r' m2_509b_`r')
+					}	
 				egen m3_blood=rowmax(m3_412c m3_412d)
 				
 			rename (m2_501e_r1 m2_501e_r2 m2_501e_r3 m2_501e_r4 m2_501e_r5 ///
@@ -198,7 +218,10 @@ set more off
 				recode totalurine 1/2=0 3/max=1, gen(urinethree)
 
 			egen all4= rowmin (bpthree wgtthree bloodthree urinethree )
-			
+*-------------------------------------------------------------------------------		
+	* REFERRED AT LEAST ONCE 
+		egen ever_refer=rowmax(anc1_refer m2_refer_r*)
+				
 *-------------------------------------------------------------------------------		
 		* SENSITIVITY ANALYSIS: MINIMUM SET OF ANC ITEMS ADJUSTED FOR THE NB OF VISITS REPORTED
 			
@@ -239,6 +262,7 @@ set more off
 			recode totalblood 4/max=4, g(maxblood4)
 			egen totalus =rowtotal(anc1_ultrasound m2_us_r* m3_us)
 				recode totalus 4/max=4, g(maxus4)
+				recode totalus 1/max=1, g(anyus)
 			egen totaldanger=rowtotal(anc1_dangers m2_danger_r*) 
 				recode totaldanger 4/max=4, g(maxdanger4)
 			egen totalbplan= rowtotal(anc1_bplan m2_bplan_r*)
@@ -405,7 +429,7 @@ set more off
 			lab val anemia anemia
 			
 			* Chronic illnesses
-			replace m1_203_et = 0 if   m1_203_other=="Chgara" ///
+			replace m1_203 = 0 if   m1_203_other=="Chgara" ///
 			| m1_203_other=="Chronic Gastritis" ///
 			| m1_203_other=="Chronic Sinusitis and tonsil" ///
 			| m1_203_other=="Gastritis" | m1_203_other=="Gastro intestinal track"  ///
@@ -414,7 +438,7 @@ set more off
 			m1_203_other=="gastric" | m1_203_other=="gastric ulcer" 
 			
 			egen chronic = rowtotal(m1_202a m1_202b m1_202c m1_202d m1_202e ///
-			m1_202g_et m1_203_et m1_HBP)
+			m1_202g_et m1_203 m1_HBP)
 			lab var chronic "Number of chronic illnesses"
 			
 			* Malnutrition

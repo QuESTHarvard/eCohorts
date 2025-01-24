@@ -4,7 +4,7 @@ set more off
 	global za_data_final "$user/MNH Ecohorts QuEST-shared/Data/South Africa/02 recoded data"
 
 * South Africa
-	u "$za_data_final/eco_m1-m3_za_der.dta", clear
+	u "$za_data_final/eco_ZA_Complete.dta", clear
 	
 	* Restrict dataset to those who were not lost to follow up
 	keep if m3_date!=.
@@ -122,6 +122,20 @@ set more off
 		
 		egen totvisref=rowtotal(ranc*)
 		replace totvisref=totvisref+1
+		
+		* Ever visited hospital during pregnancy (for any reason)
+		
+		forval i= 1/6 {
+			recode m2_303a_r`i' (4 6 = 1) (3 5 7 8 = 0) , g(vis1hosp_r`i')
+			recode m2_303b_r`i' (4 6 = 1) (3 5 7 8 = 0)  , g(vis2hosp_r`i')
+			recode m2_303c_r`i' (4 6 = 1) (3 5 7 8 = 0)  , g(vis3hosp_r`i')
+			recode m2_303d_r`i' (4 6 = 1) (3 5 7 8 = 0)  , g(vis4hosp_r`i')
+			recode m2_303e_r`i' (4 6 = 1) (3 5 7 8 = 0)  , g(vis5hosp_r`i')
+			} 
+		
+		egen anyhosp=rowmax(vis*hosp_r* )
+		lab var anyhosp "Ever visited hospital during pregnancy (for any reason)"
+
 *-------------------------------------------------------------------------------		
 	* TOTAL ANC CONTENT
 		* First visit
@@ -135,6 +149,7 @@ set more off
 			egen anc1_blood=rowmax(m1_706 m1_707)
 			recode m1_713a 2=1 3=0, g(anc1_ifa)
 			recode  m1_713b 2=1 3=0 98=., g(anc1_calcium)
+			egen anc1_refer=rowmax(m1_724c m1_724e) // told to see ob or gyn or hospital for anc
 		
 		* Follow up visits
 			rename (m2_501a_r1 m2_501a_r2 m2_501a_r3 m2_501a_r4 m2_501a_r5 ///
@@ -147,7 +162,8 @@ set more off
 			
 			foreach r in r1 r2 r3 r4 r5 r6  {
 				egen m2_blood_`r'=rowmax(m2_501c_`r' m2_501d_`r')
-				}	
+				egen m2_refer_`r'=rowmax(m2_509a_`r' m2_509b_`r')
+					}	
 				egen m3_blood=rowmax(m3_412c m3_412d)
 				
 			rename (m2_501e_r1 m2_501e_r2 m2_501e_r3 m2_501e_r4 m2_501e_r5 ///
@@ -190,7 +206,10 @@ set more off
 			recode totalurine 1/2=0 3/max=1, gen(urinethree)
 
 		egen all4= rowmin (bpthree wgtthree bloodthree urinethree )
-		
+*-------------------------------------------------------------------------------		
+	* REFERRED AT LEAST ONCE
+		egen ever_refer=rowmax(anc1_refer m2_refer_r*)
+				
 *-------------------------------------------------------------------------------		
 	* TOTAL ANC SCORE
 	
@@ -200,6 +219,7 @@ set more off
 		recode totalblood 4/max=4, g(maxblood4)
 		egen totalus =rowtotal(anc1_ultrasound m2_us_r* m3_us*)
 			recode totalus 4/max=4, g(maxus4)
+			recode totalus 1/max=1, g(anyus)
 		egen totaldanger=rowtotal(anc1_dangers m2_danger_r*) 
 			recode totaldanger 4/max=4, g(maxdanger4)
 		egen totalbplan= rowtotal(anc1_bplan m2_bplan_r*)
@@ -347,6 +367,7 @@ set more off
 *-------------------------------------------------------------------------------		
 	* DEMOGRAPHICS AND RISK FACTORS					
 		* Demographics
+				rename m1_enrollage enrollage
 				recode enrollage (min/19=1 "<20") (20/34=2 "20-34") (35/max=3 "35+"), g(agecat)
 				recode enrollage (min/19=1) (20/max=0), g(age19)
 				recode enrollage (min/34=0) (35/max=1), g(age35)
