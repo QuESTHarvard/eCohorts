@@ -58,29 +58,5 @@
 	save allcountries.dta, replace
 
 
-/*-------------------------------------------------------------------------------
-* FOREST PLOTS 
-gen rr = ln(coeff)
-gen lnlcl= ln(lcl)
-gen lnucl = ln(ucl)	
-
-
-metan rr lnlcl lnucl if outcome=="totvisits", by(country) nosubgroup eform ///
-		nooveral nobox label(namevar=indic) graphregion(color(white)) effect(RR) ///
-		xlabel(0.7, 1.1, 1.5 ) xtick (0.7, 1.1, 1.5) 
-
-metan rr lnlcl lnucl if outcome=="anctotal", by(country) nosubgroup eform ///
-		nooveral nobox label(namevar=indic) graphregion(color(white)) effect(RR) ///
-		xlabel(0.7, 1.1, 1.5 ) xtick (0.7, 1.1, 1.5) 
-
-
-
-
-
-
-
-
-
-
 
 
