@@ -105,7 +105,7 @@ foreach v in m3_503_IN m3_513a_IN m3_512_1_IN m3_513b_IN {
 	rename `v' `=subinstr("`v'","_IN","",.)'
 }
 
-drop *_ZA *_KE *_ET 
+*drop *_ZA *_KE *_ET 
 
 * Add the standardized labels for codebook purposes
 m1_add_shortened_labels
