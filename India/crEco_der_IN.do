@@ -562,22 +562,35 @@
 			replace birth_outcome = 12 if m3_303_b1==1 & m3_303_b2==0 & m3_312_b2 ==0                                   // twin set (1 alive 1 stillbirth)   
 			
 			* manually edited outcome (N=22: pregnancy end date unavaiable, so pregnancy end ga unavailable, N=15: can only use m2 ga to detemrmined. N=7 cannot determine)
-			replace birth_outcome = 6 if (respondentid == "202311201039030209" | respondentid == "202312091319030616" | respondentid == "202312131146030109" | respondentid == "202311181134030509" | respondentid == "202311091213031296" | ///
-										  respondentid == "202311211319030396" | respondentid == "202312131233031106" | respondentid == "202311091209031106" | respondentid == "202311151402030504" | respondentid == "202312221123030504" | ///
+			replace birth_outcome = 6 if (respondentid == "202311201039030209" | respondentid == "202312091319030616" ///
+							| respondentid == "202312131146030109" | respondentid == "202311181134030509" | respondentid == "202311091213031296" | ///
+										  respondentid == "202311211319030396" | respondentid == "202312131233031106" | respondentid == "202311091209031106" | ///
+										  respondentid == "202311151402030504" | respondentid == "202312221123030504" | ///
 										  respondentid == "202312081222030515")  & (m2_202_r1 == 3) & ((((m2_date_r1 - m1_date)/7) + m1_ga) <13)                                          // something happened in M2 round 1, and round 1 ga < 13  
-			replace birth_outcome = 7 if (respondentid == "202311201039030209" | respondentid == "202312091319030616" | respondentid == "202312131146030109" | respondentid == "202311181134030509" | respondentid == "202311091213031296" | ///
-										  respondentid == "202311211319030396" | respondentid == "202312131233031106" | respondentid == "202311091209031106" | respondentid == "202311151402030504" | respondentid == "202312221123030504" | ///
-										  respondentid == "202312081222030515")  & (m2_202_r1 == 3) & ((((m2_date_r1 - m1_date)/7) + m1_ga)>=13 &(((m2_date_r1 - m1_date)/7) + m1_ga)<28) // something happened in M2 round 1, and round 1 ga>= 13 & <28 
-			replace birth_outcome = 7 if respondentid == "202311061043030506" & (m2_202_r2 == 3) & ((((m2_date_r2 - m1_date)/7) + m1_ga)>=13 &(((m2_date_r2 - m1_date)/7) + m1_ga) <28)   // something happened in M2 round 2, and round 2 ga>= 13 & <28 
-			replace birth_outcome = 7 if respondentid == "202312151053013512" & (m2_202_r4 == 3) & ((((m2_date_r4 - m1_date)/7) + m1_ga)>=13 &(((m2_date_r4 - m1_date)/7) + m1_ga) <28)   // something happened in M2 round 4, and round 4 ga>= 13 & <28 
-			replace birth_outcome = 8 if (respondentid == "202311231230022012" | respondentid == "202312061131030596") & (m2_202_r5 == 3) & ((((m2_date_r5 - m1_date)/7) + m1_ga) >=28)   // something happened in M2 round 5, and round 5 ga>=28 
+			replace birth_outcome = 7 if (respondentid == "202311201039030209" | respondentid == "202312091319030616" | respondentid == "202312131146030109" | ///
+										respondentid == "202311181134030509" | respondentid == "202311091213031296" | ///
+										  respondentid == "202311211319030396" | respondentid == "202312131233031106" | ///
+										  respondentid == "202311091209031106" | respondentid == "202311151402030504" | respondentid == "202312221123030504" | ///
+										  respondentid == "202312081222030515")  & (m2_202_r1 == 3) & ///
+												((((m2_date_r1 - m1_date)/7) + m1_ga)>=13 &(((m2_date_r1 - m1_date)/7) + m1_ga)<28) 
+												// something happened in M2 round 1, and round 1 ga>= 13 & <28 
+			replace birth_outcome = 7 if respondentid == "202311061043030506" & (m2_202_r2 == 3) & ///
+					((((m2_date_r2 - m1_date)/7) + m1_ga)>=13 &(((m2_date_r2 - m1_date)/7) + m1_ga) <28)   // something happened in M2 round 2, and round 2 ga>= 13 & <28 
+			replace birth_outcome = 7 if respondentid == "202312151053013512" & (m2_202_r4 == 3) & ///
+					((((m2_date_r4 - m1_date)/7) + m1_ga)>=13 &(((m2_date_r4 - m1_date)/7) + m1_ga) <28)   // something happened in M2 round 4, and round 4 ga>= 13 & <28 
+			replace birth_outcome = 8 if (respondentid == "202311231230022012" | respondentid == "202312061131030596") ///
+					& (m2_202_r5 == 3) & ((((m2_date_r5 - m1_date)/7) + m1_ga) >=28)   // something happened in M2 round 5, and round 5 ga>=28 
 			
+			replace birth_outcome = 8 if respondentid=="202311271107030596" | respondentid=="202312061131030596" | respondentid=="202312181141013910" 
+									// from Subhojit email 03/17/2025 CA
 			* Label birth_outcome 		   
-			label define birth_outcome  1 "LTFU after M1" 2 "LTFU after M2" 3 "LB singleton" 4 "LB twin" 5 "LB triplet" 6 "early miscarriage" 7 "late miscarraige" 8 "stillbirth" /// 
-										9 "neonatal death" 10 "infant death" 11 "twin 1 alive 1 neonatal death" 12 "twin 1 alive 1 stillbirth" 13 "twin both neonatal death"  			   							   
+			label define birth_outcome  1 "LTFU after M1" 2 "LTFU after M2" 3 "LB singleton" 4 "LB twin" 5 "LB triplet" ///
+										6 "early miscarriage" 7 "late miscarraige" 8 "stillbirth" /// 
+										9 "neonatal death" 10 "infant death" 11 "twin 1 alive 1 neonatal death" ///
+										12 "twin 1 alive 1 stillbirth" 13 "twin both neonatal death"  			   							   
 			label values birth_outcome birth_outcome
 			lab var birth_outcome "Birth outcome at M3"
-			tab birth_outcome, missing // 7 missingness now 
+			tab birth_outcome, missing // 7 missingness now, 5 missingness?
 
 		* 3. Create M3_maternal_outcome 
 			gen M3_maternal_outcome = .  
@@ -586,11 +599,14 @@
 			
 			replace M3_maternal_outcome = 1 if birth_outcome == 1 
 			replace M3_maternal_outcome = 2 if birth_outcome == 2 
-			replace M3_maternal_outcome = 4 if birth_outcome == 3 | birth_outcome == 4 | birth_outcome == 5 | birth_outcome == 6 | birth_outcome == 7 | birth_outcome == 8 | ///
-											   birth_outcome == 9 | birth_outcome == 10 | birth_outcome == 11 |  birth_outcome == 12 | birth_outcome == 13     
-			replace M3_maternal_outcome = 3 if (m2_maternal_death_reported_r1==1 | m2_maternal_death_reported_r2==1 | m2_maternal_death_reported_r3==1 | m2_maternal_death_reported_r4==1 | m2_maternal_death_reported_r5==1 | ///
-												m2_maternal_death_reported_r6==1 | m2_maternal_death_reported_r7==1 | m2_maternal_death_reported_r8==1 | m2_maternal_death_reported_r9==1 | m2_maternal_death_reported_r10==1 ) 
-
+			replace M3_maternal_outcome = 4 if birth_outcome == 3 | birth_outcome == 4 | birth_outcome == 5 | ///
+											   birth_outcome == 6 | birth_outcome == 7 | birth_outcome == 8 | ///
+											   birth_outcome == 9 | birth_outcome == 10 | birth_outcome == 11 | ///
+											   birth_outcome == 12 | birth_outcome == 13     
+			replace M3_maternal_outcome = 3 if (m2_maternal_death_reported_r1==1 | m2_maternal_death_reported_r2==1 ///
+											| m2_maternal_death_reported_r3==1 | m2_maternal_death_reported_r4==1 | m2_maternal_death_reported_r5==1 | ///
+												m2_maternal_death_reported_r6==1 | m2_maternal_death_reported_r7==1 ///
+												| m2_maternal_death_reported_r8==1 | m2_maternal_death_reported_r9==1 | m2_maternal_death_reported_r10==1 ) 
 			*Label M3_maternal_outcome 
 			label define m3_maternal_outcome  1 "LTFU after M1" 2 "LTFU after M2" 3 "Maternal death" 4 "Maternal alive"
 			label values M3_maternal_outcome m3_maternal_outcome  
