@@ -26,7 +26,7 @@ do "${github}/India/crEco_cln_IN_M3.do"
 
 
 * Clean Module 4
-
+*do "${github}/India/crEco_cln_IN_M4.do"
 
 * Clean Module 5
 
