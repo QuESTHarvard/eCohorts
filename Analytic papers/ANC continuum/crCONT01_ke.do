@@ -205,6 +205,51 @@ set more off
 			recode totalurine 1/2=0 3/max=1, gen(urinethree)
 		
 		egen all4= rowmin (bpthree wgtthree bloodthree urinethree  )
+		
+*-------------------------------------------------------------------------------
+		* Optimal ANC
+			recode totalbp 1/max=1, g(bp1)
+			recode totalbp 1=0 2/max=1, g(bp2)
+			recode totalbp 1/2=0 3/max=1, g(bp3)
+			
+			recode totalweight 1/max=1, g(wgt1)
+			recode totalweight 1=0 2/max=1, g(wgt2)
+			recode totalweight 1/2=0 3/max=1, g(wgt3)
+			
+			recode totalblood 1/max=1, g(blood1)
+			recode totalblood 1=0 2/max=1, g(blood2)
+			recode totalblood 1/2=0 3/max=1, g(blood3)
+			
+			recode totalurine 1/max=1, g(urine1)
+			recode totalurine 1=0 2/max=1, g(urine2)
+			recode totalurine 1/2=0 3/max=1, g(urine3)
+			
+			egen totalifa=rowtotal(anc1_ifa m2_ifa_r*)
+			recode totalifa 1/max=1, g(ifa1)
+			recode totalifa 1=0 2/max=1, g(ifa2)
+			
+			egen atleast1ultra =rowmax(anc1_ultrasound m2_us_r* m3_us*)
+			egen atleast1danger =rowmax(anc1_danger m2_danger_r* )
+			egen atleast1bplan=rowmax(anc1_bplan m2_bplan_r*)
+			
+			egen optanc_1st =rowmin(bp3 wgt3 blood3 urine3 atleast1ultra ///
+					atleast1danger atleast1bplan ifa2) if bsltrimester==1
+			egen optanc_2nd=rowmin(bp2 wgt2 blood2 urine2 atleast1ultra ///
+					atleast1danger atleast1bplan ifa1) if bsltrimester==2
+			egen optanc_3rd=rowmin(bp1 wgt1 blood1 urine1 atleast1ultra ///
+					atleast1danger atleast1bplan) if bsltrimester==3
+			
+			egen optanc= rowmax(optanc*)
+		
+		* Minimally adequate ANC
+			egen maanc_1st =rowmin(bp1 wgt1 blood1 urine1 atleast1ultra ///
+					atleast1danger ifa1) if bsltrimester==1
+			egen maanc_2nd =rowmin(bp1 wgt1 blood1 urine1 atleast1ultra ///
+					atleast1danger  ifa1) if bsltrimester==2		
+			egen maanc_3rd =rowmin(bp1 wgt1 blood1 urine1 atleast1ultra ///
+					atleast1danger  )	if bsltrimester==3
+					
+			egen maanc= rowmax(maanc*)
 *-------------------------------------------------------------------------------		
 	* REFERRED AT LEAST ONCE
 		egen ever_refer=rowmax(anc1_refer m2_refer_r*)
@@ -223,7 +268,6 @@ set more off
 			recode totaldanger 4/max=4, g(maxdanger4)
 		egen totalbplan= rowtotal(anc1_bplan m2_bplan_r*)
 			recode totalbplan 4/max=4, g(maxbplan4)
-		egen totalifa = rowtotal(anc1_ifa m2_ifa_r*)
 			recode totalifa 4/max=4, g(maxifa4)
 		egen totalcalcium = rowtotal(anc1_calcium m2_calcium_r*)
 			recode totalcalcium 4/max=4, g(maxcalc4)

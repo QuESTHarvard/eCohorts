@@ -6,18 +6,18 @@
 		u ETtmp.dta, clear
 				recode job 3/4=2, g(jobet) // employed vs. homemaker, student, unemployed
 			
-				reg anctotal i.educ_cat healthlit_corr i.tertile i.jobet ///
+				logistic maanc i.educ_cat healthlit_corr i.tertile i.jobet ///
 					married  i.factype preg_intent i.danger i.riskcat  i.site ///
-					if totalfu>3, vce(robust)		
-				
+					if anygap!=1 , vce(robust)	
+					
 	* Kenya
 		u KEtmp.dta, clear
 				recode job 3/4=3, g(jobke) // 1. employed, 2. homemaker 3. student or unemployed 
 				recode educ_cat 2=1 3=2 4=3 // 1. No educ, primary 2. complete secondary 3. higher educ
 				
-				reg anctotal i.educ_cat healthlit_corr i.tertile i.jobke ///
+				logistic maanc i.educ_cat healthlit_corr i.tertile i.jobke ///
 					married  i.factype preg_intent i.danger i.riskcat  i.study_site ///
-					if totalfu>3, vce(robust)	
+					if anygap!=1, vce(robust)	
 					
 	* India
 		u INtmp.dta, clear
@@ -28,7 +28,7 @@
 				
 				reg anctotal i.educ_cat healthlit_corr i.tertile  ///
 					  i.factype preg_intent i.danger i.riskcat  i.urban ///
-					if totalfu>3, vce(robust)
+					if anygap!=1, vce(robust)
 					
 	* South Africa
 		u ZAtmp.dta, clear
@@ -36,7 +36,7 @@
 				
 				reg anctotal i.educ_cat healthlit_corr i.tertile i.jobza ///
 					marriedp  preg_intent i.danger i.riskcat  i.study_site ///
-					if totalfu>3, vce(robust)
+					if anygap!=1, vce(robust)
 		
 /*-------------------------------------------------------------------------------
 	* REGRESSIONS: CONTENT OF CARE
