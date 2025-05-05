@@ -308,6 +308,9 @@ set more off
 			egen anctotal=rowtotal(maxbp4 maxwgt4 anc1_bmi anc1_muac maxurine4 maxblood4 ///
 						maxus4 anc1_anxi anc1_lmp anc1_nutri anc1_exer maxdanger4 anc1_edd ///
 						maxbplan4 maxifa4 maxcalc4 deworm)
+						
+			egen tertqual=cut(anctotal), group(3)
+
 *-------------------------------------------------------------------------------		
 		* TIMELY ANC
 		cd "$user/MNH E-Cohorts-internal/Analyses/Manuscripts/Paper 5 Continuum ANC/Data/"

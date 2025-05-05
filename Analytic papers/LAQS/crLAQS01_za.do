@@ -3,6 +3,9 @@
 	
 	* Restrict dataset to those who were not lost to follow up
 	keep if m3_date!=.
+
+	drop if m1_date==. // 3 women cannot be linked with M1 data.
+	
 *-------------------------------------------------------------------------------		
 	* Time between follow-up surveys
 		gen time_m2_r1_m1= (m2_date_r1-m1_date)/7 // time in weeks bw 1st m2 and m1
@@ -225,17 +228,119 @@ drop if anygap==1
 			egen laqsbpp=rowmax(m1_809 m2_506b_r*)
 		* Pregnancy complications	
 			egen laqscomplic=rowmax(m1_716e m2_506a_r*)
-		* Newborn care
-			egen laqsnbc=rowmax(m2_506c_r*)
-
+	
 	* At least once in pregnancy given or prescribed IFA
+		recode m1_713a 1/2=1 3=0
 		egen laqsifa=rowmax(m1_713a m2_601a_r*)
 		
 		
 	egen totlaqs=rowmin(laqs*) // all items yes/no
+	egen totlaqsnous=rowmin(laqsblood laqsurine laqsweight laqsbp laqsnutri ///
+							laqsbpp laqscomplic laqsifa)
 	
 	egen meanlaqs=rowmean(laqs*)
+	egen meanlaqsnous=rowmean(laqsblood laqsurine laqsweight laqsbp laqsnutri ///
+								laqsbpp laqscomplic laqsifa)
+	
+	tab1 totlaqs totlaqsnous
+	
+	tabstat meanlaqs meanlaqsnous , stat(mean sd count ) col(stat)
+	
+	tabstat laqs* , stat(sum mean count) col(stat)
+	egen tertlaqs = cut(meanlaqsnous), group(3)
+	
+	* problem: a lot of women with pregnancy losses did not answer the delivery questions!
+	
+	* Self reported health shortly after delivery
+	egen countsr2=rownonmiss(m2_201_r*)
+		gen srh= m2_201_r1 if countsr2==1
+		replace srh= m2_201_r2 if countsr2==2
+		replace srh= m2_201_r3 if countsr2==3
+		replace srh= m2_201_r4 if countsr2==4
+		replace srh= m2_201_r5 if countsr2==5
+		replace srh= m2_201_r6 if countsr2==6
+		
+		recode srh 1/3=0 4/5=1, g(poorh)
+	recode m3_707 0/120=0 144/max=1, g(ext)
+	egen dcomplic=rowmax(m3_706 m3_705 ext ) // ICU, blood transfusion
+	replace dcomplic=0 if dcomplic>=. // will include those delivering at home
 	
 	
-				
+	logistic poorh i.tertqual i.educ i.tertile i.age35 i.riskcat i.bsltrimester 
+	
+	logistic dcomplic i.tertqual i.educ i.tertile i.age35 i.riskcat  i.bsltrimester if anygap!=1
+	
+	
+	
+	
+	
+	
+	
+	
+	
+/* DEMOGRAPHICS AND RISK FACTORS					
+		* Demographics
+				rename m1_enrollage enrollage
+				recode enrollage (min/19=1 "<20") (20/34=2 "20-34") (35/max=3 "35+"), g(agecat)
+				recode enrollage (min/19=1) (20/max=0), g(age19)
+				recode enrollage (min/34=0) (35/max=1), g(age35)
+				recode educ_cat 2=1 3=2 4=3
+				lab def edu 1 "Primary only" 2 "Complete Secondary" 3"Higher education"
+				lab val educ_cat edu
+				// tertile  marriedp 
+				gen healthlit_corr=health_lit==4
+				recode m1_506 1/5=1 6=2  7=3 8/9=1 10=4 96=1,g(job)
+				lab def job 1"Employed" 2"Homemaker" 3"Student" 4"Unemployed"
+					lab val job job 
+				g second= educ_cat>=2 & educ_cat<.
+			* Experienced danger signs in pregnancy
+			egen danger=rowmax(m1_814b m1_814c m1_814f m1_814g m2_203b_r* ///
+				m2_203c_r* m2_203f_r* m2_203g_r*) 
+				// vaginal bleeding, fever, convulsions, seizures, fainting or LOC
+		*Risk factors
+			* Anemia
+				recode Hb 0/10.99999=1 11/30=0, gen(anemia)
+				lab val anemia anemia
+			* Chronic illnesses
+				egen diab=rowmax(m1_202a m1_202a_2_za)
+				egen hbp=rowmax(m1_202b m1_202b_2_za)
+				egen cardiac=rowmax(m1_202c m1_202c_2_za)
+				egen mh=rowmax(m1_202d m1_202d_2_za)
+				egen hiv=rowmax(m1_202e m1_202e_2_za)
+				encode m1_203, g(prob1) 
+					recode prob1 ( 1/4 14/17 20 24 27=0 "No") (5/13 18/19 21/23 25/26 =1 "Yes"), g(p1)
+				encode m1_203_2_za, g(prob2) 
+					recode prob2 (1 5/7 =0 "No") (2/4 =1 "Yes") , g(p2)
+				egen chronic= rowtotal(diab hbp cardiac mh hiv p1 p2 HBP)  
+				egen chronic_nohiv = rowtotal(diab hbp cardiac mh p1 p2 HBP)  
+			* Underweight/overweight
+			rename low_BMI malnut
+			
+			* Obstetric risk factors
+			gen multiple= m1_805 >1 &  m1_805<.
+			gen cesa= m1_1007==1
+			
+			gen neodeath = m1_1010 ==1
+			gen preterm = m1_1005 ==1
+			gen PPH=m1_1006==1
+			egen complic = rowmax(stillbirth neodeath preterm PPH cesa)	
+			
+			egen riskcat=rowtotal(anemia chronic malnut complic age19 age35)
+			recode riskcat 3/max=2 
+			lab def riskcat 0"No risk factor" 1"One risk factor" 2"Two or more risk factors" 
+			lab val riskcat riskcat
+			
+			egen riskcat2=rowtotal(anemia chronic malnut complic age19 age35)
+			recode riskcat2 3/max=3
+			
+			recode m3_baby1_710 95=.
+			
+egen dcomplic=rowmax(m3_706 m3_705 m3_baby1_710 m3_baby2_710 m3_baby3_710 )	
+egen dangerm1=rowmax(m1_814a m1_814b m1_814c m1_814d m1_814e m1_814f m1_814g)
+
+egen tertlaqs=cut(meanlaqsnous), group(3)
+
+recode riskcat2 0=1
+
+logistic dcomplic i.tertlaq i.educ_cat i.tertile  i.dangerm1 i.riskcat2
 		

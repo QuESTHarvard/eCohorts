@@ -43,6 +43,32 @@
 					lab val bsltrimester trim
 					lab val m2_trimes_r* trim
 					lab var bsltrimester "Trimester at ANC initiation/enrollment"	
+*-------------------------------------------------------------------------------		
+	* Total number of ROUTINE ANC visits
+		egen totvisits=rowtotal(m2_305_r* m2_308_r* m2_311_r* m2_314_r* m2_317_r* ///
+							m3_403 m3_406 m3_409)
+		replace totvisits = totvisits + 1 
+		recode totvisit 3=2 4/7=3 8/max=4 , gen(viscat)
+			lab def totvis 1"Only 1 visit" 2"2-3 visits" 3"4-7 visits" 4"8+ visits"
+			lab val viscat totvis 
+			lab var totvisits "Total routine ANC visits"
+			lab var viscat "Total number of routine ANC visits (categories)"
+			graph pie, over(viscat) plabel(_all percent, format(%9.2g)) legend(off)
+
+		* Number of routine ANC or ANC referral visits  at each follow-up call
+		forval i= 1/10 {
+			egen ranc`i'=rowtotal(m2_305_r`i' m2_306_r`i' m2_308_r`i' m2_309_r`i' ///
+					m2_311_r`i' m2_312_r`i' m2_314_r`i' m2_315_r`i'  ///
+					m2_317_r`i' m2_318_r`i' ), m
+		}
+			egen ranclast=rowtotal(m3_403 m3_404 m3_406 m3_407 m3_409 m3_410)
+		
+		egen totvisref=rowtotal(ranc*)
+		replace totvisref=totvisref+1
+		recode totvisref 3=2 4/7=3 8/max=4 , gen(viscatref)
+		lab val viscatref totvis 
+		lab var viscatref "Total number of routine ANC visits (categories)"
+		graph pie, over(viscatref) plabel(_all percent, format(%9.2g)) legend(off)
 *-------------------------------------------------------------------------------
 	* VISIT CASCADE
 *-------------------------------------------------------------------------------	
@@ -81,7 +107,8 @@
 		gen timelyvisit= totalvisit /trimenrolled
 		recode timelyvisit 0/0.99=0 
 		lab var timelyvisit "Had at least one ANC visit each trimester enrolled in care" //
-
+		drop trimenrolled
+		
 		tabstat firstvisit secvisit thirdvisit , stat(mean count) col(stat)
 				
 *-------------------------------------------------------------------------------
@@ -179,7 +206,7 @@
 		gen timelyweight= totalweight /trimenrolled
 		recode timelyweight 0/0.99=0 
 		lab var timelyweight "Had weight measured each trimester enrolled in care" //
-		
+		drop trimenrolled
 		tabstat firstweight secweight thirdweight, stat(mean count) col(stat)
 
 		tab1 timelyweight if low_BMI ==1 
@@ -188,3 +215,118 @@
 		egen foodsupp=rowmax(anc1food_supp m2_601d_r*)
 		
 		ta foodsupp if low_BMI ==1
+		
+*-------------------------------------------------------------------------------
+	* URINE
+*-------------------------------------------------------------------------------					
+	* Proportion of women who got at least one urine test per trimester enrolled in ANC
+		gen firsturine= anc1urine if bsltrimester==1
+		forval i=1/8 {
+			replace firsturine = 1 if m2_501e_r`i'==1 & m2_trimes_r`i'==1
+		}
+		replace firsturine = 1 if m3_412_e==1 & endtrime==1
+		lab var firsturine "Had a urine test in 1st trimester if enrolled in ANC"
+		
+		gen securine= anc1urine if bsltrimester==2 
+		forval i=1/8 {
+			replace securine = 1 if m2_501e_r`i'==1 & m2_trimes_r`i'==2
+		}
+		replace securine = 1 if m3_412_e==1 & endtrime==2
+		replace securine = 0 if securine==. & (bsltrimester ==1 | bsltrimester ==2)
+		lab var securine "Had a urine test in 2nd trimester if enrolled in ANC"
+
+		gen thirdurine= anc1urine if bsltrimester==3
+		forval i=1/8 {
+			replace thirdurine = 1 if m2_501e_r`i'==1 & m2_trimes_r`i'==3
+		}
+		replace thirdurine = 1 if m3_412_e==1 & endtrime==3
+		replace thirdurine = 0 if thirdurine==. & endtrime==3
+		lab var thirdurine "Had a urine test in 3rd trimester if enrolled in ANC"
+
+		egen trimenrolled=rownonmiss(firsturine securine thirdurine)
+		egen totalurine=rowtotal(firsturine securine thirdurine)
+		gen timelyurine= totalurine /trimenrolled
+		recode timelyurine 0/0.99=0 
+		lab var timelyurine "Had a urine test each trimester enrolled in care" //
+		drop trimenrolled
+		
+		tabstat firsturine securine thirdurine, stat(mean count) col(stat)
+		
+*-------------------------------------------------------------------------------
+	* ULTRASOUND
+*-------------------------------------------------------------------------------					
+	* Proportion of women who got at least one ultrasound per trimester enrolled in ANC
+		gen firstus= anc1ultra if bsltrimester==1
+		forval i=1/8 {
+			replace firstus = 1 if m2_501f_r`i'==1 & m2_trimes_r`i'==1
+		}
+		replace firstus = 1 if m3_412_f==1 & endtrime==1
+		lab var firstus "Had an ultrasound in 1st trimester if enrolled in ANC"
+		
+		gen secus= anc1ultra if bsltrimester==2 
+		forval i=1/8 {
+			replace secus = 1 if m2_501f_r`i'==1 & m2_trimes_r`i'==2
+		}
+		replace secus = 1 if m3_412_f==1 & endtrime==2
+		replace secus = 0 if secus==. & (bsltrimester ==1 | bsltrimester ==2)
+		lab var secus "Had an ultrasound in 2nd trimester if enrolled in ANC"
+
+		gen thirdus= anc1ultra if bsltrimester==3
+		forval i=1/8 {
+			replace thirdus = 1 if m2_501f_r`i'==1 & m2_trimes_r`i'==3
+		}
+		replace thirdus = 1 if m3_412_f==1 & endtrime==3
+		replace thirdus = 0 if thirdus==. & endtrime==3
+		lab var thirdus "Had an ultrasound in 3rd trimester if enrolled in ANC"
+
+		tabstat firstus secus thirdus, stat(mean count) col(stat)
+*-------------------------------------------------------------------------------
+	* LINE GRAPH QUALITY BY GA
+*-------------------------------------------------------------------------------		
+	egen qual0=rowmean(m1_700 m1_701 m1_705 anc1_blood m1_716e) // bp weight urine blood complic
+	forval i=1/8 {
+		egen qual`i'=rowmean(m2_501a_r`i' m2_501b_r`i'  ///
+							m2_blood_r`i' m2_501e_r`i' m2_506a_r`i')
+	}
+preserve	
+	keep  respondentid bslga m2_ga_r* qual* 
+	rename (bslga ) (m2_ga_r0 )
+	
+	reshape long m2_ga_r qual, i(respondentid) j(round)
+	
+	gen rga = round(m2_ga_r, 1.0)
+	
+	collapse (mean) qual, by(rga)
+	drop if rga>=42
+	drop if rga<7
+
+	twoway  (lpolyci qual rga) (scatter qual rga), ///
+	ylabel(0(.2)1) xlabel(6(4)40) xtitle("Gestational age in weeks") ///
+	ytitle("ANC visit quality") legend(off) scheme(white_tableau)
+	
+restore	
+
+
+*-------------------------------------------------------------------------------
+	* DELIVERY CARE
+*-------------------------------------------------------------------------------		
+	egen bcomplic2=rowmax(m3_704*)	
+	gen severep= m3_703==1
+	
+	egen checkHIV=rowmax(m3_601a  m3_602a) // Ask about HIV status or check maternal health record
+	tab  m3_601b // Takes blood pressure
+	tab m3_601c // Explains what will happen during labor
+	tab m3_603c // Had needle inserted in arm with drip
+	gen injectb= m3_608 if m3_605a!=1 // Received an injection or pill to stop bleeding after delivery (only if no c-section)
+	tab  m3_609 // Dry the baby with a towel and
+	gen skin=  m3_610a 
+	replace skin =0 if  m3_610b==0 // Places newborn on mother's abdomen skin-to-skin
+	tab  m3_611 // Assists mother to initiate breastfeeding 
+
+	egen intraqual= rowmean(checkHIV m3_601b m3_601c m3_603c injectb m3_609 skin m3_611)
+	replace intraqual=. if m3_501==0 | m3_501==.
+preserve
+	keep country  intraqual severep
+	append using temp.dta, force
+	save temp.dta, replace
+restore

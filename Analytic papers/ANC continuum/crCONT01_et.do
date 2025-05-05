@@ -339,6 +339,8 @@ set more off
 			egen anctotal=rowtotal(maxbp4 maxwgt4 anc1_bmi anc1_muac maxurine4 maxblood4 ///
 						maxus4 anc1_anxi anc1_lmp anc1_nutri anc1_exer maxdanger4 anc1_edd ///
 						maxbplan4 maxifa4 maxcalc4 deworm)
+						
+			egen tertqual=cut(anctotal), group(3)
 *-------------------------------------------------------------------------------		
 		* TIMELY ANC
 		cd "$user/MNH E-Cohorts-internal/Analyses/Manuscripts/Paper 5 Continuum ANC/Data/"
@@ -514,7 +516,7 @@ set more off
 			gen preterm = m1_1005 ==1
 			gen PPH=m1_1006==1
 			rename m1_1004 late_misc
-			egen complic = rowtotal(cesa stillbirth preterm neodeath PPH late_misc)
+			egen complicx = rowtotal(cesa stillbirth preterm neodeath PPH late_misc)
 
 			egen riskcat=rowtotal(anemia chronic malnut complic age19 age35 )
 			recode riskcat 3/max=2 

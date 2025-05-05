@@ -3,7 +3,7 @@
 	
 	* Restrict dataset to those who were not lost to follow up
 	keep if m3_date!=. // 107 deleted
-	
+
 *-------------------------------------------------------------------------------	
 	* RECALCULATING BASELINE GA and RUNNING GA
 	* Baseline GA
@@ -42,7 +42,7 @@
 					lab val bsltrimester trim
 					lab val m2_trimes_r* trim
 					lab var bsltrimester "Trimester at ANC initiation/enrollment"		
-drop if bslga>=.
+*drop if bslga>=.
 *-------------------------------------------------------------------------------
 	* Number of routine ANC or ANC referral visits  at each follow-up call
 		forval i= 1/8 {
@@ -59,7 +59,7 @@ drop if bslga>=.
 		lab var viscatref "Total number of routine ANC visits (categories)"
 		
 *-------------------------------------------------------------------------------
-* LAQS
+* TIMELY CARE
 *-------------------------------------------------------------------------------
 * BLOOD
 		egen anc1_blood=rowmax(m1_706 m1_707)
@@ -194,23 +194,78 @@ drop if bslga>=.
 			egen laqsbpp=rowmax(m1_809 m2_506b_r*)
 		* Pregnancy complications	
 			egen laqscomplic=rowmax(m1_716e m2_506a_r*)
-		* Newborn care
-			egen laqsnbc=rowmax(m2_506c_r*)
-
+			
 * At least once in pregnancy given or prescribed IFA
+		recode m1_713a 1/2=1 3=0
 		egen laqsifa=rowmax(m1_713a m2_601a_r*)
 		
-		
 	egen totlaqs=rowmin(laqs*) // all items yes/no
+	egen totlaqsnous=rowmin(laqsblood laqsurine laqsweight laqsbp laqsnutri ///
+							laqsbpp laqscomplic laqsifa)
 	
 	egen meanlaqs=rowmean(laqs*)
+	egen meanlaqsnous=rowmean(laqsblood laqsurine laqsweight laqsbp laqsnutri ///
+								laqsbpp laqscomplic laqsifa)
+	
+	tab1 totlaqs totlaqsnous
+	
+	tabstat meanlaqs meanlaqsnous , stat(mean sd count ) col(stat)
+	
+	tabstat laqs* , stat(sum mean count) col(stat)
+	
+	egen tertlaqs = cut(meanlaqsnous), group(3)
+
+*-------------------------------------------------------------------------------		
+	* TOTAL ANC SCORE
+	
+		recode totalbp 4/max=4, g(maxbp4)
+		recode totalweight 4/max=4, g(maxwgt4)
+		recode totalurine 4/max=4, g(maxurine4)
+		recode totalblood 4/max=4, g(maxblood4)
+		egen totalus =rowtotal(anc1_ultrasound m2_us_r* m3_us*)
+			recode totalus 4/max=4, g(maxus4)
+			recode totalus 1/max=1, g(anyus)
+		egen totaldanger=rowtotal(anc1_dangers m2_danger_r*) 
+			recode totaldanger 4/max=4, g(maxdanger4)
+		egen totalbplan= rowtotal(anc1_bplan m2_bplan_r*)
+			recode totalbplan 4/max=4, g(maxbplan4)
+			recode totalifa 4/max=4, g(maxifa4)
+		egen totalcalcium = rowtotal(anc1_calcium m2_calcium_r*)
+			recode totalcalcium 4/max=4, g(maxcalc4)
+		egen deworm=rowmax(anc1deworm m2_601e_r*)
+		
+		egen anctotal=rowtotal(maxbp4 maxwgt4 anc1_bmi anc1_muac maxurine4 maxblood4 ///
+					maxus4 anc1_anxi anc1_lmp anc1_nutri anc1_exer maxdanger4 anc1_edd ///
+					maxbplan4 maxifa4 maxcalc4 deworm)	
+					
+					
+
+*-------------------------------------------------------------------------------
+* DELIVERY COMPLICATIONS
+*-------------------------------------------------------------------------------
+	* problem: a lot of women with pregnancy losses did not answer the delivery questions!
+	
+	* Self reported health shortly after delivery
+	egen countm2=rownonmiss(m2_201_r*)
+		gen srh= m2_201_r1 if countm2==1
+		replace srh= m2_201_r2 if countm2==2
+		replace srh= m2_201_r3 if countm2==3
+		replace srh= m2_201_r4 if countm2==4
+		replace srh= m2_201_r5 if countm2==5
+		replace srh= m2_201_r6 if countm2==6
+		replace srh= m2_201_r7 if countm2==7
+		replace srh= m2_201_r8 if countm2==8
+		
+		recode srh 1/3=0 4/5=1, g(poorh)
+	gen ext = m3_707_ke_unit==1
+	replace ext = 1 if  m3_707_ke>=6 & m3_707_ke_unit==2
+
+
+	egen dcomplic=rowmax(m3_706 m3_705  ext) // ICU, blood transfusion
+	replace dcomplic=0 if dcomplic>=. // will include those delivering at home
 	
 	
-		
-		
-		
-		
-		
-		
-		
-		
+	logistic poorh i.tertqual i.educ i.tertile i.age35 i.riskcat  i.bsltrimester
+	logistic dcomplic i.tertqual i.educ i.tertile i.age35 i.riskcat  i.bsltrimester
+	
+	

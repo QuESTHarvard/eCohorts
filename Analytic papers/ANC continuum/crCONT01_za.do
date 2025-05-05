@@ -427,7 +427,8 @@ set more off
 				replace tm2_us_r`i'=. if m2_ga_r`i'>24 & m2_ga_r`i'<.
 			}
 			egen timelyus=rowmax(tanc1_ultrasound tm2_us_r*)
-	
+
+
 *-------------------------------------------------------------------------------		
 	* DEMOGRAPHICS AND RISK FACTORS					
 		* Demographics

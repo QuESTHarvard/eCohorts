@@ -188,16 +188,52 @@ drop if bslga>=.
 			egen laqsbpp=rowmax(m1_809 m2_506b_r*)
 		* Pregnancy complications	
 			egen laqscomplic=rowmax(m1_716e m2_506a_r*)
-		* Newborn care
-			egen laqsnbc=rowmax(m2_506c_r*)
 
 	* At least once in pregnancy given or prescribed IFA
+		recode m1_713a 1/2=1 3=0
 		egen laqsifa=rowmax(m1_713a m2_601a_r*)
 		
 		
 	egen totlaqs=rowmin(laqs*) // all items yes/no
+	egen totlaqsnous=rowmin(laqsblood laqsurine laqsweight laqsbp laqsnutri ///
+							laqsbpp laqscomplic laqsifa)
 	
 	egen meanlaqs=rowmean(laqs*)
+	egen meanlaqsnous=rowmean(laqsblood laqsurine laqsweight laqsbp laqsnutri ///
+								laqsbpp laqscomplic laqsifa)
 	
+	tab1 totlaqs totlaqsnous
 	
+	tabstat meanlaqs meanlaqsnous , stat(mean sd count ) col(stat)
+	
+	tabstat laqs* , stat(sum mean count) col(stat)
+	egen tertlaqs = cut(meanlaqsnous), group(3)
+
+*-------------------------------------------------------------------------------
+* DELIVERY COMPLICATIONS
+*-------------------------------------------------------------------------------
+	* problem: a lot of women with pregnancy losses did not answer the delivery questions!
+	
+	* Self reported health shortly after delivery
+	egen countsr2=rownonmiss(m2_201_r*)
+		gen srh= m2_201_r1 if countsr2==1
+		replace srh= m2_201_r2 if countsr2==2
+		replace srh= m2_201_r3 if countsr2==3
+		replace srh= m2_201_r4 if countsr2==4
+		replace srh= m2_201_r5 if countsr2==5
+		replace srh= m2_201_r6 if countsr2==6
+		replace srh= m2_201_r7 if countsr2==7
+		replace srh= m2_201_r8 if countsr2==8
 		
+		recode srh 1/3=0 4/5=1, g(poorh)
+	
+	recode  m3_707_days 0/5=0 6/max=1, g(ext)
+	replace ext=1 if m3_707_weeks>=1 & m3_707_weeks<=8
+	
+	egen dcomplic=rowmax(m3_706 m3_705 ext ) // ICU, blood transfusion
+	replace dcomplic=0 if dcomplic>=. // will include those delivering at home
+	
+	
+	logistic poorh i.tertqual i.educ i.tertile i.age35 i.riskcat  i.bsltrimester
+	
+	logistic dcomplic i.tertqual i.educ i.tertile i.age35 i.riskcat i.bsltrimester

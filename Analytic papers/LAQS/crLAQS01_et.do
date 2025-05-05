@@ -194,16 +194,204 @@ drop if bslga>=.
 			egen laqsbpp=rowmax(m1_809 m2_506b_r*)
 		* Pregnancy complications	
 			egen laqscomplic=rowmax(m1_716e m2_506a_r*)
-		* Newborn care
-			egen laqsnbc=rowmax(m2_506c_r*)
 
 	* At least once in pregnancy given or prescribed IFA
+		recode m1_713a 1/2=1 3=0
 		egen laqsifa=rowmax(m1_713a m2_601a_r*)
 		
 		
 	egen totlaqs=rowmin(laqs*) // all items yes/no
+	egen totlaqsnous=rowmin(laqsblood laqsurine laqsweight laqsbp laqsnutri ///
+							laqsbpp laqscomplic  laqsifa)
 	
 	egen meanlaqs=rowmean(laqs*)
-	
-	
+	egen meanlaqsnous=rowmean(laqsblood laqsurine laqsweight laqsbp laqsnutri ///
+								laqsbpp laqscomplic  laqsifa)
 		
+	tab1 totlaqs totlaqsnous
+	
+	tabstat meanlaqs meanlaqsnous , stat(mean sd count ) col(stat)
+	
+	tabstat laqs* , stat(sum mean count) col(stat)
+	
+	egen tertlaqs = cut(meanlaqsnous), group(3) // This creates 3 groups
+*-------------------------------------------------------------------------------		
+	* TOTAL ANC SCORE
+	* ANC QUALITY MEASURES
+	
+		* First visit
+			rename (m1_700 m1_701 m1_703  m1_705 m1_712 m1_716a m1_716b m1_716c ///
+			m1_716e m1_801 m1_806 m1_809 m1_724a) (anc1_bp anc1_weight anc1_muac ///
+			anc1_urine anc1_ultrasound anc1_nutri anc1_exer anc1_anxi ///
+			anc1_dangers anc1_edd anc1_lmp anc1_bplan anc1_return)
+			
+			egen anc1_bmi= rowtotal(anc1_weight m1_702)
+			recode anc1_bmi 1=0 2=1
+			recode m1_713a 2=1 3=0, g(anc1_ifa)
+			recode  m1_713b 2=1 3=0, g(anc1_calcium)
+			egen anc1_refer=rowmax(m1_724c m1_724e) // told to see ob or gyn or hospital for anc
+			
+		
+		* Follow up visits
+			rename (m2_501a_r1 m2_501a_r2 m2_501a_r3 m2_501a_r4 m2_501a_r5 ///
+					m2_501a_r6 m2_501a_r7 m2_501a_r8 m3_412a) (m2_bp_r1 m2_bp_r2 ///
+					m2_bp_r3 m2_bp_r4 m2_bp_r5 m2_bp_r6 m2_bp_r7 m2_bp_r8 m3_bp)
+			
+			rename (m2_501b_r1 m2_501b_r2 m2_501b_r3 m2_501b_r4 m2_501b_r5 ///
+					m2_501b_r6 m2_501b_r7 m2_501b_r8 m3_412b) (m2_wgt_r1 m2_wgt_r2 ///
+					 m2_wgt_r3 m2_wgt_r4 m2_wgt_r5 m2_wgt_r6 m2_wgt_r7 m2_wgt_r8 m3_wgt)
+					
+			rename (m2_501e_r1 m2_501e_r2 m2_501e_r3 m2_501e_r4 m2_501e_r5 ///
+					m2_501e_r6 m2_501e_r7 m2_501e_r8 m3_412e) (m2_urine_r1 m2_urine_r2 ///
+					m2_urine_r3 m2_urine_r4 m2_urine_r5 m2_urine_r6 m2_urine_r7 ///
+					m2_urine_r8 m3_urine)
+			
+			rename 	(m2_501f_r1 m2_501f_r2 m2_501f_r3 m2_501f_r4 m2_501f_r5 ///
+					m2_501f_r6 m2_501f_r7 m2_501f_r8 m3_412f) (m2_us_r1 m2_us_r2 ///
+					m2_us_r3 m2_us_r4 m2_us_r5 m2_us_r6 m2_us_r7 m2_us_r8 m3_us)
+					
+			rename (m2_506a_r1 m2_506a_r2 m2_506a_r3 m2_506a_r4 m2_506a_r5 ///
+					m2_506a_r6 m2_506a_r7 m2_506a_r8) (m2_danger_r1 m2_danger_r2 ///
+					m2_danger_r3 m2_danger_r4 m2_danger_r5 m2_danger_r6 ///
+					m2_danger_r7 m2_danger_r8)
+			
+			rename (m2_506b_r1 m2_506b_r2 m2_506b_r3 m2_506b_r4 m2_506b_r5 ///
+					m2_506b_r6 m2_506b_r7 m2_506b_r8) ///
+					(m2_bplan_r1 m2_bplan_r2 m2_bplan_r3 m2_bplan_r4 ///
+					m2_bplan_r5 m2_bplan_r6 m2_bplan_r7 m2_bplan_r8)
+					
+			rename (m2_601a_r1 m2_601a_r2 m2_601a_r3 m2_601a_r4 m2_601a_r5 ///
+					m2_601a_r6 m2_601a_r7 m2_601a_r8) ///
+					(m2_ifa_r1 m2_ifa_r2 m2_ifa_r3 m2_ifa_r4 m2_ifa_r5 ///
+					m2_ifa_r6 m2_ifa_r7 m2_ifa_r8)
+			
+			rename (m2_601b_r1 m2_601b_r2 m2_601b_r3 m2_601b_r4 m2_601b_r5 ///
+					m2_601b_r6 m2_601b_r7 m2_601b_r8) (m2_calcium_r1 ///
+					m2_calcium_r2 m2_calcium_r3 m2_calcium_r4 m2_calcium_r5 ///
+					m2_calcium_r6 m2_calcium_r7 m2_calcium_r8)
+					
+			egen totalifa=rowtotal(anc1_ifa m2_ifa_r*)
+*-------------------------------------------------------------------------------		
+		* MINIMUM SET OF ANC ITEMS	
+			* At least 3 BP checks
+			egen totalbp=rowtotal(anc1_bp m2_bp_r* m3_bp*)
+				recode totalbp 1/2=0 3/max=1, gen(bpthree)
+
+			* At least 3 wgts
+			egen totalweight=rowtotal(anc1_weight m2_wgt_r* m3_wgt*)
+				recode totalweight 1/2=0 3/max=1, gen(wgtthree)
+				
+			* At least 3 blood tests
+			egen totalblood=rowtotal(anc1_blood m2_blood_r* m3_blood*)
+				recode totalblood 1/2=0 3/max=1, gen(bloodthree)
+				
+			* At least 3 urine tests
+			egen totalurine=rowtotal(anc1_urine m2_urine_r* m3_urine*)
+				recode totalurine 1/2=0 3/max=1, gen(urinethree)	
+*-------------------------------------------------------------------------------		
+		* TOTAL ANC SCORE
+			recode totalbp 4/max=4, g(maxbp4)
+			recode totalweight 4/max=4, g(maxwgt4)
+			recode totalurine 4/max=4, g(maxurine4)
+			recode totalblood 4/max=4, g(maxblood4)
+			egen totalus =rowtotal(anc1_ultrasound m2_us_r* m3_us)
+				recode totalus 4/max=4, g(maxus4)
+				recode totalus 1/max=1, g(anyus)
+			egen totaldanger=rowtotal(anc1_dangers m2_danger_r*) 
+				recode totaldanger 4/max=4, g(maxdanger4)
+			egen totalbplan= rowtotal(anc1_bplan m2_bplan_r*)
+				recode totalbplan 4/max=4, g(maxbplan4)
+				recode totalifa 4/max=4, g(maxifa4)
+			egen totalcalcium = rowtotal(anc1_calcium m2_calcium_r*)
+				recode totalcalcium 4/max=4, g(maxcalc4)
+			egen deworm=rowmax(anc1deworm m2_601e_r*)
+			
+			egen anctotal=rowtotal(maxbp4 maxwgt4 anc1_bmi anc1_muac maxurine4 maxblood4 ///
+						maxus4 anc1_anxi anc1_lmp anc1_nutri anc1_exer maxdanger4 anc1_edd ///
+						maxbplan4 maxifa4 maxcalc4 deworm)
+						
+			egen tertqual=cut(anctotal), group(3)	
+			
+*-------------------------------------------------------------------------------		
+	* DEMOGRAPHICS AND RISK FACTORS
+		* Demographics
+			rename m1_enrollage enrollage
+			recode enrollage (min/19=1 "<20") (20/34=2 "20-34") (35/max=3 "35+"), g(agecat)
+			recode enrollage (min/19=1) (20/max=0), g(age19)
+			recode enrollage (min/34=0) (35/max=1), g(age35)
+			// educ_cat  quintile  marriedp
+			gen healthlit_corr=m1_health_lit==4
+			g second= educ_cat>=3 & educ_cat<.
+			rename  facility_lvl factype
+		* Experienced danger signs in pregnancy
+			egen danger=rowmax(m1_814b m1_814c m1_814f m1_814g m2_203b_r* ///
+				m2_203c_r* m2_203f_r* m2_203g_r*) 
+				// vaginal bleeding, fever, convulsions, seizures, fainting or LOC
+			recode m1_506 1/5=1 6=2 96=1 7=3 8=1 9=4,g(job)
+				lab def job 1"Employed" 2"Homemaker" 3"Student" 4"Unemployed"
+				lab val job job 
+		* Risk factors
+			*Anemia
+			egen anemia= rowmax(m1_1307 m1_1309)
+			recode anemia 0/10.99999=1 11/30=0
+			lab def anemia 1 "Anemia (Hb<11g/dl)" 0 "Normal"
+			lab val anemia anemia
+			
+			* Chronic illnesses
+			replace m1_203 = 0 if   m1_203_other=="Chgara" ///
+			| m1_203_other=="Chronic Gastritis" ///
+			| m1_203_other=="Chronic Sinusitis and tonsil" ///
+			| m1_203_other=="Gastritis" | m1_203_other=="Gastro intestinal track"  ///
+			| m1_203_other=="STI" | m1_203_other=="Hemorrhoids"  | m1_203_other=="Sinus" | ///
+			m1_203_other=="Sinuse" | m1_203_other=="Sinusitis" | ///
+			m1_203_other=="gastric" | m1_203_other=="gastric ulcer" 
+			
+			egen chronic = rowtotal(m1_202a m1_202b m1_202c m1_202d m1_202e ///
+			m1_202g_et m1_203 m1_HBP)
+			lab var chronic "Number of chronic illnesses"
+			
+			* Malnutrition
+			gen malnut= m1_muac<23
+			
+			* Previous obstetric complications
+			gen multiple= m1_805 >1 &  m1_805<.
+			gen cesa= m1_1007==1
+			gen neodeath = m1_1010 ==1
+			gen preterm = m1_1005 ==1
+			gen PPH=m1_1006==1
+			rename m1_1004 late_misc
+			egen complicx = rowtotal(cesa stillbirth preterm neodeath PPH late_misc)
+
+			
+			egen riskcat=rowtotal(chronic malnut complic )
+			recode riskcat 2/max=2 
+			lab def riskcat 0"No risk factor" 1"One risk factor" 2"Two or more risk factors" 
+			lab val riskcat riskcat	
+*-------------------------------------------------------------------------------
+* DELIVERY COMPLICATIONS
+*-------------------------------------------------------------------------------
+	* problem: a lot of women with pregnancy losses did not answer the delivery questions!
+	
+	
+	* Self reported health shortly after delivery
+	egen countsr2=rownonmiss(m2_201_r*)
+		gen srh= m2_201_r1 if countsr2==1
+		replace srh= m2_201_r2 if countsr2==2
+		replace srh= m2_201_r3 if countsr2==3
+		replace srh= m2_201_r4 if countsr2==4
+		replace srh= m2_201_r5 if countsr2==5
+		replace srh= m2_201_r6 if countsr2==6
+		replace srh= m2_201_r7 if countsr2==7
+		replace srh= m2_201_r8 if countsr2==8
+		
+		recode srh 1/3=0 4/5=1, g(poorh)
+	
+	recode 	 m3_707 1/120=0 144/max=1, g(ext)
+	
+	egen dcomplic=rowmax(m3_706 m3_705 ext) // ICU, blood transfusion
+	replace dcomplic=0 if dcomplic>=. // will include those delivering at home
+	
+
+	logistic poorh i.tertqual i.educ i.tertile i.age35 i.riskcat i.bsltrimester
+	
+	logistic dcomplic i.tertqual i.educ i.tertile i.age35 i.riskcat i.bsltrimester
