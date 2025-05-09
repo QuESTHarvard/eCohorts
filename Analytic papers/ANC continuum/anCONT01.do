@@ -10,8 +10,9 @@
 			m2_bp_r* m3_bp* m2_wgt_r*  m3_wgt* m2_urine_r* m3_urine* m2_blood_r* m3_blood ///
 			m2_us_r*  m3_us* m2_danger_r* m2_bplan_r* m2_ifa_r* m2_calcium_r* totalus ///
 			agecat enrollage healthlit_corr tertile married preg_intent educ_cat ///
-			anyus anyhosp danger riskcat primipara second job anygap timelyus totvisref
-			
+			anyus anyhosp danger riskcat primipara second job anygap timelyus totvisref ///
+			optanc maanc bp1 bp2 bp3 wgt1 wgt2 wgt3 urine1 urine2 urine3 blood1 blood2 blood3 ///
+			atleast1* ifa1 ifa2
 
 	u ETtmp.dta, clear
 	keep $keepvars quintile factype 
