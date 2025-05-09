@@ -3,7 +3,47 @@
 	
 	* Restrict dataset to those who were not lost to follow up
 	keep if m3_date!=. // 107 deleted
-
+	drop if birth_outcome==6
+*-------------------------------------------------------------------------------
+	* Number of follow up surveys
+	
+	  *Drop the m2 date where the woman has delivered or lost pregnancy since 
+	  *they will move to Module 3 and the rest of the survey is blank 
+		forval i = 1/8 { 
+			replace m2_date_r`i' =. if m2_202_r`i'==2 | m2_202_r`i'==3 
+		}
+		egen totalfu=rownonmiss(m1_date m2_date_r* m3_date) 
+*-------------------------------------------------------------------------------		
+	* Time between follow-up surveys
+	gen time_m2_r1_m1= (m2_date_r1-m1_date)/7
+	gen time_m2_r2_m2_r1 = (m2_date_r2-m2_date_r1)/7
+	gen time_m2_r3_m2_r2 = (m2_date_r3-m2_date_r2)/7
+	gen time_m2_r4_m2_r3 = (m2_date_r4-m2_date_r3)/7
+	gen time_m2_r5_m2_r4 = (m2_date_r5-m2_date_r4)/7
+	gen time_m2_r6_m2_r5 = (m2_date_r6-m2_date_r5)/7
+	gen time_m2_r7_m2_r6 = (m2_date_r7-m2_date_r6)/7
+	gen time_m2_r8_m2_r7 = (m2_date_r8-m2_date_r7)/7
+	* Number of M2 surveys conducted
+	egen countm2=rownonmiss(m2_date_r*)
+	gen m2_date_last= m2_date_r1 if countm2==1
+	replace m2_date_last= m2_date_r2 if countm2==2
+	replace m2_date_last= m2_date_r3 if countm2==3
+	replace m2_date_last= m2_date_r4 if countm2==4
+	replace m2_date_last= m2_date_r5 if countm2==5
+	replace m2_date_last= m2_date_r6 if countm2==6
+	replace m2_date_last= m2_date_r7 if countm2==7
+	replace m2_date_last= m2_date_r8 if countm2==8
+	replace m2_date_last=m1_date if countm2==0
+	format m2_date_last %td
+	gen time_m2_last_m3 = (m3_date - m2_date_last)/7
+	
+	* Create tag for any time bw follow up surveys > 10 weeks (a whole trimester)	
+	forval i = 1/8 {
+		gen tag`i'=1 if time_m2_r`i'>10 & time_m2_r`i' <.
+		count if tag`i'==1
+		}	
+	gen tag9 = 1 if time_m2_last_m3 >10 & time_m2_last_m3<.
+	egen anygap=rowmax(tag*)
 *-------------------------------------------------------------------------------	
 	* RECALCULATING BASELINE GA and RUNNING GA
 	* Baseline GA
@@ -45,7 +85,7 @@
 *drop if bslga>=.
 *-------------------------------------------------------------------------------
 	* Number of routine ANC or ANC referral visits  at each follow-up call
-		forval i= 1/8 {
+		forval i= 1/10 {
 			egen ranc`i'=rowtotal(m2_305_r`i' m2_306_r`i' m2_308_r`i' m2_309_r`i' ///
 					m2_311_r`i' m2_312_r`i' m2_314_r`i' m2_315_r`i'  ///
 					m2_317_r`i' m2_318_r`i' ), m
@@ -187,37 +227,58 @@
 		
 		replace laqstimelyultra = 1 if m3_ultra ==1 & ga_endpreg <=24
 		
-* Counselled at least once in pregnancy on:
-		* Nutrition
-			gen laqsnutri=m1_716a
-		* Birth preparedness
-			egen laqsbpp=rowmax(m1_809 m2_506b_r*)
-		* Pregnancy complications	
-			egen laqscomplic=rowmax(m1_716e m2_506a_r*)
-			
-* At least once in pregnancy given or prescribed IFA
-		recode m1_713a 1/2=1 3=0
-		egen laqsifa=rowmax(m1_713a m2_601a_r*)
-		
-	egen totlaqs=rowmin(laqs*) // all items yes/no
-	egen totlaqsnous=rowmin(laqsblood laqsurine laqsweight laqsbp laqsnutri ///
-							laqsbpp laqscomplic laqsifa)
-	
-	egen meanlaqs=rowmean(laqs*)
-	egen meanlaqsnous=rowmean(laqsblood laqsurine laqsweight laqsbp laqsnutri ///
-								laqsbpp laqscomplic laqsifa)
-	
-	tab1 totlaqs totlaqsnous
-	
-	tabstat meanlaqs meanlaqsnous , stat(mean sd count ) col(stat)
-	
-	tabstat laqs* , stat(sum mean count) col(stat)
-	
-	egen tertlaqs = cut(meanlaqsnous), group(3)
-
 *-------------------------------------------------------------------------------		
 	* TOTAL ANC SCORE
+*-------------------------------------------------------------------------------
+		* First visit
+			rename (m1_700 m1_701 m1_703  m1_705 m1_712 m1_716a m1_716b m1_716c m1_716e m1_801 m1_806 m1_809 m1_724a) ///
+					(anc1_bp anc1_weight anc1_muac anc1_urine anc1_ultrasound anc1_nutri anc1_exer anc1_anxi ///
+					anc1_dangers anc1_edd anc1_lmp anc1_bplan anc1_return)
+			
+			egen anc1_bmi= rowtotal(anc1_weight m1_702)
+			recode anc1_bmi 1=0 2=1
+			recode m1_713a 2=1 3=0, g(anc1_ifa)
+			recode  m1_713b 2=1 3=0, g(anc1_calcium)
+			egen anc1_refer=rowmax(m1_724c m1_724e) // told to see ob or gyn or hospital for anc
+		
+		* Follow up visits
+			rename (m2_501a_r1 m2_501a_r2 m2_501a_r3 m2_501a_r4 m2_501a_r5 ///
+					m2_501a_r6 m2_501a_r7 m2_501a_r8 m3_412a_1_ke m3_412a_2_ke m3_412a_3_ke) (m2_bp_r1 m2_bp_r2 ///
+					m2_bp_r3 m2_bp_r4 m2_bp_r5 m2_bp_r6 m2_bp_r7 m2_bp_r8 m3_bp1 m3_bp2 m3_bp3)
+			
+			rename (m2_501b_r1 m2_501b_r2 m2_501b_r3 m2_501b_r4 m2_501b_r5 ///
+					m2_501b_r6 m2_501b_r7 m2_501b_r8 m3_412b_1 m3_412b_2 m3_412b_3) (m2_wgt_r1 m2_wgt_r2 ///
+					 m2_wgt_r3 m2_wgt_r4 m2_wgt_r5 m2_wgt_r6 m2_wgt_r7 m2_wgt_r8 m3_wgt1 m3_wgt2 m3_wgt3)
+				
+			rename (m2_501e_r1 m2_501e_r2 m2_501e_r3 m2_501e_r4 m2_501e_r5 ///
+					m2_501e_r6 m2_501e_r7 m2_501e_r8 m3_412e_1 m3_412e_2 m3_412e_3) (m2_urine_r1 m2_urine_r2 ///
+					m2_urine_r3 m2_urine_r4 m2_urine_r5 m2_urine_r6 m2_urine_r7 ///
+					m2_urine_r8 m3_urine1 m3_urine2 m3_urine3)
+			
+			rename 	(m2_501f_r1 m2_501f_r2 m2_501f_r3 m2_501f_r4 m2_501f_r5 ///
+					m2_501f_r6 m2_501f_r7 m2_501f_r8 m3_412f_1 m3_412f_2 m3_412f_3) (m2_us_r1 m2_us_r2 ///
+					m2_us_r3 m2_us_r4 m2_us_r5 m2_us_r6 m2_us_r7 m2_us_r8 m3_us1 m3_us2 m3_us3)
+					
+			rename (m2_506a_r1 m2_506a_r2 m2_506a_r3 m2_506a_r4 m2_506a_r5 ///
+					m2_506a_r6 m2_506a_r7 m2_506a_r8) (m2_danger_r1 m2_danger_r2 ///
+					m2_danger_r3 m2_danger_r4 m2_danger_r5 m2_danger_r6 m2_danger_r7 m2_danger_r8)
+			
+			rename (m2_506b_r1 m2_506b_r2 m2_506b_r3 m2_506b_r4 m2_506b_r5 m2_506b_r6 m2_506b_r7 m2_506b_r8) ///
+					(m2_bplan_r1 m2_bplan_r2 m2_bplan_r3 m2_bplan_r4 m2_bplan_r5 m2_bplan_r6 m2_bplan_r7 m2_bplan_r8)
+					
+			rename (m2_601a_r1 m2_601a_r2 m2_601a_r3 m2_601a_r4 m2_601a_r5 m2_601a_r6 m2_601a_r7 m2_601a_r8) ///
+					(m2_ifa_r1 m2_ifa_r2 m2_ifa_r3 m2_ifa_r4 m2_ifa_r5 m2_ifa_r6 m2_ifa_r7 m2_ifa_r8)
+			
+			rename (m2_601b_r1 m2_601b_r2 m2_601b_r3 m2_601b_r4 m2_601b_r5 ///
+					m2_601b_r6 m2_601b_r7 m2_601b_r8) (m2_calcium_r1 ///
+					m2_calcium_r2 m2_calcium_r3 m2_calcium_r4 m2_calcium_r5 ///
+					m2_calcium_r6 m2_calcium_r7 m2_calcium_r8)
 	
+		egen totalbp=rowtotal(anc1_bp m2_bp_r* m3_bp*)
+		egen totalweight=rowtotal(anc1_weight m2_wgt_r* m3_wgt*)
+		egen totalblood=rowtotal(anc1_blood m2_blood_r* m3_blood*)
+		egen totalurine=rowtotal(anc1_urine m2_urine_r* m3_urine*)				
+		egen totalifa=rowtotal(anc1_ifa m2_ifa_r*)
 		recode totalbp 4/max=4, g(maxbp4)
 		recode totalweight 4/max=4, g(maxwgt4)
 		recode totalurine 4/max=4, g(maxurine4)
@@ -234,38 +295,121 @@
 			recode totalcalcium 4/max=4, g(maxcalc4)
 		egen deworm=rowmax(anc1deworm m2_601e_r*)
 		
+		recode totalbp 3/max=3, g(maxbp3)
+				recode totalweight 3/max=3, g(maxwgt3)
+				recode totalurine 3/max=3, g(maxurine3)
+				recode totalblood 2/max=3, g(maxblood3)
+				recode totaldanger 1/max=1, g(anydanger)
+				recode totalbplan 1/max=1, g(anybplan)
+				recode totalifa 1/max=1, g(anyifa)
+				recode totalcalcium 1/max=1, g(anycalcium)
+			
+			egen ancshort=rowtotal(maxbp3 maxwgt3 anc1_bmi anc1_muac maxurine3 maxblood3 ///
+						anyus anc1_anxi anc1_lmp anc1_nutri anc1_exer anydanger anc1_edd ///
+						anybplan anyifa anycalcium deworm)
+						
+			egen shortqual3=cut(ancshort), group(3)
+
 		egen anctotal=rowtotal(maxbp4 maxwgt4 anc1_bmi anc1_muac maxurine4 maxblood4 ///
 					maxus4 anc1_anxi anc1_lmp anc1_nutri anc1_exer maxdanger4 anc1_edd ///
-					maxbplan4 maxifa4 maxcalc4 deworm)	
-					
-					
-
+					maxbplan4 anyifa anycalcium deworm)	
+									
+			gen weeksinanc=(m3_birth_or_ended-m1_date)/7
+			replace weeksinanc=1 if weeksinanc<1
+			gen ancqualperweek=anctotal/weeksinanc
+			
+			egen tertqual=cut(anctotal), group(3)	// quality tertiles
+			
+			recode anctotal 0/12=1 13/24=2 25/max=3 , g(qual3)
+			lab def qual3 1"0-12" 2"13-24" 3"25-44"
+			lab val qual3 qual3
+			
+			
+*-------------------------------------------------------------------------------		
+	* DEMOGRAPHICS AND RISK FACTORS
+*-------------------------------------------------------------------------------		
+		* Demographics
+			recode enrollage (min/19=1 "<20") (20/34=2 "20-34") (35/max=3 "35+"), g(agecat)
+			recode enrollage (min/19=1) (20/max=0), g(age19)
+			recode enrollage (min/34=0) (35/max=1), g(age35)
+			// educ_cat  quintile  marriedp
+			gen healthlit_corr=health_lit==4
+			* Experienced danger signs in pregnancy
+			egen m1danger=rowmax(m1_814b m1_814c m1_814f m1_814g)
+				// vaginal bleeding, fever, convulsions or seizures, fainting or LOC
+			rename  (facility_lvl bsl_preg_intent) (factype preg_intent)
+			g second= educ_cat>=3 & educ_cat<.
+			recode m1_506 1/5=1 6=2 -96=1 7=3 8/9=1 10=4,g(job)
+			lab def job 1"Employed" 2"Homemaker" 3"Student" 4"Unemployed"
+			lab val job job 
+		* Risk factors
+			* Anemia
+			recode bsl_Hb 0/10.99999=1 11/30=0, gen(anemia)
+			lab val anemia anemia
+			* Chronic illnesses
+			g other_chronic= 1 if m1_203_other=="Fibroids" | m1_203_other=="Peptic ulcers disease" ///
+			| m1_203_other=="PUD" | m1_203_other=="Gestational Hypertension in previous pregnancy" ///
+			| m1_203_other=="Ovarian cyst" | m1_203_other=="Peptic ulcerative disease"
+		
+			egen chronic= rowtotal(m1_202a m1_202b m1_202c m1_202d m1_202e m1_203c_ke ///
+			m1_203d_ke  m1_203g_ke  m1_203i_ke ///
+			m1_203k_ke m1_203l_ke m1_203m_ke m1_203n_ke m1_203o_ke other_chronic )
+			* Underweight
+			rename bsl_low_BMI malnut
+			* Obstetric risk factors		
+			gen multiple= m1_805 >1 &  m1_805<.
+			gen cesa= m1_1007==1
+			gen neodeath = m1_1010 ==1
+			gen preterm = m1_1005 ==1
+			gen PPH=m1_1006==1
+			egen complic = rowtotal(stillbirth neodeath preterm PPH ) 
+		
+			egen riskcat=rowtotal(chronic malnut complic )
+			recode riskcat 2/max=2 
+			lab def riskcat 0"No risk factor" 1"One risk factor" 2"Two or more risk factors" 
+			lab val riskcat riskcat	
+				
 *-------------------------------------------------------------------------------
 * DELIVERY COMPLICATIONS
 *-------------------------------------------------------------------------------
 	* problem: a lot of women with pregnancy losses did not answer the delivery questions!
 	
 	* Self reported health shortly after delivery
-	egen countm2=rownonmiss(m2_201_r*)
-		gen srh= m2_201_r1 if countm2==1
-		replace srh= m2_201_r2 if countm2==2
-		replace srh= m2_201_r3 if countm2==3
-		replace srh= m2_201_r4 if countm2==4
-		replace srh= m2_201_r5 if countm2==5
-		replace srh= m2_201_r6 if countm2==6
-		replace srh= m2_201_r7 if countm2==7
-		replace srh= m2_201_r8 if countm2==8
+	egen countsr2=rownonmiss(m2_201_r*)
+		gen srh= m2_201_r1 if countsr2==1
+		replace srh= m2_201_r2 if countsr2==2
+		replace srh= m2_201_r3 if countsr2==3
+		replace srh= m2_201_r4 if countsr2==4
+		replace srh= m2_201_r5 if countsr2==5
+		replace srh= m2_201_r6 if countsr2==6
+		replace srh= m2_201_r7 if countsr2==7
+		replace srh= m2_201_r8 if countsr2==8
+		replace srh= m2_201_r9 if countsr2==9
+		replace srh= m2_201_r10 if countsr2==10
 		
 		recode srh 1/3=0 4/5=1, g(poorh)
+		
 	gen ext = m3_707_ke_unit==1
 	replace ext = 1 if  m3_707_ke>=6 & m3_707_ke_unit==2
 
 
 	egen dcomplic=rowmax(m3_706 m3_705  ext) // ICU, blood transfusion
 	replace dcomplic=0 if dcomplic>=. // will include those delivering at home
+	egen anyc=rowmax(dcomplic poorh)
+	
+	egen complic2=rowmax(m3_704a m3_704f m3_704g) //seizures, excessive bleeding, fever
+	
+	* Facility type for delivery
+	recode m3_502 3=1 4=0 5=0 6=1 7=1 8=1 9=0, g(hospital_del_fac)
+		replace hospital_del_fac=0 if m3_502==7 & (m3_503_final=="Bishop Kioko" | ///
+		m3_503_final=="Hama" | m3_503_final=="Karimony Mission" | m3_503_final=="Maria Emmacculate" | ///
+		m3_503_final=="Mission of Mary" | m3_503_final=="Mulango (AIC) Health Centre" | ///
+		m3_503_final=="Pcea kikuyu" | m3_503_final=="St. Teresas Nursing Home" | m3_503_final=="Tei wa Yezu")
+		
+		label define hospital_del_fac 1 "hospital" 0 "primary" 2"home"
+		label values hospital_del_fac hospital_del_fac
+	replace hospital_del_fac=2 if m3_501==0
 	
 	
-	logistic poorh i.tertqual i.educ i.tertile i.age35 i.riskcat  i.bsltrimester
-	logistic dcomplic i.tertqual i.educ i.tertile i.age35 i.riskcat  i.bsltrimester
-	
-	
+save "$user/MNH E-Cohorts-internal/Analyses/Manuscripts/Paper 5 Continuum ANC/Data/KEtmp.dta", replace			
+		
