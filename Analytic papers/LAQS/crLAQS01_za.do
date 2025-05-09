@@ -331,12 +331,33 @@
 			gen ancqualperweek=anctotal/weeksinanc
 			
 			egen tertqual=cut(anctotal), group(3)	// quality tertiles
-		
-			recode anctotal 0/12=1 13/24=2 25/max=3 , g(qual3)
-			lab def qual3 1"0-12" 2"13-24" 3"25-44"
-			lab val qual3 qual3
 			
+			* ANC mean score
+			g bp1 = totalbp>=1 
+			g bp2 = totalbp>=2
+			g bp3 = totalbp>=3
 			
+			g wgt1 = totalweight>=1
+			g wgt2 = totalweight>=2
+			g wgt3 = totalweight>=3
+			
+			g urine1 = totalurine>=1
+			g urine2 = totalurine >= 2
+			g urine3 = totalurine >= 3
+
+			g blood1 = totalblood >= 1
+			g blood2 = totalblood >= 2
+			g blood3 = totalblood >= 3
+			
+			egen ancmean=rowmean(bp1 bp2 bp3 wgt1 wgt2 wgt3 urine1 urine2 urine3 ///
+					blood1 blood2 blood3 laqstimelyultra anybplan anydanger anc1_bmi anc1_muac ///
+					anc1_anxi anc1_lmp anc1_nutri anc1_exer anc1_edd anyifa anycalcium )
+					
+			egen ancmeantert=cut(ancmean) , group(3)	
+					
+			egen ancall=rowmin(bp1 bp2 bp3 wgt1 wgt2 wgt3 urine1 urine2 urine3 ///
+					blood1 blood2 blood3 laqstimelyultra anybplan anydanger anc1_bmi anc1_muac ///
+					anc1_anxi anc1_lmp anc1_nutri anc1_exer anc1_edd anyifa anycalcium )
 
 *-------------------------------------------------------------------------------		
 	* DEMOGRAPHICS AND RISK FACTORS	

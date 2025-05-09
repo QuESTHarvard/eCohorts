@@ -317,11 +317,31 @@
 			egen tertqual=cut(anctotal), group(3)	// quality tertiles
 			
 			* ANC mean score
-			gen bp1 = totalbp>=1 
-			gen bp2 = totalbp>=2
-			gen bp3 = totalbp>=3
+			g bp1 = totalbp>=1 
+			g bp2 = totalbp>=2
+			g bp3 = totalbp>=3
 			
 			g wgt1 = totalweight>=1
+			g wgt2 = totalweight>=2
+			g wgt3 = totalweight>=3
+			
+			g urine1 = totalurine>=1
+			g urine2 = totalurine >= 2
+			g urine3 = totalurine >= 3
+
+			g blood1 = totalblood >= 1
+			g blood2 = totalblood >= 2
+			g blood3 = totalblood >= 3
+			
+			egen ancmean=rowmean(bp1 bp2 bp3 wgt1 wgt2 wgt3 urine1 urine2 urine3 ///
+					blood1 blood2 blood3 laqstimelyultra anybplan anydanger anc1_bmi anc1_muac ///
+					anc1_anxi anc1_lmp anc1_nutri anc1_exer anc1_edd anyifa anycalcium deworm)
+					
+			egen ancmeantert=cut(ancmean) , group(3)	
+			
+			egen ancall=rowmin(bp1 bp2 bp3 wgt1 wgt2 wgt3 urine1 urine2 urine3 ///
+					blood1 blood2 blood3 laqstimelyultra anybplan anydanger anc1_bmi anc1_muac ///
+					anc1_anxi anc1_lmp anc1_nutri anc1_exer anc1_edd anyifa anycalcium deworm)
 			
 *-------------------------------------------------------------------------------		
 	* DEMOGRAPHICS AND RISK FACTORS

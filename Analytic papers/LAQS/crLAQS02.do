@@ -31,7 +31,7 @@ global keepvars site bsltrim totvisref firstblood secblood thirdblood ///
 	keep $keepvars quintile factype urban
 		gen country=3
 		rename site study_site 
-		recode urban 0=4 1=5, g(site) // 4 Rural India 5 Urban India
+		recode study_site 1/2=4 3=5, g(site) // 4 Haryana 5 Rajasthan
 		append using allcountries.dta
 		save allcountries.dta, replace
 	
@@ -43,12 +43,12 @@ global keepvars site bsltrim totvisref firstblood secblood thirdblood ///
 		lab drop study_site_sd
 		append using allcountries.dta
 	
-		lab def site 0"Rural-ETH" 1"Urban-ETH" 2"Rural-KEN" 3"Urban-KEN" ///
-		4"Rural-IND" 5"Urban-IND" 6 "Rural-ZAF" 7 "Urban-ZAF", modify
+		lab def site 0"East Shewa, ETH" 1"Adama, ETH" 2"Kitui, KEN" 3"Kiambu, KEN" ///
+		4"Haryana, IND" 5"Rajasthan, IND" 6 "Nongoma, ZAF" 7 "Umhlathuze, ZAF", modify
 		lab val site site
 		
 		recode study_site 2=1 3=2 , g(state)
-		lab def state 1 Haryana 2 Jodhpur
+		lab def state 1 Haryana 2 Rajasthan
 		lab val state state 
 		
 		lab def country 1 "Ethiopia" 2 "Kenya" 3 "India" 4 "South Africa"

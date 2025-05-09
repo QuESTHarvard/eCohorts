@@ -295,21 +295,11 @@
 			recode totalcalcium 4/max=4, g(maxcalc4)
 		egen deworm=rowmax(anc1deworm m2_601e_r*)
 		
-		recode totalbp 3/max=3, g(maxbp3)
-				recode totalweight 3/max=3, g(maxwgt3)
-				recode totalurine 3/max=3, g(maxurine3)
-				recode totalblood 2/max=3, g(maxblood3)
-				recode totaldanger 1/max=1, g(anydanger)
-				recode totalbplan 1/max=1, g(anybplan)
-				recode totalifa 1/max=1, g(anyifa)
-				recode totalcalcium 1/max=1, g(anycalcium)
+		recode totaldanger 1/max=1, g(anydanger)
+		recode totalbplan 1/max=1, g(anybplan)
+		recode totalifa 1/max=1, g(anyifa)
+		recode totalcalcium 1/max=1, g(anycalcium)
 			
-			egen ancshort=rowtotal(maxbp3 maxwgt3 anc1_bmi anc1_muac maxurine3 maxblood3 ///
-						anyus anc1_anxi anc1_lmp anc1_nutri anc1_exer anydanger anc1_edd ///
-						anybplan anyifa anycalcium deworm)
-						
-			egen shortqual3=cut(ancshort), group(3)
-
 		egen anctotal=rowtotal(maxbp4 maxwgt4 anc1_bmi anc1_muac maxurine4 maxblood4 ///
 					maxus4 anc1_anxi anc1_lmp anc1_nutri anc1_exer maxdanger4 anc1_edd ///
 					maxbplan4 anyifa anycalcium deworm)	
@@ -319,12 +309,35 @@
 			gen ancqualperweek=anctotal/weeksinanc
 			
 			egen tertqual=cut(anctotal), group(3)	// quality tertiles
+					
+			* ANC mean score
+			g bp1 = totalbp>=1 
+			g bp2 = totalbp>=2
+			g bp3 = totalbp>=3
 			
-			recode anctotal 0/12=1 13/24=2 25/max=3 , g(qual3)
-			lab def qual3 1"0-12" 2"13-24" 3"25-44"
-			lab val qual3 qual3
+			g wgt1 = totalweight>=1
+			g wgt2 = totalweight>=2
+			g wgt3 = totalweight>=3
 			
+			g urine1 = totalurine>=1
+			g urine2 = totalurine >= 2
+			g urine3 = totalurine >= 3
+
+			g blood1 = totalblood >= 1
+			g blood2 = totalblood >= 2
+			g blood3 = totalblood >= 3
 			
+			egen ancmean=rowmean(bp1 bp2 bp3 wgt1 wgt2 wgt3 urine1 urine2 urine3 ///
+					blood1 blood2 blood3 laqstimelyultra anybplan anydanger anc1_bmi anc1_muac ///
+					anc1_anxi anc1_lmp anc1_nutri anc1_exer anc1_edd anyifa anycalcium deworm)
+			
+						egen ancmeantert=cut(ancmean) , group(3)	
+			
+			egen ancall=rowmin(bp1 bp2 bp3 wgt1 wgt2 wgt3 urine1 urine2 urine3 ///
+					blood1 blood2 blood3 laqstimelyultra anybplan anydanger anc1_bmi anc1_muac ///
+					anc1_anxi anc1_lmp anc1_nutri anc1_exer anc1_edd anyifa anycalcium deworm)
+
+
 *-------------------------------------------------------------------------------		
 	* DEMOGRAPHICS AND RISK FACTORS
 *-------------------------------------------------------------------------------		
