@@ -1,5 +1,12 @@
 
 * INDIA
+	u "/Users/catherinearsenault/Library/CloudStorage/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts/MNH Ecohorts QuEST-shared/Data/India/01 raw data/Module5_13052025.dta", clear
+
+*-------------------------------------------------------------------------------
+* Anemia at endline (10-12 weeks postpartum)
+	recode Q1307 min/10.9999=1 11/max=0, g(m5_anemia11)
+	recode Q1307 min/11.9999=1 12/max=0, g(m5_anemia12)
+
 	u "$in_data_final/eco_IN_Complete.dta", clear
 	
 	* Restrict dataset to those who were not lost to follow up

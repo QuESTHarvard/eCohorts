@@ -1,9 +1,9 @@
 * ETHIOPIA
 	u "$et_data_final/eco_ET_Complete.dta", clear
-	
+
 	* Restrict dataset to those who were not lost to follow up
-	keep if m3_date<. // 112 lost 
-	drop if birth_outcome==6 // early miscarriage
+	drop if birth_outcome==1 | birth_outcome==2 // 110 lost to follow up before M3
+	drop if birth_outcome==6 // 7 early miscarriages
 *-------------------------------------------------------------------------------
 	* Number of follow up surveys
 	

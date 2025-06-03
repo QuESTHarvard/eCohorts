@@ -4,7 +4,7 @@
 *-------------------------------------------------------------------------------
 global keepvars site bsltrim totvisref firstblood secblood thirdblood ///
 		firsturine securine thirdurine firstbp secbp thirdbp ///
-		laqstimelyultra anyus anctotal tertqual agecat enrollage healthlit_corr ///
+		laqstimelyultra anyus agecat enrollage healthlit_corr ///
 		tertile married preg_intent educ_cat riskcat m1danger chronic malnut ///
 		complic anemia second  preg_intent primipara dcomplic poorh ///
 		ancqualperweek weeksinanc complic2 ext hospital_del ancmean* ///

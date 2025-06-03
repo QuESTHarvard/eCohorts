@@ -2,6 +2,7 @@
 	u "$za_data_final/eco_ZA_Complete.dta", clear
 	
 	* Restrict dataset to those who were not lost to follow up
+	drop if respondent =="NEL_045"
 	keep if m3_date!=.
 	drop if m1_date==. // 3 women cannot be linked with M1 data.
 	drop if birth_outcome==6
