@@ -172,7 +172,7 @@ run "$github/m5_add_shortened_labels.ado"
 
 ************************* Merge *************************
 
-merge 1:1 respondentid using "$in_data_final/eco_IN_Complete.dta" // 170 not matched
+merge 1:1 respondentid using "$in_data_final/eco_IN_m1_m4.dta" // 170 not matched
 
 rename _merge merge_m5_to_m4_m3_m2_m1
 

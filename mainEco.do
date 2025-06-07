@@ -81,8 +81,7 @@ global data_doc "$user/MNH Ecohorts QuEST-shared/Data/Data documents"
 * Path to GitHub folder 
 global github "/Users/catherine.arsenault/Documents/GitHub/eCohorts"
 *global github "$user/MKT GitHub/eCohorts"
-global github "/Users/neenakapoor/Documents/GitHub/eCohorts"
-
+global github "/Users/neenakapoor/Library/Mobile Documents/com~apple~CloudDocs/Documents/GitHub/eCohorts/"
 
 * Path to the birth outcomes
 global birth_outcomes "$user/MNH Ecohorts QuEST-shared/Data/Data documents/Cohort flow charts/list of miscarriage_0912.xlsx"
