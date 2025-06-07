@@ -37,7 +37,7 @@ macro drop _all
 * Setting user globals 
 *global user "/Users/shs8688/Dropbox (Harvard University)/SPH-Kruk Team/QuEST Network"
 *global user "/Users/catherine.arsenault/Dropbox/SPH Kruk QuEST Network"
-global user "/Users/neenakapoor/Dropbox (Harvard University)/SPH-Kruk Team/QuEST Network/Core Research/Ecohorts"
+global user "/Users/neenakapoor/Harvard University Dropbox/SPH-Kruk Team/QuEST Network/Core Research/Ecohorts"
 
 
 * Because MKT's folder path is different, adjusting the above user globals to include Core Research/Echohorts
@@ -81,6 +81,8 @@ global data_doc "$user/MNH Ecohorts QuEST-shared/Data/Data documents"
 * Path to GitHub folder 
 global github "/Users/catherine.arsenault/Documents/GitHub/eCohorts"
 *global github "$user/MKT GitHub/eCohorts"
+global github "/Users/neenakapoor/Documents/GitHub/eCohorts"
+
 
 * Path to the birth outcomes
 global birth_outcomes "$user/MNH Ecohorts QuEST-shared/Data/Data documents/Cohort flow charts/list of miscarriage_0912.xlsx"
