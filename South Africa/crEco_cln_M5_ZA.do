@@ -53,7 +53,7 @@ rename response_longitude m5_longitude
 rename response_studynoprefix m5_studynoprefix
 rename response_studyno m5_studyno
 rename studynumber m5_studynumber
-rename responseid m5_responseid
+rename responseid respondentid
 rename mod5_permission_granted m5_consent
 
 * Identification section
@@ -694,6 +694,8 @@ lab val m5_baby1_weight m5_baby2_weight m5_baby_wellness
 ***************** VARIABLE LABELING ****************** 
 * (FROM M5 shortened label)
 
+* Could just run this instead now after updating 
+* run "$github/m5_add_shortened_labels.ado"
 	
 * These variables are the same for all countries 
 capture label var m5_start "Consent to proceed with interview"
@@ -1451,3 +1453,11 @@ capture label var m5_baby2_issue_a "Since last spoke Baby 2 had: Diarrhea with b
 capture label var m5_baby2_available "Baby 2 available for measurement"
 capture label var m5_703 "What provider told you about your/baby's health issues"
 capture label var m5_user_exp "Overall experience at health facility"
+
+
+merge m:1 respondentid using "$za_data_final/eco_ZA_Complete.dta" // duplicate respondent ID in ZA ???
+
+rename _merge merge_m5_to_m4_m3_m2_m1
+
+save "$za_data_final/eco_ZA_complete.dta", replace
+
