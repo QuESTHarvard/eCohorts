@@ -4,6 +4,15 @@
 	* Restrict dataset to those who were not lost to follow up
 	keep if m3_date<. // 112 lost 
 	set scheme economist
+*-------------------------------------------------------------------------------
+* Endline MUAC 
+	recode m5_muac min/22.999=1 23/max=0, g(m5_underw)
+	gen m5_bmi = m5_weight / (m1_height_m)^2
+	recode m5_bmi min/18.499999=1 18.5/max=0, g(m5_bmi_underw)
+	
+* Anemia at endline
+
+	recode m5_hb_level min/11.9999=1 12/max=0, g(m5_anemia12)
 *-------------------------------------------------------------------------------	
 	* RECALCULATING BASELINE GA and RUNNING GA
 	* Baseline GA

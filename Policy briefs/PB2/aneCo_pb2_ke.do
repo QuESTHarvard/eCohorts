@@ -4,6 +4,15 @@
 	* Restrict dataset to those who were not lost to follow up
 	keep if m3_date!=. // 107 deleted
 	
+*-------------------------------------------------------------------------------
+* Endline MUAC 
+	gen m5_height_m= m5_height/100
+	gen m5_bmi = m5_weight / (m5_height_m)^2
+	recode m5_bmi min/18.499999=1 18.5/max=0, g(m5_bmi_underw)
+	
+* Anemia at endline
+	recode m5_hb_level min/11.9999=1 12/max=0, g(m5_anemia12)
+	
 *-------------------------------------------------------------------------------	
 	* RECALCULATING BASELINE GA and RUNNING GA
 	* Baseline GA

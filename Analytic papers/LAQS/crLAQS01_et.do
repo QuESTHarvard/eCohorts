@@ -1,9 +1,9 @@
 * ETHIOPIA
 	u "$et_data_final/eco_ET_Complete.dta", clear
-	
+
 	* Restrict dataset to those who were not lost to follow up
-	keep if m3_date<. // 112 lost 
-	drop if birth_outcome==6 // early miscarriage
+	drop if birth_outcome==1 | birth_outcome==2 // 110 lost to follow up before M3
+	drop if birth_outcome==6 // 7 early miscarriages
 *-------------------------------------------------------------------------------
 	* Number of follow up surveys
 	
@@ -58,6 +58,8 @@
 			
 	* Recalculating baseline and running GA based on DOB for those with live births
 	* and no LBW babies.
+		replace m3_birth_or_ended = m3_date if m3_birth_or_ended==. // DOB is unknowwn for 8 women
+		
 		gen bslga2 = 40-((m3_birth_or_ended-m1_date)/7)
 		egen alive=rowmin(m3_303b m3_303c m3_303d ) // any baby died
 			replace bslga2=. if alive==0
@@ -69,8 +71,10 @@
 			replace bslga2=. if m3_baby1_size==5 | m3_baby2_size==5 | m3_baby3_size==5
 			replace bslga2=. if bslga2<0
 			replace bslga= bslga2 if bslga2!=. // IQR= 33.1
-			gen ga_endpreg= ((m3_birth_or_ended-m1_date)/7)+bslga 
-			recode ga_endpreg (1/12.99999 = 1) (13/27.99999= 2) (28/max=3), g(endtrimes)
+			
+		gen ga_endpreg= ((m3_birth_or_ended-m1_date)/7)+bslga 
+		recode ga_endpreg (1/12.99999 = 1) (13/27.99999= 2) (28/max=3), g(endtrimes)
+			
 			
 	* Recalculating running GA and running trimester 
 		drop m2_ga_r1  m2_ga_r2 m2_ga_r3 m2_ga_r4 m2_ga_r5 m2_ga_r6 m2_ga_r7 m2_ga_r8
@@ -91,8 +95,7 @@
 *-------------------------------------------------------------------------------
 * Number of routine ANC or ANC referral visits  at each follow-up call
 *-------------------------------------------------------------------------------	
-
-		forval i= 1/7 {
+		forval i= 1/8 {
 			egen ranc`i'=rowtotal(m2_305_r`i' m2_306_r`i' m2_308_r`i' m2_309_r`i' ///
 					m2_311_r`i' m2_312_r`i' m2_314_r`i' m2_315_r`i'  ///
 					m2_317_r`i' m2_318_r`i' ), m
@@ -217,6 +220,33 @@
 
 		egen laqsbp=rowmin(firstbp secbp thirdbp)
 		
+	* VISITS
+		gen firstvisit= 1 if bsltrimester==1
+		forval i=1/8 {
+			replace firstvisit = 1 if ranc`i'==1 & m2_trimes_r`i'==1
+		}
+		replace firstvisit = 1 if ranclast==1 & endtrime==1
+		lab var firstvisit "Had ANC in 1st trimester"
+		replace firstvis = 0 if bsltrim!=1 & firstvi==.
+		
+		gen secvisit= 1 if bsltrimester==2 
+		forval i=1/8 {
+			replace secvisit = 1 if ranc`i'==1 & m2_trimes_r`i'==2
+		}
+		replace secvis = 1 if ranclast==1 & endtrime==2
+		replace secvis = 0 if secvis==. & (bsltrimester ==1 | bsltrimester ==2)
+		lab var secbp "Had ANC in 2nd trimester"
+
+		gen thirdvis= 1 if bsltrimester==3
+		forval i=1/8 {
+			replace thirdvis = 1 if ranc`i'==1 & m2_trimes_r`i'==3
+		}
+		replace thirdvis = 1 if ranclast==1 & endtrime==3
+		replace thirdvis = 0 if thirdvis==. & endtrime==3
+		lab var thirdbp "Had ANC in 3rd trimester"
+
+		egen laqsvis=rowmin(firstvis secvis thirdvis)
+		
 	* TIMELY ULTRASOUND
 		gen laqstimelyultra=anc1ultra 
 		replace laqstimelyultra=0 if bslga>24
@@ -304,18 +334,7 @@
 			recode totalbplan 1/max=1, g(anybplan)
 			recode totalifa 1/max=1, g(anyifa)
 			recode totalcalcium 1/max=1, g(anycalcium)
-				
-			
-			egen anctotal=rowtotal(maxbp4 maxwgt4 anc1_bmi anc1_muac maxurine4 maxblood4 ///
-						maxus4 anc1_anxi anc1_lmp anc1_nutri anc1_exer maxdanger4 anc1_edd ///
-						maxbplan4 anyifa anycalcium deworm)
-						
-			gen weeksinanc=(m3_birth_or_ended-m1_date)/7
-			replace weeksinanc=1 if weeksinanc<1
-			gen ancqualperweek=anctotal/weeksinanc
-			
-			egen tertqual=cut(anctotal), group(3)	// quality tertiles
-			
+							
 			* ANC mean score
 			g bp1 = totalbp>=1 
 			g bp2 = totalbp>=2

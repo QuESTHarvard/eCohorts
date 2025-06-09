@@ -2,7 +2,8 @@
 	u "$za_data_final/eco_ZA_Complete.dta", clear
 	
 	* Restrict dataset to those who were not lost to follow up
-	keep if m3_date!=.
+	drop if respondent =="NEL_045"
+	drop if birth_outcome==1 | birth_outcome==2
 	drop if m1_date==. // 3 women cannot be linked with M1 data.
 	drop if birth_outcome==6
 *-------------------------------------------------------------------------------
@@ -63,6 +64,8 @@
 					
 	* Recalculating baseline and running GA based on DOB for those with live births
 	* and no LBW babies.
+		replace m3_birth_or_ended = m3_date if m3_birth_or_ended>=. // DOB is unknowwn for 2 women
+		
 		gen bslga2 = 40-((m3_birth_or_ended-m1_date)/7)
 		egen alive=rowmin(m3_303b m3_303c m3_303d) // any baby died
 			replace bslga2=. if alive==0
@@ -321,16 +324,6 @@
 		recode totalifa 1/max=1, g(anyifa)
 		recode totalcalcium 1/max=1, g(anycalcium)
 						
-		egen anctotal=rowtotal(maxbp4 maxwgt4 anc1_bmi anc1_muac maxurine4 maxblood4 ///
-					maxus4 anc1_anxi anc1_lmp anc1_nutri anc1_exer maxdanger4 anc1_edd ///
-					maxbplan4 anyifa anycalcium deworm)	
-				
-		* Standardizing the score
-			gen weeksinanc=(m3_birth_or_ended-m1_date)/7
-			replace weeksinanc=1 if weeksinanc<1
-			gen ancqualperweek=anctotal/weeksinanc
-			
-			egen tertqual=cut(anctotal), group(3)	// quality tertiles
 			
 			* ANC mean score
 			g bp1 = totalbp>=1 
@@ -412,7 +405,6 @@
 			recode riskcat 3/max=2 
 			lab def riskcat 0"No risk factor" 1"One risk factor" 2"Two or more risk factors" 
 			lab val riskcat riskcat
-			
 			
 			
 *-------------------------------------------------------------------------------
