@@ -24,11 +24,12 @@ do "${github}/India/crEco_cln_IN_M2.do"
 * Clean Module 3
 do "${github}/India/crEco_cln_IN_M3.do"
 
-
 * Clean Module 4
-*do "${github}/India/crEco_cln_IN_M4.do"
+do "${github}/India/crEco_cln_IN_M4.do"
 
 * Clean Module 5
+
+do "${github}/India/crEco_cln_IN_M5.do"
 
 
 
@@ -111,7 +112,7 @@ foreach v in m3_503_IN m3_513a_IN m3_512_1_IN m3_513b_IN {
 m1_add_shortened_labels
 m2_add_shortened_labels
 m3_add_shortened_labels
-*m4_add_shortened_labels
+*m4_add_shortened_labels // Neena or Shalom, please address!
 *m5_add_shortened_labels
 
 

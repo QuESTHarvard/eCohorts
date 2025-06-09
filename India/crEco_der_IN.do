@@ -561,27 +561,28 @@
 			replace birth_outcome = 11 if (m3_303_b1==0 & m3_303_b2==1) & (m3_312_b1 == 1 & m3_deathage_dys_baby1 < 28) // twin set (1 alive 1 neonatal death) 
 			replace birth_outcome = 12 if m3_303_b1==1 & m3_303_b2==0 & m3_312_b2 ==0                                   // twin set (1 alive 1 stillbirth)   
 			
+			
 			* manually edited outcome (N=22: pregnancy end date unavaiable, so pregnancy end ga unavailable, N=15: can only use m2 ga to detemrmined. N=7 cannot determine)
-			replace birth_outcome = 6 if (respondentid == "202311201039030209" | respondentid == "202312091319030616" ///
-							| respondentid == "202312131146030109" | respondentid == "202311181134030509" | respondentid == "202311091213031296" | ///
-										  respondentid == "202311211319030396" | respondentid == "202312131233031106" | respondentid == "202311091209031106" | ///
-										  respondentid == "202311151402030504" | respondentid == "202312221123030504" | ///
-										  respondentid == "202312081222030515")  & (m2_202_r1 == 3) & ((((m2_date_r1 - m1_date)/7) + m1_ga) <13)                                          // something happened in M2 round 1, and round 1 ga < 13  
-			replace birth_outcome = 7 if (respondentid == "202311201039030209" | respondentid == "202312091319030616" | respondentid == "202312131146030109" | ///
-										respondentid == "202311181134030509" | respondentid == "202311091213031296" | ///
-										  respondentid == "202311211319030396" | respondentid == "202312131233031106" | ///
-										  respondentid == "202311091209031106" | respondentid == "202311151402030504" | respondentid == "202312221123030504" | ///
-										  respondentid == "202312081222030515")  & (m2_202_r1 == 3) & ///
+			replace birth_outcome = 6 if (respondentid == 202311201039030209 | respondentid == 202312091319030616 ///
+							| respondentid == 202312131146030109 | respondentid == 202311181134030509 | respondentid == 202311091213031296 | ///
+										  respondentid == 202311211319030396 | respondentid == 202312131233031106 | respondentid == 202311091209031106 | ///
+										  respondentid == 202311151402030504 | respondentid == 202312221123030504 | ///
+										  respondentid == 202312081222030515)  & (m2_202_r1 == 3) & ((((m2_date_r1 - m1_date)/7) + m1_ga) <13)                                          // something happened in M2 round 1, and round 1 ga < 13  
+			replace birth_outcome = 7 if (respondentid == 202311201039030209 | respondentid == 202312091319030616 | respondentid == 202312131146030109 | ///
+										respondentid == 202311181134030509 | respondentid == 202311091213031296 | ///
+										  respondentid == 202311211319030396 | respondentid == 202312131233031106 | ///
+										  respondentid == 202311091209031106 | respondentid == 202311151402030504 | respondentid == 202312221123030504 | ///
+										  respondentid == 202312081222030515)  & (m2_202_r1 == 3) & ///
 												((((m2_date_r1 - m1_date)/7) + m1_ga)>=13 &(((m2_date_r1 - m1_date)/7) + m1_ga)<28) 
 												// something happened in M2 round 1, and round 1 ga>= 13 & <28 
-			replace birth_outcome = 7 if respondentid == "202311061043030506" & (m2_202_r2 == 3) & ///
+			replace birth_outcome = 7 if respondentid == 202311061043030506 & (m2_202_r2 == 3) & ///
 					((((m2_date_r2 - m1_date)/7) + m1_ga)>=13 &(((m2_date_r2 - m1_date)/7) + m1_ga) <28)   // something happened in M2 round 2, and round 2 ga>= 13 & <28 
-			replace birth_outcome = 7 if respondentid == "202312151053013512" & (m2_202_r4 == 3) & ///
+			replace birth_outcome = 7 if respondentid == 202312151053013512 & (m2_202_r4 == 3) & ///
 					((((m2_date_r4 - m1_date)/7) + m1_ga)>=13 &(((m2_date_r4 - m1_date)/7) + m1_ga) <28)   // something happened in M2 round 4, and round 4 ga>= 13 & <28 
-			replace birth_outcome = 8 if (respondentid == "202311231230022012" | respondentid == "202312061131030596") ///
+			replace birth_outcome = 8 if (respondentid == 202311231230022012 | respondentid == 202312061131030596) ///
 					& (m2_202_r5 == 3) & ((((m2_date_r5 - m1_date)/7) + m1_ga) >=28)   // something happened in M2 round 5, and round 5 ga>=28 
 			
-			replace birth_outcome = 8 if respondentid=="202311271107030596" | respondentid=="202312061131030596" | respondentid=="202312181141013910" 
+			replace birth_outcome = 8 if respondentid==202311271107030596 | respondentid==202312061131030596 | respondentid==202312181141013910 
 									// from Subhojit email 03/17/2025 CA
 			* Label birth_outcome 		   
 			label define birth_outcome  1 "LTFU after M1" 2 "LTFU after M2" 3 "LB singleton" 4 "LB twin" 5 "LB triplet" ///
