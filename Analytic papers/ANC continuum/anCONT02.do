@@ -18,7 +18,32 @@
 		
 		by country, sort: tabstat totvisit, stat(min max med mean)
 		ta viscat country if totalfu>2, col nofreq
-
+*-------------------------------------------------------------------------------
+	* FIGURE 1: OPTIMAL ANC AND MINIMALLY ADEQUATE ANC
+*-------------------------------------------------------------------------------
+		by country, sort: tabstat optanc maanc if anygap!=1 , stat(mean count) col(stat)
+		
+		replace ifa1=. if bsltrimester==3
+		* MAANC
+		by country, sort: tabstat bp1 wgt1 blood1 urine1 atleast1ultra ///
+				atleast1danger atleast1bplan ifa1 if anygap!=1 , ///
+				stat(mean count) col(stat)
+				
+	foreach v in bp wgt blood urine {
+		replace `v'1 = . if bsltrimester==2 | bsltrimester==3
+		replace `v'2 = . if bsltrimester==1 | bsltrimester==3
+		replace `v'3 = . if bsltrimester==1 | bsltrimester==2
+		egen `v'=rowmax(`v'1 `v'2 `v'2)
+	}
+		replace ifa1 =. if bsltrimester==2 | bsltrimester==3
+		replace ifa2 = . if bsltrimester==1 | bsltrimester==3
+		
+		egen ifa=rowmax(ifa1 ifa2)
+	
+	by country, sort: tabstat bp wgt blood urine atleast1ultra ///
+				atleast1danger atleast1bplan ifa if anygap!=1 , ///
+				stat(mean count) col(stat)
+		
 *-------------------------------------------------------------------------------
 	* FIGURE 1: MINIMUM SET OF ITEMS 
 *-------------------------------------------------------------------------------
