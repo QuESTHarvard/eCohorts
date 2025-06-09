@@ -7,8 +7,9 @@ cd "$user/MNH E-Cohorts-internal/Analyses/Manuscripts/Paper 5 Continuum ANC/Data
 		recode chronic 1/max=1, g(bchronic)
 		recode complic 1/max=1, g(bcomplic)
 		replace dcomplic = . if hospital_del !=1 
-			// service-based complication only if delivered in hospital
-		summtab, contvars(totvisref anctotal ancqualperweek) ///
+		// service-based complication only if delivered in hospital
+		
+		summtab, contvars(totvisref) ///
 				catvars(agecat second healthlit_corr tertile marriedp ///
 				factype preg_intent primipara bsltrimester m1danger riskcat ///
 				bchronic bcomplic anemia malnut hospital_del dcomplic complic2 ///
@@ -20,8 +21,13 @@ cd "$user/MNH E-Cohorts-internal/Analyses/Manuscripts/Paper 5 Continuum ANC/Data
 	graph box ancmean , over(site ) ylabel(, labsize(small)) ///
 		ytitle("Completeness of antenatal care (%)") asyvars 
 		
+	
+	lab def prim 1"Public primary" 2 "Public secondary" 3"Private"
+	lab val factype prim
+	replace factype =1 if country==4 // ZA all primary public
+	set scheme white_tableau
 	graph box ancmean , over(factype ) ylabel(, labsize(small)) ///
-		ytitle("Completeness of antenatal care (%)") asyvars by(country, rows(1))
+		ytitle("Completeness of antenatal care (%)") asyvars by(country, rows(1)) 
 *-------------------------------------------------------------------------------
 *  TIMELY DIAGNOSTICS
 *-------------------------------------------------------------------------------
@@ -190,8 +196,7 @@ u ZAtmp.dta, clear
 			xtitle("Antenatal care quality score (%)") ///
 			title("South Africa") 	scheme(white_tableau)
 
-			
-			
+				
 *-------------------------------------------------------------------------------
 	* LINE GRAPH QUALITY BY GA
 *-------------------------------------------------------------------------------		
@@ -230,7 +235,7 @@ u ETtmp.dta, clear
 		
 *-------------------------------------------------------------------------------		
 u KEtmp.dta, clear
-		keep if bsltrim==1
+		*keep if bsltrim==1
 		egen qual0=rowmean(anc1_bp anc1_weight anc1_urine anc1_blood anc1_danger) 
 		forval i=1/8 {
 					egen qual`i'=rowmean(m2_bp_r`i' m2_wgt_r`i'  ///
@@ -259,7 +264,7 @@ u KEtmp.dta, clear
 		ytitle("ANC visit quality") legend(off) scheme(white_piyg) title("Kenya", size(small))
 *-------------------------------------------------------------------------------
 u INtmp.dta, clear
-		keep if bsltrim==1
+		*keep if bsltrim==1
 		egen qual0=rowmean(anc1_bp anc1_weight anc1_urine anc1_blood anc1_danger) // bp weight urine blood complic
 		forval i=1/10 {
 					egen qual`i'=rowmean(m2_bp_r`i' m2_wgt_r`i'  ///
@@ -289,7 +294,7 @@ u INtmp.dta, clear
 		ytitle("ANC visit quality") legend(off) scheme(white_piyg) title("India", size(small))
 *-------------------------------------------------------------------------------		
 u ZAtmp.dta, clear
-		*keep if bsltrim==1
+		keep if bsltrim==1
 		* Removed the multiplication before running graph (crLAQS01_za line 279)
 		egen qual0=rowmean(anc1_bp anc1_weight anc1_urine anc1_blood anc1_danger ) // bp weight urine blood complic
 		forval i=1/6 {
@@ -319,7 +324,59 @@ u ZAtmp.dta, clear
 		legend(off) title("South Africa", size(small))
 
 		
+*-------------------------------------------------------------------------------
+	* LINE GRAPH VISITS BY GA
+*-------------------------------------------------------------------------------		
+cd "$user/MNH E-Cohorts-internal/Analyses/Manuscripts/Paper 5 Continuum ANC/Data/"
+	
+u ETtmp.dta, clear
+		gen ranc0=1 
+		egen ranc9=rowtotal(m3_consultation_* m3_consultation_referral_*)
 		
+		keep redcap_record_id  bslga m2_ga_r* ga_endpreg  ranc* 
+		drop ranclast
+		rename (bslga ga_endpreg ) (m2_ga_r0 m2_ga_r9 )
+		
+		reshape long m2_ga_r ranc, i(redcap_record_id) j(round)
+		
+		gen rga = round(m2_ga_r, 1.0)
+		
+		collapse  (mean) ranc, by(rga)
+		drop if rga>=40
+		drop if rga<7
+
+		twoway  (lpolyci ranc rga) (scatter ranc rga), ///
+		  xlabel(7(4)40) xtitle("Gestational age in weeks") ///
+		 xline(13,  lpattern(dash) lcolor(mint)) ///
+		 xline(28,  lpattern(dash) lcolor(mint)) ///
+		ytitle("Average number of new ANC visits reported") ///
+		legend(off) scheme(white_piyg) title("Ethiopia", size(small))
+		
+*-------------------------------------------------------------------------------		
+u KEtmp.dta, clear
+		gen ranc0=1 
+		egen ranc11=rowtotal(m3_consultation_* m3_consultation_referral_*)
+		
+		keep respondentid  bslga m2_ga_r* ga_endpreg  ranc* 
+		drop ranclast
+		rename (bslga ga_endpreg ) (m2_ga_r0 m2_ga_r11 )
+		
+		reshape long m2_ga_r ranc, i(respondentid) j(round)
+		
+		gen rga = round(m2_ga_r, 1.0)
+		
+		collapse  (mean) ranc, by(rga)
+		drop if rga>=41
+		drop if rga<7
+
+		twoway  (lpolyci ranc rga) (scatter ranc rga), ///
+		  xlabel(7(4)40) xtitle("Gestational age in weeks") ///
+		 xline(13,  lpattern(dash) lcolor(mint)) ///
+		 xline(28,  lpattern(dash) lcolor(mint)) ///
+		ytitle("Average number of new ANC visits reported") ///
+		legend(off) scheme(white_piyg) title("Kenya", size(small))
+
+				
 	/*set scheme white_viridis	
 	graph pie, over(laqstimelyultra) by(, legend(on)) by(country, rows(1)) legend(off) ///
 	by(, title("Proportion of women who received an ultrasound before 24 weeks", size(medium))) ///

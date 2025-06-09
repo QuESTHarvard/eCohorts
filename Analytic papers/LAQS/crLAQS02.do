@@ -7,8 +7,8 @@ global keepvars site bsltrim totvisref firstblood secblood thirdblood ///
 		laqstimelyultra anyus agecat enrollage healthlit_corr ///
 		tertile married preg_intent educ_cat riskcat m1danger chronic malnut ///
 		complic anemia second  preg_intent primipara dcomplic poorh ///
-		ancqualperweek weeksinanc complic2 ext hospital_del ancmean* ///
-		bp1 bp2 bp3 wgt1 wgt2 wgt3 urine1 urine2 urine3 blood1 blood2 blood3 ///
+		 complic2 ext hospital_del ancmean* bp1 bp2 bp3 wgt1 wgt2 wgt3 ///
+		 urine1 urine2 urine3 blood1 blood2 blood3 ///
 		laqstimelyultra anybplan anydanger anc1_bmi anc1_muac anc1_anxi ///
 		anc1_lmp anc1_nutri anc1_exer anc1_edd anyifa anycalcium deworm ancall
 		

@@ -2,7 +2,7 @@
 	u "$ke_data_final/eco_KE_Complete.dta", clear
 	
 	* Restrict dataset to those who were not lost to follow up
-	keep if m3_date!=. // 107 deleted
+	drop if birth_outcome==1 | birth_outcome==2 // 107
 	drop if birth_outcome==6
 *-------------------------------------------------------------------------------
 	* Number of follow up surveys
@@ -47,9 +47,9 @@
 *-------------------------------------------------------------------------------	
 	* RECALCULATING BASELINE GA and RUNNING GA
 	* Baseline GA
-			gen bslga =40-((m1_802a-m1_date)/7)
+			gen bslga =40-((m1_802a-m1_date)/7) // EDD 
 			replace bslga=. if bslga<3
-			replace bslga= m1_803 if bslga==. // self reported
+			replace bslga= m1_803 if bslga==. // self reported weeks pregnant
 			gen ga_endpreg= ((m3_birth_or_ended-m1_date)/7)+bslga 
 			// 20% have gestation > 42 wks
 			drop ga_endpreg	
@@ -67,6 +67,7 @@
 			replace bslga= bslga2 if bslga2!=. // IQR= 33.1
 			gen ga_endpreg= ((m3_birth_or_ended-m1_date)/7)+bslga 
 			recode ga_endpreg (1/12.99999 = 1) (13/27.99999= 2) (28/max=3), g(endtrimes)
+			
 	* Recalculating running GA and running trimester 
 		drop m2_ga_r1  m2_ga_r2 m2_ga_r3 m2_ga_r4 m2_ga_r5 m2_ga_r6 m2_ga_r7 m2_ga_r8
 		forval i=1/8 {
@@ -299,17 +300,7 @@
 		recode totalbplan 1/max=1, g(anybplan)
 		recode totalifa 1/max=1, g(anyifa)
 		recode totalcalcium 1/max=1, g(anycalcium)
-			
-		egen anctotal=rowtotal(maxbp4 maxwgt4 anc1_bmi anc1_muac maxurine4 maxblood4 ///
-					maxus4 anc1_anxi anc1_lmp anc1_nutri anc1_exer maxdanger4 anc1_edd ///
-					maxbplan4 anyifa anycalcium deworm)	
-									
-			gen weeksinanc=(m3_birth_or_ended-m1_date)/7
-			replace weeksinanc=1 if weeksinanc<1
-			gen ancqualperweek=anctotal/weeksinanc
-			
-			egen tertqual=cut(anctotal), group(3)	// quality tertiles
-					
+								
 			* ANC mean score
 			g bp1 = totalbp>=1 
 			g bp2 = totalbp>=2

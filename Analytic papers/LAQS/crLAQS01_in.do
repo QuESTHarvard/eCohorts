@@ -2,7 +2,7 @@
 	u "$in_data_final/eco_IN_Complete.dta", clear
 	
 	* Restrict dataset to those who were not lost to follow up
-	keep if m3_date<. // 35 deleted
+	drop if birth_outcome==1 | birth_outcome==2 // 35 deleted
 	drop if birth_outcome==6
 	
 	drop state
@@ -317,17 +317,7 @@
 			recode totalbplan 1/max=1, g(anybplan)
 			recode totalifa 1/max=1, g(anyifa)
 			recode totalcalcium 1/max=1, g(anycalcium)
-						
-			egen anctotal=rowtotal(maxbp4 maxwgt4 anc1_bmi anc1_muac maxurine4 maxblood4 ///
-						maxus4 anc1_anxi anc1_lmp anc1_nutri anc1_exer maxdanger4 anc1_edd ///
-						maxbplan4 anyifa anycalcium  deworm)
-						
-			gen weeksinanc=(m3_birth_or_ended-m1_date)/7
-			replace weeksinanc=1 if weeksinanc<1
-			gen ancqualperweek=anctotal/weeksinanc
-			
-			egen tertqual=cut(anctotal), group(3)	// quality tertiles
-			
+									
 			* ANC mean score
 			g bp1 = totalbp>=1 
 			g bp2 = totalbp>=2
