@@ -1854,7 +1854,7 @@ bysort respondentid: assert _N == 1
 tempfile mkt
 save `mkt'
 
-use "${in_data_final}/eco_IN_Complete.dta"
+use "${in_data_final}/eco_m1-m3_in.dta"
 *merge 1:1 respondentid using "${in_data_final}\eco_m1_and_m2_in.dta"
 bysort respondentid: assert _N == 1 // NK added
 destring respondentid, replace
@@ -1881,7 +1881,7 @@ label value merge_m4_to_m3_m2_m1 m4
 *save "${in_data_final}/eco_m1_m2_m3_in.dta", replace
 
 order respondentid country
-save "$in_data_final/eco_IN_Complete_0328.dta", replace
+save "$in_data_final/eco_IN_m1_m4.dta", replace
 
 * NK NOTE - HIV Status doesn't seem to match ??? 
 
