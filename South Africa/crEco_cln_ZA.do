@@ -61,8 +61,8 @@ replace CRHID = subinstr(CRHID," ","",.)
 * Create sample:
 	
 * keeping eligible participants:
-keep if Eligible == "Yes" // 163 obs dropped
-drop if MOD1_ELIGIBILITY_B3_B == 14 // per Gloria 9-22-23 email: dropping 14 year old who did not meet eligibility criteria
+keep if Eligible == "Yes" // 163 obs dropped, SS update June 2025: 170 obs dropped
+drop if MOD1_ELIGIBILITY_B3_B == 14 // per Gloria 9-22-23 email: dropping 14 year old who did not meet eligibility criteria, SS update June 2025: person no longer in the dataset
 keep if MOD1_ELIGIBILITY_B7 == 1
 
 gen country = "South Africa"
@@ -928,10 +928,7 @@ recode m1_1307 (. 9999998 = .a) if m1_1306 == 0 | m1_1306 == 96 | m1_1306 == .
 recode m1_1308 (. 9999998 = .a) if m1_1306 == 1 | m1_1306 == 96 | m1_1306 == .
 
 recode m1_1309 (. 9999998 = .a) if m1_1308 == 0 | m1_1308 == . | m1_1308 == .a	  
-
-
 *------------------------------------------------------------------------------* 
-
 * Per 8/29 email from Londiwe: 9999998 is system generated if;
 	* The questionnaire is incomplete, i.e. the participant decided not to continue with the interview
 	*There was a skip from the previous question. e.g. 513a=8, then the following questions will appear as 9999998
@@ -1173,7 +1170,6 @@ replace m1_1308 = . if m1_1308 == 9999998
 replace m1_1401 = . if m1_1401 == 9999998 
 
 *===============================================================================					   
-	
 	* STEP FOUR: LABELING VARIABLES
 
 lab var country "Country"
@@ -1475,7 +1471,6 @@ drop JO-N709b
 * Run the program that cleans up the labels
 m1_add_shortened_labels
 
-
 save "$za_data_final/eco_m1_za.dta", replace
 
 foreach v of varlist * {
@@ -1489,7 +1484,8 @@ foreach v of varlist * {
 clear all
 
 * import data:
-import excel "$za_data/Module 2/MNH-Module-2 - 17Jul2024SS.xlsx", firstrow clear
+import excel "$za_data/Module 2/MNH-Module-2 - 17Jul2024SS", firstrow clear
+*import excel "/Users/shs8688/Dropbox/South Africa/01 raw data/Module 2/MNH-Module-2 - 17Jul2024.xlsx"
 
 foreach v of varlist *{
 	char `v'[Original_ZA_Varname] `v'
@@ -4593,8 +4589,7 @@ order m3_death_cause_baby1 m3_death_cause_baby1_other m3_death_cause_baby2 m3_de
 * MODULE 4:	start here	
 clear all 
 
-*import excel "${za_data}\Module 4\Module 4 - 28Dec2024.xlsx", sheet("MNH-Module-4-v0-20241011-375") firstrow case(upper) clear
-import excel "/Users/shs8688/Dropbox/South Africa/01 raw data/Module 4/Module 4 - 28Dec2024.xlsx", sheet("MNH-Module-4-v0-20241011-375") firstrow case(upper)
+import excel "${za_data}\Module 4\Module 4 - 28Dec2024.xlsx", sheet("MNH-Module-4-v0-20241011-375") firstrow case(upper) clear
 
 
 /* We need to rename the variables as the first row now contains the variable name
@@ -5562,8 +5557,7 @@ replace m4_905_other = ".a" if missing(m4_905_other) & m4_905g != 1
 	
 	*dropping these per previous modules
 	drop if inlist(respondentid, "MPH_015","QEE_109","UUT_014")
-	*save "$za_data_final/eco_m4_za.dta", replace	
-	save "/Users/shs8688/Dropbox/South Africa/02 recoded data/eco_m4_za.dta", replace
+	save "$za_data_final/eco_m4_za.dta", replace	
 	
 	assertlist !missing(m4_baby1_status) if m4_permission == 1, list(respondentid m4_baby1_status)
 	assertlist !missing(m4_301) if m4_permission == 1, list(respondentid m4_301)
@@ -5615,7 +5609,7 @@ foreach v in m4_baby2_status m4_baby2_health m4_baby2_feed_a m4_baby2_feed_b m4_
 	
 	assertlist tot == m4_902_total_spent if !inlist(m4_902_total_spent,.,.a), list(respondentid m4_901  m4_902a_amt m4_902b_amt m4_902c_amt m4_902d_amt m4_902e_amt m4_902_total_spent tot )
 	assertlist m4_902_total_spent > 0 if m4_901 == 1 , list(respondentid m4_901 m4_902a_amt m4_902b_amt m4_902c_amt m4_902d_amt m4_902e_amt m4_902_total_spent tot )
-
+ 
 	* Merge back with M1-M3
 	*use "$za_data_final/eco_m1-m3_za.dta", clear
 	use "/Users/shs8688/Dropbox/South Africa/02 recoded data/eco_m1-m3_za.dta", clear
@@ -5654,12 +5648,15 @@ foreach v in 1 2 3 {
  foreach v of varlist * {
 	char `v'[Original_ZA_Varname] `v'
 	char `v'[Module] 5
-}*/
+ }*/
 
-import delimited "$za_data/Module 5/Module-5 3Jan2025-forstata.csv", clear 
+*import delimited "$za_data/Module 5/Module-5 3Jan2025-forstata.csv", clear 
+import excel "${za_data}\Module 5\Module-5 3Jan2025SS.xlsx", sheet("MNH-Module-5-v0-20241126-822") firstrow case(lower) clear
+
+drop if responseid ==""
+drop responseid
 
 * NK NOTE: Why are there a few Mod4 variables? 
-
 foreach v of varlist * {
 	char `v'[Original_ZA_Varname] `v'
 	char `v'[Module] 5
@@ -5707,14 +5704,13 @@ rename response_longitude m5_longitude
 rename response_studynoprefix m5_studynoprefix
 rename response_studyno m5_studyno
 rename studynumber m5_studynumber
-rename responseid respondentid
+rename crhid respondentid
 rename mod5_permission_granted m5_consent
 
 * Identification section
 rename mod5_identification_101 m5_101
 rename mod5_identification_102 m5_102
 rename mod5_identification_103 m5_103
-rename crhid m5_crhid
 rename mod5_identification_108 m5_108
 rename mod5_identification_109 m5_109
 rename mod5_identification_110 m5_110
@@ -7108,13 +7104,23 @@ capture label var m5_baby2_available "Baby 2 available for measurement"
 capture label var m5_703 "What provider told you about your/baby's health issues"
 capture label var m5_user_exp "Overall experience at health facility"
 
+	save "$za_data_final/eco_m5_za.dta", replace	
 
-merge m:1 respondentid using "$za_data_final/eco_ZA_Complete.dta" // duplicate respondent ID in ZA ???
+	* Merge back with M1-M4
+	use "$za_data_final/eco_m1-m4_za.dta", clear
+	drop if respondentid == ".a"
+	
+	merge 1:1 respondentid using "$za_data_final/eco_m5_za.dta"
 
-rename _merge merge_m5_to_m4_m3_m2_m1
+	rename _merge merge_m5_main_data
+	label define m5 3 "M5 and M1" 1 "M1-M4 only", replace
+label value merge_m5_main_data m5
+label var merge_m5_main_data "Merge status from M5 to Main dataset"
+	save "$za_data_final/eco_m1-m5_za.dta", replace
 
-*save "$za_data_final/eco_ZA_complete.dta", replace
-save "/Users/shs8688/Dropbox/South Africa/02 recoded data/eco_m1-m5_za.dta", replace 
+*drop merge_m5_to_m4_m3_m2_m1
+*rename _merge merge_m5_to_m4_m3_m2_m1
+*save "$za_data_final/eco_m1-m5_za.dta", replace 
 
 *==============================================================================*
 
@@ -7299,7 +7305,6 @@ forvalues i = 1/2 {
 
 }
 
-
 save  "$za_data_final\RTHC", replace
 
 use "$za_data_final/eco_m1-m4_za.dta", clear
@@ -7342,7 +7347,6 @@ drop num_times_in_mcard merge_rthc_main_data
 
 *==============================================================================*
 
-
 	* Run the derived variables code
 	do "${github}\South Africa\crEco_der_ZA.do"
 	
@@ -7352,9 +7356,6 @@ drop num_times_in_mcard merge_rthc_main_data
 		time_3_pulse_rate bp_time_3_systolic bp_time_3_diastolic enrollage   {
 		if "``v'[Module]'"=="1" capture rename `v' m1_`v'
 	}
-	
-
-
 	
 	
 	* Add the variable labels
@@ -7403,7 +7404,6 @@ foreach v of varlist * {
 ********************************************************************************
 
 
-
 foreach v in 1 2 3 4 6 {
 		create_module_codebook, country(ZA) outputfolder($za_data_final) codebook_folder($za_data_final\archive\Codebook) module_number(`v') module_dataset(eco_ZA_Complete) id(respondentid) special
 		
@@ -7415,8 +7415,6 @@ foreach v in 1 2 3 4 6 {
 * Clean up folder
 ********************************************************************************
 ********************************************************************************
-
-	
 	
 	
 		* Now we want to clean up the output folder
@@ -7429,7 +7427,7 @@ foreach v in 1 2 3 4 6 {
 	capture mkdir "$za_data_final/Archive/`today'"
 
 	* Archive all unnecessary other files
-	foreach v in  eco_m1_za eco_m1_za_der eco_m1m2_za eco_m1-m3_za eco_m1-m3_za_der eco_m1-m4_za eco_m2_za eco_m3_za eco_m4_za {
+	foreach v in  eco_m1_za eco_m1_za_der eco_m1m2_za eco_m1-m3_za eco_m1-m3_za_der eco_m1-m4_za eco_m2_za eco_m3_za eco_m4_za eco_m5_za {
 		capture confirm file "$za_data_final/`v'.dta"
 		if _rc == 0 {
 			copy "$za_data_final/`v'.dta" "$za_data_final/archive/`today'/`v'.dta", replace
