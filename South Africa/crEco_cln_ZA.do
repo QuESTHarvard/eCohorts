@@ -5656,6 +5656,24 @@ import excel "${za_data}\Module 5\Module-5 3Jan2025SS.xlsx", sheet("MNH-Module-5
 drop if responseid ==""
 drop responseid
 
+*19 respondent ids in M5 not matching to M1-M4 dataset, some are due to misspellings of respondentid (need to further investigate: KAN_001, MND_012, NEW_024, QEE_109, UUT_014)
+replace crhid = "BXE_040" if crhid == "Bxe_040"
+replace crhid = "NOK_020" if crhid == "Nok_020"
+replace crhid = "NOK_023" if crhid == "Nok_023"
+replace crhid = "NOK_028" if crhid == "Nok_028"
+replace crhid = "NOK_037" if crhid == "Nok_037"
+
+*SS: confirm with Catherine that these were also misspelled:
+replace crhid = "NWE_013" if crhid == "NEW_013"
+replace crhid = "NWE_014" if crhid == "NEW_014"
+replace crhid = "NWE_021" if crhid == "NEW_021"
+replace crhid = "NWE_040" if crhid == "NEW_040"
+replace crhid = "NWE_043" if crhid == "NEW_043"
+replace crhid = "NWE_048" if crhid == "NEW_048"
+replace crhid = "NWE_052" if crhid == "NEW_052"
+replace crhid = "NWE_055" if crhid == "NEW_055"
+replace crhid = "NWE_073" if crhid == "NEW_073"
+
 * NK NOTE: Why are there a few Mod4 variables? 
 foreach v of varlist * {
 	char `v'[Original_ZA_Varname] `v'
@@ -7113,9 +7131,9 @@ capture label var m5_user_exp "Overall experience at health facility"
 	merge 1:1 respondentid using "$za_data_final/eco_m5_za.dta"
 
 	rename _merge merge_m5_main_data
-	label define m5 3 "M5 and M1" 1 "M1-M4 only", replace
-label value merge_m5_main_data m5
-label var merge_m5_main_data "Merge status from M5 to Main dataset"
+	label define m5 3 "Merged M5 and M1" 2 "M5 only" 1 "M1-M4 only", replace
+	label value merge_m5_main_data m5
+	label var merge_m5_main_data "Merge status from M5 to Main dataset"
 	save "$za_data_final/eco_m1-m5_za.dta", replace
 
 *drop merge_m5_to_m4_m3_m2_m1
