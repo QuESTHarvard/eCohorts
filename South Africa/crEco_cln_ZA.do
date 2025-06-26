@@ -317,6 +317,7 @@ destring(m1_723), generate(recm1_723)
 * Data quality fixes to respondent id naming:
 replace respondentid = "QEE_083" if respondentid == "QEE_O83"
 replace respondentid = "MND_013" if respondentid == "MND-013"
+replace respondentid = "MND_012" if respondentid == "MND-012"
 replace respondentid = "TOK_081" if respondentid == "C" // not in M1, ask Londi to review
 *replace respondentid = "NWE_057" if respondentid == "NWE_057" // not in M1, ask Londi to review
 replace respondentid = "MER_046" if pre_screening_num_za == "SCR-G054"
@@ -1485,7 +1486,6 @@ clear all
 
 * import data:
 import excel "$za_data/Module 2/MNH-Module-2 - 17Jul2024SS", firstrow clear
-*import excel "/Users/shs8688/Dropbox/South Africa/01 raw data/Module 2/MNH-Module-2 - 17Jul2024.xlsx"
 
 foreach v of varlist *{
 	char `v'[Original_ZA_Varname] `v'
@@ -5611,8 +5611,7 @@ foreach v in m4_baby2_status m4_baby2_health m4_baby2_feed_a m4_baby2_feed_b m4_
 	assertlist m4_902_total_spent > 0 if m4_901 == 1 , list(respondentid m4_901 m4_902a_amt m4_902b_amt m4_902c_amt m4_902d_amt m4_902e_amt m4_902_total_spent tot )
  
 	* Merge back with M1-M3
-	*use "$za_data_final/eco_m1-m3_za.dta", clear
-	use "/Users/shs8688/Dropbox/South Africa/02 recoded data/eco_m1-m3_za.dta", clear
+	use "$za_data_final/eco_m1-m3_za.dta", clear
 	
 	merge 1:1 respondentid using "$za_data_final/eco_m4_za.dta"
 
@@ -5620,8 +5619,7 @@ foreach v in m4_baby2_status m4_baby2_health m4_baby2_feed_a m4_baby2_feed_b m4_
 	label define m4 3 "M4 and M1" 1 "M1-M3 only", replace
 label value merge_m4_main_data m4
 label var merge_m4_main_data "Merge status from M4 to Main dataset"
-	*save "$za_data_final/eco_m1-m4_za.dta", replace
-	save "/Users/shs8688/Dropbox/South Africa/02 recoded data/eco_m1-m4_za.dta"
+	save "$za_data_final/eco_m1-m4_za.dta", replace
 
 * Quick M4 DQ checks after merging
 
@@ -5655,6 +5653,31 @@ import excel "${za_data}\Module 5\Module-5 3Jan2025SS.xlsx", sheet("MNH-Module-5
 
 drop if responseid ==""
 drop responseid
+
+*ineligible in M1:
+drop if crhid == "QEE_109"
+drop if crhid == "UUT_014"
+
+*Seems to be a "testing id"
+drop if crhid == "KAN_001"
+
+*19 respondent ids in M5 not matching to M1-M4 dataset, some are due to misspellings of respondentid (need to further investigate: NEW_024- can't be NWE_024 because that was already merged)
+replace crhid = "BXE_040" if crhid == "Bxe_040"
+replace crhid = "NOK_020" if crhid == "Nok_020"
+replace crhid = "NOK_023" if crhid == "Nok_023"
+replace crhid = "NOK_028" if crhid == "Nok_028"
+replace crhid = "NOK_037" if crhid == "Nok_037"
+
+*SS: confirm with Catherine that these were also misspelled:
+replace crhid = "NWE_013" if crhid == "NEW_013"
+replace crhid = "NWE_014" if crhid == "NEW_014"
+replace crhid = "NWE_021" if crhid == "NEW_021"
+replace crhid = "NWE_040" if crhid == "NEW_040"
+replace crhid = "NWE_043" if crhid == "NEW_043"
+replace crhid = "NWE_048" if crhid == "NEW_048"
+replace crhid = "NWE_052" if crhid == "NEW_052"
+replace crhid = "NWE_055" if crhid == "NEW_055"
+replace crhid = "NWE_073" if crhid == "NEW_073"
 
 * NK NOTE: Why are there a few Mod4 variables? 
 foreach v of varlist * {
@@ -7113,9 +7136,9 @@ capture label var m5_user_exp "Overall experience at health facility"
 	merge 1:1 respondentid using "$za_data_final/eco_m5_za.dta"
 
 	rename _merge merge_m5_main_data
-	label define m5 3 "M5 and M1" 1 "M1-M4 only", replace
-label value merge_m5_main_data m5
-label var merge_m5_main_data "Merge status from M5 to Main dataset"
+	label define m5 3 "Merged M5 and M1" 2 "M5 only" 1 "M1-M4 only", replace
+	label value merge_m5_main_data m5
+	label var merge_m5_main_data "Merge status from M5 to Main dataset"
 	save "$za_data_final/eco_m1-m5_za.dta", replace
 
 *drop merge_m5_to_m4_m3_m2_m1
@@ -7272,6 +7295,9 @@ drop if missing(mcard_respondentid)
 * Per other clean up 
 replace respondentid = "MND-012" if respondentid == "MND_012"
 
+*respondentids without a match
+drop if respondentid == "QEE_109" //Not eligible
+drop if respondentid == "UUT_014" // not eligible
 
 * Lets resphape so there is 1 row per respondent
 bysort respondentid: gen n = _n
@@ -7307,17 +7333,13 @@ forvalues i = 1/2 {
 
 save  "$za_data_final\RTHC", replace
 
-use "$za_data_final/eco_m1-m4_za.dta", clear
+use "$za_data_final/eco_m1-m5_za.dta", clear
 merge 1:1 respondentid using "$za_data_final\RTHC"
 
-/*respondentids without a match
-QEE_109 //Not eligible
-UUT_014 // not eligible
-*/
 
 drop if _merge == 2
 rename _merge merge_rthc_main_data
-label define rthc 3 "RTHC and M1" 1 "M1-M3 only", replace
+label define rthc 3 "RTHC and M1-M5" 1 "M1-M5 only", replace
 label value merge_rthc_main_data rtch
 label var merge_rthc_main_data "Merge status from RTHC to Main dataset"
 
@@ -7348,7 +7370,7 @@ drop num_times_in_mcard merge_rthc_main_data
 *==============================================================================*
 
 	* Run the derived variables code
-	do "${github}\South Africa\crEco_der_ZA.do"
+	do "${github}/South Africa/crEco_der_ZA.do"
 	
 	foreach v in phq9a phq9b phq9c phq9d phq9e phq9f phq9g phq9h phq9i height_cm weight_kg  ///
 		time_1_pulse_rate bp_time_1_systolic bp_time_1_diastolic ///
@@ -7394,7 +7416,7 @@ foreach v of varlist * {
 }
 
 	* Save the completed dataset	
-	save "$za_data_final/eco_ZA_Complete.dta", replace
+	save "$za_data_final/eco_ZA_der.dta", replace
 
 
 ********************************************************************************
@@ -7405,7 +7427,7 @@ foreach v of varlist * {
 
 
 foreach v in 1 2 3 4 6 {
-		create_module_codebook, country(ZA) outputfolder($za_data_final) codebook_folder($za_data_final\archive\Codebook) module_number(`v') module_dataset(eco_ZA_Complete) id(respondentid) special
+		create_module_codebook, country(ZA) outputfolder($za_data_final) codebook_folder($za_data_final/archive/Codebook) module_number(`v') module_dataset(eco_ZA_Complete) id(respondentid) special
 		
 	}
 
