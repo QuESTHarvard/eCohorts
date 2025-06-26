@@ -7145,7 +7145,7 @@ capture label var m5_user_exp "Overall experience at health facility"
 *rename _merge merge_m5_to_m4_m3_m2_m1
 *save "$za_data_final/eco_m1-m5_za.dta", replace 
 
-/*==============================================================================*
+*==============================================================================*
 
 * MODULE Road to Health card:		
  import excel "$za_data/Module 5/RTHC_20Nov2024.xlsx", sheet("-Endline---RTHC-v0-2024111-868") firstrow clear
@@ -7295,6 +7295,9 @@ drop if missing(mcard_respondentid)
 * Per other clean up 
 replace respondentid = "MND-012" if respondentid == "MND_012"
 
+*respondentids without a match
+drop if respondentid == "QEE_109" //Not eligible
+drop if respondentid == "UUT_014" // not eligible
 
 * Lets resphape so there is 1 row per respondent
 bysort respondentid: gen n = _n
@@ -7330,17 +7333,13 @@ forvalues i = 1/2 {
 
 save  "$za_data_final\RTHC", replace
 
-use "$za_data_final/eco_m1-m4_za.dta", clear
+use "$za_data_final/eco_m1-m5_za.dta", clear
 merge 1:1 respondentid using "$za_data_final\RTHC"
 
-/*respondentids without a match
-QEE_109 //Not eligible
-UUT_014 // not eligible
-*/
 
 drop if _merge == 2
 rename _merge merge_rthc_main_data
-label define rthc 3 "RTHC and M1" 1 "M1-M3 only", replace
+label define rthc 3 "RTHC and M1-M5" 1 "M1-M5 only", replace
 label value merge_rthc_main_data rtch
 label var merge_rthc_main_data "Merge status from RTHC to Main dataset"
 
@@ -7371,7 +7370,7 @@ drop num_times_in_mcard merge_rthc_main_data
 *==============================================================================*
 
 	* Run the derived variables code
-	do "${github}\South Africa\crEco_der_ZA.do"
+	do "${github}/South Africa/crEco_der_ZA.do"
 	
 	foreach v in phq9a phq9b phq9c phq9d phq9e phq9f phq9g phq9h phq9i height_cm weight_kg  ///
 		time_1_pulse_rate bp_time_1_systolic bp_time_1_diastolic ///
@@ -7417,7 +7416,7 @@ foreach v of varlist * {
 }
 
 	* Save the completed dataset	
-	save "$za_data_final/eco_ZA_Complete.dta", replace
+	save "$za_data_final/eco_ZA_der.dta", replace
 
 
 ********************************************************************************
@@ -7428,7 +7427,7 @@ foreach v of varlist * {
 
 
 foreach v in 1 2 3 4 6 {
-		create_module_codebook, country(ZA) outputfolder($za_data_final) codebook_folder($za_data_final\archive\Codebook) module_number(`v') module_dataset(eco_ZA_Complete) id(respondentid) special
+		create_module_codebook, country(ZA) outputfolder($za_data_final) codebook_folder($za_data_final/archive/Codebook) module_number(`v') module_dataset(eco_ZA_Complete) id(respondentid) special
 		
 	}
 
