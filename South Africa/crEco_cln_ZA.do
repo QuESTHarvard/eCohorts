@@ -317,6 +317,7 @@ destring(m1_723), generate(recm1_723)
 * Data quality fixes to respondent id naming:
 replace respondentid = "QEE_083" if respondentid == "QEE_O83"
 replace respondentid = "MND_013" if respondentid == "MND-013"
+replace respondentid = "MND_012" if respondentid == "MND-012"
 replace respondentid = "TOK_081" if respondentid == "C" // not in M1, ask Londi to review
 *replace respondentid = "NWE_057" if respondentid == "NWE_057" // not in M1, ask Londi to review
 replace respondentid = "MER_046" if pre_screening_num_za == "SCR-G054"
@@ -1485,7 +1486,6 @@ clear all
 
 * import data:
 import excel "$za_data/Module 2/MNH-Module-2 - 17Jul2024SS", firstrow clear
-*import excel "/Users/shs8688/Dropbox/South Africa/01 raw data/Module 2/MNH-Module-2 - 17Jul2024.xlsx"
 
 foreach v of varlist *{
 	char `v'[Original_ZA_Varname] `v'
@@ -5611,8 +5611,7 @@ foreach v in m4_baby2_status m4_baby2_health m4_baby2_feed_a m4_baby2_feed_b m4_
 	assertlist m4_902_total_spent > 0 if m4_901 == 1 , list(respondentid m4_901 m4_902a_amt m4_902b_amt m4_902c_amt m4_902d_amt m4_902e_amt m4_902_total_spent tot )
  
 	* Merge back with M1-M3
-	*use "$za_data_final/eco_m1-m3_za.dta", clear
-	use "/Users/shs8688/Dropbox/South Africa/02 recoded data/eco_m1-m3_za.dta", clear
+	use "$za_data_final/eco_m1-m3_za.dta", clear
 	
 	merge 1:1 respondentid using "$za_data_final/eco_m4_za.dta"
 
@@ -5620,8 +5619,7 @@ foreach v in m4_baby2_status m4_baby2_health m4_baby2_feed_a m4_baby2_feed_b m4_
 	label define m4 3 "M4 and M1" 1 "M1-M3 only", replace
 label value merge_m4_main_data m4
 label var merge_m4_main_data "Merge status from M4 to Main dataset"
-	*save "$za_data_final/eco_m1-m4_za.dta", replace
-	save "/Users/shs8688/Dropbox/South Africa/02 recoded data/eco_m1-m4_za.dta"
+	save "$za_data_final/eco_m1-m4_za.dta", replace
 
 * Quick M4 DQ checks after merging
 
@@ -5656,7 +5654,14 @@ import excel "${za_data}\Module 5\Module-5 3Jan2025SS.xlsx", sheet("MNH-Module-5
 drop if responseid ==""
 drop responseid
 
-*19 respondent ids in M5 not matching to M1-M4 dataset, some are due to misspellings of respondentid (need to further investigate: KAN_001, MND_012, NEW_024, QEE_109, UUT_014)
+*ineligible in M1:
+drop if crhid == "QEE_109"
+drop if crhid == "UUT_014"
+
+*Seems to be a "testing id"
+drop if crhid == "KAN_001"
+
+*19 respondent ids in M5 not matching to M1-M4 dataset, some are due to misspellings of respondentid (need to further investigate: NEW_024- can't be NWE_024 because that was already merged)
 replace crhid = "BXE_040" if crhid == "Bxe_040"
 replace crhid = "NOK_020" if crhid == "Nok_020"
 replace crhid = "NOK_023" if crhid == "Nok_023"
@@ -7140,7 +7145,7 @@ capture label var m5_user_exp "Overall experience at health facility"
 *rename _merge merge_m5_to_m4_m3_m2_m1
 *save "$za_data_final/eco_m1-m5_za.dta", replace 
 
-*==============================================================================*
+/*==============================================================================*
 
 * MODULE Road to Health card:		
  import excel "$za_data/Module 5/RTHC_20Nov2024.xlsx", sheet("-Endline---RTHC-v0-2024111-868") firstrow clear
