@@ -5679,6 +5679,9 @@ replace crhid = "NWE_052" if crhid == "NEW_052"
 replace crhid = "NWE_055" if crhid == "NEW_055"
 replace crhid = "NWE_073" if crhid == "NEW_073"
 
+* Duplicate PID with 2 different baby names. Londi confirmed to keep this one 6-28-25:
+drop if mod5_identification_112_b1 == "Qiniso"
+
 * NK NOTE: Why are there a few Mod4 variables? 
 foreach v of varlist * {
 	char `v'[Original_ZA_Varname] `v'
@@ -7425,9 +7428,10 @@ foreach v of varlist * {
 ********************************************************************************
 ********************************************************************************
 
+	capture erase "${za_data_final}/${Country}_Codebooks.xlsx"
 
-foreach v in 1 2 3 4 6 {
-		create_module_codebook, country(ZA) outputfolder($za_data_final) codebook_folder($za_data_final/archive/Codebook) module_number(`v') module_dataset(eco_ZA_Complete) id(respondentid) special
+foreach v in 1 2 3 4 5 {
+		create_module_codebook, country(South Africa) outputfolder($za_data_final) codebook_folder($za_data_final/archive/Codebook) module_number(`v') module_dataset(eco_ZA_der) id(respondentid) special
 		
 	}
 
