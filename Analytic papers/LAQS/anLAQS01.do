@@ -21,10 +21,6 @@ cd "$user/MNH E-Cohorts-internal/Analyses/Manuscripts/Paper 5 Continuum ANC/Data
 	graph box ancmean , over(site ) ylabel(, labsize(small)) ///
 		ytitle("Completeness of antenatal care (%)") asyvars 
 		
-	
-	lab def prim 1"Public primary" 2 "Public secondary" 3"Private"
-	lab val factype prim
-	replace factype =1 if country==4 // ZA all primary public
 	set scheme white_tableau
 	graph box ancmean , over(factype ) ylabel(, labsize(small)) ///
 		ytitle("Completeness of antenatal care (%)") asyvars by(country, rows(1)) 
@@ -57,18 +53,79 @@ cd "$user/MNH E-Cohorts-internal/Analyses/Manuscripts/Paper 5 Continuum ANC/Data
 		catvars(ancall bp1 bp2 bp3 wgt1 wgt2 wgt3 urine1 urine2 urine3 ///
 		blood1 blood2 blood3 laqstimelyultra anybplan anydanger anc1_bmi anc1_muac ///
 		anc1_anxi anc1_lmp anc1_nutri anc1_exer anc1_edd anyifa anycalcium deworm) ///
-		mean by(country) excel excelname(Table2) replace		
+		mean by(country) excel excelname(Table2) replace
+		
 *-------------------------------------------------------------------------------
-*  REGRESSIONS
+*  MULTI COUNTRY REGRESSIONS
 *-------------------------------------------------------------------------------
+recode educ 2=1 3=2 4=3 if country==2 | country==3
+
+* Symptoms
+		logistic complic2 i.mcqual ib(2).agecat i.educ i.tertile i.healthlit  ///
+					   i.preg_intent i.riskcat m1danger ib(7).site ///
+					  if bsltrim<3 , vce(robust)	
+					  
+		logistic complic2 ancmean ib(2).agecat i.educ i.tertile i.healthlit  ///
+					   i.preg_intent i.riskcat m1danger ib(7).site ///
+					  if bsltrim<3 , vce(robust)	
+	
+		margins, at(ancmean=(0.1(0.05)1))
+		marginsplot, ///
+		title("A. Predicted probability of intrapartum complications (based on symptoms)", size(medium)) ///
+		xtitle("Antenatal care quality score (%)", size(medium)) ytitle("") ///
+		 scheme(white_tableau)
+	
+* Service
+		logistic dcomplic i.mcqual ib(2).agecat i.educ i.tertile i.healthlit  ///
+					   i.preg_intent i.riskcat m1danger ib(7).site ///
+					  if bsltrim<3 & hospital_del==1 , vce(robust)	
+					  
+		logistic dcomplic ancmean ib(2).agecat i.educ i.tertile i.healthlit  ///
+					   i.preg_intent i.riskcat m1danger ib(7).site ///
+					  if bsltrim<3 & hospital_del==1 , vce(robust)	
+		
+		margins, at(ancmean=(0.1(0.05)1))
+			marginsplot, ///
+			title("B. Predicted probability of intrapartum complications (based on services received)", size(medium)) ///
+			xtitle("Antenatal care quality score (%)", size(medium)) ///
+			scheme(white_tableau) ytitle("") 
+					  
+* Poor health 
+		logistic poorh i.mcqual ib(2).agecat i.educ i.tertile i.healthlit  ///
+					   i.preg_intent i.riskcat m1danger ib(7).site ///
+					  if bsltrim<3 , vce(robust)	
+					  
+		logistic poorh ancmean ib(2).agecat i.educ i.tertile i.healthlit  ///
+					   i.preg_intent i.riskcat m1danger ib(7).site ///
+					  if bsltrim<3 , vce(robust)	
+		
+		margins, at(ancmean=(0.1(0.05)1))
+		marginsplot, title("C. Predicted probability of poor postpartum health", size(medium)) ///
+		xtitle("Antenatal care quality score (%)", size(medium)) ///
+		scheme(white_tableau) ytitle("")
+			
+
+*-------------------------------------------------------------------------------
+*  COUNTRY-SPECIFIC REGRESSIONS
+*-------------------------------------------------------------------------------
+
 u ETtmp.dta, clear
 		
 	* Table 3
 		logistic complic2 i.ancmeanter ib(2).agecat i.educ i.tertile i.healthlit  ///
 					   i.preg_intent i.riskcat m1danger i.site ///
-					  if bsltrim<3 , vce(robust)		
+					  if bsltrim<3 , vce(robust)	
 					  
-	* App
+		quiet logistic complic2 ancmean ib(2).agecat i.educ i.tertile i.healthlit  ///
+					   i.preg_intent i.riskcat m1danger i.site ///
+					  if bsltrim<3 , vce(robust)	
+					  
+		margins, at(ancmean=(0.1(0.05)1))
+			marginsplot, ytitle("Predicted probability of intrapartum complications (symptom-based)") ///
+			xtitle("Antenatal care quality score (%)") ///
+			title("Ethiopia") scheme(white_tableau)
+			
+	* Appendix (dcomplic=service based)
 		logistic dcomplic i.ancmeanter ib(2).agecat i.educ i.tertile i.healthlit  ///
 					   i.preg_intent i.riskcat m1danger i.site ///
 					  if bsltrim<3 & hospital_del==1 , vce(robust)
@@ -102,17 +159,26 @@ u KEtmp.dta, clear
 		logistic complic2 i.ancmeanter ib(2).agecat i.educ i.tertile i.healthlit  ///
 					   i.preg_intent i.riskcat m1danger i.study_site ///
 					  if bsltrim<3 , vce(robust)
+					  
+	margins, at(ancmean=(0.1(0.05)1))
+			marginsplot, ytitle("Predicted probability of intrapartum complications (symptom-based)") ///
+			xtitle("Antenatal care quality score (%)") ///
+			title("Kenya") scheme(white_tableau)
+					  
+	quiet logistic complic2 ancmean ib(2).agecat i.educ i.tertile i.healthlit  ///
+					   i.preg_intent i.riskcat m1danger i.study_site ///
+					  if bsltrim<3 , vce(robust)
 	* App
 		logistic dcomplic i.ancmeanter ib(2).agecat i.educ i.tertile i.healthlit  ///
 					   i.preg_intent i.riskcat m1danger i.study_site ///
 					  if bsltrim<3 & hospital_del==1 , vce(robust)	
 					  
-		quiet 	logistic dcomplic ancmean ib(2).agecat i.educ i.tertile i.healthlit  ///
+		logistic dcomplic ancmean ib(2).agecat i.educ i.tertile i.healthlit  ///
 					   i.preg_intent i.riskcat m1danger i.study_site ///
 					  if bsltrim<3 & hospital_del==1 , vce(robust)
 					  
 		margins, at(ancmean=(0.1(0.05)1))
-			marginsplot, ytitle("Predicted probability of intrapartum complications") ///
+			marginsplot, ytitle("Predicted probability of intrapartum complications (service-based)") ///
 			xtitle("Antenatal care quality score (%)") ///
 			title("Kenya") scheme(white_tableau)
 	
@@ -136,6 +202,16 @@ u INtmp.dta, clear
 		logistic complic2 i.ancmeanter ib(2).agecat i.educ i.tertile i.healthlit  ///
 					   i.preg_intent i.riskcat m1danger i.state i.urban ///
 					  if bsltrim<3 , vce(robust)		  
+					  
+		 logistic complic2 ancmeanter ib(2).agecat i.educ i.tertile i.healthlit  ///
+					   i.preg_intent i.riskcat m1danger i.state i.urban ///
+					  if bsltrim<3 , vce(robust)	
+					  
+		margins, at(ancmean=(0.1(0.05)1))
+			marginsplot, ytitle("Predicted probability of intrapartum complications (symptom-based)") ///
+			xtitle("Antenatal care quality score (%)") ///
+			title("India") scheme(white_tableau)
+					  
 	* Appendix
 		logistic dcomplic i.ancmeanter ib(2).agecat i.educ i.tertile i.healthlit  ///
 					  i.preg_intent i.riskcat m1danger i.state i.urban  ///
@@ -168,6 +244,15 @@ u ZAtmp.dta, clear
 		logistic complic2 i.ancmeanter ib(2).agecat i.educ i.tertile i.healthlit  ///
 					   i.preg_intent i.riskcat m1danger i.study_site_sd ///
 					  if bsltrim<3 , vce(robust)
+					  
+		quiet logistic complic2 ancmean ib(2).agecat i.educ i.tertile i.healthlit  ///
+					   i.preg_intent i.riskcat m1danger i.study_site_sd ///
+					  if bsltrim<3 , vce(robust)
+					  
+		margins, at(ancmean=(0.1(0.05)1))
+			marginsplot, ytitle("Predicted probability of intrapartum complications (symptom-based)") ///
+			xtitle("Antenatal care quality score (%)") ///
+			title("South Africa") scheme(white_tableau)
 	* Appendix
 		logistic dcomplic i.ancmeanter ib(2).agecat i.educ i.tertile i.healthlit  ///
 					   i.preg_intent i.riskcat m1danger i.study_site_sd ///
@@ -323,6 +408,95 @@ u ZAtmp.dta, clear
 		ytitle("ANC visit quality") scheme(white_piyg) ///
 		legend(off) title("South Africa", size(small))
 
+*-------------------------------------------------------------------------------
+	* LINE GRAPH # VISITS PER MONTH IN CARE
+*-------------------------------------------------------------------------------		
+cd "$user/MNH E-Cohorts-internal/Analyses/Manuscripts/Paper 5 Continuum ANC/Data/"
+	
+u ETtmp.dta, clear
+		gen ranc0=1 
+		egen ranc9=rowtotal(m3_consultation_* m3_consultation_referral_*)
+		
+		keep redcap_record_id  bslga m2_ga_r* ga_endpreg  ranc* 
+		drop ranclast
+		rename (bslga ga_endpreg ) (m2_ga_r0 m2_ga_r9 )
+		
+		reshape long m2_ga_r ranc, i(redcap_record_id) j(round)
+		drop if m2_ga_r==.
+		
+		by redcap_record_id, sort: gen ga_lag = m2_ga_r[_n-1] // lagging running ga
+		gen ga_diff = m2_ga_r - ga_lag // nb weeks between calls 
+		*replace ga_diff = . if missing(m2_ga_r) | missing(ga_lag)
+		by redcap_record_id, sort: gen cum_weeks = sum(ga_diff) // cumulative weeks in ANC
+		by redcap_record_id, sort: gen cum_visit = sum(ranc) // cumulative nb visits
+		gen moincare=cum_weeks/4 // number of months in care
+		gen vispermo=cum_visit/moincare // number of visits per month 
+		gen rmoincare = round(moincare, 1.0) // round month in care
+		drop if vispermo==.
+		
+		collapse  (mean) vispermo, by(rmoincare)
+	
+		drop in 1 
+		drop in 9
+		
+*-------------------------------------------------------------------------------		
+u KEtmp.dta, clear		
+		gen ranc0=1 
+		egen ranc11=rowtotal(m3_consultation_* m3_consultation_referral_*)
+		
+		keep respondentid  bslga m2_ga_r* ga_endpreg  ranc* 
+		drop ranclast
+		rename (bslga ga_endpreg ) (m2_ga_r0 m2_ga_r11 )
+		
+		reshape long m2_ga_r ranc, i(respondentid) j(round)
+		
+		drop if m2_ga_r==.
+		
+		by respondentid, sort: gen ga_lag = m2_ga_r[_n-1] // lagging running ga
+		gen ga_diff = m2_ga_r - ga_lag // nb weeks between calls 
+		*replace ga_diff = . if missing(m2_ga_r) | missing(ga_lag)
+		by respondentid, sort: gen cum_weeks = sum(ga_diff) // cumulative weeks in ANC
+		by respondentid, sort: gen cum_visit = sum(ranc) // cumulative nb visits
+		gen moincare=cum_weeks/4 // number of months in care
+		gen vispermo=cum_visit/moincare // number of visits per month 
+		gen rmoincare = round(moincare, 1.0) // round month in care
+		drop if vispermo==.
+		
+		collapse  (mean) vispermo, by(rmoincare)
+	
+		* drop 0 months and greater than 8 months
+		drop in 1
+		drop in 9/12
+		
+*-------------------------------------------------------------------------------		
+u INtmp.dta, clear		
+		gen ranc0=1 
+		egen ranc11=rowtotal(m3_403 m3_404 m3_406 m3_407 m3_409 m3_410)
+		
+		keep respondentid  bslga m2_ga_r* ga_endpreg  ranc* 
+		drop ranclast
+		rename (bslga ga_endpreg ) (m2_ga_r0 m2_ga_r11 )
+		
+		reshape long m2_ga_r ranc, i(respondentid) j(round)
+		
+		drop if m2_ga_r==.
+		
+		by respondentid, sort: gen ga_lag = m2_ga_r[_n-1] // lagging running ga
+		gen ga_diff = m2_ga_r - ga_lag // nb weeks between calls 
+		*replace ga_diff = . if missing(m2_ga_r) | missing(ga_lag)
+		by respondentid, sort: gen cum_weeks = sum(ga_diff) // cumulative weeks in ANC
+		by respondentid, sort: gen cum_visit = sum(ranc) // cumulative nb visits
+		gen moincare=cum_weeks/4 // number of months in care
+		gen vispermo=cum_visit/moincare // number of visits per month 
+		gen rmoincare = round(moincare, 1.0) // round month in care
+		drop if vispermo==.
+		
+		collapse  (mean) vispermo, by(rmoincare)
+	
+		* drop 0 months and greater than 8 months
+		drop in 1
+		drop in 9/12
+		
 		
 *-------------------------------------------------------------------------------
 	* LINE GRAPH VISITS BY GA
@@ -341,7 +515,7 @@ u ETtmp.dta, clear
 		
 		gen rga = round(m2_ga_r, 1.0)
 		
-		collapse  (mean) ranc, by(rga)
+		collapse  (count) ranc, by(rga)
 		drop if rga>=40
 		drop if rga<7
 
