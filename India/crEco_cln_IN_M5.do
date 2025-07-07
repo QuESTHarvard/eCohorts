@@ -176,4 +176,4 @@ merge 1:1 respondentid using "$in_data_final/eco_IN_m1_m4.dta" // 170 not matche
 
 rename _merge merge_m5_to_m4_m3_m2_m1
 
-save "$in_data_final/eco_IN_Complete.dta", replace
+save "$in_data_final/eco_m1-m5_in.dta", replace
