@@ -7142,11 +7142,11 @@ capture label var m5_user_exp "Overall experience at health facility"
 	label define m5 3 "Merged M5 and M1" 2 "M5 only" 1 "M1-M4 only", replace
 	label value merge_m5_main_data m5
 	label var merge_m5_main_data "Merge status from M5 to Main dataset"
-	save "$za_data_final/eco_m1-m5_za.dta", replace
+	save "$za_data_final/eco_ZA_Complete.dta", replace
 
 *drop merge_m5_to_m4_m3_m2_m1
 *rename _merge merge_m5_to_m4_m3_m2_m1
-*save "$za_data_final/eco_m1-m5_za.dta", replace 
+*save "$za_data_finaleco_ZA_Complete.dta", replace 
 
 *==============================================================================*
 
@@ -7336,7 +7336,7 @@ forvalues i = 1/2 {
 
 save  "$za_data_final\RTHC", replace
 
-use "$za_data_final/eco_m1-m5_za.dta", clear
+use "$za_data_final/eco_ZA_Complete.dta", clear
 merge 1:1 respondentid using "$za_data_final\RTHC"
 
 
