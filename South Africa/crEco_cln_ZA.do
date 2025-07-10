@@ -4689,9 +4689,11 @@ rename MOD3_IDENTIFICATION_114_OTHER m4_maternal_death_learn_other
 * Section 2:
 rename MOD4_HEALTHBABY_201_BABY1 m4_baby1_status
 rename MOD4_HEALTHBABY_201_BABY2 m4_baby2_status
+rename MOD4_HEALTHBABY_201_BABY3 m4_baby3_status
 
 rename MOD4_HEALTHBABY_202_BABY1 m4_baby1_health
 rename MOD4_HEALTHBABY_202_BABY2 m4_baby2_health
+rename MOD4_HEALTHBABY_202_BABY3 m4_baby3_health
 
 ************************************************
 ************************************************
@@ -4711,7 +4713,7 @@ forvalues b = 1/2 {
 
 
 * Drop variables
-drop MOD4_HEALTHBABY_203_BABY1 MOD4_HEALTHBABY_203_BABY2
+drop MOD4_HEALTHBABY_203_BABY1 MOD4_HEALTHBABY_203_BABY2 MOD4_HEALTHBABY_203_BABY3
 ************************************************
 ************************************************
 
@@ -4777,9 +4779,11 @@ rename MOD4_HEALTHBABY_207_B2_OTHER m4_baby2_other
 
 rename MOD4_HEALTHBABY_208_BABY1 m4_baby1_death_date
 rename MOD4_HEALTHBABY_208_BABY2 m4_baby2_death_date
+rename MOD4_HEALTHBABY_208_BABY3 m4_baby3_death_date
 
 rename MOD4_HEALTHBABY_209_BABY1 m4_baby1_deathage
 rename MOD4_HEALTHBABY_209_BABY2 m4_baby2_deathage
+rename MOD4_HEALTHBABY_209_BABY3 m4_baby3_deathage
 
 rename MOD4_HEALTHBABY_210_BABY1 m4_baby1_210
 rename MOD4_HEALTHBABY_210_BABY1_OTHER m4_baby1_210_other
@@ -4787,9 +4791,11 @@ rename MOD4_HEALTHBABY_210_BABY1_OTHER m4_baby1_210_other
 rename MOD4_HEALTHBABY_210_BABY2 m4_baby2_210
 rename MOD4_HEALTHBABY_210_BABY2_OTHER m4_baby2_210_other
 
+rename MOD4_HEALTHBABY_210_BABY3 m4_baby3_210
 
 rename MOD4_HEALTHBABY_211_BABY1 m4_baby1_advice
 rename MOD4_HEALTHBABY_211_BABY2 m4_baby2_advice
+rename MOD4_HEALTHBABY_211_BABY3 m4_baby3_advice
 
 rename MOD4_HEALTHBABY_212_BABY1 m4_baby1_death_loc
 rename MOD4_HEALTHBABY_212_BABY2 m4_baby2_death_loc
@@ -5347,7 +5353,7 @@ foreach v of varlist * {
 	label define m4_yes_no_dnk_nr 0 "No" 1 "Yes", replace // 98 "Don't Know" 99 "No Response/Refused to answer", replace
 	label value  m4_baby1_feed_a m4_baby1_feed_b m4_baby1_feed_c m4_baby1_feed_d m4_baby1_feed_e m4_baby1_feed_f m4_baby1_feed_g m4_baby1_feed_rf m4_baby2_feed_a m4_baby2_feed_b m4_baby2_feed_c m4_baby2_feed_d m4_baby2_feed_e m4_baby2_feed_f m4_baby2_feed_g m4_baby2_feed_rf  ///
 	m4_baby1_diarrhea m4_baby2_diarrhea m4_baby1_fever m4_baby2_fever m4_baby1_lowtemp m4_baby2_lowtemp m4_baby1_illness m4_baby2_illness m4_baby1_troublebreath m4_baby2_troublebreath m4_baby1_chestprob m4_baby2_chestprob m4_baby1_troublefeed m4_baby2_troublefeed m4_baby1_convulsions m4_baby2_convulsions m4_baby1_jaundice m4_baby2_jaundice m4_baby1_yellowpalms m4_baby2_yellowpalms m4_baby1_otherprob m4_baby2_otherprob ///
-	m4_baby1_advice m4_baby2_advice ///
+	m4_baby1_advice m4_baby2_advice m4_baby3_advice ///
 	m4_401a ///
 	m4_405a m4_405a_1 m4_405a_2 m4_405a_3 m4_405a_4 m4_405a_5 m4_405a_6 m4_405a_7 m4_405a_8 m4_405a_9 m4_405a_10 m4_405a_96  ///
 	m4_405b m4_405b_1 m4_405b_2 m4_405b_3 m4_405b_4 m4_405b_5 m4_405b_6 m4_405b_7 m4_405b_8 m4_405b_9 m4_405b_10 m4_405b_96 ///
@@ -5376,7 +5382,7 @@ foreach v of varlist * {
 	m4_yesno
 	
 	label define m4_alive 1 "Alive" 0 "Died" 95 "Not applicable", replace
-	label value m4_baby1_status m4_baby2_status m4_alive 
+	label value m4_baby1_status m4_baby2_status m4_baby3_status m4_alive 
 	
 	label define m4_rate 1 "Excellent" 2 "Very Good" 3 "Good" 4 "Fair" 5 "Poor", replace // 98 "Don't know" 99 "No Response/Refused to answer", replace
 	label value m4_baby1_health m4_baby2_health m4_301 ///
@@ -5541,6 +5547,9 @@ replace m4_905_other = ".a" if missing(m4_905_other) & m4_905g != 1
 *******************************************************************************
 *******************************************************************************
 *******************************************************************************
+
+*Merge with M1-M3
+
 * Do a little more cleanup and checks before merging
 	* Confirm that the response id is unique
 	bysort m4_respondentid : gen n = _N 
@@ -5619,7 +5628,110 @@ foreach v in m4_baby2_status m4_baby2_health m4_baby2_feed_a m4_baby2_feed_b m4_
 	label define m4 3 "M4 and M1" 1 "M1-M3 only", replace
 label value merge_m4_main_data m4
 label var merge_m4_main_data "Merge status from M4 to Main dataset"
-	save "$za_data_final/eco_m1-m4_za.dta", replace
+
+
+********************************************************************************
+********************************************************************************	
+
+drop m4_baby1_name m4_baby2_name
+	
+* STEP FIVE: ORDER VARIABLES
+	
+order m1_* m2_* m3_* m4_*, sequential
+
+order pre_screening_num_za Eligible permission country respondentid interviewer_id m1_date m1_start_time study_site ///
+      care_self enrollage enrollage_cat zone_live b5anc b6anc_first b7eligible mobile_phone flash study_site_sd facility
+	  
+order height_cm weight_kg bp_time_1_systolic bp_time_1_diastolic time_1_pulse_rate ///
+	  bp_time_2_systolic bp_time_2_diastolic time_2_pulse_rate bp_time_3_systolic ///
+	  bp_time_3_diastolic time_3_pulse_rate, after(m1_1223)
+	  
+order phq9a phq9b phq9c phq9d phq9e phq9f phq9g phq9h phq9i, after(m1_205e)
+
+* Module 2:
+order m2_permission* m2_date* m2_time_start* m2_interviewer* m2_maternal_death_reported* m2_date_of_maternal_death* ///
+	  m2_ga* m2_hiv_status* m2_maternal_death_learn* ///
+	  m2_maternal_death_learn_other*, after(m1_1401)
+
+* Module 3:
+order m3_permission m3_date m3_time m3_birth_or_ended, before(m3_303a)
+order m3_baby1_gender m3_baby2_gender m3_baby3_gender, after(m3_303c)
+order m3_baby1_age_weeks m3_baby1_weight m3_baby2_weight m3_baby3_weight, after(m3_baby3_gender)
+order m3_baby1_size m3_baby2_size m3_baby2_size m3_baby3_size, after(m3_baby3_weight)
+order m3_baby1_health m3_baby2_health m3_baby3_health, after(m3_baby3_size)
+order m3_baby1_feeding m3_baby1_feed_a m3_baby1_feed_b m3_baby1_feed_c m3_baby1_feed_d m3_baby1_feed_e m3_baby1_feed_f   m3_baby1_feed_g m3_baby1_feed_95 m3_baby1_feed_98 m3_baby1_feed_99, after(m3_baby3_health) 
+order m3_baby2_feeding m3_baby2_feed_a m3_baby2_feed_b m3_baby2_feed_c m3_baby2_feed_d m3_baby2_feed_e m3_baby2_feed_f  m3_baby2_feed_g m3_baby2_feed_95 m3_baby2_feed_98 m3_baby2_feed_99, after(m3_baby1_feed_99)
+order m3_baby3_feeding m3_baby3_feed_a m3_baby3_feed_b m3_baby3_feed_c m3_baby3_feed_d m3_baby3_feed_e m3_baby3_feed_f  m3_baby3_feed_g m3_baby3_feed_95 m3_baby3_feed_98 m3_baby3_feed_99, after(m3_baby2_feed_99)
+order m3_breastfeeding,after(m3_baby3_feed_99)
+order m3_baby1_deathga m3_baby2_deathga m3_baby3_deathga, after(m3_breastfeeding)
+order m3_baby1_born_alive m3_baby2_born_alive m3_baby3_born_alive, after(m3_breastfeeding)
+order m3_death_cause_baby1 m3_death_cause_baby1_other m3_death_cause_baby2 m3_1201 m3_1202, after(m3_313e_baby3)
+order m3_consultation_1 m3_consultation_referral_1 m3_consultation1_reason m3_consultation1_reason_other, after(m3_402) 
+order m3_consultation_2 m3_consultation_referral_2 m3_consultation2_reason m3_consultation2_reason_other,after(m3_consultation1_reason_other) 
+order m3_consultation_3 m3_consultation_referral_3 m3_consultation3_reason m3_consultation3_reason_other,after(m3_consultation2_reason_other) 
+
+order m3_baby1_sleep m3_baby2_sleep m3_baby3_sleep, after(m3_622c) 
+order m3_baby1_feeding m3_baby2_feeding m3_baby3_feeding, after(m3_baby3_sleep)
+order m3_baby1_breath m3_baby2_breath m3_baby3_breath, after(m3_baby3_feeding)
+order m3_baby1_stool m3_baby2_stool m3_baby3_stool,after(m3_baby3_breath)
+order m3_baby1_mood m3_baby2_mood m3_baby3_mood, after(m3_baby3_stool)
+order m3_baby1_skin m3_baby2_skin m3_baby3_skin, after(m3_baby3_mood)
+order m3_baby1_interactivity m3_baby2_interactivity m3_baby3_interactivity, after(m3_baby3_skin)
+
+order m3_baby1_issues_a m3_baby1_issues_b m3_baby1_issues_c m3_baby1_issues_d m3_baby1_issues_e m3_baby1_issues_f m3_baby1_issues_95 m3_baby1_issues_98 m3_baby1_issues_99 m3_baby1_issue_oth m3_baby1_issue_oth_text, after(m3_707)
+
+order m3_baby2_issues_a m3_baby2_issues_b m3_baby2_issues_c m3_baby2_issues_d m3_baby2_issues_e m3_baby2_issues_f m3_baby2_issues_95 m3_baby2_issues_98 m3_baby2_issues_99 m3_baby2_issue_oth m3_baby2_issue_oth_text, after(m3_baby1_issue_oth_text)
+
+order m3_baby3_issues_a m3_baby3_issues_b m3_baby3_issues_c m3_baby3_issues_d m3_baby3_issues_e m3_baby3_issues_f m3_baby3_issues_95 m3_baby3_issues_98 m3_baby3_issues_99 m3_baby3_issue_oth m3_baby3_issue_oth_text, after(m3_baby2_issues_99)
+
+order m3_baby1_710 m3_baby2_710 m3_baby3_710, after(m3_baby3_issue_oth_text)
+
+order m3_phq2_score, after(m3_801b)                 
+
+order m3_death_cause_baby1 m3_death_cause_baby1_other m3_death_cause_baby2 m3_death_cause_baby2_other m3_death_cause_baby3 m3_death_cause_baby3_other,after(m3_313e_baby3)
+
+
+* Module 4:
+
+order m4_permission m4_interviewer m4_interviewer_id m4_interviewer_initials m4_date m4_time m4_hiv_status m4_maternal_death_reported m4_date_of_maternal_death m4_maternal_death_learn m4_maternal_death_learn_other m4_c_section m4_live_babies, after(m3_1106)
+
+order m4_baby1_status m4_baby2_status m4_baby3_status m4_baby1_health m4_baby2_health m4_baby3_health, after(m4_live_babies)
+
+order m4_baby1_feed_a m4_baby2_feed_a m4_baby1_feed_b m4_baby2_feed_b m4_baby1_feed_c m4_baby2_feed_c m4_baby1_feed_d m4_baby2_feed_d m4_baby1_feed_e m4_baby2_feed_e m4_baby1_feed_f m4_baby2_feed_f m4_baby1_feed_g m4_baby2_feed_g m4_baby1_feed_rf m4_baby2_feed_rf,after(m4_baby3_health)
+
+order m4_breastfeeding,after(m4_baby1_feed_rf)
+
+order m4_baby1_sleep m4_baby2_sleep m4_baby1_feed m4_baby2_feed m4_baby1_breath m4_baby2_breath m4_baby1_stool m4_baby2_stool ///
+	  m4_baby1_mood m4_baby2_mood m4_baby1_skin m4_baby2_skin m4_baby1_interactivity m4_baby2_interactivity m4_baby1_diarrhea ///
+	  m4_baby2_diarrhea m4_baby1_fever m4_baby2_fever m4_baby1_lowtemp m4_baby2_lowtemp m4_baby1_illness m4_baby2_illness ///
+	  m4_baby1_troublebreath m4_baby2_troublebreath m4_baby1_chestprob m4_baby2_chestprob m4_baby1_troublefeed m4_baby2_troublefeed ///
+	  m4_baby1_convulsions m4_baby2_convulsions m4_baby1_jaundice m4_baby2_jaundice m4_baby1_yellowpalms m4_baby2_yellowpalms ///
+	  m4_baby1_other m4_baby2_other m4_baby1_otherprob  m4_baby2_otherprob, after(m4_breastfeeding)
+
+order m4_baby1_death_date m4_baby2_death_date m4_baby3_death_date m4_baby1_deathage m4_baby2_deathage m4_baby3_deathage, after(m4_baby2_otherprob)
+
+order m4_baby1_210 m4_baby1_210_other m4_baby2_210 m4_baby2_210_other m4_baby3_210,after(m4_baby3_deathage)
+
+order m4_baby1_advice m4_baby2_advice m4_baby3_advice m4_baby1_death_loc m4_baby2_death_loc,after(m4_baby2_210_other) 
+
+order m4_403a m4_403b m4_baby2_403b m4_403c m4_baby2_403c m4_baby2_403b m4_baby2_403c m4_baby2_404a m4_baby2_404b  m4_baby2_404c,after(m4_402)
+
+order m4_consult1_len m4_consult2_len m4_consult3_len m4_baby2_consult3_len,after(m4_411c)
+
+order m4_baby1_601a m4_baby2_601a m4_baby1_601b m4_baby2_601b m4_baby1_601c m4_baby2_601c m4_baby1_601d m4_baby2_601d m4_baby1_601e m4_baby2_601e m4_baby1_601f m4_baby2_601f m4_baby1_601g  m4_baby2_601g m4_baby1_601h m4_baby2_601h m4_baby1_601i m4_baby2_601i m4_baby1_601i_other m4_baby2_601i_other, after(m4_503)
+
+order m4_905_other,after(m4_905g)
+
+order m4_meet_for_m5 m4_meet_for_m5_date m4_meet_for_m5_location m4_meet_for_m5_time_of_day merge_m4_main_data,after(m4_905_other)
+
+*==============================================================================*
+	
+	* STEP SIX: SAVE DATA TO RECODED FOLDER
+	
+		save "$za_data_final/eco_m1-m4_za.dta", replace	
+
+*==============================================================================	
+
 
 * Quick M4 DQ checks after merging
 
@@ -5811,6 +5923,7 @@ rename mod5_healthbaby_208_baby2 m5_baby2_death_date
 rename mod5_healthbaby_209_baby2 m5_baby2_death_age
 rename mod4_healthbaby_210_baby2 m5_baby2_death_cause
 rename mod5_healthbaby_210_baby2_other m5_baby2_death_cause_oth_text
+rename mod5_healthbaby_210_baby3_other m5_baby3_death_cause_oth_text
 rename mod5_healthbaby_211_baby2 m5_baby2_advice
 rename mod5_healthbaby_212_baby2 m5_baby2_death_loc
 rename mod5_healthbaby_212_b2_other m5_baby2_death_loc_oth
@@ -6084,6 +6197,7 @@ rename mod5_assessment_1401_b1 m5_baby1_weight
 rename mod5_assessment_1402_b1 m5_baby1_length
 rename mod5_assessment_1403_b1 m5_baby1_hc
 rename mod5_1401_baby2 m5_baby2_available
+rename mod5_1401_baby3 m5_baby3_available
 rename mod5_assessment_1401_b2 m5_baby2_weight
 rename mod5_assessment_1402_b2 m5_baby2_length
 rename mod5_assessment_1403_b2 m5_baby2_hc
@@ -6575,10 +6689,10 @@ capture label var m5_baby3_death_cause_i "Baby 3 Cause of death: Severe acute ma
 capture label var m5_baby3_death_cause_j "Baby 3 Cause of death: An accident or injury"
 capture label var m5_baby3_death_cause_oth "Baby 3 Cause of death: Another cause"
 
-capture label var m5_baby2_death_cause_98 "Baby 2 Cause of death: Don't know"
-capture label var m5_baby2_death_cause_99 "Baby 2 Cause of death: No response/Refused to answer"
-capture label var m5_baby2_deathcause_other "Baby 2 Cause of death: Other cause specified"
-capture label var m5_baby2_death_cause_oth_text "Baby 2 Cause of death: Other cause specified"
+*capture label var m5_baby3_death_cause_98 "Baby 2 Cause of death: Don't know"
+*capture label var m5_baby3_death_cause_99 "Baby 2 Cause of death: No response/Refused to answer"
+*capture label var m5_baby3_deathcause_other "Baby 2 Cause of death: Other cause specified"
+capture label var m5_baby3_death_cause_oth_text "Baby 2 Cause of death: Other cause specified"
 
 
 
@@ -7127,6 +7241,7 @@ capture label var m5_baby1_issue_a "Since last spoke Baby 1 had: Diarrhea with b
 capture label var m5_baby2_issue_a "Since last spoke Baby 2 had: Diarrhea with blood in the stools"
 
 capture label var m5_baby2_available "Baby 2 available for measurement"
+capture label var m5_baby3_available "Baby 3 available for measurement"
 capture label var m5_703 "What provider told you about your/baby's health issues"
 capture label var m5_user_exp "Overall experience at health facility"
 
@@ -7135,15 +7250,146 @@ capture label var m5_user_exp "Overall experience at health facility"
 	* Merge back with M1-M4
 	use "$za_data_final/eco_m1-m4_za.dta", clear
 	drop if respondentid == ".a"
-	
 	merge 1:1 respondentid using "$za_data_final/eco_m5_za.dta"
 
 	rename _merge merge_m5_main_data
 	label define m5 3 "Merged M5 and M1" 2 "M5 only" 1 "M1-M4 only", replace
 	label value merge_m5_main_data m5
 	label var merge_m5_main_data "Merge status from M5 to Main dataset"
+	
+	
+	
+
+********************************************************************************
+********************************************************************************	
+
+drop m5_latitude m5_longitude
+	
+* STEP FIVE: ORDER VARIABLES
+	
+order m1_* m2_* m3_* m4_* m5_*, sequential
+
+order pre_screening_num_za Eligible permission country respondentid interviewer_id m1_date m1_start_time study_site ///
+      care_self enrollage enrollage_cat zone_live b5anc b6anc_first b7eligible mobile_phone flash study_site_sd facility
+	  
+order height_cm weight_kg bp_time_1_systolic bp_time_1_diastolic time_1_pulse_rate ///
+	  bp_time_2_systolic bp_time_2_diastolic time_2_pulse_rate bp_time_3_systolic ///
+	  bp_time_3_diastolic time_3_pulse_rate, after(m1_1223)
+	  
+order phq9a phq9b phq9c phq9d phq9e phq9f phq9g phq9h phq9i, after(m1_205e)
+
+* Module 2:
+order m2_permission* m2_date* m2_time_start* m2_interviewer* m2_maternal_death_reported* m2_date_of_maternal_death* ///
+	  m2_ga* m2_hiv_status* m2_maternal_death_learn* ///
+	  m2_maternal_death_learn_other*, after(m1_1401)
+
+* Module 3:
+order m3_permission m3_date m3_time m3_birth_or_ended, before(m3_303a)
+order m3_baby1_gender m3_baby2_gender m3_baby3_gender, after(m3_303c)
+order m3_baby1_age_weeks m3_baby1_weight m3_baby2_weight m3_baby3_weight, after(m3_baby3_gender)
+order m3_baby1_size m3_baby2_size m3_baby2_size m3_baby3_size, after(m3_baby3_weight)
+order m3_baby1_health m3_baby2_health m3_baby3_health, after(m3_baby3_size)
+order m3_baby1_feeding m3_baby1_feed_a m3_baby1_feed_b m3_baby1_feed_c m3_baby1_feed_d m3_baby1_feed_e m3_baby1_feed_f   m3_baby1_feed_g m3_baby1_feed_95 m3_baby1_feed_98 m3_baby1_feed_99, after(m3_baby3_health) 
+order m3_baby2_feeding m3_baby2_feed_a m3_baby2_feed_b m3_baby2_feed_c m3_baby2_feed_d m3_baby2_feed_e m3_baby2_feed_f  m3_baby2_feed_g m3_baby2_feed_95 m3_baby2_feed_98 m3_baby2_feed_99, after(m3_baby1_feed_99)
+order m3_baby3_feeding m3_baby3_feed_a m3_baby3_feed_b m3_baby3_feed_c m3_baby3_feed_d m3_baby3_feed_e m3_baby3_feed_f  m3_baby3_feed_g m3_baby3_feed_95 m3_baby3_feed_98 m3_baby3_feed_99, after(m3_baby2_feed_99)
+order m3_breastfeeding,after(m3_baby3_feed_99)
+order m3_baby1_deathga m3_baby2_deathga m3_baby3_deathga, after(m3_breastfeeding)
+order m3_baby1_born_alive m3_baby2_born_alive m3_baby3_born_alive, after(m3_breastfeeding)
+order m3_death_cause_baby1 m3_death_cause_baby1_other m3_death_cause_baby2 m3_1201 m3_1202, after(m3_313e_baby3)
+order m3_consultation_1 m3_consultation_referral_1 m3_consultation1_reason m3_consultation1_reason_other, after(m3_402) 
+order m3_consultation_2 m3_consultation_referral_2 m3_consultation2_reason m3_consultation2_reason_other,after(m3_consultation1_reason_other) 
+order m3_consultation_3 m3_consultation_referral_3 m3_consultation3_reason m3_consultation3_reason_other,after(m3_consultation2_reason_other) 
+
+order m3_baby1_sleep m3_baby2_sleep m3_baby3_sleep, after(m3_622c) 
+order m3_baby1_feeding m3_baby2_feeding m3_baby3_feeding, after(m3_baby3_sleep)
+order m3_baby1_breath m3_baby2_breath m3_baby3_breath, after(m3_baby3_feeding)
+order m3_baby1_stool m3_baby2_stool m3_baby3_stool,after(m3_baby3_breath)
+order m3_baby1_mood m3_baby2_mood m3_baby3_mood, after(m3_baby3_stool)
+order m3_baby1_skin m3_baby2_skin m3_baby3_skin, after(m3_baby3_mood)
+order m3_baby1_interactivity m3_baby2_interactivity m3_baby3_interactivity, after(m3_baby3_skin)
+
+order m3_baby1_issues_a m3_baby1_issues_b m3_baby1_issues_c m3_baby1_issues_d m3_baby1_issues_e m3_baby1_issues_f m3_baby1_issues_95 m3_baby1_issues_98 m3_baby1_issues_99 m3_baby1_issue_oth m3_baby1_issue_oth_text, after(m3_707)
+
+order m3_baby2_issues_a m3_baby2_issues_b m3_baby2_issues_c m3_baby2_issues_d m3_baby2_issues_e m3_baby2_issues_f m3_baby2_issues_95 m3_baby2_issues_98 m3_baby2_issues_99 m3_baby2_issue_oth m3_baby2_issue_oth_text, after(m3_baby1_issue_oth_text)
+
+order m3_baby3_issues_a m3_baby3_issues_b m3_baby3_issues_c m3_baby3_issues_d m3_baby3_issues_e m3_baby3_issues_f m3_baby3_issues_95 m3_baby3_issues_98 m3_baby3_issues_99 m3_baby3_issue_oth m3_baby3_issue_oth_text, after(m3_baby2_issues_99)
+
+order m3_baby1_710 m3_baby2_710 m3_baby3_710, after(m3_baby3_issue_oth_text)
+
+order m3_phq2_score, after(m3_801b)                 
+
+order m3_death_cause_baby1 m3_death_cause_baby1_other m3_death_cause_baby2 m3_death_cause_baby2_other m3_death_cause_baby3 m3_death_cause_baby3_other,after(m3_313e_baby3)
+
+
+* Module 4:
+
+order m4_permission m4_interviewer m4_interviewer_id m4_interviewer_initials m4_date m4_time m4_hiv_status m4_maternal_death_reported m4_date_of_maternal_death m4_maternal_death_learn m4_maternal_death_learn_other m4_c_section m4_live_babies, after(m3_1106)
+
+order m4_baby1_status m4_baby2_status m4_baby3_status m4_baby1_health m4_baby2_health m4_baby3_health, after(m4_live_babies)
+
+order m4_baby1_feed_a m4_baby2_feed_a m4_baby1_feed_b m4_baby2_feed_b m4_baby1_feed_c m4_baby2_feed_c m4_baby1_feed_d m4_baby2_feed_d m4_baby1_feed_e m4_baby2_feed_e m4_baby1_feed_f m4_baby2_feed_f m4_baby1_feed_g m4_baby2_feed_g m4_baby1_feed_rf m4_baby2_feed_rf,after(m4_baby3_health)
+
+order m4_breastfeeding,after(m4_baby1_feed_rf)
+
+order m4_baby1_sleep m4_baby2_sleep m4_baby1_feed m4_baby2_feed m4_baby1_breath m4_baby2_breath m4_baby1_stool m4_baby2_stool ///
+	  m4_baby1_mood m4_baby2_mood m4_baby1_skin m4_baby2_skin m4_baby1_interactivity m4_baby2_interactivity m4_baby1_diarrhea ///
+	  m4_baby2_diarrhea m4_baby1_fever m4_baby2_fever m4_baby1_lowtemp m4_baby2_lowtemp m4_baby1_illness m4_baby2_illness ///
+	  m4_baby1_troublebreath m4_baby2_troublebreath m4_baby1_chestprob m4_baby2_chestprob m4_baby1_troublefeed m4_baby2_troublefeed ///
+	  m4_baby1_convulsions m4_baby2_convulsions m4_baby1_jaundice m4_baby2_jaundice m4_baby1_yellowpalms m4_baby2_yellowpalms ///
+	  m4_baby1_other m4_baby2_other m4_baby1_otherprob  m4_baby2_otherprob, after(m4_breastfeeding)
+
+order m4_baby1_death_date m4_baby2_death_date m4_baby3_death_date m4_baby1_deathage m4_baby2_deathage m4_baby3_deathage, after(m4_baby2_otherprob)
+
+order m4_baby1_210 m4_baby1_210_other m4_baby2_210 m4_baby2_210_other m4_baby3_210,after(m4_baby3_deathage)
+
+order m4_baby1_advice m4_baby2_advice m4_baby3_advice m4_baby1_death_loc m4_baby2_death_loc,after(m4_baby2_210_other) 
+
+order m4_403a m4_403b m4_baby2_403b m4_403c m4_baby2_403c m4_baby2_403b m4_baby2_403c m4_baby2_404a m4_baby2_404b  m4_baby2_404c,after(m4_402)
+
+order m4_consult1_len m4_consult2_len m4_consult3_len m4_baby2_consult3_len,after(m4_411c)
+
+order m4_baby1_601a m4_baby2_601a m4_baby1_601b m4_baby2_601b m4_baby1_601c m4_baby2_601c m4_baby1_601d m4_baby2_601d m4_baby1_601e m4_baby2_601e m4_baby1_601f m4_baby2_601f m4_baby1_601g  m4_baby2_601g m4_baby1_601h m4_baby2_601h m4_baby1_601i m4_baby2_601i m4_baby1_601i_other m4_baby2_601i_other, after(m4_503)
+
+order m4_905_other,after(m4_905g)
+
+order m4_meet_for_m5 m4_meet_for_m5_date m4_meet_for_m5_location m4_meet_for_m5_time_of_day merge_m4_main_data,after(m4_905_other)
+
+* Module 5:
+
+order m5_consent m5_starttime m5_location m5_fieldworker m5_fieldworkerid m5_questionnaireid m5_questionnairename m5_questionnaireversion m5_studyno m5_studynoprefix m5_studynumber m5_baby1_alive m5_baby2_alive m5_baby1_health m5_baby2_health,after(merge_m4_main_data)
+
+order m5_baby1_sleep m5_baby2_sleep m5_baby1_feed m5_baby2_feed m5_baby1_breath m5_baby2_breath m5_baby1_stool m5_baby2_stool m5_baby1_mood m5_baby2_mood m5_baby1_skin m5_baby2_skin m5_baby1_interactivity m5_baby2_interactivity m5_baby1_issue_a m5_baby1_issue_b m5_baby1_issue_c m5_baby1_issue_d m5_baby1_issue_e m5_baby1_issue_f m5_baby1_issue_g m5_baby1_issue_h m5_baby1_issue_i m5_baby1_issue_oth m5_baby1_issue_oth_text m5_baby1_issues_none m5_baby2_issue_a m5_baby2_issue_b m5_baby2_issue_c m5_baby2_issue_d m5_baby2_issue_e m5_baby2_issue_f m5_baby2_issue_g m5_baby2_issue_h m5_baby2_issue_i m5_baby2_issue_oth m5_baby2_issue_oth_text m5_baby2_issues_none, after(m5_baby2_health)
+
+order m5_baby1_death_date m5_baby2_death_date m5_baby1_death_age m5_baby2_death_age m5_baby1_death_cause m5_baby1_death_cause_oth_text m5_baby2_death_cause m5_baby2_death_cause_oth_text m5_baby3_death_cause_oth_text,after(m5_baby2_issues_none)
+
+order m5_baby1_advice m5_baby2_advice m5_baby1_death_loc m5_baby2_death_loc m5_baby1_death_loc_oth m5_baby2_death_loc_oth,after(m5_baby3_death_cause_oth_text)
+
+order m5_health m5_health_a m5_health_affect_scale m5_health_b m5_health_c m5_health_d m5_health_e m5_depression_a m5_depression_b m5_depression_c m5_depression_d m5_depression_e m5_depression_f m5_depression_g m5_depression_h m5_depression_i m5_feeling_a m5_feeling_b m5_feeling_c m5_feeling_d m5_feeling_e m5_feeling_f m5_feeling_g m5_feeling_h m5_pain m5_leakage m5_leakage_when m5_leakage_affect m5_leakage_tx m5_leakage_no_treatment m5_leakage_notx_reason_oth m5_leakage_txeffect,after(m5_baby2_death_loc_oth)
+
+order m5_consultation1 m5_consultation1_carequal m5_consultation1_oth_text m5_consultation2 m5_consultation2_carequal m5_consultation2_oth_text,after(m5_505_2)
+
+order m5_no_visit m5_no_visit_oth m5_user_exp,after(m5_consultation2_oth_text)
+
+order m5_baby1_701a m5_baby2_701a m5_baby1_701b m5_baby2_701b m5_baby1_701c m5_baby2_701c m5_baby1_701d m5_baby2_701d m5_baby1_701e m5_baby2_701e m5_baby1_701f m5_baby2_701f m5_baby1_701g  m5_baby2_701g m5_baby1_701h m5_baby2_701h m5_baby1_701i m5_baby2_701i m5_baby1_701i_other m5_baby2_701i_other,after(m5_consultation2_carequal)
+
+order m5_baby1_902a m5_baby1_902b m5_baby1_902c m5_baby1_902d m5_baby1_902e m5_baby1_902f m5_baby1_902g m5_baby1_902h m5_baby1_902i m5_baby1_902j m5_baby1_902_other m5_baby1_903a m5_baby1_903b m5_baby1_903c m5_baby1_903d m5_baby1_903e m5_baby1_903f m5_baby1_903_other m5_baby1_904,after(m5_901s_other)  
+
+order m5_height m5_weight m5_sbp1 m5_dbp1 m5_pr1 m5_sbp2 m5_dbp2 m5_pr2 m5_sbp3 m5_dbp3 m5_pr3 m5_anemiatest m5_hb_level m5_baby1_weight m5_baby2_weight m5_baby1_length m5_baby2_length m5_baby1_hc m5_baby2_hc,after(m5_1201)
+
+order m5_thm_b1 m5_thm_b2 m5_thm_b4 m5_thm_b4_relative m5_thm_b4_other m5_thm_b5_thm1 m5_thm_b5_reason_1 m5_thm_b5_thm2 m5_thm_b5_reason_2 m5_thm_b5_thm3 m5_thm_b5_reason_3 m5_thm_b6 m5_thm_b7 m5_thm_b8 m5_thm_b8_other m5_thm_b9 m5_thm_b9_other m5_thm_b10 m5_thm_b11 m5_thm_b12a m5_thm_b12b m5_thm_b12c , after(m5_1105)
+
+order m5_baby1_feeding m5_baby2_feeding m5_baby2_available m5_baby3_available merge_m5_main_data, after (m5_thm_b12c)
+
+                                                                                            
+
+*==============================================================================*
+	
+	* STEP SIX: SAVE DATA TO RECODED FOLDER
+	
 	save "$za_data_final/eco_ZA_Complete.dta", replace
 
+*==============================================================================		
+	
 *drop merge_m5_to_m4_m3_m2_m1
 *rename _merge merge_m5_to_m4_m3_m2_m1
 *save "$za_data_finaleco_ZA_Complete.dta", replace 
@@ -7430,7 +7676,7 @@ foreach v of varlist * {
 * Run the code to create the codebooks
 capture erase "${za_data_final}/${Country}_Codebooks.xlsx"
 
-foreach v in 1 2 3 4 5 {
+foreach v in 1 2 3 4 5 6 {
 		create_module_codebook, country(South Africa) outputfolder($za_data_final) codebook_folder($za_data_final/archive/Codebook) module_number(`v') module_dataset(eco_ZA_der) id(respondentid) special
 		
 	}
