@@ -28,7 +28,6 @@ do "${github}/India/crEco_cln_IN_M3.do"
 do "${github}/India/crEco_cln_IN_M4.do"
 
 * Clean Module 5
-
 do "${github}/India/crEco_cln_IN_M5.do"
 
 
@@ -115,6 +114,7 @@ m3_add_shortened_labels
 *m4_add_shortened_labels // Neena or Shalom, please address!
 *m5_add_shortened_labels
 
+order m5_*, after(m4_905_other) // this doesn't fit here. 
 
 * Remove any wonky value labels
  local 98 "Don't know","Don´t know","Don't know"

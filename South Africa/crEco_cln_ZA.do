@@ -7677,6 +7677,7 @@ foreach v of varlist * {
 capture erase "${za_data_final}/${Country}_Codebooks.xlsx"
 
 foreach v in 1 2 3 4 5 6 {
+
 		create_module_codebook, country(South Africa) outputfolder($za_data_final) codebook_folder($za_data_final/archive/Codebook) module_number(`v') module_dataset(eco_ZA_der) id(respondentid) special
 		
 	}

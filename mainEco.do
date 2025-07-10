@@ -44,6 +44,8 @@ macro drop _all
 
 * Because MKT's folder path is different, adjusting the above user globals to include Core Research/Echohorts
 *global user "/Users/catherinearsenault/Library/CloudStorage/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts"
+*global user "/Users/catherinearsenault/Library/CloudStorage/Dropbox/SPH Kruk QuEST Network/Core Research_only_use_eCo/Ecohorts"
+
 
 
 * Create a global with the folder for data documents

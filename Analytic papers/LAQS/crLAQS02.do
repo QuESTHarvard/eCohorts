@@ -54,4 +54,13 @@ global keepvars site bsltrim totvisref firstblood secblood thirdblood ///
 		lab def country 1 "Ethiopia" 2 "Kenya" 3 "India" 4 "South Africa"
 		lab val country country
 	
+		lab def prim 1"Public primary" 2 "Public secondary" 3"Private"
+		lab val factype prim
+		replace factype =1 if country==4 // ZA all primary public
+		
+		egen mcanctert=cut(ancmean), group(3)
+		lab var mcanctert "Multi-country longitudinal ANC quality score"
+		
+		recode ancmean 0/0.49999=1 .5/0.74999=2 .75/1=3, g(mcqual)
+		lab var mcqual "Multi-country longitudinal ANC quality"
 	save allcountries.dta, replace
