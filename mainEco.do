@@ -35,18 +35,18 @@ set more off
 macro drop _all
 
 * Setting user globals 
-*global user "/Users/shs8688/Dropbox (Harvard University)/SPH-Kruk Team/QuEST Network"
-
+*global user "/Users/shs8688/Dropbox/"
+*global user "/Users/catherinearsenault/Library/CloudStorage/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts"
 *global user "/Users/neenakapoor/Dropbox (Harvard University)/SPH-Kruk Team/QuEST Network/Core Research/Ecohorts"
 *global user "/Users/neenakapoor/Harvard University Dropbox/SPH-Kruk Team/QuEST Network/Core Research/Ecohorts"
 *global user "/Users/neenakapoor/Dropbox (Harvard University)/SPH-Kruk Team/QuEST Network/Core Research/Ecohorts"
 
 
 * Because MKT's folder path is different, adjusting the above user globals to include Core Research/Echohorts
-*global user "/Users/shs8688/Dropbox (Harvard University)/SPH-Kruk Team/QuEST Network/Core Research/Ecohorts"
-global user "/Users/catherinearsenault/Library/CloudStorage/Dropbox/SPH Kruk QuEST Network/Core Research_only_use_eCo/Ecohorts"
-*global user "/Users/HP/Dropbox (Biostat Global)"
-*global user "C:\Users\MaryKayTrimner\Biostat Global Dropbox\Mary Kay Trimner"
+*global user "/Users/catherinearsenault/Library/CloudStorage/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts"
+*global user "/Users/catherinearsenault/Library/CloudStorage/Dropbox/SPH Kruk QuEST Network/Core Research_only_use_eCo/Ecohorts"
+
+
 
 * Create a global with the folder for data documents
 global data_doc "$user/MNH Ecohorts QuEST-shared/Data/Data documents"
@@ -81,9 +81,10 @@ global data_doc "$user/MNH Ecohorts QuEST-shared/Data/Data documents"
 ********************************************************************************
 
 * Path to GitHub folder 
-global github "/Users/catherinearsenault/Documents/GitHub/eCohorts"
+*global github "/Users/catherinearsenault/Documents/GitHub/eCohorts"
 *global github "$user/MKT GitHub/eCohorts"
 *global github "/Users/neenakapoor/Library/Mobile Documents/com~apple~CloudDocs/Documents/GitHub/eCohorts/"
+*global github "/Users/shs8688/Documents/GitHub/eCohorts"
 
 * Path to the birth outcomes
 global birth_outcomes "$user/MNH Ecohorts QuEST-shared/Data/Data documents/Cohort flow charts/list of miscarriage_0912.xlsx"
