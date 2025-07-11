@@ -111,15 +111,18 @@ foreach v in m3_503_IN m3_513a_IN m3_512_1_IN m3_513b_IN {
 m1_add_shortened_labels
 m2_add_shortened_labels
 m3_add_shortened_labels
-*m4_add_shortened_labels // Neena or Shalom, please address!
-*m5_add_shortened_labels
-
-order m5_*, after(m4_905_other) // this doesn't fit here. 
+m4_add_shortened_labels
+m5_add_shortened_labels
 
 * Remove any wonky value labels
  local 98 "Don't know","Don´t know","Don't know"
  local 99 "No response/ refused","No response/refusal","No response/refusal"
  
+*fix error:
+label define Q302_d 1 "I have no problems with performing my usual activities" ///
+					2 "I have some problems with performing my usual activities" ///
+					3 "I am unable to perform my usual activities"
+label values m5_health_d Q302_d 
  
 foreach v of varlist * {
 
@@ -155,7 +158,7 @@ save "$in_data_final/eco_IN_Complete", replace
 capture erase "${in_data_final}/${Country}_Codebooks.xlsx"
 
 * Create the codebooks
-foreach v in 1 2 3 { //4 5 6 { 
+foreach v in 5 6 { // 1 2 3 4
 		create_module_codebook, country(IN) outputfolder($in_data_final) codebook_folder($in_data_final/Archive/Codebook) module_number(`v') module_dataset(eco_IN_Complete) id(respondentid) special
 		
 }
