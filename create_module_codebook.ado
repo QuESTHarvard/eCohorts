@@ -267,8 +267,8 @@ program define create_module_codebook
 		datafolder("`codebook_folder'") /// //codebook_folder("`codebook_folder'") ///
 		datasetlist(M`module_number'_`country'_data) ///
 		templatefolder("`codebook_folder'") ///
-		summarytrt("`codebook_folder'\M`module_number'_`country'_codebook_trt.csv") ///
-		specialvalues("`codebook_folder'\M`module_number'_`country'_special_values.csv") ///
+		summarytrt("`codebook_folder'/M`module_number'_`country'_codebook_trt.csv") ///
+		specialvalues("`codebook_folder'/M`module_number'_`country'_special_values.csv") ///
 		outputfolder ("`outputfolder'") sheet("`sheetname'") excel
 	} // if contains valid dates 
 end

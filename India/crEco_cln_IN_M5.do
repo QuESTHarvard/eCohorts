@@ -11,6 +11,7 @@ rename (Q104 Consent calc_start_time end duration Q102 SubmissionDate Q101 Q103 
 	   m5_submissiondate m5_interviewer m5_interview_time m5_hiv_status)
 
 isid respondentid
+format respondentid %20.0f
 
 * Check if calculated variables match their raw data counterparts
 * Generate comparison variables (1 if match, 0 if different)
@@ -167,7 +168,7 @@ rename (Q1001 Q1002_a Q1002_b Q1002_c Q1002_d Q1002_e Q1002_e_other Q1003 Q1004 
 
 ************************* Labeling variables *************************
 
-run "$github/m5_add_shortened_labels.ado"
+*run "$github/m5_add_shortened_labels.ado"
 
 
 ************************* Merge *************************
