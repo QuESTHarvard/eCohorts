@@ -158,7 +158,7 @@ save "$in_data_final/eco_IN_Complete", replace
 capture erase "${in_data_final}/${Country}_Codebooks.xlsx"
 
 * Create the codebooks
-foreach v in 1 2 3 4 5 6 { // 
+foreach v in 5 6 { // 1 2 3 4 
 		create_module_codebook, country(IN) outputfolder($in_data_final) codebook_folder($in_data_final/Archive/Codebook) module_number(`v') module_dataset(eco_IN_Complete) id(respondentid) special
 		
 }

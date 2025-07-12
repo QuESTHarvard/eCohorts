@@ -168,7 +168,7 @@ rename (Q1001 Q1002_a Q1002_b Q1002_c Q1002_d Q1002_e Q1002_e_other Q1003 Q1004 
 
 ************************* Labeling variables *************************
 
-run "$github/m5_add_shortened_labels.ado"
+*run "$github/m5_add_shortened_labels.ado"
 
 
 ************************* Merge *************************
