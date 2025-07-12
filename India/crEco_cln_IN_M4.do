@@ -8,10 +8,13 @@
 use "$in_data/Module_4_18032025.dta", clear
 
 foreach v of varlist * {
-	char `v'[Original_IN_Varname] `v'
-	char `v'[Module] 4
-	capture destring `v', replace
-	capture replace `v' = trim(`v')
+    if "`v'" != "id" {
+        char `v'[Original_IN_Varname] `v'
+        char `v'[Module] 4
+        capture destring `v', replace
+        capture replace `v' = trim(`v')
+    }
+}
 	
 	* Clean up the values we know are defaults
 *	capture recode `v' 9999998 = . // These were skipped appropriately
@@ -19,7 +22,7 @@ foreach v of varlist * {
 *	capture replace `v' = ".d" if inlist(`v'," 1-Jan-98","1-Jan-98", "1/1/1998"," 1/1/1998")
 *	capture replace `v' = ".r" if inlist(`v'," 1-Jan-99","1-Jan-99", "1/1/1999"," 1/1/1999")
 *	capture replace `v' = ".a" if inlist(`v'," 1-Jan-95","1-Jan-95", "1/1/1995"," 1/1/1995")
-}
+*}
 
 * NK note: These capture commands were needed for the ZA data, but don't seem to be needed here for IN data 
 * Also no third baby responses, but they are "_3"
@@ -45,11 +48,13 @@ rename Consent m4_permission
 
 rename Q101 m4_interviewer
 
-rename id m4_respondentid 
+*rename id m4_respondentid 
+
+destring id, gen(m4_respondentid)
 format m4_respondentid %20.0f
 generate id_mismatch = (m4_respondentid != Q104)
 list m4_respondentid Q104 if id_mismatch
-drop id_mismatch Q104 // same as id
+drop id_mismatch Q104 id // same as id
 
 ************************************************
 ************************************************
@@ -1858,6 +1863,7 @@ use "${in_data_final}/eco_m1-m3_in.dta"
 *merge 1:1 respondentid using "${in_data_final}\eco_m1_and_m2_in.dta"
 bysort respondentid: assert _N == 1 // NK added
 destring respondentid, replace
+format respondentid %20.0f
 merge 1:1 respondentid using  `mkt'
 
 * all those from M3 should be in M1
