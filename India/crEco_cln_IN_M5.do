@@ -11,6 +11,7 @@ rename (Q104 Consent calc_start_time end duration Q102 SubmissionDate Q101 Q103 
 	   m5_submissiondate m5_interviewer m5_interview_time m5_hiv_status)
 
 isid respondentid
+format respondentid %20.0f
 
 * Check if calculated variables match their raw data counterparts
 * Generate comparison variables (1 if match, 0 if different)
