@@ -43,7 +43,7 @@ macro drop _all
 
 
 * Because MKT's folder path is different, adjusting the above user globals to include Core Research/Echohorts
-*global user "/Users/catherinearsenault/Library/CloudStorage/Dropbox/SPH Kruk QuEST Network/Core Research/Ecohorts"
+global user "/Users/catherinearsenault/Library/CloudStorage/Dropbox/SPH Kruk QuEST Network/Core Research_only_use_eCo/Ecohorts"
 *global user "/Users/catherinearsenault/Library/CloudStorage/Dropbox/SPH Kruk QuEST Network/Core Research_only_use_eCo/Ecohorts"
 
 
@@ -81,7 +81,7 @@ global data_doc "$user/MNH Ecohorts QuEST-shared/Data/Data documents"
 ********************************************************************************
 
 * Path to GitHub folder 
-*global github "/Users/catherinearsenault/Documents/GitHub/eCohorts"
+global github "/Users/catherinearsenault/Documents/GitHub/eCohorts"
 *global github "$user/MKT GitHub/eCohorts"
 *global github "/Users/neenakapoor/Library/Mobile Documents/com~apple~CloudDocs/Documents/GitHub/eCohorts/"
 *global github "/Users/shs8688/Documents/GitHub/eCohorts"

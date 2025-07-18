@@ -7665,7 +7665,7 @@ foreach v of varlist * {
 }
 
 	* Save the completed dataset	
-	save "$za_data_final/eco_ZA_der.dta", replace
+	save "$za_data_final/eco_ZA_Complete.dta", replace
 
 
 ********************************************************************************
